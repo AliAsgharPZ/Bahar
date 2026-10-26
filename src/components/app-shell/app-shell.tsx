@@ -8,13 +8,13 @@ import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight, Search, Bell, LogOut, KeyRound, Sparkles,
-  DoorOpen, PanelRightClose, PanelRightOpen,
+  DoorOpen, PanelRightClose, PanelRightOpen, Menu, X,
 } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { ROLE_LABELS } from "@/lib/roles";
 import { faNumber, relativeTimeFa } from "@/lib/persian";
 import type { AvatarParams } from "@/lib/avatar";
-import { NAV, navItemsFor, type NavItem } from "@/lib/nav";
+import { NAV, NAV_GROUPS, navItemsFor, type NavItem } from "@/lib/nav";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { OriginPop, springRubber } from "@/components/shared/motion";
@@ -93,6 +93,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
   const [collapsed, setCollapsed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [brand, setBrand] = useState<{ logoUrl: string; logotypeUrl: string }>({ logoUrl: "", logotypeUrl: "" });
 
   const notifBtnRef = useRef<HTMLButtonElement>(null);
@@ -162,6 +163,30 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
     ),
     [user.role, user.permissions, inSchoolPanel, shadVisible]
   );
+
+  /* گروه‌بندی ناوبری — سایدبار دسکتاپ و منوی همبرگری موبایل از همین منبع تغذیه می‌شوند */
+  const groupedItems = useMemo(
+    () =>
+      NAV_GROUPS.map((g) => ({ ...g, items: items.filter((n) => n.group === g.key) })).filter(
+        (g) => g.items.length > 0
+      ),
+    [items]
+  );
+
+  // با هر جابه‌جایی بین صفحه‌ها، منوی موبایل بسته می‌شود
+  useEffect(() => {
+    setMobileNavOpen(false);
+  }, [pathname]);
+
+  // وقتی منوی موبایل باز است، اسکرول بدنه قفل می‌شود
+  useEffect(() => {
+    if (!mobileNavOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileNavOpen]);
 
   // عنوان بخش جاری — هدر موبایل صفحات داخلی (به‌جای منوی همبرگری حذف‌شده)
   const activeSection = useMemo(
@@ -255,37 +280,52 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
       </div>
 
       <ScrollFade className={`py-4 flex flex-col gap-1 ${collapsed ? "px-2.5" : "px-3"}`} watch={[collapsed, items.length, pathname]}>
-        {items.map((n) => {
-          const active = n.href === "/app" ? pathname === "/app" : pathname.startsWith(n.href);
-          return (
-            <Link
-              key={n.href}
-              href={n.href}
-              title={collapsed ? (n.tKey ? t(n.tKey) : n.label) : undefined}
-              className={`relative flex items-center gap-3 rounded-full ${collapsed ? "justify-center py-2.5 px-0" : "py-2.5 px-4"} text-[13.5px] font-bold z-[1] transition-colors duration-200 ${
-                active
-                  ? "text-invert-foreground"
-                  : "text-ink hover:bg-spring-tint dark:hover:bg-spring-tint hover:text-spring-deep"
-              }`}
-              style={{ isolation: "isolate" }}
-            >
-              <AnimatePresence initial={false}>
-                {active && (
-                  <motion.span
-                    layoutId="sidebar-capsule"
-                    className="absolute inset-0 rounded-full bg-invert"
-                    transition={springRubber}
-                    style={{ zIndex: -1 }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  />
-                )}
-              </AnimatePresence>
-              {renderNavIcon(n, active)}
-            </Link>
-          );
-        })}
+        {groupedItems.map((g, gi) => (
+          <div key={g.key} className="flex flex-col gap-1">
+            {collapsed ? (
+              gi > 0 && <div className="mx-3 my-2 border-t border-hairline-soft" aria-hidden />
+            ) : (
+              <div
+                className={`flex items-center gap-1.5 px-4 ${gi === 0 ? "pt-1 pb-1.5" : "pt-4 pb-1.5"}`}
+                aria-hidden
+              >
+                <g.icon className="w-3.5 h-3.5 text-stone" />
+                <span className="text-[10.5px] font-bold tracking-wide text-stone">{g.label}</span>
+              </div>
+            )}
+            {g.items.map((n) => {
+              const active = n.href === "/app" ? pathname === "/app" : pathname.startsWith(n.href);
+              return (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  title={collapsed ? (n.tKey ? t(n.tKey) : n.label) : undefined}
+                  className={`relative flex items-center gap-3 rounded-full ${collapsed ? "justify-center py-2.5 px-0" : "py-2.5 px-4"} text-[13.5px] font-bold z-[1] transition-colors duration-200 ${
+                    active
+                      ? "text-invert-foreground"
+                      : "text-ink hover:bg-spring-tint dark:hover:bg-spring-tint hover:text-spring-deep"
+                  }`}
+                  style={{ isolation: "isolate" }}
+                >
+                  <AnimatePresence initial={false}>
+                    {active && (
+                      <motion.span
+                        layoutId="sidebar-capsule"
+                        className="absolute inset-0 rounded-full bg-invert"
+                        transition={springRubber}
+                        style={{ zIndex: -1 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      />
+                    )}
+                  </AnimatePresence>
+                  {renderNavIcon(n, active)}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </ScrollFade>
 
       <div className={`p-3 border-t border-hairline-soft shrink-0 ${collapsed ? "px-2" : ""}`}>
@@ -341,6 +381,14 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
       {/* هدر موبایل — بدون همبرگر؛ ناوبری موبایل = لانچر app-screen داخل داشبورد */}
       <header className="lg:hidden sticky top-0 z-40 bg-background border-b border-hairline-soft flex items-center justify-between gap-1 px-3 h-16">
         <div className="flex items-center gap-1.5 min-w-0">
+          <button
+            onClick={() => setMobileNavOpen(true)}
+            className="w-10 h-10 rounded-full flex items-center justify-center text-ink hover:bg-spring-tint transition-colors shrink-0"
+            aria-label="منوی بخش‌ها"
+            title="منوی بخش‌ها"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
           {pathname === "/app" ? (
             <Link href="/app" className="flex items-center gap-2 min-w-0">
               <Image src={brand.logoUrl || "/logo.svg"} alt="بهار" width={28} height={28} className="shrink-0" />
@@ -506,6 +554,108 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           </main>
         </div>
       </div>
+
+      {/* منوی همبرگری موبایل — دسته‌بندی‌شده، جایگزین لانچر مربعی داشبورد */}
+      <AnimatePresence>
+        {mobileNavOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="fixed inset-0 z-50 bg-ink/40 backdrop-blur-[2px] lg:hidden"
+              onClick={() => setMobileNavOpen(false)}
+              aria-hidden
+            />
+            <motion.div
+              initial={{ x: "106%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "106%" }}
+              transition={springRubber}
+              className="fixed inset-y-0 start-0 z-50 w-[86vw] max-w-[340px] bg-background shadow-2xl flex flex-col lg:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="منوی بخش‌های بهار"
+            >
+              <div className="flex items-center gap-2.5 h-16 px-4 border-b border-hairline-soft shrink-0">
+                <Image src={brand.logoUrl || "/logo.svg"} alt="بهار" width={28} height={28} className="shrink-0" />
+                <span className="font-bold text-[17px] flex-1 truncate" style={{ fontFamily: "var(--font-heading)" }}>
+                  بهار
+                </span>
+                <button
+                  onClick={() => setMobileNavOpen(false)}
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors shrink-0"
+                  aria-label="بستن منو"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto b-scroll px-3 py-3">
+                {groupedItems.map((g) => (
+                  <div key={g.key} className="mb-4">
+                    <div className="flex items-center gap-1.5 px-2 pt-1 pb-2" aria-hidden>
+                      <g.icon className="w-3.5 h-3.5 text-stone" />
+                      <span className="text-[11px] font-bold tracking-wide text-stone">{g.label}</span>
+                      <span className="text-[10px] text-stone/70">({faNumber(g.items.length)})</span>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      {g.items.map((n) => {
+                        const active = n.href === "/app" ? pathname === "/app" : pathname.startsWith(n.href);
+                        const badge = n.badgeKey ? badges[n.badgeKey] : 0;
+                        return (
+                          <Link
+                            key={n.href}
+                            href={n.href}
+                            onClick={() => setMobileNavOpen(false)}
+                            aria-current={active ? "page" : undefined}
+                            className={`flex items-center gap-3 rounded-2xl px-2.5 py-2 text-[13.5px] font-bold transition-colors ${
+                              active
+                                ? "bg-spring-tint text-spring-deep"
+                                : "text-ink hover:bg-spring-tint/60"
+                            }`}
+                          >
+                            <n.icon className={`w-5 h-5 shrink-0 ${active ? "text-spring-deep" : "text-steel"}`} />
+                            <span className="flex-1 truncate">{n.tKey ? t(n.tKey) : n.label}</span>
+                            {badge > 0 && (
+                              <span className="b-badge b-badge-critical !px-2 !py-0.5 !text-[10.5px]">{faNumber(badge)}</span>
+                            )}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="p-3 border-t border-hairline-soft shrink-0">
+                <div className="b-card-sm !rounded-2xl p-3 flex flex-col gap-2">
+                  <div className="flex items-center gap-3 w-full">
+                    <UserAvatar user={avatarUser} size={40} />
+                    <span className="flex flex-col min-w-0 flex-1">
+                      <span className="text-[13px] font-bold truncate">{user.firstName} {user.lastName}</span>
+                      <span className="text-[11px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 pt-2 border-t border-hairline-soft w-full">
+                    <LanguageSwitcher compact />
+                    <ThemeToggle />
+                    <button
+                      onClick={logout}
+                      className="ms-auto w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10 transition-colors shrink-0"
+                      title="خروج از حساب"
+                      aria-label="خروج"
+                    >
+                      <LogOut className="w-5 h-5 flip-rtl" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* جستجوی سراسری (⌘K) */}
       <UniversalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />

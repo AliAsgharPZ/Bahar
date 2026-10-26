@@ -17,7 +17,6 @@ import { faNumber, faDigits, formatDateFa, relativeTimeFa, currencyLabel, jalali
 import { PageHeader, StatCard, LoadingBlock, EmptyState, ErrorBox } from "@/components/shared/bits";
 import { LineChart, BarChart, DonutChart, VBarChart, RadialGauge } from "@/components/shared/charts";
 import { StaggerGroup, StaggerItem, CountUp } from "@/components/shared/motion";
-import { AppLauncher } from "@/components/app-shell/app-launcher";
 
 /* ============================================================
    بهار | داشبورد نقش‌محور — مرکز اقدامات + بینش + چارت
@@ -99,10 +98,6 @@ export default function DashboardPage() {
         <EmptyState icon={SchoolIcon} title="به بهار خوش آمدید" desc="هنوز به مدرسه‌ای متصل نیستید یا داده‌ای ثبت نشده است." />
       )}
 
-      {/* ═══ لانچر موبایل — بعد از نمودارها (راند ۱۸: درخواست کاربر) ═══ */}
-      <div className="mt-10">
-        <AppLauncher />
-      </div>
     </div>
   );
 }
