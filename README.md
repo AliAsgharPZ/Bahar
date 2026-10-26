@@ -105,3 +105,7 @@ docs             design language and internal notes
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Deployment
+
+A demo deployment runs on Cloudflare Workers (via OpenNext) with a D1 database; uploaded files and backups are stored as BLOBs in D1. The deployment builds automatically from the `main` branch.
