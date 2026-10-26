@@ -5,7 +5,7 @@
  * per-school toggle + credential alternative, excel export/import, country &
  * language builders, OTP login flow, login captcha escalation.
  */
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma-node/client";
 
 const BASE = "http://localhost:3000";
 const db = new PrismaClient();

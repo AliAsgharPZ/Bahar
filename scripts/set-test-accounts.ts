@@ -1,5 +1,5 @@
 // تنظیم اکانت‌های تست هر نقش با پسورد یکسان demo1234
-import { PrismaClient } from '../src/generated/prisma/client';
+import { PrismaClient } from '../src/generated/prisma-node/client';
 import { randomBytes, scryptSync } from 'crypto';
 
 const prisma = new PrismaClient();

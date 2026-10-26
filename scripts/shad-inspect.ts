@@ -1,5 +1,5 @@
 // بهار | اسکریپت بازرسی شاد — خواندن وضعیت شاد از دیتابیس (فقط خواندن)
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma-node/client";
 const db = new PrismaClient();
 
 const mode = process.argv[2] ?? "overview";

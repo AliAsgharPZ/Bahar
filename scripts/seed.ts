@@ -2,7 +2,7 @@
  * بهار | Seed — داده اولیه نسخه نمایشی نهایی
  * اجرا: bun scripts/seed.ts
  */
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma-node/client";
 import { hashPassword, generatePassword } from "../src/lib/auth";
 
 const db = new PrismaClient();

@@ -5,7 +5,7 @@
  *     surprise 404s; sites stay unpublished until the manager publishes).
  *  3. Delete leftover test user "تست موقت" / 0012345678 that pollutes search results.
  */
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma-node/client";
 
 const db = new PrismaClient();
 

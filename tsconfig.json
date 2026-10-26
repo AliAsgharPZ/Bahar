@@ -42,6 +42,7 @@
     "skills",
     "mini-services",
     "scripts",
-    "scripts/_csstest"
+    "scripts/_csstest",
+    "src/generated/prisma-node"
   ]
 }

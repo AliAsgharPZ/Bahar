@@ -16,7 +16,7 @@
     {
       "binding": "DB",
       "database_name": "bahar-db",
-      "database_id": "REPLACE_AFTER_WRANGLER_D1_CREATE"
+      "database_id": "e62e92c2-b7d3-4dce-98f0-257fe176aa7a"
     }
   ],
   "r2_buckets": [

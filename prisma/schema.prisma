@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+  runtime  = "workerd"
 }
 
 datasource db {
@@ -1520,4 +1521,10 @@ model WellbeingCheckin {
 
   @@unique([studentId, date])
   @@index([date, flagged])
+}
+
+generator clientNode {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma-node"
+  runtime  = "nodejs"
 }

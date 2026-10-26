@@ -1,5 +1,5 @@
 // استخراج کامل پسورد تمام اکانت‌ها با راستی‌آزمایی
-import { PrismaClient } from '../src/generated/prisma/client';
+import { PrismaClient } from '../src/generated/prisma-node/client';
 import { scryptSync } from 'crypto';
 
 const prisma = new PrismaClient();

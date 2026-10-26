@@ -1,5 +1,5 @@
 // اطلاعات مدارس + ساخت فایل متنی کامل اکانت‌ها
-import { PrismaClient } from '../src/generated/prisma/client';
+import { PrismaClient } from '../src/generated/prisma-node/client';
 import { scryptSync } from 'crypto';
 import { writeFileSync } from 'fs';
 

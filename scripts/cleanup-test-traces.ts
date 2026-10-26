@@ -1,5 +1,5 @@
 // پاک‌سازی ردپای تست‌های اسکریپتی
-import { PrismaClient } from '../src/generated/prisma/client';
+import { PrismaClient } from '../src/generated/prisma-node/client';
 
 const prisma = new PrismaClient();
 

@@ -1,5 +1,5 @@
 // تست آپلود واقعی + magic bytes + پاک‌سازی نهایی
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma-node/client";
 import { deflateSync } from "zlib";
 import fs from "fs";
 import path from "path";
