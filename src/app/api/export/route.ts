@@ -139,7 +139,7 @@ export async function GET(req: NextRequest) {
       return apiErr(404, "داده‌ای برای خروجی وجود ندارد.", "EMPTY");
     }
 
-    const buf = buildExcel(sheets);
+    const buf = await buildExcel(sheets);
 
     await audit({
       user: me,

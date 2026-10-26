@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
       if (!assigned) return apiErr(403, "این درسِ این کلاس به شما تخصیص نیافته است.", "FORBIDDEN");
     }
 
-    const records = Array.isArray(body.records) ? body.records : [];
+    const records = Array.isArray(body.records) ? body.records.slice(0, 500) : [];
     const students = await db.student.findMany({ where: { classId }, select: { id: true, userId: true } });
     const studentIds = new Set(students.map((s) => s.id));
 

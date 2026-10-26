@@ -44,7 +44,9 @@ export async function GET(req: NextRequest, ctx: Ctx) {
 
     const headers: Record<string, string> = {
       "Content-Type": mime,
-      "Cache-Control": "public, max-age=86400, immutable",
+      // نصب‌کننده‌های اپ عمداً عمومی‌اند؛ آپلودهای کاربر نشست‌محورند و
+      // نباید در کش‌های عمومی/مشترک بمانند.
+      "Cache-Control": isApp ? "public, max-age=86400, immutable" : "private, max-age=3600",
     };
     if (isApp) {
       // فایل‌های اپ با ذخیره (دانلود) سرو می‌شوند

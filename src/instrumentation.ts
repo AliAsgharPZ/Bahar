@@ -13,6 +13,10 @@ export async function register() {
     console.error("[INSTRUMENTATION:COUNTRY]", e);
   }
   if (process.env.BAHAR_DISABLE_SCHEDULER === "1") return;
+  // روی Cloudflare Workers تایمرهای درون‌پردازه‌ای پایدار نیستند و جاروهای
+  // تکراری/ناقص می‌سازند؛ آنجا Cron Trigger هر ۱۵ دقیقه مسیر
+  // /api/internal/sweeps را صدا می‌زند — زمان‌بند داخلی فقط برای Node است.
+  if (typeof (globalThis as { WebSocketPair?: unknown }).WebSocketPair !== "undefined") return;
   try {
     const { startScheduler } = await import("@/lib/scheduler");
     startScheduler();

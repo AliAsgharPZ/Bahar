@@ -336,9 +336,12 @@ export function failReset(key: string): void {
   buckets.delete(key);
 }
 
-/** پاکسازی دوره‌ای باکت‌های منقضی (جلوگیری از نشت حافظه) */
-setInterval(() => {
-  const now = Date.now();
-  for (const [k, b] of buckets) if (b.resetAt < now) buckets.delete(k);
-}, 60_000).unref?.();
+/** پاکسازی دوره‌ای باکت‌های منقضی (جلوگیری از نشت حافظه) — فقط Node؛
+ *  روی Workers تایمر ماژول‌پایدار نیست و با هر ایزوله بی‌اثر/گمراه‌کننده است. */
+if (typeof (globalThis as { WebSocketPair?: unknown }).WebSocketPair === "undefined") {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [k, b] of buckets) if (b.resetAt < now) buckets.delete(k);
+  }, 60_000).unref?.();
+}
 

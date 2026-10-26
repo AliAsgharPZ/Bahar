@@ -1,11 +1,12 @@
 import crypto from "crypto";
 import type { BaharSettings } from "./settings";
 import { getSessionSecret } from "@/lib/secret";
+import { db } from "@/lib/db";
 
 /* ============================================================
    بهار | OTP ورود (راند ۱۸) — کد یکبارمصرف ایمیل/پیامک
    دیفالت خاموش؛ سوپرادمین از تنظیمات فعالش می‌کند.
-   - کد ۶رقمی crypto-random، هش SHA-256 در حافظهٔ فرایند
+   - کد ۶رقمی crypto-random، هش SHA-256 در دیتابیس (Setting)
    - TTL ۵ دقیقه، حداکثر ۵ تلاش، ارسال مجدد هر ۳۰ ثانیه
    - توکنِ «در انتظار OTP» امضای HMAC با SESSION_SECRET
    - ارسال از طریق سرویس ایمیل/پیامکِ سازگار (POST JSON + Bearer)
@@ -18,11 +19,30 @@ const OTP_RESEND_COOLDOWN = 30_000; // ۳۰ ثانیه
 const PENDING_TTL_S = 5 * 60; // ۵ دقیقه
 
 type OtpEntry = { hash: string; expires: number; tries: number; lastSent: number };
-// راند ۱۸: نگهداری روی globalThis — در dev با HMR ماژول‌ها دوباره instantiate می‌شوند
-// و Mapِ ماژول‌محور بین مسیرهای login و otp مشترک نمی‌ماند.
-const g = globalThis as unknown as { __baharOtpStore?: Map<string, OtpEntry> };
-const store: Map<string, OtpEntry> = g.__baharOtpStore ?? new Map();
-g.__baharOtpStore = store;
+// وضعیت OTP در دیتابیس (جدول Setting، کلید otp:<userId>) نگهداری می‌شود —
+// روی استقرار چندایزوله (Workers) سقف تلاش و انقضا باید بین همهٔ ایزوله‌ها
+// مشترک باشد؛ Map درون‌پردازشی این تضمین را نمی‌داد.
+const otpKey = (userId: string) => `otp:${userId}`;
+async function loadEntry(userId: string): Promise<OtpEntry | null> {
+  const row = await db.setting.findUnique({ where: { key: otpKey(userId) } });
+  if (!row) return null;
+  try {
+    return JSON.parse(row.value) as OtpEntry;
+  } catch {
+    return null;
+  }
+}
+async function saveEntry(userId: string, entry: OtpEntry): Promise<void> {
+  const value = JSON.stringify(entry);
+  await db.setting.upsert({
+    where: { key: otpKey(userId) },
+    create: { key: otpKey(userId), value },
+    update: { value },
+  });
+}
+async function dropEntry(userId: string): Promise<void> {
+  await db.setting.deleteMany({ where: { key: otpKey(userId) } });
+}
 
 /* ── توکن در انتظار (HMAC) ── */
 function secret(): string {
@@ -134,7 +154,7 @@ export async function issueOtp(
   user: { id: string; firstName: string; lastName: string; email: string | null; phone: string | null },
   settings: BaharSettings
 ): Promise<{ ok: boolean; error?: string; devCode?: string; maskedTo?: string; resendIn?: number }> {
-  const prev = store.get(user.id);
+  const prev = await loadEntry(user.id);
   if (prev && Date.now() - prev.lastSent < OTP_RESEND_COOLDOWN && prev.expires > Date.now()) {
     return { ok: false, error: "کد قبلی هنوز معتبر است؛ کمی بعد دوباره درخواست بدهید", resendIn: Math.ceil((OTP_RESEND_COOLDOWN - (Date.now() - prev.lastSent)) / 1000) };
   }
@@ -142,7 +162,7 @@ export async function issueOtp(
   const send = await sendCode(code, user, settings);
   if (!send.ok) return { ok: false, error: send.error };
   const hash = crypto.createHash("sha256").update(`otp:${user.id}:${code}`).digest("hex");
-  store.set(user.id, { hash, expires: Date.now() + OTP_TTL, tries: 0, lastSent: Date.now() });
+  await saveEntry(user.id, { hash, expires: Date.now() + OTP_TTL, tries: 0, lastSent: Date.now() });
   const maskedTo =
     settings.otpChannel === "email"
       ? user.email ? maskEmail(user.email) : undefined
@@ -156,25 +176,27 @@ export async function issueOtp(
   return { ok: true, maskedTo };
 }
 
-/** بررسی کد — timing-safe روی هش */
-export function checkOtp(userId: string, code: string): { ok: boolean; error?: string } {
-  const entry = store.get(userId);
+/** بررسی کد — timing-safe روی هش؛ شمارش تلاش در دیتابیس ذخیره می‌شود
+ *  تا بین ایزوله‌های Workers هم سقف تلاش واقعی باشد. */
+export async function checkOtp(userId: string, code: string): Promise<{ ok: boolean; error?: string }> {
+  const entry = await loadEntry(userId);
   if (!entry) return { ok: false, error: "کدی برای شما صادر نشده است؛ دوباره وارد شوید" };
   if (entry.expires < Date.now()) {
-    store.delete(userId);
+    await dropEntry(userId);
     return { ok: false, error: "کد منقضی شده است — کد جدید بگیرید" };
   }
   if (entry.tries >= OTP_MAX_TRIES) {
-    store.delete(userId);
+    await dropEntry(userId);
     return { ok: false, error: "تلاش‌های نامعتبر زیاد بود — دوباره وارد شوید" };
   }
   entry.tries += 1;
+  await saveEntry(userId, entry);
   const hash = crypto.createHash("sha256").update(`otp:${userId}:${code.trim()}`).digest("hex");
   const a = Buffer.from(hash);
   const b = Buffer.from(entry.hash);
   if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
     return { ok: false, error: `کد نادرست است (${OTP_MAX_TRIES - entry.tries} تلاش باقی مانده)` };
   }
-  store.delete(userId); // یکبارمصرف
+  await dropEntry(userId); // یکبارمصرف
   return { ok: true };
 }

@@ -2,7 +2,7 @@
 
 /* ============================================================
    بهار | ایمپورت و اکسپورت انبوه (راند ۱۸)
-   ویزارد کامل: فایل اکسل (xlsx/xls) یا CSV/چسباندن متن →
+   ویزارد کامل: فایل اکسل (xlsx) یا CSV/چسباندن متن →
    تطبیق ستون‌ها → اعتبارسنجی → ثبت در کلاس هدف → تاریخچه.
    اکسپورت: دانش‌آموزان / کاربران / کلاس‌ها به فایل اکسل واقعی.
    ============================================================ */
@@ -100,7 +100,7 @@ export default function ImportsPage() {
   }
 
   async function onFile(file: File) {
-    if (/\.(xlsx|xls)$/i.test(file.name)) {
+    if (/\.xlsx$/i.test(file.name)) {
       setBusy("parse");
       try {
         const fd = new FormData();
@@ -120,7 +120,7 @@ export default function ImportsPage() {
       ingestText(text, file.name);
       if (fileRef.current) fileRef.current.value = "";
     } else {
-      toast.error("فقط فایل‌های اکسل (.xlsx / .xls) و CSV پذیرفته می‌شوند.");
+      toast.error("فقط فایل‌های اکسل (.xlsx) و CSV پذیرفته می‌شوند.");
     }
   }
 

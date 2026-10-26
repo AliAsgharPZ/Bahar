@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const records = Array.isArray(body.records) ? body.records : [];
+    const records = Array.isArray(body.records) ? body.records.slice(0, 500) : [];
     const validStatuses = ["PRESENT", "ABSENT", "LATE", "EXCUSED", "MISSION", "HALF_DAY"];
     const students = await db.student.findMany({ where: { classId }, select: { id: true } });
     const studentIds = new Set(students.map((s) => s.id));

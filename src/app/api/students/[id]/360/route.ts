@@ -57,7 +57,16 @@ export async function GET(req: NextRequest, ctx: Ctx) {
     const isManager = (me.role === "MANAGER" || me.role === "DEPUTY") && me.schoolId === student.schoolId;
     const isSelf = student.user.id === me.id;
     const isMyChild = me.role === "PARENT" && student.parents.some((p) => p.parentUserId === me.id);
-    const isTeacherOf = me.role === "TEACHER" && me.schoolId === student.schoolId;
+    // معلم فقط وقتی نمای ۳۶۰ را می‌بیند که معلم همان کلاس یا مسئول آن باشد —
+    // هم‌مدرسه‌ای بودن کافی نیست (هم‌قاعده با پرونده دانش‌آموز).
+    let isTeacherOf = false;
+    if (me.role === "TEACHER" && me.schoolId === student.schoolId && student.classId) {
+      const [teaches, homeroom] = await Promise.all([
+        db.teachingAssignment.findFirst({ where: { teacherId: me.id, classId: student.classId }, select: { id: true } }),
+        db.class.findFirst({ where: { id: student.classId, homeroomTeacherId: me.id }, select: { id: true } }),
+      ]);
+      isTeacherOf = !!(teaches || homeroom);
+    }
     if (!isService && !isManager && !isSelf && !isMyChild && !isTeacherOf) {
       return apiErr(403, "مشاهده این دانش‌آموز برای شما مجاز نیست.", "FORBIDDEN");
     }

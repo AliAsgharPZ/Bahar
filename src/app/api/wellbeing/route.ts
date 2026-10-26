@@ -97,20 +97,24 @@ export async function GET(req: NextRequest) {
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([date, v]) => ({ date, avg: Math.round((v.sum / v.n) * 10) / 10, n: v.n }));
 
+    // جزئیات چک‌این‌های پرچم‌دار (شامل یادداشت آزاد دانش‌آموز) فقط برای
+    // مدیریت مدرسه است؛ معلم و ادمین فقط شمارش تجمیعی را می‌بینند.
+    const canSeeFlaggedDetails = me.role === "MANAGER" || me.role === "DEPUTY" || me.role === "SUPER_ADMIN";
+
     return apiOk({
       days,
       totalCheckins: rows.length,
       avgMood: avgMood != null ? Math.round(avgMood * 10) / 10 : null,
       flaggedCount: flagged.length,
       trend,
-      flagged: flagged.map((f) => ({
+      flagged: canSeeFlaggedDetails ? flagged.map((f) => ({
         studentId: f.student.id,
         name: `${f.student.user.firstName} ${f.student.user.lastName}`,
         className: f.student.class?.name ?? "—",
         date: f.date,
         mood: f.mood,
         note: f.note,
-      })),
+      })) : [],
     });
   } catch (e) {
     return handleApiError(e);

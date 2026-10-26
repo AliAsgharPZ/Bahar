@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { ROLE_LABELS } from "@/lib/roles";
 import { todayJalali, jalaliDayOfWeek, formatDateFa, currencyLabel } from "@/lib/persian";
 import { planStatusOf } from "@/lib/plans";
-import { createHmac } from "crypto";
+import { createHmac, randomBytes } from "crypto";
 
 /* ============================================================
    بهار | هستهٔ ربات تلگرام (راند ۱۹)
@@ -29,6 +29,22 @@ type LinkedUser = {
   schoolId: string | null;
   schoolName: string | null;
 };
+
+// ── امنیت کد پیوند: اعتبار ۱۰ دقیقه‌ای، یکبارمصرف (چرخش پس از پیوند) و
+// سقف تلاش ناموفق برای هر چت — کد فقط ۳۲ بیت آنتروپی دارد و نباید قابل
+// حدس‌زدن یا استفادهٔ مجدد باشد.
+const LINK_CODE_TTL_MS = 10 * 60_000;
+const linkFails = new Map<string, { n: number; until: number }>();
+function linkThrottled(chatId: string): boolean {
+  const f = linkFails.get(chatId);
+  return !!f && f.n >= 5 && f.until > Date.now();
+}
+function noteLinkFail(chatId: string): void {
+  const f = linkFails.get(chatId) ?? { n: 0, until: 0 };
+  f.n += 1;
+  if (f.n >= 5) f.until = Date.now() + 10 * 60_000;
+  linkFails.set(chatId, f);
+}
 
 async function linkedUser(chatId: string): Promise<LinkedUser | null> {
   const link = await db.telegramLink.findUnique({
@@ -62,16 +78,25 @@ export async function handleBotAction(body: BotAction): Promise<BotResponse> {
         },
       };
     }
+    if (linkThrottled(body.chatId)) {
+      return { status: 200, data: { ok: false, message: "تلاش‌های ناموفق زیاد بود؛ ۱۰ دقیقه دیگر دوباره امتحان کنید." } };
+    }
     const link = await db.telegramLink.findUnique({ where: { linkCode: body.code } });
-    if (!link) return { status: 200, data: { ok: false, message: "کد پیوند نامعتبر یا منقضی است." } };
+    // کد فقط ۱۰ دقیقه پس از صدور معتبر است (updatedAt هنگام صدور تازه می‌شود)
+    if (!link || Date.now() - link.updatedAt.getTime() > LINK_CODE_TTL_MS) {
+      noteLinkFail(body.chatId);
+      return { status: 200, data: { ok: false, message: "کد پیوند نامعتبر یا منقضی است." } };
+    }
     const existing = await db.telegramLink.findUnique({ where: { chatId: body.chatId } });
     if (existing && existing.userId !== link.userId) {
       await db.telegramLink.delete({ where: { chatId: body.chatId } });
     }
     await db.telegramLink.update({
       where: { linkCode: body.code },
-      data: { chatId: body.chatId, username: body.username ?? null },
+      // کد پس از پیوند موفق می‌چرخد — یکبارمصرف است و قابل استفادهٔ مجدد نیست
+      data: { chatId: body.chatId, username: body.username ?? null, linkCode: randomBytes(4).toString("hex").toUpperCase() },
     });
+    linkFails.delete(body.chatId);
     const u = await db.user.findUnique({
       where: { id: link.userId },
       include: { school: { select: { name: true } } },

@@ -8,7 +8,7 @@ import { excelToCsv, EXCEL_MAX_BYTES } from "@/lib/excel";
    می‌شود؛ پس منطق اعتبارسنجی و ذخیره یکسان می‌ماند.
    ============================================================ */
 
-const ALLOWED_EXT = /\.(xlsx|xls)$/i;
+const ALLOWED_EXT = /\.xlsx$/i;
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,13 +26,13 @@ export async function POST(req: NextRequest) {
       return apiErr(413, "حجم فایل بیش از ۵ مگابایت است.", "TOO_LARGE");
     }
     if (!ALLOWED_EXT.test(file.name)) {
-      return apiErr(400, "فقط فایل‌های اکسل (.xlsx / .xls) پذیرفته می‌شوند؛ برای CSV همان مسیر متنی را استفاده کنید.", "BAD_EXT");
+      return apiErr(400, "فقط فایل‌های اکسل مدرن (.xlsx) پذیرفته می‌شوند؛ فایل .xls را ابتدا به .xlsx تبدیل کنید، یا برای CSV همان مسیر متنی را استفاده کنید.", "BAD_EXT");
     }
 
     const buf = Buffer.from(await file.arrayBuffer());
     let parsed: { csv: string; sheetNames: string[]; headers: string[] };
     try {
-      parsed = excelToCsv(buf);
+      parsed = await excelToCsv(buf);
     } catch {
       return apiErr(400, "فایل اکسل قابل خواندن نیست — احتمالاً رمزگذاری/فرمت آن معتبر نیست.", "UNPARSEABLE");
     }

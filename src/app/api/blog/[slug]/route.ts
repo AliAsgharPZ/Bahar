@@ -53,7 +53,7 @@ export async function POST(req: NextRequest, ctx: Ctx) {
     const body = await readJson<{ name?: string; body?: string }>(req);
     const name = String(body.name ?? "").trim();
     const text = String(body.body ?? "").trim();
-    if (name.length < 2) throw new ApiError(400, "BAD_NAME", "نام خود را وارد کنید.");
+    if (name.length < 2 || name.length > 80) throw new ApiError(400, "BAD_NAME", "نام خود را وارد کنید (حداکثر ۸۰ نویسه).");
     if (text.length < 3 || text.length > 1000) throw new ApiError(400, "BAD_BODY", "متن نظر ۳ تا ۱۰۰۰ نویسه باشد.");
 
     // ضد هرزنامه

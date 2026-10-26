@@ -26,7 +26,8 @@ export async function GET(req: NextRequest, ctx: Ctx) {
     });
     if (!student) return apiErr(404, "دانش‌آموز یافت نشد.", "NOT_FOUND");
 
-    const isService = me.role === "SUPER_ADMIN" || me.role === "ADMIN";
+    // سوپرادمین سراسری می‌خواند؛ ادمین سرویس فقط داخل پنل همان مدرسه
+    const isService = me.role === "SUPER_ADMIN" || (me.role === "ADMIN" && actingSchoolIdFor(req, me) === student.schoolId);
     const isManager = me.role === "MANAGER" && me.schoolId === student.schoolId;
     // FIX (راند ۱۶): معاون با دسترسی «مدیریت دانش‌آموزان» هم پرونده را می‌بیند
     const isDeputyAllowed = me.role === "DEPUTY" && me.schoolId === student.schoolId && hasPermission(me, "manage_students");

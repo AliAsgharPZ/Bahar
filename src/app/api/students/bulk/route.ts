@@ -107,10 +107,8 @@ export async function POST(req: NextRequest) {
 /** GET /api/students/bulk — خروجی CSV فهرست فیلترشده (برای گزارش/بکاپ سبک) */
 export async function GET(req: NextRequest) {
   try {
-    const me = await requireUser(req);
-    if (me.role === "STUDENT" || me.role === "PARENT") {
-      return apiErr(403, "برای شما تعریف نشده است.", "FORBIDDEN");
-    }
+    // خروجی انبوه شامل کد ملی/تلفن است — همان دسترسی POST لازم است
+    const me = await requirePermission(req, "manage_students");
     const schoolId = requireSchoolId(me);
     const { searchParams } = new URL(req.url);
     const classId = searchParams.get("classId");

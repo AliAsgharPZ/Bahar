@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const check = checkOtp(user.id, code);
+    const check = await checkOtp(user.id, code);
     if (!check.ok) {
       const otpFails = failIncr(`otpfail:${user.id}`);
       return apiErr(401, check.error ?? "کد نامعتبر است.", "OTP_WRONG", {

@@ -173,7 +173,55 @@ export async function GET(req: NextRequest) {
         href: "/app/events",
       });
     }
-    for (const a of announcements) {
+    // اعلان‌ها: همان فیلتر مخاطبِ فهرست اعلان‌ها اعمال می‌شود — عنوان
+    // اعلان‌های هدف‌گذاری‌شده (مثلاً فقط کادر) نباید در جستجوی
+    // دانش‌آموز/ولی لو برود.
+    const parseArr = (raw: string | null | undefined): string[] => {
+      if (!raw) return [];
+      try {
+        const v = JSON.parse(raw) as unknown;
+        return Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
+      } catch { return []; }
+    };
+    const myTarget = ({ MANAGER: "MANAGERS", DEPUTY: "TEACHERS", TEACHER: "TEACHERS", STUDENT: "STUDENTS", PARENT: "PARENTS" } as Record<string, string>)[me.role]
+      ?? (isService ? "MANAGERS" : null);
+    let myClassIds: string[] | null = null;
+    const classIdsOf = async (): Promise<string[]> => {
+      if (myClassIds) return myClassIds;
+      if (me.role === "STUDENT") {
+        const st = await db.student.findFirst({ where: { userId: me.id }, select: { classId: true } });
+        myClassIds = st?.classId ? [st.classId] : [];
+      } else if (me.role === "PARENT") {
+        const links = await db.studentParent.findMany({ where: { parentUserId: me.id }, select: { student: { select: { classId: true } } } });
+        myClassIds = links.map((l) => l.student.classId).filter((x): x is string => !!x);
+      } else {
+        myClassIds = [];
+      }
+      return myClassIds;
+    };
+    let meGeo: { province: string | null; county: string | null } | null = null;
+    type AnnRow = { title: string; audienceRoles: string; targetProvinces: string; targetCounties: string; classId: string | null };
+    const visibleAnnouncements: AnnRow[] = [];
+    for (const a of announcements as AnnRow[]) {
+      const roles = parseArr(a.audienceRoles);
+      if (roles.length > 0 && (!myTarget || !roles.includes(myTarget))) continue;
+      if (a.classId && !(await classIdsOf()).includes(a.classId)) continue;
+      const provinces = parseArr(a.targetProvinces);
+      const counties = parseArr(a.targetCounties);
+      if (provinces.length > 0 || counties.length > 0) {
+        if (!scope && !isService) continue;
+        if (scope) {
+          if (!meGeo) {
+            meGeo = (await db.school.findUnique({ where: { id: scope }, select: { province: true, county: true } })) ?? { province: null, county: null };
+          }
+          if (counties.length > 0) {
+            if (!counties.includes(`${meGeo.province ?? ""}|${meGeo.county ?? ""}`)) continue;
+          } else if (!meGeo.province || !provinces.includes(meGeo.province)) continue;
+        }
+      }
+      visibleAnnouncements.push(a);
+    }
+    for (const a of visibleAnnouncements) {
       results.push({ type: "اعلان", title: a.title, subtitle: null, href: "/app/announcements" });
     }
     for (const p of posts) {

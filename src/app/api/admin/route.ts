@@ -73,8 +73,13 @@ export async function GET(req: NextRequest) {
         return apiErr(403, "مشاهده تاریخچه ورود کاربران نیاز به دسترسی «مشاهده کاربران» دارد.", "FORBIDDEN");
       }
       const target = new URL(req.url).searchParams.get("userId");
+      // ادمین سرویس فقط لاگین‌های مدرسه‌ای را می‌بیند که وارد پنلش شده است
+      const acting = me.role === "ADMIN" ? actingSchoolIdFor(req, me) : null;
       const logins = await db.loginEvent.findMany({
-        where: target ? { userId: target } : undefined,
+        where: {
+          ...(target ? { userId: target } : {}),
+          ...(acting ? { user: { schoolId: acting } } : {}),
+        },
         orderBy: { createdAt: "desc" },
         take: 100,
         include: { user: { select: { firstName: true, lastName: true, nationalId: true, role: true } } },
@@ -89,8 +94,9 @@ export async function GET(req: NextRequest) {
       }
       // نشست‌های فعال = ورودهای موفق ۱۴ روز اخیر (عمر توکن)
       const since = new Date(Date.now() - 14 * 86400000);
+      const actingSessions = me.role === "ADMIN" ? actingSchoolIdFor(req, me) : null;
       const sessions = await db.loginEvent.findMany({
-        where: { status: "SUCCESS", createdAt: { gte: since } },
+        where: { status: "SUCCESS", createdAt: { gte: since }, ...(actingSessions ? { user: { schoolId: actingSessions } } : {}) },
         orderBy: { createdAt: "desc" },
         take: 200,
         include: { user: { select: { id: true, firstName: true, lastName: true, role: true, nationalId: true, schoolId: true } } },

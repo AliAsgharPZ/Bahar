@@ -69,8 +69,17 @@ function ensureFileBlobTable(d1: D1DatabaseLike): Promise<void> {
   return fileBlobReady;
 }
 
+/** قطعه‌های امن مسیر — خروج از پوشهٔ db با «..» یا بک‌اسلش ممکن نیست */
+function safeParts(key: string): string[] {
+  const parts = key.split("/").filter((seg) => seg !== "" && seg !== ".");
+  if (parts.some((seg) => seg === ".." || seg.includes("\\") || seg.includes("\0"))) {
+    throw new Error("Invalid storage key");
+  }
+  return parts;
+}
+
 function localPath(key: string): string {
-  return path.join(process.cwd(), "db", ...key.split("/"));
+  return path.join(process.cwd(), "db", ...safeParts(key));
 }
 
 export async function storagePut(key: string, data: Uint8Array | string): Promise<void> {
@@ -151,7 +160,7 @@ export async function storageList(prefix: string): Promise<string[]> {
     return res.results.map((r) => r.key.slice(prefix.length)).filter((n) => n && !n.includes("/"));
   }
   try {
-    return await fs.readdir(path.join(process.cwd(), "db", ...prefix.split("/")));
+    return await fs.readdir(path.join(process.cwd(), "db", ...safeParts(prefix)));
   } catch {
     return [];
   }

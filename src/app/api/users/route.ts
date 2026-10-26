@@ -58,7 +58,9 @@ export async function GET(req: NextRequest) {
     // مدرسه هدف: مدیر/معاون → مدرسه خودشان؛ ادمین → کوکی پنل یا پارامتر
     let schoolId: string | undefined;
     if (isService) {
-      schoolId = actingCookie ?? schoolIdParam ?? undefined;
+      // سوپرادمین با پارامتر هر مدرسه‌ای را می‌بیند؛ ادمین سرویس فقط مدرسه‌ای
+      // که وارد پنلش شده است — پارامتر آزاد برای ادمین یعنی دور زدن پنل.
+      schoolId = isSuper ? (actingCookie ?? schoolIdParam ?? undefined) : (actingCookie ?? undefined);
     } else {
       schoolId = me.schoolId ?? undefined;
       if (!schoolId) throw new ApiError(400, "NO_SCHOOL", "به مدرسه‌ای متصل نیستید.");
