@@ -171,6 +171,8 @@ model School {
   importJobs           ImportJob[]
   visitorLogs          VisitorLog[]
   lostFoundItems       LostFoundItem[]
+  books                Book[]
+  quizzes              Quiz[]
   scheduledReports     ScheduledReport[]
 }
 
@@ -241,6 +243,8 @@ model Student {
   gradeHistory      GradeHistory[]
   riskScores        RiskScore[]
   wellbeingCheckins WellbeingCheckin[]
+  bookLoans         BookLoan[]
+  quizAttempts      QuizAttempt[]
 
   @@unique([schoolId, studentNumber])
   @@index([classId])
@@ -1521,6 +1525,87 @@ model WellbeingCheckin {
 
   @@unique([studentId, date])
   @@index([date, flagged])
+}
+
+/**
+ * کتابخانهٔ مدرسه — کاتالوگ کتاب
+ */
+model Book {
+  id          String     @id @default(cuid())
+  schoolId    String
+  school      School     @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title       String
+  author      String?
+  isbn        String?
+  category    String?
+  shelf       String? // قفسه/ردیف
+  totalCopies Int        @default(1)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  loans       BookLoan[]
+
+  @@index([schoolId])
+}
+
+/**
+ * امانت کتاب به دانش‌آموز — returnedAt خالی یعنی هنوز دست دانش‌آموز است
+ */
+model BookLoan {
+  id          String    @id @default(cuid())
+  schoolId    String
+  bookId      String
+  book        Book      @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  studentId   String
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  loanedAt    DateTime  @default(now())
+  dueAt       DateTime
+  returnedAt  DateTime?
+  createdById String?
+  createdAt   DateTime  @default(now())
+
+  @@index([schoolId, returnedAt])
+  @@index([studentId])
+  @@index([bookId])
+}
+
+/**
+ * آزمون آنلاین — ساخته‌شده از بانک سؤال؛ questionIds ترتیب سؤال‌هاست (JSON)
+ */
+model Quiz {
+  id          String        @id @default(cuid())
+  schoolId    String
+  school      School        @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title       String
+  subjectId   String?
+  classId     String?
+  questionIds String        @default("[]") // JSON
+  durationMin Int           @default(20)
+  status      String        @default("DRAFT") // DRAFT | OPEN | CLOSED
+  createdById String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  attempts    QuizAttempt[]
+
+  @@index([schoolId, status])
+}
+
+/**
+ * تلاش دانش‌آموز در آزمون — یکبار برای هر دانش‌آموز؛ نمره خودکار برای
+ * سؤال‌های چندگزینه‌ای/جای‌خالی هنگام تحویل محاسبه می‌شود.
+ */
+model QuizAttempt {
+  id          String    @id @default(cuid())
+  quizId      String
+  quiz        Quiz      @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  studentId   String
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  answers     String    @default("{}") // JSON questionId -> پاسخ
+  score       Float?
+  startedAt   DateTime  @default(now())
+  submittedAt DateTime?
+
+  @@unique([quizId, studentId])
+  @@index([studentId])
 }
 
 generator clientNode {

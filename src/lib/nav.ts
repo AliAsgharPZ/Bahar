@@ -6,6 +6,7 @@ import {
   HeartHandshake, FileQuestion, Link2, Handshake, CalendarOff, ListTodo,
   Zap, Wrench, Vote, ScrollText, FileBarChart, ShieldAlert, HeartPulse,
   Home, MessagesSquare, Coins, SlidersHorizontal, Building2, FileUp,
+  IdCard, Repeat,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -59,6 +60,10 @@ export const NAV: NavItem[] = [
   { href: "/app/insights", label: "بینش‌ها و هشدار زودهنگام", tKey: "nav.insights", short: "بینش‌ها", icon: ShieldAlert, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 1, group: "students" },
   { href: "/app/wellbeing", label: "سلامت روان", tKey: "nav.wellbeing", short: "سلامت", icon: HeartPulse, roles: ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN", "STUDENT"], tint: 2, group: "students" },
   { href: "/app/question-bank", label: "بانک سوال", tKey: "nav.questionBank", short: "بانک سوال", icon: FileQuestion, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 3, group: "education" },
+  { href: "/app/quizzes", label: "آزمون آنلاین", tKey: "nav.quizzes", short: "آزمون", icon: ClipboardList, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT"], tint: 1, group: "education" },
+  { href: "/app/library", label: "کتابخانه", tKey: "nav.library", short: "کتابخانه", icon: LibraryBig, roles: ["*"], tint: 2, group: "education" },
+  { href: "/app/substitutions", label: "جایگزینی معلم", tKey: "nav.substitutions", short: "جایگزینی", icon: Repeat, roles: ["MANAGER", "DEPUTY"], tint: 0, group: "education" },
+  { href: "/app/id-cards", label: "کارت شناسایی", tKey: "nav.idCards", short: "کارت شناسایی", icon: IdCard, roles: ["MANAGER", "DEPUTY", "CUSTODIAN"], tint: 3, group: "students" },
   { href: "/app/resources", label: "منابع آموزشی", tKey: "nav.resources", short: "منابع", icon: Link2, roles: ["*"], tint: 0, group: "education" },
   { href: "/app/automation", label: "اتوماسیون", tKey: "nav.automation", short: "اتوماسیون", icon: Zap, roles: ["MANAGER", "SUPER_ADMIN"], tint: 1, group: "admin" },
   { href: "/app/facilities", label: "امکانات و اموال", tKey: "nav.facilities", short: "امکانات", icon: Wrench, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER", "CUSTODIAN"], tint: 2, group: "services" },

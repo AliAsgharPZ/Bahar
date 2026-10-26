@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Trash2, Loader2, Sparkles, MapPin } from "lucide-react";
+import { Plus, Trash2, Loader2, Sparkles, MapPin, CalendarDays } from "lucide-react";
 import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select, useConfirm } from "@/components/shared/pickers";
@@ -97,17 +97,47 @@ export default function EventsPage() {
     );
   }
 
+  // خروجی تقویم iCalendar — رویدادها در تقویم گوشی/گوگل‌کالندر وارد می‌شوند
+  function downloadIcs() {
+    const esc = (s: string) => s.replaceAll("\\", "\\\\").replaceAll(";", "\\;").replaceAll(",", "\\,").replaceAll("\n", "\\n");
+    const stamp = (d: Date) => d.toISOString().replaceAll("-", "").replaceAll(":", "").split(".")[0] + "Z";
+    const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Bahar//School Events//FA", "CALSCALE:GREGORIAN"];
+    for (const ev of data?.events ?? []) {
+      const start = new Date(ev.startAt);
+      const end = ev.endAt ? new Date(ev.endAt) : new Date(start.getTime() + 3600000);
+      lines.push("BEGIN:VEVENT", `UID:${ev.id}@bahar`, `DTSTAMP:${stamp(new Date())}`, `DTSTART:${stamp(start)}`, `DTEND:${stamp(end)}`, `SUMMARY:${esc(ev.title)}`);
+      if (ev.description) lines.push(`DESCRIPTION:${esc(ev.description)}`);
+      lines.push("END:VEVENT");
+    }
+    lines.push("END:VCALENDAR");
+    const blob = new Blob(["\ufeff" + lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "bahar-events.ics";
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("فایل تقویم دانلود شد — در تقویم گوشی یا گوگل‌کالندر واردش کنید.");
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
         title="رویدادها"
         desc="جلسات، امتحانات، مراسم، گردش‌های علمی و کارگاه‌های مدرسه."
         action={
-          canCreate && (
-            <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShow(true)}>
-              <Plus className="w-4 h-4" /> رویداد جدید
-            </button>
-          )
+          <span className="flex gap-2">
+            {data && data.events.length > 0 && (
+              <button className="b-btn b-btn-soft b-btn-sm" onClick={downloadIcs}>
+                <CalendarDays className="w-4 h-4" /> خروجی تقویم (iCal)
+              </button>
+            )}
+            {canCreate && (
+              <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShow(true)}>
+                <Plus className="w-4 h-4" /> رویداد جدید
+              </button>
+            )}
+          </span>
         }
       />
 

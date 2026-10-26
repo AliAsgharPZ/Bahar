@@ -1464,6 +1464,66 @@ CREATE INDEX "WellbeingCheckin_date_flagged_idx" ON "WellbeingCheckin"("date", "
 CREATE UNIQUE INDEX "WellbeingCheckin_studentId_date_key" ON "WellbeingCheckin"("studentId", "date");
 
 
+-- Library + online quizzes (added with the features round)
+CREATE TABLE "Book" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "author" TEXT,
+    "isbn" TEXT,
+    "category" TEXT,
+    "shelf" TEXT,
+    "totalCopies" INTEGER NOT NULL DEFAULT 1,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Book_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE "BookLoan" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "bookId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "loanedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "dueAt" DATETIME NOT NULL,
+    "returnedAt" DATETIME,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "BookLoan_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "BookLoan_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE "Quiz" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "subjectId" TEXT,
+    "classId" TEXT,
+    "questionIds" TEXT NOT NULL DEFAULT '[]',
+    "durationMin" INTEGER NOT NULL DEFAULT 20,
+    "status" TEXT NOT NULL DEFAULT 'DRAFT',
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Quiz_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE "QuizAttempt" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "quizId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "answers" TEXT NOT NULL DEFAULT '{}',
+    "score" REAL,
+    "startedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "submittedAt" DATETIME,
+    CONSTRAINT "QuizAttempt_quizId_fkey" FOREIGN KEY ("quizId") REFERENCES "Quiz" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "QuizAttempt_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX "Book_schoolId_idx" ON "Book"("schoolId");
+CREATE INDEX "BookLoan_schoolId_returnedAt_idx" ON "BookLoan"("schoolId", "returnedAt");
+CREATE INDEX "BookLoan_studentId_idx" ON "BookLoan"("studentId");
+CREATE INDEX "BookLoan_bookId_idx" ON "BookLoan"("bookId");
+CREATE INDEX "Quiz_schoolId_status_idx" ON "Quiz"("schoolId", "status");
+CREATE UNIQUE INDEX "QuizAttempt_quizId_studentId_key" ON "QuizAttempt"("quizId", "studentId");
+CREATE INDEX "QuizAttempt_studentId_idx" ON "QuizAttempt"("studentId");
+
 -- File storage on Workers without R2: files live as BLOBs in D1.
 -- (storage.ts also creates this table lazily if it is missing.)
 CREATE TABLE IF NOT EXISTS "FileBlob" (
