@@ -19,12 +19,6 @@
       "database_id": "e62e92c2-b7d3-4dce-98f0-257fe176aa7a"
     }
   ],
-  "r2_buckets": [
-    {
-      "binding": "BAHAR_FILES",
-      "bucket_name": "bahar-files"
-    }
-  ],
   "triggers": {
     "crons": ["*/15 * * * *"]
   }

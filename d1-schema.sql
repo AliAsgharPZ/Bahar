@@ -1463,3 +1463,11 @@ CREATE INDEX "WellbeingCheckin_date_flagged_idx" ON "WellbeingCheckin"("date", "
 -- CreateIndex
 CREATE UNIQUE INDEX "WellbeingCheckin_studentId_date_key" ON "WellbeingCheckin"("studentId", "date");
 
+
+-- File storage on Workers without R2: files live as BLOBs in D1.
+-- (storage.ts also creates this table lazily if it is missing.)
+CREATE TABLE IF NOT EXISTS "FileBlob" (
+    "key" TEXT NOT NULL PRIMARY KEY,
+    "data" BLOB NOT NULL,
+    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
