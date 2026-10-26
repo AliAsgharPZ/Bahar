@@ -150,7 +150,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 20px);
+  --radius-3xl: calc(var(--radius) + 24px);
   /* Bahar proprietary palette */
   --color-spring: var(--spring);
   --color-spring-deep: var(--spring-deep);
@@ -351,6 +351,8 @@
   body {
     @apply bg-background text-foreground;
     font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
     letter-spacing: 0;
     -webkit-tap-highlight-color: transparent;
   }
@@ -583,7 +585,7 @@ textarea.b-input {
 
 /* Badges */
 .b-badge {
-  @apply inline-flex items-center gap-1 rounded-full text-[11.5px] font-bold px-2.5 py-1 whitespace-nowrap;
+  @apply inline-flex items-center gap-1 rounded-full text-[12px] font-bold px-2.5 py-1 whitespace-nowrap;
 }
 .b-badge-success { background: var(--success); color: var(--success-foreground); }
 .b-badge-warning { background: var(--warning); color: var(--warning-foreground); }
@@ -626,15 +628,15 @@ textarea.b-input {
 @media (min-width: 768px) { .t-hero { font-size: 56px; line-height: 1.18; } }
 @media (min-width: 1280px) { .t-hero { font-size: 64px; line-height: 1.16; } }
 .t-display { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 34px; line-height: 1.28; font-weight: 500; }
-@media (min-width: 768px) { .t-display { font-size: 44px; line-height: 1.22; } }
+@media (min-width: 768px) { .t-display { font-size: 48px; line-height: 1.17; } }
 .t-h1 { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 28px; line-height: 1.3; font-weight: 500; }
 @media (min-width: 768px) { .t-h1 { font-size: 36px; } }
 .t-h2 { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 24px; line-height: 1.33; font-weight: 500; }
 .t-h3 { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 20px; line-height: 1.4; font-weight: 600; }
 .t-sub { font-size: 17px; line-height: 1.55; font-weight: 400; color: color-mix(in srgb, var(--ink) 80%, var(--steel)); }
-.t-body { font-size: 15px; line-height: 1.75; }
-.t-sm { font-size: 13.5px; line-height: 1.65; }
-.t-cap { font-size: 12px; line-height: 1.5; }
+.t-body { font-size: 16px; line-height: 1.65; }
+.t-sm { font-size: 14px; line-height: 1.6; }
+.t-cap { font-size: 12px; line-height: 1.45; }
 
 /* ============================================================
    اسکرول‌بار کاستوم مرورگر — نازک (۷px) + غیب‌شونده (راند ۱۹)
@@ -867,10 +869,65 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
    دیالوگ‌های fixed-inset-0 به‌جای ویوپورت نسبت به محتوای صفحه
    جای‌گذاری می‌شوند (باگ «صفحه خیلی بالا قرار می‌گیرد»). */
 @keyframes bahar-page-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.995); }
+  from { opacity: 0; transform: translateY(14px) scale(0.992); }
+  55% { opacity: 1; }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.b-page-in { animation: bahar-page-in 280ms var(--ease-decel) backwards; }
+.b-page-in { animation: bahar-page-in 380ms var(--ease-decel) backwards; }
+
+/* Auto-stagger: direct children rise in sequence (grids & lists on every page).
+   nth-child delays are capped so long lists never feel slow. */
+.b-auto-stagger > * {
+  animation: bahar-rise 340ms var(--ease-decel) backwards;
+}
+.b-auto-stagger > *:nth-child(1) { animation-delay: 20ms; }
+.b-auto-stagger > *:nth-child(2) { animation-delay: 55ms; }
+.b-auto-stagger > *:nth-child(3) { animation-delay: 90ms; }
+.b-auto-stagger > *:nth-child(4) { animation-delay: 125ms; }
+.b-auto-stagger > *:nth-child(5) { animation-delay: 160ms; }
+.b-auto-stagger > *:nth-child(6) { animation-delay: 195ms; }
+.b-auto-stagger > *:nth-child(7) { animation-delay: 230ms; }
+.b-auto-stagger > *:nth-child(8) { animation-delay: 265ms; }
+.b-auto-stagger > *:nth-child(9) { animation-delay: 300ms; }
+.b-auto-stagger > *:nth-child(10) { animation-delay: 335ms; }
+.b-auto-stagger > *:nth-child(11) { animation-delay: 370ms; }
+.b-auto-stagger > *:nth-child(n+12) { animation-delay: 405ms; }
+
+/* Card micro-interaction: gentle lift + spring-tinted hairline on hover,
+   soft press on active. For clickable cards across all pages. */
+.b-card-hover {
+  transition: transform 220ms var(--ease-decel), box-shadow 220ms var(--ease-decel), border-color 220ms var(--ease-decel);
+  will-change: transform;
+}
+.b-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--spring) 35%, var(--hairline-soft));
+  box-shadow: 0 2px 4px 0 rgba(11,20,22,.08), 0 10px 24px -8px rgba(11,20,22,.16);
+}
+.dark .b-card-hover:hover {
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,.5), 0 12px 26px -8px rgba(0,0,0,.55);
+}
+.b-card-hover:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+/* Table/list rows: soft sequential entrance for the first rows */
+@keyframes bahar-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.b-rows-in tbody tr {
+  animation: bahar-row-in 300ms var(--ease-decel) backwards;
+}
+.b-rows-in tbody tr:nth-child(1) { animation-delay: 15ms; }
+.b-rows-in tbody tr:nth-child(2) { animation-delay: 35ms; }
+.b-rows-in tbody tr:nth-child(3) { animation-delay: 55ms; }
+.b-rows-in tbody tr:nth-child(4) { animation-delay: 75ms; }
+.b-rows-in tbody tr:nth-child(5) { animation-delay: 95ms; }
+.b-rows-in tbody tr:nth-child(6) { animation-delay: 115ms; }
+.b-rows-in tbody tr:nth-child(7) { animation-delay: 135ms; }
+.b-rows-in tbody tr:nth-child(8) { animation-delay: 155ms; }
+.b-rows-in tbody tr:nth-child(n+9) { animation-delay: 175ms; }
 
 /* Notification category dots */
 .cat-URGENT { background: var(--destructive); }

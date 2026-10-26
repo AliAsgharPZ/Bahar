@@ -453,7 +453,7 @@ export default function StudentsPage() {
       {data && data.students.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[13px]">
+            <table className="w-full text-[13px] b-rows-in">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
                   <th className="py-3 px-3 w-10">

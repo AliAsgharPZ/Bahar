@@ -227,7 +227,7 @@ export default function FinancePage() {
       {fees.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[13px]">
+            <table className="w-full text-[13px] b-rows-in">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
                   {data?.scope !== "student" && <th className="text-right py-3 px-4 font-bold">دانش‌آموز</th>}
