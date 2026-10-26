@@ -1526,6 +1526,126 @@ CREATE INDEX "QuizAttempt_studentId_idx" ON "QuizAttempt"("studentId");
 
 -- File storage on Workers without R2: files live as BLOBs in D1.
 -- (storage.ts also creates this table lazily if it is missing.)
+-- Batch 2 modules: transport, staff attendance, gate passes, forms, alumni, virtual sessions
+CREATE TABLE IF NOT EXISTS "TransportRoute" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "driverName" TEXT,
+    "driverPhone" TEXT,
+    "vehiclePlate" TEXT,
+    "vehicleDesc" TEXT,
+    "capacity" INTEGER NOT NULL DEFAULT 20,
+    "stops" TEXT NOT NULL DEFAULT '[]',
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "TransportRoute_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX "TransportRoute_schoolId_idx" ON "TransportRoute"("schoolId");
+CREATE TABLE IF NOT EXISTS "TransportAssignment" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "routeId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "stopName" TEXT,
+    "monthlyFee" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "TransportAssignment_routeId_fkey" FOREIGN KEY ("routeId") REFERENCES "TransportRoute" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "TransportAssignment_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX "TransportAssignment_schoolId_studentId_idx" ON "TransportAssignment"("schoolId", "studentId");
+CREATE UNIQUE INDEX "TransportAssignment_routeId_studentId_key" ON "TransportAssignment"("routeId", "studentId");
+CREATE TABLE IF NOT EXISTS "StaffAttendance" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "status" TEXT NOT NULL,
+    "checkIn" TEXT,
+    "checkOut" TEXT,
+    "note" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "StaffAttendance_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX "StaffAttendance_schoolId_date_idx" ON "StaffAttendance"("schoolId", "date");
+CREATE UNIQUE INDEX "StaffAttendance_userId_date_key" ON "StaffAttendance"("userId", "date");
+CREATE TABLE IF NOT EXISTS "GatePass" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "exitTime" TEXT,
+    "reason" TEXT NOT NULL,
+    "pickupBy" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "requestedById" TEXT,
+    "decidedById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "GatePass_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX "GatePass_schoolId_date_status_idx" ON "GatePass"("schoolId", "date", "status");
+CREATE TABLE IF NOT EXISTS "SchoolForm" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "fields" TEXT NOT NULL DEFAULT '[]',
+    "audience" TEXT NOT NULL DEFAULT 'PARENTS',
+    "classId" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'OPEN',
+    "deadline" TEXT,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "SchoolForm_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX "SchoolForm_schoolId_status_idx" ON "SchoolForm"("schoolId", "status");
+CREATE TABLE IF NOT EXISTS "FormSubmission" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "formId" TEXT NOT NULL,
+    "studentId" TEXT,
+    "userId" TEXT NOT NULL,
+    "answers" TEXT NOT NULL DEFAULT '{}',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "FormSubmission_formId_fkey" FOREIGN KEY ("formId") REFERENCES "SchoolForm" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "FormSubmission_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX "FormSubmission_formId_idx" ON "FormSubmission"("formId");
+CREATE UNIQUE INDEX "FormSubmission_formId_studentId_key" ON "FormSubmission"("formId", "studentId");
+CREATE TABLE IF NOT EXISTS "AlumniProfile" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "graduationYear" TEXT,
+    "university" TEXT,
+    "field" TEXT,
+    "outcome" TEXT,
+    "phone" TEXT,
+    "note" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "AlumniProfile_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX "AlumniProfile_studentId_key" ON "AlumniProfile"("studentId");
+CREATE INDEX "AlumniProfile_schoolId_idx" ON "AlumniProfile"("schoolId");
+CREATE TABLE IF NOT EXISTS "VirtualSession" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "classId" TEXT,
+    "subjectId" TEXT,
+    "title" TEXT NOT NULL,
+    "provider" TEXT NOT NULL DEFAULT 'SKYROOM',
+    "link" TEXT NOT NULL,
+    "startsAt" DATETIME NOT NULL,
+    "durationMin" INTEGER NOT NULL DEFAULT 45,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX "VirtualSession_schoolId_startsAt_idx" ON "VirtualSession"("schoolId", "startsAt");
+
 CREATE TABLE IF NOT EXISTS "FileBlob" (
     "key" TEXT NOT NULL PRIMARY KEY,
     "data" BLOB NOT NULL,

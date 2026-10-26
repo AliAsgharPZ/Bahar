@@ -7,6 +7,7 @@ import {
   Zap, Wrench, Vote, ScrollText, FileBarChart, ShieldAlert, HeartPulse,
   Home, MessagesSquare, Coins, SlidersHorizontal, Building2, FileUp,
   IdCard, Repeat,
+  Bus, FileText, Video,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -64,6 +65,12 @@ export const NAV: NavItem[] = [
   { href: "/app/library", label: "کتابخانه", tKey: "nav.library", short: "کتابخانه", icon: LibraryBig, roles: ["*"], tint: 2, group: "education" },
   { href: "/app/substitutions", label: "جایگزینی معلم", tKey: "nav.substitutions", short: "جایگزینی", icon: Repeat, roles: ["MANAGER", "DEPUTY"], tint: 0, group: "education" },
   { href: "/app/id-cards", label: "کارت شناسایی", tKey: "nav.idCards", short: "کارت شناسایی", icon: IdCard, roles: ["MANAGER", "DEPUTY", "CUSTODIAN"], tint: 3, group: "students" },
+  { href: "/app/virtual-sessions", label: "کلاس مجازی", tKey: "nav.virtualSessions", short: "کلاس مجازی", icon: Video, roles: ["*"], tint: 0, group: "education" },
+  { href: "/app/transport", label: "سرویس مدرسه", tKey: "nav.transport", short: "سرویس", icon: Bus, roles: ["*"], tint: 1, group: "services" },
+  { href: "/app/gate-passes", label: "مجوز خروج", tKey: "nav.gatePasses", short: "مجوز خروج", icon: DoorOpen, roles: ["*"], tint: 2, group: "students" },
+  { href: "/app/alumni", label: "فارغ‌التحصیلان", tKey: "nav.alumni", short: "فارغ‌التحصیلان", icon: GraduationCap, roles: ["MANAGER", "DEPUTY"], tint: 3, group: "students" },
+  { href: "/app/forms", label: "فرم‌ها و رضایت‌نامه‌ها", tKey: "nav.forms", short: "فرم‌ها", icon: FileText, roles: ["*"], tint: 0, group: "comms" },
+  { href: "/app/staff-attendance", label: "حضور و غیاب کارکنان", tKey: "nav.staffAttendance", short: "حضور کارکنان", icon: ClipboardCheck, roles: ["MANAGER", "DEPUTY", "TEACHER", "CUSTODIAN"], tint: 1, group: "personal" },
   { href: "/app/resources", label: "منابع آموزشی", tKey: "nav.resources", short: "منابع", icon: Link2, roles: ["*"], tint: 0, group: "education" },
   { href: "/app/automation", label: "اتوماسیون", tKey: "nav.automation", short: "اتوماسیون", icon: Zap, roles: ["MANAGER", "SUPER_ADMIN"], tint: 1, group: "admin" },
   { href: "/app/facilities", label: "امکانات و اموال", tKey: "nav.facilities", short: "امکانات", icon: Wrench, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER", "CUSTODIAN"], tint: 2, group: "services" },

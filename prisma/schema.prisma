@@ -84,6 +84,7 @@ model User {
   ticketMessages        TicketMessage[]        @relation("TicketMessageSender")
   blogPosts             BlogPost[]             @relation("BlogAuthor")
   backups               Backup[]               @relation("BackupCreator")
+  staffAttendances      StaffAttendance[]
   notifications         Notification[]         @relation("NotificationUser")
   behaviorRecords       BehaviorRecord[]       @relation("BehaviorRecorder")
   questionsAuthored     Question[]             @relation("QuestionAuthor")
@@ -173,6 +174,8 @@ model School {
   lostFoundItems       LostFoundItem[]
   books                Book[]
   quizzes              Quiz[]
+  transportRoutes      TransportRoute[]
+  schoolForms          SchoolForm[]
   scheduledReports     ScheduledReport[]
 }
 
@@ -245,6 +248,10 @@ model Student {
   wellbeingCheckins WellbeingCheckin[]
   bookLoans         BookLoan[]
   quizAttempts      QuizAttempt[]
+  transportAssignments TransportAssignment[]
+  gatePasses        GatePass[]
+  formSubmissions   FormSubmission[]
+  alumniProfile     AlumniProfile?
 
   @@unique([schoolId, studentNumber])
   @@index([classId])
@@ -1606,6 +1613,143 @@ model QuizAttempt {
 
   @@unique([quizId, studentId])
   @@index([studentId])
+}
+
+model TransportRoute {
+  id           String   @id @default(cuid())
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name         String // مسیر ۱ — شهرک غرب
+  driverName   String?
+  driverPhone  String?
+  vehiclePlate String?
+  vehicleDesc  String? // مینی‌بوس سفید
+  capacity     Int      @default(20)
+  stops        String   @default("[]") // JSON: نام ایستگاه‌ها به ترتیب
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  assignments TransportAssignment[]
+
+  @@index([schoolId])
+}
+
+model TransportAssignment {
+  id         String         @id @default(cuid())
+  schoolId   String
+  routeId    String
+  route      TransportRoute @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  studentId  String
+  student    Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  stopName   String?
+  monthlyFee Int            @default(0) // تومان
+  createdAt  DateTime       @default(now())
+
+  @@unique([routeId, studentId])
+  @@index([schoolId, studentId])
+}
+
+model StaffAttendance {
+  id        String   @id @default(cuid())
+  schoolId  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      String // تاریخ شمسی YYYY-MM-DD
+  status    String // PRESENT | ABSENT | LATE | LEAVE | MISSION
+  checkIn   String? // "07:25"
+  checkOut  String?
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date])
+  @@index([schoolId, date])
+}
+
+model GatePass {
+  id            String   @id @default(cuid())
+  schoolId      String
+  studentId     String
+  student       Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date          String // تاریخ شمسی
+  exitTime      String? // "12:30"
+  reason        String
+  pickupBy      String? // تحویل‌گیرنده
+  status        String   @default("PENDING") // PENDING | APPROVED | REJECTED | EXITED
+  requestedById String?
+  decidedById   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([schoolId, date, status])
+}
+
+model SchoolForm {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  fields      String   @default("[]") // JSON: [{key,label,type,required,options?}]
+  audience    String   @default("PARENTS") // PARENTS | STUDENTS | ALL
+  classId     String?
+  status      String   @default("OPEN") // OPEN | CLOSED
+  deadline    String? // تاریخ شمسی
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  submissions FormSubmission[]
+
+  @@index([schoolId, status])
+}
+
+model FormSubmission {
+  id        String     @id @default(cuid())
+  formId    String
+  form      SchoolForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  studentId String?
+  student   Student?   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  userId    String // ثبت‌کننده (ولی/دانش‌آموز)
+  answers   String     @default("{}") // JSON key -> پاسخ
+  createdAt DateTime   @default(now())
+
+  @@unique([formId, studentId])
+  @@index([formId])
+}
+
+model AlumniProfile {
+  id             String   @id @default(cuid())
+  schoolId       String
+  studentId      String   @unique
+  student        Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  graduationYear String?
+  university     String?
+  field          String? // رشتهٔ قبولی/تحصیلی
+  outcome        String? // قبولی کنکور، اشتغال و…
+  phone          String?
+  note           String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([schoolId])
+}
+
+model VirtualSession {
+  id          String   @id @default(cuid())
+  schoolId    String
+  classId     String?
+  subjectId   String?
+  title       String
+  provider    String   @default("SKYROOM") // SKYROOM | BBB | SHAD | OTHER
+  link        String
+  startsAt    DateTime
+  durationMin Int      @default(45)
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  @@index([schoolId, startsAt])
 }
 
 generator clientNode {
