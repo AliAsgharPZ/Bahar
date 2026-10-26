@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import {
   Upload, FileSpreadsheet, ClipboardPaste, Download, History, CheckCircle2,
   XCircle, AlertTriangle, Loader2, Play, ArrowLeft, RotateCcw, Users, GraduationCap, BookOpen,
+  ClipboardList, CalendarCheck, Wallet,
 } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { PageHeader, LoadingBlock, EmptyState } from "@/components/shared/bits";
@@ -34,6 +35,15 @@ const TARGET_FIELDS: Array<{ key: string; label: string; required?: boolean }> =
   { key: "phone", label: "موبایل" },
   { key: "address", label: "آدرس" },
   { key: "previousSchool", label: "مدرسه قبلی" },
+];
+
+const STAFF_FIELDS: Array<{ key: string; label: string; required?: boolean }> = [
+  { key: "firstName", label: "نام", required: true },
+  { key: "lastName", label: "نام خانوادگی", required: true },
+  { key: "nationalId", label: "کد ملی", required: true },
+  { key: "role", label: "نقش (مدیر/معاون/معلم/سرایدار)", required: true },
+  { key: "phone", label: "موبایل" },
+  { key: "email", label: "ایمیل" },
 ];
 
 /** تشخیص خودکار ستون‌ها از عنوان‌های فارسی/انگلیسی */
@@ -132,6 +142,7 @@ export default function ImportsPage() {
         action: "validate",
         csv,
         mapping,
+        kind: mode,
       });
       setValidation(d);
       setResult(null);
@@ -145,10 +156,13 @@ export default function ImportsPage() {
   }
 
   async function commit() {
-    if (!validation || !classId) { toast.error("کلاس هدف را انتخاب کنید."); return; }
+    const isStaff = mode === "staff";
+    if (!validation || (!isStaff && !classId)) { toast.error("کلاس هدف را انتخاب کنید."); return; }
     const ok = await confirm({
-      title: `ثبت ${faNumber(validation.valid)} دانش‌آموز`,
-      description: <>دانش‌آموزان سالم در کلاس انتخابی ساخته می‌شوند؛ سطرهای خطادار رد می‌شوند. این عمل قابل بازگشت نیست (حذف از صفحه «دانش‌آموزان» ممکن است).</>,
+      title: isStaff ? `ثبت ${faNumber(validation.valid)} کارمند` : `ثبت ${faNumber(validation.valid)} دانش‌آموز`,
+      description: isStaff
+        ? <>کارکنان سالم با نقش مشخص‌شده و رمز موقت ساخته می‌شوند؛ در اولین ورود باید رمز را عوض کنند. سطرهای خطادار رد می‌شوند.</>
+        : <>دانش‌آموزان سالم در کلاس انتخابی ساخته می‌شوند؛ سطرهای خطادار رد می‌شوند. این عمل قابل بازگشت نیست (حذف از صفحه «دانش‌آموزان» ممکن است).</>,
       confirmLabel: "ثبت نهایی",
       danger: true,
     });
@@ -160,8 +174,8 @@ export default function ImportsPage() {
         importId: validation.jobId,
         csv,
         mapping,
-        classId,
-        entryYear: entryYear ? enDigits(entryYear) : undefined,
+        kind: mode,
+        ...(isStaff ? {} : { classId, entryYear: entryYear ? enDigits(entryYear) : undefined }),
       });
       setResult(d);
       setValidation(null);
@@ -169,7 +183,9 @@ export default function ImportsPage() {
       setHeaders([]);
       setMapping({});
       setSourceName("");
-      toast.success(`${faNumber(d.success)} دانش‌آموز ایمپورت شد${d.failed ? ` — ${faNumber(d.failed)} خطا` : ""}.`);
+      toast.success(isStaff
+        ? `${faNumber(d.success)} کارمند ایمپورت شد${d.failed ? ` — ${faNumber(d.failed)} خطا` : ""}.`
+        : `${faNumber(d.success)} دانش‌آموز ایمپورت شد${d.failed ? ` — ${faNumber(d.failed)} خطا` : ""}.`);
       load();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "خطا");
@@ -178,10 +194,12 @@ export default function ImportsPage() {
     }
   }
 
-  async function exportExcel(type: "students" | "users" | "classes") {
+  const [exportFormat, setExportFormat] = useState<"xlsx" | "csv">("xlsx");
+
+  async function exportExcel(type: "students" | "users" | "classes" | "grades" | "attendance" | "fees") {
     setBusy(`export-${type}`);
     try {
-      const res = await fetch(`/api/export?type=${type}`);
+      const res = await fetch(`/api/export?type=${type}&format=${exportFormat}`);
       if (!res.ok) {
         const json = await res.json().catch(() => null);
         throw new Error(json?.error?.message ?? "خطا در تولید فایل");
@@ -189,10 +207,10 @@ export default function ImportsPage() {
       const blob = await res.blob();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `bahar-${type}-${new Date().toISOString().slice(0, 10)}.xlsx`;
+      a.download = `bahar-${type}-${new Date().toISOString().slice(0, 10)}.${exportFormat}`;
       a.click();
       URL.revokeObjectURL(a.href);
-      toast.success("فایل اکسل دانلود شد.");
+      toast.success(exportFormat === "csv" ? "فایل CSV دانلود شد." : "فایل اکسل دانلود شد.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "خطا");
     } finally {
@@ -200,8 +218,10 @@ export default function ImportsPage() {
     }
   }
 
+  const [mode, setMode] = useState<"students" | "staff">("students");
+  const FIELDS = mode === "staff" ? STAFF_FIELDS : TARGET_FIELDS;
   const mappedCount = useMemo(() => Object.values(mapping).filter(Boolean).length, [mapping]);
-  const missingRequired = TARGET_FIELDS.filter((f) => f.required && !mapping[f.key]);
+  const missingRequired = FIELDS.filter((f) => f.required && !mapping[f.key]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -214,8 +234,19 @@ export default function ImportsPage() {
         {/* ═══ ایمپورت ═══ */}
         <section className="b-card p-5 md:p-6 flex flex-col gap-5">
           <h2 className="font-bold text-[15px] flex items-center gap-2">
-            <Upload className="w-4.5 h-4.5 text-spring" /> ورود انبوه دانش‌آموزان
+            <Upload className="w-4.5 h-4.5 text-spring" /> {mode === "staff" ? "ورود انبوه کارکنان" : "ورود انبوه دانش‌آموزان"}
           </h2>
+          <div className="flex items-center gap-2" role="group" aria-label="نوع ایمپورت">
+            {(["students", "staff"] as const).map((md) => (
+              <button
+                key={md}
+                onClick={() => { setMode(md); setValidation(null); setResult(null); setMapping({}); }}
+                className={`b-pill-tab ${mode === md ? "b-pill-tab-active" : ""}`}
+              >
+                {md === "students" ? "دانش‌آموزان" : "کارکنان (مدیر/معاون/معلم/سرایدار)"}
+              </button>
+            ))}
+          </div>
 
           {/* مرحله ۱ — فایل */}
           <div className="flex flex-col gap-3">
@@ -280,13 +311,13 @@ export default function ImportsPage() {
             <div className="flex flex-col gap-3">
               <h3 className="font-bold text-[13px] flex items-center gap-2">
                 تطبیق ستون‌ها
-                <span className="b-badge b-badge-neutral !text-[10px]">{faNumber(mappedCount)}/{faNumber(TARGET_FIELDS.length)}</span>
+                <span className="b-badge b-badge-neutral !text-[10px]">{faNumber(mappedCount)}/{faNumber(FIELDS.length)}</span>
                 {missingRequired.length > 0 && (
                   <span className="b-badge b-badge-critical !text-[10px]">اجباری خالی: {missingRequired.map((f) => f.label).join("، ")}</span>
                 )}
               </h3>
               <div className="grid sm:grid-cols-2 gap-3">
-                {TARGET_FIELDS.map((f) => (
+                {FIELDS.map((f) => (
                   <label key={f.key} className="flex flex-col gap-1.5">
                     <span className="text-[11.5px] font-bold">
                       {f.label}
@@ -366,29 +397,31 @@ export default function ImportsPage() {
 
               {/* مرحله ۴ — ثبت */}
               <div className="b-card-sm !rounded-2xl p-4 flex flex-col gap-3">
-                <h4 className="font-bold text-[12.5px]">ثبت نهایی در کلاس هدف</h4>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <label className="flex flex-col gap-1.5">
-                    <span className="text-[11.5px] font-bold">کلاس هدف *</span>
-                    <Select
-                      value={classId}
-                      onChange={setClassId}
-                      placeholder="انتخاب کلاس…"
-                      searchable
-                      options={classes.map((c) => ({ value: c.id, label: `${c.name}${c.grade ? ` — ${c.grade}` : ""}` }))}
-                      buttonClassName="!h-10"
-                      className="w-full"
-                      ariaLabel="کلاس هدف ایمپورت"
-                    />
-                  </label>
-                  <label className="flex flex-col gap-1.5">
-                    <span className="text-[11.5px] font-bold">سال ورود (اختیاری)</span>
-                    <input className="b-input !h-10" dir="ltr" inputMode="numeric" placeholder="1404" value={entryYear} onChange={(e) => setEntryYear(e.target.value.replace(/[^0-9]/g, ""))} />
-                  </label>
-                </div>
-                <button className="b-btn b-btn-spring w-fit" onClick={commit} disabled={busy !== null || validation.valid === 0 || !classId}>
+                <h4 className="font-bold text-[12.5px]">{mode === "staff" ? "ثبت نهایی کارکنان" : "ثبت نهایی در کلاس هدف"}</h4>
+                {mode === "students" && (
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <label className="flex flex-col gap-1.5">
+                      <span className="text-[11.5px] font-bold">کلاس هدف *</span>
+                      <Select
+                        value={classId}
+                        onChange={setClassId}
+                        placeholder="انتخاب کلاس…"
+                        searchable
+                        options={classes.map((c) => ({ value: c.id, label: `${c.name}${c.grade ? ` — ${c.grade}` : ""}` }))}
+                        buttonClassName="!h-10"
+                        className="w-full"
+                        ariaLabel="کلاس هدف ایمپورت"
+                      />
+                    </label>
+                    <label className="flex flex-col gap-1.5">
+                      <span className="text-[11.5px] font-bold">سال ورود (اختیاری)</span>
+                      <input className="b-input !h-10" dir="ltr" inputMode="numeric" placeholder="1404" value={entryYear} onChange={(e) => setEntryYear(e.target.value.replace(/[^0-9]/g, ""))} />
+                    </label>
+                  </div>
+                )}
+                <button className="b-btn b-btn-spring w-fit" onClick={commit} disabled={busy !== null || validation.valid === 0 || (mode === "students" && !classId)}>
                   {busy === "commit" ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowLeft className="w-4 h-4 flip-rtl" />}
-                  ثبت {faNumber(validation.valid)} دانش‌آموز
+                  ثبت {faNumber(validation.valid)} {mode === "staff" ? "کارمند" : "دانش‌آموز"}
                 </button>
               </div>
             </div>
@@ -411,17 +444,32 @@ export default function ImportsPage() {
         <div className="flex flex-col gap-6">
           <section className="b-card p-5 md:p-6 flex flex-col gap-4">
             <h2 className="font-bold text-[15px] flex items-center gap-2">
-              <Download className="w-4.5 h-4.5 text-spring" /> خروجی اکسل
+              <Download className="w-4.5 h-4.5 text-spring" /> خروجی داده‌ها
             </h2>
             <p className="t-sm text-steel">
-              فایل‌های xlsx واقعی با سطر عنوان فارسی، آمادهٔ بازکردن در Excel / LibreOffice / Google Sheets.
+              فایل با سطر عنوان فارسی، آمادهٔ بازکردن در Excel / LibreOffice / Google Sheets.
               {jobs && ` سوپرادمین بدون پنل مدرسه، خروجی کاربران کل سامانه را می‌گیرد.`}
             </p>
+            <div className="flex items-center gap-2" role="group" aria-label="قالب خروجی">
+              <span className="t-cap text-steel">قالب فایل:</span>
+              {(["xlsx", "csv"] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setExportFormat(f)}
+                  className={`b-pill-tab ${exportFormat === f ? "b-pill-tab-active" : ""}`}
+                >
+                  {f === "xlsx" ? "اکسل (xlsx)" : "CSV"}
+                </button>
+              ))}
+            </div>
             <div className="flex flex-col gap-2.5">
               {[
                 { type: "students" as const, icon: GraduationCap, label: "دانش‌آموزان مدرسه", desc: "پرونده کامل + اولیا" },
                 { type: "users" as const, icon: Users, label: "کاربران", desc: "نقش‌ها، تماس، وضعیت" },
                 { type: "classes" as const, icon: BookOpen, label: "کلاس‌ها", desc: "پایه، رشته، معلم راهنما" },
+                { type: "grades" as const, icon: ClipboardList, label: "نمرات", desc: "همه ارزیابی‌ها با درس و نوبت" },
+                { type: "attendance" as const, icon: CalendarCheck, label: "حضور و غیاب", desc: "سوابق روزانه و زنگی" },
+                { type: "fees" as const, icon: Wallet, label: "امور مالی", desc: "شهریه‌ها و وضعیت پرداخت" },
               ].map((x) => (
                 <button
                   key={x.type}

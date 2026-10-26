@@ -156,6 +156,10 @@ const INSERT_ORDER = [
   "countryPack",
   "riskScore",
   "wellbeingCheckin",
+  "book",
+  "bookLoan",
+  "quiz",
+  "quizAttempt",
 ] as const;
 
 /** فیلدهای DateTime هر جدول — فقط همین‌ها در بازیابی به Date تبدیل می‌شوند
@@ -228,6 +232,10 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   countryPack: ["createdAt", "updatedAt"],
   riskScore: ["computedAt"],
   wellbeingCheckin: ["createdAt"],
+  book: ["createdAt", "updatedAt"],
+  bookLoan: ["loanedAt", "dueAt", "returnedAt"],
+  quiz: ["createdAt", "updatedAt"],
+  quizAttempt: ["startedAt", "submittedAt"],
 };
 
 type TableName = (typeof INSERT_ORDER)[number];

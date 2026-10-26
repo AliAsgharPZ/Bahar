@@ -59,13 +59,49 @@ const HEADER_RULES: Array<[string, RegExp]> = [
   ["previousSchool", /مدرسه\s*قبلی|previous/i],
 ];
 
-function autoMap(headers: string[], explicit: Record<string, string> | undefined): Record<string, string> {
+const STAFF_HEADER_RULES: Array<[string, RegExp]> = [
+  ["role", /نقش|سمت|role/i],
+  ["email", /ایمیل|رایانامه|email/i],
+];
+
+/** نقش‌های قابل ایمپورت برای کارکنان — ادمین سامانه از این مسیر ساخته نمی‌شود */
+const STAFF_ROLES: Record<string, string> = {
+  MANAGER: "MANAGER", مدیر: "MANAGER",
+  DEPUTY: "DEPUTY", معاون: "DEPUTY",
+  TEACHER: "TEACHER", معلم: "TEACHER", دبیر: "TEACHER",
+  CUSTODIAN: "CUSTODIAN", سرایدار: "CUSTODIAN", خدمتگزار: "CUSTODIAN",
+};
+
+function autoMap(headers: string[], explicit: Record<string, string> | undefined, staff = false): Record<string, string> {
   const m: Record<string, string> = {};
-  for (const [field, re] of HEADER_RULES) {
+  const rules = staff ? [...HEADER_RULES, ...STAFF_HEADER_RULES] : HEADER_RULES;
+  for (const [field, re] of rules) {
     const hit = headers.find((h) => re.test(h.trim()));
     if (hit) m[field] = hit.trim();
   }
   return { ...m, ...(explicit ?? {}) };
+}
+
+function validateStaff(rows: Row[], mapping: Record<string, string>): Validation[] {
+  return rows.map((row, idx) => {
+    const get = (field: string) => row[mapping[field] ?? field] ?? "";
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    if (!get("firstName")) errors.push("نام خالی است");
+    if (!get("lastName")) errors.push("نام خانوادگی خالی است");
+    const nationalId = get("nationalId");
+    if (!nationalId) errors.push("کد ملی خالی است");
+    else if (!/^\d{10}$/.test(nationalId)) errors.push("کد ملی ۱۰ رقم نیست");
+    else if (!isValidNationalId(nationalId)) errors.push("کد ملی نامعتبر (رقم کنترل)");
+    const roleRaw = get("role").trim();
+    if (!roleRaw) errors.push("نقش خالی است (مدیر/معاون/معلم/سرایدار)");
+    else if (!STAFF_ROLES[roleRaw] && !STAFF_ROLES[roleRaw.toUpperCase()]) errors.push(`نقش نامعتبر: ${roleRaw}`);
+    const phone = get("phone");
+    if (phone && !/^09\d{9}$/.test(phone)) warnings.push("شماره موبایل نامعتبر");
+    const email = get("email");
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) warnings.push("ایمیل نامعتبر");
+    return { row: idx + 1, errors, warnings, data: row };
+  });
 }
 
 function validateStudents(rows: Row[], mapping: Record<string, string>): Validation[] {
@@ -102,7 +138,9 @@ export async function POST(req: NextRequest) {
       classId?: string;
       entryYear?: string;
       importId?: string;
+      kind?: string;
     }>(req);
+    const isStaff = body.kind === "staff";
 
     if (body.action === "validate") {
       // FIX (راند ۱۸): acting-school — سوپرادمین/ادمین داخل پنل مدرسه هم ایمپورت می‌کنند
@@ -114,8 +152,8 @@ export async function POST(req: NextRequest) {
       if (!headers.length || !rows.length) return apiErr(400, "CSV قابل خواندن نیست؛ سطر عنوان یا داده یافت نشد.", "UNPARSEABLE");
       if (rows.length > 1000) return apiErr(413, "حداکثر ۱۰۰۰ سطر در هر ایمپورت.", "TOO_MANY_ROWS");
       // راند ۱۸: mapping خودکار سربرگ فارسی + mapping صریح کلاینت
-      const mapping = autoMap(headers, body.mapping);
-      const validations = validateStudents(rows, mapping);
+      const mapping = autoMap(headers, body.mapping, isStaff);
+      const validations = isStaff ? validateStaff(rows, mapping) : validateStudents(rows, mapping);
       const nidKey = mapping.nationalId ?? "nationalId";
       // تشخیص duplicate داخلی
       const seen = new Map<string, number>();
@@ -142,7 +180,7 @@ export async function POST(req: NextRequest) {
       });
       const job = await db.importJob.create({
         data: {
-          schoolId, userId: me.id, kind: "STUDENTS",
+          schoolId, userId: me.id, kind: isStaff ? "STAFF" : "STUDENTS",
           filename: "paste.csv", totalRows: rows.length,
           status: "RUNNING",
         },
@@ -169,20 +207,58 @@ export async function POST(req: NextRequest) {
         : null;
       if (!targetJob) return apiErr(404, "عملیات ایمپورت یافت نشد.", "NOT_FOUND");
       if (targetJob.status !== "RUNNING") return apiErr(409, "این عملیات ایمپورت قبلاً تکمیل یا لغو شده است.", "NOT_RUNNING");
-      if (!body.importId || !body.csv || !body.classId) return apiErr(400, "اطلاعات ایمپورت ناقص است.", "BAD_REQUEST");
-      const cls = await db.class.findFirst({ where: { id: body.classId, schoolId } });
-      if (!cls) return apiErr(404, "کلاس هدف یافت نشد.", "NO_CLASS");
+      const staffJob = targetJob.kind === "STAFF";
+      if (!body.importId || !body.csv || (!staffJob && !body.classId)) return apiErr(400, "اطلاعات ایمپورت ناقص است.", "BAD_REQUEST");
+      if (!staffJob) {
+        const cls = await db.class.findFirst({ where: { id: body.classId, schoolId } });
+        if (!cls) return apiErr(404, "کلاس هدف یافت نشد.", "NO_CLASS");
+      }
       // ⚠ همان سقف‌های مرحلهٔ validate — قبلاً commit بدون سقف پردازش می‌کرد (DoS)
       if (String(body.csv).length > 2_000_000) return apiErr(413, "فایل CSV بزرگ‌تر از حد مجاز (۲ مگابایت) است.", "TOO_LARGE");
       const { headers: commitHeaders, rows } = parseCsv(body.csv);
       if (rows.length > 1000) return apiErr(413, "حداکثر ۱۰۰۰ ردیف در هر ایمپورت.", "TOO_MANY_ROWS");
       // راند ۱۸: mapping خودکار (هم‌تراز validate) + mapping صریح
-      const m = autoMap(commitHeaders, body.mapping);
-      const validations = validateStudents(rows, m);
+      const m = autoMap(commitHeaders, body.mapping, staffJob);
+      const validations = staffJob ? validateStaff(rows, m) : validateStudents(rows, m);
       const get = (row: Row, field: string) => row[m[field] ?? field] ?? "";
 
       const errors: Array<{ row: number; error: string }> = [];
       let success = 0;
+
+      if (staffJob) {
+        for (const v of validations) {
+          if (v.errors.length) { errors.push({ row: v.row, error: v.errors.join("؛ ") }); continue; }
+          const row = v.data;
+          const roleRaw = get(row, "role").trim();
+          const role = STAFF_ROLES[roleRaw] ?? STAFF_ROLES[roleRaw.toUpperCase()];
+          const tempPassword = generatePassword();
+          try {
+            await db.user.create({
+              data: {
+                nationalId: get(row, "nationalId"),
+                passwordHash: hashPassword(tempPassword),
+                tempPassword,
+                role,
+                firstName: get(row, "firstName"),
+                lastName: get(row, "lastName"),
+                phone: get(row, "phone") || null,
+                email: get(row, "email") || null,
+                schoolId,
+              },
+            });
+            success++;
+          } catch (e) {
+            errors.push({ row: v.row, error: e instanceof Error ? e.message.slice(0, 120) : "خطا" });
+          }
+        }
+        await db.importJob.update({
+          where: { id: body.importId },
+          data: { successRows: success, failedRows: errors.length, errors: JSON.stringify(errors.slice(0, 100)), status: "DONE" },
+        });
+        await audit({ user: me, action: "ایمپورت کارکنان", entityType: "ImportJob", entityId: body.importId, schoolId, meta: { success, failed: errors.length } });
+        return apiOk({ success, failed: errors.length, errors: errors.slice(0, 50) });
+      }
+
       for (const v of validations) {
         if (v.errors.length) { errors.push({ row: v.row, error: v.errors.join("؛ ") }); continue; }
         const row = v.data;
