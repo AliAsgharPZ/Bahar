@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">بهار</string>
+    <string name="error_title">ارتباط با سرور بهار برقرار نشد</string>
+    <string name="error_desc">اتصال اینترنت یا سرور مدرسه را بررسی کنید و دوباره تلاش کنید.\nاگر مشکل ادامه داشت، با مدیر مدرسه تماس بگیرید.</string>
+    <string name="retry">تلاش مجدد</string>
+    <string name="exit_hint">برای خروج، دوباره دکمه بازگشت را بزنید</string>
+    <string name="no_app_for_link">برنامه‌ای برای باز کردن این لینک پیدا نشد</string>
+    <string name="no_app_for_file">برنامه‌ای برای انتخاب فایل پیدا نشد</string>
+    <string name="download_started">دانلود شروع شد</string>
+</resources>

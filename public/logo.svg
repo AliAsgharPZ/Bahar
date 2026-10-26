@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Bahar logo">
+  <defs>
+    <linearGradient id="springGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00A875"/>
+      <stop offset="55%" stop-color="#00825E"/>
+      <stop offset="100%" stop-color="#005A42"/>
+    </linearGradient>
+    <linearGradient id="petalGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7A8C4"/>
+      <stop offset="100%" stop-color="#E5548B"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00825E"/>
+      <stop offset="100%" stop-color="#7FD6B8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- پس‌زمینه دایره‌ای با گرادیان -->
+  <circle cx="256" cy="256" r="240" fill="url(#springGrad)"/>
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="4"/>
+
+  <!-- کتاب باز (پایه دانش) -->
+  <path d="M120 352
+           C 160 332, 216 332, 256 356
+           C 296 332, 352 332, 392 352
+           L 392 372
+           C 352 352, 296 352, 256 376
+           C 216 352, 160 352, 120 372
+           Z"
+        fill="#FFFFFF" fill-opacity="0.95"/>
+  <path d="M256 356 C 296 332, 352 332, 392 352 L 392 372 C 352 352, 296 352, 256 376 Z" fill="#E8F0EC"/>
+  <line x1="256" y1="356" x2="256" y2="376" stroke="#00825E" stroke-opacity="0.35" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- ساقه -->
+  <path d="M256 376 C 256 330, 256 300, 256 272" stroke="url(#leafGrad)" stroke-width="14" stroke-linecap="round" fill="none"/>
+
+  <!-- برگ‌ها -->
+  <path d="M256 330 C 216 330, 186 306, 182 276 C 216 272, 248 294, 256 330 Z" fill="url(#leafGrad)"/>
+  <path d="M256 312 C 296 312, 326 288, 330 258 C 296 254, 264 276, 256 312 Z" fill="url(#leafGrad)" opacity="0.85"/>
+
+  <!-- شکوفه پنج‌گلبرگی -->
+  <g transform="translate(256 200)">
+    <g>
+      <ellipse cx="0" cy="-52" rx="34" ry="54" fill="url(#petalGrad)"/>
+      <ellipse cx="49" cy="-17" rx="34" ry="54" fill="url(#petalGrad)" opacity="0.92" transform="rotate(72 49 -17)"/>
+      <ellipse cx="31" cy="42" rx="34" ry="54" fill="url(#petalGrad)" opacity="0.84" transform="rotate(144 31 42)"/>
+      <ellipse cx="-31" cy="42" rx="34" ry="54" fill="url(#petalGrad)" opacity="0.92" transform="rotate(-144 -31 42)"/>
+      <ellipse cx="-49" cy="-17" rx="34" ry="54" fill="url(#petalGrad)" transform="rotate(-72 -49 -17)"/>
+    </g>
+    <!-- قلب گل -->
+    <circle cx="0" cy="0" r="26" fill="#FFD166"/>
+    <circle cx="0" cy="0" r="26" fill="none" stroke="#B24064" stroke-opacity="0.4" stroke-width="3"/>
+    <!-- پرچم‌ها -->
+    <circle cx="0" cy="-12" r="5" fill="#B24064"/>
+    <circle cx="11" cy="7" r="5" fill="#B24064"/>
+    <circle cx="-11" cy="7" r="5" fill="#B24064"/>
+  </g>
+
+  <!-- نقطه‌های نور -->
+  <circle cx="366" cy="150" r="10" fill="#FFFFFF" opacity="0.35"/>
+  <circle cx="392" cy="196" r="6" fill="#FFFFFF" opacity="0.25"/>
+  <circle cx="148" cy="132" r="7" fill="#FFFFFF" opacity="0.28"/>
+</svg>

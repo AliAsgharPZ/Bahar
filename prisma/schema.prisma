@@ -1,0 +1,1523 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// بهار | Bahar — Complete School Management Schema
+// Roles (string, SQLite-safe): SUPER_ADMIN, ADMIN, MANAGER,
+// DEPUTY, TEACHER, STUDENT, PARENT
+// ============================================================
+
+model User {
+  id                 String    @id @default(cuid())
+  nationalId         String    @unique // کد ملی — نام کاربری
+  passwordHash       String
+  tempPassword       String? // رمز تصادفی اولیه (برای ارسال با شاد)
+  mustChangePassword Boolean   @default(true)
+  role               String
+  permissions        String    @default("[]") // JSON array — دسترسی‌های ریز معاون/معلم
+  // --- اطلاعات هویتی ---
+  firstName          String
+  lastName           String
+  fatherName         String?
+  gender             String? // MALE | FEMALE
+  birthDate          DateTime?
+  birthPlace         String?
+  // --- تماس ---
+  phone              String?
+  homePhone          String?
+  shadNumber         String? // شماره حساب شاد برای دریافت اعتبارسنجی
+  email              String?
+  address            String?
+  postalCode         String?
+  photoUrl           String?
+  profileImageType   String? // "upload" | "avatar" — نوع تصویر فعال پروفایل
+  avatarConfig       String? // JSON — پارامترهای آواتار Personas (مستقل از نوع فعال نگه داشته می‌شود)
+  // --- شغلی/تحصیلی ---
+  education          String? // مدرک تحصیلی (کارشناسی و…)
+  fieldOfStudy       String? // رشته تحصیلی
+  jobTitle           String? // شغل (برای اولیا)
+  hireDate           DateTime? // تاریخ استخدام (کارکنان)
+  staffCode          String? // کد پرسنلی
+  isActive           Boolean   @default(true)
+  lastLoginAt        DateTime?
+  failedAttempts     Int       @default(0)
+  lockedUntil        DateTime?
+  tokenVersion       Int       @default(0) // با افزایشش همه نشست‌های کاربر باطل می‌شوند
+  langCode           String? // زبان رابط کاربری ترجیحی (کد بسته زبان)
+  // --- احراز هویت دو مرحله‌ای (TOTP RFC 6238) ---
+  twoFactorSecret    String? // رمز TOTP — رمزنگاری‌شده AES-256-GCM با SESSION_SECRET
+  twoFactorEnabled   Boolean   @default(false)
+  backupCodes        String? // JSON — کدهای بازیابی هش‌شده (شامل زمان مصرف)
+  // --- سازماندهی ---
+  schoolId           String?
+  school             School?   @relation("SchoolStaff", fields: [schoolId], references: [id])
+  managedSchool      School?   @relation("SchoolManager")
+  createdBy          String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  studentProfile        Student?
+  homeroomClasses       Class[]                @relation("HomeroomTeacher")
+  teacherAssignments    TeachingAssignment[]   @relation("TeacherAssignments")
+  scheduleSlots         ScheduleSlot[]         @relation("ScheduleTeacher")
+  assignmentTeacher     Assignment[]           @relation("AssignmentTeacher")
+  attendanceRecords     Attendance[]           @relation("AttendanceRecorder")
+  gradeEntries          GradeRecord[]          @relation("GradeEntrer")
+  eventCreations        SchoolEvent[]          @relation("EventCreator")
+  announcementCreations Announcement[]         @relation("AnnouncementCreator")
+  parentOf              StudentParent[]        @relation("ParentUser")
+  sentMessages          Message[]              @relation("MessageSender")
+  receivedMessages      Message[]              @relation("MessageRecipient")
+  shadSessions          ShadSession[]          @relation("ShadSessionAuthorizer")
+  auditLogs             AuditLog[]
+  profileChangeRequests ProfileChangeRequest[] @relation("ProfileChangeUser")
+  reviewedChanges       ProfileChangeRequest[] @relation("ProfileChangeReviewer")
+  tickets               Ticket[]               @relation("TicketUser")
+  ticketMessages        TicketMessage[]        @relation("TicketMessageSender")
+  blogPosts             BlogPost[]             @relation("BlogAuthor")
+  backups               Backup[]               @relation("BackupCreator")
+  notifications         Notification[]         @relation("NotificationUser")
+  behaviorRecords       BehaviorRecord[]       @relation("BehaviorRecorder")
+  questionsAuthored     Question[]             @relation("QuestionAuthor")
+  resourceLinks         ResourceLink[]         @relation("ResourceAuthor")
+  meetingsRequested     Meeting[]              @relation("MeetingRequester")
+  meetingsStaff         Meeting[]              @relation("MeetingStaff")
+  badgesAwarded         StudentBadge[]         @relation("BadgeAwarder")
+  leaveRequests         LeaveRequest[]         @relation("LeaveRequester")
+  telegramLink          TelegramLink?          @relation("TelegramLinked")
+  tasksAssigned         Task[]                 @relation("TaskAssignee")
+  tasksCreated          Task[]                 @relation("TaskCreator")
+  bookingsMade          Booking[]              @relation("BookingBy")
+  assetsCustodian       Asset[]                @relation("AssetCustodian")
+  maintenanceReported   MaintenanceTicket[]    @relation("MaintenanceReporter")
+  interventionsStarted  Intervention[]         @relation("InterventionStarter")
+  pollsCreated          Poll[]                 @relation("PollCreator")
+  pollVotes             PollVote[]             @relation("PollVoter")
+  certificatesIssued    Certificate[]          @relation("CertificateIssuer")
+  importsMade           ImportJob[]            @relation("ImportBy")
+  savedViews            SavedView[]            @relation("SavedViewOwner")
+  loginEvents           LoginEvent[]           @relation("LoginEvents")
+  gradeChanges          GradeHistory[]         @relation("GradeChanger")
+  wellbeingCheckins     WellbeingCheckin[]     @relation("CheckinAuthorizer")
+
+  @@index([role, schoolId])
+  @@index([schoolId])
+}
+
+model School {
+  id              String    @id @default(cuid())
+  name            String
+  code            String    @unique // کد مدرسه
+  type            String? // دولتی/غیرانتفاعی/نمونه/هوشمند
+  address         String?
+  phone           String?
+  city            String? // شهرستان
+  province        String? // استان
+  county          String? // شهرستان (کلید نقشه)
+  establishedYear Int?
+  motto           String? // شعار مدرسه
+  about           String? // درباره مدرسه
+  logoUrl         String? // لوگوی مدرسه
+  managerId       String?   @unique
+  manager         User?     @relation("SchoolManager", fields: [managerId], references: [id])
+  plan            String    @default("GOLD") // SILVER | GOLD | DIAMOND
+  planExpiresAt   DateTime?
+  planNote        String?
+  isActive        Boolean   @default(true)
+  // راند ۱۸: شاد کاملاً اختیاری است — هر مدرسه می‌تواند خاموشش کند (ایران هم)
+  shadEnabled     Boolean   @default(true)
+  // راند ۱۸: نقش سرایدار (CUSTODIAN) قابل خاموش/روشن برای هر مدرسه
+  custodianEnabled Boolean  @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  staff                User[]                @relation("SchoolStaff")
+  classes              Class[]
+  subjects             Subject[]
+  events               SchoolEvent[]
+  announcements        Announcement[]
+  shadSession          ShadSession?
+  shadOutbox           ShadOutbox[]
+  teachingAssignments  TeachingAssignment[]
+  site                 SchoolSite?
+  leads                SchoolLead[]
+  fees                 StudentFee[]
+  badges               Badge[]
+  questions            Question[]
+  resourceLinks        ResourceLink[]
+  meetings             Meeting[]
+  leaveRequests        LeaveRequest[]
+  tasks                Task[]
+  automationRules      AutomationRule[]
+  rooms                Room[]
+  bookings             Booking[]
+  assets               Asset[]
+  maintenanceTickets   MaintenanceTicket[]
+  tagDefs              TagDef[]
+  customFieldDefs      CustomFieldDef[]
+  houses               House[]
+  polls                Poll[]
+  suggestions          Suggestion[]
+  certificateTemplates CertificateTemplate[]
+  certificates         Certificate[]
+  importJobs           ImportJob[]
+  visitorLogs          VisitorLog[]
+  lostFoundItems       LostFoundItem[]
+  scheduledReports     ScheduledReport[]
+}
+
+model Class {
+  id                String   @id @default(cuid())
+  schoolId          String
+  school            School   @relation(fields: [schoolId], references: [id])
+  name              String // مثال: دهم ریاضی ۱
+  grade             String // پایه: هفتم/هشتم/دهم/…
+  field             String? // رشته: ریاضی/تجربی/انسانی/عمومی
+  academicYear      String // ۱۴۰۴-۱۴۰۵
+  capacity          Int      @default(30)
+  roomNumber        String?
+  homeroomTeacherId String?
+  homeroomTeacher   User?    @relation("HomeroomTeacher", fields: [homeroomTeacherId], references: [id])
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  students            Student[]
+  scheduleSlots       ScheduleSlot[]
+  assignments         Assignment[]
+  events              SchoolEvent[]
+  announcements       Announcement[]
+  teachingAssignments TeachingAssignment[]
+  attendances         Attendance[]
+  gradeRecords        GradeRecord[]
+  behaviorRecords     BehaviorRecord[]
+
+  @@unique([schoolId, name, academicYear])
+  @@index([schoolId])
+}
+
+model Student {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  classId        String?
+  class          Class?   @relation(fields: [classId], references: [id])
+  schoolId       String
+  studentNumber  String // شماره دانش‌آموزی
+  entryYear      String? // سال ورود
+  status         String   @default("ACTIVE") // ACTIVE | GRADUATED | TRANSFERRED | SUSPENDED
+  previousSchool String?
+  healthNotes    String? // بیماری/حساسیت
+  birthOrder     Int?
+  siblingsHere   Boolean  @default(false)
+  tags           String   @default("[]") // JSON کلیدهای تگ
+  customFields   String   @default("{}") // JSON فیلدهای سفارشی
+  houseId        String?
+  house          House?   @relation(fields: [houseId], references: [id], onDelete: SetNull)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  parents           StudentParent[]
+  attendances       Attendance[]
+  gradeRecords      GradeRecord[]
+  fees              StudentFee[]
+  behaviorRecords   BehaviorRecord[]
+  badges            StudentBadge[]
+  meetings          Meeting[]
+  tasks             Task[]
+  documents         StudentDocument[]
+  goals             StudentGoal[]
+  interventions     Intervention[]
+  portfolioItems    PortfolioItem[]
+  certificates      Certificate[]
+  gradeHistory      GradeHistory[]
+  riskScores        RiskScore[]
+  wellbeingCheckins WellbeingCheckin[]
+
+  @@unique([schoolId, studentNumber])
+  @@index([classId])
+}
+
+model StudentParent {
+  id           String   @id @default(cuid())
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  parentUserId String
+  parentUser   User     @relation("ParentUser", fields: [parentUserId], references: [id])
+  relation     String   @default("FATHER") // FATHER | MOTHER | GUARDIAN
+  isPrimary    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@unique([studentId, parentUserId])
+  @@index([parentUserId])
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id])
+  name        String // ریاضی، فیزیک، ادبیات…
+  code        String?
+  grade       String? // پایه هدف
+  weeklyHours Int      @default(2)
+  createdAt   DateTime @default(now())
+
+  teachingAssignments TeachingAssignment[]
+  scheduleSlots       ScheduleSlot[]
+  assignments         Assignment[]
+  gradeRecords        GradeRecord[]
+  questions           Question[]
+  resourceLinks       ResourceLink[]
+
+  @@unique([schoolId, name])
+}
+
+model TeachingAssignment {
+  id           String   @id @default(cuid())
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id])
+  teacherId    String
+  teacher      User     @relation("TeacherAssignments", fields: [teacherId], references: [id])
+  classId      String
+  class        Class    @relation(fields: [classId], references: [id])
+  subjectId    String
+  subject      Subject  @relation(fields: [subjectId], references: [id])
+  academicYear String
+  createdAt    DateTime @default(now())
+
+  @@unique([teacherId, classId, subjectId, academicYear])
+  @@index([teacherId])
+  @@index([classId])
+}
+
+model ScheduleSlot {
+  id        String   @id @default(cuid())
+  classId   String
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  dayOfWeek Int // ۱=شنبه … ۶=جمعه (۰ = یکشنبه‌ی تقویم میلادی لازم نشد)
+  period    Int // زنگ ۱..۸
+  subjectId String?
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  teacherId String?
+  teacher   User?    @relation("ScheduleTeacher", fields: [teacherId], references: [id])
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([classId, dayOfWeek, period])
+  @@index([teacherId])
+}
+
+model Attendance {
+  id           String   @id @default(cuid())
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  classId      String
+  class        Class    @relation(fields: [classId], references: [id])
+  date         String // تاریخ شمسی YYYY-MM-DD (تقویم مدرسه)
+  period       Int      @default(0) // زنگ ۱..۸ — ۰ = وضعیت کل روز
+  subjectId    String?
+  status       String // PRESENT | ABSENT | LATE | EXCUSED | MISSION | HALF_DAY
+  note         String?
+  recordedById String?
+  recordedBy   User?    @relation("AttendanceRecorder", fields: [recordedById], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([studentId, date, period])
+  @@index([classId, date])
+}
+
+model GradeRecord {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  classId     String
+  class       Class    @relation(fields: [classId], references: [id])
+  term        Int // ۱ یا ۲
+  kind        String // QUIZ | MIDTERM | FINAL | PROJECT | ACTIVITY | BEHAVIOR
+  score       Float
+  maxScore    Float    @default(20)
+  weight      Float    @default(1)
+  locked      Boolean  @default(false) // نهایی‌شدن نمره — تغییر فقط با دسترسی unlock_grades
+  note        String?
+  enteredById String?
+  enteredBy   User?    @relation("GradeEntrer", fields: [enteredById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([studentId, term])
+  @@index([classId, subjectId])
+}
+
+model Assignment {
+  id          String   @id @default(cuid())
+  classId     String
+  class       Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  subjectId   String?
+  subject     Subject? @relation(fields: [subjectId], references: [id])
+  teacherId   String
+  teacher     User     @relation("AssignmentTeacher", fields: [teacherId], references: [id])
+  title       String
+  description String
+  dueDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([classId])
+  @@index([dueDate])
+}
+
+model SchoolEvent {
+  id          String    @id @default(cuid())
+  schoolId    String
+  school      School    @relation(fields: [schoolId], references: [id])
+  title       String
+  description String?
+  startAt     DateTime
+  endAt       DateTime?
+  kind        String    @default("OTHER") // MEETING | CEREMONY | EXAM | HOLIDAY | TRIP | WORKSHOP | OTHER
+  audience    String    @default("ALL") // ALL | STUDENTS | TEACHERS | PARENTS | CLASS
+  classId     String?
+  class       Class?    @relation(fields: [classId], references: [id])
+  createdById String?
+  createdBy   User?     @relation("EventCreator", fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+
+  @@index([schoolId, startAt])
+}
+
+model Announcement {
+  id              String   @id @default(cuid())
+  scope           String   @default("SCHOOL") // SCHOOL | PLATFORM
+  schoolId        String?
+  school          School?  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title           String
+  body            String
+  audienceRoles   String   @default("[]") // JSON: [] = همه، یا [STUDENT, PARENT, ...]
+  targetProvinces String   @default("[]") // JSON استان‌ها
+  targetCounties  String   @default("[]") // JSON شهرستان‌ها (کلید استان|شهرستان)
+  classId         String?
+  class           Class?   @relation(fields: [classId], references: [id])
+  pinned          Boolean  @default(false)
+  createdById     String?
+  createdBy       User?    @relation("AnnouncementCreator", fields: [createdById], references: [id])
+  createdAt       DateTime @default(now())
+
+  @@index([schoolId, createdAt])
+  @@index([scope, createdAt])
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  senderId    String
+  sender      User      @relation("MessageSender", fields: [senderId], references: [id])
+  recipientId String
+  recipient   User      @relation("MessageRecipient", fields: [recipientId], references: [id])
+  body        String
+  sentAt      DateTime  @default(now())
+  readAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([recipientId, sentAt])
+  @@index([senderId, sentAt])
+}
+
+model ShadSession {
+  id           String    @id @default(cuid())
+  schoolId     String    @unique
+  school       School    @relation(fields: [schoolId], references: [id])
+  phone        String // شماره حساب شاد مدیر مدرسه
+  authTokenEnc String? // توکن auth حساب شاد مدیر (رمزنگاری‌شده AES-256-GCM) — حالت دروازهٔ واقعی
+  accountGuid  String? // شناسه حساب شاد متصل
+  accountName  String? // نام حساب شاد متصل
+  apiSessionId String? // شناسه نشست داخلی بهار
+  status       String    @default("PENDING") // PENDING | AUTHORIZED | REVOKED
+  authorizedAt DateTime?
+  expiresAt    DateTime?
+  authorizedBy String?
+  authorizer   User?     @relation("ShadSessionAuthorizer", fields: [authorizedBy], references: [id])
+  // راند ۱۹: جریان کد تایید داخلی (auth.sendCode/auth.signIn شبیه‌سازی‌شده)
+  verificationCodeHash String?   // هش HMAC کد ۵ رقمی
+  codeExpiresAt        DateTime? // مهلت کد (۵ دقیقه)
+  codeSentAt           DateTime? // زمان ارسال کد
+  codeAttempts         Int       @default(0) // تلاش‌های نادرست کد (ضد بروت‌فورس)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  outbox ShadOutbox[]
+}
+
+model ShadOutbox {
+  id                  String       @id @default(cuid())
+  schoolId            String
+  school              School       @relation(fields: [schoolId], references: [id])
+  sessionId           String?
+  session             ShadSession? @relation(fields: [sessionId], references: [id])
+  recipientUserId     String?
+  recipientName       String?
+  recipientShadNumber String
+  body                String
+  purpose             String       @default("CREDENTIALS") // CREDENTIALS | NOTICE
+  status              String       @default("QUEUED") // QUEUED | SENT | FAILED
+  error               String?
+  sentAt              DateTime?
+  attempts            Int          @default(0)
+  createdAt           DateTime     @default(now())
+
+  @@index([schoolId, createdAt])
+  @@index([status])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  userName   String?
+  action     String
+  entityType String?
+  entityId   String?
+  meta       String? // JSON
+  schoolId   String?
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([schoolId])
+  @@index([action])
+}
+
+// ============================================================
+// بهار | مدل‌های نسخ ۳ — تنظیمات، تیکت، بلاگ، درخواست تغییر،
+// سایت مدرسه، لید ثبت‌نام، شهریه، پشتیبان‌گیری
+// ============================================================
+
+/**
+ * تنظیمات سامانه (سوپرادمین) — مقدار JSON
+ */
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+/**
+ * درخواست تغییر مشخصات توسط خود کاربر → تایید بالادستی
+ */
+model ProfileChangeRequest {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation("ProfileChangeUser", fields: [userId], references: [id], onDelete: Cascade)
+  changes      String // JSON: {field: {from, to}}
+  reason       String?
+  status       String    @default("PENDING") // PENDING | APPROVED | REJECTED
+  reviewedById String?
+  reviewedBy   User?     @relation("ProfileChangeReviewer", fields: [reviewedById], references: [id])
+  reviewNote   String?
+  createdAt    DateTime  @default(now())
+  reviewedAt   DateTime?
+
+  @@index([status, createdAt])
+  @@index([userId])
+}
+
+/**
+ * تیکت پشتیبانی کاربران به ادمین‌های سرویس
+ */
+model Ticket {
+  id        String   @id @default(cuid())
+  code      String   @unique // مثلا BK-1042
+  userId    String
+  user      User     @relation("TicketUser", fields: [userId], references: [id], onDelete: Cascade)
+  subject   String
+  category  String   @default("GENERAL") // GENERAL | TECHNICAL | BILLING | DEMO | SUGGESTION
+  priority  String   @default("NORMAL") // LOW | NORMAL | HIGH
+  status    String   @default("OPEN") // OPEN | ANSWERED | CLOSED
+  schoolId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages TicketMessage[]
+
+  @@index([status, updatedAt])
+  @@index([userId])
+}
+
+model TicketMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  senderId  String?
+  sender    User?    @relation("TicketMessageSender", fields: [senderId], references: [id])
+  fromAdmin Boolean  @default(false)
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([ticketId, createdAt])
+}
+
+/**
+ * بلاگ عمومی سرویس
+ */
+model BlogPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  body        String // مارک‌داون سبک
+  coverUrl    String?
+  tags        String    @default("[]") // JSON
+  status      String    @default("DRAFT") // DRAFT | PUBLISHED
+  authorId    String?
+  author      User?     @relation("BlogAuthor", fields: [authorId], references: [id])
+  viewCount   Int       @default(0)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  comments BlogComment[]
+
+  @@index([status, publishedAt])
+}
+
+model BlogComment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  name      String
+  body      String
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([postId, approved])
+}
+
+/**
+ * سایت عمومی مدرسه — ساب‌دامین + تمپلیت + محتوای قابل ویرایش مدیر
+ */
+model SchoolSite {
+  id         String   @id @default(cuid())
+  schoolId   String   @unique
+  school     School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  subdomain  String   @unique
+  templateId String   @default("classic") // 10 تمپلیت — classic..aurora
+  published  Boolean  @default(false)
+  config     String   @default("{}") // JSON: متن‌ها، تصاویر، رنگ، بخش‌ها
+  views      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+/**
+ * لید پیش‌ثبت‌نام از سایت عمومی مدرسه
+ */
+model SchoolLead {
+  id         String   @id @default(cuid())
+  schoolId   String
+  school     School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name       String
+  parentName String?
+  phone      String
+  grade      String?
+  message    String?
+  status     String   @default("NEW") // NEW | CONTACTED | REGISTERED | ARCHIVED
+  createdAt  DateTime @default(now())
+
+  @@index([schoolId, status])
+}
+
+/**
+ * شهریه و عوارض مالی دانش‌آموز
+ */
+model StudentFee {
+  id                  String    @id @default(cuid())
+  studentId           String
+  student             Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  schoolId            String
+  school              School    @relation(fields: [schoolId], references: [id])
+  title               String
+  amount              Int // تومان
+  dueDate             DateTime?
+  status              String    @default("UNPAID") // UNPAID | PAID | WAIVED
+  paidAt              DateTime?
+  note                String?
+  lastOverdueNoticeAt DateTime? // آخرین اعلان معوق‌بودن (تریگر FEE_OVERDUE — روزانه حداکثر یک‌بار)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([schoolId, status])
+  @@index([studentId])
+  @@index([dueDate])
+}
+
+/**
+ * رکورد نسخه پشتیبان (فایل در db/backups)
+ */
+model Backup {
+  id          String   @id @default(cuid())
+  filename    String   @unique
+  kind        String   @default("MANUAL") // MANUAL | AUTO
+  sizeBytes   Int      @default(0)
+  recordCount Int      @default(0)
+  note        String?
+  createdById String?
+  createdBy   User?    @relation("BackupCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// ============================================================
+// بهار | مدل‌های نسخه نهایی — اعلان‌ها، رفتار، بج، بانک سوال،
+// منابع آموزشی، ملاقات، تغییرات سرویس
+// ============================================================
+
+/**
+ * اعلان شخصی کاربر — دسته‌بندی بر اساس اهمیت
+ */
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation("NotificationUser", fields: [userId], references: [id], onDelete: Cascade)
+  category  String    @default("INFO") // URGENT | IMPORTANT | INFO | SUCCESS
+  title     String
+  body      String
+  link      String?
+  kind      String    @default("SYSTEM") // SYSTEM | MESSAGE | GRADE | ATTENDANCE | BEHAVIOR | FINANCE | MEETING | BADGE
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
+}
+
+/**
+ * ثبت نمره انضباطی مثبت/منفی با دلیل از پیش تعریف‌شده
+ */
+model BehaviorRecord {
+  id           String   @id @default(cuid())
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  classId      String?  // FIX راند ۱۶: دانش‌آموزِ بدون کلاس هم ممکن است رکورد رفتاری داشته باشد
+  class        Class?   @relation(fields: [classId], references: [id], onDelete: SetNull)
+  schoolId     String
+  kind         String // POSITIVE | NEGATIVE
+  reason       String // کلید دلیل از کاتالوگ (EXCELLENT_PARTICIPATION | LATE | ...)
+  note         String?
+  points       Int      @default(0) // مثبت/منفی
+  recordedById String?
+  recordedBy   User?    @relation("BehaviorRecorder", fields: [recordedById], references: [id])
+  createdAt    DateTime @default(now())
+
+  @@index([studentId, createdAt])
+  @@index([schoolId, kind])
+}
+
+/**
+ * بج گیمیفیکیشن (دولینگو-سبک) — مدرسه‌ای یا سیستمی
+ */
+model Badge {
+  id          String   @id @default(cuid())
+  schoolId    String? // null = بج سیستمی همه‌مدارس
+  school      School?  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  key         String
+  title       String
+  description String
+  icon        String // نام آیکون lucide
+  tier        String   @default("BRONZE") // BRONZE | SILVER | GOLD | DIAMOND
+  effectKind  String   @default("NONE") // NONE | NAME_RING | PROFILE_THEME
+  effectValue String? // مثلا رنگ حلقه اسم
+  points      Int      @default(10)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  students StudentBadge[]
+
+  @@unique([schoolId, key])
+}
+
+model StudentBadge {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  badgeId     String
+  badge       Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  awardedById String?
+  awardedBy   User?    @relation("BadgeAwarder", fields: [awardedById], references: [id])
+  isFeatured  Boolean  @default(false) // کنار اسم دانش‌آموز
+  awardedAt   DateTime @default(now())
+
+  @@unique([studentId, badgeId])
+  @@index([studentId])
+}
+
+/**
+ * بانک سوال معلم — با درجه سختی و تصویر و پاسخ
+ */
+model Question {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  subjectId   String?
+  subject     Subject? @relation(fields: [subjectId], references: [id])
+  grade       String? // پایه هدف
+  topic       String // مبحث
+  difficulty  String   @default("MEDIUM") // EASY | MEDIUM | HARD
+  kind        String   @default("MULTI") // MULTI | SHORT | ESSAY | FILL
+  body        String
+  options     String   @default("[]") // JSON گزینه‌ها
+  answer      String? // گزینه صحیح یا پاسخ تشریحی
+  explanation String?
+  imageUrl    String? // تصویر سوال (چاپ سیاه‌وسفید)
+  usageCount  Int      @default(0)
+  createdById String?
+  createdBy   User?    @relation("QuestionAuthor", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([schoolId, subjectId])
+  @@index([difficulty])
+}
+
+/**
+ * لینک منبع آموزشی — ویدیو/مقاله/کتاب/تمرین
+ */
+model ResourceLink {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  subjectId   String?
+  subject     Subject? @relation(fields: [subjectId], references: [id])
+  grade       String?
+  topic       String?
+  title       String
+  url         String
+  description String?
+  kind        String   @default("ARTICLE") // VIDEO | ARTICLE | BOOK | SITE | PRACTICE
+  addedById   String?
+  addedBy     User?    @relation("ResourceAuthor", fields: [addedById], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@index([schoolId, subjectId])
+}
+
+/**
+ * رزرو ملاقات والد با معلم/معاون
+ */
+model Meeting {
+  id            String   @id @default(cuid())
+  schoolId      String
+  school        School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId     String?
+  student       Student? @relation(fields: [studentId], references: [id])
+  requestedById String
+  requestedBy   User     @relation("MeetingRequester", fields: [requestedById], references: [id])
+  staffId       String
+  staff         User     @relation("MeetingStaff", fields: [staffId], references: [id])
+  topic         String
+  note          String?
+  slotStart     DateTime
+  slotEnd       DateTime
+  status        String   @default("PENDING") // PENDING | APPROVED | REJECTED | DONE | CANCELED
+  reviewNote    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([schoolId, slotStart])
+  @@index([staffId, status])
+}
+
+/**
+ * تغییرات سرویس بهار — لاگ عمومی نسخه‌ها
+ */
+model ChangelogEntry {
+  id          String   @id @default(cuid())
+  version     String
+  title       String
+  body        String
+  publishedAt DateTime @default(now())
+
+  @@index([publishedAt])
+}
+
+/**
+ * درخواست مرخصی کارکنان (معلم/معاون/کارمند)
+ */
+model LeaveRequest {
+  id           String   @id @default(cuid())
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User     @relation("LeaveRequester", fields: [userId], references: [id], onDelete: Cascade)
+  kind         String   @default("PERSONAL") // PERSONAL | SICK | MISSION | UNPAID
+  fromDate     DateTime
+  toDate       DateTime
+  reason       String?
+  status       String   @default("PENDING") // PENDING | APPROVED | REJECTED
+  reviewedById String?
+  reviewNote   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([schoolId, status])
+  @@index([userId])
+}
+
+/**
+ * پیوند حساب تلگرام کاربر با حساب بهار (برای ربات)
+ */
+model TelegramLink {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation("TelegramLinked", fields: [userId], references: [id], onDelete: Cascade)
+  chatId    String   @unique
+  username  String?
+  linkCode  String   @unique // کد پیوند که کاربر در پروفایل می‌گیرد
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chatId])
+}
+
+// ============================================================
+// بهار | افزونه‌های نسخه نهایی ۲ — تسک، اتوماسیون، امکانات،
+// نظرسنجی، گواهی، ایمپورت، نمایه ذخیره، ورود، خانه‌ها
+// ============================================================
+
+/**
+ * تسک مدیریتی — کانبان با مسئول/ددلاین/اولویت و اتصال به رکوردها
+ */
+model Task {
+  id          String    @id @default(cuid())
+  schoolId    String
+  school      School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  status      String    @default("TODO") // TODO | IN_PROGRESS | DONE | CANCELED
+  priority    String    @default("NORMAL") // LOW | NORMAL | HIGH | URGENT
+  dueDate     DateTime?
+  assigneeId  String?
+  assignee    User?     @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  createdById String?
+  creator     User?     @relation("TaskCreator", fields: [createdById], references: [id])
+  studentId   String?
+  student     Student?  @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  classId     String?
+  sourceKind  String? // AUTOMATION | MANUAL | MEETING | REQUEST
+  sourceId    String?
+  doneAt      DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([schoolId, status])
+  @@index([assigneeId, status])
+  @@index([classId])
+}
+
+/**
+ * قانون اتوماسیون — تریگر شرطی ساده (بدون BPM سنگین)
+ */
+model AutomationRule {
+  id           String    @id @default(cuid())
+  schoolId     String
+  school       School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name         String
+  trigger      String // ABSENT_THRESHOLD | LOW_ATTENDANCE | GRADE_DROP | FEE_OVERDUE | LEAVE_REQUEST | MEETING_REQUEST | BIRTHDAY
+  config       String    @default("{}") // JSON آستانه‌ها/نقش‌ها
+  action       String // NOTIFY | TASK | TAG
+  actionConfig String    @default("{}") // JSON هدف اعلان/عنوان تسک/کلید تگ
+  active       Boolean   @default(true)
+  runCount     Int       @default(0)
+  lastRunAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  logs AutomationLog[]
+
+  @@index([schoolId, active])
+}
+
+model AutomationLog {
+  id        String         @id @default(cuid())
+  ruleId    String
+  rule      AutomationRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  schoolId  String
+  trigger   String
+  summary   String // چه اتفاقی افتاد
+  result    String         @default("DONE") // DONE | SKIPPED | ERROR
+  detail    String? // JSON
+  createdAt DateTime       @default(now())
+
+  @@index([schoolId, createdAt])
+}
+
+/**
+ * اتاق و فضا
+ */
+model Room {
+  id        String   @id @default(cuid())
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name      String
+  kind      String   @default("CLASSROOM") // CLASSROOM | LAB | SPORT | LIBRARY | OFFICE | OTHER
+  capacity  Int      @default(30)
+  floor     Int?
+  note      String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  bookings Booking[]
+
+  @@unique([schoolId, name])
+}
+
+/**
+ * رزرو اتاق یا تجهیزات — با چک همپوشانی
+ */
+model Booking {
+  id        String   @id @default(cuid())
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  roomId    String?
+  room      Room?    @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  assetId   String?
+  asset     Asset?   @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  byId      String
+  by        User     @relation("BookingBy", fields: [byId], references: [id])
+  purpose   String
+  startAt   DateTime
+  endAt     DateTime
+  status    String   @default("APPROVED") // PENDING | APPROVED | REJECTED | CANCELED
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([schoolId, startAt])
+  @@index([roomId, startAt])
+  @@index([assetId, startAt])
+}
+
+/**
+ * دارایی مدرسه — پروژکتور، لپ‌تاپ و… (بدون IoT)
+ */
+model Asset {
+  id           String    @id @default(cuid())
+  schoolId     String
+  school       School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name         String
+  code         String // کد/QR دارایی
+  category     String    @default("OTHER") // PROJECTOR | LAPTOP | COMPUTER | SOUND | LAB | FURNITURE | OTHER
+  location     String?
+  status       String    @default("OK") // OK | BROKEN | REPAIRING | RETIRED
+  custodianId  String?
+  custodian    User?     @relation("AssetCustodian", fields: [custodianId], references: [id])
+  purchaseDate DateTime?
+  value        Int?
+  note         String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  bookings           Booking[]
+  maintenanceTickets MaintenanceTicket[]
+
+  @@unique([schoolId, code])
+}
+
+/**
+ * خرابی و درخواست تعمیر با SLA
+ */
+model MaintenanceTicket {
+  id             String    @id @default(cuid())
+  schoolId       String
+  school         School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  assetId        String?
+  asset          Asset?    @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  roomId         String?
+  location       String?
+  title          String
+  description    String?
+  priority       String    @default("NORMAL") // LOW | NORMAL | HIGH
+  status         String    @default("OPEN") // OPEN | IN_PROGRESS | RESOLVED | CLOSED
+  slaHours       Int       @default(48)
+  reportedById   String
+  reportedBy     User      @relation("MaintenanceReporter", fields: [reportedById], references: [id])
+  assignedToId   String?
+  resolvedAt     DateTime?
+  resolutionNote String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([schoolId, status])
+}
+
+/**
+ * تعریف تگ دانش‌آموز (مثل نیازمند پیگیری / ممتاز)
+ */
+model TagDef {
+  id        String   @id @default(cuid())
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  key       String
+  label     String
+  color     String   @default("#00825e")
+  createdAt DateTime @default(now())
+
+  @@unique([schoolId, key])
+}
+
+/**
+ * تعریف فیلد سفارشی — بدون تغییر ساختار ثابت جداول
+ */
+model CustomFieldDef {
+  id        String   @id @default(cuid())
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  entity    String   @default("STUDENT") // STUDENT | USER
+  key       String
+  label     String
+  type      String   @default("TEXT") // TEXT | NUMBER | DATE | SELECT
+  options   String   @default("[]") // JSON برای SELECT
+  required  Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@unique([schoolId, entity, key])
+}
+
+/**
+ * چک‌لیست مدارک دانش‌آموز با انقضا
+ */
+model StudentDocument {
+  id         String    @id @default(cuid())
+  studentId  String
+  student    Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  kind       String // BIRTH_CERT | NATIONAL_ID | PHOTO | HEALTH_INSURANCE | PREV_TRANSCRIPT | RESIDENCE | GUARDIAN_ID | OTHER
+  label      String?
+  status     String    @default("PENDING") // RECEIVED | PENDING | REJECTED | WAIVED
+  receivedAt DateTime?
+  expiresAt  DateTime?
+  note       String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([studentId, kind])
+}
+
+/**
+ * هدف تحصیلی/رفتاری دانش‌آموز
+ */
+model StudentGoal {
+  id           String    @id @default(cuid())
+  studentId    String
+  student      Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title        String
+  metric       String    @default("CUSTOM") // GPA | ATTENDANCE | BEHAVIOR | CUSTOM
+  targetValue  String?
+  currentValue String?
+  dueDate      DateTime?
+  status       String    @default("ACTIVE") // ACTIVE | ACHIEVED | DROPPED
+  note         String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([studentId, status])
+}
+
+/**
+ * اقدام حمایتی/پیگیری برای دانش‌آموز
+ */
+model Intervention {
+  id          String    @id @default(cuid())
+  studentId   String
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  startedById String
+  startedBy   User      @relation("InterventionStarter", fields: [startedById], references: [id])
+  kind        String    @default("MEETING") // MEETING | PARENT_CONTACT | SUPPORT_PLAN | MONITORING
+  description String
+  outcome     String?
+  status      String    @default("ACTIVE") // ACTIVE | RESOLVED
+  resolvedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([studentId, status])
+}
+
+/**
+ * پورتفولیو دانش‌آموز — پروژه/گواهی/مسابقه/هنر/مهارت
+ */
+model PortfolioItem {
+  id          String    @id @default(cuid())
+  studentId   String
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  kind        String    @default("PROJECT") // PROJECT | CERTIFICATE | COMPETITION | ARTWORK | ACHIEVEMENT | SKILL
+  title       String
+  description String?
+  url         String?
+  fileUrl     String?
+  date        DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([studentId])
+}
+
+/**
+ * خانه/گروه مدرسه — امتیاز گروهی
+ */
+model House {
+  id        String    @id @default(cuid())
+  schoolId  String
+  school    School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name      String
+  color     String    @default("#00825e")
+  motto     String?
+  createdAt DateTime  @default(now())
+  students  Student[]
+
+  @@unique([schoolId, name])
+}
+
+/**
+ * نظرسنجی / رأی‌گیری
+ */
+model Poll {
+  id            String    @id @default(cuid())
+  schoolId      String
+  school        School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  question      String
+  description   String?
+  audience      String    @default("ALL") // ALL | STUDENTS | PARENTS | TEACHERS | STAFF
+  allowMultiple Boolean   @default(false)
+  anonymous     Boolean   @default(true)
+  active        Boolean   @default(true)
+  closesAt      DateTime?
+  createdById   String?
+  createdBy     User?     @relation("PollCreator", fields: [createdById], references: [id])
+  createdAt     DateTime  @default(now())
+
+  options PollOption[]
+  votes   PollVote[]
+
+  @@index([schoolId, active])
+}
+
+model PollOption {
+  id        String     @id @default(cuid())
+  pollId    String
+  poll      Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  text      String
+  sortOrder Int        @default(0)
+  votes     PollVote[]
+
+  @@index([pollId])
+}
+
+model PollVote {
+  id        String     @id @default(cuid())
+  pollId    String
+  poll      Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  optionId  String
+  option    PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation("PollVoter", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+
+  @@unique([pollId, userId, optionId])
+}
+
+/**
+ * صندوق پیشنهاد (با گزینه ناشناس)
+ */
+model Suggestion {
+  id         String   @id @default(cuid())
+  schoolId   String
+  school     School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  userId     String?
+  authorName String? // اختیاری برای ناشناس
+  body       String
+  category   String   @default("OTHER") // FACILITIES | EDUCATION | FOOD | SERVICE | OTHER
+  status     String   @default("NEW") // NEW | REVIEWING | ACCEPTED | REJECTED
+  adminNote  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([schoolId, status])
+}
+
+/**
+ * قالب گواهی — با متغیرهای {{student_name}} و …
+ */
+model CertificateTemplate {
+  id           String   @id @default(cuid())
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  kind         String   @default("CUSTOM") // ENROLLMENT | BONAFIDE | ACHIEVEMENT | TRANSFER | CUSTOM
+  title        String
+  bodyTemplate String
+  footerNote   String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([schoolId, kind])
+}
+
+/**
+ * گواهی صادرشده — سریال + کد استعلام QR
+ */
+model Certificate {
+  id         String    @id @default(cuid())
+  schoolId   String
+  school     School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId  String
+  student    Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  templateId String?
+  kind       String
+  title      String
+  body       String
+  serial     String    @unique
+  verifyCode String    @unique
+  issuedById String
+  issuedBy   User      @relation("CertificateIssuer", fields: [issuedById], references: [id])
+  issuedAt   DateTime  @default(now())
+  revokedAt  DateTime?
+  note       String?
+
+  @@index([schoolId, issuedAt])
+}
+
+/**
+ * سابقه ایمپورت CSV/Excel با اعتبارسنجی
+ */
+model ImportJob {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation("ImportBy", fields: [userId], references: [id])
+  kind        String   @default("STUDENTS") // STUDENTS | USERS | GRADES
+  filename    String
+  totalRows   Int      @default(0)
+  successRows Int      @default(0)
+  failedRows  Int      @default(0)
+  errors      String   @default("[]") // JSON
+  status      String   @default("RUNNING") // RUNNING | DONE | FAILED
+  createdAt   DateTime @default(now())
+
+  @@index([schoolId, createdAt])
+}
+
+/**
+ * نمایه/فیلتر ذخیره‌شده کاربر برای صفحات جدولی
+ */
+model SavedView {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation("SavedViewOwner", fields: [userId], references: [id], onDelete: Cascade)
+  page      String // students | users | tasks | ...
+  name      String
+  config    String   @default("{}") // JSON: filters, columns, sort
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, page, name])
+}
+
+/**
+ * رویداد ورود — تاریخچه/دستگاه/وضعیت
+ */
+model LoginEvent {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation("LoginEvents", fields: [userId], references: [id], onDelete: Cascade)
+  nationalId String?
+  ip         String
+  userAgent  String
+  status     String   @default("SUCCESS") // SUCCESS | FAILED
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([nationalId, createdAt])
+}
+
+/**
+ * ثبت ورود/خروج مهمان + مهمانانت مورد انتظار
+ */
+model VisitorLog {
+  id           String    @id @default(cuid())
+  schoolId     String
+  school       School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name         String
+  nationalId   String?
+  phone        String?
+  purpose      String
+  hostName     String?
+  expected     Boolean   @default(false)
+  expectedDate DateTime?
+  status       String    @default("EXPECTED") // EXPECTED | CHECKED_IN | CHECKED_OUT | NOSHOW | CANCELED
+  checkInAt    DateTime?
+  checkOutAt   DateTime?
+  note         String?
+  createdById  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([schoolId, expectedDate])
+}
+
+/**
+ * اشیای گمشده/پیداشده
+ */
+model LostFoundItem {
+  id            String    @id @default(cuid())
+  schoolId      String
+  school        School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title         String
+  description   String?
+  location      String?
+  foundAt       DateTime
+  status        String    @default("FOUND") // FOUND | CLAIMED | DISPOSED
+  claimedByName String?
+  claimedAt     DateTime?
+  note          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([schoolId, status])
+}
+
+/**
+ * تاریخچه تغییر نمره — چه کسی، چه زمانی، از چند به چند
+ */
+model GradeHistory {
+  id            String   @id @default(cuid())
+  gradeRecordId String
+  studentId     String
+  oldScore      Float?
+  newScore      Float
+  oldNote       String?
+  newNote       String?
+  changedById   String?
+  changedBy     User?    @relation("GradeChanger", fields: [changedById], references: [id])
+  student       Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  source        String   @default("CREATE") // CREATE | UPDATE | UNDO | LOCKED_UNLOCK
+  createdAt     DateTime @default(now())
+
+  @@index([gradeRecordId, createdAt])
+  @@index([studentId])
+}
+
+// ============================================================
+// گزارش‌های زمان‌بندی‌شده — خلاصه دوره‌ای خودکار برای مدیران/معلمان
+// ============================================================
+model ScheduledReport {
+  id        String    @id @default(cuid())
+  schoolId  String
+  school    School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  kind      String // DAILY_DIGEST | ATTENDANCE_SUMMARY | RISK_DIGEST
+  schedule  String    @default("WEEKLY") // DAILY | WEEKLY
+  dayOfWeek Int? // 0=شنبه … 6=جمعه (برای WEEKLY)
+  hour      Int       @default(8) // ساعت تهران
+  audience  String    @default("MANAGERS") // MANAGERS | TEACHERS
+  active    Boolean   @default(true)
+  lastRunAt DateTime?
+  nextRunAt DateTime?
+  createdBy String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([active, nextRunAt])
+}
+
+// ============================================================
+// بسته‌های زبان کاستوم (Bahar Language Pack) — ترجمه رابط کاربری
+// ============================================================
+model LanguagePack {
+  id         String   @id @default(cuid())
+  code       String   @unique // کد کوتاه زبان مثل en، tr، ar، kurdish-sorani
+  name       String // نام زبان به فارسی (نمایش مدیریتی)
+  nativeName String // نام بومی زبان (English، کوردی سۆرانی…)
+  direction  String   @default("rtl") // rtl | ltr
+  status     String   @default("DRAFT") // DRAFT | ACTIVE | DISABLED
+  author     String? // سازنده بسته
+  version    String   @default("1.0.0")
+  notes      String? // توضیح سازنده
+  data       String // JSON — نقشه کلید→متن (حداکثر 400KB)
+  keyCount   Int      @default(0) // تعداد کلیدهای ترجمه‌شده
+  coverage   Int      @default(0) // درصد پوشش کاتالوگ
+  createdBy  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([status])
+}
+
+// ============================================================
+// بسته‌های کشور کاستوم (Bahar Country Pack) — پروفایل کشور
+// تقویم/کد ملی/شماره موبایل/مناطق/ارز/پایه‌ها/هفته کاری…
+// دیفالت: ایران (hardcoded در src/lib/country/iran.ts)
+// ============================================================
+model CountryPack {
+  id         String   @id @default(cuid())
+  code       String   @unique // کد کشور مثل IR، TR، AE
+  name       String // نام کشور به فارسی (نمایش مدیریتی)
+  nativeName String // نام بومی کشور (Iran، Türkiye…)
+  status     String   @default("DRAFT") // DRAFT | ACTIVE | DISABLED
+  author     String? // سازنده بسته
+  version    String   @default("1.0.0")
+  notes      String? // توضیح سازنده
+  data       String // JSON — پروفایل کامل کشور (حداکثر 600KB)
+  createdBy  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([status])
+}
+
+// ============================================================
+// موتور هشدار زودهنگام (Early-Warning) — امتیاز ریسک دانش‌آموز
+// محاسبه دوره‌ای از حضور/نمره/رفتار/سلامت روان
+// ============================================================
+model RiskScore {
+  id         String   @id @default(cuid())
+  studentId  String
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  period     String // کلید دوره — کلید ماهانه تقویم فعال مثل "1404-07"
+  score      Int // 0-100 — بالاتر = ریسک بیشتر
+  level      String   @default("LOW") // LOW | MODERATE | HIGH
+  breakdown  String   @default("{}") // JSON — امتیاز و توضیح هر عامل
+  computedAt DateTime @default(now())
+
+  @@unique([studentId, period])
+  @@index([level])
+  @@index([computedAt])
+}
+
+// ============================================================
+// سنجش سلامت روان (Wellbeing Check-in) — چک‌این روزانه دانش‌آموز
+// ============================================================
+model WellbeingCheckin {
+  id           String   @id @default(cuid())
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  authorizedBy String // کاربر مجازکننده چک‌این (مدیر/معاون که لینک فعال کرد)
+  authorizer   User     @relation("CheckinAuthorizer", fields: [authorizedBy], references: [id])
+  date         String // کلید تاریخ تقویم فعال YYYY-MM-DD
+  mood         Int // 1-5 (۱=خیلی بد … ۵=خیلی خوب)
+  note         String? // یادداشت اختیاری دانش‌آموز (حداکثر ۳۰۰ نویسه)
+  flagged      Boolean  @default(false) // پرچم خودکار: mood<=2 یا واژه‌های نگران‌کننده
+  createdAt    DateTime @default(now())
+
+  @@unique([studentId, date])
+  @@index([date, flagged])
+}

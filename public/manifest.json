@@ -1,0 +1,34 @@
+{
+  "name": "بهار | سامانه مدیریت مدرسه",
+  "short_name": "بهار",
+  "description": "سامانه جامع مدیریت مدرسه بهار — وب، اندروید و ویندوز",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "fa-IR",
+  "background_color": "#FFFFFF",
+  "theme_color": "#00825E",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "پیام‌ها",
+      "short_name": "پیام‌ها",
+      "url": "/app/messages",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "برنامه هفتگی",
+      "short_name": "برنامه",
+      "url": "/app/schedule",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

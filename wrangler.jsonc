@@ -1,0 +1,31 @@
+{
+  // Bahar — Cloudflare Workers deployment (via OpenNext).
+  // SESSION_SECRET and CRON_SECRET are set as Worker secrets, never here:
+  //   wrangler secret put SESSION_SECRET
+  //   wrangler secret put CRON_SECRET
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bahar",
+  "main": "worker.ts",
+  "compatibility_date": "2025-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bahar-db",
+      "database_id": "REPLACE_AFTER_WRANGLER_D1_CREATE"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "BAHAR_FILES",
+      "bucket_name": "bahar-files"
+    }
+  ],
+  "triggers": {
+    "crons": ["*/15 * * * *"]
+  }
+}

@@ -1,0 +1,25 @@
+:81 {
+	# ⚠ امنیت: مکانیزم XTransformPort فقط برای سرویس‌های جانبی شناخته‌شده مجاز است.
+	# قبلاً هر پورت محلی قابل پراکسی بود (SSRF/پراکسی باز) — اکنون فقط درگاه شاد (۸۷۸۷).
+	@transform_shad {
+		query XTransformPort=8787
+	}
+
+	handle @transform_shad {
+		reverse_proxy localhost:8787 {
+			header_up Host {host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	handle {
+		reverse_proxy localhost:3000 {
+			header_up Host {host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+}

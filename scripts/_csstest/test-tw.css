@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@layer components {
+  .b-btn { display: inline-flex; padding: 14px 30px; }
+}

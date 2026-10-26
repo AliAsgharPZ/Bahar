@@ -1,0 +1,50 @@
+{
+  "name": "bahar-windows",
+  "productName": "بهار — سامانه مدیریت مدرسه",
+  "version": "1.1.0",
+  "description": "نسخه ویندوزی سامانه مدیریت مدرسه بهار",
+  "main": "main.js",
+  "author": "Bahar",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win portable nsis",
+    "dist:installer": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "ir.bahar.school.desktop",
+    "productName": "بهار",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "icon.png"
+    ],
+    "extraResources": [
+      "config.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "بهار"
+    },
+    "portable": {
+      "artifactName": "Bahar-Portable-${version}.exe"
+    }
+  }
+}

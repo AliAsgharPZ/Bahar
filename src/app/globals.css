@@ -1,0 +1,937 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   بهار | Bahar School Management — Design Language v4
+   Meta design system (pills, 32px cards, hairlines, dual CTA)
+   re-themed with the proprietary Bahar spring palette,
+   Material 3 motion principles (capsules, spring physics,
+   origin-aware transitions) and Arad Dots2 display type.
+   - Spring Green  #00825E  (custom primary)
+   - Blossom Pink  #E5548B  (seasonal accent, used sparingly)
+   ============================================================ */
+
+/* --- Arad Dots2 (display/headings — Persian, fused dots, Farsi digits) --- */
+@font-face {
+  font-family: "Arad";
+  src: url("/fonts/AradDots2-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Arad";
+  src: url("/fonts/AradDots2-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Arad";
+  src: url("/fonts/AradDots2-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Arad";
+  src: url("/fonts/AradDots2-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Arad";
+  src: url("/fonts/AradDots2-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Arad";
+  src: url("/fonts/AradDots2-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Vazirmatn (body/UI — Persian humanist-geometric) --- */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
+   Motion tokens — M3-inspired spring physics
+   ============================================================ */
+:root {
+  --dur-tap: 150ms;
+  --dur-fade: 200ms;
+  --dur-pop: 260ms;
+  --dur-rubber: 420ms;
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot — rubber band */
+  --ease-bounce: cubic-bezier(0.22, 1.4, 0.36, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+  --font-heading: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 20px);
+  /* Bahar proprietary palette */
+  --color-spring: var(--spring);
+  --color-spring-deep: var(--spring-deep);
+  --color-spring-soft: var(--spring-soft);
+  --color-spring-tint: var(--spring-tint);
+  --color-blossom: var(--blossom);
+  --color-blossom-tint: var(--blossom-tint);
+  --color-blossom-foreground: var(--blossom-foreground);
+  --color-ink-deep: var(--ink-deep);
+  --color-ink: var(--ink);
+  --color-steel: var(--steel);
+  --color-stone: var(--stone);
+  --color-hairline: var(--hairline);
+  --color-hairline-soft: var(--hairline-soft);
+  --color-cloud: var(--cloud);
+  /* Status & system tokens (v5) — semantic, mode-aware */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-deep: var(--warning-deep);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-overlay: var(--overlay);
+  --color-invert: var(--invert);
+  --color-invert-foreground: var(--invert-foreground);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* Bahar spring palette (custom) */
+  --spring: #00825e;
+  --spring-deep: #006749;
+  --spring-soft: #00b37d;
+  --spring-tint: #e2f3ec;
+  --blossom: #e5548b;
+  --blossom-tint: #fdeef4;
+  --ink-deep: #0b1416;
+  --ink: #1c2523;
+  --steel: #5d6f66;
+  --stone: #8a9b92;
+  --hairline: #cdd5d1;
+  --hairline-soft: #e2eae6;
+  --cloud: #f2f6f3;
+
+  /* Status tokens — «رنگ» برای fill/dot و «foreground» متن روی fill */
+  --success: #1b8148;
+  --success-foreground: #ffffff;
+  --warning: #f2a918;
+  --warning-foreground: #0b1416;
+  --warning-deep: #8a4c0b; /* متن کهربایی خوانا روی پس‌زمینه روشن */
+  --info: #1972c4;
+  --info-foreground: #ffffff;
+  --blossom-foreground: #ffffff;
+  /* سیستم */
+  --overlay: #0b1416;      /* اسکریم دیالوگ/جستجو — در دارک تقریباً سیاه */
+  --invert: #0b1416;       /* چیپ معکوسِ امضای بهار (کپسول‌ها، دکمه ink) */
+  --invert-foreground: #ffffff;
+  --autofill-bg: #eef4f0;  /* پس‌زمینه autofill مرورگر */
+  /* نقشه ایران (SVG) */
+  --map-land: #e3e8e5;
+  --map-hover: #c9ded3;
+  --map-stroke: #ffffff;
+  --map-label: #5b6b66;
+  --map-label-strong: #005a42;
+  --map-label-selected: #ffffff;
+
+  /* shadcn mapping */
+  --background: #ffffff;
+  --foreground: #0b1416;
+  --card: #ffffff;
+  --card-foreground: #0b1416;
+  --popover: #ffffff;
+  --popover-foreground: #0b1416;
+  --primary: #00825e;
+  --primary-foreground: #ffffff;
+  --secondary: #f2f6f3;
+  --secondary-foreground: #0b1416;
+  --muted: #f2f6f3;
+  --muted-foreground: #5d6f66;
+  --accent: #e2f3ec;
+  --accent-foreground: #00553e;
+  --destructive: #e41e3f;
+  --destructive-foreground: #ffffff;
+  --border: #e2eae6;
+  --input: #cdd5d1;
+  --ring: #00b37d;
+  --chart-1: #00825e;
+  --chart-2: #00b37d;
+  --chart-3: #e5548b;
+  --chart-4: #f2a918;
+  --chart-5: #5d6f66;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1c2523;
+  --sidebar-primary: #00825e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e2f3ec;
+  --sidebar-accent-foreground: #00553e;
+  --sidebar-border: #e2eae6;
+  --sidebar-ring: #00b37d;
+}
+
+.dark {
+  --spring: #00b37d;
+  --spring-deep: #35d69c;
+  --spring-soft: #2ecf9a;
+  --spring-tint: #10312a;
+  --blossom: #f06fa4;
+  --blossom-tint: #331420;
+  --blossom-foreground: #380f22;
+  --ink-deep: #e8f0ec;
+  --ink: #d7e3dd;
+  --steel: #9aada3;
+  --stone: #7d8f85;
+  --hairline: #33403a;
+  --hairline-soft: #232e29;
+  --cloud: #141b18;
+
+  /* Status tokens — در دارک روشن‌تر تا به‌عنوان متن هم خوانا باشند */
+  --success: #3fbf77;
+  --success-foreground: #04150c;
+  --warning: #f5b73d;
+  --warning-foreground: #221803;
+  --warning-deep: #f7c04a; /* متن کهربایی خوانا روی پس‌زمینه تیره */
+  --info: #58a8ec;
+  --info-foreground: #0a1b2e;
+  /* سیستم */
+  --overlay: #030605;
+  --invert: #e8f0ec;
+  --invert-foreground: #0b1416;
+  --autofill-bg: #1a2420;
+  /* نقشه ایران */
+  --map-land: #1c2823;
+  --map-hover: #2c4239;
+  --map-stroke: #0c1210;
+  --map-label: #8fa39a;
+  --map-label-strong: #7fe3bd;
+  --map-label-selected: #051610;
+
+  /* سلسله‌مراتب سطح در دارک: background ← sidebar ← card ← popover */
+  --background: #0c1210;
+  --foreground: #e8f0ec;
+  --card: #131b18;
+  --card-foreground: #e8f0ec;
+  --popover: #19231f;
+  --popover-foreground: #e8f0ec;
+  --primary: #00b37d;
+  --primary-foreground: #051610;
+  --secondary: #1a2420;
+  --secondary-foreground: #e8f0ec;
+  --muted: #1a2420;
+  --muted-foreground: #9aada3;
+  --accent: #1d382e;
+  --accent-foreground: #7fe3bd;
+  --destructive: #f0284a;
+  --destructive-foreground: #ffffff;
+  --border: #26312b;
+  --input: #36443d;
+  --ring: #00b37d;
+  --chart-1: #00b37d;
+  --chart-2: #2ecf9a;
+  --chart-3: #f06fa4;
+  --chart-4: #f2a918;
+  --chart-5: #93a69c;
+  --sidebar: #0f1613;
+  --sidebar-foreground: #d7e3dd;
+  --sidebar-primary: #00b37d;
+  --sidebar-primary-foreground: #051610;
+  --sidebar-accent: #1d382e;
+  --sidebar-accent-foreground: #8ee8c4;
+  --sidebar-border: #232e29;
+  --sidebar-ring: #00b37d;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light; /* اسکرول‌بار/کنترل‌های بومی هماهنگ با تم */
+    /* راند ۱۹: نازک + غیب‌شونده — رنگ فقط هنگام hover صفحه دیده می‌شود */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  html:hover {
+    scrollbar-color: color-mix(in srgb, var(--spring) 55%, transparent) transparent;
+  }
+  html.dark {
+    color-scheme: dark;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  html.dark:hover {
+    scrollbar-color: color-mix(in srgb, var(--spring) 45%, transparent) transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+    letter-spacing: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Autofill مرورگر — بدون فلش سفید/زرد در دارک */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--autofill-bg) inset;
+    -webkit-text-fill-color: var(--foreground);
+    caret-color: var(--foreground);
+    transition: background-color 9999s ease-out;
+  }
+  /* فرم‌ها — color-scheme کنترل‌های بومی را هماهنگ می‌کند */
+  /* Arad Dots2 + Vazirmatn combo */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+  }
+  ::selection {
+    background: var(--spring-tint);
+    color: var(--spring-deep);
+  }
+  .fa-num {
+    font-feature-settings: "ss01";
+  }
+  /* Reduced motion respect (accessibility) */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============ Meta-language component classes (Bahar re-theme) ============ */
+/* NOTE: all custom component classes live in @layer components so that
+   Tailwind utilities (e.g. md:hidden, !p-0) always win the cascade. */
+
+@layer components {
+
+/* Pill buttons — NEVER squared (Meta signature) */
+.b-btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm leading-tight
+    select-none whitespace-nowrap transition-[transform,background-color,color,box-shadow,border-color] duration-200
+    active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spring
+    disabled:pointer-events-none disabled:opacity-50 cursor-pointer;
+  padding: 14px 30px;
+  min-height: 44px;
+}
+.b-btn:not(:disabled):hover {
+  transform: translateY(-1.5px);
+  box-shadow: rgba(14, 22, 20, 0.14) 0px 4px 14px 0px;
+}
+.dark .b-btn:not(:disabled):hover {
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 4px 14px 0px;
+}
+.b-btn:not(:disabled):active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: none;
+}
+.b-btn-sm {
+  @apply text-[13px];
+  padding: 10px 22px;
+  min-height: 40px;
+}
+.b-btn-lg {
+  @apply text-base;
+  padding: 16px 36px;
+  min-height: 52px;
+}
+.b-btn-ink {
+  background: var(--invert);
+  color: var(--invert-foreground);
+}
+.b-btn-ink:not(:disabled):hover {
+  background: var(--spring-deep);
+}
+.dark .b-btn-ink:not(:disabled):hover {
+  background: #fff;
+}
+.b-btn-spring {
+  background: var(--spring);
+  color: #fff;
+}
+.dark .b-btn-spring {
+  color: #051610;
+}
+.b-btn-spring:not(:disabled):hover {
+  background: var(--spring-soft);
+}
+.b-btn-spring:active {
+  background: var(--spring-deep);
+}
+.b-btn-spring:disabled {
+  background: var(--hairline);
+  color: var(--ink-deep);
+}
+.dark .b-btn-spring:disabled {
+  color: var(--ink);
+}
+.b-btn-outline {
+  background: transparent;
+  color: var(--ink-deep);
+  border: 2px solid var(--ink-deep);
+  padding: 12px 28px;
+}
+.b-btn-outline:hover {
+  background: var(--spring-tint);
+}
+.b-btn-ghost {
+  background: transparent;
+  color: var(--ink-deep);
+  border: 2px solid color-mix(in srgb, var(--ink-deep) 12%, transparent);
+  padding: 10px 22px;
+}
+.b-btn-ghost:hover {
+  border-color: color-mix(in srgb, var(--ink-deep) 25%, transparent);
+}
+.b-btn-soft {
+  background: var(--spring-tint);
+  color: var(--spring-deep);
+}
+.b-btn-soft:not(:disabled):hover {
+  background: color-mix(in srgb, var(--spring-tint) 72%, var(--spring) 28%);
+}
+
+/* Category pill tabs */
+.b-pill-tab {
+  @apply inline-flex items-center gap-1.5 rounded-full text-[13px] font-bold px-4 py-2 cursor-pointer
+    transition-colors duration-150 whitespace-nowrap;
+  background: var(--background);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+}
+.b-pill-tab:hover {
+  background: var(--spring-tint);
+}
+.b-pill-tab-active {
+  background: var(--invert);
+  color: var(--invert-foreground);
+  border-color: transparent;
+}
+
+/* Cards */
+.b-card {
+  background: var(--card);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 32px;
+}
+.b-card-lg {
+  border-radius: 32px;
+  border: 1px solid var(--hairline-soft);
+  background: var(--card);
+}
+.b-card-md {
+  border-radius: 24px;
+  border: 1px solid var(--hairline-soft);
+  background: var(--card);
+}
+.b-card-sm {
+  border-radius: 16px;
+  border: 1px solid var(--hairline-soft);
+  background: var(--card);
+}
+.b-card-ink {
+  background: var(--invert);
+  color: var(--invert-foreground);
+  border-radius: 32px;
+}
+.b-card-tint {
+  background: var(--spring-tint);
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--spring) 14%, transparent);
+}
+.b-shadow-rail {
+  box-shadow: rgba(14, 22, 20, 0.16) 0px 1px 4px 0px;
+}
+
+/* M3 elevation levels (dark-mode-safe) */
+.elev-1 { box-shadow: 0 1px 2px 0 rgba(11,20,22,.10), 0 1px 3px 1px rgba(11,20,22,.06); }
+.elev-2 { box-shadow: 0 1px 2px 0 rgba(11,20,22,.10), 0 2px 6px 2px rgba(11,20,22,.08); }
+.elev-3 { box-shadow: 0 4px 8px 3px rgba(11,20,22,.09), 0 1px 3px 0 rgba(11,20,22,.10); }
+.dark .elev-1 { box-shadow: 0 1px 3px 0 rgba(0,0,0,.55), 0 1px 2px 1px rgba(0,0,0,.35); }
+.dark .elev-2 { box-shadow: 0 2px 6px 2px rgba(0,0,0,.55), 0 1px 2px 0 rgba(0,0,0,.45); }
+.dark .elev-3 { box-shadow: 0 6px 12px 4px rgba(0,0,0,.60), 0 2px 4px 0 rgba(0,0,0,.45); }
+
+/* (Liquid-glass و backdrop-blur در راند ۱۷ به‌طور کامل حذف شدند —
+   سطوح solid: bg-card / bg-popover / bg-background با سایه‌ی elev) */
+
+/* Inputs — 44px height, spring focus */
+.b-input {
+  @apply w-full rounded-lg px-3.5 text-[15px] bg-transparent transition-[border,box-shadow] duration-150;
+  border: 1px solid var(--hairline);
+  color: var(--ink);
+  height: 44px;
+}
+.b-input::placeholder {
+  color: var(--stone);
+}
+.b-input:focus {
+  outline: none;
+  border: 2px solid var(--spring);
+  padding-inline: 13px;
+}
+.b-input-error {
+  border-color: var(--destructive) !important;
+}
+.b-input-error:focus {
+  border: 2px solid var(--destructive) !important;
+}
+textarea.b-input {
+  height: auto;
+  padding: 12px 14px;
+  min-height: 96px;
+  line-height: 1.8;
+}
+.b-search-pill {
+  @apply flex items-center gap-2 rounded-full text-sm h-10 px-4 w-full;
+  background: var(--cloud);
+  color: var(--steel);
+}
+.b-search-pill input {
+  background: transparent;
+  outline: none;
+  width: 100%;
+  color: var(--ink);
+}
+
+/* Badges */
+.b-badge {
+  @apply inline-flex items-center gap-1 rounded-full text-[11.5px] font-bold px-2.5 py-1 whitespace-nowrap;
+}
+.b-badge-success { background: var(--success); color: var(--success-foreground); }
+.b-badge-warning { background: var(--warning); color: var(--warning-foreground); }
+.b-badge-critical { background: var(--destructive); color: var(--destructive-foreground); }
+.b-badge-spring { background: var(--spring-tint); color: var(--spring-deep); }
+.b-badge-blossom { background: var(--blossom-tint); color: var(--blossom); }
+.b-badge-neutral { background: var(--cloud); color: var(--steel); }
+.b-badge-ink { background: var(--invert); color: var(--invert-foreground); }
+
+/* Promo banner */
+.b-promo {
+  @apply w-full flex items-center justify-center gap-3 px-6 py-3 text-[13px] font-bold text-center;
+  background: var(--invert);
+  color: var(--invert-foreground);
+}
+.b-promo-spring {
+  background: var(--spring);
+  color: var(--primary-foreground);
+}
+.b-promo-blossom {
+  background: var(--blossom-tint);
+  color: var(--blossom);
+}
+
+/* Radio/option cards */
+.b-option {
+  @apply rounded-lg p-4 cursor-pointer transition-[border-color] duration-150 bg-background;
+  border: 1px solid color-mix(in srgb, var(--ink-deep) 12%, transparent);
+}
+.b-option-selected {
+  border: 2px solid var(--spring);
+}
+
+/* Hairline helpers */
+.b-hairline { border-color: var(--hairline-soft); }
+.b-divider { @apply w-full border-t; border-color: var(--hairline-soft); }
+
+/* Typography roles — Arad Dots2 for display, Vazirmatn for text */
+.t-hero { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 40px; line-height: 1.22; font-weight: 500; letter-spacing: -0.5px; }
+@media (min-width: 768px) { .t-hero { font-size: 56px; line-height: 1.18; } }
+@media (min-width: 1280px) { .t-hero { font-size: 64px; line-height: 1.16; } }
+.t-display { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 34px; line-height: 1.28; font-weight: 500; }
+@media (min-width: 768px) { .t-display { font-size: 44px; line-height: 1.22; } }
+.t-h1 { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 28px; line-height: 1.3; font-weight: 500; }
+@media (min-width: 768px) { .t-h1 { font-size: 36px; } }
+.t-h2 { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 24px; line-height: 1.33; font-weight: 500; }
+.t-h3 { font-family: "Arad", "Vazirmatn", "Segoe UI", Tahoma, sans-serif; font-size: 20px; line-height: 1.4; font-weight: 600; }
+.t-sub { font-size: 17px; line-height: 1.55; font-weight: 400; color: color-mix(in srgb, var(--ink) 80%, var(--steel)); }
+.t-body { font-size: 15px; line-height: 1.75; }
+.t-sm { font-size: 13.5px; line-height: 1.65; }
+.t-cap { font-size: 12px; line-height: 1.5; }
+
+/* ============================================================
+   اسکرول‌بار کاستوم مرورگر — نازک (۷px) + غیب‌شونده (راند ۱۹)
+   ریل شفاف؛ دسته فقط هنگام اسکرول‌کردن (html[data-scrolling]
+   توسط <ScrollbarFlare/> ست می‌شود) یا hover روی خودِ ظرف
+   اسکرول‌شونده ظاهر می‌شود — شبیه overlay scrollbar macOS.
+   Firefox: thin + شفاف تا hover (بالا در @layer base).
+   ============================================================ */
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  border: none;
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+/* نمایان‌شدن دسته: حین اسکرول (هر جای صفحه) یا hover روی ظرف */
+html[data-scrolling] *::-webkit-scrollbar-thumb,
+*:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--spring) 55%, var(--hairline));
+}
+html[data-scrolling] *::-webkit-scrollbar-thumb:hover,
+*:hover::-webkit-scrollbar-thumb:hover {
+  background: var(--spring);
+}
+html.dark[data-scrolling] *::-webkit-scrollbar-thumb,
+html.dark *:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--spring) 45%, #0c1210);
+}
+html.dark[data-scrolling] *::-webkit-scrollbar-thumb:hover,
+html.dark *:hover::-webkit-scrollbar-thumb:hover {
+  background: var(--spring);
+}
+/* نوارهای نازک داخلی (b-scroll) — ۵px با همان الگوی غیب‌شونده */
+.b-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--spring) 45%, transparent) transparent;
+}
+.b-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+.b-scroll::-webkit-scrollbar-track { background: transparent; }
+.b-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  border: none;
+}
+html[data-scrolling] .b-scroll::-webkit-scrollbar-thumb,
+.b-scroll:hover::-webkit-scrollbar-thumb,
+.b-scroll *:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--spring) 60%, var(--hairline));
+}
+html[data-scrolling] .b-scroll::-webkit-scrollbar-thumb:hover,
+.b-scroll:hover::-webkit-scrollbar-thumb:hover { background: var(--spring); }
+
+/* Focus ring for cards/rows */
+.b-focusable:focus-visible {
+  outline: 2px solid var(--spring);
+  outline-offset: 2px;
+}
+
+/* Messenger bubbles */
+.bubble-me {
+  background: var(--spring);
+  color: #fff;
+  border-radius: 18px 18px 18px 4px;
+}
+.dark .bubble-me { color: #051610; }
+.bubble-them {
+  background: var(--cloud);
+  color: var(--ink);
+  border-radius: 18px 18px 4px 18px;
+}
+
+/* Landing hero flourish */
+.b-hero-grad {
+  background:
+    radial-gradient(60% 50% at 85% 10%, color-mix(in srgb, var(--spring-soft) 22%, transparent), transparent 70%),
+    radial-gradient(45% 45% at 10% 85%, color-mix(in srgb, var(--blossom) 16%, transparent), transparent 70%),
+    radial-gradient(35% 35% at 60% 60%, color-mix(in srgb, var(--spring) 10%, transparent), transparent 75%);
+}
+
+/* Status dot */
+.b-dot { @apply inline-block w-2 h-2 rounded-full; }
+
+/* Table rows */
+.b-row { @apply transition-colors duration-100; }
+.b-row:hover { background: color-mix(in srgb, var(--spring-tint) 55%, transparent); }
+.dark .b-row:hover { background: color-mix(in srgb, var(--spring-tint) 80%, transparent); }
+
+/* دکمه‌های خاموش همان حالت not-allowed بومی را داشته باشند */
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* ────────────────────────────────────────────────
+   حالت دیباگ slow-mo — انیمیشن‌ها را ~۵۰ برابر کند می‌کند
+   فعال‌سازی فقط برای بازرسی دستی: افزودن ?slowmo=50 به URL
+   (در حالت نرمال کاملاً خاموش است؛ در کلاینت خوانده می‌شود)
+   ──────────────────────────────────────────────── */
+html.bahar-slowmo *,
+html.bahar-slowmo *::before,
+html.bahar-slowmo *::after {
+  animation-duration: calc(var(--sm, 50) * 1s) !important;
+  animation-delay: calc(var(--sm, 50) * 0.2s) !important;
+  transition-duration: calc(var(--sm, 50) * 1s) !important;
+  scroll-behavior: auto !important;
+}
+html.bahar-slowmo .b-shimmer,
+html.bahar-slowmo .b-pulse-dot,
+html.bahar-slowmo .b-marquee,
+html.bahar-slowmo .animate-spin {
+  animation-iteration-count: 1 !important;
+}
+
+/* Print (report cards) */
+@media print {
+  .no-print { display: none !important; }
+}
+
+/* RTL logical fixes */
+html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
+
+/* ============================================================
+   Motion library — keyframes & utilities
+   ============================================================ */
+
+/* Entrance: rise (M3 emphasized decelerate)
+   fill: backwards — نه both؛ تا پس از پایان انیمیشن transform روی عنصر نماند و
+   containing-block برای فرزندان position:fixed نسازد (باگ جای‌گذاری دیالوگ‌ها). */
+@keyframes bahar-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.b-rise { animation: bahar-rise var(--dur-pop) var(--ease-decel) backwards; }
+
+/* Entrance: pop (scale-in, slight overshoot) */
+@keyframes bahar-pop {
+  0% { opacity: 0; transform: scale(0.96); }
+  60% { transform: scale(1.012); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.b-pop { animation: bahar-pop var(--dur-pop) var(--ease-spring) backwards; }
+
+/* Origin-aware pop-in — container sets --pop-ox/--pop-oy (0-100%) */
+@keyframes bahar-origin-pop {
+  from { opacity: 0; transform: scale(.92); transform-origin: var(--pop-ox, 90%) var(--pop-oy, 0%); }
+  to { opacity: 1; transform: scale(1); transform-origin: var(--pop-ox, 90%) var(--pop-oy, 0%); }
+}
+.b-origin-pop { animation: bahar-origin-pop var(--dur-pop) var(--ease-spring) backwards; }
+
+/* Rubber band — overshoot & settle (sidebar collapse, panels) */
+@keyframes bahar-rubber-x {
+  0% { transform: scaleX(var(--rb-from, 1)); }
+  45% { transform: scaleX(var(--rb-to, .4)); }
+  62% { transform: scaleX(calc(var(--rb-to, .4) * 1.06)); }
+  78% { transform: scaleX(calc(var(--rb-to, .4) * 0.985)); }
+  100% { transform: scaleX(var(--rb-to, .4)); }
+}
+@keyframes bahar-rubber-w {
+  0% { width: var(--rb-from-w, 248px); }
+  45% { width: var(--rb-to-w, 84px); }
+  62% { width: calc(var(--rb-to-w, 84px) + 10px); }
+  78% { width: calc(var(--rb-to-w, 84px) - 3px); }
+  100% { width: var(--rb-to-w, 84px); }
+}
+.b-rubber-w { animation: bahar-rubber-w var(--dur-rubber) var(--ease-emphasized) both; overflow: hidden; }
+
+/* Rubber bounce for badge/chip scale */
+@keyframes bahar-bounce-in {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.18); }
+  80% { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+.b-bounce-in { animation: bahar-bounce-in 420ms var(--ease-spring) both; }
+
+/* Cross-fade swap (button label/content transitions) */
+.b-xfade { position: relative; }
+.b-xfade > * { transition: opacity 180ms var(--ease-standard), transform 180ms var(--ease-standard); }
+.b-xfade[data-state="out"] > * { opacity: 0; }
+
+/* Stagger container: children get incremental delays via --i */
+.b-stagger > * {
+  animation: bahar-rise var(--dur-pop) var(--ease-decel) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+/* Shimmer for skeletons */
+@keyframes bahar-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.b-shimmer {
+  background: linear-gradient(90deg, var(--cloud) 25%, color-mix(in srgb, var(--spring-tint) 70%, var(--cloud)) 50%, var(--cloud) 75%);
+  background-size: 200% 100%;
+  animation: bahar-shimmer 1.4s linear infinite;
+}
+
+/* Pulsing live dot */
+@keyframes bahar-pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--spring) 45%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+}
+.b-pulse-dot { animation: bahar-pulse-dot 2s infinite; }
+
+/* Bottom nav active capsule indicator */
+@keyframes bahar-capsule-slide {
+  from { transform: translateX(var(--cap-from, 0)); }
+  to { transform: translateX(0); }
+}
+
+/* Marquee for logo strips */
+@keyframes bahar-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.b-marquee { animation: bahar-marquee 36s linear infinite; }
+.b-marquee:hover { animation-play-state: paused; }
+
+/* View-transition friendly cross page fade
+   fill: backwards — تا transform پس از پایان انیمیشن پاک شود؛
+   در غیر این صورت wrapper صفحه containing-block می‌شود و همه‌ی
+   دیالوگ‌های fixed-inset-0 به‌جای ویوپورت نسبت به محتوای صفحه
+   جای‌گذاری می‌شوند (باگ «صفحه خیلی بالا قرار می‌گیرد»). */
+@keyframes bahar-page-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.995); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.b-page-in { animation: bahar-page-in 280ms var(--ease-decel) backwards; }
+
+/* Notification category dots */
+.cat-URGENT { background: var(--destructive); }
+.cat-IMPORTANT { background: var(--warning); }
+.cat-INFO { background: var(--info); }
+.cat-SUCCESS { background: var(--success); }
+
+/* ────────────────────────────────────────────────
+   انیمیشن‌های چارت‌های کاستوم (سبک vibefarsi)
+   ترسیم منحنی / محوشدگی ناحیه / رشد میله / بازشدن قوس
+   ──────────────────────────────────────────────── */
+@keyframes bahar-chart-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes bahar-chart-fade {
+  from { opacity: 0; }
+}
+@keyframes bahar-chart-grow {
+  from { width: 0; }
+}
+@keyframes bahar-chart-rise {
+  from { transform: scaleY(0); }
+}
+@keyframes bahar-chart-arc {
+  from { stroke-dasharray: 0 9999; }
+  to { stroke-dasharray: var(--arc-final); }
+}
+@keyframes bahar-chart-gauge {
+  from { stroke-dasharray: 0 9999; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-chart-anim { animation: none !important; }
+}
+
+/* Attendance heatmap cells — سه حالت اول semantic، سه حالت بعدی
+   رنگ‌های داده‌محورِ حضور و غیاب‌اند (۶ رنگ متمایز لازم است) */
+.hm-PRESENT { background: var(--success); }
+.hm-ABSENT { background: var(--destructive); }
+.hm-LATE { background: var(--warning); }
+.hm-EXCUSED { background: #7c8fe0; }   /* دسته‌ای — ثابت */
+.hm-MISSION { background: #17a2b8; }   /* دسته‌ای — ثابت */
+.hm-HALF_DAY { background: #b6853f; }  /* دسته‌ای — ثابت */
+.hm-empty { background: color-mix(in srgb, var(--ink-deep) 8%, transparent); }
+.dark .hm-empty { background: rgba(232,240,236,.08); }
+
+/* (ناوبری کپسولی پایین و همبرگر در راند ۱۷ حذف شدند —
+   ناوبری موبایل = لانچر app-screen داخل داشبورد؛ .bottom-nav-item
+   فقط برای selector ارثی کرسر pointer بی‌اثر مانده) */
+
+} /* end @layer components */
+
+/* Mobile-only helper — survives all build pipelines */
+@media (min-width: 768px) {
+  .b-only-mobile { display: none !important; }
+}
+
+/* راند ۱۸ — ردیف‌های اسکرول افقی لانچر: مخفی‌کردن اسکرول‌بار (لمس مستقیم مثل app اندروید) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

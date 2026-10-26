@@ -1,0 +1,195 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { FileQuestion, Plus, Trash2, Printer } from "lucide-react";
+import { toast } from "sonner";
+import { apiGet, apiPost, apiDelete } from "@/lib/client";
+import { faNumber } from "@/lib/persian";
+import { esc, escAttr } from "@/lib/print-esc";
+import { PageHeader, LoadingBlock, EmptyState , ErrorBox } from "@/components/shared/bits";
+import { Select } from "@/components/shared/pickers";
+
+type Question = { id: string; topic: string; difficulty: string; kind: string; body: string; options: string; answer: string | null; explanation: string | null; imageUrl: string | null; subject: { name: string } | null; createdBy: { firstName: string; lastName: string } | null };
+type Subject = { id: string; name: string; grade: string | null };
+
+const DIFF: Record<string, { label: string; cls: string }> = {
+  EASY: { label: "آسان", cls: "b-badge-success" }, MEDIUM: { label: "متوسط", cls: "b-badge-warning" }, HARD: { label: "سخت", cls: "b-badge-critical" },
+};
+const KIND: Record<string, string> = { MULTI: "چندگزینه‌ای", SHORT: "تشریحی کوتاه", ESSAY: "مقاله‌ای", FILL: "جای خالی" };
+
+export default function QuestionBankPage() {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [showNew, setShowNew] = useState(false);
+  const [filters, setFilters] = useState({ subjectId: "", difficulty: "" });
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [form, setForm] = useState({ subjectId: "", topic: "", difficulty: "MEDIUM", kind: "MULTI", body: "", options: ["", "", "", ""], answer: "", explanation: "", imageUrl: "" });
+
+  const load = useCallback(() => {
+    const p = new URLSearchParams();
+    if (filters.subjectId) p.set("subjectId", filters.subjectId);
+    if (filters.difficulty) p.set("difficulty", filters.difficulty);
+    apiGet<{ questions: Question[]; subjects: Subject[] }>(`/api/question-bank?${p}`)
+      .then((d) => { setLoadError(""); setQuestions(d.questions); setSubjects(d.subjects); })
+      .catch((e) => setLoadError(e instanceof Error ? e.message : "خطا در بارگذاری بانک سوال"))
+      .finally(() => setLoading(false));
+  }, [filters]);
+  useEffect(load, [load]);
+
+  async function submit() {
+    if (!form.body.trim() || !form.topic.trim()) { toast.error("متن سوال و مبحث لازم است"); return; }
+    try {
+      await apiPost("/api/question-bank", {
+        ...form,
+        subjectId: form.subjectId || undefined,
+        options: form.kind === "MULTI" ? form.options.filter(Boolean) : [],
+      });
+      toast.success("سوال به بانک اضافه شد");
+      setForm({ subjectId: "", topic: "", difficulty: "MEDIUM", kind: "MULTI", body: "", options: ["", "", "", ""], answer: "", explanation: "", imageUrl: "" });
+      setShowNew(false); load();
+    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+  }
+  async function remove(id: string) {
+    try { await apiDelete(`/api/question-bank?id=${id}`); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+  }
+  function toggle(id: string) {
+    setSelected((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  }
+  function printPaper(mode: "questions" | "answers") {
+    const chosen = questions.filter((q) => selected.has(q.id));
+    if (!chosen.length) { toast.error("حداقل یک سوال انتخاب کنید"); return; }
+    const w = window.open("", "_blank");
+    if (!w) return;
+    const items = chosen.map((q, i) => {
+      let opts: string[] = [];
+      try { opts = JSON.parse(q.options || "[]") as string[]; } catch { opts = []; } // FIX راند ۱۶
+      const optHtml = opts.length
+        ? `<div class="opts">${opts.map((o, j) => `<span> ${["۱)", "۲)", "۳)", "۴)", "۵)", "۶)"][j] ?? (j + 1) + ")"} ${esc(o)}</span>`).join("")}</div>` : "";
+      const ansHtml = mode === "answers"
+        ? `<div class="ans"><b>پاسخ:</b> ${esc(q.answer ?? "—")}${q.explanation ? ` — <i>${esc(q.explanation)}</i>` : ""}</div>` : "";
+      return `<div class="q"><p class="qnum">${toFa(i + 1)}. ${esc(q.body)}</p>${q.imageUrl ? `<img src="${escAttr(q.imageUrl)}" />` : ""}${optHtml}${ansHtml}</div>`;
+    }).join("");
+    w.document.write(`<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>${mode === "answers" ? "پاسخنامه" : "برگه سوال"}</title>
+    <style>
+      @page { size: A4; margin: 18mm 16mm; }
+      body { font-family: Vazirmatn, Tahoma, sans-serif; color: #000; font-size: 12.5pt; line-height: 1.9; }
+      .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid #000; padding-bottom: 8mm; margin-bottom: 6mm; }
+      .head h1 { font-size: 14pt; margin: 0; }
+      .meta { font-size: 10pt; }
+      .meta span { display: inline-block; border: 1px solid #000; padding: 2mm 8mm; margin-left: 3mm; }
+      .q { page-break-inside: avoid; margin-bottom: 5mm; }
+      .qnum { font-weight: bold; margin: 0 0 1mm; }
+      .opts { display: flex; flex-wrap: wrap; gap: 2mm 8mm; padding-right: 8mm; font-size: 11.5pt; }
+      .ans { background: #f0f0f0; padding: 1.5mm 3mm; border-right: 2pt solid #000; margin-top: 1mm; font-size: 11pt; }
+      img { max-width: 60mm; filter: grayscale(1) contrast(1.15); display: block; margin: 2mm 0; }
+      .foot { margin-top: 8mm; border-top: 1px solid #000; padding-top: 2mm; font-size: 9.5pt; display: flex; justify-content: space-between; }
+    </style></head><body>
+    <div class="head"><h1>${mode === "answers" ? "پاسخنامه آزمون" : "برگه سوالات آزمون"}</h1><div class="meta"><span>نام و نام خانوادگی:</span><span>تعداد سوال: ${toFa(chosen.length)}</span><span>تاریخ: ــــــــ</span></div></div>
+    ${items}
+    <div class="foot"><span>مدرسه ــــــــــــــــ</span><span>نمره کل: ــــــ</span></div>
+    <script>setTimeout(() => window.print(), 300);</script>
+    </body></html>`);
+    w.document.close();
+  }
+  const toFa = (n: number) => n.toLocaleString("fa-IR");
+
+  if (loading) return <LoadingBlock />;
+  if (loadError) return <ErrorBox message={loadError} />;
+  return (
+    <div>
+      <PageHeader
+        title="بانک سوال"
+        desc={`سوالات با درجه سختی — ${faNumber(questions.length)} سوال؛ برای چاپ برگه سوال و پاسخنامه انتخاب کنید`}
+        action={
+          <div className="flex gap-2">
+            <button onClick={() => printPaper("questions")} disabled={!selected.size} className="b-btn b-btn-sm b-btn-ghost"><Printer className="w-4 h-4" /> برگه سوال</button>
+            <button onClick={() => printPaper("answers")} disabled={!selected.size} className="b-btn b-btn-sm b-btn-spring"><Printer className="w-4 h-4" /> پاسخنامه</button>
+            <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-ink"><Plus className="w-4 h-4" /> سوال جدید</button>
+          </div>
+        }
+      />
+      {showNew && (
+        <div className="b-card-md p-5 mb-6 grid gap-3 sm:grid-cols-2">
+          <Select
+            value={form.subjectId}
+            onChange={(v) => setForm({ ...form, subjectId: v })}
+            options={[{ value: "", label: "درس (اختیاری)" }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]}
+            placeholder="درس (اختیاری)"
+            className="w-full"
+            buttonClassName="!w-full"
+          />
+          <input value={form.topic} onChange={(e) => setForm({ ...form, topic: e.target.value })} placeholder="مبحث (مثلاً مشتق) *" className="b-input" />
+          <Select
+            value={form.difficulty}
+            onChange={(v) => setForm({ ...form, difficulty: v })}
+            options={[{ value: "EASY", label: "سختی: آسان" }, { value: "MEDIUM", label: "سختی: متوسط" }, { value: "HARD", label: "سختی: سخت" }]}
+            className="w-full"
+            buttonClassName="!w-full"
+          />
+          <Select
+            value={form.kind}
+            onChange={(v) => setForm({ ...form, kind: v })}
+            options={Object.entries(KIND).map(([k, v]) => ({ value: k, label: v }))}
+            className="w-full"
+            buttonClassName="!w-full"
+          />
+          <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} placeholder="متن سوال *" className="b-input sm:col-span-2 !min-h-[70px]" />
+          {form.kind === "MULTI" && (
+            <div className="sm:col-span-2 grid grid-cols-2 gap-2">
+              {form.options.map((o, i) => (
+                <input key={i} value={o} onChange={(e) => { const opts = [...form.options]; opts[i] = e.target.value; setForm({ ...form, options: opts }); }} placeholder={`گزینه ${toFa(i + 1)}`} className="b-input !h-10" />
+              ))}
+            </div>
+          )}
+          <input value={form.answer} onChange={(e) => setForm({ ...form, answer: e.target.value })} placeholder="پاسخ صحیح" className="b-input" />
+          <input value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} placeholder="لینک تصویر (اختیاری — چاپ سیاه‌وسفید می‌شود)" className="b-input" dir="ltr" />
+          <button onClick={submit} className="b-btn b-btn-sm b-btn-spring sm:col-span-2 w-fit">ثبت سوال</button>
+        </div>
+      )}
+      <div className="flex gap-1.5 mb-5">
+        <Select
+          value={filters.subjectId}
+          onChange={(v) => setFilters({ ...filters, subjectId: v })}
+          options={[{ value: "", label: "همه درس‌ها" }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]}
+          placeholder="همه درس‌ها"
+          className="!w-40"
+          buttonClassName="!h-10 !w-40"
+        />
+        <Select
+          value={filters.difficulty}
+          onChange={(v) => setFilters({ ...filters, difficulty: v })}
+          options={[{ value: "", label: "همه سطوح" }, { value: "EASY", label: "آسان" }, { value: "MEDIUM", label: "متوسط" }, { value: "HARD", label: "سخت" }]}
+          placeholder="همه سطوح"
+          className="!w-32"
+          buttonClassName="!h-10 !w-32"
+        />
+        {selected.size > 0 && <span className="b-badge b-badge-spring self-center">{faNumber(selected.size)} انتخاب‌شده</span>}
+      </div>
+      {questions.length === 0 ? <EmptyState icon={FileQuestion} title="سوالی ثبت نشده" desc="اولین سوال بانک را بسازید." /> : (
+        <div className="flex flex-col gap-2.5">
+          {questions.map((q) => {
+            const opts = JSON.parse(q.options || "[]") as string[];
+            return (
+              <label key={q.id} className={`b-card-sm p-4 flex items-start gap-3 cursor-pointer transition-colors ${selected.has(q.id) ? "!border-spring bg-spring-tint/30" : "hover:bg-cloud"}`}>
+                <input type="checkbox" checked={selected.has(q.id)} onChange={() => toggle(q.id)} className="mt-1 w-4 h-4 accent-[#00825e] shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    {q.subject && <span className="b-badge b-badge-neutral">{q.subject.name}</span>}
+                    <span className={`b-badge ${DIFF[q.difficulty]?.cls ?? "b-badge-neutral"}`}>{DIFF[q.difficulty]?.label}</span>
+                    <span className="text-[10.5px] text-stone">{q.topic}</span>
+                  </div>
+                  <p className="text-[13px] font-bold leading-relaxed">{q.body}</p>
+                  {opts.length > 0 && <p className="text-[11.5px] text-steel mt-1">{opts.map((o, j) => `${["۱)", "۲)", "۳)", "۴)"][j] ?? ""} ${o}`).join("   ")}</p>}
+                  {q.answer && <p className="text-[11px] text-spring-deep mt-1">پاسخ: {q.answer}</p>}
+                </div>
+                <button onClick={(e) => { e.preventDefault(); remove(q.id); }} className="text-stone hover:text-destructive shrink-0"><Trash2 className="w-4 h-4" /></button>
+              </label>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}

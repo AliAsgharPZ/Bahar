@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# next.js / build output
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+
+# environment & secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*secret*.txt
+
+# local database, backups and user uploads — never commit
+/db/*.db
+/db/*.db-journal
+/db/backups/*
+!/db/backups/.gitkeep
+/db/uploads/*
+!/db/uploads/.gitkeep
+*.db
+
+# generated local files
+bahar-test-accounts.txt
+/download/
+*.log
+dev.log
+server.log
+nohup.out
+.DS_Store
+
+# vercel / cloudflare
+.vercel
+.wrangler
+/.open-next/
+/src/generated/

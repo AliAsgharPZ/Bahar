@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Bahar" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#0C1210</item>
+        <item name="android:navigationBarColor">#0C1210</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:colorPrimary">@color/bahar_spring</item>
+    </style>
+</resources>
