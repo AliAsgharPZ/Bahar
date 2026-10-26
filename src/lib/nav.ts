@@ -7,7 +7,7 @@ import {
   Zap, Wrench, Vote, ScrollText, FileBarChart, ShieldAlert, HeartPulse,
   Home, MessagesSquare, Coins, SlidersHorizontal, Building2, FileUp,
   IdCard, Repeat,
-  Bus, FileText, Video,
+  Bus, FileText, Video, Armchair, MessageSquareText,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -66,6 +66,8 @@ export const NAV: NavItem[] = [
   { href: "/app/substitutions", label: "جایگزینی معلم", tKey: "nav.substitutions", short: "جایگزینی", icon: Repeat, roles: ["MANAGER", "DEPUTY"], tint: 0, group: "education" },
   { href: "/app/id-cards", label: "کارت شناسایی", tKey: "nav.idCards", short: "کارت شناسایی", icon: IdCard, roles: ["MANAGER", "DEPUTY", "CUSTODIAN"], tint: 3, group: "students" },
   { href: "/app/virtual-sessions", label: "کلاس مجازی", tKey: "nav.virtualSessions", short: "کلاس مجازی", icon: Video, roles: ["*"], tint: 0, group: "education" },
+  { href: "/app/seating", label: "چیدمان صندلی", tKey: "nav.seating", short: "صندلی", icon: Armchair, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 1, group: "education" },
+  { href: "/app/report-comments", label: "کامنت کارنامه", tKey: "nav.reportComments", short: "کامنت", icon: MessageSquareText, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 2, group: "education" },
   { href: "/app/transport", label: "سرویس مدرسه", tKey: "nav.transport", short: "سرویس", icon: Bus, roles: ["*"], tint: 1, group: "services" },
   { href: "/app/gate-passes", label: "مجوز خروج", tKey: "nav.gatePasses", short: "مجوز خروج", icon: DoorOpen, roles: ["*"], tint: 2, group: "students" },
   { href: "/app/alumni", label: "فارغ‌التحصیلان", tKey: "nav.alumni", short: "فارغ‌التحصیلان", icon: GraduationCap, roles: ["MANAGER", "DEPUTY"], tint: 3, group: "students" },

@@ -85,6 +85,7 @@ model User {
   blogPosts             BlogPost[]             @relation("BlogAuthor")
   backups               Backup[]               @relation("BackupCreator")
   staffAttendances      StaffAttendance[]
+  announcementReads     AnnouncementRead[]
   notifications         Notification[]         @relation("NotificationUser")
   behaviorRecords       BehaviorRecord[]       @relation("BehaviorRecorder")
   questionsAuthored     Question[]             @relation("QuestionAuthor")
@@ -204,6 +205,7 @@ model Class {
   attendances         Attendance[]
   gradeRecords        GradeRecord[]
   behaviorRecords     BehaviorRecord[]
+  seatingPlan         SeatingPlan?
 
   @@unique([schoolId, name, academicYear])
   @@index([schoolId])
@@ -252,6 +254,8 @@ model Student {
   gatePasses        GatePass[]
   formSubmissions   FormSubmission[]
   alumniProfile     AlumniProfile?
+  assignmentSubmissions AssignmentSubmission[]
+  reportComments    ReportComment[]
 
   @@unique([schoolId, studentNumber])
   @@index([classId])
@@ -382,8 +386,11 @@ model Assignment {
   title       String
   description String
   dueDate     DateTime
+  targetStudentIds String @default("[]") // JSON: [] = همهٔ کلاس، یا فهرست دانش‌آموزان خاص
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  submissions AssignmentSubmission[]
 
   @@index([classId])
   @@index([dueDate])
@@ -424,6 +431,8 @@ model Announcement {
   createdById     String?
   createdBy       User?    @relation("AnnouncementCreator", fields: [createdById], references: [id])
   createdAt       DateTime @default(now())
+
+  reads           AnnouncementRead[]
 
   @@index([schoolId, createdAt])
   @@index([scope, createdAt])
@@ -1646,6 +1655,8 @@ model TransportAssignment {
   monthlyFee Int            @default(0) // تومان
   createdAt  DateTime       @default(now())
 
+  boardings  TransportBoarding[]
+
   @@unique([routeId, studentId])
   @@index([schoolId, studentId])
 }
@@ -1734,6 +1745,87 @@ model AlumniProfile {
   updatedAt      DateTime @updatedAt
 
   @@index([schoolId])
+}
+
+model AssignmentSubmission {
+  id           String     @id @default(cuid())
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  studentId    String
+  student      Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  content      String     @default("") // متن/پاسخ تحویلی
+  status       String     @default("SUBMITTED") // SUBMITTED | LATE | EXEMPT
+  receiptCode  String // کد رسید تحویل
+  submittedAt  DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([assignmentId, studentId])
+  @@index([studentId])
+}
+
+model AnnouncementRead {
+  id             String       @id @default(cuid())
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  readAt         DateTime     @default(now())
+
+  @@unique([announcementId, userId])
+  @@index([userId])
+}
+
+model SeatingPlan {
+  id          String   @id @default(cuid())
+  schoolId    String
+  classId     String   @unique
+  class       Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  layout      String   @default("{}") // JSON: { cols, seats: { "r-c": studentId } }
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([schoolId])
+}
+
+model TransportBoarding {
+  id           String             @id @default(cuid())
+  schoolId     String
+  assignmentId String
+  assignment   TransportAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  date         String // تاریخ شمسی
+  boardedAt    DateTime?
+  alightedAt   DateTime?
+  markedById   String?
+  createdAt    DateTime           @default(now())
+
+  @@unique([assignmentId, date])
+  @@index([schoolId, date])
+}
+
+model ReportCommentTemplate {
+  id          String   @id @default(cuid())
+  schoolId    String
+  category    String   @default("GENERAL") // GENERAL | POSITIVE | IMPROVE | ATTENDANCE
+  text        String
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  @@index([schoolId])
+}
+
+model ReportComment {
+  id          String   @id @default(cuid())
+  schoolId    String
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  term        Int      @default(1)
+  text        String
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([schoolId, studentId])
 }
 
 model VirtualSession {

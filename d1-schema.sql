@@ -1646,6 +1646,78 @@ CREATE TABLE IF NOT EXISTS "VirtualSession" (
 );
 CREATE INDEX "VirtualSession_schoolId_startsAt_idx" ON "VirtualSession"("schoolId", "startsAt");
 
+ALTER TABLE "Assignment" ADD COLUMN "targetStudentIds" TEXT NOT NULL DEFAULT '[]';
+CREATE TABLE IF NOT EXISTS "AnnouncementRead" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "announcementId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "readAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "AnnouncementRead_announcementId_fkey" FOREIGN KEY ("announcementId") REFERENCES "Announcement" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "AnnouncementRead_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+)
+CREATE TABLE IF NOT EXISTS "AssignmentSubmission" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "assignmentId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "content" TEXT NOT NULL DEFAULT '',
+    "status" TEXT NOT NULL DEFAULT 'SUBMITTED',
+    "receiptCode" TEXT NOT NULL,
+    "submittedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "AssignmentSubmission_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "Assignment" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "AssignmentSubmission_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+)
+CREATE TABLE IF NOT EXISTS "ReportComment" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "term" INTEGER NOT NULL DEFAULT 1,
+    "text" TEXT NOT NULL,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "ReportComment_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+)
+CREATE TABLE IF NOT EXISTS "ReportCommentTemplate" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "category" TEXT NOT NULL DEFAULT 'GENERAL',
+    "text" TEXT NOT NULL,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+)
+CREATE TABLE IF NOT EXISTS "SeatingPlan" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "classId" TEXT NOT NULL,
+    "layout" TEXT NOT NULL DEFAULT '{}',
+    "updatedById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "SeatingPlan_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+)
+CREATE TABLE IF NOT EXISTS "TransportBoarding" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "assignmentId" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "boardedAt" DATETIME,
+    "alightedAt" DATETIME,
+    "markedById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "TransportBoarding_assignmentId_fkey" FOREIGN KEY ("assignmentId") REFERENCES "TransportAssignment" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+)
+CREATE INDEX IF NOT EXISTS "AssignmentSubmission_studentId_idx" ON "AssignmentSubmission"("studentId")
+CREATE UNIQUE INDEX IF NOT EXISTS "AssignmentSubmission_assignmentId_studentId_key" ON "AssignmentSubmission"("assignmentId", "studentId")
+CREATE INDEX IF NOT EXISTS "AnnouncementRead_userId_idx" ON "AnnouncementRead"("userId")
+CREATE UNIQUE INDEX IF NOT EXISTS "AnnouncementRead_announcementId_userId_key" ON "AnnouncementRead"("announcementId", "userId")
+CREATE UNIQUE INDEX IF NOT EXISTS "SeatingPlan_classId_key" ON "SeatingPlan"("classId")
+CREATE INDEX IF NOT EXISTS "SeatingPlan_schoolId_idx" ON "SeatingPlan"("schoolId")
+CREATE INDEX IF NOT EXISTS "TransportBoarding_schoolId_date_idx" ON "TransportBoarding"("schoolId", "date")
+CREATE UNIQUE INDEX IF NOT EXISTS "TransportBoarding_assignmentId_date_key" ON "TransportBoarding"("assignmentId", "date")
+CREATE INDEX IF NOT EXISTS "ReportCommentTemplate_schoolId_idx" ON "ReportCommentTemplate"("schoolId")
+CREATE INDEX IF NOT EXISTS "ReportComment_schoolId_studentId_idx" ON "ReportComment"("schoolId", "studentId")
+
 CREATE TABLE IF NOT EXISTS "FileBlob" (
     "key" TEXT NOT NULL PRIMARY KEY,
     "data" BLOB NOT NULL,

@@ -34,6 +34,62 @@ export default function TransportPage() {
   const [stopName, setStopName] = useState("");
   const [fee, setFee] = useState("");
 
+  function BoardingSection() {
+    type BItem = { assignmentId?: string; routeName: string; stopName?: string | null; student?: { name: string; className: string }; boardedAt: string | null; alightedAt: string | null; driverName?: string };
+    const [items, setItems] = useState<BItem[] | null>(null);
+    const staffMode = data?.staff ?? false;
+    const loadB = useCallback(() => {
+      apiGet<{ items: BItem[] }>("/api/transport/boarding").then((d) => setItems(d.items ?? [])).catch(() => setItems([]));
+    }, []);
+    useEffect(() => { loadB(); }, [loadB]);
+    async function mark(assignmentId: string, leg: "board" | "alight", value: boolean) {
+      try {
+        await apiPost("/api/transport/boarding", { assignmentId, leg, value });
+        loadB();
+      } catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); }
+    }
+    if (items === null) return null;
+    if (!staffMode) {
+      if (items.length === 0) return null;
+      return (
+        <div className="b-card p-5 flex flex-col gap-3">
+          <b className="text-[14px]">وضعیت سرویس امروز</b>
+          {items.map((it, i) => (
+            <div key={i} className="flex items-center justify-between gap-3 text-[13px]">
+              <span>{it.routeName}</span>
+              <span className="flex gap-1.5">
+                <span className={`b-badge ${it.boardedAt ? "b-badge-spring" : "b-badge-neutral"}`}>{it.boardedAt ? "سوار شد" : "هنوز سوار نشده"}</span>
+                <span className={`b-badge ${it.alightedAt ? "b-badge-spring" : "b-badge-neutral"}`}>{it.alightedAt ? "پیاده شد" : "در مسیر"}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    if (items.length === 0) return null;
+    const byRoute = new Map<string, BItem[]>();
+    for (const it of items) byRoute.set(it.routeName, [...(byRoute.get(it.routeName) ?? []), it]);
+    return (
+      <div className="b-card p-5 flex flex-col gap-4">
+        <b className="text-[14px]">سوار و پیاده‌شدن امروز — چک‌لیست مراقب سرویس</b>
+        {[...byRoute.entries()].map(([route, list]) => (
+          <div key={route} className="flex flex-col gap-1.5">
+            <span className="text-[12px] font-bold text-steel">{route}</span>
+            {list.map((it) => (
+              <div key={it.assignmentId} className="flex items-center justify-between gap-2 py-1 border-b border-hairline last:border-0 text-[12.5px]">
+                <span>{it.student?.name} <span className="text-steel">{it.stopName ?? ""}</span></span>
+                <span className="flex gap-1.5">
+                  <button className={`b-badge ${it.boardedAt ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => mark(it.assignmentId!, "board", !it.boardedAt)}>سوار {it.boardedAt ? "✓" : ""}</button>
+                  <button className={`b-badge ${it.alightedAt ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => mark(it.assignmentId!, "alight", !it.alightedAt)}>پیاده {it.alightedAt ? "✓" : ""}</button>
+                </span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const load = useCallback(() => { apiGet<Data>("/api/transport").then(setData).catch(() => setData({ staff: false, routes: [], assignments: [] })); }, []);
   useEffect(() => { load(); }, [load]);
 
@@ -99,6 +155,8 @@ export default function TransportPage() {
           </button>
         ) : undefined}
       />
+
+      <BoardingSection />
 
       {!data.staff && (
         data.assignments.length === 0

@@ -2,16 +2,19 @@
 
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Plus, Trash2, Loader2, NotebookPen, CalendarClock, Pencil, Check, X } from "lucide-react";
+import { Plus, Trash2, Loader2, NotebookPen, CalendarClock, Pencil, Check, X, Send, ReceiptText, UserCheck } from "lucide-react";
 import { useApi, apiPost, apiDelete, apiPatch } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select, useConfirm } from "@/components/shared/pickers";
 import { formatDateFa, faNumber } from "@/lib/persian";
 
+type Submission = { id: string; status: string; receiptCode: string; submittedAt: string; content: string };
 type Assignment = {
   id: string; title: string; description: string; dueDate: string; createdAt: string;
   class: { id: string; name: string } | null; subject: { id: string; name: string } | null;
   teacher: { firstName: string; lastName: string } | null;
+  mySubmission?: Submission | null;
+  _count?: { submissions: number };
 };
 type ClassRow = { id: string; name: string };
 type SubjectRow = { id: string; name: string };
@@ -24,7 +27,9 @@ export default function AssignmentsPage() {
   const confirm = useConfirm();
   const [show, setShow] = useState(false);
   const [form, setForm] = useState({ classId: "", subjectId: "", title: "", description: "", dueDate: "" });
+  const [targets, setTargets] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
+  const { data: rosterData } = useApi<{ students: { id: string; name: string }[] }>(show && form.classId ? `/api/seating?classId=${form.classId}` : null);
 
   const mine = me?.user.role === "TEACHER";
   const { data, loading, error, refetch } = useApi<{ assignments: Assignment[] }>(mine ? "/api/assignments?mine=1" : "/api/assignments");
@@ -39,9 +44,10 @@ export default function AssignmentsPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      await apiPost("/api/assignments", form);
+      await apiPost("/api/assignments", { ...form, targetStudentIds: targets });
       toast.success("تکلیف ایجاد شد.");
       setShow(false);
+      setTargets([]);
       setForm({ classId: "", subjectId: "", title: "", description: "", dueDate: "" });
       refetch();
     } catch (err) {
@@ -88,6 +94,92 @@ export default function AssignmentsPage() {
     }
   }
 
+  const isStudent = me?.user.role === "STUDENT";
+
+  function SubmissionsBox({ a }: { a: Assignment }) {
+    const [open, setOpen] = useState(false);
+    const [content, setContent] = useState("");
+    const [busy, setBusy] = useState(false);
+    const [roster, setRoster] = useState<{ student: { id: string; firstName: string; lastName: string }; submission: Submission | null }[] | null>(null);
+    const [counts, setCounts] = useState<{ total: number; submitted: number; late: number; exempt: number } | null>(null);
+
+    async function loadRoster() {
+      const res = await fetch(`/api/assignments/${a.id}/submissions`, { credentials: "include" }).then((x) => x.json()).catch(() => null);
+      if (res?.ok) { setRoster(res.roster); setCounts(res.counts); }
+    }
+
+    async function submit() {
+      setBusy(true);
+      try {
+        const r = await apiPost<{ receipt: { code: string } }>(`/api/assignments/${a.id}/submissions`, { action: "submit", content });
+        toast.success(`تحویل شد — کد رسید: ${r.receipt.code}`);
+        refetch();
+      } catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); }
+      finally { setBusy(false); }
+    }
+
+    async function toggleExempt(studentId: string, exempt: boolean) {
+      try {
+        await apiPost(`/api/assignments/${a.id}/submissions`, { action: exempt ? "exempt" : "unexempt", studentId });
+        loadRoster();
+      } catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); }
+    }
+
+    if (isStudent) {
+      const mine = a.mySubmission;
+      if (mine?.status === "EXEMPT") return <div className="b-badge b-badge-neutral self-start">از این تکلیف معاف شده‌اید</div>;
+      if (mine) {
+        return (
+          <div className="rounded-xl bg-spring-tint/60 p-3 flex items-center gap-2 text-[12.5px]">
+            <ReceiptText className="w-4 h-4 text-spring shrink-0" />
+            <span>تحویل شد — کد رسید <b dir="ltr">{mine.receiptCode}</b> · {formatDateFa(mine.submittedAt)}{mine.status === "LATE" ? " · با تأخیر" : ""}</span>
+          </div>
+        );
+      }
+      return (
+        <div className="flex flex-col gap-2">
+          <button className="b-btn b-btn-ghost b-btn-sm self-start" onClick={() => setOpen((v) => !v)}>
+            <Send className="w-4 h-4" /> تحویل تکلیف
+          </button>
+          {open && (
+            <div className="flex flex-col gap-2">
+              <textarea className="b-input min-h-20" placeholder="پاسخ یا توضیح تحویل…" value={content} onChange={(e) => setContent(e.target.value)} />
+              <button className="b-btn b-btn-spring b-btn-sm self-start" disabled={busy} onClick={submit}>
+                {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />} ثبت تحویل و دریافت رسید
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex flex-col gap-2">
+        <button className="b-btn b-btn-ghost b-btn-sm self-start" onClick={() => { setOpen((v) => !v); if (!roster) loadRoster(); }}>
+          <UserCheck className="w-4 h-4" /> تحویل‌ها ({faNumber(a._count?.submissions ?? 0)})
+        </button>
+        {open && (
+          <div className="flex flex-col gap-1 max-h-64 overflow-y-auto b-scroll">
+            {roster === null && <Loader2 className="w-4 h-4 animate-spin" />}
+            {counts && <p className="text-[11.5px] text-steel">از {faNumber(counts.total)} نفر: {faNumber(counts.submitted)} تحویل ({faNumber(counts.late)} با تأخیر) · {faNumber(counts.exempt)} معاف</p>}
+            {(roster ?? []).map((r) => (
+              <div key={r.student.id} className="flex items-center justify-between gap-2 py-1.5 border-b border-hairline last:border-0 text-[12.5px]">
+                <span>{r.student.firstName} {r.student.lastName}</span>
+                {r.submission?.status === "EXEMPT" ? (
+                  <button className="b-badge b-badge-neutral" onClick={() => toggleExempt(r.student.id, false)}>معاف ✕</button>
+                ) : r.submission ? (
+                  <span className="b-badge b-badge-spring" dir="ltr">{r.submission.receiptCode}{r.submission.status === "LATE" ? " · دیر" : ""}</span>
+                ) : (
+                  <button className="b-badge b-badge-neutral hover:bg-stone" onClick={() => toggleExempt(r.student.id, true)}>تحویل نشده — معاف‌کردن</button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   function Card({ a }: { a: Assignment }) {
     const overdue = new Date(a.dueDate).getTime() < now;
     return (
@@ -114,6 +206,7 @@ export default function AssignmentsPage() {
             </span>
           )}
         </div>
+        {(isStudent || !["PARENT"].includes(me?.user.role ?? "")) && <SubmissionsBox a={a} />}
       </div>
     );
   }
@@ -189,6 +282,20 @@ export default function AssignmentsPage() {
                 <span className="text-[12.5px] font-bold">مهلت *</span>
                 <input className="b-input" dir="ltr" type="datetime-local" value={form.dueDate} onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} required />
               </label>
+              {form.classId && (rosterData?.students.length ?? 0) > 0 && (
+                <div className="sm:col-span-2 flex flex-col gap-1.5">
+                  <span className="text-[12.5px] font-bold">گیرندگان خاص (اختیاری — خالی یعنی همهٔ کلاس)</span>
+                  <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto b-scroll">
+                    {(rosterData?.students ?? []).map((s) => {
+                      const on = targets.includes(s.id);
+                      return (
+                        <button type="button" key={s.id} onClick={() => setTargets((t) => (on ? t.filter((x) => x !== s.id) : [...t, s.id]))}
+                          className={`b-badge ${on ? "b-badge-spring" : "b-badge-neutral"}`}>{s.name}</button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               <div className="sm:col-span-2 flex items-center gap-3 mt-2">
                 <button type="submit" disabled={saving} className="b-btn b-btn-spring">
                   {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "ایجاد تکلیف"}

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { BellRing, Pin, Trash2, Loader2, MapPin, Send, Users, Globe2 } from "lucide-react";
+import { BellRing, Pin, Trash2, Loader2, MapPin, Send, Users, Globe2, Eye } from "lucide-react";
 import { useApi, apiPost, apiDelete, apiPatch } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { IranMapPicker, type RegionSelection } from "@/components/shared/iran-map-picker";
@@ -105,6 +105,27 @@ export default function AnnouncementsPage() {
       refetch();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "خطا");
+    }
+  }
+
+  // رسید خواندن: بازشدن این صفحه یعنی اطلاعیه‌ها دیده شده‌اند
+  const markedRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    for (const a of data?.announcements ?? []) {
+      if (markedRef.current.has(a.id)) continue;
+      markedRef.current.add(a.id);
+      fetch(`/api/announcements/${a.id}/read`, { method: "POST", credentials: "include" }).catch(() => {});
+    }
+  }, [data]);
+
+  const [readStats, setReadStats] = useState<Record<string, { count: number; readers: { name: string; role: string }[] }>>({});
+  const [readOpen, setReadOpen] = useState<string | null>(null);
+  async function toggleReaders(a: Announcement) {
+    if (readOpen === a.id) { setReadOpen(null); return; }
+    setReadOpen(a.id);
+    if (!readStats[a.id]) {
+      const res = await fetch(`/api/announcements/${a.id}/read`, { credentials: "include" }).then((x) => x.json()).catch(() => null);
+      if (res?.ok) setReadStats((s) => ({ ...s, [a.id]: { count: res.count, readers: res.readers } }));
     }
   }
 
@@ -279,6 +300,9 @@ export default function AnnouncementsPage() {
                 </span>
                 {canSend && (
                   <div className="ms-auto flex items-center gap-1">
+                    <button className="b-btn b-btn-ghost b-btn-sm !text-steel !p-0 !w-8 !min-w-8" onClick={() => toggleReaders(a)} title="چه کسانی خوانده‌اند؟">
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
                     <button className="b-btn b-btn-ghost b-btn-sm !text-steel !p-0 !w-8 !min-w-8" onClick={() => togglePin(a)} title={a.pinned ? "برداشتن سنجاق" : "سنجاق"}>
                       <Pin className={`w-3.5 h-3.5 ${a.pinned ? "text-spring" : ""}`} />
                     </button>
@@ -288,6 +312,23 @@ export default function AnnouncementsPage() {
                   </div>
                 )}
               </div>
+              {canSend && readOpen === a.id && (
+                <div className="mt-3 rounded-xl bg-cloud p-3 text-[12px]">
+                  {readStats[a.id] ? (
+                    <>
+                      <b>{faDigits(readStats[a.id].count)} نفر خوانده‌اند</b>
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {readStats[a.id].readers.slice(0, 40).map((r, i) => (
+                          <span key={i} className="b-badge b-badge-neutral !text-[10px]">{r.name}</span>
+                        ))}
+                        {readStats[a.id].readers.length === 0 && <span className="text-steel">هنوز کسی نخوانده است.</span>}
+                      </div>
+                    </>
+                  ) : (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  )}
+                </div>
+              )}
             </div>
           );
         })}

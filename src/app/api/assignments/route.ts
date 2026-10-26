@@ -12,17 +12,25 @@ export async function GET(req: NextRequest) {
     const schoolId = me.schoolId;
 
     if (me.role === "STUDENT") {
-      const profile = await db.student.findUnique({ where: { userId: me.id }, select: { classId: true } });
+      const profile = await db.student.findUnique({ where: { userId: me.id }, select: { id: true, classId: true } });
       if (!profile?.classId) return apiOk({ assignments: [] });
-      const assignments = await db.assignment.findMany({
+      const all = await db.assignment.findMany({
         where: { classId: profile.classId },
         include: {
           subject: { select: { name: true } },
           teacher: { select: { firstName: true, lastName: true } },
           class: { select: { name: true } },
+          submissions: { where: { studentId: profile.id } },
         },
         orderBy: { dueDate: "desc" },
       });
+      // تکلیف هدفمند: فقط گیرندگان مشخص‌شده می‌بینند ([] = همهٔ کلاس)
+      const assignments = all.filter((a) => {
+        try {
+          const targets = JSON.parse(a.targetStudentIds || "[]") as string[];
+          return targets.length === 0 || targets.includes(profile.id);
+        } catch { return true; }
+      }).map((a) => ({ ...a, mySubmission: a.submissions[0] ?? null, submissions: undefined }));
       return apiOk({ assignments });
     }
 
@@ -69,6 +77,7 @@ export async function GET(req: NextRequest) {
         subject: { select: { name: true } },
         teacher: { select: { firstName: true, lastName: true } },
         class: { select: { name: true, grade: true } },
+        _count: { select: { submissions: true } },
       },
       orderBy: { dueDate: "desc" },
       take: 300,
@@ -114,8 +123,19 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // گیرندگان خاص (اختیاری): فهرست شناسه دانش‌آموزان همان کلاس
+    let targetStudentIds = "[]";
+    const rawTargets = (body as Record<string, unknown>).targetStudentIds;
+    if (Array.isArray(rawTargets) && rawTargets.length) {
+      const valid = await db.student.findMany({
+        where: { id: { in: rawTargets.map(String) }, classId, status: "ACTIVE" },
+        select: { id: true },
+      });
+      targetStudentIds = JSON.stringify(valid.map((s) => s.id));
+    }
+
     const assignment = await db.assignment.create({
-      data: { classId, subjectId, teacherId: me.id, title, description, dueDate: due },
+      data: { classId, subjectId, teacherId: me.id, title, description, dueDate: due, targetStudentIds },
     });
     await audit({ user: me, action: "CREATE_ASSIGNMENT", entityType: "ASSIGNMENT", entityId: assignment.id, schoolId });
     return apiOk({ assignment });

@@ -71,6 +71,8 @@ export const CATALOG: Record<string, string> = {
   "nav.idCards": "کارت شناسایی",
   "nav.substitutions": "جایگزینی معلم",
   "nav.virtualSessions": "کلاس مجازی",
+  "nav.seating": "چیدمان صندلی",
+  "nav.reportComments": "کامنت کارنامه",
   "nav.transport": "سرویس مدرسه",
   "nav.gatePasses": "مجوز خروج",
   "nav.alumni": "فارغ‌التحصیلان",
