@@ -1,6 +1,9 @@
 // ============================================================
-// بهار | سایت عمومی مدرسه — ۱۰ تمپلیت کامل + پیکربندی قابل ویرایش
+// بهار | سایت عمومی مدرسه — ۱۶ تمپلیت کامل + پیکربندی قابل ویرایش
 // مدیر مدرسه فقط متن/تصویر/رنگ/بخش‌ها را تغییر می‌دهد؛ ساختار قفل است.
+// شش تمپلیت تازه (پردهٔ سینمایی، گرم و تصویری، دفتر آرام، گرادیان
+// نوین، دقیق و تاریک، موج پرانرژی) هرکدام خانوادهٔ چیدمان اختصاصی
+// خودشان را دارند و از زبان‌های طراحی getdesign.md الهام گرفته‌اند.
 // ============================================================
 
 export type SiteSectionKey =
@@ -146,6 +149,72 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
       { label: "گالری", primary: "#7C3AED", accent: "#EC4899", bg: "#FAF7F2" },
       { label: "آبرنگ", primary: "#DB2777", accent: "#0891B2", bg: "#FDF7FA" },
       { label: "نقاشی مدرن", primary: "#4F46E5", accent: "#F59E0B", bg: "#F8F7FD" },
+    ],
+  },
+  {
+    id: "apple",
+    name: "پردهٔ سینمایی",
+    desc: "تایپوگرافی غول‌پیکرِ مرکزی، فضای سفید و نوارهای خاکستری یکی‌درمیان — الهام از زبان طراحی Apple، برای مدارس خاص و مدرن",
+    palettes: [
+      { label: "سفید و آبی", primary: "#0066CC", accent: "#2997FF", bg: "#FFFFFF" },
+      { label: "خاکستری روشن", primary: "#1D1D1F", accent: "#0066CC", bg: "#F5F5F7" },
+      { label: "مشکی سینمایی", primary: "#2997FF", accent: "#A1A1A6", bg: "#000000" },
+      { label: "سبز آموزشی", primary: "#00825E", accent: "#2997FF", bg: "#FFFFFF" },
+    ],
+  },
+  {
+    id: "airbnb",
+    name: "گرم و تصویری",
+    desc: "کارت‌های تصویری بزرگ با گوشه‌های خیلی نرم و سایه‌های لطیف — الهام از زبان طراحی Airbnb، صمیمی برای اولیا و دانش‌آموزان",
+    palettes: [
+      { label: "مرجانی", primary: "#FF385C", accent: "#00A699", bg: "#FFFFFF" },
+      { label: "فیروزه‌ای", primary: "#00A699", accent: "#FF385C", bg: "#F7F7F7" },
+      { label: "آلویی گرم", primary: "#92174D", accent: "#FFC24B", bg: "#FFF9F5" },
+      { label: "جنگلی", primary: "#2E7D5B", accent: "#FF8A5C", bg: "#FAFAF7" },
+    ],
+  },
+  {
+    id: "notion",
+    name: "دفتر آرام",
+    desc: "ستون باریکِ سندگونه با خطوط مویی و سطوح گرم؛ آرام، خوانا و بی‌ادا — الهام از زبان طراحی Notion، مناسب مدارس فکری و پژوهشی",
+    palettes: [
+      { label: "مرکب و آبی", primary: "#37352F", accent: "#0075DE", bg: "#FFFFFF" },
+      { label: "یادداشت قرمز", primary: "#37352F", accent: "#E03E3E", bg: "#FFFFFF" },
+      { label: "نعنایی آرام", primary: "#1F3D33", accent: "#0F7B6C", bg: "#FBFCFB" },
+      { label: "بنفش ملایم", primary: "#2E2A47", accent: "#7B61C9", bg: "#FCFBFE" },
+    ],
+  },
+  {
+    id: "stripe",
+    name: "گرادیان نوین",
+    desc: "هیروی گرادیانی، کارت‌های شناور با سایهٔ رنگی و تایپ سبک و شیک — الهام از زبان طراحی Stripe، برای مدارس فناور و استارتاپی",
+    palettes: [
+      { label: "بنفش امضا", primary: "#533AFD", accent: "#00D4FF", bg: "#FFFFFF" },
+      { label: "آبی اقیانوس", primary: "#0A5CFF", accent: "#533AFD", bg: "#F6F9FC" },
+      { label: "نعنایی تازه", primary: "#00B37D", accent: "#533AFD", bg: "#FFFFFF" },
+      { label: "غروب صورتی", primary: "#E5548B", accent: "#FFB86B", bg: "#FFFBF7" },
+    ],
+  },
+  {
+    id: "linear",
+    name: "دقیق و تاریک",
+    desc: "نزدیک‌به‌مشکی با خطوط مویی، درخشش ملایم لهجه و گریدهای فشرده — الهام از زبان طراحی Linear، برای مدارس نخبه و فناور",
+    palettes: [
+      { label: "بنفش خطی", primary: "#5E6AD2", accent: "#8A93E8", bg: "#08090A" },
+      { label: "آبی یخی", primary: "#4EA7E8", accent: "#9CC8F0", bg: "#0A0C10" },
+      { label: "سبز دقیق", primary: "#3ECF8E", accent: "#8CE8BB", bg: "#070A08" },
+      { label: "روشن دقیق", primary: "#5E6AD2", accent: "#8A93E8", bg: "#FBFBFD" },
+    ],
+  },
+  {
+    id: "spotify",
+    name: "موج پرانرژی",
+    desc: "مشکیِ جسور با تایپ اکسترادرشت، تصویر دایره‌ای و ردیف‌های افقی — الهام از زبان طراحی Spotify، برای مدارس پرانرژی و جوان‌پسند",
+    palettes: [
+      { label: "سبز موج", primary: "#1DB954", accent: "#1ED760", bg: "#121212" },
+      { label: "آبی شب", primary: "#2D5BFF", accent: "#7A9BFF", bg: "#0B0F1A" },
+      { label: "صورتی پاپ", primary: "#E5548B", accent: "#FF8FBF", bg: "#160A12" },
+      { label: "نارنجی انرژی", primary: "#F0803C", accent: "#FFB37A", bg: "#14100C" },
     ],
   },
 ];
