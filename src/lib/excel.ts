@@ -1,33 +1,21 @@
-import ExcelJS from "exceljs";
+import * as XLSX from "xlsx";
 
 /* ============================================================
    بهار | ابزار اکسل — ایمپورت/اکسپورت انبوه با فایل xlsx
-   سمت سرور — ExcelJS (نگهداری‌شده). قبلاً SheetJS (xlsx@0.18.5)
-   بود که روی npm دیگر اصلاحیهٔ امنیتی نمی‌گیرد (CVE-2023-30533
-   و CVE-2024-22363)؛ برای همین به این کتابخانه کوچ کردیم.
-   ایمپورت: تبدیل شیت اول به CSV تا همان خط‌لولهٔ اعتبارسنجی/ذخیرهٔ
-   موجود تغذیه شود. اکسپورت: ساخت ورک‌بوک چندشیتی با سطر عنوان فارسی.
-   توجه: فرمت قدیمی .xls (باینری) پشتیبانی نمی‌شود — فقط .xlsx.
+   سمت سرور — SheetJS (xlsx) نسخهٔ 0.20.3 از CDN رسمی SheetJS:
+   نسخهٔ npm (0.18.5) آسیب‌پذیری‌های CVE-2023-30533 و
+   CVE-2024-22363 دارد و SheetJS اصلاحیه را فقط از CDN خودش
+   منتشر می‌کند؛ نسخهٔ 0.20.3 هر دو اصلاحیه را دارد.
+   (دوره‌ای ExcelJS استفاده شد ولی درخت وابستگی سنگینش —
+   ۲۳ مگابایت — مرحلهٔ بسته‌بندی OpenNext روی Workers Builds
+   را دو بار پیاپی به تایم‌اوت رساند؛ SheetJS تک‌بسته و سبک
+   است و بیلد موفق استقرار اول هم با همین کتابخانه بود.)
+   ایمپورت: تبدیل شیت اول به CSV تا همان خط‌لولهٔ اعتبارسنجی/
+   ذخیرهٔ موجود تغذیه شود. اکسپورت: ساخت ورک‌بوک چندشیتی با
+   سطر عنوان فارسی. فرمت قدیمی .xls پشتیبانی نمی‌شود.
    ============================================================ */
 
 export const EXCEL_MAX_BYTES = 5 * 1024 * 1024; // ۵ مگابایت
-
-/** متن نمایشی یک سلول — هم‌معنای خروجی قالب‌بندی‌شدهٔ SheetJS */
-function cellText(v: unknown): string {
-  if (v === null || v === undefined) return "";
-  if (typeof v === "string") return v;
-  if (typeof v === "number" || typeof v === "boolean") return String(v);
-  if (v instanceof Date) return v.toISOString().slice(0, 10);
-  const o = v as { result?: unknown; text?: unknown; richText?: Array<{ text?: unknown }> };
-  if (o.result !== undefined) return cellText(o.result);
-  if (Array.isArray(o.richText)) return o.richText.map((r) => String(r.text ?? "")).join("");
-  if (typeof o.text === "string") return o.text;
-  return String(v);
-}
-
-function csvEscape(s: string): string {
-  return /[",\n\r]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s;
-}
 
 /** تبدیل شیت اول فایل اکسل به متن CSV — تغذیه‌کنندهٔ همان parseCsv موجود */
 export async function excelToCsv(buf: Buffer | ArrayBuffer): Promise<{
@@ -35,45 +23,41 @@ export async function excelToCsv(buf: Buffer | ArrayBuffer): Promise<{
   sheetNames: string[];
   headers: string[];
 }> {
-  const wb = new ExcelJS.Workbook();
-  const data = Buffer.isBuffer(buf) ? buf : Buffer.from(buf);
-  await wb.xlsx.load(data as unknown as ExcelJS.Buffer);
-  const sheetNames = wb.worksheets.map((w) => w.name);
-  const ws = wb.worksheets[0];
+  const data = new Uint8Array(buf instanceof ArrayBuffer ? buf : buf.buffer, buf instanceof ArrayBuffer ? 0 : buf.byteOffset, buf instanceof ArrayBuffer ? undefined : buf.byteLength);
+  const wb = XLSX.read(data, { type: "array", cellDates: true });
+  const sheetNames = wb.SheetNames;
+  const ws = wb.Sheets[sheetNames[0]];
   if (!ws) return { csv: "", sheetNames, headers: [] };
-
-  const lines: string[] = [];
-  let headers: string[] = [];
-  ws.eachRow({ includeEmpty: false }, (row) => {
-    const values = (row.values as unknown[]).slice(1).map((v) => cellText(v));
-    if (lines.length === 0) headers = values.map((h) => h.trim());
-    lines.push(values.map(csvEscape).join(","));
-  });
-  return { csv: lines.join("\n"), sheetNames, headers };
+  // خروجی پیش‌فرض sheet_to_csv متن قالب‌بندی‌شدهٔ سلول است (مثل نمایش اکسل)
+  const csv = XLSX.utils.sheet_to_csv(ws);
+  const firstLine = csv.split("\n")[0] ?? "";
+  const headers = firstLine
+    .split(",")
+    .map((h) => h.replace(/^"|"$/g, "").trim());
+  return { csv, sheetNames, headers };
 }
 
 export type ExcelSheet = { name: string; rows: Array<Array<string | number | null>> };
 
 /** ساخت فایل xlsx از چند شیت — سطر اول هر شیت، سطر عنوان است */
 export async function buildExcel(sheets: ExcelSheet[]): Promise<Buffer> {
-  const wb = new ExcelJS.Workbook();
+  const wb = XLSX.utils.book_new();
   for (const s of sheets) {
-    const ws = wb.addWorksheet(s.name.replace(/[\\/?*[\]:]/g, " ").slice(0, 31) || "Sheet");
-    for (const r of s.rows) {
-      ws.addRow(r.map((c) => c ?? "") as Array<string | number>);
-    }
+    const rows = s.rows.map((r) => r.map((c) => c ?? ""));
+    const ws = XLSX.utils.aoa_to_sheet(rows);
     // عرض ستون خودکار (حداقل ۱۰، حداکثر ۴۰ نویسه)
-    const colCount = Math.max(...s.rows.map((r) => r.length), 1);
-    for (let i = 0; i < colCount; i++) {
-      const widest = Math.max(
-        10,
-        ...s.rows.slice(0, 200).map((r) => String(r[i] ?? "").length + 2)
-      );
-      ws.getColumn(i + 1).width = Math.min(40, widest);
-    }
+    const colCount = Math.max(...rows.map((r) => r.length), 1);
+    ws["!cols"] = Array.from({ length: colCount }, (_, i) => ({
+      wch: Math.min(
+        40,
+        Math.max(10, ...rows.slice(0, 200).map((r) => String(r[i] ?? "").length + 2))
+      ),
+    }));
+    const safeName = s.name.replace(/[\\/?*[\]:]/g, " ").slice(0, 31) || "Sheet";
+    XLSX.utils.book_append_sheet(wb, ws, safeName);
   }
-  const out = await wb.xlsx.writeBuffer();
-  return Buffer.from(out as ArrayBuffer);
+  const out = XLSX.write(wb, { type: "array", bookType: "xlsx" }) as Uint8Array;
+  return Buffer.from(out);
 }
 
 /** نام فایل امن برای هدر Content-Disposition (فارسی/لاتین) */

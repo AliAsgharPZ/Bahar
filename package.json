@@ -56,7 +56,6 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
-    "exceljs": "^4.4.0",
     "framer-motion": "^12.23.2",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.525.0",
@@ -79,7 +78,8 @@
     "uuid": "^11.1.0",
     "vaul": "^1.1.2",
     "zod": "^4.0.2",
-    "zustand": "^5.0.6"
+    "zustand": "^5.0.6",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.20.13",
@@ -94,6 +94,6 @@
     "typescript": "^5",
     "wrangler": "^4.152.0"
   },
-  "description": "Bahar — a comprehensive school management system (multi-tenant, Persian-first).",
+  "description": "Bahar \u2014 a comprehensive school management system (multi-tenant, Persian-first).",
   "license": "MIT"
 }
