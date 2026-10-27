@@ -11,25 +11,56 @@ school — in one install.
 ## Features
 
 - **People & structure** — schools (tenants), users with role-based access
-  (super admin, admin, manager, deputy, teacher, student, parent), students
-  with a 360° profile, parents, classes, subjects, teaching assignments and
-  timetables.
-- **Daily operations** — attendance, grades and monthly report cards,
-  assignments, school events, leaves, meetings and tasks.
-- **Communication** — announcements with audience targeting, direct
-  messages, notifications, and credential/announcement delivery through the
-  **Shad** messenger gateway (with an internal simulated mode), plus a
-  Telegram bot.
-- **Finance** — student fees, overdue sweeps and payment tracking.
+  (super admin, admin, manager, deputy, teacher, student, parent, custodian),
+  students with a 360° profile, parents, classes, subjects, teaching
+  assignments and timetables.
+- **Admissions** — a full enrolment pipeline for website leads (new →
+  contacted → tour → waitlist → admitted → enrolled) with one-click
+  conversion of an admitted applicant into a real student account.
+- **Daily operations** — attendance (students and staff), grades and monthly
+  report cards, assignments with targeted delivery, submission receipts and
+  exemptions, school events with iCal export, leaves, meetings and tasks.
+- **Teaching** — question bank, online quizzes with auto-grading, lesson
+  plans with a planned-vs-taught coverage dashboard, substitute-teacher
+  planner, and a school library with loans and overdue tracking.
+- **Exams & reports** — in-person exam operations (deterministic shuffled
+  seating across rooms, invigilators, printable admit cards), descriptive
+  (qualitative) report cards for elementary grades, a report-comment bank
+  with rule-based auto-drafts, and printable student ID cards.
+- **Students & families** — behavior records, badges and houses, wellbeing
+  check-ins and risk scoring, seating charts, transport routes with daily
+  boarding checklists, gate passes, preschool daily reports with an
+  authorized-pickup registry, a health card and clinic visit log with
+  instant parent notification, forms & consent collection, after-school
+  clubs with capacity and waitlists, a cashless canteen wallet with
+  parent top-ups and daily spending limits, a weekly meal plan, an
+  auto-assembled digital portfolio of every achievement, and alumni
+  records.
+- **Communication** — announcements with audience targeting and read
+  receipts, direct messages, notifications, an SMS panel, and
+  credential/announcement delivery through the **Shad** messenger gateway
+  (with an internal simulated mode), plus a Telegram bot.
+- **Finance & HR** — student fees with overdue sweeps, staff payroll with
+  printable payslips, and full data portability (imports, Excel/CSV exports
+  for students, staff, grades, attendance and fees, complete backup/restore).
+- **Year lifecycle** — academic-year rollover: promote classes to the next
+  year or graduate them into alumni records, in one transaction.
 - **Certificates** — designed certificate templates with public QR
   verification.
-- **Public school site** — every school gets a public page (10 templates)
-  with lead capture; internal announcements stay private unless they are
-  addressed to everyone.
-- **Platform** — country packs and language packs, a blog/CMS, question
-  bank, media library, behavior records, badges and houses, wellbeing
-  check-ins and risk scoring, scheduled reports, full audit log, and
-  one-click backup/restore.
+- **Public school site** — every school gets a public page with 16 templates
+  across 10 layout families (each with several color palettes) and lead
+  capture; internal announcements stay private unless they are addressed to
+  everyone.
+- **Printing** — a global print/PDF framework: every panel page prints
+  clean A4 output with an official header (school, section, print date),
+  repeating table headers and unbroken cards, plus dedicated print sheets
+  where they matter — report cards, exam papers with a separate answer
+  key, admit cards, payslips, certificates and student ID cards.
+- **Platform** — a network (EMIS) rollup dashboard for platform admins,
+  per-school country profiles (calendar system, grading scale — 20 / 100 /
+  GPA / letter — currency label and week start, applied to grade exports),
+  country packs and language packs, a blog/CMS, media library, scheduled
+  reports, a full audit log, and one-click backup/restore.
 - **Clients** — responsive web app and PWA, plus optional Android (WebView)
   and Windows (Electron) shells under `scripts/`.
 
@@ -97,7 +128,7 @@ default password.
 src/app          pages and API routes (App Router)
 src/components   UI components
 src/lib          auth, backup, scheduler, shad/telegram gateways, i18n, …
-prisma           schema (68 models) and seed
+prisma           schema (102 models) and seed
 scripts          seed/dev helpers, Python Shad gateway, Android & Windows shells
 docs             design language and internal notes
 ```

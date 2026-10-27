@@ -135,6 +135,11 @@ model School {
   planExpiresAt   DateTime?
   planNote        String?
   isActive        Boolean   @default(true)
+  // پروفایل کشور (بومی‌سازی): تقویم، مقیاس نمره، واحد پول و آغاز هفته
+  calendarSystem  String    @default("JALALI") // JALALI | GREGORIAN | HIJRI
+  gradingScale    String    @default("SCORE20") // SCORE20 | SCORE100 | GPA4 | LETTER
+  currencyLabel   String    @default("تومان")
+  weekStart       String    @default("SATURDAY") // SATURDAY | SUNDAY | MONDAY
   // راند ۱۸: شاد کاملاً اختیاری است — هر مدرسه می‌تواند خاموشش کند (ایران هم)
   shadEnabled     Boolean   @default(true)
   // راند ۱۸: نقش سرایدار (CUSTODIAN) قابل خاموش/روشن برای هر مدرسه
@@ -259,6 +264,12 @@ model Student {
   reportComments    ReportComment[]
   examSeats         ExamSeat[]
   descriptiveGrades DescriptiveGrade[]
+  dailyReports      DailyReport[]
+  pickupPersons     PickupPerson[]
+  health            StudentHealth?
+  clinicVisits      ClinicVisit[]
+  clubEnrollments   ClubEnrollment[]
+  wallet            StudentWallet?
 
   @@unique([schoolId, studentNumber])
   @@index([classId])
@@ -653,7 +664,9 @@ model SchoolLead {
   phone      String
   grade      String?
   message    String?
-  status     String   @default("NEW") // NEW | CONTACTED | REGISTERED | ARCHIVED
+  status     String   @default("NEW") // NEW | CONTACTED | TOUR | WAITLIST | ADMITTED | ENROLLED | REGISTERED | ARCHIVED
+  note       String?
+  convertedStudentId String?
   createdAt  DateTime @default(now())
 
   @@index([schoolId, status])
@@ -1903,6 +1916,156 @@ model SalaryRecord {
 
   @@unique([userId, yearMonth])
   @@index([schoolId, yearMonth])
+}
+
+model DailyReport {
+  id         String   @id @default(cuid())
+  schoolId   String
+  studentId  String
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date       String // کلید روز شمسی مثل 1405-08-05
+  meals      String   @default("") // شرح خوراک امروز
+  napMin     Int?
+  mood       String   @default("GOOD") // GREAT | GOOD | CALM | UPSET | SICK
+  medication String?
+  note       String?
+  createdById String?
+  createdAt  DateTime @default(now())
+
+  @@unique([studentId, date])
+  @@index([schoolId, date])
+}
+
+model PickupPerson {
+  id          String  @id @default(cuid())
+  schoolId    String
+  studentId   String
+  student     Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  name        String
+  relation    String // نسبت: پدر، مادر، مادربزرگ…
+  phone       String?
+  isAuthorized Boolean @default(true)
+  createdAt   DateTime @default(now())
+
+  @@index([studentId])
+}
+
+model LessonPlan {
+  id         String   @id @default(cuid())
+  schoolId   String
+  teacherId  String
+  classId    String?
+  subjectId  String?
+  topic      String // مبحث
+  date       String // کلید روز شمسی
+  objectives String? // اهداف/شرح طرح
+  status     String   @default("PLANNED") // PLANNED | TAUGHT
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([schoolId, teacherId, date])
+  @@index([schoolId, classId])
+}
+
+model StudentHealth {
+  id               String   @id @default(cuid())
+  schoolId         String
+  studentId        String   @unique
+  student          Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  bloodType        String?
+  allergies        String? // حساسیت‌ها
+  conditions       String? // بیماری‌های زمینه‌ای
+  emergencyContact String?
+  vaccinations     String   @default("[]") // JSON: [{name, date, done}]
+  updatedById      String?
+  updatedAt        DateTime @updatedAt
+  createdAt        DateTime @default(now())
+}
+
+model ClinicVisit {
+  id          String   @id @default(cuid())
+  schoolId    String
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date        String // کلید روز شمسی
+  complaint   String // علت مراجعه
+  action      String? // اقدام انجام‌شده
+  sentHome    Boolean  @default(false)
+  notifyParent Boolean @default(true)
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  @@index([schoolId, date])
+  @@index([studentId])
+}
+
+model Club {
+  id        String   @id @default(cuid())
+  schoolId  String
+  name      String
+  coach     String? // مربی/مسئول
+  weekday   Int      @default(1) // ۱=شنبه … ۷=جمعه
+  timeLabel String? // مثلاً ۱۴ تا ۱۶
+  capacity  Int      @default(30)
+  minGrade  String? // حداقل پایه
+  maxGrade  String?
+  fee       Int      @default(0) // شهریه دوره (تومان)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  enrollments ClubEnrollment[]
+
+  @@index([schoolId, isActive])
+}
+
+model ClubEnrollment {
+  id        String   @id @default(cuid())
+  clubId    String
+  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  status    String   @default("ENROLLED") // ENROLLED | WAITLIST | DROPPED
+  createdAt DateTime @default(now())
+
+  @@unique([clubId, studentId])
+  @@index([studentId])
+}
+
+model StudentWallet {
+  id         String   @id @default(cuid())
+  schoolId   String
+  studentId  String   @unique
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  balance    Int      @default(0) // تومان
+  dailyLimit Int? // سقف خرج روزانه
+  updatedAt  DateTime @updatedAt
+  createdAt  DateTime @default(now())
+
+  txs WalletTx[]
+}
+
+model WalletTx {
+  id          String        @id @default(cuid())
+  walletId    String
+  wallet      StudentWallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+  kind        String // TOPUP | SPEND | REFUND
+  amount      Int // مثبت = واریز، منفی = خرج
+  note        String?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  @@index([walletId, createdAt])
+}
+
+model MealPlan {
+  id        String @id @default(cuid())
+  schoolId  String
+  weekday   Int // ۱=شنبه … ۷=جمعه
+  breakfast String @default("")
+  lunch     String @default("")
+  snack     String @default("")
+
+  @@unique([schoolId, weekday])
 }
 
 model SmsLog {

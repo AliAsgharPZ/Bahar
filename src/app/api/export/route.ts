@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { requireUser, apiErr, handleApiError, actingSchoolIdFor, rateLimit, ipOf, audit } from "@/lib/api";
 import { buildExcel, contentDispositionFilename, type ExcelSheet } from "@/lib/excel";
 import { ROLE_LABELS } from "@/lib/roles";
+import { convertScore } from "@/lib/grades-scale";
 import { STUDENT_STATUS_LABELS, PARENT_RELATION_LABELS, ATTENDANCE_LABELS } from "@/lib/persian";
 
 /* ============================================================
@@ -172,10 +173,11 @@ export async function GET(req: NextRequest) {
         orderBy: { createdAt: "desc" },
         take: 20000,
       });
+      const schoolScale = (await db.school.findUnique({ where: { id: schoolId! }, select: { gradingScale: true } }))?.gradingScale ?? "SCORE20";
       sheets = [{
         name: "نمرات",
         rows: [
-          ["نام دانش‌آموز", "کد ملی", "کلاس", "درس", "نوبت", "نوع ارزیابی", "نمره", "از", "ضریب", "نهایی‌شده", "یادداشت"],
+          ["نام دانش‌آموز", "کد ملی", "کلاس", "درس", "نوبت", "نوع ارزیابی", "نمره", "از", "نمره در مقیاس مدرسه", "ضریب", "نهایی‌شده", "یادداشت"],
           ...grades.map((g) => [
             `${g.student.user.firstName} ${g.student.user.lastName}`,
             g.student.user.nationalId,
@@ -185,6 +187,7 @@ export async function GET(req: NextRequest) {
             GRADE_KIND_LABELS[g.kind] ?? g.kind,
             g.score,
             g.maxScore,
+            convertScore(g.maxScore > 0 ? (g.score / g.maxScore) * 20 : 0, schoolScale),
             g.weight,
             g.locked ? "بله" : "خیر",
             g.note ?? "",

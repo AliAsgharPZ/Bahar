@@ -39,7 +39,7 @@ export function PageHeader({
   grad?: boolean;
 }) {
   return (
-    <div className="b-rise flex flex-wrap items-start justify-between gap-4 mb-6 md:mb-8">
+    <div className="b-rise no-print flex flex-wrap items-start justify-between gap-4 mb-6 md:mb-8">
       <div className="flex flex-col gap-1.5">
         <h1 className="text-[26px] md:text-[36px] font-bold leading-[1.28]">{grad ? <span className="b-grad-text">{title}</span> : title}</h1>
         {desc && <p className="t-sm text-steel max-w-2xl">{desc}</p>}

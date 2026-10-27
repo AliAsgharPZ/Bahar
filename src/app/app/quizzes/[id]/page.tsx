@@ -108,7 +108,7 @@ export default function QuizDetailPage() {
       {/* ── نمای کادر ── */}
       {isStaff && (
         <>
-          <section className="b-card p-4 md:p-5 mb-5">
+          <section className="b-card p-4 md:p-5 mb-5 no-print">
             <h2 className="font-extrabold text-[15px] mb-3">سؤال‌ها و پاسخ‌نامه</h2>
             <div className="flex flex-col gap-3">
               {data.questions.map((q, i) => (
@@ -124,7 +124,7 @@ export default function QuizDetailPage() {
               ))}
             </div>
           </section>
-          <section className="b-card p-4 md:p-5">
+          <section className="b-card p-4 md:p-5 no-print">
             <h2 className="font-extrabold text-[15px] mb-3">نتایج دانش‌آموزان</h2>
             {data.attempts!.length === 0 ? (
               <p className="text-[13px] text-stone">هنوز دانش‌آموزی شرکت نکرده است.</p>
@@ -146,6 +146,53 @@ export default function QuizDetailPage() {
               </div>
             )}
           </section>
+
+          {/* ── بستهٔ چاپ معلم: برگهٔ سؤال (بدون پاسخ) + پاسخ‌نامه + نتایج — فقط در چاپ ── */}
+          <div className="print-only">
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 16, fontSize: 12, marginBottom: 14, flexWrap: "wrap" }}>
+              <span>نام و نام خانوادگی: ……………………</span>
+              <span>کلاس: ……………</span>
+              <span>تاریخ: ……………</span>
+              <span>زمان: {faNumber(data.quiz.durationMin)} دقیقه · {faNumber(data.questions.length)} سؤال</span>
+            </div>
+            <div className="flex flex-col gap-4">
+              {data.questions.map((q, i) => (
+                <div key={q.id} className="b-print-keep">
+                  <p style={{ fontWeight: 700, fontSize: 13, lineHeight: 1.9 }}>{faNumber(i + 1)}. {q.body}</p>
+                  {q.options.length > 0 ? (
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 24px", fontSize: 12, marginTop: 4 }}>
+                      {q.options.map((o, oi) => (
+                        <span key={oi}>{["الف", "ب", "ج", "د", "ه"][oi] ?? oi + 1}) {o}</span>
+                      ))}
+                    </div>
+                  ) : (
+                    <div style={{ borderBottom: "1px dotted #999", height: 26 }} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="print-only" style={{ pageBreakBefore: "always" }}>
+            <h2 style={{ fontSize: 15, fontWeight: 800, marginBottom: 10 }}>پاسخ‌نامه — {data.quiz.title}</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "4px 20px", fontSize: 12 }}>
+              {data.questions.map((q, i) => (
+                <span key={q.id}>{faNumber(i + 1)}. {q.answer ?? "—"}</span>
+              ))}
+            </div>
+            <h2 style={{ fontSize: 15, fontWeight: 800, margin: "20px 0 10px" }}>نتایج دانش‌آموزان</h2>
+            <table>
+              <thead><tr><th>دانش‌آموز</th><th>کلاس</th><th>وضعیت</th><th>نمره از ۱۰۰</th></tr></thead>
+              <tbody>
+                {data.attempts!.map((a) => (
+                  <tr key={a.id}>
+                    <td>{a.studentName}</td><td>{a.className}</td>
+                    <td>{a.submittedAt ? "تحویل‌شده" : "در حال پاسخ"}</td>
+                    <td>{a.score !== null ? faNumber(a.score) : "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
 

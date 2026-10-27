@@ -8,11 +8,11 @@ import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight, Search, Bell, LogOut, KeyRound, Sparkles,
-  DoorOpen, PanelRightClose, PanelRightOpen, Menu, X, UserRound, Settings,
+  DoorOpen, PanelRightClose, PanelRightOpen, Menu, X, UserRound, Settings, Printer,
 } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { ROLE_LABELS } from "@/lib/roles";
-import { faNumber, relativeTimeFa } from "@/lib/persian";
+import { faNumber, relativeTimeFa, formatDateFa } from "@/lib/persian";
 import type { AvatarParams } from "@/lib/avatar";
 import { NAV, NAV_GROUPS, navItemsFor, type NavItem } from "@/lib/nav";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
@@ -379,7 +379,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
     <ShellUserContext.Provider value={{ user, badges }}>
     <div className="min-h-screen bg-background flex flex-col">
       {/* هدر موبایل — بدون همبرگر؛ ناوبری موبایل = لانچر app-screen داخل داشبورد */}
-      <header className="lg:hidden sticky top-0 z-40 bg-background border-b border-hairline-soft flex items-center justify-between gap-1 px-3 h-16">
+      <header className="lg:hidden sticky top-0 z-40 bg-background border-b border-hairline-soft flex items-center justify-between gap-1 px-3 h-16 no-print">
         <div className="flex items-center gap-1.5 min-w-0">
           <button
             onClick={() => setMobileNavOpen(true)}
@@ -428,6 +428,14 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           )}
         </div>
         <div className="flex items-center gap-0.5 shrink-0">
+          <button
+            onClick={() => window.print()}
+            className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors"
+            aria-label="چاپ / خروجی PDF این صفحه"
+            title="چاپ / خروجی PDF"
+          >
+            <Printer className="w-5 h-5" />
+          </button>
           <button
             onClick={() => setSearchOpen(true)}
             className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors"
@@ -512,7 +520,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
       <div className="flex-1 flex">
         {/* سایدبار دسکتاپ — جمع‌شونده با افکت rubber band */}
         <motion.aside
-          className="hidden lg:block shrink-0 border-l border-hairline-soft bg-background sticky top-0 h-screen overflow-hidden"
+          className="hidden lg:block shrink-0 border-l border-hairline-soft bg-background sticky top-0 h-screen overflow-hidden no-print"
           animate={{ width: collapsed ? 76 : 248 }}
           transition={{ type: "spring", stiffness: 480, damping: 30, mass: 0.9 }}
           initial={false}
@@ -556,6 +564,14 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               <span className="hidden xl:inline">جستجو در همه‌جا…</span>
               <kbd className="text-[10px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">⌘K</kbd>
             </button>
+            <button
+              onClick={() => window.print()}
+              className="flex items-center gap-2 h-9 px-3.5 rounded-full text-steel hover:text-foreground hover:bg-spring-tint transition-colors text-[13px]"
+              title="چاپ / خروجی PDF این صفحه"
+            >
+              <Printer className="w-4 h-4" />
+              <span className="hidden xl:inline">چاپ</span>
+            </button>
             {isDesktop && (
               <NotificationCenter
                 buttonRef={notifBtnRef}
@@ -567,7 +583,21 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           </header>
           <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8 pb-10 lg:pb-8 w-full">
             <div className="max-w-6xl mx-auto b-page-in" key={pathname}>
+              {/* سربرگ رسمی چاپ — فقط روی کاغذ/PDF دیده می‌شود */}
+              <div className="print-only b-print-head" aria-hidden>
+                <div>
+                  <div className="ph-school">{user.schoolName ?? "سامانه مدیریت مدرسه بهار"}</div>
+                  <div className="ph-title">
+                    {pathname === "/app" ? "داشبورد" : activeSection ? (activeSection.tKey ? t(activeSection.tKey) : activeSection.label) : "گزارش"}
+                    {" · "}{user.firstName} {user.lastName}
+                  </div>
+                </div>
+                <div className="ph-date">تاریخ چاپ: {formatDateFa(new Date())}</div>
+              </div>
               {children}
+              <div className="print-only b-print-foot" aria-hidden>
+                این گزارش به‌صورت خودکار از سامانه مدیریت مدرسه بهار تولید شده است · bahar
+              </div>
             </div>
           </main>
         </div>

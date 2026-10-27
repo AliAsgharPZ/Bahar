@@ -1792,6 +1792,145 @@ CREATE INDEX IF NOT EXISTS "SalaryRecord_schoolId_yearMonth_idx" ON "SalaryRecor
 CREATE UNIQUE INDEX IF NOT EXISTS "SalaryRecord_userId_yearMonth_key" ON "SalaryRecord"("userId", "yearMonth");
 CREATE INDEX IF NOT EXISTS "SmsLog_schoolId_createdAt_idx" ON "SmsLog"("schoolId", "createdAt");
 
+CREATE TABLE IF NOT EXISTS "ClinicVisit" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "complaint" TEXT NOT NULL,
+    "action" TEXT,
+    "sentHome" BOOLEAN NOT NULL DEFAULT false,
+    "notifyParent" BOOLEAN NOT NULL DEFAULT true,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "ClinicVisit_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "DailyReport" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "meals" TEXT NOT NULL DEFAULT '',
+    "napMin" INTEGER,
+    "mood" TEXT NOT NULL DEFAULT 'GOOD',
+    "medication" TEXT,
+    "note" TEXT,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "DailyReport_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "LessonPlan" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "teacherId" TEXT NOT NULL,
+    "classId" TEXT,
+    "subjectId" TEXT,
+    "topic" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "objectives" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'PLANNED',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "PickupPerson" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "relation" TEXT NOT NULL,
+    "phone" TEXT,
+    "isAuthorized" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "PickupPerson_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "StudentHealth" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "bloodType" TEXT,
+    "allergies" TEXT,
+    "conditions" TEXT,
+    "emergencyContact" TEXT,
+    "vaccinations" TEXT NOT NULL DEFAULT '[]',
+    "updatedById" TEXT,
+    "updatedAt" DATETIME NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "StudentHealth_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "DailyReport_schoolId_date_idx" ON "DailyReport"("schoolId", "date");
+CREATE UNIQUE INDEX IF NOT EXISTS "DailyReport_studentId_date_key" ON "DailyReport"("studentId", "date");
+CREATE INDEX IF NOT EXISTS "PickupPerson_studentId_idx" ON "PickupPerson"("studentId");
+CREATE INDEX IF NOT EXISTS "LessonPlan_schoolId_teacherId_date_idx" ON "LessonPlan"("schoolId", "teacherId", "date");
+CREATE INDEX IF NOT EXISTS "LessonPlan_schoolId_classId_idx" ON "LessonPlan"("schoolId", "classId");
+CREATE UNIQUE INDEX IF NOT EXISTS "StudentHealth_studentId_key" ON "StudentHealth"("studentId");
+CREATE INDEX IF NOT EXISTS "ClinicVisit_schoolId_date_idx" ON "ClinicVisit"("schoolId", "date");
+CREATE INDEX IF NOT EXISTS "ClinicVisit_studentId_idx" ON "ClinicVisit"("studentId");
+
+ALTER TABLE "School" ADD COLUMN "calendarSystem" TEXT NOT NULL DEFAULT 'JALALI';
+ALTER TABLE "School" ADD COLUMN "gradingScale" TEXT NOT NULL DEFAULT 'SCORE20';
+ALTER TABLE "School" ADD COLUMN "currencyLabel" TEXT NOT NULL DEFAULT 'تومان';
+ALTER TABLE "School" ADD COLUMN "weekStart" TEXT NOT NULL DEFAULT 'SATURDAY';
+ALTER TABLE "SchoolLead" ADD COLUMN "note" TEXT;
+ALTER TABLE "SchoolLead" ADD COLUMN "convertedStudentId" TEXT;
+
+CREATE TABLE IF NOT EXISTS "Club" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "coach" TEXT,
+    "weekday" INTEGER NOT NULL DEFAULT 1,
+    "timeLabel" TEXT,
+    "capacity" INTEGER NOT NULL DEFAULT 30,
+    "minGrade" TEXT,
+    "maxGrade" TEXT,
+    "fee" INTEGER NOT NULL DEFAULT 0,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS "ClubEnrollment" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "clubId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'ENROLLED',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "ClubEnrollment_clubId_fkey" FOREIGN KEY ("clubId") REFERENCES "Club" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ClubEnrollment_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "MealPlan" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "weekday" INTEGER NOT NULL,
+    "breakfast" TEXT NOT NULL DEFAULT '',
+    "lunch" TEXT NOT NULL DEFAULT '',
+    "snack" TEXT NOT NULL DEFAULT ''
+);
+CREATE TABLE IF NOT EXISTS "StudentWallet" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "balance" INTEGER NOT NULL DEFAULT 0,
+    "dailyLimit" INTEGER,
+    "updatedAt" DATETIME NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "StudentWallet_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "WalletTx" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "walletId" TEXT NOT NULL,
+    "kind" TEXT NOT NULL,
+    "amount" INTEGER NOT NULL,
+    "note" TEXT,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "WalletTx_walletId_fkey" FOREIGN KEY ("walletId") REFERENCES "StudentWallet" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "Club_schoolId_isActive_idx" ON "Club"("schoolId", "isActive");
+CREATE INDEX IF NOT EXISTS "ClubEnrollment_studentId_idx" ON "ClubEnrollment"("studentId");
+CREATE UNIQUE INDEX IF NOT EXISTS "ClubEnrollment_clubId_studentId_key" ON "ClubEnrollment"("clubId", "studentId");
+CREATE UNIQUE INDEX IF NOT EXISTS "StudentWallet_studentId_key" ON "StudentWallet"("studentId");
+CREATE INDEX IF NOT EXISTS "WalletTx_walletId_createdAt_idx" ON "WalletTx"("walletId", "createdAt");
+CREATE UNIQUE INDEX IF NOT EXISTS "MealPlan_schoolId_weekday_key" ON "MealPlan"("schoolId", "weekday");
+
 CREATE TABLE IF NOT EXISTS "FileBlob" (
     "key" TEXT NOT NULL PRIMARY KEY,
     "data" BLOB NOT NULL,

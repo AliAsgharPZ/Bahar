@@ -758,9 +758,44 @@ html.bahar-slowmo .animate-spin {
   animation-iteration-count: 1 !important;
 }
 
-/* Print (report cards) */
+/* ============================================================
+   چاپ و خروجی PDF — چارچوب سراسری: در همهٔ صفحات پنل، فقط
+   محتوای اصلی با سربرگ رسمی (نام مدرسه، عنوان بخش، تاریخ چاپ)
+   روی A4 چاپ می‌شود؛ جداول هدر تکرارشونده دارند و کارت‌ها
+   وسط صفحه پاره نمی‌شوند. صفحات اختصاصی (کارت شناسایی، فیش
+   حقوقی، کارت ورود امتحان، گواهینامه، کارنامه) استایل چاپ
+   خودشان را روی همین چارچوب سوار می‌کنند.
+   ============================================================ */
+@page { size: A4; margin: 12mm 10mm; }
+.print-only { display: none; }
 @media print {
   .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  html, body { background: #fff !important; }
+  body { font-size: 12px; }
+  * { animation: none !important; transition: none !important; box-shadow: none !important; text-shadow: none !important; }
+  main { padding: 0 !important; }
+  main > div { max-width: none !important; }
+  a { color: inherit !important; text-decoration: none !important; }
+  button, input, select, textarea { print-color-adjust: exact; }
+  .b-card, .b-card-md, .b-card-sm { border: 1px solid #d8d8d8 !important; break-inside: avoid; }
+  table { width: 100%; border-collapse: collapse; }
+  thead { display: table-header-group; }
+  tfoot { display: table-footer-group; }
+  tr, .b-print-keep { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  img { max-width: 100%; }
+  .b-print-head {
+    display: flex !important; align-items: flex-end; justify-content: space-between; gap: 12px;
+    border-bottom: 2px solid #00825E; padding-bottom: 8px; margin-bottom: 16px;
+  }
+  .b-print-head .ph-school { font-size: 16px; font-weight: 800; }
+  .b-print-head .ph-title { font-size: 12px; color: #555; margin-top: 2px; }
+  .b-print-head .ph-date { font-size: 11px; color: #555; white-space: nowrap; }
+  .b-print-foot {
+    display: block !important; margin-top: 16px; padding-top: 8px;
+    border-top: 1px solid #ddd; font-size: 10px; color: #777; text-align: center;
+  }
 }
 
 /* RTL logical fixes */
@@ -901,6 +936,16 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
   background:
     linear-gradient(var(--card), var(--card)) padding-box,
     linear-gradient(120deg, color-mix(in srgb, var(--spring) 55%, transparent), color-mix(in srgb, var(--blossom) 55%, transparent)) border-box;
+}
+/* شناورِ نرم برای شکل‌های تزئینی صفحات خطا و هدرها */
+@keyframes bahar-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(6deg); }
+}
+.b-float { animation: bahar-float 7s ease-in-out infinite; }
+.b-float-slow { animation: bahar-float 11s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .b-float, .b-float-slow { animation: none; }
 }
 /* برقِ عبوری روی دکمهٔ اصلی هنگام هاور */
 .b-btn-spring { position: relative; overflow: hidden; }

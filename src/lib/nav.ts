@@ -8,7 +8,7 @@ import {
   Home, MessagesSquare, Coins, SlidersHorizontal, Building2, FileUp,
   IdCard, Repeat,
   Bus, FileText, Video, Armchair, MessageSquareText,
-  CalendarSync, MessageSquare,
+  CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -64,6 +64,10 @@ export const NAV: NavItem[] = [
   { href: "/app/question-bank", label: "بانک سوال", tKey: "nav.questionBank", short: "بانک سوال", icon: FileQuestion, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 3, group: "education" },
   { href: "/app/quizzes", label: "آزمون آنلاین", tKey: "nav.quizzes", short: "آزمون", icon: ClipboardList, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT"], tint: 1, group: "education" },
   { href: "/app/library", label: "کتابخانه", tKey: "nav.library", short: "کتابخانه", icon: LibraryBig, roles: ["*"], tint: 2, group: "education" },
+  { href: "/app/clubs", label: "باشگاه‌ها", tKey: "nav.clubs", short: "باشگاه", icon: Trophy, roles: ["*"], tint: 3, group: "services" },
+  { href: "/app/meals", label: "برنامه غذایی", tKey: "nav.meals", short: "غذا", icon: UtensilsCrossed, roles: ["*"], tint: 1, group: "services" },
+  { href: "/app/wallet", label: "بوفه و کیف پول", tKey: "nav.wallet", short: "کیف پول", icon: Wallet, roles: ["*"], tint: 0, group: "services" },
+  { href: "/app/portfolio", label: "پورتفولیو", tKey: "nav.portfolio", short: "پورتفولیو", icon: Sparkles, roles: ["STUDENT", "PARENT"], tint: 2, group: "personal" },
   { href: "/app/substitutions", label: "جایگزینی معلم", tKey: "nav.substitutions", short: "جایگزینی", icon: Repeat, roles: ["MANAGER", "DEPUTY"], tint: 0, group: "education" },
   { href: "/app/id-cards", label: "کارت شناسایی", tKey: "nav.idCards", short: "کارت شناسایی", icon: IdCard, roles: ["MANAGER", "DEPUTY", "CUSTODIAN"], tint: 3, group: "students" },
   { href: "/app/virtual-sessions", label: "کلاس مجازی", tKey: "nav.virtualSessions", short: "کلاس مجازی", icon: Video, roles: ["*"], tint: 0, group: "education" },
@@ -92,6 +96,12 @@ export const NAV: NavItem[] = [
   { href: "/app/events", label: "رویدادها", tKey: "nav.events", short: "رویدادها", icon: Sparkles, roles: ["*"], tint: 1, group: "comms" },
   { href: "/app/announcements", label: "اعلان‌ها", tKey: "nav.announcements", short: "اعلان‌ها", icon: BellRing, roles: ["*"], tint: 2, group: "comms" },
   { href: "/app/leads", label: "پیش‌ثبت‌نام‌ها", tKey: "nav.leads", short: "پیش‌ثبت‌نام", icon: CheckCheck, roles: ["MANAGER", "DEPUTY"], tint: 3, group: "students" },
+  { href: "/app/admissions", label: "قیف پذیرش", tKey: "nav.admissions", short: "پذیرش", icon: UserPlus, roles: ["MANAGER", "DEPUTY"], tint: 1, group: "students" },
+  { href: "/app/preschool", label: "پیش‌دبستانی", tKey: "nav.preschool", short: "پیش‌دبستانی", icon: Baby, roles: ["*"], tint: 2, group: "students" },
+  { href: "/app/health", label: "بهداشت و درمانگاه", tKey: "nav.health", short: "بهداشت", icon: HeartPulse, roles: ["*"], tint: 3, group: "students" },
+  { href: "/app/lesson-plans", label: "طرح درس", tKey: "nav.lessonPlans", short: "طرح درس", icon: NotebookPen, roles: ["TEACHER", "MANAGER", "DEPUTY"], tint: 1, group: "education" },
+  { href: "/app/network", label: "داشبورد شبکه", tKey: "nav.network", short: "شبکه", icon: Network, roles: ["SUPER_ADMIN", "ADMIN"], tint: 0, group: "admin" },
+  { href: "/app/locale-settings", label: "پروفایل کشور", tKey: "nav.localeSettings", short: "کشور", icon: Globe, roles: ["MANAGER", "SUPER_ADMIN", "ADMIN"], tint: 2, group: "admin" },
   { href: "/app/website", label: "سایت مدرسه", tKey: "nav.website", short: "سایت", icon: Globe, roles: ["MANAGER", "SUPER_ADMIN", "ADMIN"], tint: 0, group: "services" },
   { href: "/app/messages", label: "پیام‌ها", tKey: "nav.messages", short: "پیام‌ها", icon: MessageCircle, roles: ["*"], badgeKey: "unread", tint: 1, group: "comms" },
   { href: "/app/shad", label: "شاد", tKey: "nav.shad", short: "شاد", icon: Send, roles: ["MANAGER", "DEPUTY"], permission: "send_shad", tint: 2, group: "services" },

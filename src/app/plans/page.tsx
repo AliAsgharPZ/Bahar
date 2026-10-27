@@ -107,7 +107,7 @@ export default async function PlansPage() {
             {[
               { v: schoolCount, l: "مدرسه فعال" },
               { v: studentCount, l: "دانش‌آموز" },
-              { v: features.length, l: "ماژول کامل" },
+              { v: 16, l: "ماژول کامل" },
             ].map((s, i) => (
               <div key={i} className="text-center">
                 <b className="text-[26px] text-spring block">{faDigits(s.v)}</b>
