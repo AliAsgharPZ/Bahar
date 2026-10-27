@@ -9,6 +9,7 @@ import {
   IdCard, Repeat,
   Bus, FileText, Video, Armchair, MessageSquareText,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
+  Compass, MonitorPlay, Flame, Album,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -68,6 +69,11 @@ export const NAV: NavItem[] = [
   { href: "/app/meals", label: "برنامه غذایی", tKey: "nav.meals", short: "غذا", icon: UtensilsCrossed, roles: ["*"], tint: 1, group: "services" },
   { href: "/app/wallet", label: "بوفه و کیف پول", tKey: "nav.wallet", short: "کیف پول", icon: Wallet, roles: ["*"], tint: 0, group: "services" },
   { href: "/app/portfolio", label: "پورتفولیو", tKey: "nav.portfolio", short: "پورتفولیو", icon: Sparkles, roles: ["STUDENT", "PARENT"], tint: 2, group: "personal" },
+  { href: "/app/study", label: "برنامه مطالعه", tKey: "nav.study", short: "مطالعه", icon: Flame, roles: ["STUDENT", "PARENT"], tint: 1, group: "personal" },
+  { href: "/app/guidance", label: "هدایت تحصیلی", tKey: "nav.guidance", short: "هدایت", icon: Compass, roles: ["*"], tint: 0, group: "education" },
+  { href: "/app/fame", label: "دیوار افتخار", tKey: "nav.fame", short: "افتخار", icon: Trophy, roles: ["*"], tint: 3, group: "services" },
+  { href: "/app/tv", label: "تابلوی مدرسه", tKey: "nav.tv", short: "تابلو", icon: MonitorPlay, roles: ["*"], tint: 2, group: "services" },
+  { href: "/app/yearbook", label: "کتاب سال", tKey: "nav.yearbook", short: "کتاب سال", icon: Album, roles: ["*"], tint: 1, group: "services" },
   { href: "/app/substitutions", label: "جایگزینی معلم", tKey: "nav.substitutions", short: "جایگزینی", icon: Repeat, roles: ["MANAGER", "DEPUTY"], tint: 0, group: "education" },
   { href: "/app/id-cards", label: "کارت شناسایی", tKey: "nav.idCards", short: "کارت شناسایی", icon: IdCard, roles: ["MANAGER", "DEPUTY", "CUSTODIAN"], tint: 3, group: "students" },
   { href: "/app/virtual-sessions", label: "کلاس مجازی", tKey: "nav.virtualSessions", short: "کلاس مجازی", icon: Video, roles: ["*"], tint: 0, group: "education" },

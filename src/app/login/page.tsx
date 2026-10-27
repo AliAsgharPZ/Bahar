@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
-import { Loader2, ArrowRight, KeyRound, IdCard, Lock, Sprout } from "lucide-react";
+import { Loader2, ArrowRight, KeyRound, IdCard, Lock, Sprout, Fingerprint } from "lucide-react";
+import { loginWithPasskey, passkeySupported } from "@/lib/passkey-client";
 import { apiGet, apiPost, ApiClientError } from "@/lib/client";
 import { enDigits } from "@/lib/persian";
 import { useCountry } from "@/lib/country/client";
@@ -31,6 +32,7 @@ function LoginForm() {
   const [nationalId, setNationalId] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passkeyBusy, setPasskeyBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [logoUrl, setLogoUrl] = useState("");
 
@@ -274,6 +276,31 @@ function LoginForm() {
               <button type="submit" disabled={loading || Boolean(pending2fa) || Boolean(pendingOtp) || (captchaRequired && captcha.answer.trim().length === 0)} className="b-btn b-btn-spring w-full">
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("auth.login.submit")}
               </button>
+
+              {/* ── ورود با Passkey (بدون رمز) ── */}
+              {passkeySupported() && (
+                <button
+                  type="button"
+                  disabled={passkeyBusy}
+                  className="b-btn b-btn-soft w-full"
+                  onClick={async () => {
+                    const nid = enDigits(nationalId).trim();
+                    if (!nid) { setError("برای ورود با کلید عبور، اول کد ملی را بنویسید."); return; }
+                    setError(null);
+                    setPasskeyBusy(true);
+                    try {
+                      await loginWithPasskey(nid);
+                      toast.success("خوش آمدید! ورود با کلید عبور موفق بود.");
+                      router.replace("/app");
+                    } catch (err) {
+                      setError(err instanceof Error ? err.message : "ورود با کلید عبور ناموفق بود.");
+                    } finally { setPasskeyBusy(false); }
+                  }}
+                >
+                  {passkeyBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Fingerprint className="w-4 h-4" />}
+                  ورود با کلید عبور (Passkey)
+                </button>
+              )}
 
               {/* ── مرحلهٔ کد یکبارمصرف (راند ۱۸) ── */}
               {pendingOtp && (

@@ -104,6 +104,7 @@ model User {
   interventionsStarted  Intervention[]         @relation("InterventionStarter")
   pollsCreated          Poll[]                 @relation("PollCreator")
   pollVotes             PollVote[]             @relation("PollVoter")
+  passkeys              PasskeyCredential[]
   certificatesIssued    Certificate[]          @relation("CertificateIssuer")
   importsMade           ImportJob[]            @relation("ImportBy")
   savedViews            SavedView[]            @relation("SavedViewOwner")
@@ -270,6 +271,8 @@ model Student {
   clinicVisits      ClinicVisit[]
   clubEnrollments   ClubEnrollment[]
   wallet            StudentWallet?
+  guidance          GuidanceRecord?
+  studyTasks        StudyTask[]
 
   @@unique([schoolId, studentNumber])
   @@index([classId])
@@ -2066,6 +2069,48 @@ model MealPlan {
   snack     String @default("")
 
   @@unique([schoolId, weekday])
+}
+
+model PasskeyCredential {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credentialId String    @unique // Base64URL شناسهٔ اعتبارنامهٔ WebAuthn
+  publicKey    String // Base64URL کلید عمومی
+  counter      Int       @default(0)
+  transports   String? // JSON: ["internal","hybrid",...]
+  deviceLabel  String    @default("Passkey")
+  createdAt    DateTime  @default(now())
+  lastUsedAt   DateTime?
+
+  @@index([userId])
+}
+
+model GuidanceRecord {
+  id           String   @id @default(cuid())
+  schoolId     String
+  studentId    String   @unique
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  scores       String   @default("{}") // JSON: math, science, literature, arabic, social, english, practical (۰ تا ۲۰)
+  recommended  String? // رشتهٔ اول پیشنهادی (خروجی موتور وزن‌دار)
+  counselorNote String?
+  updatedById  String?
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+}
+
+model StudyTask {
+  id        String   @id @default(cuid())
+  schoolId  String
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date      String // تاریخ شمسی YYYY-MM-DD
+  title     String
+  minutes   Int      @default(30)
+  done      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([studentId, date])
 }
 
 model SmsLog {

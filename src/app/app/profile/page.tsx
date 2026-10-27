@@ -14,6 +14,7 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { Select } from "@/components/shared/pickers";
 import { ProfileImageCard } from "@/components/profile/profile-image-card";
 import { TwoFactorCard } from "@/components/settings/twofactor-card";
+import { PasskeyCard } from "@/components/shared/passkey-card";
 import { formatDateFa, PARENT_RELATION_LABELS, GENDER_LABELS, relativeTimeFa, enDigits } from "@/lib/persian";
 import type { AvatarParams } from "@/lib/avatar";
 
@@ -355,6 +356,9 @@ export default function ProfilePage() {
 
       {/* ───────── امنیت: ورود دو مرحله‌ای (TOTP) — راند ۱۶ ───────── */}
       <TwoFactorCard />
+
+      {/* ───────── امنیت: کلید عبور (Passkey) ───────── */}
+      <PasskeyCard />
 
       {/* ───────── ویرایش مشخصات (با تایید بالادستی) ───────── */}
       {editing && (

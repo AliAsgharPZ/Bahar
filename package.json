@@ -49,6 +49,7 @@
     "@radix-ui/react-toggle-group": "^1.1.10",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@reactuses/core": "^6.0.5",
+    "@simplewebauthn/server": "^14.0.3",
     "@tanstack/react-query": "^5.82.0",
     "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
@@ -77,9 +78,9 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.1.0",
     "vaul": "^1.1.2",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "zod": "^4.0.2",
-    "zustand": "^5.0.6",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.20.13",
@@ -94,6 +95,6 @@
     "typescript": "^5",
     "wrangler": "^4.152.0"
   },
-  "description": "Bahar \u2014 a comprehensive school management system (multi-tenant, Persian-first).",
+  "description": "Bahar — a comprehensive school management system (multi-tenant, Persian-first).",
   "license": "MIT"
 }

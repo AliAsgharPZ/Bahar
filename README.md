@@ -61,6 +61,15 @@ school — in one install.
   GPA / letter — currency label and week start, applied to grade exports),
   country packs and language packs, a blog/CMS, media library, scheduled
   reports, a full audit log, and one-click backup/restore.
+- **Engagement & guidance** — a school TV board (kiosk mode: announcements,
+  events, birthdays, meals and the house league champion, auto-rotating), a
+  wall of fame with a live house league, an academic-guidance engine
+  (transparent weighted stream recommendations for counsellors, students and
+  parents), a student study planner with habit streaks, and an auto-assembled
+  digital yearbook — all printable.
+- **Security** — password login with captcha and lockout, TOTP two-factor,
+  one-time codes, and **Passkeys (WebAuthn)** for passwordless sign-in,
+  managed per user from the profile.
 - **Clients** — responsive web app and PWA, plus optional Android (WebView)
   and Windows (Electron) shells under `scripts/`.
 
@@ -128,7 +137,7 @@ default password.
 src/app          pages and API routes (App Router)
 src/components   UI components
 src/lib          auth, backup, scheduler, shad/telegram gateways, i18n, …
-prisma           schema (102 models) and seed
+prisma           schema (105 models) and seed
 scripts          seed/dev helpers, Python Shad gateway, Android & Windows shells
 docs             design language and internal notes
 ```

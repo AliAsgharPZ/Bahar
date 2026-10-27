@@ -1931,6 +1931,46 @@ CREATE UNIQUE INDEX IF NOT EXISTS "StudentWallet_studentId_key" ON "StudentWalle
 CREATE INDEX IF NOT EXISTS "WalletTx_walletId_createdAt_idx" ON "WalletTx"("walletId", "createdAt");
 CREATE UNIQUE INDEX IF NOT EXISTS "MealPlan_schoolId_weekday_key" ON "MealPlan"("schoolId", "weekday");
 
+CREATE TABLE IF NOT EXISTS "GuidanceRecord" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "scores" TEXT NOT NULL DEFAULT '{}',
+    "recommended" TEXT,
+    "counselorNote" TEXT,
+    "updatedById" TEXT,
+    "updatedAt" DATETIME NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "GuidanceRecord_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "PasskeyCredential" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "credentialId" TEXT NOT NULL,
+    "publicKey" TEXT NOT NULL,
+    "counter" INTEGER NOT NULL DEFAULT 0,
+    "transports" TEXT,
+    "deviceLabel" TEXT NOT NULL DEFAULT 'Passkey',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "lastUsedAt" DATETIME,
+    CONSTRAINT "PasskeyCredential_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "StudyTask" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "minutes" INTEGER NOT NULL DEFAULT 30,
+    "done" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "StudyTask_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "GuidanceRecord_studentId_key" ON "GuidanceRecord"("studentId");
+CREATE INDEX IF NOT EXISTS "StudyTask_studentId_date_idx" ON "StudyTask"("studentId", "date");
+CREATE UNIQUE INDEX IF NOT EXISTS "PasskeyCredential_credentialId_key" ON "PasskeyCredential"("credentialId");
+CREATE INDEX IF NOT EXISTS "PasskeyCredential_userId_idx" ON "PasskeyCredential"("userId");
+
 CREATE TABLE IF NOT EXISTS "FileBlob" (
     "key" TEXT NOT NULL PRIMARY KEY,
     "data" BLOB NOT NULL,

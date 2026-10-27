@@ -190,6 +190,9 @@ const INSERT_ORDER = [
   "studentWallet",
   "walletTx",
   "mealPlan",
+  "guidanceRecord",
+  "studyTask",
+  "passkeyCredential",
 ] as const;
 
 /** فیلدهای DateTime هر جدول — فقط همین‌ها در بازیابی به Date تبدیل می‌شوند
@@ -296,6 +299,9 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   studentWallet: ["createdAt", "updatedAt"],
   walletTx: ["createdAt"],
   mealPlan: [],
+  guidanceRecord: ["createdAt", "updatedAt"],
+  studyTask: ["createdAt"],
+  passkeyCredential: ["createdAt", "lastUsedAt"],
 };
 
 type TableName = (typeof INSERT_ORDER)[number];
