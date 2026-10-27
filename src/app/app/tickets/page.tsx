@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { LifeBuoy, Plus, Loader2, Send, CheckCircle2, RotateCcw, XCircle, Clock } from "lucide-react";
-import { useApi, apiPost, apiPatch } from "@/lib/client";
+import { LifeBuoy, Plus, Loader2, Send, CheckCircle2, RotateCcw, XCircle, Clock, Trash2 } from "lucide-react";
+import { useApi, apiPost, apiPatch, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatusBadge } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { formatDateTimeFa, relativeTimeFa, faNumber } from "@/lib/persian";
@@ -235,9 +235,15 @@ export default function TicketsPage() {
                   {scope === "all" && openTicket.requester ? ` · ${openTicket.requester.name}` : ""}
                 </span>
               </div>
-              <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={() => setOpenTicket(null)} aria-label="بستن">
-                <XCircle className="w-5 h-5" />
-              </button>
+              <span className="flex gap-1 shrink-0">
+                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-cloud" aria-label="حذف تیکت"
+                  onClick={async () => { if (!window.confirm("این تیکت و کل گفتگویش حذف شود؟")) return; try { await apiDelete(`/api/tickets/${openTicket.id}`); toast.success("تیکت حذف شد."); setOpenTicket(null); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={() => setOpenTicket(null)} aria-label="بستن">
+                  <XCircle className="w-5 h-5" />
+                </button>
+              </span>
             </div>
 
             <div className="flex-1 overflow-y-auto b-scroll p-5 flex flex-col gap-3 min-h-[240px]">

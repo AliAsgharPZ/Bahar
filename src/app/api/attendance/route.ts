@@ -193,3 +193,28 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const url = new URL(req.url);
+    const id = url.searchParams.get("id") ?? "";
+    const bulkClass = url.searchParams.get("classId") ?? "";
+    const bulkDate = url.searchParams.get("date") ?? "";
+    if (!id && bulkClass && bulkDate) {
+      // حذف برگهٔ کامل یک روز برای یک کلاس
+      const cls = await db.class.findUnique({ where: { id: bulkClass }, select: { schoolId: true } });
+      if (!cls) return apiErr(404, "کلاس یافت نشد.", "NOT_FOUND");
+      if (me.schoolId && cls.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+      const students = await db.student.findMany({ where: { classId: bulkClass }, select: { id: true } });
+      const res = await db.attendance.deleteMany({ where: { classId: bulkClass, date: bulkDate, studentId: { in: students.map((s) => s.id) } } });
+      return apiOk({ ok: true, deleted: res.count });
+    }
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    const row = await db.attendance.findUnique({ where: { id }, select: { student: { select: { schoolId: true } } } });
+    if (!row) return apiErr(404, "رکورد حضور یافت نشد.", "NOT_FOUND");
+    if (me.schoolId && row.student.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.attendance.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

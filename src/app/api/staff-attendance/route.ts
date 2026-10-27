@@ -92,3 +92,18 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req);
+    const id = new URL(req.url).searchParams.get("id") ?? "";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    const row = await db.staffAttendance.findUnique({ where: { id }, select: { schoolId: true, userId: true } });
+    if (!row) return apiErr(404, "رکورد یافت نشد.", "NOT_FOUND");
+    const isMgr = ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"].includes(me.role);
+    if (row.userId !== me.id && !isMgr) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    if (isMgr && me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.staffAttendance.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

@@ -71,3 +71,20 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     return handleApiError(e);
   }
 }
+
+/** DELETE /api/tickets/[id] — حذف تیکت و گفتگویش (صاحب تیکت یا مدیر) */
+export async function DELETE(req: NextRequest, ctx: Ctx) {
+  try {
+    const me = await requireUser(req);
+    if (await isDemoUser(me)) return apiErr(403, "این قابلیت در حساب دمو غیرفعال است.", "DEMO_READONLY");
+    const { id } = await ctx.params;
+    const ticket = await db.ticket.findUnique({ where: { id }, select: { userId: true, schoolId: true } });
+    if (!ticket) return apiErr(404, "تیکت یافت نشد.", "NOT_FOUND");
+    const isStaff = ["MANAGER", "SUPER_ADMIN", "ADMIN"].includes(me.role);
+    if (!isStaff && ticket.userId !== me.id) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    if (isStaff && me.schoolId && ticket.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.ticketMessage.deleteMany({ where: { ticketId: id } });
+    await db.ticket.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

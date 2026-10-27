@@ -117,3 +117,17 @@ export async function PATCH(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const id = new URL(req.url).searchParams.get("id") ?? "";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    const row = await db.gatePass.findUnique({ where: { id }, select: { schoolId: true } });
+    if (!row) return apiErr(404, "یافت نشد.", "NOT_FOUND");
+    if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    
+    await db.gatePass.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

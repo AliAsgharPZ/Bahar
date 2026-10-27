@@ -58,3 +58,13 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req);
+    const id = new URL(req.url).searchParams.get("id") ?? "";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    await db.notification.deleteMany({ where: { id, userId: me.id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

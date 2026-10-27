@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Armchair, Loader2, Printer, Save, Shuffle, Eraser } from "lucide-react";
-import { useApi, apiPost } from "@/lib/client";
+import { Armchair, Loader2, Printer, Save, Shuffle, Eraser, Trash2 } from "lucide-react";
+import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { faNumber } from "@/lib/persian";
@@ -17,7 +17,7 @@ const ROWS = 8;
 export default function SeatingPage() {
   const { data: classesData } = useApi<{ classes: ClassRow[] }>("/api/classes");
   const [classId, setClassId] = useState("");
-  const { data, loading, error } = useApi<PlanData>(classId ? `/api/seating?classId=${classId}` : null);
+  const { data, loading, error, refetch } = useApi<PlanData>(classId ? `/api/seating?classId=${classId}` : null);
   const [cols, setCols] = useState(5);
   const [seats, setSeats] = useState<Record<string, string>>({});
   const [loadedFor, setLoadedFor] = useState("");
@@ -81,6 +81,11 @@ export default function SeatingPage() {
               options={[{ value: "", label: "انتخاب کلاس" }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]}
               placeholder="انتخاب کلاس"
             />
+            {classId && (
+              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={async () => { if (!window.confirm("طرح چیدمان این کلاس کامل حذف شود؟")) return; try { await apiDelete(`/api/seating?classId=${classId}`); toast.success("طرح حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                <Trash2 className="w-4 h-4" /> حذف طرح
+              </button>
+            )}
             {classId && (
               <button className="b-btn b-btn-spring b-btn-sm" disabled={saving} onClick={save}>
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره

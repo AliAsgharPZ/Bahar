@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { MessageSquare, Loader2, Send, Info } from "lucide-react";
-import { useApi, apiPost } from "@/lib/client";
+import { MessageSquare, Loader2, Send, Info, Trash2 } from "lucide-react";
+import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { formatDateFa, faNumber } from "@/lib/persian";
@@ -81,6 +81,7 @@ export default function SmsPage() {
                   <td className="p-3 max-w-72 truncate">{l.text}</td>
                   <td className="p-3">{faNumber(l.recipientCount)} شماره</td>
                   <td className="p-3"><span className="b-badge b-badge-neutral">نمایشی</span></td>
+                  <td className="p-3"><button className="text-stone hover:text-destructive" aria-label="حذف رکورد" onClick={async () => { if (!window.confirm("این رکورد ارسال حذف شود؟")) return; try { await apiDelete(`/api/sms?id=${l.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-4 h-4" /></button></td>
                 </tr>
               ))}
             </tbody>

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Save, Loader2, ClipboardCheck, CheckCircle2, XCircle, Clock, FileText } from "lucide-react";
-import { useApi, apiPost } from "@/lib/client";
+import { Save, Loader2, ClipboardCheck, CheckCircle2, XCircle, Clock, FileText, Trash2 } from "lucide-react";
+import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { todayJalali, toJalaliKey, faNumber, ATTENDANCE_LABELS } from "@/lib/persian";
@@ -102,9 +102,15 @@ export default function AttendancePage() {
           title="حضور و غیاب"
           desc="ثبت وضعیت روزانه دانش‌آموزان هر کلاس در تقویم شمسی."
           action={
-            <button className="b-btn b-btn-spring b-btn-sm" onClick={save} disabled={saving || !sheetData?.students.length}>
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ثبت برگه
-            </button>
+            <span className="flex gap-1.5">
+              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={!sheetData?.students.length}
+                onClick={async () => { if (!window.confirm("همهٔ رکوردهای حضور این روز برای این کلاس حذف شود؟")) return; try { const r = await apiDelete<{ deleted: number }>(`/api/attendance?classId=${classId}&date=${date}`); toast.success(`${faNumber(r.deleted)} رکورد حذف شد.`); setSheet({}); refetchSheet(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                <Trash2 className="w-4 h-4" /> پاک‌کردن این روز
+              </button>
+              <button className="b-btn b-btn-spring b-btn-sm" onClick={save} disabled={saving || !sheetData?.students.length}>
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ثبت برگه
+              </button>
+            </span>
           }
         />
 

@@ -88,3 +88,13 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await requireUser(req, ["MANAGER", "SUPER_ADMIN", "ADMIN"]);
+    const id = new URL(req.url).searchParams.get("id") ?? "";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    await db.blogPost.deleteMany({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

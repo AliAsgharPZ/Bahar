@@ -137,3 +137,25 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const url = new URL(req.url);
+    const id = url.searchParams.get("id") ?? "";
+    const kind = url.searchParams.get("kind") ?? "route";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    if (kind === "assignment") {
+      const row = await db.transportAssignment.findUnique({ where: { id }, select: { schoolId: true } });
+      if (!row) return apiErr(404, "یافت نشد.", "NOT_FOUND");
+      if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+      await db.transportAssignment.delete({ where: { id } });
+    } else {
+      const row = await db.transportRoute.findUnique({ where: { id }, select: { schoolId: true } });
+      if (!row) return apiErr(404, "مسیر یافت نشد.", "NOT_FOUND");
+      if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+      await db.transportRoute.delete({ where: { id } });
+    }
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

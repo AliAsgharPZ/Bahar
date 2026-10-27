@@ -132,3 +132,25 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const url = new URL(req.url);
+    const id = url.searchParams.get("id") ?? "";
+    const kind = url.searchParams.get("kind") ?? "template";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    if (kind === "comment") {
+      const row = await db.reportComment.findUnique({ where: { id }, select: { student: { select: { schoolId: true } } } });
+      if (!row) return apiErr(404, "یافت نشد.", "NOT_FOUND");
+      if (me.schoolId && row.student.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+      await db.reportComment.delete({ where: { id } });
+    } else {
+      const row = await db.reportCommentTemplate.findUnique({ where: { id }, select: { schoolId: true } });
+      if (!row) return apiErr(404, "قالب یافت نشد.", "NOT_FOUND");
+      if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+      await db.reportCommentTemplate.delete({ where: { id } });
+    }
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

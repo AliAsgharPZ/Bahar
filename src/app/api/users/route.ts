@@ -296,3 +296,18 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "SUPER_ADMIN", "ADMIN"]);
+    const id = new URL(req.url).searchParams.get("id") ?? "";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    if (id === me.id) return apiErr(400, "حساب خودتان را نمی‌توانید حذف کنید.", "SELF");
+    const row = await db.user.findUnique({ where: { id }, select: { schoolId: true, role: true } });
+    if (!row) return apiErr(404, "کاربر یافت نشد.", "NOT_FOUND");
+    if (row.role === "SUPER_ADMIN" && me.role !== "SUPER_ADMIN") return apiErr(403, "حذف مدیر کل فقط توسط مدیر کل ممکن است.", "FORBIDDEN");
+    if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.user.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

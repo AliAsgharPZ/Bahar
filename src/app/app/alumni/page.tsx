@@ -2,15 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { GraduationCap, Loader2, Pencil } from "lucide-react";
-import { apiGet, apiPost } from "@/lib/client";
+import { GraduationCap, Loader2, Pencil, Trash2 } from "lucide-react";
+import { apiGet, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, StatCard, EmptyState, LoadingBlock } from "@/components/shared/bits";
 
 type Graduate = {
   id: string;
   user: { firstName: string; lastName: string; nationalId: string; phone: string | null };
   class: { name: string; grade: string | null } | null;
-  alumniProfile: { graduationYear: string | null; university: string | null; field: string | null; outcome: string | null; phone: string | null; note: string | null } | null;
+  alumniProfile: { id: string; graduationYear: string | null; university: string | null; field: string | null; outcome: string | null; phone: string | null; note: string | null } | null;
 };
 type Data = { graduates: Graduate[]; stats: { total: number; withOutcome: number } };
 
@@ -66,6 +66,11 @@ export default function AlumniPage() {
                         const p = g.alumniProfile;
                         setForm({ graduationYear: p?.graduationYear ?? "", university: p?.university ?? "", field: p?.field ?? "", outcome: p?.outcome ?? "", phone: p?.phone ?? g.user.phone ?? "", note: p?.note ?? "" });
                       }}><Pencil className="w-3.5 h-3.5" /> ویرایش</button>
+                      {g.alumniProfile && (
+                        <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={async () => { if (!window.confirm(`پروندهٔ فارغ‌التحصیلی ${g.user.firstName} ${g.user.lastName} حذف شود؟`)) return; try { await apiDelete(`/api/alumni?id=${g.alumniProfile!.id}`); toast.success("حذف شد."); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                          <Trash2 className="w-3.5 h-3.5" /> حذف
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

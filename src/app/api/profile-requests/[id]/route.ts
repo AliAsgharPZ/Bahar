@@ -117,3 +117,17 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     return handleApiError(e);
   }
 }
+
+/** DELETE /api/profile-requests/[id] — حذف درخواست تغییر مشخصات (ثبت‌کننده یا مدیر) */
+export async function DELETE(req: NextRequest, ctx: Ctx) {
+  try {
+    const me = await requireUser(req);
+    if (await isDemoUser(me)) return apiErr(403, "این قابلیت در حساب دمو غیرفعال است.", "DEMO_READONLY");
+    const { id } = await ctx.params;
+    const row = await db.profileChangeRequest.findUnique({ where: { id }, select: { userId: true } });
+    if (!row) return apiErr(404, "درخواست یافت نشد.", "NOT_FOUND");
+    if (row.userId !== me.id && !["MANAGER", "SUPER_ADMIN", "ADMIN"].includes(me.role)) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.profileChangeRequest.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Trophy, Loader2, Plus, UserCheck, UserX, Power } from "lucide-react";
-import { useApi, apiPost } from "@/lib/client";
+import { Trophy, Loader2, Plus, UserCheck, UserX, Power, Trash2 } from "lucide-react";
+import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { faNumber } from "@/lib/persian";
@@ -147,6 +147,12 @@ export default function ClubsPage() {
                 {isStaff && (
                   <button className="b-btn b-btn-ghost b-btn-sm" disabled={busy === c.id} onClick={() => toggle(c)}>
                     <Power className="w-3.5 h-3.5" /> {c.isActive ? "غیرفعال" : "فعال"}
+                  </button>
+                )}
+                {isStaff && (
+                  <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={busy === c.id}
+                    onClick={async () => { if (!window.confirm(`باشگاه «${c.name}» و همهٔ ثبت‌نام‌هایش حذف شود؟`)) return; try { await apiDelete(`/api/clubs?id=${c.id}`); toast.success("باشگاه حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                    <Trash2 className="w-3.5 h-3.5" /> حذف
                   </button>
                 )}
               </span>

@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { DoorOpen, Plus, Loader2, Check, X, LogOut } from "lucide-react";
-import { apiGet, apiPost, apiPatch } from "@/lib/client";
+import { DoorOpen, Plus, Loader2, Check, X, LogOut, Trash2 } from "lucide-react";
+import { apiGet, apiPost, apiPatch, apiDelete } from "@/lib/client";
 import { PageHeader, EmptyState, LoadingBlock } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { todayKey } from "@/lib/persian";
@@ -92,6 +92,11 @@ export default function GatePassesPage() {
                     <span className="t-sm text-steel block">{p.reason}{p.exitTime ? ` — ساعت ${p.exitTime}` : ""}{p.pickupBy ? ` — تحویل به: ${p.pickupBy}` : ""}</span>
                   </div>
                   <span className={`b-badge ${STATUS[p.status]?.cls ?? "b-badge-neutral"}`}>{STATUS[p.status]?.label ?? p.status}</span>
+                  {data.staff && (
+                    <button className="text-stone hover:text-destructive" aria-label="حذف مجوز" onClick={async () => { if (!window.confirm("این مجوز خروج حذف شود؟")) return; try { await apiDelete(`/api/gate-passes?id=${p.id}`); toast.success("حذف شد."); load(date); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
                   {data.staff && p.status === "PENDING" && (
                     <span className="flex gap-1.5">
                       <button className="b-btn b-btn-soft b-btn-sm" disabled={busy === p.id} onClick={() => decide(p, "APPROVED")}><Check className="w-3.5 h-3.5" /> تأیید</button>

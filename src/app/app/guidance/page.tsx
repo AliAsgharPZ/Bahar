@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Compass, Loader2, Save } from "lucide-react";
-import { useApi, apiPost } from "@/lib/client";
+import { Compass, Loader2, Save, Trash2 } from "lucide-react";
+import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { faNumber } from "@/lib/persian";
@@ -79,9 +79,16 @@ export default function GuidancePage() {
               ))}
               <label className="flex flex-col gap-1.5 mt-1"><span className="text-[12px] font-bold">یادداشت مشاور</span>
                 <textarea className="b-input min-h-20" value={noteVal} onChange={(e) => setNote(e.target.value)} placeholder="توضیح برای دانش‌آموز و خانواده…" /></label>
-              <button className="b-btn b-btn-spring self-start" disabled={saving} onClick={save}>
-                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره و محاسبه
-              </button>
+              <span className="flex gap-1.5">
+                <button className="b-btn b-btn-spring self-start" disabled={saving} onClick={save}>
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره و محاسبه
+                </button>
+                {data.record && (
+                  <button className="b-btn b-btn-ghost !text-destructive self-start" onClick={async () => { if (!window.confirm("پروندهٔ هدایت تحصیلی این دانش‌آموز کامل حذف شود؟")) return; try { await apiDelete(`/api/guidance?studentId=${studentId}`); toast.success("پرونده حذف شد."); setDraft(null); setNote(null); refetch(); } catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); } }}>
+                    <Trash2 className="w-4 h-4" /> حذف پرونده
+                  </button>
+                )}
+              </span>
             </div>
           ) : (
             <div className="b-card p-6 flex flex-col gap-2">

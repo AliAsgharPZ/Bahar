@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Wallet, Loader2, Printer, Save } from "lucide-react";
-import { useApi, apiPost } from "@/lib/client";
+import { Wallet, Loader2, Printer, Save, Trash2 } from "lucide-react";
+import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { faNumber } from "@/lib/persian";
 
@@ -116,9 +116,17 @@ export default function PayrollPage() {
                   <td className="p-3"><input className="b-input w-28" dir="ltr" inputMode="numeric" value={d.deductions} onChange={(e) => set("deductions", e.target.value)} placeholder="۰" /></td>
                   <td className="p-3 font-bold">{toman(net)}</td>
                   <td className="p-3">
-                    <button className="b-btn b-btn-spring b-btn-sm" disabled={savingId === user.id} onClick={() => save(user.id)}>
-                      {savingId === user.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ثبت
-                    </button>
+                    <span className="flex gap-1.5">
+                      <button className="b-btn b-btn-spring b-btn-sm" disabled={savingId === user.id} onClick={() => save(user.id)}>
+                        {savingId === user.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ثبت
+                      </button>
+                      {record && (
+                        <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" title="حذف فیش این ماه"
+                          onClick={async () => { if (!window.confirm(`فیش ${user.firstName} ${user.lastName} برای این ماه حذف شود؟`)) return; try { await apiDelete(`/api/payroll?id=${record.id}`); toast.success("فیش حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </span>
                   </td>
                 </tr>
               );

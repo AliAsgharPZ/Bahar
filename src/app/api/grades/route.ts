@@ -294,3 +294,17 @@ export async function PATCH(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const id = new URL(req.url).searchParams.get("id") ?? "";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    const row = await db.gradeRecord.findUnique({ where: { id }, select: { enteredById: true, student: { select: { schoolId: true } } } });
+    if (!row) return apiErr(404, "نمره یافت نشد.", "NOT_FOUND");
+    const inSchool = me.schoolId && row.student.schoolId === me.schoolId;
+    if (!inSchool && row.enteredById !== me.id && !["SUPER_ADMIN", "ADMIN"].includes(me.role)) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.gradeRecord.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

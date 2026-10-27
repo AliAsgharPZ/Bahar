@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { CalendarOff, Plus, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "sonner";
-import { apiGet, apiPost } from "@/lib/client";
+import { apiGet, apiPost, apiDelete } from "@/lib/client";
 import { faNumber, formatDateFa } from "@/lib/persian";
 import { PageHeader, LoadingBlock, EmptyState , ErrorBox } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
@@ -75,6 +75,7 @@ export default function LeavesPage() {
               <span className="text-[12px] text-steel">{formatDateFa(l.fromDate)} تا {formatDateFa(l.toDate)}</span>
               {l.reason && <span className="text-[11.5px] text-steel flex-1 truncate">{l.reason}</span>}
               {l.reviewNote && <span className="text-[11px] text-spring-deep">{l.reviewNote}</span>}
+              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive ms-auto" onClick={async () => { if (!window.confirm("این درخواست مرخصی حذف شود؟")) return; try { await apiDelete(`/api/leaves?id=${l.id}`); toast.success("حذف شد."); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>حذف</button>
               {canReview && l.status === "PENDING" && (
                 <span className="flex gap-1.5 ms-auto">
                   <button onClick={() => respond(l.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[28px] !text-[10px] !px-2.5 !py-0"><CheckCircle2 className="w-3.5 h-3.5" /> تأیید</button>

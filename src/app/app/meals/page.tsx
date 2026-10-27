@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { UtensilsCrossed, Loader2, Save } from "lucide-react";
-import { useApi } from "@/lib/client";
+import { UtensilsCrossed, Loader2, Save, Trash2 } from "lucide-react";
+import { useApi, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { jalaliDayOfWeek } from "@/lib/persian";
 
-type Day = { weekday: number; breakfast: string; lunch: string; snack: string };
+type Day = { weekday: number; id?: string | null; breakfast: string; lunch: string; snack: string };
 type Me = { user: { role: string } };
 
 const DAYS = ["", "شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"];
@@ -62,9 +62,16 @@ export default function MealsPage() {
                     <input className="b-input" value={val.lunch} onChange={(e) => set({ lunch: e.target.value })} placeholder="…" /></label>
                   <label className="flex flex-col gap-1"><span className="text-[11.5px] font-bold text-steel">میان‌وعده</span>
                     <input className="b-input" value={val.snack} onChange={(e) => set({ snack: e.target.value })} placeholder="…" /></label>
-                  <button className="b-btn b-btn-spring b-btn-sm self-start" disabled={savingDay === d.weekday} onClick={() => save(val)}>
-                    {savingDay === d.weekday ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره
-                  </button>
+                  <span className="flex gap-1.5">
+                    <button className="b-btn b-btn-spring b-btn-sm self-start" disabled={savingDay === d.weekday} onClick={() => save(val)}>
+                      {savingDay === d.weekday ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره
+                    </button>
+                    {val.id && (
+                      <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={async () => { if (!window.confirm(`منوی ${DAYS[d.weekday]} کامل حذف شود؟`)) return; try { await apiDelete(`/api/meals?id=${val.id}`); toast.success("منوی روز حذف شد."); setDrafts((prev) => { const n = { ...prev }; delete n[d.weekday]; return n; }); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                        <Trash2 className="w-4 h-4" /> حذف منو
+                      </button>
+                    )}
+                  </span>
                 </>
               ) : (
                 <div className="flex flex-col gap-1.5 text-[13px]">

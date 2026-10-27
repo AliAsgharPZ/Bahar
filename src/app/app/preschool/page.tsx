@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Baby, Loader2, Save, ShieldCheck, Trash2, Plus } from "lucide-react";
-import { useApi, apiPost } from "@/lib/client";
+import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { todayKey, faNumber } from "@/lib/persian";
@@ -130,9 +130,10 @@ export default function PreschoolPage() {
           <div key={r.id} className="b-card-sm p-5 flex flex-col gap-1.5 text-[13px]">
             <span className="flex items-center justify-between flex-wrap gap-2">
               <b>{r.studentName ?? ""} <span className="text-steel font-normal">{r.className ?? ""}</span></b>
-              <span className="flex gap-1.5">
+              <span className="flex gap-1.5 items-center">
                 <span className="b-badge b-badge-neutral">{r.date}</span>
                 <span className="b-badge b-badge-spring">{MOODS[r.mood] ?? r.mood}</span>
+                {!isAudience && <button className="text-stone hover:text-destructive" aria-label="حذف گزارش" onClick={async () => { if (!window.confirm("این گزارش روزانه حذف شود؟")) return; try { await apiDelete(`/api/daily-reports?id=${r.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-4 h-4" /></button>}
               </span>
             </span>
             {r.meals && <span><span className="text-steel">خوراک: </span>{r.meals}</span>}

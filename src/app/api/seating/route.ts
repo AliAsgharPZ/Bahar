@@ -67,3 +67,16 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const classId = new URL(req.url).searchParams.get("classId") ?? "";
+    if (!classId) return apiErr(400, "کلاس لازم است.", "NO_CLASS");
+    const cls = await db.class.findUnique({ where: { id: classId }, select: { schoolId: true } });
+    if (!cls) return apiErr(404, "کلاس یافت نشد.", "NOT_FOUND");
+    if (me.schoolId && cls.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.seatingPlan.deleteMany({ where: { classId } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     const rows = await db.mealPlan.findMany({ where: { schoolId }, orderBy: { weekday: "asc" } });
     const plan = [1, 2, 3, 4, 5, 6, 7].map((weekday) => {
       const r = rows.find((x) => x.weekday === weekday);
-      return { weekday, breakfast: r?.breakfast ?? "", lunch: r?.lunch ?? "", snack: r?.snack ?? "" };
+      return { weekday, id: r?.id ?? null, breakfast: r?.breakfast ?? "", lunch: r?.lunch ?? "", snack: r?.snack ?? "" };
     });
     return apiOk({ plan });
   } catch (e) {
@@ -56,4 +56,18 @@ export async function PUT(req: NextRequest) {
   } catch (e) {
     return handleApiError(e);
   }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const id = new URL(req.url).searchParams.get("id") ?? "";
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    const row = await db.mealPlan.findUnique({ where: { id }, select: { schoolId: true } });
+    if (!row) return apiErr(404, "یافت نشد.", "NOT_FOUND");
+    if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    
+    await db.mealPlan.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
 }

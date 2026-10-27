@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Award, Star, Crown, Medal, Lock, Plus, Sparkles, Globe2 } from "lucide-react";
+import { Award, Star, Crown, Medal, Lock, Plus, Sparkles, Globe2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { apiGet, apiPost } from "@/lib/client";
+import { apiGet, apiPost, apiDelete } from "@/lib/client";
 import { faNumber, formatDateFa } from "@/lib/persian";
 import { PageHeader, LoadingBlock, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
@@ -275,7 +275,7 @@ export default function BadgesPage() {
           </h2>
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
             {globalBadges.map((b, i) => (
-              <BadgeCard key={b.id} b={b} i={i} has={earnedIds.has(b.id)} />
+              <BadgeCard key={b.id} b={b} i={i} has={earnedIds.has(b.id)} onDelete={isSuperAdmin ? async () => { if (!window.confirm(`بج «${b.title}» حذف شود؟`)) return; try { await apiDelete(`/api/badges?id=${b.id}`); toast.success("بج حذف شد."); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } } : undefined} />
             ))}
           </div>
         </div>
@@ -315,7 +315,7 @@ export default function BadgesPage() {
   );
 }
 
-function BadgeCard({ b, i, has }: { b: BadgeT; i: number; has: boolean }) {
+function BadgeCard({ b, i, has, onDelete }: { b: BadgeT; i: number; has: boolean; onDelete?: () => void }) {
   const t = TIER_STYLE[b.tier] ?? TIER_STYLE.BRONZE;
   return (
     <motion.div
@@ -329,6 +329,11 @@ function BadgeCard({ b, i, has }: { b: BadgeT; i: number; has: boolean }) {
       <p className="text-[10px] text-steel line-clamp-2 mt-0.5">{b.description}</p>
       <span className="b-badge b-badge-neutral mt-2">{t.label} · {faNumber(b.points)}</span>
       {!has && <Lock className="absolute top-2 left-2 w-3.5 h-3.5 text-stone" />}
+      {onDelete && (
+        <button onClick={onDelete} aria-label="حذف بج" className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-stone hover:text-destructive hover:bg-cloud">
+          <Trash2 className="w-3.5 h-3.5" />
+        </button>
+      )}
     </motion.div>
   );
 }

@@ -119,3 +119,26 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const url = new URL(req.url);
+    const id = url.searchParams.get("id") ?? "";
+    const kind = url.searchParams.get("kind") ?? "visit";
+    if (kind === "profile") {
+      const studentId = url.searchParams.get("studentId") ?? "";
+      const row = await db.studentHealth.findUnique({ where: { studentId }, select: { schoolId: true } });
+      if (!row) return apiErr(404, "پرونده یافت نشد.", "NOT_FOUND");
+      if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+      await db.studentHealth.delete({ where: { studentId } });
+      return apiOk({ ok: true });
+    }
+    if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
+    const row = await db.clinicVisit.findUnique({ where: { id }, select: { schoolId: true } });
+    if (!row) return apiErr(404, "مراجعه یافت نشد.", "NOT_FOUND");
+    if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    await db.clinicVisit.delete({ where: { id } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}

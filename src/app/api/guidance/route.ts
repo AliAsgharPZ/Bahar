@@ -71,3 +71,13 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const studentId = new URL(req.url).searchParams.get("studentId") ?? "";
+    if (!studentId) return apiErr(400, "دانش‌آموز لازم است.", "NO_STUDENT");
+    await db.guidanceRecord.deleteMany({ where: { studentId } });
+    return apiOk({ ok: true });
+  } catch (e) { return handleApiError(e); }
+}
