@@ -174,6 +174,12 @@ const INSERT_ORDER = [
   "transportBoarding",
   "reportCommentTemplate",
   "reportComment",
+  "examSession",
+  "examSeat",
+  "examInvigilator",
+  "descriptiveGrade",
+  "salaryRecord",
+  "smsLog",
 ] as const;
 
 /** فیلدهای DateTime هر جدول — فقط همین‌ها در بازیابی به Date تبدیل می‌شوند
@@ -264,6 +270,12 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   transportBoarding: ["createdAt", "boardedAt", "alightedAt"],
   reportCommentTemplate: ["createdAt"],
   reportComment: ["createdAt", "updatedAt"],
+  examSession: ["createdAt", "startsAt"],
+  examSeat: [],
+  examInvigilator: [],
+  descriptiveGrade: ["createdAt"],
+  salaryRecord: ["createdAt", "updatedAt"],
+  smsLog: ["createdAt"],
 };
 
 type TableName = (typeof INSERT_ORDER)[number];

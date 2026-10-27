@@ -86,6 +86,7 @@ model User {
   backups               Backup[]               @relation("BackupCreator")
   staffAttendances      StaffAttendance[]
   announcementReads     AnnouncementRead[]
+  salaryRecords         SalaryRecord[]
   notifications         Notification[]         @relation("NotificationUser")
   behaviorRecords       BehaviorRecord[]       @relation("BehaviorRecorder")
   questionsAuthored     Question[]             @relation("QuestionAuthor")
@@ -256,6 +257,8 @@ model Student {
   alumniProfile     AlumniProfile?
   assignmentSubmissions AssignmentSubmission[]
   reportComments    ReportComment[]
+  examSeats         ExamSeat[]
+  descriptiveGrades DescriptiveGrade[]
 
   @@unique([schoolId, studentNumber])
   @@index([classId])
@@ -1826,6 +1829,94 @@ model ReportComment {
   updatedAt   DateTime @updatedAt
 
   @@index([schoolId, studentId])
+}
+
+model ExamSession {
+  id          String   @id @default(cuid())
+  schoolId    String
+  title       String
+  subjectName String?
+  startsAt    DateTime
+  durationMin Int      @default(90)
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  seats        ExamSeat[]
+  invigilators ExamInvigilator[]
+
+  @@index([schoolId, startsAt])
+}
+
+model ExamSeat {
+  id        String      @id @default(cuid())
+  sessionId String
+  session   ExamSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  studentId String
+  student   Student     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  room      String      @default("سالن اصلی")
+  seatNo    String
+
+  @@unique([sessionId, studentId])
+  @@index([studentId])
+}
+
+model ExamInvigilator {
+  id        String      @id @default(cuid())
+  sessionId String
+  session   ExamSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  userId    String
+  room      String      @default("سالن اصلی")
+
+  @@unique([sessionId, userId, room])
+  @@index([userId])
+}
+
+model DescriptiveGrade {
+  id         String  @id @default(cuid())
+  schoolId   String
+  studentId  String
+  student    Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectId  String?
+  competency String // شایستگی/هدف آموزشی
+  level      String // VERY_GOOD | GOOD | ACCEPTABLE | NEEDS_WORK
+  term       Int     @default(1)
+  note       String?
+  createdById String?
+  createdAt  DateTime @default(now())
+
+  @@index([schoolId, studentId])
+}
+
+model SalaryRecord {
+  id         String   @id @default(cuid())
+  schoolId   String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  yearMonth  String // مثل 1405-08
+  base       Int      @default(0) // حقوق پایه (تومان)
+  allowances Int      @default(0) // مزایا
+  deductions Int      @default(0) // کسورات
+  note       String?
+  createdById String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, yearMonth])
+  @@index([schoolId, yearMonth])
+}
+
+model SmsLog {
+  id             String   @id @default(cuid())
+  schoolId       String
+  audience       String // PARENTS | TEACHERS | STUDENTS | CLASS | ALL
+  classId        String?
+  text           String
+  recipientCount Int      @default(0)
+  status         String   @default("SENT_MOCK") // درگاه نمایشی
+  createdById    String?
+  createdAt      DateTime @default(now())
+
+  @@index([schoolId, createdAt])
 }
 
 model VirtualSession {

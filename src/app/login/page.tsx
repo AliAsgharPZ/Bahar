@@ -204,7 +204,7 @@ function LoginForm() {
         </div>
       </div>
       <div className="flex-1 flex items-center justify-center px-4 py-10 relative overflow-hidden">
-        <div className="absolute inset-0 b-hero-grad opacity-70" aria-hidden />
+        <div className="absolute inset-0 b-hero-grad b-aurora opacity-70" aria-hidden />
         <div className="relative w-full max-w-md">
           <Link
             href="/"
@@ -216,7 +216,7 @@ function LoginForm() {
           <div className="b-card p-8 md:p-10 b-rise">
             <div className="flex flex-col items-center gap-3 mb-8">
               <Image src={logoUrl || "/logo.svg"} alt="بهار" width={52} height={52} />
-              <h1 className="text-2xl font-bold">{t("auth.login.title")}</h1>
+              <h1 className="text-2xl font-bold b-grad-text">{t("auth.login.title")}</h1>
               <p className="t-sm text-steel text-center">
                 {shadEnabled
                   ? t("auth.login.hint")

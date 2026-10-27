@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <PageHeader title={greeting(data)} desc={subTitle(data)} />
+      <PageHeader title={greeting(data)} desc={subTitle(data)} grad />
 
       {/* ═══ مرکز اقدامات ═══ */}
       {(actionCenter.items.length > 0 || actionCenter.needsAttention.length > 0) && (

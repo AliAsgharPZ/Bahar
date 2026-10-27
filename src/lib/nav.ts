@@ -8,6 +8,7 @@ import {
   Home, MessagesSquare, Coins, SlidersHorizontal, Building2, FileUp,
   IdCard, Repeat,
   Bus, FileText, Video, Armchair, MessageSquareText,
+  CalendarSync, MessageSquare,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -68,6 +69,11 @@ export const NAV: NavItem[] = [
   { href: "/app/virtual-sessions", label: "کلاس مجازی", tKey: "nav.virtualSessions", short: "کلاس مجازی", icon: Video, roles: ["*"], tint: 0, group: "education" },
   { href: "/app/seating", label: "چیدمان صندلی", tKey: "nav.seating", short: "صندلی", icon: Armchair, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 1, group: "education" },
   { href: "/app/report-comments", label: "کامنت کارنامه", tKey: "nav.reportComments", short: "کامنت", icon: MessageSquareText, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 2, group: "education" },
+  { href: "/app/exams", label: "امتحانات", tKey: "nav.exams", short: "امتحان", icon: ClipboardList, roles: ["*"], tint: 3, group: "education" },
+  { href: "/app/descriptive-report", label: "کارنامه توصیفی", tKey: "nav.descriptiveReport", short: "توصیفی", icon: FileBarChart, roles: ["*"], tint: 0, group: "education" },
+  { href: "/app/payroll", label: "حقوق و فیش", tKey: "nav.payroll", short: "حقوق", icon: Wallet, roles: ["MANAGER", "DEPUTY", "TEACHER", "CUSTODIAN"], tint: 1, group: "finance" },
+  { href: "/app/sms", label: "پنل پیامک", tKey: "nav.sms", short: "پیامک", icon: MessageSquare, roles: ["MANAGER", "DEPUTY"], tint: 2, group: "comms" },
+  { href: "/app/rollover", label: "بستن سال تحصیلی", tKey: "nav.rollover", short: "بستن سال", icon: CalendarSync, roles: ["MANAGER"], tint: 3, group: "admin" },
   { href: "/app/transport", label: "سرویس مدرسه", tKey: "nav.transport", short: "سرویس", icon: Bus, roles: ["*"], tint: 1, group: "services" },
   { href: "/app/gate-passes", label: "مجوز خروج", tKey: "nav.gatePasses", short: "مجوز خروج", icon: DoorOpen, roles: ["*"], tint: 2, group: "students" },
   { href: "/app/alumni", label: "فارغ‌التحصیلان", tKey: "nav.alumni", short: "فارغ‌التحصیلان", icon: GraduationCap, roles: ["MANAGER", "DEPUTY"], tint: 3, group: "students" },

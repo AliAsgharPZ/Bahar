@@ -39,7 +39,7 @@ const MODULES = [
   { icon: BellRing, title: "اطلاعیه هدفمند", desc: "بر اساس نقش و نقشه ایران" },
   { icon: MessageCircle, title: "پیام‌رسان داخلی", desc: "کوتاه و سبک داخل مدرسه" },
   { icon: Send, title: "ارسال با شاد", desc: "ارسال رمز و اطلاع‌رسانی" },
-  { icon: Globe, title: "سایت مدرسه", desc: "۵ تمپلیت آماده با آدرس اختصاصی" },
+  { icon: Globe, title: "سایت مدرسه", desc: "۱۶ تمپلیت آماده با آدرس اختصاصی" },
   { icon: Map, title: "نقشه ایران", desc: "انتخاب استان و شهرستان روی نقشه" },
   { icon: Sparkles, title: "شهریه و مالی", desc: "پیگیری پرداخت دانش‌آموزان" },
   { icon: Users, title: "تیکت پشتیبانی", desc: "پاسخ مستقیم تیم بهار" },

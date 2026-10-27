@@ -869,9 +869,54 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
    دیالوگ‌های fixed-inset-0 به‌جای ویوپورت نسبت به محتوای صفحه
    جای‌گذاری می‌شوند (باگ «صفحه خیلی بالا قرار می‌گیرد»). */
 @keyframes bahar-page-in {
-  from { opacity: 0; transform: translateY(14px) scale(0.992); }
+  from { opacity: 0; transform: translateY(14px) scale(0.992); filter: blur(4px); }
   55% { opacity: 1; }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* ——— دور ارتقای طراحی (الگوهای آمادهٔ وب، فقط با رنگ‌های خود بهار) ——— */
+/* پس‌زمینهٔ شفقِ متحرک برای هدرها و صفحهٔ ورود */
+@keyframes bahar-aurora {
+  from { background-position: 0% 40%; }
+  to { background-position: 100% 60%; }
+}
+.b-aurora {
+  background-image:
+    radial-gradient(42rem 26rem at 18% 12%, color-mix(in srgb, var(--spring) 16%, transparent), transparent 65%),
+    radial-gradient(36rem 22rem at 84% 18%, color-mix(in srgb, var(--blossom) 14%, transparent), transparent 65%),
+    radial-gradient(30rem 20rem at 55% 95%, color-mix(in srgb, var(--spring-tint) 55%, transparent), transparent 70%);
+  background-size: 150% 150%;
+  animation: bahar-aurora 18s ease-in-out infinite alternate;
+}
+/* متن گرادیانی (spring → blossom) برای تیترهای شاخص */
+.b-grad-text {
+  background: linear-gradient(92deg, var(--spring) 10%, var(--blossom) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* کارت با حلقهٔ گرادیانی — برای کارت‌های قهرمان و شاخص */
+.b-grad-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    linear-gradient(120deg, color-mix(in srgb, var(--spring) 55%, transparent), color-mix(in srgb, var(--blossom) 55%, transparent)) border-box;
+}
+/* برقِ عبوری روی دکمهٔ اصلی هنگام هاور */
+.b-btn-spring { position: relative; overflow: hidden; }
+.b-btn-spring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,.35) 50%, transparent 58%);
+  transform: translateX(160%);
+  transition: transform .7s ease;
+  pointer-events: none;
+}
+.b-btn-spring:not(:disabled):hover::after { transform: translateX(-160%); }
+@media (prefers-reduced-motion: reduce) {
+  .b-aurora { animation: none; }
+  .b-btn-spring::after { display: none; }
 }
 .b-page-in { animation: bahar-page-in 380ms var(--ease-decel) backwards; }
 

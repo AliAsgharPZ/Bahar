@@ -1,20 +1,47 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { Loader2, Inbox, AlertTriangle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { faNumber } from "@/lib/persian";
 
+/** شمارندهٔ متحرک اعداد (الگوی NumberTicker) — از صفر تا مقدار با شتاب‌نرم */
+export function CountUp({ value }: { value: number }) {
+  const [shown, setShown] = useState(0);
+  const ref = useRef<number>(0);
+  useEffect(() => {
+    const from = ref.current;
+    const to = value;
+    if (from === to) { setShown(to); return; }
+    const start = performance.now();
+    const dur = 700;
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const cur = Math.round(from + (to - from) * eased);
+      setShown(cur);
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else ref.current = to;
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  return <>{faNumber(shown)}</>;
+}
+
 export function PageHeader({
-  title, desc, action,
+  title, desc, action, grad = false,
 }: {
   title: string;
   desc?: string;
   action?: React.ReactNode;
+  grad?: boolean;
 }) {
   return (
     <div className="b-rise flex flex-wrap items-start justify-between gap-4 mb-6 md:mb-8">
       <div className="flex flex-col gap-1.5">
-        <h1 className="text-[26px] md:text-[36px] font-bold leading-[1.28]">{title}</h1>
+        <h1 className="text-[26px] md:text-[36px] font-bold leading-[1.28]">{grad ? <span className="b-grad-text">{title}</span> : title}</h1>
         {desc && <p className="t-sm text-steel max-w-2xl">{desc}</p>}
       </div>
       {action && <div className="flex items-center gap-2 flex-wrap">{action}</div>}
@@ -31,7 +58,7 @@ export function StatCard({
   tone?: "spring" | "ink" | "blossom" | "soft" | "warning";
   hint?: string;
 }) {
-  const display = typeof value === "number" ? faNumber(value) : value;
+  const display = typeof value === "number" ? <CountUp value={value} /> : value;
   const tones: Record<string, string> = {
     spring: "bg-spring text-primary-foreground",
     ink: "bg-invert text-invert-foreground",
@@ -57,9 +84,26 @@ export function StatCard({
 
 export function LoadingBlock({ label = "در حال بارگذاری…" }: { label?: string }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-16 text-steel">
-      <Loader2 className="w-7 h-7 animate-spin text-spring" />
-      <span className="t-sm">{label}</span>
+    <div className="flex flex-col gap-4 py-6" role="status" aria-label={label}>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[0, 1, 2, 3].map((i) => (
+          <div key={i} className="b-card-sm p-5 flex items-center gap-4">
+            <span className="w-11 h-11 rounded-full b-shimmer shrink-0" />
+            <span className="flex flex-col gap-2 flex-1">
+              <span className="h-4 w-2/3 rounded-md b-shimmer" />
+              <span className="h-3 w-1/2 rounded-md b-shimmer" />
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className="b-card-sm p-6 flex flex-col gap-3">
+        {[0, 1, 2].map((i) => (
+          <span key={i} className="h-4 rounded-md b-shimmer" style={{ width: `${88 - i * 14}%` }} />
+        ))}
+      </div>
+      <span className="flex items-center justify-center gap-2 text-steel t-sm">
+        <Loader2 className="w-4 h-4 animate-spin text-spring" /> {label}
+      </span>
     </div>
   );
 }

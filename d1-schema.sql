@@ -1718,6 +1718,80 @@ CREATE UNIQUE INDEX IF NOT EXISTS "TransportBoarding_assignmentId_date_key" ON "
 CREATE INDEX IF NOT EXISTS "ReportCommentTemplate_schoolId_idx" ON "ReportCommentTemplate"("schoolId")
 CREATE INDEX IF NOT EXISTS "ReportComment_schoolId_studentId_idx" ON "ReportComment"("schoolId", "studentId")
 
+CREATE TABLE IF NOT EXISTS "DescriptiveGrade" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "subjectId" TEXT,
+    "competency" TEXT NOT NULL,
+    "level" TEXT NOT NULL,
+    "term" INTEGER NOT NULL DEFAULT 1,
+    "note" TEXT,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "DescriptiveGrade_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "ExamInvigilator" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "sessionId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "room" TEXT NOT NULL DEFAULT 'سالن اصلی',
+    CONSTRAINT "ExamInvigilator_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "ExamSession" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "ExamSeat" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "sessionId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "room" TEXT NOT NULL DEFAULT 'سالن اصلی',
+    "seatNo" TEXT NOT NULL,
+    CONSTRAINT "ExamSeat_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "ExamSession" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ExamSeat_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "ExamSession" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "subjectName" TEXT,
+    "startsAt" DATETIME NOT NULL,
+    "durationMin" INTEGER NOT NULL DEFAULT 90,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS "SalaryRecord" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "yearMonth" TEXT NOT NULL,
+    "base" INTEGER NOT NULL DEFAULT 0,
+    "allowances" INTEGER NOT NULL DEFAULT 0,
+    "deductions" INTEGER NOT NULL DEFAULT 0,
+    "note" TEXT,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "SalaryRecord_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "SmsLog" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "audience" TEXT NOT NULL,
+    "classId" TEXT,
+    "text" TEXT NOT NULL,
+    "recipientCount" INTEGER NOT NULL DEFAULT 0,
+    "status" TEXT NOT NULL DEFAULT 'SENT_MOCK',
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS "ExamSession_schoolId_startsAt_idx" ON "ExamSession"("schoolId", "startsAt");
+CREATE INDEX IF NOT EXISTS "ExamSeat_studentId_idx" ON "ExamSeat"("studentId");
+CREATE UNIQUE INDEX IF NOT EXISTS "ExamSeat_sessionId_studentId_key" ON "ExamSeat"("sessionId", "studentId");
+CREATE INDEX IF NOT EXISTS "ExamInvigilator_userId_idx" ON "ExamInvigilator"("userId");
+CREATE UNIQUE INDEX IF NOT EXISTS "ExamInvigilator_sessionId_userId_room_key" ON "ExamInvigilator"("sessionId", "userId", "room");
+CREATE INDEX IF NOT EXISTS "DescriptiveGrade_schoolId_studentId_idx" ON "DescriptiveGrade"("schoolId", "studentId");
+CREATE INDEX IF NOT EXISTS "SalaryRecord_schoolId_yearMonth_idx" ON "SalaryRecord"("schoolId", "yearMonth");
+CREATE UNIQUE INDEX IF NOT EXISTS "SalaryRecord_userId_yearMonth_key" ON "SalaryRecord"("userId", "yearMonth");
+CREATE INDEX IF NOT EXISTS "SmsLog_schoolId_createdAt_idx" ON "SmsLog"("schoolId", "createdAt");
+
 CREATE TABLE IF NOT EXISTS "FileBlob" (
     "key" TEXT NOT NULL PRIMARY KEY,
     "data" BLOB NOT NULL,
