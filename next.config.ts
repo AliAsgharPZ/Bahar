@@ -33,15 +33,39 @@ const nextConfig: NextConfig = {
   // runtime; make sure Next's output tracing ships it with the server bundle
   // (required for the Cloudflare Workers build).
   outputFileTracingIncludes: {
-    "/**": ["./node_modules/.prisma/client/*.wasm", "./src/generated/prisma/**/*.wasm"],
+    "/**": [
+      "./node_modules/.prisma/client/*.wasm",
+      "./src/generated/prisma/**/*.wasm",
+      // nft traces @libsql/client's node entry only; OpenNext resolves the
+      // workerd entry (lib-esm/web.js) when bundling for Workers, so the web
+      // build must be force-included or packaging fails with
+      // 'Could not resolve "@libsql/client"'.
+      "./node_modules/@libsql/client/lib-esm/web.js",
+      // Same workerd-entry tracing gap across the libsql + Prisma client
+      // packages: nft follows node conditions, OpenNext bundles with
+      // workerd conditions. Force-include every script file of those
+      // packages (binaries excluded by the extensions) so whichever entry
+      // the workerd resolution picks is present in the trace.
+      "./node_modules/@libsql/client/**/*.js",
+      "./node_modules/@libsql/client/**/*.mjs",
+      "./node_modules/@libsql/client/**/*.cjs",
+      "./node_modules/@libsql/client/**/*.json",
+      "./node_modules/@libsql/core/**/*.js",
+      "./node_modules/@libsql/core/**/*.mjs",
+      "./node_modules/@libsql/core/**/*.cjs",
+      "./node_modules/@libsql/hrana-client/**/*.js",
+      "./node_modules/@libsql/hrana-client/**/*.mjs",
+      "./node_modules/@libsql/hrana-client/**/*.cjs",
+      "./node_modules/@libsql/isomorphic-ws/**/*.mjs",
+      "./node_modules/@libsql/isomorphic-ws/**/*.cjs",
+      "./node_modules/@libsql/isomorphic-ws/**/*.json",
+      "./node_modules/@prisma/client/**/*.js",
+      "./node_modules/@prisma/client/**/*.mjs",
+      "./node_modules/@prisma/client/**/*.cjs",
+      "./node_modules/@prisma/client/**/*.json",
+    ],
   },
   reactStrictMode: false,
-  // Bundle the libsql adapter into the server chunks (instead of leaving a
-  // bare runtime require) so the OpenNext/esbuild packaging step can resolve
-  // the whole graph — with webpack output it otherwise fails on
-  // "@libsql/client" (the adapter is only exercised off-Workers, but it is
-  // imported by src/lib/db.ts).
-  transpilePackages: ["@prisma/adapter-libsql", "@libsql/client", "@libsql/core"],
   poweredByHeader: false,
   // Type checking is enforced by a standalone `tsc --noEmit` gate before every
   // push (always green). Next's in-build TypeScript phase runs a second full
@@ -66,6 +90,15 @@ const nextConfig: NextConfig = {
   // needs async WebAssembly enabled to bundle it.
   webpack: (config) => {
     config.experiments = { ...config.experiments, asyncWebAssembly: true };
+    // Resolve "workerd" export conditions: packages like @libsql/client ship
+    // a pure-JS web build under the workerd condition and a native-binding
+    // build under node. The Workers bundle must get the web build — the
+    // native one crashes the whole worker at startup ("Neon: unsupported
+    // architecture", diagnosed locally in workerd 2026-10-27), and the
+    // node-condition file set is also what output tracing copies, which
+    // OpenNext's workerd-conditioned bundling then cannot resolve.
+    const conds = config.resolve.conditionNames ?? [];
+    if (!conds.includes("workerd")) config.resolve.conditionNames = [...conds, "workerd"];
     return config;
   },
   async headers() {
