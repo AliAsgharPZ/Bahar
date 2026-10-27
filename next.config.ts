@@ -46,6 +46,11 @@ const nextConfig: NextConfig = {
   // Shrink the module graph the bundler has to hold in memory.
   experimental: {
     optimizePackageImports: ["lucide-react", "recharts", "date-fns"],
+    // Cloudflare's build containers OOM-kill `next build` (exit 137) on this
+    // ~105-route app: fewer parallel build workers + memory-optimized
+    // compilation lower the peak RSS below the container ceiling.
+    webpackMemoryOptimizations: true,
+    cpus: 2,
   },
   async headers() {
     return [
