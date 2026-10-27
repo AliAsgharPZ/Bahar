@@ -326,61 +326,61 @@ export async function DELETE(req: NextRequest, ctx: Ctx) {
 
     // ── حذف کامل از کل سامانه ──
     // اگر مدیر مدرسه است، مدرسه‌اش آزاد شود (داخل تراکنش — راند ۱۶)
-    await db.$transaction(async (tx) => {
-      await tx.school.updateMany({ where: { managerId: user.id }, data: { managerId: null } });
+    await (async () => {
+      await db.school.updateMany({ where: { managerId: user.id }, data: { managerId: null } });
 
       // رکوردهای مستقیم
-      await tx.profileChangeRequest.deleteMany({ where: { OR: [{ userId: user.id }, { reviewedById: user.id }] } });
-      await tx.ticketMessage.deleteMany({ where: { senderId: user.id } });
-      await tx.blogPost.updateMany({ where: { authorId: user.id }, data: { authorId: null } });
-      await tx.shadSession.updateMany({ where: { authorizedBy: user.id }, data: { authorizedBy: null } });
+      await db.profileChangeRequest.deleteMany({ where: { OR: [{ userId: user.id }, { reviewedById: user.id }] } });
+      await db.ticketMessage.deleteMany({ where: { senderId: user.id } });
+      await db.blogPost.updateMany({ where: { authorId: user.id }, data: { authorId: null } });
+      await db.shadSession.updateMany({ where: { authorizedBy: user.id }, data: { authorizedBy: null } });
 
       // FIX (راند ۱۶): روابط FK الزامی که قبلاً پاک نمی‌شدند → خطای ۵۰۰ قید کلید خارجی
       // جلسات (درخواست‌دهنده/کارمند)، رزروها، تیکت‌های تعمیر، مداخلات، گواهی‌ها، ایمپورت‌ها، چک‌این‌ها
-      await tx.meeting.deleteMany({ where: { OR: [{ requestedById: user.id }, { staffId: user.id }] } });
-      await tx.booking.deleteMany({ where: { byId: user.id } });
-      await tx.maintenanceTicket.deleteMany({ where: { reportedById: user.id } });
-      await tx.intervention.deleteMany({ where: { startedById: user.id } });
-      await tx.certificate.deleteMany({ where: { issuedById: user.id } });
-      await tx.importJob.deleteMany({ where: { userId: user.id } });
+      await db.meeting.deleteMany({ where: { OR: [{ requestedById: user.id }, { staffId: user.id }] } });
+      await db.booking.deleteMany({ where: { byId: user.id } });
+      await db.maintenanceTicket.deleteMany({ where: { reportedById: user.id } });
+      await db.intervention.deleteMany({ where: { startedById: user.id } });
+      await db.certificate.deleteMany({ where: { issuedById: user.id } });
+      await db.importJob.deleteMany({ where: { userId: user.id } });
       // چک‌این‌های سلامت روان با مجوز این کاربر (خوداظهاری دانش‌آموز)
-      await tx.wellbeingCheckin.deleteMany({ where: { authorizedBy: user.id } });
+      await db.wellbeingCheckin.deleteMany({ where: { authorizedBy: user.id } });
 
       // دانش‌آموز؟ — پرونده + همه داده‌ها
-      const student = await tx.student.findUnique({ where: { userId: user.id } });
+      const student = await db.student.findUnique({ where: { userId: user.id } });
       if (student) {
-        await tx.attendance.deleteMany({ where: { studentId: student.id } });
-        await tx.gradeRecord.deleteMany({ where: { studentId: student.id } });
-        await tx.studentFee.deleteMany({ where: { studentId: student.id } });
-        await tx.studentParent.deleteMany({ where: { studentId: student.id } });
-        await tx.riskScore.deleteMany({ where: { studentId: student.id } });
-        await tx.wellbeingCheckin.deleteMany({ where: { studentId: student.id } });
-        await tx.student.delete({ where: { id: student.id } });
+        await db.attendance.deleteMany({ where: { studentId: student.id } });
+        await db.gradeRecord.deleteMany({ where: { studentId: student.id } });
+        await db.studentFee.deleteMany({ where: { studentId: student.id } });
+        await db.studentParent.deleteMany({ where: { studentId: student.id } });
+        await db.riskScore.deleteMany({ where: { studentId: student.id } });
+        await db.wellbeingCheckin.deleteMany({ where: { studentId: student.id } });
+        await db.student.delete({ where: { id: student.id } });
       }
       // ولی؟ — پیوندها
-      await tx.studentParent.deleteMany({ where: { parentUserId: user.id } });
+      await db.studentParent.deleteMany({ where: { parentUserId: user.id } });
 
       // کارمند؟ — واگذاری‌ها
-      await tx.teachingAssignment.deleteMany({ where: { teacherId: user.id } });
-      await tx.scheduleSlot.updateMany({ where: { teacherId: user.id }, data: { teacherId: null } });
-      await tx.class.updateMany({ where: { homeroomTeacherId: user.id }, data: { homeroomTeacherId: null } });
-      await tx.assignment.deleteMany({ where: { teacherId: user.id } });
-      await tx.attendance.updateMany({ where: { recordedById: user.id }, data: { recordedById: null } });
-      await tx.gradeRecord.updateMany({ where: { enteredById: user.id }, data: { enteredById: null } });
-      await tx.schoolEvent.updateMany({ where: { createdById: user.id }, data: { createdById: null } });
-      await tx.announcement.updateMany({ where: { createdById: user.id }, data: { createdById: null } });
+      await db.teachingAssignment.deleteMany({ where: { teacherId: user.id } });
+      await db.scheduleSlot.updateMany({ where: { teacherId: user.id }, data: { teacherId: null } });
+      await db.class.updateMany({ where: { homeroomTeacherId: user.id }, data: { homeroomTeacherId: null } });
+      await db.assignment.deleteMany({ where: { teacherId: user.id } });
+      await db.attendance.updateMany({ where: { recordedById: user.id }, data: { recordedById: null } });
+      await db.gradeRecord.updateMany({ where: { enteredById: user.id }, data: { enteredById: null } });
+      await db.schoolEvent.updateMany({ where: { createdById: user.id }, data: { createdById: null } });
+      await db.announcement.updateMany({ where: { createdById: user.id }, data: { createdById: null } });
 
       // پیام‌ها
-      await tx.message.deleteMany({ where: { OR: [{ senderId: user.id }, { recipientId: user.id }] } });
+      await db.message.deleteMany({ where: { OR: [{ senderId: user.id }, { recipientId: user.id }] } });
 
       // تیکت‌های خودش
-      await tx.ticket.deleteMany({ where: { userId: user.id } });
+      await db.ticket.deleteMany({ where: { userId: user.id } });
 
       // تیکت‌های اداره‌شده — پیام‌هایش بالا حذف شد؛ رکورد فعالیت بماند
-      await tx.auditLog.updateMany({ where: { userId: user.id }, data: { userId: null } });
+      await db.auditLog.updateMany({ where: { userId: user.id }, data: { userId: null } });
 
-      await tx.user.delete({ where: { id: user.id } });
-    });
+      await db.user.delete({ where: { id: user.id } });
+    })();
 
     await audit({
       user: me, action: "DELETE_USER", entityType: "USER", entityId: id,

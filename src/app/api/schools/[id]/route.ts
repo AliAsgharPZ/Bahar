@@ -116,15 +116,15 @@ export async function DELETE(req: NextRequest, ctx: Ctx) {
     // ── حذف کامل مدرسه + همه داده‌هایش ──
     // فهرست جداول از schema.prisma تولید شده (scripts/gen-school-cascade.mjs) —
     // هر مدلِ دارای ستون schoolId/studentId/classId اینجا پوشش داده شده است.
-    const cascaded = await db.$transaction(async (tx) => {
+    const cascaded = await (async () => {
       // شناسه‌های پایه
-      const students = await tx.student.findMany({ where: { schoolId: id }, select: { id: true } });
+      const students = await db.student.findMany({ where: { schoolId: id }, select: { id: true } });
       const studentIds = students.map((s) => s.id);
-      const classes = await tx.class.findMany({ where: { schoolId: id }, select: { id: true } });
+      const classes = await db.class.findMany({ where: { schoolId: id }, select: { id: true } });
       const classIds = classes.map((c) => c.id);
-      const polls = await tx.poll.findMany({ where: { schoolId: id }, select: { id: true } });
+      const polls = await db.poll.findMany({ where: { schoolId: id }, select: { id: true } });
       const pollIds = polls.map((p) => p.id);
-      const schoolUsers = await tx.user.findMany({
+      const schoolUsers = await db.user.findMany({
         where: { schoolId: id, role: { in: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"] } },
         select: { id: true },
       });
@@ -132,77 +132,77 @@ export async function DELETE(req: NextRequest, ctx: Ctx) {
 
       // ۱) وابسته‌های نظرسنجی (FK به poll)
       if (pollIds.length) {
-        await tx.pollVote.deleteMany({ where: { pollId: { in: pollIds } } });
-        await tx.pollOption.deleteMany({ where: { pollId: { in: pollIds } } });
+        await db.pollVote.deleteMany({ where: { pollId: { in: pollIds } } });
+        await db.pollOption.deleteMany({ where: { pollId: { in: pollIds } } });
       }
 
       // ۲) جداول وابسته به دانش‌آموز
       if (studentIds.length) {
-        await tx.gradeHistory.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.studentBadge.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.studentDocument.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.studentGoal.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.intervention.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.portfolioItem.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.certificate.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.behaviorRecord.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.studentFee.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.studentParent.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.attendance.deleteMany({ where: { studentId: { in: studentIds } } });
-        await tx.gradeRecord.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.gradeHistory.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.studentBadge.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.studentDocument.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.studentGoal.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.intervention.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.portfolioItem.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.certificate.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.behaviorRecord.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.studentFee.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.studentParent.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.attendance.deleteMany({ where: { studentId: { in: studentIds } } });
+        await db.gradeRecord.deleteMany({ where: { studentId: { in: studentIds } } });
       }
 
       // ۳) جداول وابسته به کلاس (باقی‌مانده از مرحله ۲)
       if (classIds.length) {
-        await tx.scheduleSlot.deleteMany({ where: { classId: { in: classIds } } });
-        await tx.assignment.deleteMany({ where: { classId: { in: classIds } } });
+        await db.scheduleSlot.deleteMany({ where: { classId: { in: classIds } } });
+        await db.assignment.deleteMany({ where: { classId: { in: classIds } } });
       }
 
       // ۴) جداول مدرسه‌محور (بدون user/ticket/auditLog — کاربران جدا می‌شوند، تیکت و گزارش فعالیت ماندنی‌اند)
-      await tx.teachingAssignment.deleteMany({ where: { schoolId: id } });
-      await tx.scheduledReport.deleteMany({ where: { schoolId: id } });
-      await tx.automationLog.deleteMany({ where: { schoolId: id } });
-      await tx.automationRule.deleteMany({ where: { schoolId: id } });
-      await tx.maintenanceTicket.deleteMany({ where: { schoolId: id } });
-      await tx.booking.deleteMany({ where: { schoolId: id } });
-      await tx.asset.deleteMany({ where: { schoolId: id } });
-      await tx.room.deleteMany({ where: { schoolId: id } });
-      await tx.lostFoundItem.deleteMany({ where: { schoolId: id } });
-      await tx.visitorLog.deleteMany({ where: { schoolId: id } });
-      await tx.importJob.deleteMany({ where: { schoolId: id } });
-      await tx.certificateTemplate.deleteMany({ where: { schoolId: id } });
-      await tx.suggestion.deleteMany({ where: { schoolId: id } });
-      await tx.poll.deleteMany({ where: { schoolId: id } });
-      await tx.house.deleteMany({ where: { schoolId: id } });
-      await tx.customFieldDef.deleteMany({ where: { schoolId: id } });
-      await tx.tagDef.deleteMany({ where: { schoolId: id } });
-      await tx.task.deleteMany({ where: { schoolId: id } });
-      await tx.leaveRequest.deleteMany({ where: { schoolId: id } });
-      await tx.meeting.deleteMany({ where: { schoolId: id } });
-      await tx.resourceLink.deleteMany({ where: { schoolId: id } });
-      await tx.question.deleteMany({ where: { schoolId: id } });
-      await tx.badge.deleteMany({ where: { schoolId: id } }); // نشان‌های سراسری (schoolId=null) دست‌نخورده می‌مانند
-      await tx.subject.deleteMany({ where: { schoolId: id } });
-      await tx.student.deleteMany({ where: { schoolId: id } });
-      await tx.class.deleteMany({ where: { schoolId: id } });
-      await tx.schoolEvent.deleteMany({ where: { schoolId: id } });
-      await tx.announcement.deleteMany({ where: { schoolId: id } }); // اعلان‌های سراسری (schoolId=null) می‌مانند
-      await tx.shadOutbox.deleteMany({ where: { schoolId: id } });
-      await tx.shadSession.deleteMany({ where: { schoolId: id } });
-      await tx.schoolSite.deleteMany({ where: { schoolId: id } });
-      await tx.schoolLead.deleteMany({ where: { schoolId: id } });
+      await db.teachingAssignment.deleteMany({ where: { schoolId: id } });
+      await db.scheduledReport.deleteMany({ where: { schoolId: id } });
+      await db.automationLog.deleteMany({ where: { schoolId: id } });
+      await db.automationRule.deleteMany({ where: { schoolId: id } });
+      await db.maintenanceTicket.deleteMany({ where: { schoolId: id } });
+      await db.booking.deleteMany({ where: { schoolId: id } });
+      await db.asset.deleteMany({ where: { schoolId: id } });
+      await db.room.deleteMany({ where: { schoolId: id } });
+      await db.lostFoundItem.deleteMany({ where: { schoolId: id } });
+      await db.visitorLog.deleteMany({ where: { schoolId: id } });
+      await db.importJob.deleteMany({ where: { schoolId: id } });
+      await db.certificateTemplate.deleteMany({ where: { schoolId: id } });
+      await db.suggestion.deleteMany({ where: { schoolId: id } });
+      await db.poll.deleteMany({ where: { schoolId: id } });
+      await db.house.deleteMany({ where: { schoolId: id } });
+      await db.customFieldDef.deleteMany({ where: { schoolId: id } });
+      await db.tagDef.deleteMany({ where: { schoolId: id } });
+      await db.task.deleteMany({ where: { schoolId: id } });
+      await db.leaveRequest.deleteMany({ where: { schoolId: id } });
+      await db.meeting.deleteMany({ where: { schoolId: id } });
+      await db.resourceLink.deleteMany({ where: { schoolId: id } });
+      await db.question.deleteMany({ where: { schoolId: id } });
+      await db.badge.deleteMany({ where: { schoolId: id } }); // نشان‌های سراسری (schoolId=null) دست‌نخورده می‌مانند
+      await db.subject.deleteMany({ where: { schoolId: id } });
+      await db.student.deleteMany({ where: { schoolId: id } });
+      await db.class.deleteMany({ where: { schoolId: id } });
+      await db.schoolEvent.deleteMany({ where: { schoolId: id } });
+      await db.announcement.deleteMany({ where: { schoolId: id } }); // اعلان‌های سراسری (schoolId=null) می‌مانند
+      await db.shadOutbox.deleteMany({ where: { schoolId: id } });
+      await db.shadSession.deleteMany({ where: { schoolId: id } });
+      await db.schoolSite.deleteMany({ where: { schoolId: id } });
+      await db.schoolLead.deleteMany({ where: { schoolId: id } });
 
       // ۵) کاربران مدرسه: جدا شدن از مدرسه + غیرفعال شدن (حذف نمی‌شوند — تاریخچه و ارجاع‌های گزارش فعالیت سالم می‌مانند)
       if (schoolUserIds.length) {
-        await tx.user.updateMany({
+        await db.user.updateMany({
           where: { id: { in: schoolUserIds } },
           data: { schoolId: null, isActive: false },
         });
       }
 
-      await tx.school.delete({ where: { id } });
+      await db.school.delete({ where: { id } });
       return { students: studentIds.length, classes: classIds.length, usersDeactivated: schoolUserIds.length };
-    });
+    })();
 
     await audit({
       user: me, action: "DELETE_SCHOOL", entityType: "SCHOOL", entityId: id,

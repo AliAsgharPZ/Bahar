@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Save, Loader2, ClipboardCheck, CheckCircle2, XCircle, Clock, FileText, Trash2 } from "lucide-react";
+import { Save, Loader2, ClipboardCheck, CheckCircle2, XCircle, Clock, FileText, Trash2, HeartPulse } from "lucide-react";
 import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { todayJalali, toJalaliKey, faNumber, ATTENDANCE_LABELS } from "@/lib/persian";
 
-type SheetStudent = { studentId: string; userId: string; fullName: string; nationalId: string; studentNumber: string; status: string | null; note: string | null };
+type HealthAlert = { sportsStatus: string; sportsNote: string | null; conditions: string | null; mobilityNote: string | null; allergies: string | null; flags: string[] };
+type SheetStudent = { studentId: string; userId: string; fullName: string; nationalId: string; studentNumber: string; status: string | null; note: string | null; healthAlert?: HealthAlert | null };
 type Me = { user: { role: string; permissions: string[]; actingSchool?: { id: string; name: string } | null; children: Array<{ student: { id: string; user: { firstName: string; lastName: string } } }>; studentProfile: unknown } };
 type ClassRow = { id: string; name: string };
 
@@ -159,6 +160,13 @@ export default function AttendancePage() {
                   <span className="flex flex-col min-w-0">
                     <b className="text-[13.5px] truncate">{st.fullName}</b>
                     <span className="text-[10.5px] text-steel" dir="ltr">{st.studentNumber}</span>
+                    {st.healthAlert && (
+                      <span className="b-badge b-badge-blossom mt-1 self-start" title={[st.healthAlert.sportsNote, st.healthAlert.conditions, st.healthAlert.mobilityNote, st.healthAlert.allergies].filter(Boolean).join(" · ")}>
+                        <HeartPulse className="w-3 h-3" />
+                        {st.healthAlert.sportsStatus === "EXEMPT" ? "معاف از ورزش" : st.healthAlert.sportsStatus === "LIMITED" ? "ورزش محدود" : "هشدار سلامت"}
+                        {st.healthAlert.flags.length > 0 ? ` · ${st.healthAlert.flags.join("، ")}` : ""}
+                      </span>
+                    )}
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 flex-wrap">

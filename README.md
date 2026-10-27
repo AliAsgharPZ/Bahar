@@ -67,6 +67,18 @@ school — in one install.
   (transparent weighted stream recommendations for counsellors, students and
   parents), a student study planner with habit streaks, and an auto-assembled
   digital yearbook — all printable.
+- **Physical health & capabilities** — every student has a physical-health
+  profile (sports participation status: full / limited / exempt with an
+  exact restriction note, asthma, heart condition, seizures, diabetes,
+  mobility, vision and hearing notes, regular medications, blood type,
+  allergies and a review date). The flags surface where they matter:
+  the attendance sheet shows a health alert next to the student's name,
+  and a school-wide restrictions roster gives PE teachers the full
+  picture before class.
+- **Data management** — records entered anywhere in the app can be
+  deleted again: every module exposes a scoped, role-gated delete (single
+  records, plus bulk clears such as a whole day's attendance sheet), and
+  list screens carry matching delete actions with confirmation.
 - **Security** — password login with captcha and lockout, TOTP two-factor,
   one-time codes, and **Passkeys (WebAuthn)** for passwordless sign-in,
   managed per user from the profile.
@@ -148,4 +160,20 @@ MIT — see [LICENSE](LICENSE).
 
 ## Deployment
 
-A demo deployment runs on Cloudflare Workers (via OpenNext) with a D1 database; uploaded files and backups are stored as BLOBs in D1. The deployment builds automatically from the `main` branch.
+Bahar is platform-neutral: it runs on any Node.js host (VPS, shared
+hosting with Node support, Docker, a local machine) as a standalone
+server backed by a plain SQLite file, and the same codebase also runs
+on Cloudflare Workers with a D1 database — the driver is chosen at
+runtime from the environment, nothing is Workers-only. A demo
+deployment runs on Cloudflare Workers (via OpenNext) with a D1
+database; uploaded files and backups are stored as BLOBs in D1 there,
+and on the filesystem elsewhere. The demo deployment builds
+automatically from the `main` branch.
+
+**Build note:** the production build must run through webpack
+(`npx next build --webpack`, then `opennextjs-cloudflare build --skipNextBuild`).
+Next 16's default Turbopack builder exhausts memory on this codebase in CI
+containers (exit 137), and interactive Prisma transactions
+(`db.$transaction(async tx => ...)`) are not supported by the D1 adapter —
+the data layer therefore uses sequential writes or the batch form
+(`db.$transaction([...])`) only.

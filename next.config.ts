@@ -33,9 +33,15 @@ const nextConfig: NextConfig = {
   // runtime; make sure Next's output tracing ships it with the server bundle
   // (required for the Cloudflare Workers build).
   outputFileTracingIncludes: {
-    "/**": ["./node_modules/.prisma/client/*.wasm"],
+    "/**": ["./node_modules/.prisma/client/*.wasm", "./src/generated/prisma/**/*.wasm"],
   },
   reactStrictMode: false,
+  // Bundle the libsql adapter into the server chunks (instead of leaving a
+  // bare runtime require) so the OpenNext/esbuild packaging step can resolve
+  // the whole graph — with webpack output it otherwise fails on
+  // "@libsql/client" (the adapter is only exercised off-Workers, but it is
+  // imported by src/lib/db.ts).
+  transpilePackages: ["@prisma/adapter-libsql", "@libsql/client", "@libsql/core"],
   poweredByHeader: false,
   // Type checking is enforced by a standalone `tsc --noEmit` gate before every
   // push (always green). Next's in-build TypeScript phase runs a second full
@@ -51,6 +57,16 @@ const nextConfig: NextConfig = {
     // compilation lower the peak RSS below the container ceiling.
     webpackMemoryOptimizations: true,
     cpus: 2,
+  },
+  // The production build runs through webpack (Next 16's default Turbopack
+  // builder OOM-kills on this app in CI containers — diagnosed 2026-10-27 by
+  // local reproduction: Turbopack died at "Creating an optimized production
+  // build" with exit 137 on an 8 GB machine, while webpack completes).
+  // Prisma's D1 client imports its query engine as a .wasm module; webpack
+  // needs async WebAssembly enabled to bundle it.
+  webpack: (config) => {
+    config.experiments = { ...config.experiments, asyncWebAssembly: true };
+    return config;
   },
   async headers() {
     return [

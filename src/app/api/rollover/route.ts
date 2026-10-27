@@ -48,19 +48,19 @@ export async function POST(req: NextRequest) {
     let graduated = 0;
     let created = 0;
 
-    await db.$transaction(async (tx) => {
+    await (async () => {
       for (const plan of plans) {
         const from = fromMap.get(plan.fromClassId);
         if (!from || from.academicYear === toYear) continue;
-        const students = await tx.student.findMany({
+        const students = await db.student.findMany({
           where: { classId: from.id, status: "ACTIVE" },
           select: { id: true },
         });
         if (plan.graduate) {
           if (students.length) {
-            await tx.student.updateMany({ where: { id: { in: students.map((s) => s.id) } }, data: { status: "GRADUATED" } });
+            await db.student.updateMany({ where: { id: { in: students.map((s) => s.id) } }, data: { status: "GRADUATED" } });
             for (const s of students) {
-              await tx.alumniProfile.upsert({
+              await db.alumniProfile.upsert({
                 where: { studentId: s.id },
                 create: { schoolId, studentId: s.id, graduationYear: toYear },
                 update: { graduationYear: toYear },
@@ -73,17 +73,17 @@ export async function POST(req: NextRequest) {
         const name = (plan.toName ?? from.name).trim();
         const grade = (plan.toGrade ?? from.grade).trim();
         if (!name || !grade) continue;
-        let target = await tx.class.findFirst({ where: { schoolId, name, academicYear: toYear } });
+        let target = await db.class.findFirst({ where: { schoolId, name, academicYear: toYear } });
         if (!target) {
-          target = await tx.class.create({ data: { schoolId, name, grade, academicYear: toYear } });
+          target = await db.class.create({ data: { schoolId, name, grade, academicYear: toYear } });
           created++;
         }
         if (students.length) {
-          await tx.student.updateMany({ where: { id: { in: students.map((s) => s.id) } }, data: { classId: target.id } });
+          await db.student.updateMany({ where: { id: { in: students.map((s) => s.id) } }, data: { classId: target.id } });
           moved += students.length;
         }
       }
-    });
+    })();
 
     await audit({ user: me, action: `بستن سال و ارتقا به ${toYear}`, entityType: "School", entityId: schoolId, schoolId });
     return apiOk({ moved, graduated, createdClasses: created, toYear });

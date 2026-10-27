@@ -6,9 +6,14 @@ import { HeartPulse, Loader2, Save, Stethoscope, BellRing, Trash2 } from "lucide
 import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
-import { todayKey } from "@/lib/persian";
+import { todayKey, faNumber } from "@/lib/persian";
 
-type Health = { bloodType: string | null; allergies: string | null; conditions: string | null; emergencyContact: string | null; vaccinations: string } | null;
+type Physical = { sportsStatus: string; sportsNote: string; asthma: boolean; heartCondition: boolean; seizures: boolean; diabetes: boolean; mobilityNote: string; visionNote: string; hearingNote: string; medications: string; reviewDate: string };
+type Health = ({ bloodType: string | null; allergies: string | null; conditions: string | null; emergencyContact: string | null; vaccinations: string } & {
+  sportsStatus?: string; sportsNote?: string | null; asthma?: boolean; heartCondition?: boolean; seizures?: boolean; diabetes?: boolean;
+  mobilityNote?: string | null; visionNote?: string | null; hearingNote?: string | null; medications?: string | null; reviewDate?: string | null;
+}) | null;
+const SPORTS_LABEL: Record<string, string> = { FULL: "شرکت کامل در ورزش", LIMITED: "ورزش با محدودیت", EXEMPT: "معاف از ورزش" };
 type Visit = { id: string; date: string; complaint: string; action: string | null; sentHome: boolean };
 type ClassRow = { id: string; name: string; academicYear: string };
 type StudentRow = { id: string; name: string };
@@ -28,8 +33,9 @@ export default function HealthPage() {
     isAudience ? "/api/health" : studentId ? `/api/health?studentId=${studentId}` : null,
   );
 
+  const { data: rosterData } = useApi<{ roster: { studentId: string; name: string; className: string; sportsStatus: string; sportsNote: string | null; conditions: string | null; allergies: string | null; asthma: boolean; heartCondition: boolean; seizures: boolean; diabetes: boolean; mobilityNote: string | null; medications: string | null }[] }>(!isAudience ? "/api/health?roster=1" : null);
   const health = data?.health;
-  const [card, setCard] = useState<{ bloodType: string; allergies: string; conditions: string; emergencyContact: string } | null>(null);
+  const [card, setCard] = useState<({ bloodType: string; allergies: string; conditions: string; emergencyContact: string } & Physical) | null>(null);
   const [vax, setVax] = useState<Vax[] | null>(null);
   const [visit, setVisit] = useState({ date: todayKey(), complaint: "", visitAction: "", sentHome: false });
   const [saving, setSaving] = useState("");
@@ -37,6 +43,10 @@ export default function HealthPage() {
   const cardVal = card ?? {
     bloodType: health?.bloodType ?? "", allergies: health?.allergies ?? "",
     conditions: health?.conditions ?? "", emergencyContact: health?.emergencyContact ?? "",
+    sportsStatus: health?.sportsStatus ?? "FULL", sportsNote: health?.sportsNote ?? "",
+    asthma: !!health?.asthma, heartCondition: !!health?.heartCondition, seizures: !!health?.seizures, diabetes: !!health?.diabetes,
+    mobilityNote: health?.mobilityNote ?? "", visionNote: health?.visionNote ?? "", hearingNote: health?.hearingNote ?? "",
+    medications: health?.medications ?? "", reviewDate: health?.reviewDate ?? "",
   };
   const vaxVal: Vax[] = vax ?? (() => { try { return JSON.parse(health?.vaccinations ?? "[]"); } catch { return []; } })();
 
@@ -81,6 +91,25 @@ export default function HealthPage() {
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
 
+      {!isAudience && rosterData && rosterData.roster.length > 0 && (
+        <div className="b-card p-6 flex flex-col gap-3">
+          <b className="text-[14px] flex items-center gap-2"><HeartPulse className="w-4 h-4 text-blossom" /> محدودیت‌های جسمانی مدرسه — ویژهٔ دبیر ورزش ({faNumber(rosterData.roster.length)})</b>
+          <div className="flex flex-col divide-y divide-hairline-soft">
+            {rosterData.roster.map((r) => (
+              <div key={r.studentId} className="py-2.5 flex flex-wrap items-center gap-2 text-[12.5px]">
+                <b>{r.name}</b>
+                <span className="text-steel">{r.className}</span>
+                <span className={r.sportsStatus === "EXEMPT" ? "b-badge b-badge-blossom" : "b-badge b-badge-warning"}>{SPORTS_LABEL[r.sportsStatus] ?? r.sportsStatus}</span>
+                {[r.asthma && "آسم", r.heartCondition && "قلبی", r.seizures && "صرع", r.diabetes && "دیابت"].filter(Boolean).map((f) => (
+                  <span key={String(f)} className="b-badge b-badge-neutral">{f}</span>
+                ))}
+                <span className="text-steel">{[r.sportsNote, r.conditions, r.mobilityNote, r.allergies && `حساسیت: ${r.allergies}`, r.medications && `دارو: ${r.medications}`].filter(Boolean).join(" · ")}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {(isAudience || studentId) && data && (
         <div className="grid lg:grid-cols-2 gap-4 items-start">
           <div className="b-card p-6 flex flex-col gap-3">
@@ -98,6 +127,38 @@ export default function HealthPage() {
                   <input className="b-input" value={cardVal.allergies} onChange={(e) => setCard({ ...cardVal, allergies: e.target.value })} placeholder="مثلاً بادام‌زمینی، پنی‌سیلین" /></label>
                 <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">بیماری‌های زمینه‌ای</span>
                   <input className="b-input" value={cardVal.conditions} onChange={(e) => setCard({ ...cardVal, conditions: e.target.value })} placeholder="مثلاً آسم" /></label>
+                <fieldset className="rounded-2xl border border-hairline p-3.5 flex flex-col gap-3">
+                  <legend className="text-[12px] font-bold px-1">سلامت جسمانی و توانایی‌ها — برای دبیر ورزش و حضور و غیاب</legend>
+                  <div className="grid grid-cols-2 gap-3">
+                    <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">وضعیت شرکت در ورزش</span>
+                      <select className="b-input" value={cardVal.sportsStatus} onChange={(e) => setCard({ ...cardVal, sportsStatus: e.target.value })}>
+                        <option value="FULL">شرکت کامل</option>
+                        <option value="LIMITED">با محدودیت</option>
+                        <option value="EXEMPT">معاف از ورزش</option>
+                      </select></label>
+                    <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">تاریخ بازبینی پرونده</span>
+                      <input className="b-input" dir="ltr" value={cardVal.reviewDate} onChange={(e) => setCard({ ...cardVal, reviewDate: e.target.value })} placeholder="1405-12-01" /></label>
+                  </div>
+                  <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">شرح محدودیت ورزشی</span>
+                    <input className="b-input" value={cardVal.sportsNote} onChange={(e) => setCard({ ...cardVal, sportsNote: e.target.value })} placeholder="مثلاً دویدن طولانی و شنا ممنوع؛ پیاده‌روی مجاز" /></label>
+                  <div className="flex flex-wrap gap-x-4 gap-y-2 text-[12.5px] font-bold">
+                    {([["asthma", "آسم"], ["heartCondition", "مشکل قلبی"], ["seizures", "صرع / تشنج"], ["diabetes", "دیابت"]] as const).map(([k, label]) => (
+                      <label key={k} className="flex items-center gap-1.5 cursor-pointer">
+                        <input type="checkbox" checked={cardVal[k]} onChange={(e) => setCard({ ...cardVal, [k]: e.target.checked })} /> {label}
+                      </label>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">محدودیت حرکتی</span>
+                      <input className="b-input" value={cardVal.mobilityNote} onChange={(e) => setCard({ ...cardVal, mobilityNote: e.target.value })} placeholder="مثلاً زانوی راست — پرش ممنوع" /></label>
+                    <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">داروهای منظم</span>
+                      <input className="b-input" value={cardVal.medications} onChange={(e) => setCard({ ...cardVal, medications: e.target.value })} placeholder="مثلاً اسپری سالبوتامول" /></label>
+                    <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">بینایی</span>
+                      <input className="b-input" value={cardVal.visionNote} onChange={(e) => setCard({ ...cardVal, visionNote: e.target.value })} placeholder="عینکی / ضعف چشم چپ" /></label>
+                    <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">شنوایی</span>
+                      <input className="b-input" value={cardVal.hearingNote} onChange={(e) => setCard({ ...cardVal, hearingNote: e.target.value })} placeholder="سمعک گوش راست" /></label>
+                  </div>
+                </fieldset>
                 <div className="flex flex-col gap-2">
                   <span className="text-[12px] font-bold">واکسن‌ها</span>
                   {vaxVal.map((v, i) => (

@@ -192,8 +192,8 @@ export async function POST(req: NextRequest) {
     }
 
     // ── ساخت دانش‌آموز — FIX (راند ۱۶): کاربر + پرونده + پیوندها در یک تراکنش ──
-    const student = await db.$transaction(async (tx) => {
-      const user = await tx.user.create({
+    const student = await (async () => {
+      const user = await db.user.create({
         data: {
           nationalId,
           passwordHash: hashPassword(password),
@@ -218,7 +218,7 @@ export async function POST(req: NextRequest) {
           createdBy: me.id,
         },
       });
-      return tx.student.create({
+      return db.student.create({
         data: {
           userId: user.id,
           schoolId,
@@ -230,7 +230,7 @@ export async function POST(req: NextRequest) {
           parents: { create: parentLinks },
         },
       });
-    });
+    })();
 
     // ── ارسال اعتبارنامه با شاد (راند ۱۸: فقط وقتی شاد مدرسه روشن باشد) ──
     const shadOn = school?.shadEnabled !== false;

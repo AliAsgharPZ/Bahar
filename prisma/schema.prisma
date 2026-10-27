@@ -1980,6 +1980,18 @@ model StudentHealth {
   conditions       String? // بیماری‌های زمینه‌ای
   emergencyContact String?
   vaccinations     String   @default("[]") // JSON: [{name, date, done}]
+  // ── سلامت جسمانی و توانایی‌ها (قابل مشاهده برای دبیر ورزش و هنگام حضور و غیاب) ──
+  sportsStatus     String   @default("FULL") // FULL | LIMITED | EXEMPT — وضعیت شرکت در ورزش
+  sportsNote       String? // شرح دقیق محدودیت ورزشی (مثلاً بدون دویدن/بدون شنا)
+  asthma           Boolean  @default(false) // آسم
+  heartCondition   Boolean  @default(false) // مشکل قلبی
+  seizures         Boolean  @default(false) // صرع / سابقه تشنج
+  diabetes         Boolean  @default(false) // دیابت
+  mobilityNote     String? // محدودیت حرکتی
+  visionNote       String? // وضعیت بینایی (عینک، ضعف یک چشم…)
+  hearingNote      String? // وضعیت شنوایی (سمعک…)
+  medications      String? // داروهای مصرفی منظم
+  reviewDate       String? // تاریخ بازبینی پرونده (جلالی)
   updatedById      String?
   updatedAt        DateTime @updatedAt
   createdAt        DateTime @default(now())

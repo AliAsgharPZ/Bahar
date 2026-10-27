@@ -31,7 +31,31 @@ async function resolveStudent(req: NextRequest, me: { id: string; role: string; 
 export async function GET(req: NextRequest) {
   try {
     const me = await requireUser(req);
-    const studentId = new URL(req.url).searchParams.get("studentId") ?? "";
+    const sp = new URL(req.url).searchParams;
+    // ── فهرست محدودیت‌های جسمانی مدرسه — برای دبیر ورزش و کادر (بدون studentId) ──
+    if (sp.get("roster") === "1") {
+      if (!STAFF.includes(me.role)) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+      const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
+      if (!schoolId) return apiOk({ roster: [] });
+      const rows = await db.studentHealth.findMany({
+        where: { schoolId },
+        include: { student: { include: { user: { select: { firstName: true, lastName: true } }, class: { select: { name: true } } } } },
+        orderBy: { updatedAt: "desc" },
+      });
+      const flagged = rows.filter((h) => h.sportsStatus !== "FULL" || h.asthma || h.heartCondition || h.seizures || h.diabetes || h.conditions || h.mobilityNote);
+      return apiOk({
+        roster: flagged.map((h) => ({
+          studentId: h.studentId,
+          name: `${h.student.user.firstName} ${h.student.user.lastName}`,
+          className: h.student.class?.name ?? "—",
+          sportsStatus: h.sportsStatus, sportsNote: h.sportsNote,
+          conditions: h.conditions, allergies: h.allergies,
+          asthma: h.asthma, heartCondition: h.heartCondition, seizures: h.seizures, diabetes: h.diabetes,
+          mobilityNote: h.mobilityNote, medications: h.medications,
+        })),
+      });
+    }
+    const studentId = sp.get("studentId") ?? "";
     const st = await resolveStudent(req, me, studentId);
     if (!st) return apiOk({ health: null, visits: [] });
     const [health, visits] = await Promise.all([
@@ -52,6 +76,9 @@ export async function POST(req: NextRequest) {
     const body = await readJson<{
       action?: string; studentId?: string; bloodType?: string; allergies?: string;
       conditions?: string; emergencyContact?: string; vaccinations?: { name: string; date?: string; done: boolean }[];
+      sportsStatus?: string; sportsNote?: string; asthma?: boolean; heartCondition?: boolean;
+      seizures?: boolean; diabetes?: boolean; mobilityNote?: string; visionNote?: string;
+      hearingNote?: string; medications?: string; reviewDate?: string;
       date?: string; complaint?: string; visitAction?: string; sentHome?: boolean; notifyParent?: boolean;
     }>(req);
     const studentId = String(body.studentId ?? "");
@@ -62,6 +89,17 @@ export async function POST(req: NextRequest) {
       const vaccinations = JSON.stringify((body.vaccinations ?? []).slice(0, 30).map((v) => ({
         name: String(v.name ?? "").slice(0, 60), date: String(v.date ?? "").slice(0, 20), done: !!v.done,
       })));
+      const physical = {
+        sportsStatus: ["FULL", "LIMITED", "EXEMPT"].includes(body.sportsStatus ?? "") ? body.sportsStatus! : "FULL",
+        sportsNote: body.sportsNote?.trim().slice(0, 300) || null,
+        asthma: !!body.asthma, heartCondition: !!body.heartCondition,
+        seizures: !!body.seizures, diabetes: !!body.diabetes,
+        mobilityNote: body.mobilityNote?.trim().slice(0, 300) || null,
+        visionNote: body.visionNote?.trim().slice(0, 200) || null,
+        hearingNote: body.hearingNote?.trim().slice(0, 200) || null,
+        medications: body.medications?.trim().slice(0, 300) || null,
+        reviewDate: body.reviewDate?.trim().slice(0, 20) || null,
+      };
       const health = await db.studentHealth.upsert({
         where: { studentId },
         create: {
@@ -70,14 +108,14 @@ export async function POST(req: NextRequest) {
           allergies: body.allergies?.trim().slice(0, 500) || null,
           conditions: body.conditions?.trim().slice(0, 500) || null,
           emergencyContact: body.emergencyContact?.trim().slice(0, 120) || null,
-          vaccinations, updatedById: me.id,
+          vaccinations, ...physical, updatedById: me.id,
         },
         update: {
           bloodType: body.bloodType?.trim().slice(0, 8) || null,
           allergies: body.allergies?.trim().slice(0, 500) || null,
           conditions: body.conditions?.trim().slice(0, 500) || null,
           emergencyContact: body.emergencyContact?.trim().slice(0, 120) || null,
-          vaccinations, updatedById: me.id,
+          vaccinations, ...physical, updatedById: me.id,
         },
       });
       return apiOk({ health });

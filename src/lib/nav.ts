@@ -104,7 +104,7 @@ export const NAV: NavItem[] = [
   { href: "/app/leads", label: "پیش‌ثبت‌نام‌ها", tKey: "nav.leads", short: "پیش‌ثبت‌نام", icon: CheckCheck, roles: ["MANAGER", "DEPUTY"], tint: 3, group: "students" },
   { href: "/app/admissions", label: "قیف پذیرش", tKey: "nav.admissions", short: "پذیرش", icon: UserPlus, roles: ["MANAGER", "DEPUTY"], tint: 1, group: "students" },
   { href: "/app/preschool", label: "پیش‌دبستانی", tKey: "nav.preschool", short: "پیش‌دبستانی", icon: Baby, roles: ["*"], tint: 2, group: "students" },
-  { href: "/app/health", label: "بهداشت و درمانگاه", tKey: "nav.health", short: "بهداشت", icon: HeartPulse, roles: ["*"], tint: 3, group: "students" },
+  { href: "/app/health", label: "سلامت جسمانی و درمانگاه", tKey: "nav.health", short: "سلامت", icon: HeartPulse, roles: ["*"], tint: 3, group: "students" },
   { href: "/app/lesson-plans", label: "طرح درس", tKey: "nav.lessonPlans", short: "طرح درس", icon: NotebookPen, roles: ["TEACHER", "MANAGER", "DEPUTY"], tint: 1, group: "education" },
   { href: "/app/network", label: "داشبورد شبکه", tKey: "nav.network", short: "شبکه", icon: Network, roles: ["SUPER_ADMIN", "ADMIN"], tint: 0, group: "admin" },
   { href: "/app/locale-settings", label: "پروفایل کشور", tKey: "nav.localeSettings", short: "کشور", icon: Globe, roles: ["MANAGER", "SUPER_ADMIN", "ADMIN"], tint: 2, group: "admin" },

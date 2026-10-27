@@ -65,6 +65,26 @@ export async function GET(req: NextRequest) {
       ? await db.attendance.findMany({ where: { classId, date } })
       : [];
 
+    // ── هشدار سلامت جسمانی کنار هر دانش‌آموز (دبیر ورزش/معلم در لحظه حضور و غیاب می‌بیند) ──
+    const healthRows = students.length
+      ? await db.studentHealth.findMany({ where: { studentId: { in: students.map((s) => s.id) } } })
+      : [];
+    const healthOf = (sid: string) => {
+      const h = healthRows.find((x) => x.studentId === sid);
+      if (!h) return null;
+      const flags: string[] = [];
+      if (h.asthma) flags.push("آسم");
+      if (h.heartCondition) flags.push("قلبی");
+      if (h.seizures) flags.push("صرع");
+      if (h.diabetes) flags.push("دیابت");
+      if (h.sportsStatus === "FULL" && flags.length === 0 && !h.conditions && !h.mobilityNote) return null;
+      return {
+        sportsStatus: h.sportsStatus, sportsNote: h.sportsNote,
+        conditions: h.conditions, mobilityNote: h.mobilityNote,
+        allergies: h.allergies, flags,
+      };
+    };
+
     return apiOk({
       students: students.map((s) => {
         const rec = existing.find((e) => e.studentId === s.id);
@@ -76,6 +96,7 @@ export async function GET(req: NextRequest) {
           studentNumber: s.studentNumber,
           status: rec?.status ?? null,
           note: rec?.note ?? null,
+          healthAlert: healthOf(s.id),
         };
       }),
       date,

@@ -1976,3 +1976,14 @@ CREATE TABLE IF NOT EXISTS "FileBlob" (
     "data" BLOB NOT NULL,
     "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE "StudentHealth" ADD COLUMN "sportsStatus" TEXT NOT NULL DEFAULT 'FULL';
+ALTER TABLE "StudentHealth" ADD COLUMN "sportsNote" TEXT;
+ALTER TABLE "StudentHealth" ADD COLUMN "asthma" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "StudentHealth" ADD COLUMN "heartCondition" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "StudentHealth" ADD COLUMN "seizures" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "StudentHealth" ADD COLUMN "diabetes" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "StudentHealth" ADD COLUMN "mobilityNote" TEXT;
+ALTER TABLE "StudentHealth" ADD COLUMN "visionNote" TEXT;
+ALTER TABLE "StudentHealth" ADD COLUMN "hearingNote" TEXT;
+ALTER TABLE "StudentHealth" ADD COLUMN "medications" TEXT;
+ALTER TABLE "StudentHealth" ADD COLUMN "reviewDate" TEXT;

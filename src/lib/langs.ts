@@ -84,7 +84,7 @@ export const CATALOG: Record<string, string> = {
   "nav.portfolio": "پورتفولیو",
   "nav.admissions": "قیف پذیرش",
   "nav.preschool": "پیش‌دبستانی",
-  "nav.health": "بهداشت و درمانگاه",
+  "nav.health": "سلامت جسمانی و درمانگاه",
   "nav.lessonPlans": "طرح درس",
   "nav.network": "داشبورد شبکه",
   "nav.localeSettings": "پروفایل کشور",

@@ -224,12 +224,12 @@ export async function POST(req: NextRequest) {
       if (blocked) return blocked;
       const chosen = scenarios.find((s) => s.id === body.scenario);
       if (!chosen) return apiErr(400, "سناریو نامعتبر است.", "BAD_SCENARIO");
-      await db.$transaction(async (tx) => {
+      await (async () => {
         // پاکسازی برنامه قبلی همین کلاس‌ها
-        await tx.scheduleSlot.deleteMany({
+        await db.scheduleSlot.deleteMany({
           where: { classId: { in: classes.map((c) => c.id) } },
         });
-        await tx.scheduleSlot.createMany({
+        await db.scheduleSlot.createMany({
           data: chosen.slots.map((s) => ({
             classId: s.classId,
             dayOfWeek: s.dayOfWeek,
@@ -238,7 +238,7 @@ export async function POST(req: NextRequest) {
             teacherId: s.teacherId,
           })),
         });
-      });
+      })();
       await audit({
         user: me,
         action: "تولید خودکار برنامه هفتگی",

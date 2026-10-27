@@ -265,8 +265,8 @@ export async function POST(req: NextRequest) {
         const nationalId = get(row, "nationalId");
         const tempPassword = generatePassword();
         try {
-          await db.$transaction(async (tx) => {
-            const user = await tx.user.create({
+          await (async () => {
+            const user = await db.user.create({
               data: {
                 nationalId,
                 passwordHash: hashPassword(tempPassword),
@@ -282,7 +282,7 @@ export async function POST(req: NextRequest) {
                 schoolId,
               },
             });
-            await tx.student.create({
+            await db.student.create({
               data: {
                 userId: user.id,
                 schoolId,
@@ -292,7 +292,7 @@ export async function POST(req: NextRequest) {
                 previousSchool: get(row, "previousSchool") || null,
               },
             });
-          });
+          })();
           success++;
         } catch (e) {
           errors.push({ row: v.row, error: e instanceof Error ? e.message.slice(0, 120) : "خطا" });

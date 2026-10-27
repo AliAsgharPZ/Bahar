@@ -153,8 +153,8 @@ export async function POST(req: NextRequest) {
     let subdomain = slugify(name);
     const taken = await db.schoolSite.findUnique({ where: { subdomain } });
     if (taken) subdomain = `${subdomain}-${code}`.slice(0, 40);
-    const school = await db.$transaction(async (tx) => {
-      const created = await tx.school.create({
+    const school = await (async () => {
+      const created = await db.school.create({
         data: {
           name,
           code,
@@ -175,13 +175,13 @@ export async function POST(req: NextRequest) {
         },
       });
       if (managerId) {
-        await tx.user.update({ where: { id: managerId }, data: { schoolId: created.id } });
+        await db.user.update({ where: { id: managerId }, data: { schoolId: created.id } });
       }
-      await tx.schoolSite.create({
+      await db.schoolSite.create({
         data: { schoolId: created.id, subdomain, templateId: "classic", published: false },
       });
       return created;
-    });
+    })();
     const site = { subdomain };
 
     if (managerData && body.managerShadNumber) {
