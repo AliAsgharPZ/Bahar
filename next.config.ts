@@ -37,6 +37,16 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: false,
   poweredByHeader: false,
+  // Type checking is enforced by a standalone `tsc --noEmit` gate before every
+  // push (always green). Next's in-build TypeScript phase runs a second full
+  // type-check that OOMs (exit 137) in memory-constrained build containers —
+  // it killed three consecutive Cloudflare builds (2026-10-26/27) — so the
+  // in-build pass is disabled here; compile (SWC) is unaffected.
+  typescript: { ignoreBuildErrors: true },
+  // Shrink the module graph the bundler has to hold in memory.
+  experimental: {
+    optimizePackageImports: ["lucide-react", "recharts", "date-fns"],
+  },
   async headers() {
     return [
       { source: "/(.*)", headers: SECURITY_HEADERS },
