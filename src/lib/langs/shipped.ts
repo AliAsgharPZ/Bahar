@@ -2,11 +2,12 @@ import { CATALOG_KEYS, validateLanguagePack } from "../langs";
 import enPack from "./packs/en.json";
 import arPack from "./packs/ar.json";
 import trPack from "./packs/tr.json";
+import frPack from "./packs/fr.json";
 
 /* ============================================================
    بهار | بسته‌های زبانِ همراه سامانه (shipped packs)
-   هر سه بستهٔ همراه سامانه کامل‌اند (۲۰۰ از ۲۰۰ کلید کاتالوگ):
-   انگلیسی، عربی و ترکی. کلیدهای ترجمه‌نشدهٔ بسته‌های دیگرِ
+   هر چهار بستهٔ همراه سامانه کامل‌اند (۲۰۰ از ۲۰۰ کلید کاتالوگ):
+   انگلیسی، عربی، ترکی و فرانسوی. کلیدهای ترجمه‌نشدهٔ بسته‌های دیگرِ
    پایگاه داده همچنان به فارسی پایه بازمی‌گردند.
    ============================================================ */
 
@@ -32,7 +33,7 @@ function build(pack: { code: string; name: string; nativeName: string; direction
 }
 
 export const SHIPPED_LANG_PACKS: ShippedLangPack[] = [
-  build(enPack as never), build(arPack as never), build(trPack as never),
+  build(enPack as never), build(arPack as never), build(trPack as never), build(frPack as never),
 ];
 
 export function shippedLangPack(code: string): ShippedLangPack | null {

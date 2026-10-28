@@ -8,6 +8,26 @@
   "main": "worker.ts",
   "compatibility_date": "2025-09-23",
   "compatibility_flags": ["nodejs_compat"],
+  // Observability — mirrors the dashboard Logs setting enabled 2026-10-28
+  // (invocation logs + persist, 100% sampling; traces/issues left off),
+  // so a future deploy does not revert it. Field shape verified against
+  // the installed wrangler 4.152.0 config schema (definitions.Observability).
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+      "persist": true,
+      "head_sampling_rate": 1
+    },
+    "traces": {
+      "enabled": false
+    },
+    "issues": {
+      "enabled": false
+    }
+  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
