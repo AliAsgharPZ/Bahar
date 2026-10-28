@@ -115,6 +115,14 @@ export const CATALOG: Record<string, string> = {
   "nav.audit": "گزارش فعالیت",
   "nav.blog": "بلاگ",
   "nav.children": "فرزندان من",
+  "nav.dormitory": "خوابگاه",
+  "nav.mcp": "سرور MCP",
+  "nav.accessibility": "دسترس‌پذیری",
+  "nav.countries": "بسته‌های کشور",
+  "nav.labs": "آزمایشگاه‌ها",
+  "nav.tracks": "مسیرهای تخصصی",
+  "nav.plugins": "افزونه‌ها",
+  "nav.languages": "زبان‌ها و پوشش ترجمه",
 
   // ---------- عملیات عمومی ----------
   "common.save": "ذخیره",
