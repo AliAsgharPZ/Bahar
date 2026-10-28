@@ -74,17 +74,17 @@ export default function QuestionBankPage() {
     w.document.write(`<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>${mode === "answers" ? "پاسخنامه" : "برگه سوال"}</title>
     <style>
       @page { size: A4; margin: 18mm 16mm; }
-      body { font-family: Vazirmatn, Tahoma, sans-serif; color: #000; font-size: 12.5pt; line-height: 1.9; }
-      .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid #000; padding-bottom: 8mm; margin-bottom: 6mm; }
+      body { font-family: Vazirmatn, Tahoma, sans-serif; color: #0b1416; font-size: 12.5pt; line-height: 1.9; }
+      .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid #0b1416; padding-bottom: 8mm; margin-bottom: 6mm; }
       .head h1 { font-size: 14pt; margin: 0; }
       .meta { font-size: 10pt; }
-      .meta span { display: inline-block; border: 1px solid #000; padding: 2mm 8mm; margin-left: 3mm; }
+      .meta span { display: inline-block; border: 1px solid #0b1416; padding: 2mm 8mm; margin-left: 3mm; }
       .q { page-break-inside: avoid; margin-bottom: 5mm; }
       .qnum { font-weight: bold; margin: 0 0 1mm; }
       .opts { display: flex; flex-wrap: wrap; gap: 2mm 8mm; padding-right: 8mm; font-size: 11.5pt; }
-      .ans { background: #f0f0f0; padding: 1.5mm 3mm; border-right: 2pt solid #000; margin-top: 1mm; font-size: 11pt; }
+      .ans { background: #f2f6f3; padding: 1.5mm 3mm; border-right: 2pt solid #0b1416; margin-top: 1mm; font-size: 11pt; }
       img { max-width: 60mm; filter: grayscale(1) contrast(1.15); display: block; margin: 2mm 0; }
-      .foot { margin-top: 8mm; border-top: 1px solid #000; padding-top: 2mm; font-size: 9.5pt; display: flex; justify-content: space-between; }
+      .foot { margin-top: 8mm; border-top: 1px solid #0b1416; padding-top: 2mm; font-size: 9.5pt; display: flex; justify-content: space-between; }
     </style></head><body>
     <div class="head"><h1>${mode === "answers" ? "پاسخنامه آزمون" : "برگه سوالات آزمون"}</h1><div class="meta"><span>نام و نام خانوادگی:</span><span>تعداد سوال: ${toFa(chosen.length)}</span><span>تاریخ: ــــــــ</span></div></div>
     ${items}

@@ -57,14 +57,14 @@ export default function StudyPage() {
             <div key={t.id} className="flex items-center gap-3 py-2.5 border-b border-hairline last:border-0">
               <button
                 onClick={() => act("toggle", { id: t.id })}
-                className={`w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 ${t.done ? "bg-spring border-spring text-white" : "border-hairline text-transparent"}`}
+                className={`b-btn b-btn-ghost w-6 h-6 rounded-lg border flex items-center justify-center shrink-0 ${t.done ? "bg-spring border-spring text-white" : "border-hairline text-transparent"}`}
                 aria-label={t.done ? "انجام نشده" : "انجام شد"}
               >
                 <Check className="w-4 h-4" />
               </button>
               <span className={`flex-1 text-[13.5px] ${t.done ? "line-through text-steel" : ""}`}>{t.title}</span>
               <span className="text-[12px] text-steel">{faNumber(t.minutes)} دقیقه</span>
-              <button className="text-stone hover:text-destructive" onClick={() => act("delete", { id: t.id })} aria-label="حذف">
+              <button className="b-btn b-btn-ghost text-stone hover:text-destructive" onClick={() => act("delete", { id: t.id })} aria-label="حذف">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>

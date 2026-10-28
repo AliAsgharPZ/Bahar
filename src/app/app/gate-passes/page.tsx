@@ -93,7 +93,7 @@ export default function GatePassesPage() {
                   </div>
                   <span className={`b-badge ${STATUS[p.status]?.cls ?? "b-badge-neutral"}`}>{STATUS[p.status]?.label ?? p.status}</span>
                   {data.staff && (
-                    <button className="text-stone hover:text-destructive" aria-label="حذف مجوز" onClick={async () => { if (!window.confirm("این مجوز خروج حذف شود؟")) return; try { await apiDelete(`/api/gate-passes?id=${p.id}`); toast.success("حذف شد."); load(date); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                    <button className="b-btn b-btn-ghost text-stone hover:text-destructive" aria-label="حذف مجوز" onClick={async () => { if (!window.confirm("این مجوز خروج حذف شود؟")) return; try { await apiDelete(`/api/gate-passes?id=${p.id}`); toast.success("حذف شد."); load(date); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
                       <Trash2 className="w-4 h-4" />
                     </button>
                   )}

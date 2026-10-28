@@ -77,14 +77,14 @@ export default function CertificatesPage() {
     w.document.write(`<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>${esc(c.title)}</title>
     <style>
       @page { size: A4; margin: 12mm; }
-      body { font-family: Vazirmatn, Tahoma, sans-serif; text-align: center; color: #000; }
+      body { font-family: Vazirmatn, Tahoma, sans-serif; text-align: center; color: #0b1416; }
       .frame { border: 3px double #00825e; border-radius: 12px; padding: 18mm 14mm; margin: 6mm; position: relative; }
       h1 { font-size: 20pt; color: #006749; margin-bottom: 2mm; }
       .school { font-size: 13pt; margin-bottom: 10mm; }
       .serial { position: absolute; top: 6mm; left: 8mm; font-size: 9pt; direction: ltr; }
       .body { font-size: 13.5pt; line-height: 2.2; text-align: justify; }
       .sign { margin-top: 16mm; display: flex; justify-content: space-around; font-size: 11pt; }
-      .qr { margin-top: 8mm; font-size: 9pt; color: #555; }
+      .qr { margin-top: 8mm; font-size: 9pt; color: #5d6f66; }
     </style></head><body>
     <div class="frame">
       <span class="serial">${esc(c.serial)}</span>

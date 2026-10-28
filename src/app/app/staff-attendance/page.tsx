@@ -71,7 +71,7 @@ export default function StaffAttendancePage() {
                       <td className="p-2">{STATUS_LABEL[r.status] ?? r.status}</td>
                       <td className="p-2">{r.checkIn ?? "—"}</td>
                       <td className="p-2">{r.checkOut ?? "—"}</td>
-                      <td className="p-2"><button className="text-stone hover:text-destructive" aria-label="حذف رکورد" onClick={async () => { if (!window.confirm("این رکورد حضور حذف شود؟")) return; try { await apiDelete(`/api/staff-attendance?id=${r.id}`); toast.success("حذف شد."); load(date); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-4 h-4" /></button></td>
+                      <td className="p-2"><button className="b-btn b-btn-ghost text-stone hover:text-destructive" aria-label="حذف رکورد" onClick={async () => { if (!window.confirm("این رکورد حضور حذف شود؟")) return; try { await apiDelete(`/api/staff-attendance?id=${r.id}`); toast.success("حذف شد."); load(date); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-4 h-4" /></button></td>
                     </tr>
                   ))}
                 </tbody>

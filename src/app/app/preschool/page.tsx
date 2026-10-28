@@ -133,7 +133,7 @@ export default function PreschoolPage() {
               <span className="flex gap-1.5 items-center">
                 <span className="b-badge b-badge-neutral">{r.date}</span>
                 <span className="b-badge b-badge-spring">{MOODS[r.mood] ?? r.mood}</span>
-                {!isAudience && <button className="text-stone hover:text-destructive" aria-label="حذف گزارش" onClick={async () => { if (!window.confirm("این گزارش روزانه حذف شود؟")) return; try { await apiDelete(`/api/daily-reports?id=${r.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-4 h-4" /></button>}
+                {!isAudience && <button className="b-btn b-btn-ghost text-stone hover:text-destructive" aria-label="حذف گزارش" onClick={async () => { if (!window.confirm("این گزارش روزانه حذف شود؟")) return; try { await apiDelete(`/api/daily-reports?id=${r.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-4 h-4" /></button>}
               </span>
             </span>
             {r.meals && <span><span className="text-steel">خوراک: </span>{r.meals}</span>}

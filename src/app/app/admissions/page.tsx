@@ -84,7 +84,7 @@ export default function AdmissionsPage() {
               </div>
               {items.map((l) => (
                 <div key={l.id} className="rounded-xl border border-hairline p-3 flex flex-col gap-1.5 text-[12.5px]">
-                  <span className="flex items-start justify-between gap-2"><b>{l.name}</b><button className="text-stone hover:text-destructive shrink-0" aria-label="حذف سرنخ" onClick={async () => { if (!window.confirm(`سرنخ «${l.name}» حذف شود؟`)) return; try { await apiDelete(`/api/admissions?id=${l.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-3.5 h-3.5" /></button></span>
+                  <span className="flex items-start justify-between gap-2"><b>{l.name}</b><button className="b-btn b-btn-ghost text-stone hover:text-destructive shrink-0" aria-label="حذف سرنخ" onClick={async () => { if (!window.confirm(`سرنخ «${l.name}» حذف شود؟`)) return; try { await apiDelete(`/api/admissions?id=${l.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-3.5 h-3.5" /></button></span>
                   <span className="text-steel flex items-center gap-1"><Phone className="w-3.5 h-3.5" /> <span dir="ltr">{l.phone}</span>{l.parentName ? ` · ولی: ${l.parentName}` : ""}</span>
                   <span className="text-steel">{l.grade ? `پایهٔ ${l.grade} · ` : ""}{formatDateFa(l.createdAt)}</span>
                   {l.message && <p className="text-steel line-clamp-2">{l.message}</p>}

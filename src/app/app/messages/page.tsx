@@ -377,7 +377,7 @@ export default function MessagesPage() {
                   className="b-input flex-1 bg-transparent outline-none text-[13px] min-w-0"
                 />
                 {contactQ && (
-                  <button onClick={() => setContactQ("")} className="text-stone hover:text-foreground text-[16px] leading-none shrink-0" aria-label="پاک‌کردن جستجو">
+                  <button onClick={() => setContactQ("")} className="b-btn b-btn-ghost text-stone hover:text-foreground text-[16px] leading-none shrink-0" aria-label="پاک‌کردن جستجو">
                     ×
                   </button>
                 )}

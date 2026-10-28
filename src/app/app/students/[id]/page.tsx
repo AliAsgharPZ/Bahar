@@ -73,7 +73,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
   if (!data) return <LoadingBlock label="پرونده ۳۶۰ درجه در حال باز شدن…" />;
 
   const { student, analytics } = data;
-  const riskColor = analytics.risk.level === "CRITICAL" ? "#e41e3f" : analytics.risk.level === "RISK" ? "#f2a918" : analytics.risk.level === "WATCH" ? "#1a7fd4" : "#31a24c";
+  const riskColor = analytics.risk.level === "CRITICAL" ? "#e5548b" : analytics.risk.level === "RISK" ? "#f2a918" : analytics.risk.level === "WATCH" ? "#1972c4" : "#1b8148";
   const riskLabel = { SAFE: "ایمن", WATCH: "تحت نظر", RISK: "در معرض ریسک", CRITICAL: "بحرانی" }[analytics.risk.level] ?? "";
 
   /** اعمال تغییر ۳۶۰ با بازخورد خطا (به‌جای حذف بی‌صدا) */

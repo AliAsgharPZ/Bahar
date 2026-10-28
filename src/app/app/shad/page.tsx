@@ -443,7 +443,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
                 />
                 <button
                   type="button"
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-stone hover:text-steel"
+                  className="b-btn b-btn-ghost absolute left-3 top-1/2 -translate-y-1/2 text-stone hover:text-steel"
                   onClick={() => setShowToken((s) => !s)}
                   aria-label="نمایش/مخفی توکن"
                 >

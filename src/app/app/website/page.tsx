@@ -393,7 +393,7 @@ export default function WebsiteEditorPage() {
               <label key={key} className={`b-option !py-3 ${config.sections[key] ? "b-option-selected" : ""}`}>
                 <input
                   type="checkbox"
-                  className="accent-[#00825E] w-4 h-4"
+                  className="accent-[#00825e] w-4 h-4"
                   checked={config.sections[key]}
                   onChange={() => toggleSection(key)}
                 />
@@ -413,7 +413,7 @@ export default function WebsiteEditorPage() {
               <span className="text-[12px] font-bold">آدرس اختصاصی (حروف لاتین)</span>
               <div className="flex items-center" dir="ltr">
                 <span className="h-11 px-3 rounded-l-full bg-cloud border border-hairline flex items-center text-[11.5px] text-steel">bahar.school/</span>
-                <input className="b-input !rounded-none" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} />
+                <input className="b-input !rounded-l-none !rounded-r-full" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} />
               </div>
               {/* پیش‌نمایش زندهٔ آدرس نهایی (اسلاگ‌شدهٔ سمت سرور) */}
               <span className="text-[10.5px] text-stone font-bold" dir="ltr">→ /s/{effectiveSlug || "…"}</span>

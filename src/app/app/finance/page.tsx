@@ -139,12 +139,12 @@ export default function FinancePage() {
     w.document.write(`<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>رسید پرداخت — ${esc(f.title)}</title>
     <style>
       @page { size: A5; margin: 10mm; }
-      body { font-family: Vazirmatn, Tahoma, sans-serif; color: #000; }
+      body { font-family: Vazirmatn, Tahoma, sans-serif; color: #0b1416; }
       .rc { border: 2px solid #00825e; border-radius: 10px; padding: 10mm 12mm; max-width: 130mm; margin: 8mm auto; }
       h2 { color: #006749; text-align: center; font-size: 15pt; margin: 0 0 2mm; }
-      .school { text-align: center; font-size: 10pt; color: #444; margin-bottom: 6mm; }
+      .school { text-align: center; font-size: 10pt; color: #5d6f66; margin-bottom: 6mm; }
       table { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
-      td { padding: 2.2mm 0; border-bottom: 1px dashed #bbb; }
+      td { padding: 2.2mm 0; border-bottom: 1px dashed #cdd5d1; }
       td:last-child { text-align: left; font-weight: bold; }
       .amt { font-size: 13pt; color: #006749; }
       .ok { text-align: center; margin-top: 6mm; font-weight: bold; color: #00825e; }

@@ -31,7 +31,7 @@ const ICONS: Record<string, typeof LifeBuoy> = {
 const SEV_STYLE: Record<string, string> = {
   URGENT: "border-r-4 !border-r-destructive",
   IMPORTANT: "border-r-4 !border-r-[#f2a918]",
-  NORMAL: "border-r-4 !border-r-[#1a7fd4]",
+  NORMAL: "border-r-4 !border-r-[#1972c4]",
 };
 
 export default function DashboardPage() {
@@ -233,7 +233,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
             parts={usersByRole.map((r, i) => ({
               label: ROLE_LABELS[r.role] ?? r.role,
               value: r.count,
-              color: ["#00825e", "#e5548b", "#f2a918", "#00b37d", "#5d6f66", "#7c8fe0", "#17a2b8"][i % 7],
+              color: ["#00825e", "#e5548b", "#f2a918", "#00b37d", "#5d6f66", "#5d6f66", "#00b37d"][i % 7],
             }))}
             centerLabel="کاربر"
           />
@@ -431,7 +431,7 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
               <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
                 <circle cx="40" cy="40" r="34" fill="none" stroke="var(--hairline-soft)" strokeWidth="8" />
                 {typeof hs.overall === "number" && (
-                  <circle cx="40" cy="40" r="34" fill="none" stroke={hs.overall >= 75 ? "#31a24c" : hs.overall >= 55 ? "#f2a918" : "#e41e3f"} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(hs.overall / 100) * 213.6} 213.6`} />
+                  <circle cx="40" cy="40" r="34" fill="none" stroke={hs.overall >= 75 ? "#1b8148" : hs.overall >= 55 ? "#f2a918" : "#e5548b"} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(hs.overall / 100) * 213.6} 213.6`} />
                 )}
               </svg>
               <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">{typeof hs.overall === "number" ? faNumber(hs.overall) : "—"}</span>

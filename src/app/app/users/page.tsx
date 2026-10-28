@@ -329,7 +329,7 @@ export default function UsersPage() {
           ))}
         </div>
         <label className="flex items-center gap-2 text-[12px] text-steel ms-auto cursor-pointer">
-          <input type="checkbox" className="accent-[#00825E] w-4 h-4" checked={includeInactive} onChange={(e) => setIncludeInactive(e.target.checked)} />
+          <input type="checkbox" className="accent-[#00825e] w-4 h-4" checked={includeInactive} onChange={(e) => setIncludeInactive(e.target.checked)} />
           نمایش غیرفعال‌شده‌ها
         </label>
       </div>
@@ -504,7 +504,7 @@ export default function UsersPage() {
                   <input className="b-input" dir="ltr" inputMode="numeric" value={form.nationalId} onChange={(e) => set("nationalId", e.target.value)} required placeholder="۱۰ رقم" />
                   {isSuper && (
                     <label className="flex items-center gap-2 text-[11px] text-steel mt-1 cursor-pointer">
-                      <input type="checkbox" className="accent-[#00825E] w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
+                      <input type="checkbox" className="accent-[#00825e] w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
                       ثبت با کد نامعتبر (فقط سوپرادمین — برای موارد خاص)
                     </label>
                   )}
@@ -587,7 +587,7 @@ export default function UsersPage() {
                       <label key={p.key} className={`b-option flex items-center gap-3 !py-2.5 ${form.permissions.includes(p.key) ? "b-option-selected" : ""}`}>
                         <input
                           type="checkbox"
-                          className="accent-[#00825E] w-4 h-4"
+                          className="accent-[#00825e] w-4 h-4"
                           checked={form.permissions.includes(p.key)}
                           onChange={() => togglePerm(p.key, "create")}
                         />
@@ -631,7 +631,7 @@ export default function UsersPage() {
                             <label key={i.key} className={`b-option flex items-center gap-3 !py-2 ${form.permissions.includes(i.key) ? "b-option-selected" : ""}`}>
                               <input
                                 type="checkbox"
-                                className="accent-[#00825E] w-4 h-4"
+                                className="accent-[#00825e] w-4 h-4"
                                 checked={form.permissions.includes(i.key)}
                                 onChange={() => togglePerm(i.key, "create")}
                               />
@@ -770,7 +770,7 @@ export default function UsersPage() {
                       <label key={p.key} className={`b-option flex items-center gap-3 !py-2.5 ${editPerms.includes(p.key) ? "b-option-selected" : ""}`}>
                         <input
                           type="checkbox"
-                          className="accent-[#00825E] w-4 h-4"
+                          className="accent-[#00825e] w-4 h-4"
                           checked={editPerms.includes(p.key)}
                           onChange={() => togglePerm(p.key, "edit")}
                         />
@@ -807,7 +807,7 @@ export default function UsersPage() {
                         <div className="grid sm:grid-cols-2 gap-2">
                           {g.items.map((i) => (
                             <label key={i.key} className={`b-option flex items-center gap-3 !py-2 ${editPerms.includes(i.key) ? "b-option-selected" : ""}`}>
-                              <input type="checkbox" className="accent-[#00825E] w-4 h-4" checked={editPerms.includes(i.key)} onChange={() => togglePerm(i.key, "edit")} />
+                              <input type="checkbox" className="accent-[#00825e] w-4 h-4" checked={editPerms.includes(i.key)} onChange={() => togglePerm(i.key, "edit")} />
                               <b className="text-[12px]">{i.label}</b>
                             </label>
                           ))}

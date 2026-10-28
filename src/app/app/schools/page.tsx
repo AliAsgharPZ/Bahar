@@ -385,7 +385,7 @@ export default function SchoolsPage() {
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.managerNationalId} onChange={(e) => set("managerNationalId", enDigits(e.target.value))} />
                     {isSuper && (
                       <label className="flex items-center gap-2 text-[11px] text-steel mt-0.5 cursor-pointer">
-                        <input type="checkbox" className="accent-[#00825E] w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
+                        <input type="checkbox" className="accent-[#00825e] w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
                         ثبت با کد نامعتبر (سوپرادمین)
                       </label>
                     )}
@@ -450,7 +450,7 @@ export default function SchoolsPage() {
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
                   <span className="text-[12.5px] font-bold flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-spring" /> موقعیت (استان/شهرستان)</span>
-                  <button type="button" className="b-input flex items-center gap-2" onClick={() => setEditMapOpen(true)}>
+                  <button type="button" className="b-btn b-btn-ghost b-input flex items-center gap-2" onClick={() => setEditMapOpen(true)}>
                     <MapPin className="w-4 h-4 text-spring" />
                     {editRegion.provinces[0]
                       ? `${editRegion.counties[0]?.split("|")[1] ?? editRegion.provinces[0]}، ${editRegion.provinces[0]}`

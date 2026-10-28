@@ -166,7 +166,7 @@ export default function QuizDetailPage() {
                       ))}
                     </div>
                   ) : (
-                    <div style={{ borderBottom: "1px dotted #999", height: 26 }} />
+                    <div style={{ borderBottom: "1px dotted #8a9b92", height: 26 }} />
                   )}
                 </div>
               ))}

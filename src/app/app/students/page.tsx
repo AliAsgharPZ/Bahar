@@ -459,7 +459,7 @@ export default function StudentsPage() {
                   <th className="py-3 px-3 w-10">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 accent-[#00825E] cursor-pointer"
+                      className="w-4 h-4 accent-[#00825e] cursor-pointer"
                       checked={students.length > 0 && sel.size === students.length}
                       ref={(el) => { if (el) el.indeterminate = sel.size > 0 && sel.size < students.length; }}
                       onChange={toggleAll}
@@ -480,7 +480,7 @@ export default function StudentsPage() {
                     <td className="py-3 px-3">
                       <input
                         type="checkbox"
-                        className="w-4 h-4 accent-[#00825E] cursor-pointer"
+                        className="w-4 h-4 accent-[#00825e] cursor-pointer"
                         checked={sel.has(s.id)}
                         onChange={() => toggleSel(s.id)}
                         aria-label={`انتخاب ${s.user.firstName} ${s.user.lastName}`}

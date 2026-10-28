@@ -211,7 +211,7 @@ export default function HealthPage() {
               {(data.visits ?? []).length === 0 && <span className="text-[12.5px] text-steel">مراجعه‌ای ثبت نشده است.</span>}
               {(data.visits ?? []).map((v) => (
                 <div key={v.id} className="flex flex-col gap-0.5 py-2 border-b border-hairline last:border-0 text-[13px]">
-                  <span className="flex justify-between items-center"><b>{v.complaint}</b><span className="flex items-center gap-2"><span className="text-steel">{v.date}</span><button className="text-stone hover:text-destructive" aria-label="حذف مراجعه" onClick={async () => { if (!window.confirm("این مراجعه حذف شود؟")) return; try { await apiDelete(`/api/health?id=${v.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-3.5 h-3.5" /></button></span></span>
+                  <span className="flex justify-between items-center"><b>{v.complaint}</b><span className="flex items-center gap-2"><span className="text-steel">{v.date}</span><button className="b-btn b-btn-ghost text-stone hover:text-destructive" aria-label="حذف مراجعه" onClick={async () => { if (!window.confirm("این مراجعه حذف شود؟")) return; try { await apiDelete(`/api/health?id=${v.id}`); toast.success("حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}><Trash2 className="w-3.5 h-3.5" /></button></span></span>
                   {v.action && <span className="text-steel">{v.action}</span>}
                   {v.sentHome && <span className="b-badge b-badge-blossom self-start">به خانه فرستاده شد</span>}
                 </div>

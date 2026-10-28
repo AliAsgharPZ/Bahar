@@ -97,7 +97,7 @@ function StudentCheckin() {
                 <button
                   key={m.v}
                   onClick={() => setMood(m.v)}
-                  className={`flex flex-col items-center gap-1.5 p-3 rounded-2xl transition-all ${active ? `${m.bg} scale-110 shadow-sm` : "hover:bg-cloud"}`}
+                  className={`b-btn b-btn-ghost flex flex-col items-center gap-1.5 p-3 rounded-2xl transition-all ${active ? `${m.bg} scale-110 shadow-sm` : "hover:bg-cloud"}`}
                   aria-label={m.label}
                 >
                   <Icon className={`w-8 h-8 sm:w-10 sm:h-10 ${active ? m.cls : "text-stone"}`} />

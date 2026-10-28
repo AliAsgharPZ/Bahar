@@ -116,7 +116,7 @@ export default function DescriptiveReportPage() {
                 <span className="text-[13px]">{r.competency}{r.note ? <span className="block text-[11.5px] text-steel mt-0.5">{r.note}</span> : null}</span>
                 <span className="flex items-center gap-2 shrink-0">
                   <span className={`b-badge ${LEVELS[r.level]?.cls ?? "b-badge-neutral"}`}>{LEVELS[r.level]?.label ?? r.level}</span>
-                  {!isAudience && <button className="text-steel hover:text-destructive" onClick={() => del(r.id)} aria-label="حذف"><Trash2 className="w-4 h-4" /></button>}
+                  {!isAudience && <button className="b-btn b-btn-ghost text-steel hover:text-destructive" onClick={() => del(r.id)} aria-label="حذف"><Trash2 className="w-4 h-4" /></button>}
                 </span>
               </div>
             ))}
