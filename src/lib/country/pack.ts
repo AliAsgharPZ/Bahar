@@ -221,6 +221,48 @@ export function validateCountryPack(raw: unknown): { profile: CountryProfile | n
     });
   }
 
+  // ---- divisions: استان → شهر → روستا (اختیاری) ----
+  let cityCount = 0;
+  let villageCount = 0;
+  let divisionCount = 0;
+  let divisionsOut: CountryProfile["divisions"];
+  const divRaw = p.divisions;
+  if (divRaw != null) {
+    if (!Array.isArray(divRaw)) {
+      errors.push("«divisions» باید آرایه باشد (یا حذف شود).");
+    } else if (divRaw.length > 100) {
+      errors.push("«divisions» حداکثر ۱۰۰ استان.");
+    } else {
+      const seenProv = new Set<string>();
+      const clean: NonNullable<CountryProfile["divisions"]> = [];
+      divRaw.forEach((d, i) => {
+        const dd = d as Record<string, unknown>;
+        if (typeof dd.province !== "string" || !dd.province.trim()) { errors.push(`divisions[${i}].province الزامی است.`); return; }
+        if (seenProv.has(dd.province)) errors.push(`divisions[${i}].province تکراری است: «${dd.province}».`);
+        seenProv.add(dd.province);
+        if (!Array.isArray(dd.cities)) { errors.push(`divisions[${i}].cities باید آرایه باشد.`); return; }
+        const seenCity = new Set<string>();
+        const cities: { name: string; villages: string[] }[] = [];
+        dd.cities.forEach((c) => {
+          const cc = c as Record<string, unknown>;
+          if (typeof cc.name !== "string" || !cc.name.trim() || cc.name.length > 60) { errors.push(`divisions[${i}] شهر نامعتبر دارد.`); return; }
+          if (seenCity.has(cc.name)) errors.push(`divisions[${i}] شهر تکراری دارد: «${cc.name}».`);
+          seenCity.add(cc.name);
+          if (!Array.isArray(cc.villages)) { errors.push(`divisions[${i}] روستاهای «${cc.name}» باید آرایه باشد.`); return; }
+          const villages = cc.villages.filter((v) => typeof v === "string" && v.trim()).map((v) => (v as string).trim().slice(0, 60));
+          if (villages.length > 500) errors.push(`divisions[${i}] روستاهای «${cc.name}» بیش از ۵۰۰ مورد است.`);
+          cityCount += 1;
+          villageCount += villages.length;
+          cities.push({ name: cc.name.trim(), villages });
+        });
+        divisionCount += 1;
+        clean.push({ province: dd.province.trim(), cities });
+      });
+      if (divisionCount > 0) divisionsOut = clean;
+    }
+  }
+  if (divRaw != null && !Array.isArray(divRaw)) { /* خطا بالا ثبت شد */ }
+
   // ---- grading ----
   const gr = p.grading as Record<string, unknown> | undefined;
   if (!gr || typeof gr !== "object") {
@@ -299,7 +341,7 @@ export function validateCountryPack(raw: unknown): { profile: CountryProfile | n
     ok: errors.length === 0,
     errors,
     warnings,
-    stats: { regions: regionCount, counties: countyCount, workDays: Array.isArray((p.week as Record<string, unknown> | undefined)?.workDays) ? ((p.week as Record<string, unknown>).workDays as unknown[]).length : 0, gradeLevels: gradeLevels.length, hasMap, mapProvinces, bytes },
+    stats: { regions: regionCount, counties: countyCount, cities: cityCount, villages: villageCount, divisions: divisionCount, workDays: Array.isArray((p.week as Record<string, unknown> | undefined)?.workDays) ? ((p.week as Record<string, unknown>).workDays as unknown[]).length : 0, gradeLevels: gradeLevels.length, hasMap, mapProvinces, bytes },
   };
 
   if (!validation.ok) return { profile: null, validation };
@@ -334,6 +376,7 @@ export function validateCountryPack(raw: unknown): { profile: CountryProfile | n
     fields,
     schoolTypes,
     regions: (regionsRaw as CountryProfile["regions"]).map((r) => ({ name: r.name.trim(), center: r.center.trim(), counties: r.counties.map((c) => c.trim()) })),
+    divisions: divisionsOut,
     map: hasMap
       ? {
           viewBox: {
@@ -372,5 +415,5 @@ function iranMod11(id: string): boolean {
 }
 
 function emptyStats() {
-  return { regions: 0, counties: 0, workDays: 0, gradeLevels: 0, hasMap: false, mapProvinces: 0, bytes: 0 };
+  return { regions: 0, counties: 0, cities: 0, villages: 0, divisions: 0, workDays: 0, gradeLevels: 0, hasMap: false, mapProvinces: 0, bytes: 0 };
 }

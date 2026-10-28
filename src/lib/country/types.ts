@@ -83,6 +83,10 @@ export type CountryProfile = {
   schoolTypes: string[];
   /** مناطق (استان/ایالت + شهرستان‌ها) */
   regions: { name: string; center: string; counties: string[] }[];
+  /** تقسیمات تا سطح شهر و روستا (اختیاری — اگر نبود فقط regions کار می‌کند):
+      استان → شهرها → روستاهای هر شهر. سطح روستا ممکن است خالی باشد
+      و این یعنی «هنوز برای این شهر دادهٔ روستا وارد نشده»، نه «روستا ندارد». */
+  divisions?: { province: string; cities: { name: string; villages: string[] }[] }[];
   /** نقشه SVG اختیاری برای انتخاب منطقه — اگر نبود فقط دراپ‌داون */
   map?: {
     viewBox: { w: number; h: number };
@@ -118,6 +122,9 @@ export type CountryPackValidation = {
   stats: {
     regions: number;
     counties: number;
+    cities: number;
+    villages: number;
+    divisions: number;
     workDays: number;
     gradeLevels: number;
     hasMap: boolean;

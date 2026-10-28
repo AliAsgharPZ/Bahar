@@ -1,0 +1,295 @@
+{
+  "code": "SA",
+  "name": "عربستان سعودی",
+  "nativeName": "Saudi Arabia",
+  "locale": "ar-SA",
+  "direction": "rtl",
+  "timezone": "Asia/Riyadh",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "شمارهٔ شناسایی",
+    "algorithm": "digits",
+    "pattern": "^[A-Za-z0-9]{6,20}$",
+    "placeholder": "—",
+    "example": "123456789"
+  },
+  "phone": {
+    "pattern": "^\\+9665\\d{8}$",
+    "placeholder": "+966501234567",
+    "example": "+966501234567"
+  },
+  "currency": {
+    "label": "ریال",
+    "code": "SAR",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ ۱",
+    "پایهٔ ۲",
+    "پایهٔ ۳",
+    "پایهٔ ۴",
+    "پایهٔ ۵",
+    "پایهٔ ۶",
+    "پایهٔ ۷",
+    "پایهٔ ۸",
+    "پایهٔ ۹",
+    "پایهٔ ۱۰",
+    "پایهٔ ۱۱",
+    "پایهٔ ۱۲"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "regions": [
+    {
+      "name": "ریاض",
+      "center": "ریاض",
+      "counties": [
+        "ریاض"
+      ]
+    },
+    {
+      "name": "مکه",
+      "center": "مکه",
+      "counties": [
+        "مکه"
+      ]
+    },
+    {
+      "name": "مدینه",
+      "center": "مدینه",
+      "counties": [
+        "مدینه"
+      ]
+    },
+    {
+      "name": "الشرقیه",
+      "center": "دمام",
+      "counties": [
+        "دمام"
+      ]
+    },
+    {
+      "name": "عسیر",
+      "center": "ابها",
+      "counties": [
+        "ابها"
+      ]
+    },
+    {
+      "name": "تبوک",
+      "center": "تبوک",
+      "counties": [
+        "تبوک"
+      ]
+    },
+    {
+      "name": "حائل",
+      "center": "حائل",
+      "counties": [
+        "حائل"
+      ]
+    },
+    {
+      "name": "الحدود الشمالیه",
+      "center": "عرعر",
+      "counties": [
+        "عرعر"
+      ]
+    },
+    {
+      "name": "جازان",
+      "center": "جازان",
+      "counties": [
+        "جازان"
+      ]
+    },
+    {
+      "name": "نجران",
+      "center": "نجران",
+      "counties": [
+        "نجران"
+      ]
+    },
+    {
+      "name": "الباحه",
+      "center": "الباحه",
+      "counties": [
+        "الباحه"
+      ]
+    },
+    {
+      "name": "القصیم",
+      "center": "بریده",
+      "counties": [
+        "بریده"
+      ]
+    },
+    {
+      "name": "الجوف",
+      "center": "سکاکا",
+      "counties": [
+        "سکاکا"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "ریاض",
+      "cities": [
+        {
+          "name": "ریاض",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "مکه",
+      "cities": [
+        {
+          "name": "مکه",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "مدینه",
+      "cities": [
+        {
+          "name": "مدینه",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "الشرقیه",
+      "cities": [
+        {
+          "name": "دمام",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "عسیر",
+      "cities": [
+        {
+          "name": "ابها",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "تبوک",
+      "cities": [
+        {
+          "name": "تبوک",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "حائل",
+      "cities": [
+        {
+          "name": "حائل",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "الحدود الشمالیه",
+      "cities": [
+        {
+          "name": "عرعر",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "جازان",
+      "cities": [
+        {
+          "name": "جازان",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "نجران",
+      "cities": [
+        {
+          "name": "نجران",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "الباحه",
+      "cities": [
+        {
+          "name": "الباحه",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "القصیم",
+      "cities": [
+        {
+          "name": "بریده",
+          "villages": []
+        }
+      ]
+    },
+    {
+      "province": "الجوف",
+      "cities": [
+        {
+          "name": "سکاکا",
+          "villages": []
+        }
+      ]
+    }
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "notes": "بستهٔ آغازین عربستان: ۱۳ منطقه با شهر مرکزی هر منطقه؛ فهرست کامل شهرها و روستاها هنوز وارد نشده است.",
+  "version": "1.0.0"
+}
