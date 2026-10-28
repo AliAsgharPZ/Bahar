@@ -811,9 +811,13 @@ function StudentDashboard({ data }: { data: Dash }) {
 function ParentDashboard({ data }: { data: Dash }) {
   const children = (data.children as Array<{ relation: string; studentId: string; student: { name: string; class: string; gpa: number | null; attendanceRate: number | null; absences: number; lates: number; unpaidFees: number; unpaidAmount: number; behaviorPoints: number; nextClass: string | null; homework: number } }>) ?? [];
   const meetings = (data.meetings as Array<{ id: string; topic: string; status: string; slotStart: string; staff: { firstName: string; lastName: string } }>) ?? [];
+  const announcements = (data.announcements as Array<{ id: string; title: string; createdAt: string }>) ?? [];
   const s = data.stats as Record<string, number>;
   return (
     <div className="flex flex-col gap-8">
+      {children.length === 0 && (
+        <EmptyState icon={GraduationCap} title="فرزندی به حساب شما متصل نیست" desc="برای اتصال حساب شما به فرزندتان، با مدیر مدرسه هماهنگ کنید." />
+      )}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
         {children.map((ch, i) => (
           <motion.div key={ch.studentId} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} className="b-card-md p-5">
@@ -829,6 +833,8 @@ function ParentDashboard({ data }: { data: Dash }) {
               <MiniStat label="حضور" value={ch.student.attendanceRate ? `${faNumber(ch.student.attendanceRate)}٪` : "—"} good={(ch.student.attendanceRate ?? 0) >= 90} />
               <MiniStat label="غیبت" value={faNumber(ch.student.absences)} good={ch.student.absences < 3} />
               <MiniStat label="تأخیر" value={faNumber(ch.student.lates)} good={ch.student.lates < 3} />
+              <MiniStat label="تکلیف" value={faNumber(ch.student.homework)} />
+              <MiniStat label="رفتار" value={faNumber(ch.student.behaviorPoints)} good={ch.student.behaviorPoints >= 0} />
             </div>
             {ch.student.nextClass && (
               <p className="mt-3 text-[11px] text-steel"><CheckCircle2 className="w-3.5 h-3.5 inline text-spring" /> زنگ بعدی: {ch.student.nextClass}</p>
@@ -839,6 +845,19 @@ function ParentDashboard({ data }: { data: Dash }) {
           </motion.div>
         ))}
       </div>
+      {announcements.length > 0 && (
+        <div className="b-card-md p-5">
+          <h3 className="font-bold mb-4">اعلان‌های مدرسه</h3>
+          <div className="flex flex-col gap-2">
+            {announcements.map((a) => (
+              <div key={a.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-cloud text-[12.5px]">
+                <span className="flex-1 font-bold truncate">{a.title}</span>
+                <span className="text-[10.5px] text-stone shrink-0">{formatDateFa(a.createdAt)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       {meetings.length > 0 && (
         <div className="b-card-md p-5">
           <h3 className="font-bold mb-4">ملاقات‌های در انتظار</h3>

@@ -181,7 +181,17 @@ export async function GET(req: NextRequest) {
     }
 
     /* ══════════════ مدرسه فعال ══════════════ */
-    const schoolId = actingSchoolId ?? me.schoolId;
+    let schoolId = actingSchoolId ?? me.schoolId;
+    // والد/دانش‌آموزِ بدون schoolId ولی با پیوند فرزند/پروفایل: مدرسه را از همان
+    // پیوند بگیر تا به‌جای صفحهٔ مردهٔ «متصل نیستید»، داشبورد واقعی خودشان را ببینند.
+    if (!schoolId && me.role === "PARENT") {
+      const link = await db.studentParent.findFirst({ where: { parentUserId: me.id }, include: { student: { select: { schoolId: true } } } });
+      schoolId = link?.student.schoolId ?? null;
+    }
+    if (!schoolId && me.role === "STUDENT") {
+      const profile = await db.student.findFirst({ where: { userId: me.id }, select: { schoolId: true } });
+      schoolId = profile?.schoolId ?? null;
+    }
     if (!schoolId) return apiOk({ scope: "none", stats: {} });
     const school = await db.school.findUnique({ where: { id: schoolId } });
     if (!school) return apiOk({ scope: "none", stats: {} });
