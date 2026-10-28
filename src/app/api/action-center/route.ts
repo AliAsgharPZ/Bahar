@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     }
 
     if (!schoolId) return apiOk({ items: [], needsAttention: [] });
-    const school = await db.school.findUnique({ where: { id: schoolId }, select: { managerId: true, plan: true } });
+    const school = await db.school.findUnique({ where: { id: schoolId }, select: { managerId: true } });
 
     const isManagerish = me.role === "MANAGER" || me.role === "DEPUTY" || (isService && actingSchoolId);
     const classRows = isManagerish ? await db.class.findMany({ where: { schoolId, isActive: true }, select: { id: true } }) : [];

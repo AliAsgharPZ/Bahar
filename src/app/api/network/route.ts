@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   try {
     const me = await requireUser(req, ["SUPER_ADMIN", "ADMIN"]);
     const schools = await db.school.findMany({
-      select: { id: true, name: true, code: true, city: true, province: true, plan: true, isActive: true },
+      select: { id: true, name: true, code: true, city: true, province: true, isActive: true },
       orderBy: { name: "asc" },
     });
     const rows = await Promise.all(schools.map(async (s) => {
