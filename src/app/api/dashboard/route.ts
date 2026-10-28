@@ -50,6 +50,19 @@ export async function GET(req: NextRequest) {
         month: k,
         count: allSchools.filter((s) => s.createdAt.toISOString().slice(0, 7) <= k).length,
       }));
+      // رشد کاربران و دانش‌آموزان با همان کلیدهای ماهانهٔ رشد مدارس (انباشته تا پایان هر ماه)
+      const [allUsersCreated, allStudentsCreated] = await Promise.all([
+        db.user.findMany({ select: { createdAt: true } }),
+        db.student.findMany({ select: { createdAt: true } }),
+      ]);
+      const usersGrowth = monthKeys.map((k) => ({
+        month: k,
+        count: allUsersCreated.filter((u) => u.createdAt.toISOString().slice(0, 7) <= k).length,
+      }));
+      const studentsGrowth = monthKeys.map((k) => ({
+        month: k,
+        count: allStudentsCreated.filter((u) => u.createdAt.toISOString().slice(0, 7) <= k).length,
+      }));
 
       const settings = await getSettings();
       let autoCreated = false;
@@ -105,15 +118,27 @@ export async function GET(req: NextRequest) {
       }
 
       // بزرگ‌ترین مدارس بر پایه شمار دانش‌آموز (Student رابطه FK به School ندارد → groupBy)
-      const [schoolRows, studentCounts] = await Promise.all([
+      const [schoolRows, studentCounts, teacherCounts, classCounts] = await Promise.all([
         db.school.findMany({ where: { isActive: true }, select: { id: true, name: true } }),
         db.student.groupBy({ by: ["schoolId"], _count: { _all: true } }),
+        db.user.groupBy({ by: ["schoolId"], where: { role: "TEACHER", isActive: true }, _count: { _all: true } }),
+        db.class.groupBy({ by: ["schoolId"], where: { isActive: true }, _count: { _all: true } }),
       ]);
       const topSchools = schoolRows
         .map((r) => ({ id: r.id, name: r.name, students: studentCounts.find((c) => c.schoolId === r.id)?._count._all ?? 0 }))
         .filter((r) => r.students > 0)
         .sort((a, b) => b.students - a.students)
         .slice(0, 6);
+      // همهٔ مدارس فعال با شمار دانش‌آموز/معلم/کلاس — برای جدول کامل داشبورد سرویس
+      const allSchoolsTable = schoolRows
+        .map((r) => ({
+          id: r.id,
+          name: r.name,
+          students: studentCounts.find((c) => c.schoolId === r.id)?._count._all ?? 0,
+          teachers: teacherCounts.find((c) => c.schoolId === r.id)?._count._all ?? 0,
+          classes: classCounts.find((c) => c.schoolId === r.id)?._count._all ?? 0,
+        }))
+        .sort((a, b) => b.students - a.students);
 
       return apiOk({
         scope: "service",
@@ -131,6 +156,9 @@ export async function GET(req: NextRequest) {
           newTickets: ticketsYesterday,
         },
         schoolGrowth,
+        usersGrowth,
+        studentsGrowth,
+        allSchools: allSchoolsTable,
         recentAudit,
         /* ریز-آمار سیستم (راند ۱۷) */
         system: {

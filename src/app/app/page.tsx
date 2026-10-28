@@ -140,6 +140,9 @@ function ServiceDashboard({ data }: { data: Dash }) {
   const ticketsByStatus = (data.ticketsByStatus as Array<{ status: string; count: number }>) ?? [];
   const recentSignups = (data.recentSignups as Array<{ id: string; firstName: string; lastName: string; role: string; createdAt: string; school?: { name: string } | null }>) ?? [];
   const topSchools = (data.topSchools as Array<{ id: string; name: string; students: number }>) ?? [];
+  const usersGrowth = (data.usersGrowth as Array<{ month: string; count: number }>) ?? [];
+  const studentsGrowth = (data.studentsGrowth as Array<{ month: string; count: number }>) ?? [];
+  const allSchools = (data.allSchools as Array<{ id: string; name: string; students: number; teachers: number; classes: number }>) ?? [];
   const backup = s.backup as { at: string; kind: string; filename: string } | null | undefined;
   type AuditRow = { id: string; action: string; entityType: string; createdAt: string; user?: { firstName: string; lastName: string } | null };
   const auditRows = (data.recentAudit as AuditRow[] | undefined) ?? [];
@@ -198,6 +201,14 @@ function ServiceDashboard({ data }: { data: Dash }) {
         <StaggerItem><StatCard icon={LifeBuoy} label="تیکت‌های باز" value={<CountUp value={Number(s.openTickets ?? 0)} />} tone="warning" hint={`${faNumber(Number(s.messages ?? 0))} پیام · ${faNumber(Number(s.notifications ?? 0))} اعلان`} /></StaggerItem>
       </StaggerGroup>
 
+      {/* ردیف دوم آمار — فیلدهایی که API برمی‌گرداند ولی نمایش داده نمی‌شدند */}
+      <StaggerGroup className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        <StaggerItem><StatCard icon={Users} label="معلمان" value={<CountUp value={Number(s.teachers ?? 0)} />} tone="soft" /></StaggerItem>
+        <StaggerItem><StatCard icon={MessageCircle} label="پست‌های بلاگ" value={<CountUp value={Number(s.blogPosts ?? 0)} />} tone="blossom" /></StaggerItem>
+        <StaggerItem><StatCard icon={Send} label="پیام شاد ارسال‌شده" value={<CountUp value={Number(s.shadSent ?? 0)} />} tone="ink" /></StaggerItem>
+        <StaggerItem><StatCard icon={BellPlus} label="اعلان‌ها" value={<CountUp value={Number(s.notifications ?? 0)} />} tone="warning" hint={`${faNumber(Number(s.messages ?? 0))} پیام`} /></StaggerItem>
+      </StaggerGroup>
+
       {/* چارت‌های اصلی */}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="b-card-md p-5 lg:col-span-2">
@@ -222,6 +233,37 @@ function ServiceDashboard({ data }: { data: Dash }) {
             <HealthMiniRow label="تیکت‌های باز" ok={Number(s.openTickets ?? 0) < 5} okText={`${faNumber(Number(s.openTickets ?? 0))} مورد`} badText={`${faNumber(Number(s.openTickets ?? 0))} مورد`} />
             <HealthMiniRow label="هسته سرویس" ok okText="در حال اجرا" badText="" />
           </div>
+        </div>
+      </div>
+
+      {/* رشد کاربران و دانش‌آموزان (۱۲ ماه اخیر، انباشته) */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="b-card-md p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-bold">رشد کاربران (۱۲ ماه اخیر)</h3>
+            <span className="b-badge b-badge-neutral">مجموع {faNumber(Number(s.users ?? 0))} کاربر</span>
+          </div>
+          <LineChart
+            data={usersGrowth.map((g) => ({
+              label: JALALI_MONTHS[(jalaliParts(new Date(`${g.month}-15`)).m - 1)] ?? g.month,
+              value: g.count,
+            }))}
+            height={150}
+          />
+        </div>
+        <div className="b-card-md p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-bold">رشد دانش‌آموزان (۱۲ ماه اخیر)</h3>
+            <span className="b-badge b-badge-neutral">مجموع {faNumber(Number(s.students ?? 0))} دانش‌آموز</span>
+          </div>
+          <LineChart
+            data={studentsGrowth.map((g) => ({
+              label: JALALI_MONTHS[(jalaliParts(new Date(`${g.month}-15`)).m - 1)] ?? g.month,
+              value: g.count,
+            }))}
+            height={150}
+            color="#e5548b"
+          />
         </div>
       </div>
 
@@ -267,6 +309,42 @@ function ServiceDashboard({ data }: { data: Dash }) {
             <BarChart data={topSchools.map((t) => ({ label: t.name, value: t.students }))} max={Math.max(...topSchools.map((t) => t.students), 1)} suffix=" نفر" />
           )}
         </div>
+
+      {/* جدول همهٔ مدارس فعال */}
+      <div className="b-card-md p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-bold">همهٔ مدارس فعال</h3>
+          <Link href="/app/schools" className="text-[11.5px] font-bold text-spring-deep hover:underline">مدیریت مدارس</Link>
+        </div>
+        {allSchools.length === 0 ? (
+          <p className="t-sm text-steel py-6 text-center">مدرسه‌ای ثبت نشده است</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-[12.5px]">
+              <thead>
+                <tr className="text-steel text-start border-b border-hairline-soft">
+                  <th className="text-start font-bold py-2 pe-3">مدرسه</th>
+                  <th className="text-start font-bold py-2 pe-3">دانش‌آموز</th>
+                  <th className="text-start font-bold py-2 pe-3">معلم</th>
+                  <th className="text-start font-bold py-2">کلاس</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allSchools.map((sc) => (
+                  <tr key={sc.id} className="border-b border-hairline-soft/60 last:border-0 hover:bg-spring-tint/40 transition-colors">
+                    <td className="py-2.5 pe-3 font-bold">
+                      <Link href="/app/schools" className="hover:underline hover:text-spring-deep">{sc.name}</Link>
+                    </td>
+                    <td className="py-2.5 pe-3">{faNumber(sc.students)}</td>
+                    <td className="py-2.5 pe-3">{faNumber(sc.teachers)}</td>
+                    <td className="py-2.5">{faNumber(sc.classes)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
       {/* آخرین ثبت‌نام‌ها + تیکت‌ها */}
       <div className="grid gap-6 lg:grid-cols-3">
