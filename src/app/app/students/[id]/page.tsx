@@ -141,7 +141,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
           {data.tags.map((t) => (
             <span key={t} className="b-badge b-badge-blossom group">
               {t}
-              {data.canEdit && <button onClick={() => removeTag(t)} className="opacity-50 hover:opacity-100"><X className="w-3 h-3" /></button>}
+              {data.canEdit && <button onClick={() => removeTag(t)} className="b-btn b-btn-ghost opacity-50 hover:opacity-100"><X className="w-3 h-3" /></button>}
             </span>
           ))}
           {data.canEdit && (
@@ -149,7 +149,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
               <span className="flex items-center gap-1">
                 <input value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTag()}
                   placeholder="تگ جدید…" className="b-input !h-8 !text-[11px] !w-24 !px-2" autoFocus />
-                <button onClick={addTag} className="text-spring-deep"><CheckCircle2 className="w-4 h-4" /></button>
+                <button onClick={addTag} className="b-btn b-btn-ghost text-spring-deep"><CheckCircle2 className="w-4 h-4" /></button>
               </span>
             ) : (
               <button onClick={() => setShowTagInput(true)} className="b-badge b-badge-neutral hover:bg-spring-tint cursor-pointer"><Plus className="w-3 h-3" /> تگ</button>

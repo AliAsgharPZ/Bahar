@@ -168,7 +168,7 @@ export default function QuizzesPage() {
                         {q.status !== "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "OPEN")}><Play className="w-3.5 h-3.5" /> انتشار</button>}
                         {q.status === "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "CLOSED")}><Lock className="w-3.5 h-3.5" /> بستن</button>}
                         {q.status === "CLOSED" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "DRAFT")}><Undo2 className="w-3.5 h-3.5" /> پیش‌نویس</button>}
-                        <button className="b-icon-btn" title="حذف آزمون" onClick={() => remove(q)}><Trash2 className="w-4 h-4" /></button>
+                        <button className="b-btn b-btn-ghost b-icon-btn" title="حذف آزمون" onClick={() => remove(q)}><Trash2 className="w-4 h-4" /></button>
                       </span>
                     </td>
                   </tr>

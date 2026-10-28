@@ -311,7 +311,7 @@ export default function UsersPage() {
       <div className="flex flex-wrap items-center gap-3">
         <div className="b-search-pill max-w-xs">
           <Search className="w-4 h-4 shrink-0" />
-          <input
+          <input className="b-input"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="جست‌وجوی نام یا کد ملی…"
@@ -609,7 +609,7 @@ export default function UsersPage() {
                   <p className="t-cap text-stone mb-3">از کلی‌ترین تا جزئی‌ترین — هر عیب، بعدا هم قابل تغییر است.</p>
                   <div className="b-search-pill mb-3 max-w-xs">
                     <Search className="w-4 h-4" />
-                    <input value={permFilter} onChange={(e) => setPermFilter(e.target.value)} placeholder="جست‌وجوی دسترسی…" />
+                    <input className="b-input" value={permFilter} onChange={(e) => setPermFilter(e.target.value)} placeholder="جست‌وجوی دسترسی…" />
                   </div>
                   <div className="flex flex-col gap-4">
                     {filteredGroups.length === 0 ? (<p className="text-[11px] text-steel">دسترسی‌ای با این عبارت پیدا نشد.</p>) : filteredGroups.map((g) => (
@@ -617,10 +617,10 @@ export default function UsersPage() {
                         <div className="flex items-center justify-between mb-1">
                           <b className="text-[12.5px]">{g.group}</b>
                           <div className="flex items-center gap-2">
-                            <button type="button" className="text-[10.5px] text-spring font-bold hover:underline" onClick={() => g.items.forEach((i) => { if (!form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
+                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-spring font-bold hover:underline" onClick={() => g.items.forEach((i) => { if (!form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
                               انتخاب همه
                             </button>
-                            <button type="button" className="text-[10.5px] text-steel hover:underline" onClick={() => g.items.forEach((i) => { if (form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
+                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-steel hover:underline" onClick={() => g.items.forEach((i) => { if (form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
                               هیچ
                             </button>
                           </div>
@@ -796,10 +796,10 @@ export default function UsersPage() {
                         <div className="flex items-center justify-between mb-2">
                           <b className="text-[12px]">{g.group}</b>
                           <div className="flex items-center gap-2">
-                            <button type="button" className="text-[10.5px] text-spring font-bold" onClick={() => g.items.forEach((i) => { if (!editPerms.includes(i.key)) setEditPerms((ps) => [...ps, i.key]); })}>
+                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-spring font-bold" onClick={() => g.items.forEach((i) => { if (!editPerms.includes(i.key)) setEditPerms((ps) => [...ps, i.key]); })}>
                               همه
                             </button>
-                            <button type="button" className="text-[10.5px] text-steel" onClick={() => setEditPerms((ps) => ps.filter((x) => !g.items.some((i) => i.key === x)))}>
+                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-steel" onClick={() => setEditPerms((ps) => ps.filter((x) => !g.items.some((i) => i.key === x)))}>
                               هیچ
                             </button>
                           </div>

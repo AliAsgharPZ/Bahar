@@ -176,7 +176,7 @@ export default function CertificatesPage() {
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="b-badge b-badge-spring">{KINDS[t.kind]}</span>
                   <span className="text-[13px] font-bold flex-1">{t.title}</span>
-                  <button onClick={async () => { if (!(await confirm({ title: "حذف قالب گواهی", description: "این قالب گواهی حذف شود؟", confirmLabel: "حذف", danger: true }))) return; apiDelete(`/api/certificates?template=${t.id}`).then(load).catch((e) => toast.error(e instanceof Error ? e.message : "خطا در حذف قالب")); }} className="opacity-0 group-hover:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={async () => { if (!(await confirm({ title: "حذف قالب گواهی", description: "این قالب گواهی حذف شود؟", confirmLabel: "حذف", danger: true }))) return; apiDelete(`/api/certificates?template=${t.id}`).then(load).catch((e) => toast.error(e instanceof Error ? e.message : "خطا در حذف قالب")); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
                 <p className="text-[11px] text-steel line-clamp-3 leading-relaxed">{t.bodyTemplate}</p>
               </div>

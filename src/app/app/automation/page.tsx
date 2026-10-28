@@ -105,7 +105,7 @@ export default function AutomationPage() {
                 <button onClick={() => toggle(r)} className={`b-btn b-btn-sm !min-h-[28px] !text-[10px] !px-2.5 !py-0 ${r.active ? "b-btn-ghost" : "b-btn-spring"}`}>
                   <Power className="w-3.5 h-3.5" /> {r.active ? "خاموش" : "روشن"}
                 </button>
-                <button onClick={() => remove(r.id)} className="text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => remove(r.id)} className="b-btn b-btn-ghost text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
               </motion.div>
             );
           })}

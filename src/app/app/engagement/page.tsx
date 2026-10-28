@@ -158,7 +158,7 @@ function EngagementInner() {
                     const my = p.myVotes.includes(o.id);
                     return (
                       <button key={o.id} disabled={voted || closed} onClick={() => vote(p.id, o.id)}
-                        className={`relative text-start p-3 rounded-2xl border transition-all overflow-hidden ${my ? "border-spring bg-spring-tint/50" : voted || closed ? "border-transparent bg-cloud" : "border-transparent bg-cloud hover:border-spring/40"}`}>
+                        className={`b-btn b-btn-ghost relative text-start p-3 rounded-2xl border transition-all overflow-hidden ${my ? "border-spring bg-spring-tint/50" : voted || closed ? "border-transparent bg-cloud" : "border-transparent bg-cloud hover:border-spring/40"}`}>
                         <motion.span initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
                           className={`absolute inset-y-0 start-0 ${my ? "bg-spring/20" : "bg-spring-tint"}`} />
                         <span className="relative flex items-center gap-2">

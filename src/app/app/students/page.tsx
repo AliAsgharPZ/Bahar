@@ -343,7 +343,7 @@ export default function StudentsPage() {
       <div className="flex flex-wrap items-center gap-3">
         <div className="b-search-pill max-w-xs">
           <Search className="w-4 h-4 shrink-0" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="نام، کد ملی یا شماره…" />
+          <input className="b-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="نام، کد ملی یا شماره…" />
         </div>
         <Select
           value={classId}
@@ -367,8 +367,8 @@ export default function StudentsPage() {
         </span>
         {savedViews.map((v) => (
           <span key={v.id} className="b-pill-tab !cursor-default group">
-            <button className="hover:text-spring font-bold" onClick={() => applyView(v)} title="اعمال فیلترهای ذخیره‌شده">{v.name}</button>
-            <button className="text-stone hover:text-blossom" onClick={() => deleteView(v.id)} title="حذف نمایه">
+            <button className="b-btn b-btn-ghost hover:text-spring font-bold" onClick={() => applyView(v)} title="اعمال فیلترهای ذخیره‌شده">{v.name}</button>
+            <button className="b-btn b-btn-ghost text-stone hover:text-blossom" onClick={() => deleteView(v.id)} title="حذف نمایه">
               <X className="w-3 h-3" />
             </button>
           </span>
@@ -625,7 +625,7 @@ export default function StudentsPage() {
                       <span className="font-mono text-[11px] text-steel" dir="ltr">{p.parentUser.nationalId}</span>
                       <button
                         type="button"
-                        className="text-[11px] font-bold text-destructive hover:underline"
+                        className="b-btn b-btn-ghost text-[11px] font-bold text-destructive hover:underline"
                         onClick={() => setRemovedParents((rs) => (removed ? rs.filter((x) => x !== p.parentUserId) : [...rs, p.parentUserId]))}
                       >
                         {removed ? "بازگردانی" : "حذف پیوند"}

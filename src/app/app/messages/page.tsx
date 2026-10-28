@@ -210,7 +210,7 @@ export default function MessagesPage() {
           <div className="p-3 border-b border-hairline-soft shrink-0">
             <div className="b-search-pill">
               <Search className="w-4 h-4 shrink-0" />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی مخاطب…" />
+              <input className="b-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی مخاطب…" />
             </div>
           </div>
           <div className="flex-1 overflow-y-auto b-scroll">
@@ -225,7 +225,7 @@ export default function MessagesPage() {
               <button
                 key={t.partner.id}
                 onClick={() => pickContact(t.partner)}
-                className={`w-full text-right px-4 py-3.5 flex items-center gap-3 border-b border-hairline-soft/50 transition-colors ${
+                className={`b-btn b-btn-ghost w-full text-right px-4 py-3.5 flex items-center gap-3 border-b border-hairline-soft/50 transition-colors ${
                   active?.id === t.partner.id ? "bg-spring-tint" : "hover:bg-cloud"
                 }`}
               >
@@ -374,7 +374,7 @@ export default function MessagesPage() {
                   value={contactQ}
                   onChange={(e) => setContactQ(e.target.value)}
                   placeholder="جستجوی نام، نقش یا مدرسه…"
-                  className="flex-1 bg-transparent outline-none text-[13px] min-w-0"
+                  className="b-input flex-1 bg-transparent outline-none text-[13px] min-w-0"
                 />
                 {contactQ && (
                   <button onClick={() => setContactQ("")} className="text-stone hover:text-foreground text-[16px] leading-none shrink-0" aria-label="پاک‌کردن جستجو">
@@ -400,7 +400,7 @@ export default function MessagesPage() {
                           prev.includes(g.key) ? prev.filter((x) => x !== g.key) : [...prev, g.key]
                         )
                       }
-                      className="w-full flex items-center gap-2 py-1.5 mb-1 text-start group"
+                      className="b-btn b-btn-ghost w-full flex items-center gap-2 py-1.5 mb-1 text-start group"
                       aria-expanded={!collapsed}
                     >
                       <ChevronDown
@@ -416,7 +416,7 @@ export default function MessagesPage() {
                           <button
                             key={c.id}
                             onClick={() => pickContact(c)}
-                            className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 text-right hover:border-spring/40 transition-colors"
+                            className="b-btn b-btn-ghost b-card-sm !rounded-xl p-3.5 flex items-center gap-3 text-right hover:border-spring/40 transition-colors"
                           >
                             <UserAvatar user={c} size={40} />
                             <span className="flex flex-col min-w-0 flex-1">

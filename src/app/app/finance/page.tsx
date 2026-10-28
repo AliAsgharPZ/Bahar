@@ -211,7 +211,7 @@ export default function FinancePage() {
       <div className="flex flex-wrap items-center gap-2">
         <div className="b-search-pill max-w-xs">
           <Search className="w-4 h-4" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی عنوان یا دانش‌آموز…" />
+          <input className="b-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی عنوان یا دانش‌آموز…" />
         </div>
         {["", "UNPAID", "PAID", "WAIVED"].map((st) => (
           <button key={st || "all"} className={`b-pill-tab ${status === st ? "b-pill-tab-active" : ""}`} onClick={() => setStatus(st)}>

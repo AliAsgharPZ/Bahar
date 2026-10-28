@@ -203,7 +203,7 @@ export default function SchoolsPage() {
 
       <div className="b-search-pill max-w-xs">
         <Search className="w-4 h-4" />
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی نام، کد یا شهرستان…" />
+        <input className="b-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی نام، کد یا شهرستان…" />
       </div>
 
       {loading && <LoadingBlock />}
@@ -481,7 +481,7 @@ export default function SchoolsPage() {
                   <button
                     type="button"
                     onClick={() => setEditShad((v) => !v)}
-                    className={`b-option !items-start !py-3.5 ${editShad ? "b-option-selected" : ""}`}
+                    className={`b-btn b-btn-ghost b-option !items-start !py-3.5 ${editShad ? "b-option-selected" : ""}`}
                     aria-pressed={editShad}
                   >
                     <span className="flex flex-col items-start gap-0.5">
@@ -497,7 +497,7 @@ export default function SchoolsPage() {
                   <button
                     type="button"
                     onClick={() => setEditCustodian((v) => !v)}
-                    className={`b-option !items-start !py-3.5 ${editCustodian ? "b-option-selected" : ""}`}
+                    className={`b-btn b-btn-ghost b-option !items-start !py-3.5 ${editCustodian ? "b-option-selected" : ""}`}
                     aria-pressed={editCustodian}
                   >
                     <span className="flex flex-col items-start gap-0.5">

@@ -190,7 +190,7 @@ export default function InsightsPage() {
             <b className="text-[13px]">{detail.student.name}</b>
             {detail.student.className && <span className="b-badge b-badge-neutral">{detail.student.className}</span>}
             <span className={`b-badge ${LEVEL_BADGE[detail.risk.level]} ms-auto`}>{LEVEL_LABELS[detail.risk.level]} — {faNumber(detail.risk.score)}</span>
-            <button className="text-steel hover:text-ink" onClick={() => setDetail(null)}>✕</button>
+            <button className="b-btn b-btn-ghost text-steel hover:text-ink" onClick={() => setDetail(null)}>✕</button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {detail.risk.factors.map((f) => (
@@ -228,7 +228,7 @@ export default function InsightsPage() {
                   کپی متن
                 </button>
               )}
-              <button className="text-steel hover:text-ink" onClick={() => { setNarrative(null); setNarrLoading(false); }}>✕</button>
+              <button className="b-btn b-btn-ghost text-steel hover:text-ink" onClick={() => { setNarrative(null); setNarrLoading(false); }}>✕</button>
             </div>
           </div>
           {narrLoading && <LoadingBlock label="تولید روایت…" />}

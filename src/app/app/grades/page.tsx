@@ -279,7 +279,7 @@ export default function GradesPage() {
                                   {g.locked && <Lock className="w-3 h-3 text-warning-deep" />}
                                   {canUndo && (
                                     <button
-                                      className="text-steel hover:text-spring transition-colors"
+                                      className="b-btn b-btn-ghost text-steel hover:text-spring transition-colors"
                                       onClick={() => undoGrade(h.id)}
                                       title={`بازگردانی به ${h.oldScore !== null ? faNumber(h.oldScore) : "—"}`}
                                     >

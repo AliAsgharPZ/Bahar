@@ -141,7 +141,7 @@ export default function TasksPage() {
                         <div className="flex items-start gap-2">
                           <span className="flex-1 text-[12.5px] font-bold leading-snug">{t.title}</span>
                           {canManage && (
-                            <button onClick={() => remove(t.id)} className="opacity-0 group-hover:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 text-stone hover:text-destructive transition-all shrink-0">
+                            <button onClick={() => remove(t.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 text-stone hover:text-destructive transition-all shrink-0">
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           )}

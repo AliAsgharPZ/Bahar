@@ -475,7 +475,7 @@ export default function ImportsPage() {
                   key={x.type}
                   onClick={() => exportExcel(x.type)}
                   disabled={busy !== null}
-                  className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 text-start hover:border-spring/40 transition-colors group"
+                  className="b-btn b-btn-ghost b-card-sm !rounded-xl p-3.5 flex items-center gap-3 text-start hover:border-spring/40 transition-colors group"
                 >
                   <span className="w-10 h-10 rounded-xl bg-spring-tint text-spring-deep flex items-center justify-center shrink-0">
                     <x.icon className="w-5 h-5" />

@@ -221,7 +221,7 @@ export default function TransportPage() {
                         <td className="p-2">{(a.route as RouteRow).name}</td>
                         <td className="p-2">{a.stopName ?? "—"}</td>
                         <td className="p-2">{a.monthlyFee ? `${faNumber(a.monthlyFee)} تومان` : "—"}</td>
-                        <td className="p-2"><button className="text-destructive" disabled={busy === a.id} onClick={() => unassign(a)}><X className="w-4 h-4" /></button></td>
+                        <td className="p-2"><button className="b-btn b-btn-ghost text-destructive" disabled={busy === a.id} onClick={() => unassign(a)}><X className="w-4 h-4" /></button></td>
                       </tr>
                     ))}
                   </tbody>
@@ -261,7 +261,7 @@ export default function TransportPage() {
             {hits.length > 0 && !picked && (
               <div className="flex flex-col gap-1 max-h-44 overflow-y-auto b-scroll">
                 {hits.map((s) => (
-                  <button key={s.id} className="b-card-sm !rounded-xl p-2.5 text-start text-[13px]" onClick={() => setPicked(s)}>
+                  <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-xl p-2.5 text-start text-[13px]" onClick={() => setPicked(s)}>
                     <b>{s.user.firstName} {s.user.lastName}</b> <span className="text-steel">{s.class?.name ?? ""}</span>
                   </button>
                 ))}

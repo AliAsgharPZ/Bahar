@@ -201,7 +201,7 @@ export default function WebsiteEditorPage() {
               <button
                 key={t.id}
                 onClick={() => { setTemplateId(t.id); setConfig((c) => (c ? { ...c, palette: 0 } : c)); }}
-                className={`b-card p-5 text-right transition-all ${active ? "!border-spring ring-2 ring-spring/25" : "hover:border-spring/40"}`}
+                className={`b-btn b-btn-ghost b-card p-5 text-right transition-all ${active ? "!border-spring ring-2 ring-spring/25" : "hover:border-spring/40"}`}
               >
                 <div
                   className="h-28 rounded-2xl mb-4 relative overflow-hidden"
@@ -243,7 +243,7 @@ export default function WebsiteEditorPage() {
                 <button
                   key={pi}
                   onClick={() => patchConfig({ palette: pi })}
-                  className={`b-option !py-2.5 !px-4 ${config?.palette === pi ? "b-option-selected" : ""}`}
+                  className={`b-btn b-btn-ghost b-option !py-2.5 !px-4 ${config?.palette === pi ? "b-option-selected" : ""}`}
                 >
                   <span className="w-5 h-5 rounded-full" style={{ background: pal.primary }} />
                   <span className="w-4 h-4 rounded-full" style={{ background: pal.accent }} />
@@ -327,7 +327,7 @@ export default function WebsiteEditorPage() {
               ))}
               <button
                 type="button"
-                className="aspect-[4/3] rounded-xl border-2 border-dashed border-hairline flex flex-col items-center justify-center gap-1 text-steel hover:border-spring/50 hover:text-spring transition-colors"
+                className="b-btn b-btn-ghost aspect-[4/3] rounded-xl border-2 border-dashed border-hairline flex flex-col items-center justify-center gap-1 text-steel hover:border-spring/50 hover:text-spring transition-colors"
                 onClick={() => pickFile("gallery")}
                 disabled={uploading === "gallery"}
               >

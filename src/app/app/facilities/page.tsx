@@ -120,7 +120,7 @@ function FacilitiesInner() {
               <motion.div key={r.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} className="b-card-sm p-4 group">
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-[14px]">{r.name}</p>
-                  <button onClick={() => del("room", r.id)} className="opacity-0 group-hover:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={() => del("room", r.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
                 <p className="text-[11.5px] text-steel mt-1">ظرفیت {faNumber(r.capacity)} نفر{r.floor ? ` · طبقه ${faNumber(r.floor)}` : ""}</p>
               </motion.div>
@@ -207,7 +207,7 @@ function FacilitiesInner() {
                     {a.status === "OK" ? "ثبت خرابی" : "سالم شد"}
                   </button>
                   <a href={`/api/qr/asset/${a.id}`} target="_blank" rel="noreferrer" className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0"><QrCode className="w-3 h-3" /> QR</a>
-                  <button onClick={() => del("asset", a.id)} className="opacity-0 group-hover:opacity-100 text-stone hover:text-destructive ms-auto"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={() => del("asset", a.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 text-stone hover:text-destructive ms-auto"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </motion.div>
             ))}

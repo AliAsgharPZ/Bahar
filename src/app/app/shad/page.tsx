@@ -408,7 +408,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
+        className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
       >
         <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
         اتصال واقعی با توکن شاد (اختیاری — برای ارسال به تلفن‌های واقعی)
@@ -458,7 +458,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
           <button
             type="button"
             onClick={() => setGuideOpen((o) => !o)}
-            className="flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
+            className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
           >
             <ChevronDown className={`w-4 h-4 transition-transform ${guideOpen ? "rotate-180" : ""}`} />
             توکن شاد را چطور بگیرم؟

@@ -132,7 +132,7 @@ export default function FormsPage() {
                 <div key={i} className="b-card-sm !rounded-xl p-3 flex flex-col gap-2">
                   <div className="flex gap-2">
                     <input className="b-input flex-1" placeholder="عنوان فیلد (مثلاً نام و نام خانوادگی ولی)" value={f.label} onChange={(e) => setFields(fields.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} />
-                    <button className="text-destructive shrink-0" onClick={() => setFields(fields.filter((_, j) => j !== i))}><X className="w-4 h-4" /></button>
+                    <button className="b-btn b-btn-ghost text-destructive shrink-0" onClick={() => setFields(fields.filter((_, j) => j !== i))}><X className="w-4 h-4" /></button>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     <div className="w-44">

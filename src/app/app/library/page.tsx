@@ -149,10 +149,10 @@ export default function LibraryPage() {
                         <button className="b-btn b-btn-soft b-btn-sm" disabled={b.available === 0 || busy} onClick={() => { setLoanFor(b); setStudents([]); setStudentQ(""); }}>
                           <HandHeart className="w-3.5 h-3.5" /> امانت
                         </button>
-                        <button className="b-icon-btn" title="ویرایش" onClick={() => { setEditing(b); setForm({ title: b.title, author: b.author ?? "", isbn: b.isbn ?? "", category: b.category ?? "", shelf: b.shelf ?? "", totalCopies: b.totalCopies }); setShowForm(true); }}>
+                        <button className="b-btn b-btn-ghost b-icon-btn" title="ویرایش" onClick={() => { setEditing(b); setForm({ title: b.title, author: b.author ?? "", isbn: b.isbn ?? "", category: b.category ?? "", shelf: b.shelf ?? "", totalCopies: b.totalCopies }); setShowForm(true); }}>
                           <Pencil className="w-4 h-4" />
                         </button>
-                        <button className="b-icon-btn" title="حذف" onClick={() => deleteBook(b)}>
+                        <button className="b-btn b-btn-ghost b-icon-btn" title="حذف" onClick={() => deleteBook(b)}>
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </span>
@@ -253,7 +253,7 @@ export default function LibraryPage() {
             </div>
             <div className="flex flex-col gap-1.5 max-h-64 overflow-y-auto">
               {students.map((s) => (
-                <button key={s.id} disabled={busy} onClick={() => loanTo(s.id)} className="text-start p-2.5 rounded-lg border border-[--hairline] hover:border-[--spring] transition-colors">
+                <button key={s.id} disabled={busy} onClick={() => loanTo(s.id)} className="b-btn b-btn-ghost text-start p-2.5 rounded-lg border border-[--hairline] hover:border-[--spring] transition-colors">
                   <span className="font-semibold text-[13px]">{s.user.firstName} {s.user.lastName}</span>
                   <span className="text-[11.5px] text-stone ms-2">{s.class?.name ?? "بدون کلاس"}{s.studentNumber ? ` · ${s.studentNumber}` : ""}</span>
                 </button>
