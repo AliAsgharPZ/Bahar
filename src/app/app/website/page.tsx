@@ -393,7 +393,7 @@ export default function WebsiteEditorPage() {
               <label key={key} className={`b-option !py-3 ${config.sections[key] ? "b-option-selected" : ""}`}>
                 <input
                   type="checkbox"
-                  className="accent-[#00825e] w-4 h-4"
+                  className="accent-spring w-4 h-4"
                   checked={config.sections[key]}
                   onChange={() => toggleSection(key)}
                 />

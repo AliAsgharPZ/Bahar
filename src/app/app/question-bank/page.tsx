@@ -74,17 +74,17 @@ export default function QuestionBankPage() {
     w.document.write(`<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>${mode === "answers" ? "پاسخنامه" : "برگه سوال"}</title>
     <style>
       @page { size: A4; margin: 18mm 16mm; }
-      body { font-family: Vazirmatn, Tahoma, sans-serif; color: #0b1416; font-size: 12.5pt; line-height: 1.9; }
-      .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid #0b1416; padding-bottom: 8mm; margin-bottom: 6mm; }
+      body { font-family: Vazirmatn, Tahoma, sans-serif; color: var(--ink-deep); font-size: 12.5pt; line-height: 1.9; }
+      .head { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid var(--ink-deep); padding-bottom: 8mm; margin-bottom: 6mm; }
       .head h1 { font-size: 14pt; margin: 0; }
       .meta { font-size: 10pt; }
-      .meta span { display: inline-block; border: 1px solid #0b1416; padding: 2mm 8mm; margin-left: 3mm; }
+      .meta span { display: inline-block; border: 1px solid var(--ink-deep); padding: 2mm 8mm; margin-left: 3mm; }
       .q { page-break-inside: avoid; margin-bottom: 5mm; }
       .qnum { font-weight: bold; margin: 0 0 1mm; }
       .opts { display: flex; flex-wrap: wrap; gap: 2mm 8mm; padding-right: 8mm; font-size: 11.5pt; }
-      .ans { background: #f2f6f3; padding: 1.5mm 3mm; border-right: 2pt solid #0b1416; margin-top: 1mm; font-size: 11pt; }
+      .ans { background: var(--cloud); padding: 1.5mm 3mm; border-right: 2pt solid var(--ink-deep); margin-top: 1mm; font-size: 11pt; }
       img { max-width: 60mm; filter: grayscale(1) contrast(1.15); display: block; margin: 2mm 0; }
-      .foot { margin-top: 8mm; border-top: 1px solid #0b1416; padding-top: 2mm; font-size: 9.5pt; display: flex; justify-content: space-between; }
+      .foot { margin-top: 8mm; border-top: 1px solid var(--ink-deep); padding-top: 2mm; font-size: 9.5pt; display: flex; justify-content: space-between; }
     </style></head><body>
     <div class="head"><h1>${mode === "answers" ? "پاسخنامه آزمون" : "برگه سوالات آزمون"}</h1><div class="meta"><span>نام و نام خانوادگی:</span><span>تعداد سوال: ${toFa(chosen.length)}</span><span>تاریخ: ــــــــ</span></div></div>
     ${items}
@@ -173,7 +173,7 @@ export default function QuestionBankPage() {
             const opts = JSON.parse(q.options || "[]") as string[];
             return (
               <label key={q.id} className={`b-card-sm p-4 flex items-start gap-3 cursor-pointer transition-colors ${selected.has(q.id) ? "!border-spring bg-spring-tint/30" : "hover:bg-cloud"}`}>
-                <input type="checkbox" checked={selected.has(q.id)} onChange={() => toggle(q.id)} className="mt-1 w-4 h-4 accent-[#00825e] shrink-0" />
+                <input type="checkbox" checked={selected.has(q.id)} onChange={() => toggle(q.id)} className="mt-1 w-4 h-4 accent-spring shrink-0" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     {q.subject && <span className="b-badge b-badge-neutral">{q.subject.name}</span>}

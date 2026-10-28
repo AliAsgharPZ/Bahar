@@ -385,7 +385,7 @@ export default function SchoolsPage() {
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.managerNationalId} onChange={(e) => set("managerNationalId", enDigits(e.target.value))} />
                     {isSuper && (
                       <label className="flex items-center gap-2 text-[11px] text-steel mt-0.5 cursor-pointer">
-                        <input type="checkbox" className="accent-[#00825e] w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
+                        <input type="checkbox" className="accent-spring w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
                         ثبت با کد نامعتبر (سوپرادمین)
                       </label>
                     )}

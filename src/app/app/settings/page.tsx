@@ -260,7 +260,7 @@ export default function SettingsPage() {
           <div className="b-card p-5 flex flex-col gap-4">
             <b className="text-[13.5px]">حساب دمو (صفحه معرفی)</b>
             <label className="b-option !py-3 items-center gap-3">
-              <input type="checkbox" className="accent-[#00825e] w-4 h-4" checked={form.demoEnabled} onChange={(e) => set("demoEnabled", e.target.checked)} />
+              <input type="checkbox" className="accent-spring w-4 h-4" checked={form.demoEnabled} onChange={(e) => set("demoEnabled", e.target.checked)} />
               <span className="flex flex-col">
                 <b className="text-[12.5px]">نمایش حساب دمو در صفحه معرفی</b>
                 <span className="text-[10.5px] text-steel">برای تست مدیران مدارس جدید — کدملی و رمز دمو روی همان صفحه نمایش داده می‌شود.</span>

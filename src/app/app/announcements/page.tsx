@@ -203,7 +203,7 @@ export default function AnnouncementsPage() {
                     <label key={r.value} className={`b-option !py-2.5 ${checked ? "b-option-selected" : ""}`}>
                       <input
                         type="checkbox"
-                        className="accent-[#00825e] w-4 h-4"
+                        className="accent-spring w-4 h-4"
                         checked={checked}
                         onChange={() =>
                           setForm((f) => ({
@@ -247,7 +247,7 @@ export default function AnnouncementsPage() {
             <label className="b-option !py-2.5">
               <input
                 type="checkbox"
-                className="accent-[#00825e] w-4 h-4"
+                className="accent-spring w-4 h-4"
                 checked={form.pinned}
                 onChange={(e) => setForm((f) => ({ ...f, pinned: e.target.checked }))}
               />
