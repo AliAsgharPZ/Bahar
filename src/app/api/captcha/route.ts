@@ -3,7 +3,7 @@ import { generateCaptcha } from "@/lib/captcha";
 import { apiErr, handleApiError, rateLimit, ipOf } from "@/lib/api";
 
 /**
- * GET /api/captcha — چالش کپچای امن (SVG فارسی اعوجاج‌دار).
+ * GET /api/captcha — چالش کپچای امن (SVG انگلیسی اعوجاج‌دار).
  * برای لاگین پس از تلاش‌های ناموفق و نقاط حساس با رفتار مشکوک.
  * محدودیت نرخ دارد تا خودش هدف اسپم نشود.
  */

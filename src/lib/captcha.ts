@@ -3,18 +3,19 @@ import { getSessionSecret } from "@/lib/secret";
 
 // ============================================================
 // بهار | کپچای امن سرور-ساید — بدون وابستگی خارجی
-//SVG فارسی اعوجاج‌دار + امضای HMAC-SHA256 + یک‌بارمصرف (nonce) +
+//SVG انگلیسی اعوجاج‌دار + امضای HMAC-SHA256 + یک‌بارمصرف (nonce) +
 // عمر کوتاه + مقایسه زمان-ثابت. برای لاگین و نقاط حساس با رفتار مشکوک.
+// نویسه‌های کپچا انگلیسی‌اند (ارقام و حروف لاتین بدون اشتباه‌پذیری).
 // ============================================================
 
 const CAPTCHA_TTL_MS = 120_000; // عمر چالش: ۲ دقیقه
 const MAX_ATTEMPTS_PER_CHALLENGE = 3; // هر چالش حداکثر ۳ بار قابل پاسخ
 const CODE_LEN = 5;
 
-/** ارقام فارسی بدون اشتباه‌پذیری (۰/۵ و ۱/۷ حذف) */
-const DIGITS = ["۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-/** حروف فارسی کم‌اشتباه برای قدرت بیشتر */
-const LETTERS = ["ب", "پ", "ت", "ث", "ج", "چ", "ح", "خ", "س", "ش", "ص", "ط", "ع", "غ", "ق", "ک", "گ", "م", "ن", "و", "ه"];
+/** ارقام انگلیسی بدون اشتباه‌پذیری (۰ و ۱ حذف) */
+const DIGITS = ["2", "3", "4", "5", "6", "7", "8", "9"];
+/** حروف لاتین کم‌اشتباه برای قدرت بیشتر (I و L و O و Q حذف) */
+const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "M", "N", "P", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 function secret(): string {
   return getSessionSecret();
@@ -59,7 +60,8 @@ function randomCode(): string {
   return chars.join("");
 }
 
-/** نرمال‌سازی پاسخ کاربر: ارقام فارسی→انگلیسی، حذف فاصله/نیم‌فاصله، حروف کوچک */
+/** نرمال‌سازی پاسخ کاربر: ارقام فارسی/عربی→انگلیسی، حذف فاصله/نیم‌فاصله، حروف کوچک
+ * (سازگاری با پاسخ‌های قدیمی؛ کدهای تازه فقط لاتین‌اند) */
 export function normalizeCaptchaAnswer(input: string): string {
   const faToEn: Record<string, string> = {
     "۰": "0", "۱": "1", "۲": "2", "۳": "3", "۴": "4", "۵": "5", "۶": "6", "۷": "7", "۸": "8", "۹": "9",
@@ -81,7 +83,7 @@ const INK = ["#0b3d2e", "#082c22", "#5c1338", "#6b4a00", "#123a5c"];
 function renderSvg(code: string): string {
   const W = 190;
   const H = 64;
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="کد امنیتی">`;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Security code">`;
   // پس‌زمینه با نویز ملایم
   svg += `<rect width="${W}" height="${H}" fill="#f2f6f3"/>`;
   for (let i = 0; i < 3; i += 1) {
@@ -106,7 +108,7 @@ function renderSvg(code: string): string {
     const rot = Math.random() * 44 - 22;
     const fs = 26 + Math.random() * 8;
     const col = INK[Math.floor(Math.random() * INK.length)];
-    svg += `<text x="${cx.toFixed(1)}" y="${cy.toFixed(1)}" font-family="Vazirmatn, Tahoma, 'Segoe UI', sans-serif" font-size="${fs.toFixed(1)}" font-weight="700" fill="${col}" text-anchor="middle" dominant-baseline="central" transform="rotate(${rot.toFixed(1)} ${cx.toFixed(1)} ${cy.toFixed(1)}) skewX(${(Math.random() * 10 - 5).toFixed(1)})">${code[i]}</text>`;
+    svg += `<text x="${cx.toFixed(1)}" y="${cy.toFixed(1)}" font-family="Arial, 'Segoe UI', sans-serif" font-size="${fs.toFixed(1)}" font-weight="700" fill="${col}" text-anchor="middle" dominant-baseline="central" transform="rotate(${rot.toFixed(1)} ${cx.toFixed(1)} ${cy.toFixed(1)}) skewX(${(Math.random() * 10 - 5).toFixed(1)})">${code[i]}</text>`;
   }
   svg += `</svg>`;
   return svg;
@@ -120,7 +122,7 @@ export type CaptchaChallenge = { token: string; image: string; expiresInSeconds:
 export function generateCaptcha(): CaptchaChallenge {
   const code = randomCode();
   const nonce = randomBytes(12).toString("base64url");
-  // هش از نسخهٔ «نرمال‌شده» — همان شکلی که پاسخ کاربر نرمال می‌شود (ارقام فارسی→لاتین)
+  // هش از نسخهٔ «نرمال‌شده» — همان شکلی که پاسخ کاربر نرمال می‌شود (ارقام فارسی/عربی→لاتین)
   const ch: Challenge = { h: hashCode(normalizeCaptchaAnswer(code)), exp: Date.now() + CAPTCHA_TTL_MS, n: nonce, a: 0 };
   store.set(nonce, ch);
   const payload = b64url(JSON.stringify({ h: ch.h, exp: ch.exp, n: nonce }));
