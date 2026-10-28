@@ -2133,6 +2133,76 @@ model MealPlan {
   @@unique([schoolId, weekday])
 }
 
+// خوابگاه شبانه‌روزی: ساختمان، اتاق با ظرفیت، اسکان و مرخصی.
+// اسکان دانش‌آموز به اتاق با شمارش اسکان‌های فعال همان اتاق کنترل
+// می‌شود؛ مرخصی خوابگاهی از مرخصی کارکنان (LeaveRequest) جداست.
+model DormBuilding {
+  id           String   @id @default(cuid())
+  schoolId     String
+  name         String
+  address      String   @default("")
+  supervisorId String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  rooms DormRoom[]
+
+  @@index([schoolId])
+}
+
+model DormRoom {
+  id         String   @id @default(cuid())
+  buildingId String
+  building   DormBuilding @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  name       String
+  floor      Int      @default(0)
+  capacity   Int
+  notes      String   @default("")
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  assignments DormAssignment[]
+
+  @@index([buildingId])
+}
+
+model DormAssignment {
+  id          String   @id @default(cuid())
+  schoolId    String
+  studentId   String
+  roomId      String
+  room        DormRoom @relation(fields: [roomId], references: [id])
+  bedLabel    String   @default("")
+  status      String   @default("ACTIVE") // ACTIVE | ENDED
+  startDate   DateTime @default(now())
+  endDate     DateTime?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  @@index([schoolId])
+  @@index([studentId])
+  @@index([roomId])
+}
+
+model DormLeave {
+  id          String   @id @default(cuid())
+  schoolId    String
+  studentId   String
+  fromDate    DateTime
+  toDate      DateTime
+  reason      String?
+  status      String   @default("PENDING") // PENDING | APPROVED | REJECTED
+  decidedById String?
+  decisionNote String?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  @@index([schoolId])
+  @@index([studentId])
+}
+
 model PasskeyCredential {
   id           String    @id @default(cuid())
   userId       String
