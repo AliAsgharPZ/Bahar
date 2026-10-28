@@ -1,4 +1,4 @@
-import { CATALOG_KEYS, validateLanguagePack } from "./langs";
+import { CATALOG_KEYS, validateLanguagePack } from "../langs";
 import enPack from "./packs/en.json";
 import arPack from "./packs/ar.json";
 import trPack from "./packs/tr.json";
