@@ -137,7 +137,7 @@ export default function AuditPage() {
 
       {data && data.logs.length > 0 && (
         <div className="b-card-sm overflow-hidden">
-          <div className="max-h-[560px] overflow-y-auto b-scroll">
+          <div className="max-h-[560px] overflow-auto b-scroll">
             <table className="w-full text-[12.5px]">
               <thead className="sticky top-0 bg-background">
                 <tr className="border-b border-hairline-soft text-steel text-[11px]">

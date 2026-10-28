@@ -61,8 +61,8 @@ export default function StaffAttendancePage() {
         <PageHeader title="حضور و غیاب من" desc="سوابق حضور شما در مدرسه." />
         {data.mine.length === 0
           ? <EmptyState icon={ClipboardCheck} title="سابقه‌ای نیست" desc="هنوز حضوری برای شما ثبت نشده است." />
-          : <section className="b-card p-5">
-              <table className="w-full text-[13px]">
+          : <section className="b-card p-5 overflow-x-auto b-scroll">
+              <table className="w-full text-[13px] min-w-[480px]">
                 <thead><tr className="text-steel"><th className="p-2 text-start">تاریخ</th><th className="p-2 text-start">وضعیت</th><th className="p-2 text-start">ورود</th><th className="p-2 text-start">خروج</th></tr></thead>
                 <tbody className="b-rows-in">
                   {data.mine.map((r) => (

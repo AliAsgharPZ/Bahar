@@ -354,7 +354,7 @@ export default function ImportsPage() {
                 {validation.invalid > 0 && <span className="b-badge b-badge-critical">{faNumber(validation.invalid)} خطا</span>}
                 <span className="b-badge b-badge-neutral">{faNumber(validation.total)} سطر</span>
               </div>
-              <div className="max-h-64 overflow-y-auto b-scroll rounded-2xl border border-hairline-soft">
+              <div className="max-h-64 overflow-auto b-scroll rounded-2xl border border-hairline-soft">
                 <table className="w-full text-[11.5px]">
                   <thead className="sticky top-0 bg-cloud/60 dark:bg-forest/30 backdrop-blur">
                     <tr>
@@ -504,7 +504,7 @@ export default function ImportsPage() {
             ) : jobs.length === 0 ? (
               <EmptyState icon={History} title="ایمپورتی ثبت نشده" desc="اولین ورود انبوه را از فرم روبه‌رو انجام دهید." />
             ) : (
-              <div className="max-h-72 overflow-y-auto b-scroll rounded-2xl border border-hairline-soft">
+              <div className="max-h-72 overflow-auto b-scroll rounded-2xl border border-hairline-soft">
                 <table className="w-full text-[11.5px]">
                   <thead className="sticky top-0 bg-cloud/60 dark:bg-forest/30">
                     <tr>

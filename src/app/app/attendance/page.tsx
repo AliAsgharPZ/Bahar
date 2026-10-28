@@ -250,7 +250,7 @@ export default function AttendancePage() {
             <StatCard icon={FileText} label="موجه" value={historyData.records.filter((r) => r.status === "EXCUSED").length} tone="ink" />
           </div>
           <div className="b-card-sm overflow-hidden">
-            <div className="max-h-[420px] overflow-y-auto b-scroll">
+            <div className="max-h-[420px] overflow-auto b-scroll">
               <table className="w-full text-[13px]">
                 <thead className="sticky top-0 bg-background">
                   <tr className="border-b border-hairline-soft text-steel text-[11.5px]">

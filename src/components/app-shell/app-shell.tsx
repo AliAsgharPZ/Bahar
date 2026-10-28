@@ -217,6 +217,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
     try {
       await apiPost(`/api/schools/${user.actingSchoolId}/enter`, { exit: true });
       toast.success("از پنل مدرسه خارج شدید.");
+      setMobileNavOpen(false);
       router.replace("/app/schools");
       router.refresh();
     } catch (err) {
@@ -356,6 +357,28 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               </span>
             )}
           </div>
+          {inSchoolPanel && !collapsed && (
+            <button
+              onClick={exitSchoolPanel}
+              disabled={exiting}
+              className="b-btn b-btn-spring w-full"
+              title="خروج از پنل مدرسه"
+            >
+              <DoorOpen className="w-4 h-4 shrink-0" />
+              خروج از پنل مدرسه
+            </button>
+          )}
+          {inSchoolPanel && collapsed && (
+            <button
+              onClick={exitSchoolPanel}
+              disabled={exiting}
+              className="w-9 h-9 rounded-full flex items-center justify-center text-spring-deep bg-spring-tint transition-colors shrink-0"
+              title="خروج از پنل مدرسه"
+              aria-label="خروج از پنل مدرسه"
+            >
+              <DoorOpen className="w-4 h-4" />
+            </button>
+          )}
           {!collapsed && (
             <div className="flex items-center gap-1 pt-2 border-t border-hairline-soft w-full">
               <LanguageSwitcher compact />
@@ -396,7 +419,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               {brand.logotypeUrl ? (
                 <Image src={brand.logotypeUrl} alt="بهار" width={88} height={28} className="h-6 w-auto object-contain" />
               ) : (
-                <span className="font-bold text-lg truncate" style={{ fontFamily: "var(--font-heading)" }}>بهار</span>
+                <span className="font-bold text-lg truncate min-w-0" style={{ fontFamily: "var(--font-heading)" }}>بهار</span>
               )}
             </Link>
           ) : (
@@ -409,7 +432,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               >
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <span className="text-[14px] font-bold truncate" style={{ fontFamily: "var(--font-heading)" }}>
+              <span className="text-[14px] font-bold truncate min-w-0" style={{ fontFamily: "var(--font-heading)" }}>
                 {activeSection ? (activeSection.tKey ? t(activeSection.tKey) : activeSection.label) : "بهار"}
               </span>
             </>
@@ -424,6 +447,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             >
               <span className="w-1.5 h-1.5 rounded-full bg-spring animate-pulse shrink-0" />
               <span className="truncate">{user.schoolName}</span>
+              <span className="shrink-0">خروج</span>
               <DoorOpen className="w-3 h-3 shrink-0" />
             </button>
           )}
@@ -660,6 +684,17 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                       <span className="text-[11px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
                     </span>
                   </div>
+                  {inSchoolPanel && (
+                    <button
+                      onClick={exitSchoolPanel}
+                      disabled={exiting}
+                      className="b-btn b-btn-spring w-full"
+                      title="خروج از پنل مدرسه"
+                    >
+                      <DoorOpen className="w-4 h-4 shrink-0" />
+                      خروج از پنل مدرسه
+                    </button>
+                  )}
                   <div className="flex items-center gap-1 pt-2 border-t border-hairline-soft w-full">
                     <LanguageSwitcher compact />
                     <ThemeToggle />
