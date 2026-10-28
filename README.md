@@ -7,6 +7,10 @@ school — in one install.
 
 > The product UI is Persian-first (RTL, Jalali calendar). This README is in
 > English so the codebase is easy to evaluate and contribute to.
+>
+> **Bahar is completely free.** There is no subscription, no paid plan and
+> no plan-gated feature anywhere in the system — every feature is
+> available to every school.
 
 ## Features
 
@@ -85,6 +89,63 @@ school — in one install.
 - **Clients** — responsive web app and PWA, plus optional Android (WebView)
   and Windows (Electron) shells under `scripts/`.
 
+## Newer modules (free-system branch)
+
+- **MCP server** — JSON-RPC 2.0 at `/api/mcp` (10 read tools, 3 write
+  tools) so agents can work with Bahar. Authentication is exactly the
+  existing Bahar session cookie and role system; there is no separate
+  token and no auth bypass. Data is always scoped to the caller's
+  school, and students/parents only see themselves/their children.
+  See the `/app/mcp` page for the tool list and connection notes.
+- **Dormitory** — buildings, rooms with capacity, assignments guarded
+  by capacity and one-active-assignment-per-student, and dormitory
+  leaves with staff approve/reject (`/app/dormitory`).
+- **Buffet shop** — product catalogue, stock, and sales that decrement
+  stock and the student wallet in one transaction, honouring the
+  parent's daily limit (`/api/shop`, shop section on the wallet page).
+- **Accessibility** — text size, high-contrast mode, low-distraction
+  mode and reduce-motion as a product feature, applied app-wide via
+  data attributes, plus a skip link to main content (`/app/accessibility`).
+- **Country packs** — the country profile now supports divisions down
+  to province → city → village, with a validator that counts cities
+  and villages. Shipped packs, with honest coverage: **IR** (31
+  provinces, 401 cities, 0 villages), **AE** (7 emirates, 7 cities),
+  **SA** (13 regions, 13 cities). Villages are not shipped for any
+  country yet — the structure exists, the village data does not, and
+  the coverage page says so. New packs are imported by super admins
+  via `/api/countries` (`/app/countries`).
+- **Language coverage** — the UI catalogue is 200 keys (UI strings
+  only, no guide prose). Shipped packs: **English 200/200 (100%)**,
+  **Arabic 157/200 (79%)**, **Turkish 157/200 (79%)** — shell,
+  navigation and common actions only for Arabic/Turkish; untranslated
+  keys fall back to Persian. `/api/languages/coverage` and the
+  `/app/languages` page list every missing key per pack.
+- **Labs** — read-only differentiator tools on real data: what-if
+  simulation, replayable history from the audit log, a permission
+  playground (dry-run evaluation, no writes), a data-quality scan,
+  a dependency view, and capacity forecasts labelled as simple
+  scenarios, not predictions (`/app/labs`).
+- **Specialised tracks** — higher-education and vocational programmes
+  with enrolments, theses (proposal → defended), internships with
+  hour tracking, and workshop sessions with attendance (`/app/tracks`).
+- **Plugin ecosystem** — a published plugin contract (manifest shape,
+  8 declared hooks, permissions limited to the existing permission
+  catalogue), a marketplace with per-school install/disable, and a
+  developer sandbox that validates manifests without storing them
+  (`/app/plugins`). Plugin code is **not** executed in the app; the
+  agent API surface is the MCP server.
+- **Meta design pass** — the design language is Meta's (pill buttons,
+  24–32px cards, tight type hierarchy) with Bahar's own spring-green
+  palette, not Meta blue. `scripts/meta-design-check.mjs` audits pages
+  for PageHeader, token buttons/inputs and hard-coded colours; new
+  pages pass it, and older pages are migrated one by one (icon-only
+  buttons and legacy badge colours are intentional, not oversights).
+- **Sample schools (separate seed only)** — three populous sample
+  schools (54 classes, 1,524 sample students, plus dorm, shop and
+  track data per school) live in a seed script **outside this repo**
+  and are never committed here and never shipped in downloads. The
+  script is for demo/dev databases only.
+
 ## Tech stack
 
 - Next.js 16 (App Router, standalone output) + React 19 + TypeScript
@@ -149,7 +210,7 @@ default password.
 src/app          pages and API routes (App Router)
 src/components   UI components
 src/lib          auth, backup, scheduler, shad/telegram gateways, i18n, …
-prisma           schema (105 models) and seed
+prisma           schema (120 models) and seed
 scripts          seed/dev helpers, Python Shad gateway, Android & Windows shells
 docs             design language and internal notes
 ```
@@ -169,6 +230,12 @@ deployment runs on Cloudflare Workers (via OpenNext) with a D1
 database; uploaded files and backups are stored as BLOBs in D1 there,
 and on the filesystem elsewhere. The demo deployment builds
 automatically from the `main` branch.
+
+**Schema note:** the free-system work adds models (MCP needs none;
+dormitory, shop, tracks, plugins and countries/language packs extend
+the schema). After merging, run `prisma db push` (or the equivalent
+D1 migration) before deploying, or the new tables will not exist in
+the live database.
 
 **Build note:** the Workers demo build is
 `npx prisma generate && node scripts/patch-prisma-client-exports.mjs && npx next build && npx opennextjs-cloudflare build --skipNextBuild`.
