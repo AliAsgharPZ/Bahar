@@ -2070,7 +2070,56 @@ model WalletTx {
   createdById String?
   createdAt   DateTime @default(now())
 
+
   @@index([walletId, createdAt])
+}
+
+// بوفه به‌عنوان فروشگاه: کالا، موجودی، فروش و اقلام فروش.
+// فروش همیشه از کیف پول دانش‌آموز کم می‌شود و یک WalletTx از جنس SPEND
+// با همان مبلغ ساخته می‌شود تا ریز تراکنش‌ها یکپارچه بماند.
+model ShopProduct {
+  id        String   @id @default(cuid())
+  schoolId  String
+  name      String
+  category  String   @default("")
+  price     Int // تومان
+  stock     Int      @default(0)
+  allergens String? // هشدار حساسیت/مواد، متن آزاد
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items ShopSaleItem[]
+
+  @@index([schoolId, isActive])
+}
+
+model ShopSale {
+  id          String   @id @default(cuid())
+  schoolId    String
+  studentId   String
+  total       Int // تومان
+  walletTxId  String?
+  createdById String?
+  createdAt   DateTime @default(now())
+
+  items ShopSaleItem[]
+
+  @@index([schoolId, createdAt])
+  @@index([studentId, createdAt])
+}
+
+model ShopSaleItem {
+  id        String      @id @default(cuid())
+  saleId    String
+  sale      ShopSale    @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  productId String
+  product   ShopProduct @relation(fields: [productId], references: [id])
+  name      String // نام کالا در لحظهٔ فروش (اسنپ‌شات)
+  price     Int // تومان در لحظهٔ فروش
+  qty       Int
+
+  @@index([saleId])
 }
 
 model MealPlan {

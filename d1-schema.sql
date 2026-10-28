@@ -1921,6 +1921,41 @@ CREATE TABLE IF NOT EXISTS "WalletTx" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "WalletTx_walletId_fkey" FOREIGN KEY ("walletId") REFERENCES "StudentWallet" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE TABLE IF NOT EXISTS "ShopProduct" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "category" TEXT NOT NULL DEFAULT '',
+    "price" INTEGER NOT NULL,
+    "stock" INTEGER NOT NULL DEFAULT 0,
+    "allergens" TEXT,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "ShopSale" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "total" INTEGER NOT NULL,
+    "walletTxId" TEXT,
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS "ShopSaleItem" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "saleId" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "qty" INTEGER NOT NULL,
+    CONSTRAINT "ShopSaleItem_saleId_fkey" FOREIGN KEY ("saleId") REFERENCES "ShopSale" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ShopSaleItem_productId_fkey" FOREIGN KEY ("productId") REFERENCES "ShopProduct" ("id") ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "ShopProduct_schoolId_isActive_idx" ON "ShopProduct"("schoolId", "isActive");
+CREATE INDEX IF NOT EXISTS "ShopSale_schoolId_createdAt_idx" ON "ShopSale"("schoolId", "createdAt");
+CREATE INDEX IF NOT EXISTS "ShopSale_studentId_createdAt_idx" ON "ShopSale"("studentId", "createdAt");
+CREATE INDEX IF NOT EXISTS "ShopSaleItem_saleId_idx" ON "ShopSaleItem"("saleId");
 CREATE INDEX IF NOT EXISTS "Club_schoolId_isActive_idx" ON "Club"("schoolId", "isActive");
 CREATE INDEX IF NOT EXISTS "ClubEnrollment_studentId_idx" ON "ClubEnrollment"("studentId");
 CREATE UNIQUE INDEX IF NOT EXISTS "ClubEnrollment_clubId_studentId_key" ON "ClubEnrollment"("clubId", "studentId");
