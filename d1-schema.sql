@@ -1921,6 +1921,83 @@ CREATE TABLE IF NOT EXISTS "WalletTx" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "WalletTx_walletId_fkey" FOREIGN KEY ("walletId") REFERENCES "StudentWallet" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE TABLE IF NOT EXISTS "TrackProgramme" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "kind" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "field" TEXT NOT NULL DEFAULT '',
+    "degreeLevel" TEXT,
+    "description" TEXT NOT NULL DEFAULT '',
+    "startYear" TEXT NOT NULL DEFAULT '',
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "TrackEnrollment" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "programmeId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'ACTIVE',
+    "enrolledAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "TrackEnrollment_programmeId_fkey" FOREIGN KEY ("programmeId") REFERENCES "TrackProgramme" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS "Thesis" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "programmeId" TEXT,
+    "studentId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "supervisorId" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'PROPOSAL',
+    "defenseDate" DATETIME,
+    "grade" REAL,
+    "note" TEXT NOT NULL DEFAULT '',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "Internship" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "programmeId" TEXT,
+    "studentId" TEXT NOT NULL,
+    "workplace" TEXT NOT NULL,
+    "mentorName" TEXT NOT NULL DEFAULT '',
+    "startDate" DATETIME NOT NULL,
+    "endDate" DATETIME NOT NULL,
+    "hoursTotal" INTEGER NOT NULL,
+    "hoursDone" INTEGER NOT NULL DEFAULT 0,
+    "status" TEXT NOT NULL DEFAULT 'PLANNED',
+    "evaluation" TEXT NOT NULL DEFAULT '',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "WorkshopSession" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "programmeId" TEXT,
+    "title" TEXT NOT NULL,
+    "instructorId" TEXT,
+    "date" DATETIME NOT NULL,
+    "capacity" INTEGER NOT NULL DEFAULT 30,
+    "location" TEXT NOT NULL DEFAULT '',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS "WorkshopAttendance" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "sessionId" TEXT NOT NULL,
+    "studentId" TEXT NOT NULL,
+    "present" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "WorkshopAttendance_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "WorkshopSession" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "TrackEnrollment_programmeId_studentId_key" ON "TrackEnrollment"("programmeId", "studentId");
+CREATE UNIQUE INDEX IF NOT EXISTS "WorkshopAttendance_sessionId_studentId_key" ON "WorkshopAttendance"("sessionId", "studentId");
+CREATE INDEX IF NOT EXISTS "TrackProgramme_schoolId_idx" ON "TrackProgramme"("schoolId");
+CREATE INDEX IF NOT EXISTS "Thesis_schoolId_idx" ON "Thesis"("schoolId");
+CREATE INDEX IF NOT EXISTS "Internship_schoolId_idx" ON "Internship"("schoolId");
+CREATE INDEX IF NOT EXISTS "WorkshopSession_schoolId_idx" ON "WorkshopSession"("schoolId");
 CREATE TABLE IF NOT EXISTS "DormBuilding" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "schoolId" TEXT NOT NULL,

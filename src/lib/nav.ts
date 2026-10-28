@@ -98,6 +98,7 @@ export const NAV: NavItem[] = [
   { href: "/app/countries", label: "بسته‌های کشور", tKey: "nav.countries", short: "کشورها", icon: Globe, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 2, group: "admin" },
   { href: "/app/languages", label: "زبان‌ها و پوشش ترجمه", tKey: "nav.languages", short: "زبان‌ها", icon: Globe, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 3, group: "admin" },
   { href: "/app/labs", label: "آزمایشگاه‌ها", tKey: "nav.labs", short: "آزمایشگاه", icon: FlaskConical, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 0, group: "admin" },
+  { href: "/app/tracks", label: "مسیرهای تخصصی", tKey: "nav.tracks", short: "مسیرها", icon: GraduationCap, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER"], tint: 1, group: "education" },
   { href: "/app/engagement", label: "نظرسنجی و پیشنهاد", tKey: "nav.engagement", short: "نظرسنجی", icon: Vote, roles: ["*"], tint: 3, group: "comms" },
   { href: "/app/certificates", label: "گواهی‌ها", tKey: "nav.certificates", short: "گواهی‌ها", icon: ScrollText, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 0, group: "students" },
   { href: "/app/reports", label: "گزارش‌ها و داده", tKey: "nav.reports", short: "گزارش‌ها", icon: FileBarChart, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 1, group: "admin" },

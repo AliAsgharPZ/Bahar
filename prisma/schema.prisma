@@ -2203,6 +2203,112 @@ model DormLeave {
   @@index([studentId])
 }
 
+// مسیرهای تخصصی: آموزش عالی (رشته/پایان‌نامه) و فنی‌حرفه‌ای
+// (کارگاه/کارورزی) — به کلاس، دانش‌آموز و برنامهٔ درسی وصل‌اند،
+// نه جزیرهٔ جدا: هر ثبت، schoolId و studentId مشترک دارد.
+model TrackProgramme {
+  id          String   @id @default(cuid())
+  schoolId    String
+  kind        String // HIGHER_ED | VOCATIONAL
+  name        String
+  field       String   @default("")
+  degreeLevel String? // کارشناسی، کارشناسی ارشد، دکتری، کاردانی (فقط آموزش عالی)
+  description String   @default("")
+  startYear   String   @default("")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  enrollments TrackEnrollment[]
+  theses      Thesis[]
+  internships Internship[]
+  workshops   WorkshopSession[]
+
+  @@index([schoolId])
+}
+
+model TrackEnrollment {
+  id          String         @id @default(cuid())
+  programmeId String
+  programme   TrackProgramme @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  studentId   String
+  status      String         @default("ACTIVE") // ACTIVE | COMPLETED | LEFT
+  enrolledAt  DateTime       @default(now())
+  createdAt   DateTime       @default(now())
+
+  @@unique([programmeId, studentId])
+  @@index([studentId])
+}
+
+model Thesis {
+  id           String          @id @default(cuid())
+  schoolId     String
+  programmeId  String?
+  programme    TrackProgramme? @relation(fields: [programmeId], references: [id], onDelete: SetNull)
+  studentId    String
+  title        String
+  supervisorId String?
+  status       String          @default("PROPOSAL") // PROPOSAL | IN_PROGRESS | DEFENSE_SCHEDULED | DEFENDED | REJECTED
+  defenseDate  DateTime?
+  grade        Float?
+  note         String          @default("")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([schoolId])
+  @@index([studentId])
+}
+
+model Internship {
+  id          String          @id @default(cuid())
+  schoolId    String
+  programmeId String?
+  programme   TrackProgramme? @relation(fields: [programmeId], references: [id], onDelete: SetNull)
+  studentId   String
+  workplace   String
+  mentorName  String          @default("")
+  startDate   DateTime
+  endDate     DateTime
+  hoursTotal  Int
+  hoursDone   Int             @default(0)
+  status      String          @default("PLANNED") // PLANNED | ONGOING | COMPLETED | CANCELED
+  evaluation  String          @default("")
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([schoolId])
+  @@index([studentId])
+}
+
+model WorkshopSession {
+  id          String          @id @default(cuid())
+  schoolId    String
+  programmeId String?
+  programme   TrackProgramme? @relation(fields: [programmeId], references: [id], onDelete: SetNull)
+  title       String
+  instructorId String?
+  date        DateTime
+  capacity    Int             @default(30)
+  location    String          @default("")
+  createdAt   DateTime        @default(now())
+
+  attendances WorkshopAttendance[]
+
+  @@index([schoolId])
+}
+
+model WorkshopAttendance {
+  id        String          @id @default(cuid())
+  sessionId String
+  session   WorkshopSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  studentId String
+  present   Boolean         @default(true)
+  createdAt DateTime        @default(now())
+
+  @@unique([sessionId, studentId])
+  @@index([studentId])
+}
+
 model PasskeyCredential {
   id           String    @id @default(cuid())
   userId       String
