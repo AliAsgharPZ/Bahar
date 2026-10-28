@@ -52,7 +52,7 @@ export default function CountriesPage() {
         )}
         {province && city && (
           <p className="text-[13px] text-steel">
-            روستاهای {city}: {(places?.villages ?? []).length === 0 ? "هنوز وارد نشده است." : places!.villages.join("، ")}
+            روستاهای {city}: {(places?.villages ?? []).length === 0 ? "به‌صورت جداگانه برای این شهر وارد نشده‌اند — روستاهای استان در سطح استان موجود است (بالا)." : places!.villages.join("، ")}
           </p>
         )}
       </div>
