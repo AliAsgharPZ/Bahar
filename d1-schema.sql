@@ -1998,6 +1998,34 @@ CREATE INDEX IF NOT EXISTS "TrackProgramme_schoolId_idx" ON "TrackProgramme"("sc
 CREATE INDEX IF NOT EXISTS "Thesis_schoolId_idx" ON "Thesis"("schoolId");
 CREATE INDEX IF NOT EXISTS "Internship_schoolId_idx" ON "Internship"("schoolId");
 CREATE INDEX IF NOT EXISTS "WorkshopSession_schoolId_idx" ON "WorkshopSession"("schoolId");
+CREATE TABLE IF NOT EXISTS "Plugin" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "code" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "author" TEXT NOT NULL DEFAULT '',
+    "description" TEXT NOT NULL DEFAULT '',
+    "version" TEXT NOT NULL DEFAULT '1.0.0',
+    "homepage" TEXT NOT NULL DEFAULT '',
+    "manifest" TEXT NOT NULL DEFAULT '{}',
+    "status" TEXT NOT NULL DEFAULT 'DRAFT',
+    "createdById" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+CREATE TABLE IF NOT EXISTS "PluginInstall" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "pluginId" TEXT NOT NULL,
+    "schoolId" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'ACTIVE',
+    "settings" TEXT NOT NULL DEFAULT '{}',
+    "installedById" TEXT,
+    "installedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "PluginInstall_pluginId_fkey" FOREIGN KEY ("pluginId") REFERENCES "Plugin" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Plugin_code_key" ON "Plugin"("code");
+CREATE UNIQUE INDEX IF NOT EXISTS "PluginInstall_pluginId_schoolId_key" ON "PluginInstall"("pluginId", "schoolId");
+CREATE INDEX IF NOT EXISTS "PluginInstall_schoolId_idx" ON "PluginInstall"("schoolId");
 CREATE TABLE IF NOT EXISTS "DormBuilding" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "schoolId" TEXT NOT NULL,

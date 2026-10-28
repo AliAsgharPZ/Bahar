@@ -2309,6 +2309,43 @@ model WorkshopAttendance {
   @@index([studentId])
 }
 
+// اکوسیستم افزونه: کاتالوگ افزونه‌ها + نصب هر مدرسه.
+// مرز امنیتی: افزونه فقط یک مانیفست اعلان‌شده است (نام، نسخه،
+ // مجوزهای درخواستی، هوک‌ها) — کد دلخواه افزونه در اپ اجرا
+// نمی‌شود؛ نصب یعنی «دسترسی به APIهای اعلان‌شده با همان
+// نقش/مجوز مدرسه»، نه اجرای اسکریپت.
+model Plugin {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  author      String   @default("")
+  description String   @default("")
+  version     String   @default("1.0.0")
+  homepage    String   @default("")
+  manifest    String   @default("{}") // JSON مانیفست اعلان‌شده
+  status      String   @default("DRAFT") // DRAFT | ACTIVE | DISABLED
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  installs PluginInstall[]
+}
+
+model PluginInstall {
+  id         String   @id @default(cuid())
+  pluginId   String
+  plugin     Plugin   @relation(fields: [pluginId], references: [id], onDelete: Cascade)
+  schoolId   String
+  status     String   @default("ACTIVE") // ACTIVE | DISABLED
+  settings   String   @default("{}") // JSON تنظیمات نصب
+  installedById String?
+  installedAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([pluginId, schoolId])
+  @@index([schoolId])
+}
+
 model PasskeyCredential {
   id           String    @id @default(cuid())
   userId       String
