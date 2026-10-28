@@ -7,7 +7,7 @@ import { Select } from "@/components/shared/pickers";
 import { faNumber } from "@/lib/persian";
 
 type PackSummary = { code: string; name: string; nativeName: string; level: string; provinces: number; cities: number; villages: number };
-type Places = { provinces: string[]; cities: string[]; villages: string[] };
+type Places = { provinces: string[]; cities: string[]; villages: string[]; provinceVillages: number };
 
 export default function CountriesPage() {
   const { data: shipped, loading, error } = useApi<{ packs: PackSummary[] }>("/api/countries/shipped");
@@ -32,9 +32,9 @@ export default function CountriesPage() {
             </div>
           ))}
           <p className="text-[12.5px] text-steel mt-2">
-            صادقانه: روستا برای هیچ کشوری هنوز وارد نشده است. ساختار تا سطح روستا آماده است و با واردات بستهٔ تازه
-            (سوپرادمین، از مسیر /api/countries) پر می‌شود؛ تا آن زمان، انتخاب روستا فهرست خالی برمی‌گرداند و این یعنی
-            «داده وارد نشده»، نه «روستا وجود ندارد».
+            صادقانه: روستاهای ایران در سطح استان وارد شده‌اند (۵۲٬۲۲۵ نام، منبع GeoNames) — چون آن منبع شهرستان را
+            ندارد، روستا به شهرستان نسبت داده نشده است؛ امارات و عربستان هنوز روستا ندارند. ساختار روستای هر شهر هم
+            با واردات بستهٔ تازه (سوپرادمین، از مسیر /api/countries) پر می‌شود.
           </p>
         </div>
       )}
@@ -45,6 +45,11 @@ export default function CountriesPage() {
           <Select value={province} onChange={(v) => { setProvince(v); setCity(""); }} options={[{ value: "", label: "انتخاب استان" }, ...(places?.provinces ?? []).map((p) => ({ value: p, label: p }))]} placeholder="استان" />
           <Select value={city} onChange={setCity} options={[{ value: "", label: "انتخاب شهر" }, ...(places?.cities ?? []).map((c) => ({ value: c, label: c }))]} placeholder="شهر" />
         </span>
+        {province && !city && (places?.provinceVillages ?? 0) > 0 && (
+          <p className="text-[13px] text-steel">
+            روستاهای استان {province}: {faNumber(places!.provinceVillages)} مورد — در سطح استان، بدون تفکیک شهرستان (منبع: GeoNames).
+          </p>
+        )}
         {province && city && (
           <p className="text-[13px] text-steel">
             روستاهای {city}: {(places?.villages ?? []).length === 0 ? "هنوز وارد نشده است." : places!.villages.join("، ")}
