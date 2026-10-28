@@ -15,7 +15,7 @@ function Toggle({ label, desc, checked, onChange }: { label: string; desc: strin
   return (
     <label className="flex items-start justify-between gap-4 py-3 border-b border-hairline last:border-0 cursor-pointer">
       <span><b className="text-[14px] block">{label}</b><span className="text-[12.5px] text-steel">{desc}</span></span>
-      <input type="checkbox" className="w-5 h-5 mt-1 accent-[var(--spring)]" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      <input type="checkbox" className="b-check mt-1" checked={checked} onChange={(e) => onChange(e.target.checked)} />
     </label>
   );
 }

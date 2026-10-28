@@ -1105,3 +1105,6 @@ html[data-a11y-distraction="on"] .b-card, html[data-a11y-distraction="on"] .b-ca
 html[data-a11y-motion="reduce"] *, html[data-a11y-motion="reduce"] *::before, html[data-a11y-motion="reduce"] *::after {
   animation: none !important; transition: none !important;
 }
+
+/* ── بهار | پاس متا: توکن چک‌باکس هم‌خانوادهٔ b-input ── */
+.b-check { width: 20px; height: 20px; accent-color: var(--spring); cursor: pointer; flex-shrink: 0; }
