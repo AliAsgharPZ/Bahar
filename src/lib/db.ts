@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { PrismaD1 } from '@prisma/adapter-d1'
 import { PrismaLibSql } from '@prisma/adapter-libsql'
 import { getCloudflareContext } from '@opennextjs/cloudflare'

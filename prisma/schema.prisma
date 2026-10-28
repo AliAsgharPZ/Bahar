@@ -1,7 +1,11 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-  runtime  = "workerd"
+  // Standard JS client in node_modules: both bundlers externalize it, so
+  // the (large) generated client is never compiled into the app graph —
+  // compiling it from src/ made Turbopack builds run out of memory
+  // (exit 137) and broke the wasm module path in webpack/OpenNext.
+  provider   = "prisma-client-js"
+  output     = "../node_modules/.prisma/client"
+  engineType = "client"
 }
 
 datasource db {

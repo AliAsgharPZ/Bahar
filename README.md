@@ -170,10 +170,16 @@ database; uploaded files and backups are stored as BLOBs in D1 there,
 and on the filesystem elsewhere. The demo deployment builds
 automatically from the `main` branch.
 
-**Build note:** the production build must run through webpack
-(`npx next build --webpack`, then `opennextjs-cloudflare build --skipNextBuild`).
-Next 16's default Turbopack builder exhausts memory on this codebase in CI
-containers (exit 137), and interactive Prisma transactions
-(`db.$transaction(async tx => ...)`) are not supported by the D1 adapter —
-the data layer therefore uses sequential writes or the batch form
-(`db.$transaction([...])`) only.
+**Build note:** the Workers demo build is
+`npx prisma generate && node scripts/patch-prisma-client-exports.mjs && npx next build && npx opennextjs-cloudflare build --skipNextBuild`.
+The Prisma client is generated with the standard `prisma-client-js`
+generator into `node_modules/.prisma/client` and imported as
+`@prisma/client`, so the bundlers externalize it instead of compiling the
+large generated client into the app graph (compiling it from source made
+production builds run out of memory, exit 137). The patch script reorders
+the generated client's export conditions so the `workerd` entry wins in
+the Workers bundle — its Node entry loads the query-compiler Wasm from
+disk and compiles it dynamically, which Workers forbids. Interactive
+Prisma transactions (`db.$transaction(async tx => ...)`) are not
+supported by the D1 adapter — the data layer therefore uses sequential
+writes or the batch form (`db.$transaction([...])`) only.

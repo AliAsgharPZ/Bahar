@@ -43,6 +43,7 @@
     "mini-services",
     "scripts",
     "scripts/_csstest",
-    "src/generated/prisma-node"
+    "src/generated/prisma-node",
+    "src/generated/prisma"
   ]
 }

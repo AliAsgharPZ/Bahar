@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/**": [
       "./node_modules/.prisma/client/*.wasm",
-      "./src/generated/prisma/**/*.wasm",
+      "./node_modules/.prisma/client/*.wasm",
       // nft traces @libsql/client's node entry only; OpenNext resolves the
       // workerd entry (lib-esm/web.js) when bundling for Workers, so the web
       // build must be force-included or packaging fails with
@@ -66,6 +66,10 @@ const nextConfig: NextConfig = {
     ],
   },
   reactStrictMode: false,
+  // Presence of the webpack() customization below makes Next 16 demand an
+  // explicit builder choice; this empty config keeps the default
+  // (Turbopack) build valid for standalone/any-host builds.
+  turbopack: {},
   poweredByHeader: false,
   // Type checking is enforced by a standalone `tsc --noEmit` gate before every
   // push (always green). Next's in-build TypeScript phase runs a second full
