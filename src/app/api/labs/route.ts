@@ -113,9 +113,9 @@ export async function GET(req: NextRequest) {
         db.dormRoom.findMany({ where: { building: { schoolId }, isActive: true }, select: { id: true, name: true, capacity: true } }),
       ]);
       const classCounts = await db.student.groupBy({ by: ["classId"], where: { classId: { in: classes.map((c) => c.id) }, status: "ACTIVE" }, _count: { _all: true } });
-      const countMap = new Map(classCounts.map((c) => [c.classId, c._count._all]));
+      const countMap = new Map<string, number>(classCounts.map((c) => [c.classId, c._count._all]));
       const roomCounts = await db.dormAssignment.groupBy({ by: ["roomId"], where: { roomId: { in: rooms.map((r) => r.id) }, status: "ACTIVE" }, _count: { _all: true } });
-      const roomMap = new Map(roomCounts.map((c) => [c.roomId, c._count._all]));
+      const roomMap = new Map<string, number>(roomCounts.map((c) => [c.roomId, c._count._all]));
       const scenarios = [5, 10, 20];
       return apiOk({
         tool,

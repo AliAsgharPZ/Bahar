@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
     ].sort((a, b) => b.at.getTime() - a.at.getTime()).slice(0, 30);
 
     // لیگ خانه‌ها: مجموع امتیاز رفتار + امتیاز نشان‌های اعضای هر خانه
-    const houseOf = new Map(students.map((s) => [s.id, s.houseId]));
+    const houseOf = new Map<string, string | null>(students.map((s) => [s.id, s.houseId]));
     const points = new Map<string, number>(houses.map((h) => [h.id, 0]));
     const memberCount = new Map<string, number>(houses.map((h) => [h.id, 0]));
     for (const s of students) if (s.houseId && memberCount.has(s.houseId)) memberCount.set(s.houseId, (memberCount.get(s.houseId) ?? 0) + 1);

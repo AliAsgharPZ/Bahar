@@ -85,7 +85,7 @@ export default function LabsPage() {
         </span>
         <p className="text-[12.5px] text-steel">خروجی شبیه‌سازی و پیش‌بینی، حسابی ساده و برچسب‌دار است — پیش‌بینی قطعی یا مدل یادگیری ماشین نیست.</p>
       </div>
-      {result && (
+      {Boolean(result) && (
         <div className="b-card p-6">
           <b className="text-[14px] mb-2 block">نتیجه</b>
           <pre className="text-[12px] overflow-x-auto whitespace-pre-wrap" dir="ltr">{JSON.stringify(result, null, 2)}</pre>

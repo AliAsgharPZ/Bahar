@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
         take: 100,
       });
       const attempts = await db.quizAttempt.findMany({ where: { studentId: student.id }, select: { quizId: true, score: true, submittedAt: true } });
-      const byQuiz = new Map(attempts.map((a) => [a.quizId, a]));
+      const byQuiz = new Map<string, any>(attempts.map((a) => [a.quizId, a]));
       return apiOk({
         quizzes: quizzes.map((q) => ({
           id: q.id,

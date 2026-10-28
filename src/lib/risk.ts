@@ -54,7 +54,7 @@ async function attendanceFactor(studentId: string): Promise<RiskFactor> {
   const late = rows.filter((r) => r.status === "LATE");
   const rate = absent.length / rows.length;
   // رشته غیبت متوالی (بر اساس کلید تاریخ مرتب‌شده)
-  const dayKeys = [...new Set(rows.filter((r) => r.status === "ABSENT").map((r) => String(r.date)))].sort();
+  const dayKeys = [...new Set<string>(rows.filter((r) => r.status === "ABSENT").map((r) => String(r.date)))].sort();
   let streak = 0;
   let maxStreak = 0;
   let prevKey = "";

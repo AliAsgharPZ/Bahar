@@ -183,7 +183,7 @@ export async function POST(req: NextRequest) {
 
     await audit({
       user: me, action: "CREATE_SCHOOL", entityType: "SCHOOL", entityId: school.id,
-      meta: { name, code, manager: managerData?.nationalId, plan, subdomain: site.subdomain },
+      meta: { name, code, manager: managerData?.nationalId, subdomain: site.subdomain },
       schoolId: school.id,
     });
 

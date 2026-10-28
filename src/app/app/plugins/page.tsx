@@ -64,7 +64,7 @@ export default function PluginsPage() {
             <p className="text-[12.5px] text-steel">مانیفست را اینجا اعتبارسنجی کنید؛ کد افزونه در اپ اجرا نمی‌شود و نصب، مجوزی بیش از مدرسه نمی‌دهد. هوک‌های مجاز: {PLUGIN_HOOKS.join("، ")}.</p>
             <textarea className="b-input min-h-40 font-mono text-[12px]" dir="ltr" value={manifestText} onChange={(e) => setManifestText(e.target.value)} />
             <button className="b-btn b-btn-spring self-start" disabled={busy === "submit"} onClick={validateManifest}>اعتبارسنجی</button>
-            {sandboxResult && <pre className="text-[12px] overflow-x-auto whitespace-pre-wrap" dir="ltr">{JSON.stringify(sandboxResult, null, 2)}</pre>}
+            {Boolean(sandboxResult) && <pre className="text-[12px] overflow-x-auto whitespace-pre-wrap" dir="ltr">{JSON.stringify(sandboxResult, null, 2)}</pre>}
             <p className="text-[12.5px] text-steel">قرارداد کامل در <code dir="ltr">src/lib/plugins/contract.ts</code> منتشر شده است؛ سطح API ایجنت‌ها هم سرور MCP در <code dir="ltr">/api/mcp</code> است.</p>
           </div>
         </>

@@ -69,7 +69,7 @@ export async function POST(req: NextRequest, ctx: Ctx) {
     if (body.action === "arrange") {
       const cls = await db.class.findFirst({ where: { id: String(body.classId ?? ""), schoolId: session.schoolId }, select: { id: true } });
       if (!cls) return apiErr(404, "کلاس یافت نشد.", "NOT_FOUND");
-      const students = await db.student.findMany({
+      const students: { id: string }[] = await db.student.findMany({
         where: { classId: cls.id, status: "ACTIVE" },
         orderBy: { id: "asc" },
         select: { id: true },

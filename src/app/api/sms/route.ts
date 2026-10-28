@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         where: { student: { schoolId, status: "ACTIVE" } },
         select: { parentUserId: true, student: { select: { userId: true } } },
       });
-      userIds = [...new Set(links.map((l) => l.parentUserId))];
+      userIds = [...new Set<string>(links.map((l) => l.parentUserId))];
       if (audience === "ALL") userIds = [...new Set([...userIds, ...links.map((l) => l.student.userId)])];
     }
     if (!userIds.length) return apiErr(400, "برای این مخاطب، گیرنده‌ای با حساب فعال پیدا نشد.", "NO_RECIPIENTS");

@@ -198,7 +198,7 @@ export async function GET(req: NextRequest) {
       } else {
         myClassIds = [];
       }
-      return myClassIds;
+      return myClassIds ?? [];
     };
     let meGeo: { province: string | null; county: string | null } | null = null;
     type AnnRow = { title: string; audienceRoles: string; targetProvinces: string; targetCounties: string; classId: string | null };
@@ -212,12 +212,11 @@ export async function GET(req: NextRequest) {
       if (provinces.length > 0 || counties.length > 0) {
         if (!scope && !isService) continue;
         if (scope) {
-          if (!meGeo) {
-            meGeo = (await db.school.findUnique({ where: { id: scope }, select: { province: true, county: true } })) ?? { province: null, county: null };
-          }
+          const geo = meGeo ?? (await db.school.findUnique({ where: { id: scope }, select: { province: true, county: true } })) ?? { province: null, county: null };
+          meGeo = geo;
           if (counties.length > 0) {
-            if (!counties.includes(`${meGeo.province ?? ""}|${meGeo.county ?? ""}`)) continue;
-          } else if (!meGeo.province || !provinces.includes(meGeo.province)) continue;
+            if (!counties.includes(`${geo.province ?? ""}|${geo.county ?? ""}`)) continue;
+          } else if (!geo.province || !provinces.includes(geo.province)) continue;
         }
       }
       visibleAnnouncements.push(a);

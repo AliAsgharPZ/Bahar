@@ -55,7 +55,7 @@ export async function GET(req: NextRequest, ctx: Ctx) {
     const questions = questionIds.length
       ? await db.question.findMany({ where: { id: { in: questionIds } } })
       : [];
-    const byId = new Map(questions.map((q) => [q.id, q]));
+    const byId = new Map<string, any>(questions.map((q) => [q.id, q]));
     const ordered = questionIds.map((qid) => byId.get(qid)).filter(Boolean);
 
     const isStaff = ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"].includes(me.role);

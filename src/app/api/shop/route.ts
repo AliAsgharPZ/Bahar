@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import type { SessionUser } from "@/lib/api";
 
 /* ============================================================
    بهار | فروشگاه بوفه — کالا، موجودی و فروش متصل به کیف پول
@@ -15,7 +16,7 @@ import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor
 
 const STAFF = ["MANAGER", "DEPUTY", "CUSTODIAN", "SUPER_ADMIN", "ADMIN"];
 
-async function schoolIdFor(me: { id: string; role: string; schoolId?: string | null }, req: NextRequest) {
+async function schoolIdFor(me: SessionUser, req: NextRequest) {
   if (me.role === "SUPER_ADMIN" || me.role === "ADMIN") return actingSchoolIdFor(req, me) ?? me.schoolId ?? null;
   return me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
 }

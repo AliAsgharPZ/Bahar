@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
     const mostBadges = [...badgeCounts.values()].sort((a, b) => b.n - a.n).slice(0, 5);
 
     // قهرمان لیگ خانه‌ها
-    const houseOf = new Map(students.map((s) => [s.id, s.houseId]));
+    const houseOf = new Map<string, string | null>(students.map((s) => [s.id, s.houseId]));
     const points = new Map<string, number>(houses.map((h) => [h.id, 0]));
     for (const b of behaviors) { const h = houseOf.get(b.studentId); if (h && points.has(h)) points.set(h, (points.get(h) ?? 0) + b.points); }
     for (const b of badgeRows) { const h = houseOf.get(b.studentId); if (h && points.has(h)) points.set(h, (points.get(h) ?? 0) + b.badge.points); }

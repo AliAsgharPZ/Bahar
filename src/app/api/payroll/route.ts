@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     const records = month
       ? await db.salaryRecord.findMany({ where: { schoolId, yearMonth: month } })
       : [];
-    const byUser = new Map(records.map((r) => [r.userId, r]));
+    const byUser = new Map<string, any>(records.map((r) => [r.userId, r]));
     const rows = staff.map((u) => {
       const r = byUser.get(u.id);
       return {

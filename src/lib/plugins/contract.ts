@@ -40,7 +40,7 @@ export function validatePluginManifest(raw: unknown): { manifest: PluginManifest
   if (!name || name.length > 80) errors.push("«name» الزامی است (حداکثر ۸۰ نویسه).");
   const version = typeof m.version === "string" ? m.version.trim() : "";
   if (!/^\d+(\.\d+){0,3}$/.test(version)) errors.push("«version» باید عددی باشد (مثل 1.0.0).");
-  const knownPerms = new Set(PERMISSION_CATALOG.map((c) => c.key));
+  const knownPerms = new Set<string>(PERMISSION_CATALOG.map((c) => c.key));
   const permissions = Array.isArray(m.permissions) ? m.permissions : null;
   if (!permissions) errors.push("«permissions» باید آرایه باشد.");
   else permissions.forEach((p) => { if (typeof p !== "string" || !knownPerms.has(p)) errors.push(`مجوز ناشناخته در مانیفست: «${String(p)}».`); });

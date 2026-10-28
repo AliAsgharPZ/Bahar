@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       where: { id: { in: plans.map((p) => p.fromClassId) }, schoolId },
       select: { id: true, name: true, grade: true, academicYear: true },
     });
-    const fromMap = new Map(fromClasses.map((c) => [c.id, c]));
+    const fromMap = new Map<string, any>(fromClasses.map((c) => [c.id, c]));
     let moved = 0;
     let graduated = 0;
     let created = 0;
