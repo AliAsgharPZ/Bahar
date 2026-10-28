@@ -10,7 +10,7 @@ import { hasPermission } from "@/lib/roles";
 export const TICKET_CATEGORIES: Record<string, string> = {
   GENERAL: "عمومی",
   TECHNICAL: "مشکل فنی",
-  BILLING: "اشتراک و پرداخت",
+  BILLING: "پرداخت و مالی",
   DEMO: "درخواست دمو",
   SUGGESTION: "پیشنهاد",
 };

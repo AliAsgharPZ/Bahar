@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { apiOk, apiErr, handleApiError, readJson, ApiError } from "@/lib/api";
 import { defaultSiteConfig, parseSiteConfig, templateOf } from "@/lib/school-site";
-import { planHas } from "@/lib/plans";
 import { enDigits } from "@/lib/persian";
 import { avatarApiFields } from "@/lib/avatar";
 
@@ -96,15 +95,11 @@ export async function POST(req: NextRequest, ctx: Ctx) {
     const { subdomain } = await ctx.params;
     const site = await db.schoolSite.findUnique({
       where: { subdomain },
-      include: { school: { select: { id: true, name: true, isActive: true, plan: true } } },
+      include: { school: { select: { id: true, name: true, isActive: true } } },
     });
     if (!site || !site.published || !site.school.isActive) {
       throw new ApiError(404, "NOT_FOUND", "سایت مدرسه یافت نشد.");
     }
-    if (!planHas(site.school.plan, "website")) {
-      throw new ApiError(403, "PLAN", "امکانات ثبت‌نام آنلاین در اشتراک این مدرسه فعال نیست.");
-    }
-
     const body = await readJson<Record<string, string>>(req);
     const name = String(body.name ?? "").trim();
     const phone = enDigits(String(body.phone ?? "")).trim();

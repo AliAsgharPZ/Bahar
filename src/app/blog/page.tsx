@@ -108,7 +108,7 @@ export default async function BlogIndexPage() {
           <span className="text-[12px] text-steel">بهار — سامانه جامع مدیریت مدارس ایران</span>
           <div className="flex items-center gap-4 text-[12px] font-bold">
             <Link href="/" className="hover:text-spring">خانه</Link>
-            <Link href="/plans" className="hover:text-spring">پلن‌ها و اشتراک‌ها</Link>
+            
             <Link href="/login" className="hover:text-spring">ورود</Link>
           </div>
         </div>

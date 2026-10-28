@@ -133,14 +133,13 @@ function fmtUptime(sec: number): string {
 function ServiceDashboard({ data }: { data: Dash }) {
   const s = data.stats as Record<string, unknown>;
   const growth = (data.schoolGrowth as Array<{ month: string; count: number }>) ?? [];
-  const plans = (data.plans as Array<{ plan: string; label: string; count: number }>) ?? [];
   const wc = (data.whatChanged as Record<string, number>) ?? {};
   const sys = (data.system ?? {}) as { nodeVersion?: string; uptimeSec?: number; memoryMb?: number; platform?: string; dbSizeBytes?: number | null; env?: string };
   const usersByRole = (data.usersByRole as Array<{ role: string; count: number }>) ?? [];
   const loginTrend = (data.loginTrend as Array<{ date: string; success: number; failed: number }>) ?? [];
   const ticketsByStatus = (data.ticketsByStatus as Array<{ status: string; count: number }>) ?? [];
   const recentSignups = (data.recentSignups as Array<{ id: string; firstName: string; lastName: string; role: string; createdAt: string; school?: { name: string } | null }>) ?? [];
-  const topSchools = (data.topSchools as Array<{ id: string; name: string; plan: string; students: number }>) ?? [];
+  const topSchools = (data.topSchools as Array<{ id: string; name: string; students: number }>) ?? [];
   const backup = s.backup as { at: string; kind: string; filename: string } | null | undefined;
   type AuditRow = { id: string; action: string; entityType: string; createdAt: string; user?: { firstName: string; lastName: string } | null };
   const auditRows = (data.recentAudit as AuditRow[] | undefined) ?? [];
@@ -260,12 +259,6 @@ function ServiceDashboard({ data }: { data: Dash }) {
         </div>
       </div>
 
-      {/* پلن‌ها + بزرگ‌ترین مدارس */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">توزیع پلن مدارس</h3>
-          <DonutChart parts={plans.map((p, i) => ({ label: p.label, value: p.count, color: ["#00825e", "#00b37d", "#e5548b", "#f2a918", "#5d6f66"][i % 5] }))} centerLabel="مدارس" />
-        </div>
         <div className="b-card-md p-5">
           <h3 className="font-bold mb-4">بزرگ‌ترین مدارس (دانش‌آموز)</h3>
           {topSchools.length === 0 ? (
@@ -274,7 +267,6 @@ function ServiceDashboard({ data }: { data: Dash }) {
             <BarChart data={topSchools.map((t) => ({ label: t.name, value: t.students }))} max={Math.max(...topSchools.map((t) => t.students), 1)} suffix=" نفر" />
           )}
         </div>
-      </div>
 
       {/* آخرین ثبت‌نام‌ها + تیکت‌ها */}
       <div className="grid gap-6 lg:grid-cols-3">

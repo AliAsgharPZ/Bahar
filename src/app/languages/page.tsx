@@ -79,7 +79,7 @@ export default async function LanguagesPage() {
           </Link>
           <span className="text-[11px] text-steel hidden sm:inline">کیت ساخت زبان</span>
           <div className="flex-1" />
-          <Link href="/plans" className="b-btn b-btn-ghost b-btn-sm hidden sm:inline-flex">پلن‌ها</Link>
+          
           <Link href="/login" className="b-btn b-btn-soft b-btn-sm">ورود</Link>
           <ThemeToggle />
         </div>
@@ -249,7 +249,7 @@ export default async function LanguagesPage() {
           <span>بهار — سامانه جامع مدیریت مدارس</span>
           <div className="flex items-center gap-4">
             <Link href="/" className="hover:text-spring transition-colors">صفحه اصلی</Link>
-            <Link href="/plans" className="hover:text-spring transition-colors">پلن‌ها</Link>
+            
             <Link href="/blog" className="hover:text-spring transition-colors">بلاگ</Link>
           </div>
         </div>

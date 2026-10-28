@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { requireUser, requirePermission, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, ApiError, isDemoUser , actingSchoolIdFor } from "@/lib/api";
 import { getCountrySync } from "@/lib/country/cache";
 import { hasPermission, parsePermissions } from "@/lib/roles";
-import { planHas } from "@/lib/plans";
 
 // ============================================================
 // اطلاعیه‌ها — هدف‌گیری بر اساس چند نوع کاربر + نقشه ایران
@@ -174,11 +173,7 @@ export async function POST(req: NextRequest) {
     if (scope === "SCHOOL") {
       schoolId = me.schoolId ?? actingSchoolIdFor(req, me);
       if (!schoolId) return apiErr(400, "مدرسه‌ای برای ارسال مشخص نیست.", "NO_SCHOOL");
-      const school = await db.school.findUnique({ where: { id: schoolId }, select: { id: true, plan: true } });
-      if (school && !planHas(school.plan, "announcements")) {
-        return apiErr(403, "قابلیت اطلاعیه در اشتراک این مدرسه فعال نیست.", "PLAN");
-      }
-      if (body.classId) {
+            if (body.classId) {
         classId = String(body.classId);
         const cls = await db.class.findUnique({ where: { id: classId } });
         if (!cls || cls.schoolId !== schoolId) return apiErr(400, "کلاس نامعتبر است.", "BAD_CLASS");

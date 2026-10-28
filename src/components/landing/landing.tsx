@@ -48,7 +48,7 @@ const MODULES = [
 const ROLES = [
   {
     title: "ادمین سرویس", tone: "soft" as const, icon: ServerCog,
-    caps: ["مدیریت کل سرویس و همه مدارس", "اشتراک‌ها، بکاپ و ایمنی سامانه", "بلاگ، تیکت‌ها و ادمین‌های سرویس"],
+    caps: ["مدیریت کل سرویس و همه مدارس", "بکاپ و ایمنی سامانه", "بلاگ، تیکت‌ها و ادمین‌های سرویس"],
   },
   {
     title: "مدیر مدرسه", tone: "spring" as const, icon: School,
@@ -433,7 +433,7 @@ export function Landing({
             <Image src="/logo.svg" alt="بهار" width={56} height={56} />
             <h2 className="t-h1 font-medium">آماده شکوفایی مدرسه‌تان هستید؟</h2>
             <p className="t-sub max-w-xl">
-              همه قابلیت‌ها، اشتراک‌ها و حساب دمو را در یک صفحه ببینید؛ سپس مدرسه‌تان را به
+              همهٔ قابلیت‌ها و حساب دمو را در یک صفحه ببینید؛ سپس مدرسه‌تان را به
               بهار تبدیل کنید — از ثبت نمره تا کارنامه، از حضور و غیاب تا اطلاع‌رسانی.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">

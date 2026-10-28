@@ -90,7 +90,7 @@ export default async function BlogPostPage({ params }: Props) {
           <span className="text-[12px] text-steel">بهار — سامانه جامع مدیریت مدارس</span>
           <div className="flex items-center gap-4 text-[12px] font-bold">
             <Link href="/blog" className="hover:text-spring">بلاگ</Link>
-            <Link href="/plans" className="hover:text-spring">پلن‌ها و اشتراک‌ها</Link>
+            
           </div>
         </div>
       </footer>

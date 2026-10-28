@@ -34,7 +34,6 @@ export type ShellUser = {
   schoolName: string | null;
   actingSchoolId: string | null;
   langCode: string | null;
-  planStatus: { label: string; expired: boolean; warning: boolean; daysLeft: number | null } | null;
   profileImageType: "upload" | "avatar" | null;
   photoUrl: string | null;
   avatar: AvatarParams | null;
@@ -495,25 +494,6 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           <Link href="/app/profile?change=1" className="underline underline-offset-4 shrink-0 font-bold">
             تغییر رمز
           </Link>
-        </div>
-      )}
-
-      {/* بنر وضعیت اشتراک مدرسه */}
-      {user.planStatus && (user.planStatus.expired || user.planStatus.warning) && (
-        <div className={`b-promo no-print ${user.planStatus.expired ? "!bg-destructive/10 !text-destructive" : "!bg-warning/10 !text-warning-deep"}`}>
-          <Sparkles className="w-4 h-4 shrink-0" />
-          <span className="truncate">
-            {user.planStatus.expired
-              ? `اشتراک «${user.planStatus.label}» مدرسه به پایان رسیده است؛ برای ادامه امکانات با پشتیبانی تماس بگیرید.`
-              : user.planStatus.daysLeft !== null
-                ? `اشتراک «${user.planStatus.label}» مدرسه ${faNumber(user.planStatus.daysLeft)} روز دیگر به پایان می‌رسد.`
-                : ""}
-          </span>
-          {(user.role === "MANAGER" || inSchoolPanel) && (
-            <Link href="/app/tickets?category=BILLING" className="underline underline-offset-4 shrink-0 font-bold">
-              تمدید اشتراک
-            </Link>
-          )}
         </div>
       )}
 

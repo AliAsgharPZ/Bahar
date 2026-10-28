@@ -2,17 +2,10 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, actingSchoolIdFor , toDate } from "@/lib/api";
 import { hasPermission } from "@/lib/roles";
-import { planHas } from "@/lib/plans";
 
 // ============================================================
-// مالی — شهریه و عوارض دانش‌آموزان (پلن طلایی+)
+// مالی — شهریه و عوارض دانش‌آموزان
 // ============================================================
-
-function requireFinance(school: { plan: string }) {
-  if (!planHas(school.plan, "finance")) {
-    throw new ApiError(403, "PLAN", "ماژول مالی در اشتراک این مدرسه فعال نیست (پلن طلایی یا الماسی لازم است).");
-  }
-}
 
 /** GET /api/finance — مدیر: همه اقلام مدرسه؛ دانش‌آموز/ولی: اقلام خودش */
 export async function GET(req: NextRequest) {
@@ -21,9 +14,8 @@ export async function GET(req: NextRequest) {
     const acting = actingSchoolIdFor(req, me);
     const schoolId = me.schoolId ?? (acting || null);
     if (!schoolId) throw new ApiError(400, "NO_SCHOOL", "مدرسه‌ای متصل نیستید.");
-    const school = await db.school.findUnique({ where: { id: schoolId }, select: { plan: true, name: true } });
+    const school = await db.school.findUnique({ where: { id: schoolId }, select: { name: true } });
     if (!school) throw new ApiError(404, "NOT_FOUND", "مدرسه یافت نشد.");
-    requireFinance(school);
 
     const status = new URL(req.url).searchParams.get("status") ?? undefined;
 
@@ -85,9 +77,8 @@ export async function POST(req: NextRequest) {
     const acting = actingSchoolIdFor(req, me);
     const schoolId = me.schoolId ?? (acting || null);
     if (!schoolId) throw new ApiError(400, "NO_SCHOOL", "مدرسه‌ای متصل نیستید.");
-    const school = await db.school.findUnique({ where: { id: schoolId }, select: { plan: true, name: true } });
+    const school = await db.school.findUnique({ where: { id: schoolId }, select: { name: true } });
     if (!school) throw new ApiError(404, "NOT_FOUND", "مدرسه یافت نشد.");
-    requireFinance(school);
 
     const canManage =
       me.role === "MANAGER" || me.role === "SUPER_ADMIN" ||

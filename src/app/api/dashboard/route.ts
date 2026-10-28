@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, apiOk, handleApiError , actingSchoolIdFor } from "@/lib/api";
 import { todayJalali, jalaliDayOfWeek, toJalaliKey, jalaliParts } from "@/lib/persian";
-import { planStatusOf, planHas } from "@/lib/plans";
 import { ensureAutoBackup } from "@/lib/backup";
 import { getSettings } from "@/lib/settings";
 
@@ -27,7 +26,7 @@ export async function GET(req: NextRequest) {
 
     /* ══════════════ داشبورد سطح سرویس ══════════════ */
     if (isService && !actingSchoolId) {
-      const [schools, users, students, teachers, classes, outbox, recentAudit, openTickets, blogPosts, lastBackup, plansCount] = await Promise.all([
+      const [schools, users, students, teachers, classes, outbox, recentAudit, openTickets, blogPosts, lastBackup] = await Promise.all([
         db.school.count({ where: { isActive: true } }),
         db.user.count({ where: { isActive: true, role: { not: "SUPER_ADMIN" } } }),
         db.student.count(),
@@ -38,7 +37,6 @@ export async function GET(req: NextRequest) {
         db.ticket.count({ where: { status: { in: ["OPEN", "ANSWERED"] } } }),
         db.blogPost.count({ where: { status: "PUBLISHED" } }),
         db.backup.findFirst({ orderBy: { createdAt: "desc" } }),
-        db.school.groupBy({ by: ["plan"], where: { isActive: true }, _count: { _all: true } }),
       ]);
 
       const monthKeys: string[] = [];
@@ -108,11 +106,11 @@ export async function GET(req: NextRequest) {
 
       // بزرگ‌ترین مدارس بر پایه شمار دانش‌آموز (Student رابطه FK به School ندارد → groupBy)
       const [schoolRows, studentCounts] = await Promise.all([
-        db.school.findMany({ where: { isActive: true }, select: { id: true, name: true, plan: true } }),
+        db.school.findMany({ where: { isActive: true }, select: { id: true, name: true } }),
         db.student.groupBy({ by: ["schoolId"], _count: { _all: true } }),
       ]);
       const topSchools = schoolRows
-        .map((r) => ({ id: r.id, name: r.name, plan: r.plan, students: studentCounts.find((c) => c.schoolId === r.id)?._count._all ?? 0 }))
+        .map((r) => ({ id: r.id, name: r.name, students: studentCounts.find((c) => c.schoolId === r.id)?._count._all ?? 0 }))
         .filter((r) => r.students > 0)
         .sort((a, b) => b.students - a.students)
         .slice(0, 6);
@@ -132,7 +130,6 @@ export async function GET(req: NextRequest) {
           newUsers: newUsers - newUsersYesterday,
           newTickets: ticketsYesterday,
         },
-        plans: plansCount.map((p) => ({ plan: p.plan, label: planStatusOf(p.plan, null).label, count: p._count._all })),
         schoolGrowth,
         recentAudit,
         /* ریز-آمار سیستم (راند ۱۷) */
@@ -149,7 +146,7 @@ export async function GET(req: NextRequest) {
         ticketsByStatus: ticketsByStatus.map((t) => ({ status: t.status, count: t._count._all })),
         recentSignups,
         topSchools: topSchools.map((s) => ({
-          id: s.id, name: s.name, plan: planStatusOf(s.plan, null).label,
+          id: s.id, name: s.name,
           students: s.students,
         })),
       });
@@ -160,7 +157,6 @@ export async function GET(req: NextRequest) {
     if (!schoolId) return apiOk({ scope: "none", stats: {} });
     const school = await db.school.findUnique({ where: { id: schoolId } });
     if (!school) return apiOk({ scope: "none", stats: {} });
-    const planStatus = planStatusOf(school.plan, school.planExpiresAt);
     const todayKey = todayJalali();
     const yesterdayKey = toJalaliKey(new Date(Date.now() - 86400000));
 
@@ -272,7 +268,6 @@ export async function GET(req: NextRequest) {
         paidRatio: 0,
       };
       const jNow = jalaliParts();
-      if (planHas(school.plan, "finance")) {
         const [unpaidSum, paidFees] = await Promise.all([
           db.studentFee.aggregate({ where: { schoolId, status: "UNPAID" }, _sum: { amount: true } }),
           db.studentFee.findMany({ where: { schoolId, status: "PAID", paidAt: { not: null } }, select: { amount: true, paidAt: true } }),
@@ -288,7 +283,6 @@ export async function GET(req: NextRequest) {
           .reduce((s, f) => s + f.amount, 0);
         const total = feeSummary.paid + feeSummary.unpaid;
         feeSummary.paidRatio = total > 0 ? Math.round((feeSummary.paid / total) * 100) : 0;
-      }
 
       /* ── وضعیت کلاس‌ها: در حال برگزاری ── */
       const dow = jalaliDayOfWeek();
@@ -361,7 +355,6 @@ export async function GET(req: NextRequest) {
       return apiOk({
         scope: "school",
         school: { id: school.id, name: school.name, code: school.code, logoUrl: school.logoUrl, province: school.province, county: school.county },
-        planStatus,
         acting: !!actingSchoolId,
         stats: {
           students: studentRows.length, teachers, parents, classes: classRows.length, subjects,
@@ -438,7 +431,6 @@ export async function GET(req: NextRequest) {
 
       return apiOk({
         scope: "teacher",
-        planStatus,
         stats: {
           subjects: [...new Set(assignments.map((a) => a.subject.name))].length,
           classes: classIds.length,
@@ -482,9 +474,7 @@ export async function GET(req: NextRequest) {
             })
           : Promise.resolve([]),
         db.attendance.findMany({ where: { studentId: profile.id }, orderBy: { date: "asc" } }),
-        planHas(school.plan, "finance")
-          ? db.studentFee.findMany({ where: { studentId: profile.id }, orderBy: { dueDate: "asc" } })
-          : Promise.resolve([]),
+        db.studentFee.findMany({ where: { studentId: profile.id }, orderBy: { dueDate: "asc" } }),
         db.studentBadge.findMany({ where: { studentId: profile.id }, include: { badge: true }, orderBy: { awardedAt: "desc" } }),
         db.behaviorRecord.findMany({ where: { studentId: profile.id }, orderBy: { createdAt: "desc" }, take: 10 }),
       ]);
@@ -542,7 +532,6 @@ export async function GET(req: NextRequest) {
 
       return apiOk({
         scope: "student",
-        planStatus,
         profile: {
           class: profile.class ? { id: profile.class.id, name: profile.class.name, grade: profile.class.grade } : null,
           homeroomTeacher: profile.class?.homeroomTeacher ?? null,
@@ -598,9 +587,7 @@ export async function GET(req: NextRequest) {
         const [grades, attendance, unpaidFees, behavior, nextSlots] = await Promise.all([
           db.gradeRecord.findMany({ where: { studentId: ch.studentId }, include: { subject: true } }),
           db.attendance.findMany({ where: { studentId: ch.studentId } }),
-          planHas(school.plan, "finance")
-            ? db.studentFee.findMany({ where: { studentId: ch.studentId, status: "UNPAID" } })
-            : Promise.resolve([]),
+          db.studentFee.findMany({ where: { studentId: ch.studentId, status: "UNPAID" } }),
           db.behaviorRecord.findMany({ where: { studentId: ch.studentId } }),
           ch.student.classId
             ? db.scheduleSlot.findMany({
@@ -647,7 +634,6 @@ export async function GET(req: NextRequest) {
       ]);
       return apiOk({
         scope: "parent",
-        planStatus,
         stats: { children: result.length, unread, pendingChanges: 0 },
         children: result,
         meetings,

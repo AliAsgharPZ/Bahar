@@ -4,7 +4,6 @@ import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, isDemoUser
 import { shadConnect, ShadApiError } from "@/lib/shad";
 import { isValidShadNumber } from "@/lib/auth";
 import { enDigits } from "@/lib/persian";
-import { planHas } from "@/lib/plans";
 
 /** POST /api/shad/connect — اتصال حساب شاد مدیر با توکن auth (web.shad.ir) */
 export async function POST(req: NextRequest) {
@@ -14,16 +13,11 @@ export async function POST(req: NextRequest) {
     const me = await requireUser(req, ["MANAGER", "SUPER_ADMIN", "ADMIN"]);
     if (await isDemoUser(me)) return apiErr(403, "این قابلیت در حساب دمو غیرفعال است.", "DEMO_READONLY");
     if (!me.schoolId) return apiErr(400, "به مدرسه‌ای متصل نیستید.", "NO_SCHOOL");
-    // دروازه شاد قابلیت پلن طلایی+ است
-    const school = await db.school.findUnique({ where: { id: me.schoolId }, select: { plan: true, shadEnabled: true } });
+        const school = await db.school.findUnique({ where: { id: me.schoolId }, select: { shadEnabled: true } });
     // راند ۱۸: شاد اختیاری است — مدرسه می‌تواند خاموشش کرده باشد
     if (school && school.shadEnabled === false) {
       return apiErr(403, "قابلیت شاد در این مدرسه غیرفعال شده است.", "SHAD_DISABLED");
-    }
-    if (school && !planHas(school.plan, "shad")) {
-      return apiErr(403, "دروازه شاد در اشتراک این مدرسه فعال نیست (پلن طلایی یا الماسی لازم است).", "PLAN");
-    }
-    const body = await readJson<{ token?: string; phone?: string }>(req);
+    }    const body = await readJson<{ token?: string; phone?: string }>(req);
 
     const token = String(body.token ?? "").trim();
     const phone = enDigits(String(body.phone ?? "")).trim();

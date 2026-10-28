@@ -6,7 +6,6 @@ import { hasPermission } from "@/lib/roles";
 import { deliverCredentials } from "@/lib/shad";
 import { enDigits, slugify } from "@/lib/persian";
 import { isValidProvinceCounty } from "@/lib/iran";
-import { planStatusOf } from "@/lib/plans";
 
 /** GET /api/schools — ادمین: همه؛ مدیر/معاون: مدرسه خودش */
 export async function GET(req: NextRequest) {
@@ -41,7 +40,6 @@ export async function GET(req: NextRequest) {
           studentCount: countMap.get(s.id) ?? 0,
           teacherCount: s._count.staff,
           classCount: s._count.classes,
-          planStatus: planStatusOf(s.plan, s.planExpiresAt),
           _count: undefined,
         })),
       });
@@ -59,7 +57,7 @@ export async function GET(req: NextRequest) {
       if (!school) return apiOk({ schools: [] });
       return apiOk({
         schools: [
-          { ...school, planStatus: planStatusOf(school.plan, school.planExpiresAt) },
+          { ...school },
         ],
       });
     }
@@ -93,12 +91,6 @@ export async function POST(req: NextRequest) {
     if (province && county && !isValidProvinceCounty(province, county)) {
       return apiErr(400, "این شهرستان به استان انتخابی تعلق ندارد.", "BAD_COUNTY");
     }
-
-    const plan = ["SILVER", "GOLD", "DIAMOND"].includes(String(body.plan ?? ""))
-      ? String(body.plan) : "GOLD";
-    const planExpiresAt = body.planExpiresAt ? toDate(body.planExpiresAt) : null;
-    if (body.planExpiresAt && !planExpiresAt) return apiErr(400, "تاریخ انقضای پلن نامعتبر است.", "BAD_DATE"); // FIX راند ۱۶
-
     // ── مدیر مدرسه ──
     let managerData: { id: string; nationalId: string; password: string; firstName: string; lastName: string } | null = null;
     let shadDelivery: { ok: boolean; error?: string } = { ok: false, error: "NO_MANAGER" };
@@ -168,9 +160,6 @@ export async function POST(req: NextRequest) {
           motto: body.motto ? String(body.motto) : null,
           about: body.about ? String(body.about) : null,
           logoUrl: body.logoUrl ? String(body.logoUrl) : null,
-          plan,
-          planExpiresAt,
-          planNote: body.planNote ? String(body.planNote) : null,
           managerId,
         },
       });

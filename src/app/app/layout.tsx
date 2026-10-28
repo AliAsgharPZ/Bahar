@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { verifyToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 import { parsePermissions } from "@/lib/roles";
-import { planStatusOf } from "@/lib/plans";
 import { avatarApiFields } from "@/lib/avatar";
 import { AppShell } from "@/components/app-shell/app-shell";
 
@@ -25,7 +24,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       mustChangePassword: true, isActive: true, shadNumber: true, tokenVersion: true,
       langCode: true,
       profileImageType: true, photoUrl: true, avatarConfig: true,
-      school: { select: { id: true, name: true, code: true, plan: true, planExpiresAt: true, shadEnabled: true, custodianEnabled: true } },
+      school: { select: { id: true, name: true, code: true, shadEnabled: true, custodianEnabled: true } },
     },
   });
   if (!user || !user.isActive) {
@@ -43,7 +42,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (actingSchoolId && (user.role === "SUPER_ADMIN" || user.role === "ADMIN")) {
     const acting = await db.school.findUnique({
       where: { id: actingSchoolId },
-      select: { id: true, name: true, plan: true, planExpiresAt: true, shadEnabled: true, custodianEnabled: true },
+      select: { id: true, name: true, shadEnabled: true, custodianEnabled: true },
     });
     if (acting) {
       actingSchoolName = acting.name;
@@ -51,20 +50,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       actingShadEnabled = acting.shadEnabled;
       actingCustodianEnabled = acting.custodianEnabled;
     }
-  }
-
-  // پلن مدرسه برای بنر هشدار (مدرسه خود کاربر یا پنل فعال)
-  const planSource = actingSchoolIdLive
-    ? { id: actingSchoolIdLive, plan: (await db.school.findUnique({ where: { id: actingSchoolIdLive }, select: { plan: true, planExpiresAt: true } })) }
-    : user.school;
-
-  let planStatus: ReturnType<typeof planStatusOf> | null = null;
-  if (planSource && (user.role === "MANAGER" || user.role === "DEPUTY" || actingSchoolIdLive)) {
-    const schoolRow = await db.school.findUnique({
-      where: { id: planSource.id },
-      select: { plan: true, planExpiresAt: true },
-    });
-    if (schoolRow) planStatus = planStatusOf(schoolRow.plan, schoolRow.planExpiresAt);
   }
 
   // راند ۱۸: ماژول‌های مدرسهٔ مؤثر (مدرسهٔ خود کاربر یا پنل فعال) — گیت‌های UI شاد/سرایدار
@@ -87,9 +72,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         schoolName: actingSchoolName ?? user.school?.name ?? null,
         actingSchoolId: actingSchoolIdLive,
         langCode: user.langCode,
-        planStatus: planStatus
-          ? { label: planStatus.label, expired: planStatus.expired, warning: planStatus.warning, daysLeft: planStatus.daysLeft }
-          : null,
         schoolModules,
         ...avatarApiFields(user),
       }}

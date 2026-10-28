@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import { ROLE_LABELS } from "@/lib/roles";
 import { todayJalali, jalaliDayOfWeek, formatDateFa, currencyLabel } from "@/lib/persian";
-import { planStatusOf } from "@/lib/plans";
 import { createHmac, randomBytes } from "crypto";
 
 /* ============================================================
@@ -132,7 +131,7 @@ export async function handleBotAction(body: BotAction): Promise<BotResponse> {
         status: 200,
         data: {
           ok: true,
-          message: `👤 ${me.firstName} ${me.lastName}\nنقش: ${ROLE_LABELS[me.role]}\nمدرسه: ${me.schoolName ?? "—"}\nاشتراک: ${school ? planStatusOf(school.plan, school.planExpiresAt).label : "—"}`,
+          message: `👤 ${me.firstName} ${me.lastName}\nنقش: ${ROLE_LABELS[me.role]}\nمدرسه: ${me.schoolName ?? "—"}`,
         },
       };
     }

@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { getSessionUser, apiOk, handleApiError, ApiError, actingSchoolIdFor, readJson, audit } from "@/lib/api";
-import { planStatusOf } from "@/lib/plans";
 import { avatarApiFields } from "@/lib/avatar";
 import { enDigits } from "@/lib/persian";
 
@@ -96,10 +95,9 @@ export async function GET(req: NextRequest) {
               id: user.school.id, name: user.school.name, code: user.school.code,
               managerId: user.school.managerId, logoUrl: user.school.logoUrl,
               province: user.school.province, county: user.school.county ?? user.school.city,
-              planStatus: planStatusOf(user.school.plan, user.school.planExpiresAt),
             }
           : null,
-        actingSchool: actingSchool ? { ...actingSchool, planStatus: null } : null,
+        actingSchool: actingSchool ? { ...actingSchool } : null,
         hasPendingChanges: await db.profileChangeRequest.count({
           where: { userId: me.id, status: "PENDING" },
         }) > 0,

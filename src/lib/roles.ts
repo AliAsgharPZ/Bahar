@@ -89,7 +89,6 @@ export const SERVICE_PERMISSION_GROUPS: ServicePermGroup[] = [
       { key: "create_schools", label: "ایجاد مدرسه", desc: "ثبت مدرسه جدید با مدیر" },
       { key: "edit_schools", label: "ویرایش مدرسه", desc: "ویرایش مشخصات، لوگو، شهرستان" },
       { key: "delete_schools", label: "حذف مدرسه", desc: "حذف کامل مدرسه و داده‌ها" },
-      { key: "set_school_plan", label: "تعیین اشتراک", desc: "پلن برنز تا الماسی و تاریخ انقضا" },
       { key: "enter_school_panel", label: "ورود به پنل مدرسه", desc: "مدیریت درون‌مدرسه‌ای مثل مدیر" },
     ],
   },

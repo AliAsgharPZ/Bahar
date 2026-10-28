@@ -52,9 +52,7 @@ export default function NotFound() {
             <Link href="/" className="b-btn b-btn-spring">
               <Home className="w-4 h-4" /> صفحه اصلی
             </Link>
-            <Link href="/plans" className="b-btn b-btn-soft">
-              <Compass className="w-4 h-4" /> پلن‌ها و اشتراک‌ها
-            </Link>
+            
             <Link href="/login" className="b-btn b-btn-ghost">
               <LogIn className="w-4 h-4" /> ورود به حساب
             </Link>

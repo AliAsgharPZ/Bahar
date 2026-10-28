@@ -136,9 +136,6 @@ model School {
   logoUrl         String? // لوگوی مدرسه
   managerId       String?   @unique
   manager         User?     @relation("SchoolManager", fields: [managerId], references: [id])
-  plan            String    @default("GOLD") // SILVER | GOLD | DIAMOND
-  planExpiresAt   DateTime?
-  planNote        String?
   isActive        Boolean   @default(true)
   // پروفایل کشور (بومی‌سازی): تقویم، مقیاس نمره، واحد پول و آغاز هفته
   calendarSystem  String    @default("JALALI") // JALALI | GREGORIAN | HIJRI

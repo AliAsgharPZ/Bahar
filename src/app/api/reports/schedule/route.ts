@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, isDemoUser , toInt } from "@/lib/api";
 import { computeNextRun, runScheduledReport } from "@/lib/scheduler";
-import { planHas } from "@/lib/plans";
 
 // ============================================================
 // بهار | گزارش‌های زمان‌بندی‌شده — CRUD + اجرای فوری
@@ -48,13 +47,7 @@ export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
     if (await isDemoUser(me)) return apiErr(403, "این قابلیت در حساب دمو غیرفعال است.", "DEMO_READONLY");
-    const schoolId = requireSchoolId(me);
-    // گزارش‌های زمان‌بندی‌شده قابلیت پلن الماسی است
-    const school = await db.school.findUnique({ where: { id: schoolId }, select: { plan: true } });
-    if (school && !planHas(school.plan, "advanced_reports")) {
-      return apiErr(403, "گزارش‌های زمان‌بندی‌شده در اشتراک این مدرسه فعال نیست (پلن الماسی لازم است).", "PLAN");
-    }
-    const body = await readJson<{ kind?: string; schedule?: string; dayOfWeek?: number; hour?: number; audience?: string }>(req);
+    const schoolId = requireSchoolId(me);    const body = await readJson<{ kind?: string; schedule?: string; dayOfWeek?: number; hour?: number; audience?: string }>(req);
 
     const kind = String(body.kind ?? "");
     if (!KINDS[kind]) return apiErr(400, "نوع گزارش نامعتبر است.", "BAD_KIND");

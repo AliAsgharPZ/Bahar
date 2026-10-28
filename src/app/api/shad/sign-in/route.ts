@@ -4,7 +4,6 @@ import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, rateLimit 
 import { shadSignIn, ShadApiError } from "@/lib/shad";
 import { isValidShadNumber } from "@/lib/auth";
 import { enDigits } from "@/lib/persian";
-import { planHas } from "@/lib/plans";
 
 /**
  * POST /api/shad/sign-in — auth.signIn (شبیه‌سازی داخلی)
@@ -20,16 +19,12 @@ export async function POST(req: NextRequest) {
 
     const school = await db.school.findUnique({
       where: { id: me.schoolId },
-      select: { plan: true, shadEnabled: true },
+      select: { shadEnabled: true },
     });
     // راند ۱۸: شاد اختیاری است — مدرسه می‌تواند خاموشش کرده باشد
     if (school && school.shadEnabled === false) {
       return apiErr(403, "قابلیت شاد در این مدرسه غیرفعال شده است.", "SHAD_DISABLED");
     }
-    if (school && !planHas(school.plan, "shad")) {
-      return apiErr(403, "دروازه شاد در اشتراک این مدرسه فعال نیست (پلن طلایی یا الماسی لازم است).", "PLAN");
-    }
-
     // ضد بروت‌فورس کد: سقف تلاش برای هر مدرسه در ۱۰ دقیقه
     if (!rateLimit(`shad-signin:${me.schoolId}`, 20, 10 * 60_000)) {
       return apiErr(429, "تلاش‌های ورود بیش از حد مجاز است؛ کمی بعد دوباره تلاش کنید.", "RATE_LIMITED");

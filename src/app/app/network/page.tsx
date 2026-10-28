@@ -7,7 +7,7 @@ import { faNumber } from "@/lib/persian";
 
 type Row = {
   id: string; name: string; code: string; city: string | null; province: string | null;
-  plan: string; isActive: boolean; students: number; staff: number; classes: number;
+  isActive: boolean; students: number; staff: number; classes: number;
   leads: number; feesPaid: number; ratio: number;
 };
 type Data = { schools: Row[]; totals: { schools: number; students: number; staff: number; classes: number; leads: number; feesPaid: number } };
@@ -37,7 +37,6 @@ export default function NetworkPage() {
             <thead><tr className="text-steel border-b border-hairline">
               <th className="p-3 text-start font-bold">مدرسه</th>
               <th className="p-3 text-start font-bold">شهر / استان</th>
-              <th className="p-3 text-start font-bold">پلن</th>
               <th className="p-3 text-start font-bold">دانش‌آموز</th>
               <th className="p-3 text-start font-bold">کادر</th>
               <th className="p-3 text-start font-bold">نسبت دانش‌آموز به کادر</th>
@@ -51,7 +50,6 @@ export default function NetworkPage() {
                 <tr key={s.id} className="border-b border-hairline last:border-0">
                   <td className="p-3"><b>{s.name}</b><span className="block text-[11px] text-steel">{s.code}</span></td>
                   <td className="p-3">{[s.city, s.province].filter(Boolean).join(" · ") || "—"}</td>
-                  <td className="p-3">{s.plan}</td>
                   <td className="p-3">{faNumber(s.students)}</td>
                   <td className="p-3">{faNumber(s.staff)}</td>
                   <td className="p-3">{s.ratio ? faNumber(s.ratio) : "—"}</td>

@@ -199,7 +199,7 @@ const INSERT_ORDER = [
  *  (توجه: Attendance.date و ScheduleSlot.date رشته شمسی هستند و نباید تبدیل شوند) */
 const DATE_FIELDS: Record<string, readonly string[]> = {
   user: ["birthDate", "createdAt", "hireDate", "lastLoginAt", "lockedUntil", "updatedAt"],
-  school: ["createdAt", "planExpiresAt", "updatedAt"],
+  school: ["createdAt", "updatedAt"],
   class: ["createdAt", "updatedAt"],
   student: ["createdAt", "updatedAt"],
   studentParent: ["createdAt"],

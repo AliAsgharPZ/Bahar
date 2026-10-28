@@ -418,7 +418,7 @@ export default function WebsiteEditorPage() {
               {/* پیش‌نمایش زندهٔ آدرس نهایی (اسلاگ‌شدهٔ سمت سرور) */}
               <span className="text-[10.5px] text-stone font-bold" dir="ltr">→ /s/{effectiveSlug || "…"}</span>
               <span className="text-[10.5px] text-stone">
-                سایت مدرسه در مسیر /s/{effectiveSlug || "…"} در دسترس است — اگر فارسی بنویسید، خودکار به حروف لاتین ترجمیه می‌شود. دامنه اختصاصی برای اشتراک‌های بالاتر فعال می‌شود.
+                سایت مدرسه در مسیر /s/{effectiveSlug || "…"} در دسترس است — اگر فارسی بنویسید، خودکار به حروف لاتین ترجمیه می‌شود. دامنه اختصاصی هم برای همهٔ مدارس در دسترس است.
               </span>
             </label>
             <div className="b-card-sm !rounded-xl p-4 text-[12.5px] leading-relaxed">

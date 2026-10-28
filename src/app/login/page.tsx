@@ -387,9 +387,9 @@ function LoginForm() {
             </span>
             <div className="flex-1 min-w-0">
               <b className="text-[12.5px] block">حساب ندارید؟</b>
-              <p className="text-[11.5px] text-steel leading-relaxed">بهار را از نزدیک ببینید؛ همه قابلیت‌ها و اشتراک‌ها در یک صفحه.</p>
+              <p className="text-[11.5px] text-steel leading-relaxed">بهار را از نزدیک ببینید؛ همهٔ قابلیت‌ها در یک صفحه.</p>
             </div>
-            <Link href="/plans" className="b-btn b-btn-soft b-btn-sm shrink-0">پلن‌ها و اشتراک‌ها</Link>
+            
           </div>
         </div>
       </div>

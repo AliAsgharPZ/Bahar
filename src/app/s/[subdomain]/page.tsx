@@ -4,7 +4,6 @@ import { Sprout as SproutIcon } from "lucide-react";
 import { db } from "@/lib/db";
 import { defaultSiteConfig, parseSiteConfig, templateOf } from "@/lib/school-site";
 import { SchoolSiteRenderer } from "@/components/school-site/templates";
-import { planHas } from "@/lib/plans";
 import { avatarApiFields } from "@/lib/avatar";
 import { verifyToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 
@@ -120,8 +119,6 @@ export default async function SchoolSitePage({ params, searchParams }: Props) {
     events: events.map((e) => ({ title: e.title, description: e.description, startAt: e.startAt.toISOString(), kind: e.kind })),
   };
 
-  const gated = !planHas(school.plan, "website");
-
   return (
     <>
       {preview && (
@@ -129,23 +126,13 @@ export default async function SchoolSitePage({ params, searchParams }: Props) {
           حالت پیش‌نمایش — این صفحه هنوز منتشر نشده است
         </div>
       )}
-      {gated ? (
-        <div className="min-h-screen flex items-center justify-center bg-[#F4F8F6] p-6" dir="rtl">
-          <div className="b-card p-8 text-center max-w-md">
-            <h1 className="text-lg font-bold mb-2">امکانات سایت در اشتراک این مدرسه فعال نیست</h1>
-            <p className="text-[13px] text-[#5B6B66]">برای فعال‌سازی سایت عمومی، اشتراک مدرسه باید طلایی یا الماسی باشد.</p>
-            <a href="/" className="b-btn b-btn-spring b-btn-sm mt-5 inline-flex">سامانه بهار</a>
-          </div>
-        </div>
-      ) : (
-        <SchoolSiteRenderer
+              <SchoolSiteRenderer
           templateId={site.templateId}
           palette={palette}
           config={config}
           data={data}
           subdomain={subdomain}
         />
-      )}
     </>
   );
 }

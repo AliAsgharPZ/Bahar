@@ -3,14 +3,13 @@
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
-  Plus, Pencil, Trash2, Loader2, DoorOpen, Globe, MapPin, Search, Crown, Building2, CheckCheck, Ban, Puzzle,
+  Plus, Pencil, Trash2, Loader2, DoorOpen, Globe, MapPin, Search, Building2, CheckCheck, Ban, Puzzle,
 } from "lucide-react";
 import { useApi, apiPost, apiPatch, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatusBadge } from "@/components/shared/bits";
 import { IranMapPicker, type RegionSelection } from "@/components/shared/iran-map-picker";
 import { Select, useConfirm } from "@/components/shared/pickers";
-import { PLANS, PLAN_ORDER, type PlanKey } from "@/lib/plans";
-import { formatDateFa, relativeTimeFa, enDigits, faDigits } from "@/lib/persian";
+import { relativeTimeFa, enDigits, faDigits } from "@/lib/persian";
 import { getCountrySync } from "@/lib/country/cache";
 import { IRAN_PROVINCES, countiesOf } from "@/lib/iran";
 
@@ -28,9 +27,6 @@ type SchoolRow = {
   motto: string | null;
   about: string | null;
   logoUrl: string | null;
-  plan: string;
-  planExpiresAt: string | null;
-  planNote: string | null;
   isActive: boolean;
   /** راند ۱۸: ماژول‌های اختیاری مدرسه */
   shadEnabled?: boolean;
@@ -41,14 +37,13 @@ type SchoolRow = {
   studentCount: number;
   teacherCount: number;
   classCount: number;
-  planStatus: { label: string; color: string; expired: boolean; warning: boolean; daysLeft: number | null };
 };
 
 type Me = { user: { role: string; permissions: string[] } };
 
 const emptyForm = {
   name: "", code: "", type: "", province: "", county: "", phone: "", address: "",
-  establishedYear: "", motto: "", about: "", plan: "SILVER" as PlanKey, planYears: "1",
+  establishedYear: "", motto: "", about: "",
   managerNationalId: "", managerFirstName: "", managerLastName: "", managerPhone: "", managerShadNumber: "",
   forceInvalidNationalId: false,
 };
@@ -65,8 +60,6 @@ export default function SchoolsPage() {
   const [q, setQ] = useState("");
   const [editing, setEditing] = useState<SchoolRow | null>(null);
   const [editForm, setEditForm] = useState<Record<string, string>>({});
-  const [editPlan, setEditPlan] = useState<string>("GOLD");
-  const [editPlanDate, setEditPlanDate] = useState<string>("");
   const [editRegion, setEditRegion] = useState<RegionSelection>({ provinces: [], counties: [] });
   // راند ۱۸: ماژول‌های اختیاری مدرسه
   const [editShad, setEditShad] = useState<boolean>(true);
@@ -98,13 +91,10 @@ export default function SchoolsPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const years = Number(enDigits(form.planYears)) || 1;
-      const expires = new Date(Date.now() + years * 365 * 86400000).toISOString();
       const res = await apiPost<{ manager: { password: string; nationalId: string } | null; site: { subdomain: string } }>("/api/schools", {
         ...form,
         establishedYear: form.establishedYear ? Number(enDigits(form.establishedYear)) : undefined,
         county: region.counties[0]?.split("|")[1] ?? form.county,
-        planExpiresAt: expires,
       });
       toast.success(`مدرسه ساخته شد${res.site ? ` — سایت: /s/${res.site.subdomain}` : ""}`);
       if (res.manager) {
@@ -161,8 +151,6 @@ export default function SchoolsPage() {
       establishedYear: s.establishedYear ? String(s.establishedYear) : "", motto: s.motto ?? "", about: s.about ?? "",
       logoUrl: s.logoUrl ?? "",
     });
-    setEditPlan(s.plan);
-    setEditPlanDate(s.planExpiresAt ? s.planExpiresAt.slice(0, 10) : "");
     setEditShad(s.shadEnabled !== false);
     setEditCustodian(s.custodianEnabled !== false);
     setEditRegion(
@@ -182,8 +170,6 @@ export default function SchoolsPage() {
         establishedYear: editForm.establishedYear ? Number(enDigits(editForm.establishedYear)) : null,
         province: editRegion.provinces[0] ?? null,
         county: editRegion.counties[0]?.split("|")[1] ?? null,
-        plan: editPlan,
-        planExpiresAt: editPlanDate || null,
         isActive: true,
         // راند ۱۸: ماژول‌های اختیاری
         shadEnabled: editShad,
@@ -205,7 +191,7 @@ export default function SchoolsPage() {
     <div className="flex flex-col gap-6">
       <PageHeader
         title="مدارس"
-        desc="مدیریت کامل مدارس سرویس: اشتراک نقره‌ای تا الماسی، شهرستان، لوگو، سایت اختصاصی و ورود مستقیم به پنل هر مدرسه."
+        desc="مدیریت کامل مدارس: شهرستان، لوگو، سایت اختصاصی و ورود مستقیم به پنل هر مدرسه. همهٔ قابلیت‌ها رایگان است."
         action={
           canCreateSchools ? (
             <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShowCreate(true)}>
@@ -228,7 +214,6 @@ export default function SchoolsPage() {
 
       <div className="grid md:grid-cols-2 gap-4">
         {schools.map((s) => {
-          const plan = PLANS[(s.plan as PlanKey) in PLANS ? (s.plan as PlanKey) : "SILVER"];
           return (
             <div key={s.id} className={`b-card p-5 flex flex-col gap-4 ${!s.isActive ? "opacity-60" : ""}`}>
               <div className="flex items-start gap-3">
@@ -251,13 +236,6 @@ export default function SchoolsPage() {
                     )}
                   </span>
                 </div>
-                <span
-                  className="b-badge !text-[10px] shrink-0"
-                  style={{ background: `${plan.color}18`, color: plan.color }}
-                >
-                  <Crown className="w-3 h-3 inline ml-1" />
-                  {plan.label}
-                </span>
               </div>
 
               <div className="grid grid-cols-4 gap-2 text-center">
@@ -278,14 +256,6 @@ export default function SchoolsPage() {
                 <div className="flex justify-between">
                   <span className="text-steel">مدیر</span>
                   <b className="truncate">{s.manager ? `${s.manager.firstName} ${s.manager.lastName}` : "تعیین نشده"}</b>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-steel">انقضای اشتراک</span>
-                  <b className={s.planStatus.expired ? "text-destructive" : s.planStatus.warning ? "text-warning-deep" : ""}>
-                    {s.planExpiresAt
-                      ? `${formatDateFa(s.planExpiresAt)}${s.planStatus.daysLeft !== null ? ` (${s.planStatus.expired ? "منقضی" : faDigits(s.planStatus.daysLeft) + " روز"})` : ""}`
-                      : "نامحدود"}
-                  </b>
                 </div>
                 {s.site && (
                   <div className="flex justify-between">
@@ -405,38 +375,6 @@ export default function SchoolsPage() {
                 </label>
               </div>
 
-              {/* اشتراک */}
-              <div className="b-card-sm !rounded-2xl p-5">
-                <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-3">
-                  <Crown className="w-4 h-4 text-spring" /> اشتراک مدرسه
-                </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
-                  {PLAN_ORDER.map((key) => {
-                    const p = PLANS[key];
-                    return (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => set("plan", key)}
-                        className={`b-option flex-col !items-center !py-3 ${form.plan === key ? "b-option-selected" : ""}`}
-                      >
-                        <Crown className="w-4 h-4 mb-1" style={{ color: p.color }} />
-                        <b className="text-[12px]">{p.label}</b>
-                        <span className="text-[9.5px] text-steel text-center mt-0.5">{faDigits(p.features.length)} قابلیت</span>
-                      </button>
-                    );
-                  })}
-                </div>
-                <div className="flex items-center gap-3 text-[12px] text-steel">
-                  <span>مدت اشتراک:</span>
-                  {["1", "0.5", "2"].map((y) => (
-                    <button key={y} type="button" className={`b-pill-tab !py-1.5 !text-[11px] ${form.planYears === y ? "b-pill-tab-active" : ""}`} onClick={() => set("planYears", y)}>
-                      {y === "0.5" ? "۶ ماه" : y === "1" ? "۱ سال" : "۲ سال"}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {/* مدیر */}
               <div className="b-card-sm !rounded-2xl p-5">
                 <h3 className="font-bold text-[13.5px] mb-1">مدیر مدرسه</h3>
@@ -530,26 +468,6 @@ export default function SchoolsPage() {
                 <label className="flex flex-col gap-1.5">
                   <span className="text-[12.5px] font-bold">سال تاسیس</span>
                   <input className="b-input" dir="ltr" value={editForm.establishedYear ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, establishedYear: e.target.value }))} />
-                </label>
-              </div>
-
-              <div className="b-card-sm !rounded-2xl p-5">
-                <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-3"><Crown className="w-4 h-4 text-spring" /> اشتراک و انقضا</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-3">
-                  {PLAN_ORDER.map((key) => {
-                    const p = PLANS[key];
-                    return (
-                      <button key={key} type="button" onClick={() => setEditPlan(key)} className={`b-option flex-col !items-center !py-3 ${editPlan === key ? "b-option-selected" : ""}`}>
-                        <Crown className="w-4 h-4 mb-1" style={{ color: p.color }} />
-                        <b className="text-[12px]">{p.label}</b>
-                      </button>
-                    );
-                  })}
-                </div>
-                <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">تاریخ انقضا (خالی = نامحدود)</span>
-                  <input className="b-input" dir="ltr" type="date" value={editPlanDate} onChange={(e) => setEditPlanDate(e.target.value)} />
-                  <span className="text-[10.5px] text-stone">مدیر مدرسه ۳۰ روز مانده به انقضا هشدار می‌بیند.</span>
                 </label>
               </div>
 

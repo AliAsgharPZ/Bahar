@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, isDemoUser } from "@/lib/api";
 import { deliverCredentials, shadStatus, retryQueuedOutboxForSchool } from "@/lib/shad";
 import { ROLE_LABELS } from "@/lib/roles";
-import { planHas } from "@/lib/plans";
 
 /** POST /api/shad/deliver — ارسال (دوباره) اعتبارنامه کاربران به شماره شادشان */
 export async function POST(req: NextRequest) {
@@ -26,10 +25,6 @@ export async function POST(req: NextRequest) {
     if (school.shadEnabled === false) {
       return apiErr(403, "قابلیت شاد در این مدرسه غیرفعال شده است؛ اعتبارنامه‌ها را از صفحه «کاربران» کپی کنید.", "SHAD_DISABLED");
     }
-    if (!planHas(school.plan, "shad")) {
-      return apiErr(403, "دروازه شاد در اشتراک این مدرسه فعال نیست (پلن طلایی یا الماسی لازم است).", "PLAN");
-    }
-
     const status = await shadStatus(schoolId);
     /* FIX (راند ۱۹-a): حساب دمو فقط در حالت شبیه‌سازی داخلی (INTERNAL) مجاز است —
        نشست واقعی (EXTERNAL با توکن web.shad.ir) پیام‌های واقعی به شماره‌های واقعی

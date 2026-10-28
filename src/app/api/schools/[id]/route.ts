@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, isDemoUser } from "@/lib/api";
 import { hasPermission } from "@/lib/roles";
 import { isValidProvinceCounty } from "@/lib/iran";
-import { planOf } from "@/lib/plans";
 import { enDigits } from "@/lib/persian";
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -47,24 +46,6 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
         data.county = county;
       }
       if (body.isActive !== undefined) data.isActive = Boolean(body.isActive);
-      // اشتراک
-      if (body.plan !== undefined) {
-        const plan = String(body.plan);
-        if (!["SILVER", "GOLD", "DIAMOND"].includes(plan)) {
-          return apiErr(400, "پلن نامعتبر است.", "BAD_PLAN");
-        }
-        data.plan = plan;
-      }
-      if (body.planExpiresAt !== undefined) {
-        if (body.planExpiresAt) {
-          const d = new Date(String(body.planExpiresAt));
-          if (isNaN(d.getTime())) return apiErr(400, "تاریخ انقضای اشتراک نامعتبر است.", "BAD_DATE");
-          data.planExpiresAt = d;
-        } else {
-          data.planExpiresAt = null;
-        }
-      }
-      if (body.planNote !== undefined) data.planNote = String(body.planNote) || null;
     }
 
     // مدیر مدرسه هم می‌تواند این‌ها را ویرایش کند
@@ -206,7 +187,7 @@ export async function DELETE(req: NextRequest, ctx: Ctx) {
 
     await audit({
       user: me, action: "DELETE_SCHOOL", entityType: "SCHOOL", entityId: id,
-      meta: { name: school.name, code: school.code, plan: planOf(school.plan), cascaded },
+      meta: { name: school.name, code: school.code, cascaded },
     });
     return apiOk({ ok: true, mode: "hard", cascaded });
   } catch (e) {

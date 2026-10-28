@@ -28,7 +28,7 @@ type Ticket = {
 const STATUS_LABELS: Record<string, string> = { OPEN: "باز", ANSWERED: "پاسخ داده‌شده", CLOSED: "بسته" };
 const PRIORITY_LABELS: Record<string, string> = { LOW: "کم", NORMAL: "معمولی", HIGH: "فوری" };
 const CATEGORY_LABELS: Record<string, string> = {
-  GENERAL: "عمومی", TECHNICAL: "مشکل فنی", BILLING: "اشتراک و پرداخت",
+  GENERAL: "عمومی", TECHNICAL: "مشکل فنی", BILLING: "پرداخت و مالی",
   SUGGESTION: "پیشنهاد",
 };
 
@@ -102,7 +102,7 @@ export default function TicketsPage() {
     <div className="flex flex-col gap-6">
       <PageHeader
         title="پشتیبانی"
-        desc="تیکت خود را ثبت کنید تا ادمین‌های سرویس بهار پاسخ دهند — از مشکل فنی تا درخواست اشتراک."
+        desc="تیکت خود را ثبت کنید تا ادمین‌های سرویس بهار پاسخ دهند — از مشکل فنی تا درخواست مالی."
         action={
           <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShowCreate(true)}>
             <Plus className="w-4 h-4" /> تیکت جدید
