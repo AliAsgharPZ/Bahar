@@ -94,6 +94,7 @@ export const NAV: NavItem[] = [
   { href: "/app/facilities", label: "امکانات و اموال", tKey: "nav.facilities", short: "امکانات", icon: Wrench, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER", "CUSTODIAN"], tint: 2, group: "services" },
   { href: "/app/dormitory", label: "خوابگاه", tKey: "nav.dormitory", short: "خوابگاه", icon: Building2, roles: ["*"], tint: 3, group: "services" },
   { href: "/app/mcp", label: "سرور MCP", tKey: "nav.mcp", short: "MCP", icon: Terminal, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER"], tint: 0, group: "admin" },
+  { href: "/app/accessibility", label: "دسترس‌پذیری", tKey: "nav.accessibility", short: "دسترس‌پذیری", icon: Accessibility, roles: ["*"], tint: 1, group: "personal" },
   { href: "/app/engagement", label: "نظرسنجی و پیشنهاد", tKey: "nav.engagement", short: "نظرسنجی", icon: Vote, roles: ["*"], tint: 3, group: "comms" },
   { href: "/app/certificates", label: "گواهی‌ها", tKey: "nav.certificates", short: "گواهی‌ها", icon: ScrollText, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 0, group: "students" },
   { href: "/app/reports", label: "گزارش‌ها و داده", tKey: "nav.reports", short: "گزارش‌ها", icon: FileBarChart, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 1, group: "admin" },

@@ -22,6 +22,7 @@ import { LangProvider, useLang } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { ConfirmProvider } from "@/components/shared/pickers";
 import { useCountry } from "@/lib/country/client";
+import { AccessibilityProvider, SkipLink } from "@/lib/accessibility";
 
 export type ShellUser = {
   id: string;
@@ -61,7 +62,7 @@ export function AppShell({ user, children }: { user: ShellUser; children: React.
   return (
     <LangProvider initialCode={user.langCode}>
       <ConfirmProvider>
-        <AppShellInner user={user}>{children}</AppShellInner>
+        <AccessibilityProvider><AppShellInner user={user}>{children}</AppShellInner></AccessibilityProvider>
       </ConfirmProvider>
     </LangProvider>
   );
@@ -377,6 +378,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
   return (
     <ShellUserContext.Provider value={{ user, badges }}>
     <div className="min-h-screen bg-background flex flex-col">
+      <SkipLink />
       {/* هدر موبایل — بدون همبرگر؛ ناوبری موبایل = لانچر app-screen داخل داشبورد */}
       <header className="lg:hidden sticky top-0 z-40 bg-background border-b border-hairline-soft flex items-center justify-between gap-1 px-3 h-16 no-print">
         <div className="flex items-center gap-1.5 min-w-0">
@@ -561,7 +563,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               />
             )}
           </header>
-          <main className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8 pb-10 lg:pb-8 w-full">
+          <main id="main-content" tabIndex={-1} className="flex-1 min-w-0 px-4 md:px-8 py-6 md:py-8 pb-10 lg:pb-8 w-full">
             <div className="max-w-6xl mx-auto b-page-in" key={pathname}>
               {/* سربرگ رسمی چاپ — فقط روی کاغذ/PDF دیده می‌شود */}
               <div className="print-only b-print-head" aria-hidden>

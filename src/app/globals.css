@@ -1082,3 +1082,26 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* ── بهار | دسترس‌پذیری (data-attribute روی <html> از src/lib/accessibility) ── */
+.b-skip-link {
+  position: absolute; top: -100px; right: 16px; z-index: 100;
+  padding: 10px 16px; border-radius: 999px; background: var(--spring); color: #fff;
+  font-weight: 700; font-size: 14px;
+}
+.b-skip-link:focus { top: 12px; }
+:focus-visible { outline: 3px solid var(--spring); outline-offset: 2px; }
+html[data-a11y-size="small"] body { font-size: 14px; }
+html[data-a11y-size="large"] body { zoom: 1.15; }
+html[data-a11y-size="xlarge"] body { zoom: 1.3; }
+html[data-a11y-contrast="high"] {
+  --ink: #000000; --steel: #1a1a1a; --paper: #ffffff; --card: #ffffff;
+  --hairline: #000000; --hairline-soft: #333333;
+}
+html[data-a11y-contrast="high"] .b-card, html[data-a11y-contrast="high"] .b-card-md { border-width: 2px; }
+html[data-a11y-distraction="on"] .b-float, html[data-a11y-distraction="on"] .b-float-slow,
+html[data-a11y-distraction="on"] .b-aurora, html[data-a11y-distraction="on"] .b-auto-stagger > * { animation: none !important; }
+html[data-a11y-distraction="on"] .b-card, html[data-a11y-distraction="on"] .b-card-md { box-shadow: none; }
+html[data-a11y-motion="reduce"] *, html[data-a11y-motion="reduce"] *::before, html[data-a11y-motion="reduce"] *::after {
+  animation: none !important; transition: none !important;
+}
