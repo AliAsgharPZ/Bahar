@@ -2,6 +2,7 @@ import { apiOk, handleApiError } from "@/lib/api";
 import { db } from "@/lib/db";
 import { CATALOG_KEYS, validateLanguagePack } from "@/lib/langs";
 import { SHIPPED_LANG_PACKS, catalogDomains } from "@/lib/langs/shipped";
+import { WORLD_LANGUAGES } from "@/lib/langs/world";
 
 /* بهار | پوشش ترجمه — کاتالوگ، دامنه‌ها، بسته‌های همراه سامانه و
    بسته‌های پایگاه داده، با فهرست کلیدهای ترجمه‌نشدهٔ هر بسته.
@@ -29,6 +30,7 @@ export async function GET() {
       domains: catalogDomains(),
       shipped: SHIPPED_LANG_PACKS.map((p) => ({ code: p.code, name: p.name, nativeName: p.nativeName, direction: p.direction, keyCount: p.keyCount, coverage: p.coverage, missingKeys: p.missingKeys })),
       dbPacks: dbRows,
+      worldLanguages: WORLD_LANGUAGES,
     });
   } catch (e) {
     return handleApiError(e);

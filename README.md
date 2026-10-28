@@ -108,18 +108,23 @@ school — in one install.
   data attributes, plus a skip link to main content (`/app/accessibility`).
 - **Country packs** — the country profile now supports divisions down
   to province → city → village, with a validator that counts cities
-  and villages. Shipped packs, with honest coverage: **IR** (31
-  provinces, 401 cities, 0 villages), **AE** (7 emirates, 7 cities),
-  **SA** (13 regions, 13 cities). Villages are not shipped for any
-  country yet — the structure exists, the village data does not, and
-  the coverage page says so. New packs are imported by super admins
-  via `/api/countries` (`/app/countries`).
+  and villages. Shipped full packs, with honest coverage: **IR** (31
+  provinces, 401 cities, 52,225 province-level villages from GeoNames
+  — no county split, because the source has no county data), **AE**
+  (7 emirates, 7 cities), **SA** (13 regions, 13 cities). On top of
+  that, a **world name registry of 249 countries** (Persian + English
+  names from ICU/CLDR) is shipped and shown on `/app/countries` — it
+  is names only, never counted as a full pack. New full packs are
+  imported by super admins via `/api/countries` (`/app/countries`).
 - **Language coverage** — the UI catalogue is 200 keys (UI strings
-  only, no guide prose). Shipped packs: **English 200/200 (100%)**,
-  **Arabic 157/200 (79%)**, **Turkish 157/200 (79%)** — shell,
-  navigation and common actions only for Arabic/Turkish; untranslated
-  keys fall back to Persian. `/api/languages/coverage` and the
-  `/app/languages` page list every missing key per pack.
+  only, no guide prose). Shipped packs, all 200/200 (100%):
+  **English, Arabic, Turkish, French, Spanish, German, Italian,
+  Portuguese** — untranslated keys in database packs fall back to
+  Persian. On top of that, a **world name registry of 183 languages**
+  (Persian + English + native names from ICU/CLDR) is shipped and
+  shown on `/app/languages` — it is names only, never counted as a
+  translated pack. `/api/languages/coverage` and the `/app/languages`
+  page list every missing key per pack.
 - **Labs** — read-only differentiator tools on real data: what-if
   simulation, replayable history from the audit log, a permission
   playground (dry-run evaluation, no writes), a data-quality scan,

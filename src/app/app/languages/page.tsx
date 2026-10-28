@@ -6,7 +6,8 @@ import { PageHeader, LoadingBlock, ErrorBox } from "@/components/shared/bits";
 import { faNumber } from "@/lib/persian";
 
 type PackRow = { code: string; name: string; nativeName: string; direction: string; keyCount: number; coverage: number; missingKeys: string[]; status?: string };
-type CoverageData = { catalogSize: number; domains: Record<string, number>; shipped: PackRow[]; dbPacks: PackRow[] };
+type WorldLanguage = { code: string; nameFa: string; nameEn: string; nativeName: string };
+type CoverageData = { catalogSize: number; domains: Record<string, number>; shipped: PackRow[]; dbPacks: PackRow[]; worldLanguages?: WorldLanguage[] };
 
 export default function LanguagesPage() {
   const { data, loading, error } = useApi<CoverageData>("/api/languages/coverage");
@@ -50,6 +51,17 @@ export default function LanguagesPage() {
                   <b>{p.name} ({p.code})</b><span className="text-steel"> — پوشش {faNumber(p.coverage)}٪ · {faNumber(p.missingKeys.length)} کلید ترجمه‌نشده</span>
                 </div>
               ))}
+            </div>
+          )}
+          {data.worldLanguages && (
+            <div className="b-card p-6 flex flex-col gap-2">
+              <b className="text-[14px]">فهرست نام همهٔ زبان‌های جهان — {faNumber(data.worldLanguages.length)} زبان</b>
+              <p className="text-[12.5px] text-steel">
+                این فهرست فقط نام زبان‌هاست (فارسی + انگلیسی + نام بومی، منبع ICU/CLDR)؛ ترجمهٔ کامل کاتالوگ فعلاً فقط
+                برای {faNumber(data.shipped.length)} بستهٔ همراه سامانه موجود است و بقیه با واردات بستهٔ تازه (سوپرادمین)
+                پر می‌شوند — این فهرست هرگز بستهٔ کامل شمرده نمی‌شود.
+              </p>
+              <p className="text-[12.5px] text-steel leading-7">{data.worldLanguages.map((l) => `${l.nameFa} (${l.nativeName})`).join(" · ")}</p>
             </div>
           )}
           <p className="text-[12.5px] text-steel">بارگذاری بستهٔ تازه همچنان فقط برای سوپرادمین و از مسیر /api/languages انجام می‌شود؛ این صفحه فقط گزارش پوشش است.</p>

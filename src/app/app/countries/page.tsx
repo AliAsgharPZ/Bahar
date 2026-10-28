@@ -7,10 +7,11 @@ import { Select } from "@/components/shared/pickers";
 import { faNumber } from "@/lib/persian";
 
 type PackSummary = { code: string; name: string; nativeName: string; level: string; provinces: number; cities: number; villages: number };
+type WorldCountry = { code: string; nameFa: string; nameEn: string };
 type Places = { provinces: string[]; cities: string[]; villages: string[]; provinceVillages: number };
 
 export default function CountriesPage() {
-  const { data: shipped, loading, error } = useApi<{ packs: PackSummary[] }>("/api/countries/shipped");
+  const { data: shipped, loading, error } = useApi<{ packs: PackSummary[]; world: WorldCountry[] }>("/api/countries/shipped");
   const [code, setCode] = useState("IR");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
@@ -36,6 +37,17 @@ export default function CountriesPage() {
             ندارد، روستا به شهرستان نسبت داده نشده است؛ امارات و عربستان هنوز روستا ندارند. ساختار روستای هر شهر هم
             با واردات بستهٔ تازه (سوپرادمین، از مسیر /api/countries) پر می‌شود.
           </p>
+        </div>
+      )}
+      {shipped?.world && (
+        <div className="b-card p-6 flex flex-col gap-2">
+          <b className="text-[14px]">فهرست نام همهٔ کشورهای جهان — {faNumber(shipped.world.length)} کشور</b>
+          <p className="text-[12.5px] text-steel">
+            این فهرست فقط نام کشورهاست (فارسی + انگلیسی، منبع ICU/CLDR)؛ بستهٔ کامل با استان/شهر/روستا فعلاً فقط برای
+            سه کشورِ بالا موجود است و بقیه با واردات بستهٔ تازه (سوپرادمین) پر می‌شوند — این فهرست هرگز بستهٔ کامل
+            شمرده نمی‌شود.
+          </p>
+          <p className="text-[12.5px] text-steel leading-7">{shipped.world.map((c) => `${c.nameFa} (${c.nameEn})`).join(" · ")}</p>
         </div>
       )}
       <div className="b-card p-6 flex flex-col gap-3">
