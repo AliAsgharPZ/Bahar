@@ -9,7 +9,7 @@ import {
   IdCard, Repeat,
   Bus, FileText, Video, Armchair, MessageSquareText,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
-  Compass, MonitorPlay, Flame, Album,
+  Compass, MonitorPlay, Flame, Album, Terminal, Accessibility, FlaskConical, Puzzle,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
