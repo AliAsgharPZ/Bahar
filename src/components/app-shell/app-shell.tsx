@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight, Search, Bell, LogOut, KeyRound, Sparkles,
-  DoorOpen, PanelRightClose, PanelRightOpen, Menu, X, UserRound, Settings, Printer,
+  DoorOpen, PanelRightClose, PanelRightOpen, Menu, X, Settings, Printer,
 } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { ROLE_LABELS } from "@/lib/roles";
@@ -444,14 +444,6 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           >
             <Search className="w-5 h-5" />
           </button>
-          <Link
-            href="/app/profile"
-            className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors"
-            aria-label="پروفایل"
-            title="پروفایل"
-          >
-            <UserRound className="w-5 h-5" />
-          </Link>
           {items.some((n) => n.href === "/app/settings") && (
             <Link
               href="/app/settings"
