@@ -204,7 +204,7 @@ function EngagementInner() {
                       {i === 0 ? <Trophy className="w-5 h-5" /> : faNumber(i + 1)}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <b className="text-[15px] flex items-center gap-1.5 truncate">{h.name} {i === 0 && <Crown className="w-4 h-4 text-[#C9971C] shrink-0" />}</b>
+                      <b className="text-[15px] flex items-center gap-1.5 truncate">{h.name} {i === 0 && <Crown className="w-4 h-4 text-[#f2a918] shrink-0" />}</b>
                       <span className="text-[11px] text-steel block">{faNumber(h.members)} عضو{h.motto ? ` · ${h.motto}` : ""}</span>
                     </div>
                     <b className="text-[22px] font-extrabold" style={{ color: h.color }}>{faNumber(h.total)}</b>

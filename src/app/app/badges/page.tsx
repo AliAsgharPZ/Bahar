@@ -17,9 +17,9 @@ type StudentOpt = { id: string; user: { firstName: string; lastName: string } };
 /* رنگ‌های فلزی تیر (برنز/نقره/طلا/الماس) — تزئینی و داده‌محور؛
    متن هر تیر در دارک روشن‌تر می‌شود تا روی کارت تیره خوانا بماند */
 const TIER_STYLE: Record<string, { label: string; cls: string; icon: typeof Medal }> = {
-  BRONZE: { label: "برنز", cls: "from-[#f2a918]/30 to-[#f2a918]/10 text-[#8A6116] dark:text-[#f2a918]", icon: Medal },
+  BRONZE: { label: "برنز", cls: "from-[#f2a918]/30 to-[#f2a918]/10 text-[#8a4c0b] dark:text-[#f2a918]", icon: Medal },
   SILVER: { label: "نقره", cls: "from-[#cdd5d1]/40 to-[#cdd5d1]/10 text-[#5d6f66] dark:text-[#cdd5d1]", icon: Medal },
-  GOLD: { label: "طلا", cls: "from-[#f2a918]/40 to-[#f2a918]/10 text-[#8A6116] dark:text-[#f2a918]", icon: Crown },
+  GOLD: { label: "طلا", cls: "from-[#f2a918]/40 to-[#f2a918]/10 text-[#8a4c0b] dark:text-[#f2a918]", icon: Crown },
   DIAMOND: { label: "الماس", cls: "from-[#1972c4]/40 to-[#1972c4]/10 text-[#006749] dark:text-[#1972c4]", icon: Crown },
 };
 
