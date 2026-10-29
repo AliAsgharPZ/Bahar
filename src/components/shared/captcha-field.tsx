@@ -71,7 +71,7 @@ export function CaptchaField({
             </span>
           )}
           <span className="absolute inset-0 bg-spring-tint/0 hover:bg-spring-tint/20 transition-colors flex items-center justify-center">
-            <RefreshCw className={`w-4 h-4 text-steel opacity-0 group-hover:opacity-100 ${loading ? "animate-spin opacity-100" : ""}`} />
+            <RefreshCw className={`w-4 h-4 text-steel opacity-0 group-hover:opacity-100 max-md:opacity-100 ${loading ? "animate-spin opacity-100" : ""}`} />
           </span>
         </button>
         <input

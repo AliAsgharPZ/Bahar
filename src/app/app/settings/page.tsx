@@ -381,7 +381,7 @@ export default function SettingsPage() {
 
           <div className="b-card p-5 flex flex-col gap-4">
             <b className="text-[13.5px]">امنیت و دروازه شاد</b>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <label className="flex flex-col gap-1.5">
                 <span className="text-[12px] font-bold">طول نشست (روز)</span>
                 <input className="b-input" dir="ltr" type="number" min={1} max={90} value={form.sessionDays} disabled={!data.canEdit} onChange={(e) => set("sessionDays", Number(e.target.value))} />

@@ -139,7 +139,7 @@ export default function ReportCommentsPage() {
                   <p>{t.text}</p>
                   <div className="flex gap-2 mt-2">
                     <button className="b-badge b-badge-spring" onClick={() => setText((x) => (x ? `${x} ${t.text}` : t.text))}>افزودن به متن</button>
-                    <button className="b-badge b-badge-neutral opacity-0 group-hover:opacity-100" onClick={() => deleteTemplate(t.id)}>
+                    <button className="b-badge b-badge-neutral opacity-0 group-hover:opacity-100 max-md:opacity-100" onClick={() => deleteTemplate(t.id)}>
                       <Trash2 className="w-3 h-3" /> حذف
                     </button>
                   </div>
