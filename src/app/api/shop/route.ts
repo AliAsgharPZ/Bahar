@@ -138,37 +138,67 @@ export async function POST(req: NextRequest) {
         }
       }
 
+      /* فروش با فرم batch تراکنش (نه callback تعاملی): آداپتور D1
+         فرم تعاملی ‎$transaction(async (tx) => ...)‎ را پشتیبانی
+         نمی‌کند، پس نگه‌داری‌ها با updateMany نگه‌دارشده انجام
+         می‌شود و شمارش نتیجه بررسی می‌شود؛ در صورت شکستِ نگه‌دار،
+         تغییرهای همان مرحله با یک batch جبرانی برگردانده می‌شوند.
+         مرحلهٔ ۱ (موجودی + کیف پول) و مرحلهٔ ۲ (سند خرج + فروش)
+         هر کدام یک batch اتمی‌اند. */
+      const stockWalletOps = [
+        ...lines.map((l) =>
+          db.shopProduct.updateMany({
+            where: { id: l.product.id, stock: { gte: l.qty } },
+            data: { stock: { decrement: l.qty } },
+          }),
+        ),
+        db.studentWallet.updateMany({
+          where: { id: wallet.id, balance: { gte: total } },
+          data: { balance: { decrement: total } },
+        }),
+      ];
+      const stockWalletResults = await db.$transaction(stockWalletOps);
+      const stockCounts = stockWalletResults.slice(0, lines.length);
+      const walletCount = stockWalletResults[lines.length];
+      if (stockCounts.some((r) => r.count !== 1) || walletCount.count !== 1) {
+        // جبران: برگرداندن موجودی‌ها و کیف پولی که کم شده‌اند.
+        await db.$transaction([
+          ...lines.map((l, i) =>
+            stockCounts[i].count === 1
+              ? db.shopProduct.updateMany({ where: { id: l.product.id }, data: { stock: { increment: l.qty } } })
+              : db.shopProduct.updateMany({ where: { id: "__none__" }, data: { stock: { increment: 0 } } }),
+          ),
+          walletCount.count === 1
+            ? db.studentWallet.updateMany({ where: { id: wallet.id }, data: { balance: { increment: total } } })
+            : db.studentWallet.updateMany({ where: { id: "__none__" }, data: { balance: { increment: 0 } } }),
+        ]);
+        if (stockCounts.some((r) => r.count !== 1)) return apiErr(409, "موجودی یک کالا کافی نیست.", "NO_STOCK");
+        return apiErr(409, "موجودی کیف پول کافی نیست.", "NO_BALANCE");
+      }
+
+      const note = lines.map((l) => `${l.product.name} ×${l.qty}`).join("، ").slice(0, 200);
+      const walletTxId = crypto.randomUUID();
       try {
-        const result = await db.$transaction(async (tx) => {
-          for (const l of lines) {
-            const updated = await tx.shopProduct.updateMany({
-              where: { id: l.product.id, stock: { gte: l.qty } },
-              data: { stock: { decrement: l.qty } },
-            });
-            if (updated.count !== 1) throw new Error("NO_STOCK");
-          }
-          const updatedWallet = await tx.studentWallet.update({
-            where: { id: wallet.id },
-            data: { balance: { decrement: total } },
-          });
-          const note = lines.map((l) => `${l.product.name} ×${l.qty}`).join("، ").slice(0, 200);
-          const txRow = await tx.walletTx.create({
-            data: { walletId: wallet.id, kind: "SPEND", amount: -total, note: `خرید بوفه: ${note}`, createdById: me.id },
-          });
-          const sale = await tx.shopSale.create({
+        const [, sale, walletAfter] = await db.$transaction([
+          db.walletTx.create({
+            data: { id: walletTxId, walletId: wallet.id, kind: "SPEND", amount: -total, note: `خرید بوفه: ${note}`, createdById: me.id },
+          }),
+          db.shopSale.create({
             data: {
-              schoolId, studentId, total, walletTxId: txRow.id, createdById: me.id,
+              schoolId, studentId, total, walletTxId, createdById: me.id,
               items: { create: lines.map((l) => ({ productId: l.product.id, name: l.product.name, price: l.product.price, qty: l.qty })) },
             },
             include: { items: true },
-          });
-          return { sale, balance: updatedWallet.balance };
-        });
-        return apiOk(result);
+          }),
+          db.studentWallet.findUnique({ where: { id: wallet.id }, select: { balance: true } }),
+        ]);
+        return apiOk({ sale, balance: walletAfter?.balance ?? wallet.balance - total });
       } catch (e) {
-        if (e instanceof Error && e.message === "NO_STOCK") {
-          return apiErr(409, "موجودی یک کالا کافی نیست.", "NO_STOCK");
-        }
+        // جبران مرحلهٔ ۱ اگر مرحلهٔ ۲ ناتمام ماند.
+        await db.$transaction([
+          ...lines.map((l) => db.shopProduct.updateMany({ where: { id: l.product.id }, data: { stock: { increment: l.qty } } })),
+          db.studentWallet.updateMany({ where: { id: wallet.id }, data: { balance: { increment: total } } }),
+        ]);
         throw e;
       }
     }
