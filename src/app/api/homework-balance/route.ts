@@ -13,6 +13,11 @@ import { requireUser, apiOk, apiErr, handleApiError, actingSchoolIdFor } from "@
 const OVERLOAD_WEEK = 5;
 const OVERLOAD_DAY = 2;
 
+/** روز محلی به قالب YYYY-MM-DD (برای min/max ورودی تاریخ در صفحه) */
+function fmtDay(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 function weekBuckets(from: Date, weeks: number): { start: Date; end: Date; label: string }[] {
   const out: { start: Date; end: Date; label: string }[] = [];
   const base = new Date(from.getFullYear(), from.getMonth(), from.getDate());
@@ -72,7 +77,7 @@ export async function GET(req: NextRequest) {
       }
       const pileups = Object.entries(byDay).filter(([, c]) => c > OVERLOAD_DAY).map(([d, c]) => ({ date: d, count: c }));
       return {
-        label: b.label, count: inWeek.length,
+        label: b.label, start: fmtDay(b.start), end: fmtDay(b.end), count: inWeek.length,
         overload: inWeek.length > OVERLOAD_WEEK || pileups.length > 0,
         bySubject: Object.entries(bySubject).map(([name, count]) => ({ name, count })),
         pileups,
@@ -88,7 +93,7 @@ export async function GET(req: NextRequest) {
       weeks: weekData,
       summary: {
         total, overloadWeeks,
-        lightestWeek: lightest ? { label: lightest.label, count: lightest.count } : null,
+        lightestWeek: lightest ? { label: lightest.label, count: lightest.count, start: lightest.start, end: lightest.end } : null,
         suggestion: overloadWeeks > 0 && lightest
           ? `هفته‌های پرتراکم را سبک کنید: انتقال یک تکلیف به ${lightest.label} (اکنون ${lightest.count} تکلیف) تراکم را کم می‌کند.`
           : "تراکم تکالیف در هفته‌های آینده متعادل است.",
