@@ -111,7 +111,11 @@ school — in one install.
   and villages. Shipped full packs, with honest coverage: **IR** (31
   provinces, 401 cities, 52,225 province-level villages from GeoNames
   — no county split, because the source has no county data), **AE**
-  (7 emirates, 7 cities), **SA** (13 regions, 13 cities). On top of
+  (7 emirates, 7 cities), **SA** (13 regions, 13 cities), and
+  division-level packs (first-level divisions with capitals, no cities
+  or villages yet): **DE** (16), **US** (50), **FR** (18), **IT** (20),
+  **CA** (13), **AU** (8), **ES** (19), **BR** (27), **TR** (81),
+  **GB** (4). On top of
   that, a **world name registry of 249 countries** (Persian + English
   names from ICU/CLDR) is shipped and shown on `/app/countries` — it
   is names only, never counted as a full pack. New full packs are

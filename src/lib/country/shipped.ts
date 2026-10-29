@@ -7,6 +7,12 @@ import dePack from "./packs/de.json";
 import usPack from "./packs/us.json";
 import frPack from "./packs/fr.json";
 import itPack from "./packs/it.json";
+import caPack from "./packs/ca.json";
+import auPack from "./packs/au.json";
+import esPack from "./packs/es.json";
+import brPack from "./packs/br.json";
+import trPack from "./packs/tr.json";
+import gbPack from "./packs/gb.json";
 
 /* ============================================================
    بهار | بسته‌های کشورِ همراه سامانه (shipped packs)
@@ -18,7 +24,8 @@ import itPack from "./packs/it.json";
    divisions تا سطح روستا را دارد ولی فهرست روستاهای هر شهر هنوز
    خالی است. امارات و عربستان هنوز روستا ندارند. آلمان، آمریکا،
    فرانسه و ایتالیا فقط در سطح استان/ایالت‌اند (بدون شهر و روستا)؛
-   مقیاس نمره و فهرست پایه‌هایشان عمومی است، نه نظام رسمی کشور.
+   کانادا (۱۳)، استرالیا (۸)، اسپانیا (۱۹)، برزیل (۲۷)، ترکیه (۸۱)
+   و بریتانیا (۴) نیز در همین سطح‌اند. مقیاس نمره و فهرست پایه‌هایشان عمومی است، نه نظام رسمی کشور.
    ============================================================ */
 
 export type ShippedPackSummary = {
@@ -57,7 +64,7 @@ function summarize(pack: CountryProfile): ShippedPackSummary {
   };
 }
 
-export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile, dePack as CountryProfile, usPack as CountryProfile, frPack as CountryProfile, itPack as CountryProfile];
+export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile, dePack as CountryProfile, usPack as CountryProfile, frPack as CountryProfile, itPack as CountryProfile, caPack as CountryProfile, auPack as CountryProfile, esPack as CountryProfile, brPack as CountryProfile, trPack as CountryProfile, gbPack as CountryProfile];
 export const SHIPPED_SUMMARIES: ShippedPackSummary[] = SHIPPED_PACKS.map(summarize);
 export const SHIPPED_CODES = SHIPPED_PACKS.map((p) => p.code);
 

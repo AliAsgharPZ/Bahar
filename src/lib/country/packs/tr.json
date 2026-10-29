@@ -1,0 +1,978 @@
+{
+  "code": "TR",
+  "name": "ترکیه",
+  "nativeName": "Türkiye",
+  "locale": "tr-TR",
+  "direction": "ltr",
+  "timezone": "Europe/Istanbul",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "شمارهٔ شناسایی ملی",
+    "algorithm": "digits",
+    "pattern": "^\\d{11}$",
+    "placeholder": "12345678901",
+    "example": "12345678901"
+  },
+  "phone": {
+    "pattern": "^\\+90\\d{10}$",
+    "placeholder": "+905321234567",
+    "example": "+905321234567"
+  },
+  "currency": {
+    "label": "لیر",
+    "code": "TRY",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ ۱",
+    "پایهٔ ۲",
+    "پایهٔ ۳",
+    "پایهٔ ۴",
+    "پایهٔ ۵",
+    "پایهٔ ۶",
+    "پایهٔ ۷",
+    "پایهٔ ۸",
+    "پایهٔ ۹",
+    "پایهٔ ۱۰",
+    "پایهٔ ۱۱",
+    "پایهٔ ۱۲"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "regions": [
+    {
+      "name": "آدانا",
+      "center": "آدانا",
+      "counties": [
+        "آدانا"
+      ]
+    },
+    {
+      "name": "آدیامان",
+      "center": "آدیامان",
+      "counties": [
+        "آدیامان"
+      ]
+    },
+    {
+      "name": "افیون قره‌حصار",
+      "center": "افیون قره‌حصار",
+      "counties": [
+        "افیون قره‌حصار"
+      ]
+    },
+    {
+      "name": "آغری",
+      "center": "آغری",
+      "counties": [
+        "آغری"
+      ]
+    },
+    {
+      "name": "آق‌سرای",
+      "center": "آق‌سرای",
+      "counties": [
+        "آق‌سرای"
+      ]
+    },
+    {
+      "name": "آماسیا",
+      "center": "آماسیا",
+      "counties": [
+        "آماسیا"
+      ]
+    },
+    {
+      "name": "آنکارا",
+      "center": "آنکارا",
+      "counties": [
+        "آنکارا"
+      ]
+    },
+    {
+      "name": "آنتالیا",
+      "center": "آنتالیا",
+      "counties": [
+        "آنتالیا"
+      ]
+    },
+    {
+      "name": "اردهان",
+      "center": "اردهان",
+      "counties": [
+        "اردهان"
+      ]
+    },
+    {
+      "name": "آرتوین",
+      "center": "آرتوین",
+      "counties": [
+        "آرتوین"
+      ]
+    },
+    {
+      "name": "آیدین",
+      "center": "آیدین",
+      "counties": [
+        "آیدین"
+      ]
+    },
+    {
+      "name": "بالیک‌اسیر",
+      "center": "بالیک‌اسیر",
+      "counties": [
+        "بالیک‌اسیر"
+      ]
+    },
+    {
+      "name": "بارتین",
+      "center": "بارتین",
+      "counties": [
+        "بارتین"
+      ]
+    },
+    {
+      "name": "باتمان",
+      "center": "باتمان",
+      "counties": [
+        "باتمان"
+      ]
+    },
+    {
+      "name": "بایبورت",
+      "center": "بایبورت",
+      "counties": [
+        "بایبورت"
+      ]
+    },
+    {
+      "name": "بیله‌جک",
+      "center": "بیله‌جک",
+      "counties": [
+        "بیله‌جک"
+      ]
+    },
+    {
+      "name": "بینگل",
+      "center": "بینگل",
+      "counties": [
+        "بینگل"
+      ]
+    },
+    {
+      "name": "بیتلیس",
+      "center": "بیتلیس",
+      "counties": [
+        "بیتلیس"
+      ]
+    },
+    {
+      "name": "بولو",
+      "center": "بولو",
+      "counties": [
+        "بولو"
+      ]
+    },
+    {
+      "name": "بوردور",
+      "center": "بوردور",
+      "counties": [
+        "بوردور"
+      ]
+    },
+    {
+      "name": "بورسا",
+      "center": "بورسا",
+      "counties": [
+        "بورسا"
+      ]
+    },
+    {
+      "name": "چاناق‌قلعه",
+      "center": "چاناق‌قلعه",
+      "counties": [
+        "چاناق‌قلعه"
+      ]
+    },
+    {
+      "name": "چانکری",
+      "center": "چانکری",
+      "counties": [
+        "چانکری"
+      ]
+    },
+    {
+      "name": "چوروم",
+      "center": "چوروم",
+      "counties": [
+        "چوروم"
+      ]
+    },
+    {
+      "name": "دنیزلی",
+      "center": "دنیزلی",
+      "counties": [
+        "دنیزلی"
+      ]
+    },
+    {
+      "name": "دیاربکر",
+      "center": "دیاربکر",
+      "counties": [
+        "دیاربکر"
+      ]
+    },
+    {
+      "name": "دوزجه",
+      "center": "دوزجه",
+      "counties": [
+        "دوزجه"
+      ]
+    },
+    {
+      "name": "ادیرنه",
+      "center": "ادیرنه",
+      "counties": [
+        "ادیرنه"
+      ]
+    },
+    {
+      "name": "الازیغ",
+      "center": "الازیغ",
+      "counties": [
+        "الازیغ"
+      ]
+    },
+    {
+      "name": "ارزنجان",
+      "center": "ارزنجان",
+      "counties": [
+        "ارزنجان"
+      ]
+    },
+    {
+      "name": "ارزروم",
+      "center": "ارزروم",
+      "counties": [
+        "ارزروم"
+      ]
+    },
+    {
+      "name": "اسکی‌شهر",
+      "center": "اسکی‌شهر",
+      "counties": [
+        "اسکی‌شهر"
+      ]
+    },
+    {
+      "name": "غازی عینتاب",
+      "center": "غازی عینتاب",
+      "counties": [
+        "غازی عینتاب"
+      ]
+    },
+    {
+      "name": "گیرسون",
+      "center": "گیرسون",
+      "counties": [
+        "گیرسون"
+      ]
+    },
+    {
+      "name": "گوموش‌خانه",
+      "center": "گوموش‌خانه",
+      "counties": [
+        "گوموش‌خانه"
+      ]
+    },
+    {
+      "name": "حکاری",
+      "center": "حکاری",
+      "counties": [
+        "حکاری"
+      ]
+    },
+    {
+      "name": "ختای",
+      "center": "ختای",
+      "counties": [
+        "ختای"
+      ]
+    },
+    {
+      "name": "ایغدیر",
+      "center": "ایغدیر",
+      "counties": [
+        "ایغدیر"
+      ]
+    },
+    {
+      "name": "اسپارتا",
+      "center": "اسپارتا",
+      "counties": [
+        "اسپارتا"
+      ]
+    },
+    {
+      "name": "استانبول",
+      "center": "استانبول",
+      "counties": [
+        "استانبول"
+      ]
+    },
+    {
+      "name": "ازمیر",
+      "center": "ازمیر",
+      "counties": [
+        "ازمیر"
+      ]
+    },
+    {
+      "name": "قهرمان‌مرعش",
+      "center": "قهرمان‌مرعش",
+      "counties": [
+        "قهرمان‌مرعش"
+      ]
+    },
+    {
+      "name": "قرابوک",
+      "center": "قرابوک",
+      "counties": [
+        "قرابوک"
+      ]
+    },
+    {
+      "name": "قرامان",
+      "center": "قرامان",
+      "counties": [
+        "قرامان"
+      ]
+    },
+    {
+      "name": "قارص",
+      "center": "قارص",
+      "counties": [
+        "قارص"
+      ]
+    },
+    {
+      "name": "کاستامونو",
+      "center": "کاستامونو",
+      "counties": [
+        "کاستامونو"
+      ]
+    },
+    {
+      "name": "قیصریه",
+      "center": "قیصریه",
+      "counties": [
+        "قیصریه"
+      ]
+    },
+    {
+      "name": "قیریق‌قلعه",
+      "center": "قیریق‌قلعه",
+      "counties": [
+        "قیریق‌قلعه"
+      ]
+    },
+    {
+      "name": "قرقلرایلی",
+      "center": "قرقلرایلی",
+      "counties": [
+        "قرقلرایلی"
+      ]
+    },
+    {
+      "name": "قرشهر",
+      "center": "قرشهر",
+      "counties": [
+        "قرشهر"
+      ]
+    },
+    {
+      "name": "کیلیس",
+      "center": "کیلیس",
+      "counties": [
+        "کیلیس"
+      ]
+    },
+    {
+      "name": "کوجائلی",
+      "center": "کوجائلی",
+      "counties": [
+        "کوجائلی"
+      ]
+    },
+    {
+      "name": "قونیه",
+      "center": "قونیه",
+      "counties": [
+        "قونیه"
+      ]
+    },
+    {
+      "name": "کوتاهیه",
+      "center": "کوتاهیه",
+      "counties": [
+        "کوتاهیه"
+      ]
+    },
+    {
+      "name": "ملطیه",
+      "center": "ملطیه",
+      "counties": [
+        "ملطیه"
+      ]
+    },
+    {
+      "name": "مانیسا",
+      "center": "مانیسا",
+      "counties": [
+        "مانیسا"
+      ]
+    },
+    {
+      "name": "ماردین",
+      "center": "ماردین",
+      "counties": [
+        "ماردین"
+      ]
+    },
+    {
+      "name": "مرسین",
+      "center": "مرسین",
+      "counties": [
+        "مرسین"
+      ]
+    },
+    {
+      "name": "موغلا",
+      "center": "موغلا",
+      "counties": [
+        "موغلا"
+      ]
+    },
+    {
+      "name": "موش",
+      "center": "موش",
+      "counties": [
+        "موش"
+      ]
+    },
+    {
+      "name": "نوشهر",
+      "center": "نوشهر",
+      "counties": [
+        "نوشهر"
+      ]
+    },
+    {
+      "name": "نیغده",
+      "center": "نیغده",
+      "counties": [
+        "نیغده"
+      ]
+    },
+    {
+      "name": "اردو",
+      "center": "اردو",
+      "counties": [
+        "اردو"
+      ]
+    },
+    {
+      "name": "اسمانیه",
+      "center": "اسمانیه",
+      "counties": [
+        "اسمانیه"
+      ]
+    },
+    {
+      "name": "ریزه",
+      "center": "ریزه",
+      "counties": [
+        "ریزه"
+      ]
+    },
+    {
+      "name": "ساکاریا",
+      "center": "ساکاریا",
+      "counties": [
+        "ساکاریا"
+      ]
+    },
+    {
+      "name": "سامسون",
+      "center": "سامسون",
+      "counties": [
+        "سامسون"
+      ]
+    },
+    {
+      "name": "سیرت",
+      "center": "سیرت",
+      "counties": [
+        "سیرت"
+      ]
+    },
+    {
+      "name": "سینوپ",
+      "center": "سینوپ",
+      "counties": [
+        "سینوپ"
+      ]
+    },
+    {
+      "name": "سیواس",
+      "center": "سیواس",
+      "counties": [
+        "سیواس"
+      ]
+    },
+    {
+      "name": "شانلی‌اورفا",
+      "center": "شانلی‌اورفا",
+      "counties": [
+        "شانلی‌اورفا"
+      ]
+    },
+    {
+      "name": "شرناق",
+      "center": "شرناق",
+      "counties": [
+        "شرناق"
+      ]
+    },
+    {
+      "name": "تکیرداغ",
+      "center": "تکیرداغ",
+      "counties": [
+        "تکیرداغ"
+      ]
+    },
+    {
+      "name": "توقات",
+      "center": "توقات",
+      "counties": [
+        "توقات"
+      ]
+    },
+    {
+      "name": "ترابزون",
+      "center": "ترابزون",
+      "counties": [
+        "ترابزون"
+      ]
+    },
+    {
+      "name": "تونج‌ایلی",
+      "center": "تونج‌ایلی",
+      "counties": [
+        "تونج‌ایلی"
+      ]
+    },
+    {
+      "name": "عشاق",
+      "center": "عشاق",
+      "counties": [
+        "عشاق"
+      ]
+    },
+    {
+      "name": "وان",
+      "center": "وان",
+      "counties": [
+        "وان"
+      ]
+    },
+    {
+      "name": "یالووا",
+      "center": "یالووا",
+      "counties": [
+        "یالووا"
+      ]
+    },
+    {
+      "name": "یوزگات",
+      "center": "یوزگات",
+      "counties": [
+        "یوزگات"
+      ]
+    },
+    {
+      "name": "زونگولداغ",
+      "center": "زونگولداغ",
+      "counties": [
+        "زونگولداغ"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "آدانا",
+      "cities": []
+    },
+    {
+      "province": "آدیامان",
+      "cities": []
+    },
+    {
+      "province": "افیون قره‌حصار",
+      "cities": []
+    },
+    {
+      "province": "آغری",
+      "cities": []
+    },
+    {
+      "province": "آق‌سرای",
+      "cities": []
+    },
+    {
+      "province": "آماسیا",
+      "cities": []
+    },
+    {
+      "province": "آنکارا",
+      "cities": []
+    },
+    {
+      "province": "آنتالیا",
+      "cities": []
+    },
+    {
+      "province": "اردهان",
+      "cities": []
+    },
+    {
+      "province": "آرتوین",
+      "cities": []
+    },
+    {
+      "province": "آیدین",
+      "cities": []
+    },
+    {
+      "province": "بالیک‌اسیر",
+      "cities": []
+    },
+    {
+      "province": "بارتین",
+      "cities": []
+    },
+    {
+      "province": "باتمان",
+      "cities": []
+    },
+    {
+      "province": "بایبورت",
+      "cities": []
+    },
+    {
+      "province": "بیله‌جک",
+      "cities": []
+    },
+    {
+      "province": "بینگل",
+      "cities": []
+    },
+    {
+      "province": "بیتلیس",
+      "cities": []
+    },
+    {
+      "province": "بولو",
+      "cities": []
+    },
+    {
+      "province": "بوردور",
+      "cities": []
+    },
+    {
+      "province": "بورسا",
+      "cities": []
+    },
+    {
+      "province": "چاناق‌قلعه",
+      "cities": []
+    },
+    {
+      "province": "چانکری",
+      "cities": []
+    },
+    {
+      "province": "چوروم",
+      "cities": []
+    },
+    {
+      "province": "دنیزلی",
+      "cities": []
+    },
+    {
+      "province": "دیاربکر",
+      "cities": []
+    },
+    {
+      "province": "دوزجه",
+      "cities": []
+    },
+    {
+      "province": "ادیرنه",
+      "cities": []
+    },
+    {
+      "province": "الازیغ",
+      "cities": []
+    },
+    {
+      "province": "ارزنجان",
+      "cities": []
+    },
+    {
+      "province": "ارزروم",
+      "cities": []
+    },
+    {
+      "province": "اسکی‌شهر",
+      "cities": []
+    },
+    {
+      "province": "غازی عینتاب",
+      "cities": []
+    },
+    {
+      "province": "گیرسون",
+      "cities": []
+    },
+    {
+      "province": "گوموش‌خانه",
+      "cities": []
+    },
+    {
+      "province": "حکاری",
+      "cities": []
+    },
+    {
+      "province": "ختای",
+      "cities": []
+    },
+    {
+      "province": "ایغدیر",
+      "cities": []
+    },
+    {
+      "province": "اسپارتا",
+      "cities": []
+    },
+    {
+      "province": "استانبول",
+      "cities": []
+    },
+    {
+      "province": "ازمیر",
+      "cities": []
+    },
+    {
+      "province": "قهرمان‌مرعش",
+      "cities": []
+    },
+    {
+      "province": "قرابوک",
+      "cities": []
+    },
+    {
+      "province": "قرامان",
+      "cities": []
+    },
+    {
+      "province": "قارص",
+      "cities": []
+    },
+    {
+      "province": "کاستامونو",
+      "cities": []
+    },
+    {
+      "province": "قیصریه",
+      "cities": []
+    },
+    {
+      "province": "قیریق‌قلعه",
+      "cities": []
+    },
+    {
+      "province": "قرقلرایلی",
+      "cities": []
+    },
+    {
+      "province": "قرشهر",
+      "cities": []
+    },
+    {
+      "province": "کیلیس",
+      "cities": []
+    },
+    {
+      "province": "کوجائلی",
+      "cities": []
+    },
+    {
+      "province": "قونیه",
+      "cities": []
+    },
+    {
+      "province": "کوتاهیه",
+      "cities": []
+    },
+    {
+      "province": "ملطیه",
+      "cities": []
+    },
+    {
+      "province": "مانیسا",
+      "cities": []
+    },
+    {
+      "province": "ماردین",
+      "cities": []
+    },
+    {
+      "province": "مرسین",
+      "cities": []
+    },
+    {
+      "province": "موغلا",
+      "cities": []
+    },
+    {
+      "province": "موش",
+      "cities": []
+    },
+    {
+      "province": "نوشهر",
+      "cities": []
+    },
+    {
+      "province": "نیغده",
+      "cities": []
+    },
+    {
+      "province": "اردو",
+      "cities": []
+    },
+    {
+      "province": "اسمانیه",
+      "cities": []
+    },
+    {
+      "province": "ریزه",
+      "cities": []
+    },
+    {
+      "province": "ساکاریا",
+      "cities": []
+    },
+    {
+      "province": "سامسون",
+      "cities": []
+    },
+    {
+      "province": "سیرت",
+      "cities": []
+    },
+    {
+      "province": "سینوپ",
+      "cities": []
+    },
+    {
+      "province": "سیواس",
+      "cities": []
+    },
+    {
+      "province": "شانلی‌اورفا",
+      "cities": []
+    },
+    {
+      "province": "شرناق",
+      "cities": []
+    },
+    {
+      "province": "تکیرداغ",
+      "cities": []
+    },
+    {
+      "province": "توقات",
+      "cities": []
+    },
+    {
+      "province": "ترابزون",
+      "cities": []
+    },
+    {
+      "province": "تونج‌ایلی",
+      "cities": []
+    },
+    {
+      "province": "عشاق",
+      "cities": []
+    },
+    {
+      "province": "وان",
+      "cities": []
+    },
+    {
+      "province": "یالووا",
+      "cities": []
+    },
+    {
+      "province": "یوزگات",
+      "cities": []
+    },
+    {
+      "province": "زونگولداغ",
+      "cities": []
+    }
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "version": "1.0.0",
+  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور."
+}
