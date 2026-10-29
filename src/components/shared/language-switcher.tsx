@@ -14,7 +14,7 @@ interface LangOption {
   direction?: string;
 }
 
-export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
+export function LanguageSwitcher({ compact = false, restricted = false }: { compact?: boolean; restricted?: boolean }) {
   const [options, setOptions] = useState<LangOption[]>([{ code: "fa", name: "فارسی", nativeName: "فارسی" }]);
   const [current, setCurrent] = useState<string>("fa");
   const [open, setOpen] = useState(false);
@@ -46,6 +46,10 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
     }
   }
 
+  const browserCode = typeof navigator !== "undefined" ? (navigator.language || "").split("-")[0].toLowerCase() : "fa";
+  const shownOptions = restricted
+    ? options.filter((o) => o.code === "en" || o.code === browserCode || o.code === current)
+    : options;
   const currentOption = options.find((o) => o.code === current) ?? options[0];
 
   return (
@@ -73,7 +77,7 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
         className="!rounded-2xl p-1.5"
       >
         <div role="listbox" aria-label="انتخاب زبان">
-          {options.map((o) => (
+          {shownOptions.map((o) => (
             <button
               key={o.code}
               role="option"
@@ -92,12 +96,12 @@ export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
             </button>
           ))}
           <a
-            href="/languages"
+            href={restricted ? "/app/settings" : "/languages"}
             onClick={() => setOpen(false)}
             className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[11.5px] text-steel hover:text-spring hover:bg-forest/5 transition-colors"
           >
             <PlusCircle className="w-3.5 h-3.5 shrink-0" />
-            ساخت زبان جدید / Language kit ↗
+            {restricted ? "زبان‌های بیشتر در تنظیمات" : "ساخت زبان جدید / Language kit ↗"}
           </a>
         </div>
       </OriginPop>

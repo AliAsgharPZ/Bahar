@@ -269,10 +269,11 @@ export function Landing({
               onChange={(e) => changeSiteLang(e.target.value)}
               className="b-btn b-btn-ghost b-btn-sm !px-2"
             >
-              {siteLangs.map((l) => (
+              {siteLangs.filter((l) => l.code === siteLang || l.code === "en").map((l) => (
                 <option key={l.code} value={l.code}>{l.nativeName}</option>
               ))}
             </select>
+            <a href="/languages" className="b-btn b-btn-ghost b-btn-sm !px-2">{t("site.lang.more") ?? "بیشتر"}</a>
             <ThemeToggle />
             <Link href={isLoggedIn ? "/app" : "/login"} className="b-btn b-btn-ink b-btn-sm">
               {isLoggedIn ? t("site.panel") : t("site.login")}

@@ -21,7 +21,11 @@ export async function POST(req: NextRequest) {
     }
     let payload = body.payload;
     if (!payload && body.file) {
-      payload = JSON.parse(body.file);
+      try {
+        payload = JSON.parse(body.file);
+      } catch {
+        throw new ApiError(400, "BAD_JSON", "فایل بکاپ JSON معتبر نیست.");
+      }
     }
     if (!payload) {
       throw new ApiError(400, "BAD_PAYLOAD", "فایل بکاپ ارسال نشده است.");

@@ -109,7 +109,7 @@ export default function ChildrenPage() {
                     <span className="b-badge b-badge-spring shrink-0" dir="ltr">{c.student.studentNumber}</span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
                     <div className="b-card-sm !rounded-xl p-3">
                       <div className="text-[18px] font-bold">{st?.student.gpa !== null && st?.student.gpa !== undefined ? faNumber(st.student.gpa) : "—"}</div>
                       <div className="text-[10.5px] text-steel">{t("children.avgFrom20")}</div>

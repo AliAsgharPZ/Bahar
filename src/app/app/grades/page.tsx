@@ -431,7 +431,7 @@ export default function GradesPage() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-3 gap-1.5 text-center">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-center">
                   <div className="rounded-lg bg-cloud/70 py-1.5">
                     <b className="text-[12.5px] block text-spring">{faNumber(m.present)}</b>
                     <span className="text-[9.5px] text-steel flex items-center justify-center gap-0.5"><Users className="w-2.5 h-2.5" /> {t("dashboard.mini.attendance")}</span>

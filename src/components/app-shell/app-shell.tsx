@@ -382,7 +382,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           )}
           {!collapsed && (
             <div className="flex items-center gap-1 pt-2 border-t border-hairline-soft w-full">
-              <LanguageSwitcher compact />
+              <LanguageSwitcher compact restricted />
               <ThemeToggle />
               <button
                 onClick={logout}
@@ -480,7 +480,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             </Link>
           )}
           <ThemeToggle />
-          <LanguageSwitcher compact />
+          <LanguageSwitcher compact restricted />
           <span className="relative">
             {!isDesktop && (
               <NotificationCenter
@@ -697,7 +697,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                     </button>
                   )}
                   <div className="flex items-center gap-1 pt-2 border-t border-hairline-soft w-full">
-                    <LanguageSwitcher compact />
+                    <LanguageSwitcher compact restricted />
                     <ThemeToggle />
                     <button
                       onClick={logout}

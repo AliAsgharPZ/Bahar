@@ -404,7 +404,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
             </div>
           )}
           <h3 className="font-bold mt-5 mb-3">{t("dashboard.quickActions")}</h3>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {QUICK.map((q) => (
               <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-[10.5px] font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
                 <q.icon className="w-5 h-5" />

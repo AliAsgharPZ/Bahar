@@ -1,4 +1,5 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { acceptLangCode } from "@/lib/browser-lang";
 import { Landing } from "@/components/landing/landing";
 import { verifyToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
@@ -31,10 +32,11 @@ export default async function Home() {
   } catch {
     /* دیفالت ایران */
   }
-  // زبان سایت عمومی (کوکی بازدیدکننده؛ پیش‌فرض فارسی)
+  // زبان سایت عمومی: کوکی بازدیدکننده، وگرنه زبان مرورگر (Accept-Language)، وگرنه فارسی
   let siteLang = "fa";
   try {
-    siteLang = (await cookies()).get("bahar_site_lang")?.value?.trim() || "fa";
+    const cookieLang = (await cookies()).get("bahar_site_lang")?.value?.trim();
+    siteLang = cookieLang || acceptLangCode((await headers()).get("accept-language"), SITE_LANGS.map((l) => l.code));
   } catch { /* دیفالت فارسی */ }
   const site = siteStringsFor(siteLang);
   return <Landing isLoggedIn={isLoggedIn} androidUrl={androidUrl} windowsUrl={windowsUrl} shadEnabled={shadEnabled} siteLang={site.code} siteDir={site.direction} siteStrings={site.siteStrings} longStrings={longStringsFor(siteLang).longStrings} siteLangs={SITE_LANGS} />;

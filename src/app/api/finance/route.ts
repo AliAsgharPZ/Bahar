@@ -18,6 +18,9 @@ export async function GET(req: NextRequest) {
     if (!school) throw new ApiError(404, "NOT_FOUND", "مدرسه یافت نشد.");
 
     const status = new URL(req.url).searchParams.get("status") ?? undefined;
+    if (status && !["UNPAID", "PAID", "WAIVED"].includes(status)) {
+      throw new ApiError(400, "BAD_STATUS", "وضعیت شهریه نامعتبر است.");
+    }
 
     if (["MANAGER", "SUPER_ADMIN"].includes(me.role) || (me.role === "ADMIN" && acting) || (me.role === "DEPUTY" && hasPermission(me, "manage_finance"))) {
       const where: Record<string, unknown> = { schoolId };

@@ -133,7 +133,7 @@ function ReportsInner() {
             <h3 className="font-bold">{t("reports.import.step2")}</h3>
             {validation ? (
               <>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div className="p-3 rounded-2xl bg-cloud text-center"><p className="text-[10px] text-steel">{t("reports.stats.total")}</p><p className="text-lg font-bold">{faNumber(validation.total)}</p></div>
                   <div className="p-3 rounded-2xl bg-spring-tint/50 text-center"><p className="text-[10px] text-steel">{t("reports.stats.healthy")}</p><p className="text-lg font-bold text-spring-deep">{faNumber(validation.valid)}</p></div>
                   <div className="p-3 rounded-2xl bg-destructive/10 text-center"><p className="text-[10px] text-steel">{t("reports.stats.invalid")}</p><p className="text-lg font-bold text-destructive">{faNumber(validation.invalid)}</p></div>

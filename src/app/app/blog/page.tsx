@@ -228,15 +228,15 @@ export default function BlogAdminPage() {
                       <span className="ms-auto flex items-center gap-1">
                         {!c.approved && (
                           <>
-                            <button className="w-7 h-7 rounded-full flex items-center justify-center text-spring hover:bg-spring-tint" onClick={() => moderate(c, "approve")} title={t("common.confirm")}>
+                            <button className="w-7 h-7 rounded-full flex items-center justify-center text-spring hover:bg-spring-tint" onClick={() => moderate(c, "approve")} aria-label={t("common.confirm")} title={t("common.confirm")}>
                               <Check className="w-3.5 h-3.5" />
                             </button>
-                            <button className="w-7 h-7 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => moderate(c, "reject")} title={t("approvals.reject")}>
+                            <button className="w-7 h-7 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => moderate(c, "reject")} aria-label={t("approvals.reject")} title={t("approvals.reject")}>
                               <X className="w-3.5 h-3.5" />
                             </button>
                           </>
                         )}
-                        <button className="w-7 h-7 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => moderate(c, "delete")} title={t("common.delete")}>
+                        <button className="w-7 h-7 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => moderate(c, "delete")} aria-label={t("common.delete")} title={t("common.delete")}>
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </span>

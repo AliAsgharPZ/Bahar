@@ -93,7 +93,8 @@ export default function RevisionPlanPage() {
                   </div>
                   {exSessions.length === 0 && <p className="t-sm text-steel mt-2">{t("revisionPlan.noSessions")}</p>}
                   {exSessions.length > 0 && (
-                    <table className="w-full text-sm mt-3">
+                    <div className="overflow-x-auto mt-3">
+                    <table className="w-full text-sm min-w-[520px]">
                       <tbody>
                         {exSessions.map((s, i) => (
                           <tr key={i} className="border-t border-hairline-soft">
@@ -105,6 +106,7 @@ export default function RevisionPlanPage() {
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   )}
                   {done && sv && (
                     <p className="t-sm font-bold text-spring-deep mt-2">

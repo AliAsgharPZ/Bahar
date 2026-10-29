@@ -204,6 +204,72 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
       { label: "آبی", primary: "#000000", accent: "#0066CC", bg: "#F7F7F5" },
     ],
   },
+  {
+    id: "supabase",
+    name: "داشبورد زمردی",
+    desc: "تیره و کد‌محور با مرزهای نازک به‌جای سایه، کارت‌های داده‌محور و تب‌های pill — الهام از زبان طراحی Supabase، برای مدارس فناور و داده‌محور",
+    palettes: [
+      { label: "زمرد تیره", primary: "#00C573", accent: "#34D399", bg: "#171717" },
+      { label: "کد شب", primary: "#00C573", accent: "#A7F3D0", bg: "#0F0F0F" },
+      { label: "زمرد روشن", primary: "#009E5E", accent: "#00C573", bg: "#F7F7F7" },
+      { label: "دادهٔ سبز", primary: "#059669", accent: "#10B981", bg: "#FFFFFF" },
+    ],
+  },
+  {
+    id: "vercel",
+    name: "تک‌رنگ مینیمال",
+    desc: "سیاه‌وسفید، تایپ فشرده، سایه به‌جای مرز و کارت‌های لایه‌ای — الهام از Vercel، برای مدارس مدرن و دقیق",
+    palettes: [
+      { label: "سفید", primary: "#000000", accent: "#000000", bg: "#FFFFFF" },
+      { label: "خاکستری روشن", primary: "#000000", accent: "#666666", bg: "#FAFAFA" },
+      { label: "مشکی", primary: "#FFFFFF", accent: "#FFFFFF", bg: "#000000" },
+      { label: "کرم سرد", primary: "#111111", accent: "#333333", bg: "#F5F5F4" },
+    ],
+  },
+  {
+    id: "tesla",
+    name: "تمام‌قد تصویری",
+    desc: "هیروی تمام‌قد با عکس، کروم نزدیک‌به‌صفر و یک CTA آبی برقی — الهام از Tesla، برای مدارس با عکس‌های قوی",
+    palettes: [
+      { label: "آبی برقی", primary: "#3E6AE1", accent: "#3E6AE1", bg: "#FFFFFF" },
+      { label: "آبی روشن", primary: "#007AFF", accent: "#007AFF", bg: "#F5F5F7" },
+      { label: "سرمه‌ای", primary: "#171A20", accent: "#3E6AE1", bg: "#FFFFFF" },
+      { label: "تیره", primary: "#FFFFFF", accent: "#3E6AE1", bg: "#171A20" },
+    ],
+  },
+  {
+    id: "wise",
+    name: "گرم و والدپسند",
+    desc: "بوم گرمِ آف‌وایت، تایپ وزن ۹۰۰ و CTA قرصی لایم — الهام از Wise، برای ارتباط روشن با والدین",
+    palettes: [
+      { label: "لایم گرم", primary: "#1A1A1A", accent: "#9FE870", bg: "#FFFEF7" },
+      { label: "بوم کرم", primary: "#163300", accent: "#9FE870", bg: "#F7F5E8" },
+      { label: "سبز ملایم", primary: "#1A1A1A", accent: "#A3E635", bg: "#FFFFFF" },
+      { label: "تیرهٔ لایم", primary: "#FFFFFF", accent: "#9FE870", bg: "#163300" },
+    ],
+  },
+  {
+    id: "miro",
+    name: "بورد همکارانه",
+    desc: "بوم روشن، لهجهٔ زرد زنده و بخش‌های شبیه بورد — الهام از Miro، برای مدارس خلاق و پروژه‌محور",
+    palettes: [
+      { label: "زرد بورد", primary: "#000000", accent: "#FFD02F", bg: "#FFFFFF" },
+      { label: "بورد آبی", primary: "#1F2A44", accent: "#FFD02F", bg: "#F8FAFC" },
+      { label: "بورد سبز", primary: "#14532D", accent: "#FFD02F", bg: "#FFFFFF" },
+      { label: "بورد صورتی", primary: "#831843", accent: "#FFD02F", bg: "#FFF7ED" },
+    ],
+  },
+  {
+    id: "framer",
+    name: "نمایشی تیره",
+    desc: "مشکی و آبی کنتراستی، تایپ نمایشی بزرگ و هیروی لایه‌ای — الهام از Framer، برای مدارس جسور و مدرن",
+    palettes: [
+      { label: "آبی نئون", primary: "#FFFFFF", accent: "#0099FF", bg: "#0A0A0A" },
+      { label: "آبی تیره", primary: "#FFFFFF", accent: "#3B82F6", bg: "#0F172A" },
+      { label: "بنفش تیره", primary: "#FFFFFF", accent: "#8B5CF6", bg: "#0A0A0A" },
+      { label: "فیروزه‌ای تیره", primary: "#FFFFFF", accent: "#06B6D4", bg: "#0A0F0D" },
+    ],
+  },
 ];
 
 /** تمپلیت‌های قدیمی که در ویرایشگر نشان داده نمی‌شوند ولی سایت‌های

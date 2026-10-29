@@ -172,7 +172,7 @@ export default function QuizzesPage() {
                         {q.status !== "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "OPEN")}><Play className="w-3.5 h-3.5" /> {t("quizzes.publish")}</button>}
                         {q.status === "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "CLOSED")}><Lock className="w-3.5 h-3.5" /> {t("common.close")}</button>}
                         {q.status === "CLOSED" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "DRAFT")}><Undo2 className="w-3.5 h-3.5" /> {t("enum.quizStatus.DRAFT")}</button>}
-                        <button className="b-btn b-btn-ghost b-icon-btn" title={t("quizzes.delete.title")} onClick={() => remove(q)}><Trash2 className="w-4 h-4" /></button>
+                        <button className="b-btn b-btn-ghost b-icon-btn" aria-label={t("quizzes.delete.title")} title={t("quizzes.delete.title")} onClick={() => remove(q)}><Trash2 className="w-4 h-4" /></button>
                       </span>
                     </td>
                   </tr>

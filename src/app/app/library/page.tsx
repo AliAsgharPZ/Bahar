@@ -151,10 +151,10 @@ export default function LibraryPage() {
                         <button className="b-btn b-btn-soft b-btn-sm" disabled={b.available === 0 || busy} onClick={() => { setLoanFor(b); setStudents([]); setStudentQ(""); }}>
                           <HandHeart className="w-3.5 h-3.5" /> {t("library.loan")}
                         </button>
-                        <button className="b-btn b-btn-ghost b-icon-btn" title={t("common.edit")} onClick={() => { setEditing(b); setForm({ title: b.title, author: b.author ?? "", isbn: b.isbn ?? "", category: b.category ?? "", shelf: b.shelf ?? "", totalCopies: b.totalCopies }); setShowForm(true); }}>
+                        <button className="b-btn b-btn-ghost b-icon-btn" aria-label={t("common.edit")} title={t("common.edit")} onClick={() => { setEditing(b); setForm({ title: b.title, author: b.author ?? "", isbn: b.isbn ?? "", category: b.category ?? "", shelf: b.shelf ?? "", totalCopies: b.totalCopies }); setShowForm(true); }}>
                           <Pencil className="w-4 h-4" />
                         </button>
-                        <button className="b-btn b-btn-ghost b-icon-btn" title={t("common.delete")} onClick={() => deleteBook(b)}>
+                        <button className="b-btn b-btn-ghost b-icon-btn" aria-label={t("common.delete")} title={t("common.delete")} onClick={() => deleteBook(b)}>
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </span>

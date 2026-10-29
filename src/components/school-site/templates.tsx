@@ -87,7 +87,8 @@ const headingFont: React.CSSProperties = { fontFamily: "var(--font-heading)" };
 
 type Family =
   | "classic" | "modern" | "magazine" | "playful"
-  | "apple" | "airbnb" | "notion" | "stripe" | "linear" | "spotify" | "claude" | "figma";
+  | "apple" | "airbnb" | "notion" | "stripe" | "linear" | "spotify" | "claude" | "figma"
+  | "vercel" | "tesla" | "wise" | "miro" | "framer";
 
 /** نگاشت ۱۶ تمپلیت روی ۱۰ خانواده چیدمان — شش خانوادهٔ تازه (apple/airbnb/
  *  notion/stripe/linear/spotify) هرکدام چیدمان اختصاصی خودشان را دارند و
@@ -105,6 +106,12 @@ export function familyOf(templateId: string): Family {
   if (templateId === "spotify") return "spotify";
   if (templateId === "claude") return "claude";
   if (templateId === "figma") return "figma";
+  if (templateId === "supabase") return "linear";
+  if (templateId === "vercel") return "vercel";
+  if (templateId === "tesla") return "tesla";
+  if (templateId === "wise") return "wise";
+  if (templateId === "miro") return "miro";
+  if (templateId === "framer") return "framer";
   return "classic"; // classic + minimal
 }
 
@@ -155,6 +162,11 @@ function familyRadius(family: Family, templateId: string) {
     case "spotify": return { radius: "16px", radiusLg: "24px", pill: "999px", inputRadius: "999px" };
     case "claude": return { radius: "12px", radiusLg: "16px", pill: "9999px", inputRadius: "8px" };
     case "figma": return { radius: "24px", radiusLg: "32px", pill: "50px", inputRadius: "8px" };
+    case "vercel": return { radius: "6px", radiusLg: "8px", pill: "6px", inputRadius: "6px" };
+    case "tesla": return { radius: "4px", radiusLg: "6px", pill: "4px", inputRadius: "6px" };
+    case "wise": return { radius: "24px", radiusLg: "32px", pill: "999px", inputRadius: "14px" };
+    case "miro": return { radius: "16px", radiusLg: "20px", pill: "12px", inputRadius: "12px" };
+    case "framer": return { radius: "20px", radiusLg: "28px", pill: "999px", inputRadius: "10px" };
     default: // classic
       return templateId === "minimal"
         ? { radius: "10px", radiusLg: "12px", pill: "10px", inputRadius: "8px" }
@@ -1724,6 +1736,46 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
       <div className="mb-8 pb-4" style={{ borderBottom: `1px solid ${skin.border}` }}>
         {kicker && <p className="text-[11px] font-semibold mb-1.5 tracking-wide" style={{ color: skin.p.accent }}>{kicker}</p>}
         <h2 className="text-[20px] md:text-[24px] font-semibold" style={{ ...headingFont, color: skin.text }}>{title}</h2>
+      </div>
+    );
+  }
+  if (f === "vercel") {
+    return (
+      <div className="mb-8">
+        {kicker && <p className="text-[11px] font-medium mb-2 tracking-tight" style={{ color: skin.sub }}>{kicker}</p>}
+        <h2 className="text-[24px] md:text-[32px] font-semibold" style={{ ...headingFont, color: skin.text, letterSpacing: "-0.02em" }}>{title}</h2>
+      </div>
+    );
+  }
+  if (f === "tesla") {
+    return (
+      <div className="mb-8 text-center">
+        {kicker && <p className="text-[11px] font-medium mb-2 tracking-widest" style={{ color: skin.sub }}>{kicker}</p>}
+        <h2 className="text-[28px] md:text-[36px] font-medium" style={{ ...headingFont, color: skin.text }}>{title}</h2>
+      </div>
+    );
+  }
+  if (f === "wise") {
+    return (
+      <div className="mb-8">
+        {kicker && <p className="text-[12px] font-bold mb-2" style={{ color: skin.p.primary }}>{kicker}</p>}
+        <h2 className="text-[28px] md:text-[38px] font-black leading-[1.15]" style={{ ...headingFont, color: skin.text }}>{title}</h2>
+      </div>
+    );
+  }
+  if (f === "miro") {
+    return (
+      <div className="mb-8">
+        {kicker && <span className="inline-block px-3 py-1 text-[11px] font-bold mb-3" style={{ borderRadius: 999, background: skin.p.accent, color: "#111111" }}>{kicker}</span>}
+        <h2 className="text-[24px] md:text-[32px] font-bold" style={{ ...headingFont, color: skin.text }}>{title}</h2>
+      </div>
+    );
+  }
+  if (f === "framer") {
+    return (
+      <div className="mb-10">
+        {kicker && <p className="text-[12px] font-bold mb-2" style={{ color: skin.p.accent }}>{kicker}</p>}
+        <h2 className="text-[30px] md:text-[44px] font-extrabold leading-[1.1]" style={{ ...headingFont, color: skin.text }}>{title}</h2>
       </div>
     );
   }
@@ -3559,6 +3611,241 @@ function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
   );
 }
 
+// ============================================================
+// خانواده‌های تازهٔ ۱۳ تا ۱۷ — هرکدام زبان طراحی متفاوت، ناوبری موبایل
+// همیشه دیده می‌شود (ردیف دوم با اسکرول افقی)، نه hidden md:flex.
+// بخش‌های مشترک از FamHead/FamStats/NewsItem/EventItem/ClassItem/
+// StaffCard/GalleryGrid/FaqItem/ContactBlock/AdmissionsSection استفاده
+// می‌کنند تا جریان داده و API یکی بماند؛ تفاوت در هدر، هیرو، تایپ،
+// شعاع، سایه/مرز و چیدمان کارت‌هاست.
+// ============================================================
+function NewNav({ skin, items, linkStyle }: { skin: Skin; items: [string, string][]; linkStyle?: React.CSSProperties }) {
+  return (
+    <nav className="flex gap-1 overflow-x-auto py-1" aria-label="ناوبری سایت مدرسه" style={{ scrollbarWidth: "none" }}>
+      {items.map(([l, h]) => (
+        <a key={h} href={h} className="shrink-0 min-h-[44px] px-3 inline-flex items-center text-[12.5px] font-medium whitespace-nowrap" style={{ color: skin.sub, ...linkStyle }}>{l}</a>
+      ))}
+    </nav>
+  );
+}
+
+function NewBody({ skin, config, data, subdomain }: FamilyProps) {
+  const s = config.sections;
+  const school = data.school;
+  const phone = config.contactPhone || school.phone || "";
+  const address = config.contactAddress || school.address || "";
+  return (
+    <>
+      {s.stats && <FamStats skin={skin} stats={data.stats} />}
+      {s.about && (
+        <Section skin={skin} id="about">
+          <FamHead skin={skin} title={config.aboutTitle} kicker="درباره" />
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <p className="text-[14px] leading-[2]" style={{ color: skin.sub }}>{config.aboutText}</p>
+            {config.aboutImage && <img src={config.aboutImage} alt="درباره مدرسه" className="w-full aspect-[4/3] object-cover" style={{ borderRadius: skin.radiusLg }} />}
+          </div>
+        </Section>
+      )}
+      {s.principal && config.principalMessage && (
+        <Section skin={skin}>
+          <div className="p-6 md:p-8 flex gap-5 items-start" style={{ borderRadius: skin.radiusLg, background: skin.card, border: `1px solid ${skin.border}` }}>
+            {config.principalPhoto && <img src={config.principalPhoto} alt="مدیر مدرسه" className="w-[76px] h-[76px] rounded-full object-cover shrink-0" />}
+            <div>
+              <p className="text-[11px] font-semibold mb-2" style={{ color: skin.p.accent }}>پیام مدیر مدرسه</p>
+              <p className="text-[14px] leading-[2]" style={{ color: skin.text }}>«{config.principalMessage}»</p>
+            </div>
+          </div>
+        </Section>
+      )}
+      {s.news && data.news.length > 0 && (
+        <Section skin={skin} id="news">
+          <FamHead skin={skin} title="اخبار و اطلاعیه‌ها" kicker="تازه‌ها" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {data.news.map((n, i) => <NewsItem key={i} skin={skin} n={n} i={i} lead={i === 0} className={i === 0 ? "sm:col-span-2" : undefined} />)}
+          </div>
+        </Section>
+      )}
+      {s.events && data.events.length > 0 && (
+        <Section skin={skin} id="events">
+          <FamHead skin={skin} title="رویدادهای پیش رو" kicker="تقویم" />
+          <div className="flex flex-col gap-3">
+            {data.events.map((e, i) => <EventItem key={i} skin={skin} e={e} />)}
+          </div>
+        </Section>
+      )}
+      {s.classes && data.classes.length > 0 && (
+        <Section skin={skin} id="classes">
+          <FamHead skin={skin} title="کلاس‌ها و پایه‌ها" kicker="آموزش" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data.classes.map((c, i) => <ClassItem key={i} skin={skin} c={c} />)}
+          </div>
+        </Section>
+      )}
+      {s.staff && data.staff.length > 0 && (
+        <Section skin={skin} id="staff">
+          <FamHead skin={skin} title="کادر آموزشی" kicker="تیم ما" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data.staff.map((st, i) => <StaffCard key={st.id} skin={skin} st={st} i={i} />)}
+          </div>
+        </Section>
+      )}
+      {s.gallery && config.gallery.length > 0 && (
+        <Section skin={skin} id="gallery">
+          <FamHead skin={skin} title="گالری" kicker="تصاویر" />
+          <GalleryGrid skin={skin} images={config.gallery} />
+        </Section>
+      )}
+      {s.faq && config.faq.length > 0 && (
+        <Section skin={skin} id="faq" narrow>
+          <FamHead skin={skin} title="سوالات متداول" center />
+          <div className="flex flex-col gap-3">
+            {config.faq.map((fq, i) => <FaqItem key={i} skin={skin} fq={fq} />)}
+          </div>
+        </Section>
+      )}
+      {s.admissions && <AdmissionsSection skin={skin} config={config} subdomain={subdomain} />}
+      {s.contact && (
+        <Section skin={skin} id="contact">
+          <FamHead skin={skin} title="تماس و مسیر" />
+          <ContactBlock skin={skin} phone={phone} address={address} hours={config.contactHours} />
+        </Section>
+      )}
+      <SiteFooter skin={skin} school={school} />
+    </>
+  );
+}
+
+const NEW_NAV_ITEMS: [string, string][] = [["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کلاس‌ها", "#classes"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]];
+
+// Vercel — تک‌رنگ سیاه‌وسفید، تایپ فشرده با tracking منفی، سایه به‌جای مرز، کارت‌های لایه‌ای
+function VercelFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const p = skin.p; const school = data.school;
+  return (
+    <div data-family="vercel" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+      <header className="sticky top-0 z-30" style={{ background: p.bg, borderBottom: `1px solid ${skin.border}` }}>
+        <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
+          <b className="text-[15px] font-semibold truncate" style={{ letterSpacing: "-0.02em" }}>{school.name}</b>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-4 inline-flex items-center text-[12.5px] font-medium text-white" style={{ borderRadius: skin.pill, background: "#000000" }}>{config.ctaPrimary}</a>
+        </div>
+        <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} /></div>
+      </header>
+      <section className="max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+        <h1 className="text-[36px] md:text-[56px] font-semibold leading-[1.15] mb-5" style={{ ...headingFont, letterSpacing: "-0.03em" }}>{config.heroTitle}</h1>
+        <p className="text-[15px] leading-[1.9] max-w-xl mx-auto mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
+        <a href="#admissions" className="min-h-[44px] px-6 inline-flex items-center text-[13.5px] font-medium text-white" style={{ borderRadius: skin.pill, background: "#000000" }}>{config.ctaPrimary}</a>
+        {config.heroImage && <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full max-w-3xl mx-auto mt-12 aspect-[16/9] object-cover" style={{ borderRadius: skin.radiusLg, boxShadow: "0 0 0 1px rgba(0,0,0,.12), 0 12px 32px rgba(0,0,0,.08)" }} />}
+      </section>
+      <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
+    </div>
+  );
+}
+
+// Tesla — هیروی تمام‌قد با عکس، کروم نزدیک‌به‌صفر، یک CTA آبی برقی، شعاع ۴، بدون سایه
+function TeslaFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const p = skin.p; const school = data.school;
+  return (
+    <div data-family="tesla" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+      <header className="absolute top-0 inset-x-0 z-30">
+        <div className="max-w-6xl mx-auto px-4 pt-4 flex items-center gap-3">
+          <b className="text-[15px] font-medium truncate text-white drop-shadow">{school.name}</b>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-medium text-white" style={{ borderRadius: skin.pill, background: p.accent }}>{config.ctaPrimary}</a>
+        </div>
+        <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} linkStyle={{ color: "rgba(255,255,255,.85)" }} /></div>
+      </header>
+      <section className="relative min-h-[92vh] flex items-end">
+        {config.heroImage ? <img src={config.heroImage} alt={`تصویر ${school.name}`} className="absolute inset-0 w-full h-full object-cover" /> : <div className="absolute inset-0" style={{ background: p.bg }} />}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(0,0,0,.35), transparent 45%, rgba(0,0,0,.55))" }} aria-hidden="true" />
+        <div className="relative max-w-6xl mx-auto px-4 pb-16 pt-40 w-full text-center">
+          <h1 className="text-[36px] md:text-[54px] font-medium text-white leading-[1.2] mb-4 drop-shadow">{config.heroTitle}</h1>
+          <p className="text-[15px] text-white/90 max-w-lg mx-auto mb-8 leading-[1.9]">{config.heroSubtitle}</p>
+          <a href="#admissions" className="min-h-[44px] px-8 inline-flex items-center text-[14px] font-medium text-white" style={{ borderRadius: skin.pill, background: p.accent }}>{config.ctaPrimary}</a>
+        </div>
+      </section>
+      <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
+    </div>
+  );
+}
+
+// Wise — بوم گرمِ آف‌وایت، تایپ وزن ۹۰۰، CTA قرصی لایم با بزرگ‌شدن در hover، سلسله‌مراتب واضح برای والدین
+function WiseFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const p = skin.p; const school = data.school;
+  return (
+    <div data-family="wise" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+      <header className="sticky top-0 z-30" style={{ background: p.bg }}>
+        <div className="max-w-6xl mx-auto px-4 pt-4 flex items-center gap-3">
+          {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-black text-white text-[16px] rounded-full" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>}
+          <b className="text-[17px] font-black truncate">{school.name}</b>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold transition-transform hover:scale-105" style={{ borderRadius: 999, background: p.accent, color: "#111111" }}>{config.ctaPrimary}</a>
+        </div>
+        <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} /></div>
+      </header>
+      <section className="max-w-6xl mx-auto px-4 py-14 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 className="text-[38px] md:text-[54px] font-black leading-[1.15] mb-5" style={{ ...headingFont }}>{config.heroTitle}</h1>
+          <p className="text-[15.5px] leading-[2] mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
+          <a href="#admissions" className="min-h-[48px] px-7 inline-flex items-center text-[14px] font-bold transition-transform hover:scale-105" style={{ borderRadius: 999, background: p.accent, color: "#111111" }}>{config.ctaPrimary}</a>
+        </div>
+        {config.heroImage && <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[4/3] object-cover" style={{ borderRadius: 32 }} />}
+      </section>
+      <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
+    </div>
+  );
+}
+
+// Miro — بوم همکارانهٔ روشن، لهجهٔ زرد زنده روی سفید، بخش‌های شبیه بورد با کارت‌های چسبی
+function MiroFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const p = skin.p; const school = data.school;
+  return (
+    <div data-family="miro" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+      <header className="sticky top-0 z-30" style={{ background: "#FFFFFF", borderBottom: `1px solid ${skin.border}` }}>
+        <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
+          <span className="w-9 h-9 flex items-center justify-center font-bold rounded-xl" style={{ background: p.accent, color: "#111111" }}>{school.name[0] ?? "ب"}</span>
+          <b className="text-[15px] font-bold truncate">{school.name}</b>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold" style={{ borderRadius: 12, background: p.accent, color: "#111111" }}>{config.ctaPrimary}</a>
+        </div>
+        <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} /></div>
+      </header>
+      <section className="max-w-6xl mx-auto px-4 py-14 md:py-20">
+        <div className="p-6 md:p-10" style={{ borderRadius: 24, background: "#FFFFFF", border: `1px solid ${skin.border}`, boxShadow: "0 8px 32px rgba(0,0,0,.06)" }}>
+          <span className="inline-block px-3 py-1 text-[11px] font-bold mb-4" style={{ borderRadius: 999, background: p.accent, color: "#111111" }}>{school.type ?? "مدرسه"}</span>
+          <h1 className="text-[32px] md:text-[48px] font-bold leading-[1.2] mb-4" style={{ ...headingFont }}>{config.heroTitle}</h1>
+          <p className="text-[15px] leading-[2] max-w-2xl mb-6" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
+          {config.heroImage && <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[16/9] object-cover" style={{ borderRadius: 16 }} />}
+        </div>
+      </section>
+      <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
+    </div>
+  );
+}
+
+// Framer — مشکی و آبی کنتراستی، تایپ نمایشی بزرگ، هیروی لایه‌ای با گرادیان
+function FramerFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const p = skin.p; const school = data.school;
+  return (
+    <div data-family="framer" className="min-h-screen overflow-x-clip" style={{ background: "#0A0A0A", color: "#FFFFFF" }}>
+      <header className="sticky top-0 z-30" style={{ background: "rgba(10,10,10,.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,.12)" }}>
+        <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
+          <b className="text-[16px] font-extrabold truncate text-white">{school.name}</b>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold text-white" style={{ borderRadius: 999, background: p.accent }}>{config.ctaPrimary}</a>
+        </div>
+        <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} linkStyle={{ color: "rgba(255,255,255,.7)" }} /></div>
+      </header>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(600px 300px at 70% 0%, ${p.accent}55, transparent 70%)` }} aria-hidden="true" />
+        <div className="relative max-w-6xl mx-auto px-4 py-20 md:py-28 text-center">
+          <h1 className="text-[40px] md:text-[64px] font-extrabold leading-[1.05] mb-6 text-white" style={{ ...headingFont }}>{config.heroTitle}</h1>
+          <p className="text-[15.5px] leading-[2] max-w-xl mx-auto mb-8" style={{ color: "rgba(255,255,255,.75)" }}>{config.heroSubtitle}</p>
+          <a href="#admissions" className="min-h-[48px] px-8 inline-flex items-center text-[14px] font-bold text-white" style={{ borderRadius: 999, background: p.accent }}>{config.ctaPrimary}</a>
+          {config.heroImage && <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full max-w-4xl mx-auto mt-14 aspect-[16/9] object-cover" style={{ borderRadius: 28, border: "1px solid rgba(255,255,255,.15)" }} />}
+        </div>
+      </section>
+      <div style={{ color: "#FFFFFF" }}>
+        <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
+      </div>
+    </div>
+  );
+}
+
 export function SchoolSiteRenderer({
   templateId,
   palette,
@@ -3576,8 +3863,8 @@ export function SchoolSiteRenderer({
   const props: FamilyProps = { skin, config, data, subdomain };
 
   switch (skin.family) {
+    case "classic": return <ClassicFamily {...props} />;
     case "modern": return <ModernFamily {...props} />;
-    case "magazine": return <MagazineFamily {...props} />;
     case "magazine": return <MagazineFamily {...props} />;
     case "playful": return <PlayfulFamily {...props} />;
     case "apple": return <AppleFamily {...props} />;
@@ -3588,6 +3875,11 @@ export function SchoolSiteRenderer({
     case "spotify": return <SpotifyFamily {...props} />;
     case "claude": return <ClaudeFamily {...props} />;
     case "figma": return <FigmaFamily {...props} />;
+    case "vercel": return <VercelFamily {...props} />;
+    case "tesla": return <TeslaFamily {...props} />;
+    case "wise": return <WiseFamily {...props} />;
+    case "miro": return <MiroFamily {...props} />;
+    case "framer": return <FramerFamily {...props} />;
     default: return <ClassicFamily {...props} />;
   }
 }

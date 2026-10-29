@@ -76,7 +76,7 @@ export default function BehaviorPage() {
         desc={t("behavior.desc")}
         action={isStaff && <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {t("behavior.newRecord")}</button>}
       />
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
         <div className="b-card-sm p-4 text-center"><p className="text-[11px] text-steel">{t("behavior.positives")}</p><p className="text-xl font-bold text-success">{faNumber(allPositives.length)}</p></div>
         <div className="b-card-sm p-4 text-center"><p className="text-[11px] text-steel">{t("behavior.negatives")}</p><p className="text-xl font-bold text-destructive">{faNumber(allNegatives.length)}</p></div>
         <div className="b-card-sm p-4 text-center"><p className="text-[11px] text-steel">{t("behavior.netPoints")}</p><p className={`text-xl font-bold ${allRecords.reduce((sum, r) => sum + r.points, 0) >= 0 ? "text-spring-deep" : "text-destructive"}`}>{faNumber(allRecords.reduce((sum, r) => sum + r.points, 0))}</p></div>

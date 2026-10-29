@@ -37,7 +37,8 @@ export function LangProvider({
   // بارگذاری اولیه — از کوکی مرورگر یا ترجیح کاربر
   useEffect(() => {
     let cancelled = false;
-    const code = (initialCode || document.cookie.match(/(?:^|;\s*)bahar_lang=([^;]+)/)?.[1] || "fa").trim();
+    const browserCode = typeof navigator !== "undefined" ? (navigator.language || "").split("-")[0].toLowerCase() : "";
+    const code = (initialCode || document.cookie.match(/(?:^|;\s*)bahar_lang=([^;]+)/)?.[1] || browserCode || "fa").trim();
     const apply = (pack: ActiveLang) => {
       if (cancelled) return;
       setLang(pack);

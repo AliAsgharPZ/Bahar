@@ -410,7 +410,7 @@ export default function WebsiteEditorPage() {
 
           <div className="b-card p-5 flex flex-col gap-4">
             <b className="text-[13.5px] flex items-center gap-2">گالری تصاویر</b>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               {config.gallery.map((g, i) => (
                 <div key={i} className="relative group">
                   <img src={g} alt={`گالری ${i + 1}`} className="w-full aspect-[4/3] object-cover rounded-xl border border-hairline" />
