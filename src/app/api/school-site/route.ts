@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, actingSchoolIdFor } from "@/lib/api";
-import { defaultSiteConfig, parseSiteConfig, templateOf, SITE_TEMPLATES, type SiteConfig } from "@/lib/school-site";
+import { defaultSiteConfig, parseSiteConfig, templateOf, isKnownTemplateId, isHexColor, SITE_TEMPLATES, type SiteConfig } from "@/lib/school-site";
 import { slugify } from "@/lib/persian";
 
 /** GET /api/school-site — پیکربندی سایت مدرسه (مدیر یا ادمین پنل) */
@@ -80,7 +80,7 @@ export async function PUT(req: NextRequest) {
     const data: Record<string, unknown> = {};
     if (body.templateId !== undefined) {
       const tid = String(body.templateId);
-      if (!SITE_TEMPLATES.some((t) => t.id === tid)) throw new ApiError(400, "BAD_TEMPLATE", "تمپلیت نامعتبر است.");
+      if (!isKnownTemplateId(tid)) throw new ApiError(400, "BAD_TEMPLATE", "تمپلیت نامعتبر است.");
       data.templateId = tid;
     }
     if (body.published !== undefined) {
@@ -97,8 +97,30 @@ export async function PUT(req: NextRequest) {
       // فقط فیلدهای مجاز — ساختار قفل است
       const c = body.config as Partial<SiteConfig>;
       const base = { ...defaultSiteConfig(school), ...parseSiteConfig(school.site?.config) };
+      // برش اندیس پالت بر اساس تعداد پالت‌های همان تمپلیت (نه سقف ثابت ۲ —
+      // تمپلیت‌های یکپارچه تا ۱۲ پالت پیشنهادی دارند)
+      const effectiveTemplateId =
+        typeof body.templateId === "string" && isKnownTemplateId(String(body.templateId))
+          ? String(body.templateId)
+          : (school.site?.templateId ?? "classic");
+      const effectiveTemplate = templateOf(effectiveTemplateId);
       const safe: SiteConfig = {
-        palette: typeof c.palette === "number" ? Math.max(0, Math.min(2, c.palette)) : base.palette,
+        palette: typeof c.palette === "number"
+          ? Math.max(0, Math.min(effectiveTemplate.palettes.length - 1, c.palette))
+          : base.palette,
+        // رنگ دلخواه فقط با سه رنگ هگز معتبر پذیرفته می‌شود؛ در غیر این صورت مقدار قبلی می‌ماند
+        customPalette: (() => {
+          const cp = c.customPalette as { label?: unknown; primary?: unknown; accent?: unknown; bg?: unknown } | null | undefined;
+          if (cp && typeof cp === "object" && isHexColor(String(cp.primary)) && isHexColor(String(cp.accent)) && isHexColor(String(cp.bg))) {
+            return {
+              label: typeof cp.label === "string" ? cp.label.slice(0, 40) : "رنگ دلخواه",
+              primary: String(cp.primary),
+              accent: String(cp.accent),
+              bg: String(cp.bg),
+            };
+          }
+          return base.customPalette ?? null;
+        })(),
         heroTitle: typeof c.heroTitle === "string" ? c.heroTitle.slice(0, 90) : base.heroTitle,
         heroSubtitle: typeof c.heroSubtitle === "string" ? c.heroSubtitle.slice(0, 140) : base.heroSubtitle,
         heroImage: typeof c.heroImage === "string" ? c.heroImage.slice(0, 500) : base.heroImage,

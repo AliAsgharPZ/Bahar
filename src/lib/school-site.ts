@@ -1,9 +1,15 @@
 // ============================================================
-// بهار | سایت عمومی مدرسه — ۱۶ تمپلیت کامل + پیکربندی قابل ویرایش
+// بهار | سایت عمومی مدرسه — تمپلیت‌های یکپارچه + پیکربندی قابل ویرایش
 // مدیر مدرسه فقط متن/تصویر/رنگ/بخش‌ها را تغییر می‌دهد؛ ساختار قفل است.
-// شش تمپلیت تازه (پردهٔ سینمایی، گرم و تصویری، دفتر آرام، گرادیان
-// نوین، دقیق و تاریک، موج پرانرژی) هرکدام خانوادهٔ چیدمان اختصاصی
-// خودشان را دارند و از زبان‌های طراحی getdesign.md الهام گرفته‌اند.
+// ۱۶ تمپلیت قدیمی در ۱۰ خانوادهٔ چیدمان یکپارچه شدند: تمپلیت‌های هم‌خانواده
+// فقط پالت فرق داشتند، پس پالت‌هایشان به‌عنوان «پالت پیشنهادی» در تمپلیت
+// یکپارچه جمع شد. شناسه‌های قدیمی (minimal/stem/academic/royal/nature/
+// art/sport) برای سازگاری سایت‌های ذخیره‌شده همچنان رندر می‌شوند.
+// شش خانوادهٔ تازه (پردهٔ سینمایی، گرم و تصویری، دفتر آرام، گرادیان
+// نوین، دقیق و تاریک، موج پرانرژی) هرکدام چیدمان اختصاصی خودشان را دارند
+// و از زبان‌های طراحی getdesign.md الهام گرفته‌اند.
+// پالت: هر تمپلیت چند پالت پیشنهادی دارد + رنگ دلخواه (customPalette)
+// که در پیش‌نمایش و سایت ذخیره‌شده یکسان اعمال می‌شود.
 // ============================================================
 
 export type SiteSectionKey =
@@ -11,7 +17,8 @@ export type SiteSectionKey =
   | "staff" | "gallery" | "faq" | "contact" | "admissions";
 
 export type SiteConfig = {
-  palette: number;
+  palette: number; // اندیس پالت پیشنهادی (وقتی customPalette نباشد)
+  customPalette?: { label: string; primary: string; accent: string; bg: string } | null; // رنگ دلخواه — جایگزین پالت پیشنهادی
   heroTitle: string; // عنوان بزرگ (پیش‌فرض نام مدرسه)
   heroSubtitle: string; // زیرعنوان
   heroImage: string;
@@ -59,6 +66,9 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
       { label: "سبز بهاری", primary: "#00825E", accent: "#E5548B", bg: "#F4F8F6" },
       { label: "نیلی آرام", primary: "#2C5F8A", accent: "#D98E32", bg: "#F3F6FA" },
       { label: "زرشکی مدرسه‌ای", primary: "#A62639", accent: "#F2A65A", bg: "#FAF3F4" },
+      { label: "ذغالی", primary: "#1F2937", accent: "#00825E", bg: "#FFFFFF" },
+      { label: "نقره‌ای سرد", primary: "#334155", accent: "#0EA5E9", bg: "#FAFBFC" },
+      { label: "گرم مینیمال", primary: "#44403C", accent: "#D97706", bg: "#FEFCFA" },
     ],
   },
   {
@@ -69,86 +79,41 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
       { label: "شب شهری", primary: "#00825E", accent: "#53E3B0", bg: "#0E1512" },
       { label: "کهربایی", primary: "#B4632B", accent: "#FFC773", bg: "#151009" },
       { label: "بنفش متالیک", primary: "#6D4AFF", accent: "#9AE6FF", bg: "#100D1A" },
-    ],
-  },
-  {
-    id: "academic",
-    name: "آکادمیک",
-    desc: "کرم و سرمه‌ای با حس کتاب و کتابخانه — مناسب مدارس با سابقه و نمونه",
-    palettes: [
-      { label: "کتابخانه", primary: "#1F3A5F", accent: "#C9971C", bg: "#FAF6EC" },
-      { label: "سبز دانشگاهی", primary: "#154734", accent: "#B7A36A", bg: "#F6F4E9" },
-      { label: "آجری", primary: "#7A2E2E", accent: "#D9B47C", bg: "#F9F2ED" },
-    ],
-  },
-  {
-    id: "playful",
-    name: "کودکانه",
-    desc: "رنگ‌های شاد و گوشه‌های گرد — برای دبستان و پیش‌دبستانی",
-    palettes: [
-      { label: "شادی نارنجی", primary: "#F0803C", accent: "#5BC0BE", bg: "#FFF4EC" },
-      { label: "صورتی بازی", primary: "#E5548B", accent: "#FFC94D", bg: "#FFF0F5" },
-      { label: "سبز چمن", primary: "#3FA34D", accent: "#F2C14E", bg: "#F0FAF1" },
-    ],
-  },
-  {
-    id: "royal",
-    name: "سلطنتی",
-    desc: "طلایی و عمیق با حس مدرسه خاص — برای مدارس گران‌قیمت و بین‌المللی",
-    palettes: [
-      { label: "طلای مشکی", primary: "#C9971C", accent: "#EFE0B8", bg: "#121212" },
-      { label: "یشمی", primary: "#0E6E5C", accent: "#E3C566", bg: "#F2EFE6" },
-      { label: "ارغوانی", primary: "#5B2A86", accent: "#E0B0FF", bg: "#F7F2FD" },
-    ],
-  },
-  {
-    id: "minimal",
-    name: "مینیمال",
-    desc: "سفید خالص، خطوط نازک و فضای خالی زیاد — برای مدارس مدرن و مونتسوری",
-    palettes: [
-      { label: "ذغالی", primary: "#1F2937", accent: "#00825E", bg: "#FFFFFF" },
-      { label: "نقره‌ای سرد", primary: "#334155", accent: "#0EA5E9", bg: "#FAFBFC" },
-      { label: "گرم مینیمال", primary: "#44403C", accent: "#D97706", bg: "#FEFCFA" },
-    ],
-  },
-  {
-    id: "sport",
-    name: "ورزشی",
-    desc: "پرانرژی با نوارهای رنگی و تایپ درشت — برای مدارس با تمرکز ورزشی",
-    palettes: [
-      { label: "پرچم باشگاه", primary: "#1D4ED8", accent: "#F97316", bg: "#F5F7FF" },
-      { label: "سبز زمین", primary: "#15803D", accent: "#FACC15", bg: "#F4FBF5" },
-      { label: "سرخ قهرمانی", primary: "#B91C1C", accent: "#111827", bg: "#FDF5F5" },
-    ],
-  },
-  {
-    id: "stem",
-    name: "فناوری (STEM)",
-    desc: "تیره با درخشش فیروزه‌ای و حس آزمایشگاه — برای مدارس هوشمند و робاتیک",
-    palettes: [
       { label: "آزمایشگاه", primary: "#06B6D4", accent: "#8B5CF6", bg: "#0B1220" },
       { label: "مدار آبی", primary: "#3B82F6", accent: "#22D3EE", bg: "#0A0F1E" },
       { label: "نئون بنفش", primary: "#8B5CF6", accent: "#2DD4BF", bg: "#0F0A1E" },
     ],
   },
   {
-    id: "nature",
-    name: "طبیعت",
-    desc: "سبزهای آرام و کاغذ کرم — برای مدارس روستایی، باغ‌کودک و اکولوژیک",
+    id: "magazine",
+    name: "مجله‌ای",
+    desc: "ماست‌هد مرکزی با خطوط مویی و حس کتاب و روزنامه — برای مدارس با سابقه، نمونه، روستایی و هنرستان",
     palettes: [
+      { label: "کتابخانه", primary: "#1F3A5F", accent: "#C9971C", bg: "#FAF6EC" },
+      { label: "سبز دانشگاهی", primary: "#154734", accent: "#B7A36A", bg: "#F6F4E9" },
+      { label: "آجری", primary: "#7A2E2E", accent: "#D9B47C", bg: "#F9F2ED" },
+      { label: "طلای مشکی", primary: "#C9971C", accent: "#EFE0B8", bg: "#121212" },
+      { label: "یشمی", primary: "#0E6E5C", accent: "#E3C566", bg: "#F2EFE6" },
+      { label: "ارغوانی", primary: "#5B2A86", accent: "#E0B0FF", bg: "#F7F2FD" },
       { label: "باغ بهار", primary: "#3F6212", accent: "#CA8A04", bg: "#F7F6EF" },
       { label: "جنگل", primary: "#14532D", accent: "#84CC16", bg: "#F4F7F2" },
       { label: "خاک و گیاه", primary: "#57534E", accent: "#65A30D", bg: "#FAF9F5" },
-    ],
-  },
-  {
-    id: "art",
-    name: "هنری",
-    desc: "کرم گالری با لهجه بنفش/سرخابی و حس خلاقانه — برای هنرستان و مدارس هنر",
-    palettes: [
       { label: "گالری", primary: "#7C3AED", accent: "#EC4899", bg: "#FAF7F2" },
       { label: "آبرنگ", primary: "#DB2777", accent: "#0891B2", bg: "#FDF7FA" },
       { label: "نقاشی مدرن", primary: "#4F46E5", accent: "#F59E0B", bg: "#F8F7FD" },
+    ],
+  },
+  {
+    id: "playful",
+    name: "شاد و پرانرژی",
+    desc: "رنگ‌های شاد، گوشه‌های گرد و شکل‌های بازیگوش — برای دبستان، پیش‌دبستانی و مدارس ورزشی و پرانرژی",
+    palettes: [
+      { label: "شادی نارنجی", primary: "#F0803C", accent: "#5BC0BE", bg: "#FFF4EC" },
+      { label: "صورتی بازی", primary: "#E5548B", accent: "#FFC94D", bg: "#FFF0F5" },
+      { label: "سبز چمن", primary: "#3FA34D", accent: "#F2C14E", bg: "#F0FAF1" },
+      { label: "پرچم باشگاه", primary: "#1D4ED8", accent: "#F97316", bg: "#F5F7FF" },
+      { label: "سبز زمین", primary: "#15803D", accent: "#FACC15", bg: "#F4FBF5" },
+      { label: "سرخ قهرمانی", primary: "#B91C1C", accent: "#111827", bg: "#FDF5F5" },
     ],
   },
   {
@@ -219,8 +184,115 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
   },
 ];
 
+/** تمپلیت‌های قدیمی که در ویرایشگر نشان داده نمی‌شوند ولی سایت‌های
+ *  ذخیره‌شده با همان شناسه باید دقیقاً مثل قبل رندر شوند. */
+export const LEGACY_TEMPLATES: Record<string, SiteTemplate> = {
+  minimal: {
+    id: "minimal",
+    name: "مینیمال",
+    desc: "سفید خالص، خطوط نازک و فضای خالی زیاد — برای مدارس مدرن و مونتسوری",
+    palettes: [
+      { label: "ذغالی", primary: "#1F2937", accent: "#00825E", bg: "#FFFFFF" },
+      { label: "نقره‌ای سرد", primary: "#334155", accent: "#0EA5E9", bg: "#FAFBFC" },
+      { label: "گرم مینیمال", primary: "#44403C", accent: "#D97706", bg: "#FEFCFA" },
+    ],
+  },
+  stem: {
+    id: "stem",
+    name: "فناوری (STEM)",
+    desc: "تیره با درخشش فیروزه‌ای و حس آزمایشگاه — برای مدارس هوشمند و روباتیک",
+    palettes: [
+      { label: "آزمایشگاه", primary: "#06B6D4", accent: "#8B5CF6", bg: "#0B1220" },
+      { label: "مدار آبی", primary: "#3B82F6", accent: "#22D3EE", bg: "#0A0F1E" },
+      { label: "نئون بنفش", primary: "#8B5CF6", accent: "#2DD4BF", bg: "#0F0A1E" },
+    ],
+  },
+  academic: {
+    id: "academic",
+    name: "آکادمیک",
+    desc: "کرم و سرمه‌ای با حس کتاب و کتابخانه — مناسب مدارس با سابقه و نمونه",
+    palettes: [
+      { label: "کتابخانه", primary: "#1F3A5F", accent: "#C9971C", bg: "#FAF6EC" },
+      { label: "سبز دانشگاهی", primary: "#154734", accent: "#B7A36A", bg: "#F6F4E9" },
+      { label: "آجری", primary: "#7A2E2E", accent: "#D9B47C", bg: "#F9F2ED" },
+    ],
+  },
+  royal: {
+    id: "royal",
+    name: "سلطنتی",
+    desc: "طلایی و عمیق با حس مدرسه خاص — برای مدارس گران‌قیمت و بین‌المللی",
+    palettes: [
+      { label: "طلای مشکی", primary: "#C9971C", accent: "#EFE0B8", bg: "#121212" },
+      { label: "یشمی", primary: "#0E6E5C", accent: "#E3C566", bg: "#F2EFE6" },
+      { label: "ارغوانی", primary: "#5B2A86", accent: "#E0B0FF", bg: "#F7F2FD" },
+    ],
+  },
+  nature: {
+    id: "nature",
+    name: "طبیعت",
+    desc: "سبزهای آرام و کاغذ کرم — برای مدارس روستایی، باغ‌کودک و اکولوژیک",
+    palettes: [
+      { label: "باغ بهار", primary: "#3F6212", accent: "#CA8A04", bg: "#F7F6EF" },
+      { label: "جنگل", primary: "#14532D", accent: "#84CC16", bg: "#F4F7F2" },
+      { label: "خاک و گیاه", primary: "#57534E", accent: "#65A30D", bg: "#FAF9F5" },
+    ],
+  },
+  art: {
+    id: "art",
+    name: "هنری",
+    desc: "کرم گالری با لهجه بنفش/سرخابی و حس خلاقانه — برای هنرستان و مدارس هنر",
+    palettes: [
+      { label: "گالری", primary: "#7C3AED", accent: "#EC4899", bg: "#FAF7F2" },
+      { label: "آبرنگ", primary: "#DB2777", accent: "#0891B2", bg: "#FDF7FA" },
+      { label: "نقاشی مدرن", primary: "#4F46E5", accent: "#F59E0B", bg: "#F8F7FD" },
+    ],
+  },
+  sport: {
+    id: "sport",
+    name: "ورزشی",
+    desc: "پرانرژی با نوارهای رنگی و تایپ درشت — برای مدارس با تمرکز ورزشی",
+    palettes: [
+      { label: "پرچم باشگاه", primary: "#1D4ED8", accent: "#F97316", bg: "#F5F7FF" },
+      { label: "سبز زمین", primary: "#15803D", accent: "#FACC15", bg: "#F4FBF5" },
+      { label: "سرخ قهرمانی", primary: "#B91C1C", accent: "#111827", bg: "#FDF5F5" },
+    ],
+  },
+};
+
 export function templateOf(id: string): SiteTemplate {
-  return SITE_TEMPLATES.find((t) => t.id === id) ?? SITE_TEMPLATES[0];
+  return SITE_TEMPLATES.find((t) => t.id === id) ?? LEGACY_TEMPLATES[id] ?? SITE_TEMPLATES[0];
+}
+
+/** شناسهٔ یکپارچهٔ معادل یک شناسهٔ قدیمی (برای نمایش در ویرایشگر). */
+export function unifiedTemplateId(id: string): string {
+  if (id === "minimal") return "classic";
+  if (id === "stem") return "modern";
+  if (id === "academic" || id === "royal" || id === "nature" || id === "art") return "magazine";
+  if (id === "sport") return "playful";
+  return SITE_TEMPLATES.some((t) => t.id === id) ? id : "classic";
+}
+
+export function isKnownTemplateId(id: string): boolean {
+  return SITE_TEMPLATES.some((t) => t.id === id) || id in LEGACY_TEMPLATES;
+}
+
+export function isHexColor(s: string): boolean {
+  return /^#[0-9a-fA-F]{6}$/.test(s);
+}
+
+/** پالت نهایی یک سایت: رنگ دلخواه (در صورت معتبر بودن) بر پالت پیشنهادی
+ *  اولویت دارد؛ در غیر این صورت اندیس پالت در محدودهٔ همان تمپلیت بریده می‌شود.
+ *  همین تابع در پیش‌نمایش و سایت ذخیره‌شده استفاده می‌شود تا خروجی یکسان باشد. */
+export function resolvePalette(
+  template: SiteTemplate,
+  config: { palette: number; customPalette?: { label: string; primary: string; accent: string; bg: string } | null },
+): { label: string; primary: string; accent: string; bg: string } {
+  const c = config.customPalette;
+  if (c && isHexColor(c.primary) && isHexColor(c.accent) && isHexColor(c.bg)) {
+    return { label: c.label || "رنگ دلخواه", primary: c.primary, accent: c.accent, bg: c.bg };
+  }
+  const idx = Math.max(0, Math.min(config.palette ?? 0, template.palettes.length - 1));
+  return template.palettes[idx];
 }
 
 /** پیکربندی پیش‌فرض از روی داده مدرسه */
