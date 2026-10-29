@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, rateLimit } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, rateLimit, demoWriteBlock} from "@/lib/api";
 import { avatarApiFields } from "@/lib/avatar";
 
 export const MAX_MESSAGE_LEN = 400;
@@ -130,6 +130,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     await db.message.deleteMany({ where: { id, senderId: me.id } });

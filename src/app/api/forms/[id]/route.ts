@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 import { parseFields } from "../route";
 
 /* ============================================================
@@ -48,6 +48,8 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ id: string 
 export async function POST(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
     if (!schoolId) return apiErr(400, "کاربر به مدرسه‌ای متصل نیست.", "NO_SCHOOL");
     const { id } = await ctx.params;

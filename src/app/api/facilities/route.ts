@@ -157,6 +157,21 @@ export async function POST(req: NextRequest) {
           status: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"].includes(me.role) ? "APPROVED" : "PENDING",
         },
       });
+      // FIX (الگوی خوابگاه): رزروِ هم‌زمانِ همان بازه — اگر رزروِ قدیمی‌تری برای همان هدف و بازه هست، تازه‌ساخته حذف و 409 می‌شود
+      const earlierOverlap = await db.booking.findFirst({
+        where: {
+          schoolId,
+          id: { not: booking.id },
+          status: { in: ["PENDING", "APPROVED"] },
+          AND: [{ startAt: { lt: end } }, { endAt: { gt: start } }],
+          ...(isRoom ? { roomId: String(body.targetId) } : { assetId: String(body.targetId) }),
+        },
+        orderBy: { createdAt: "asc" },
+      });
+      if (earlierOverlap) {
+        try { await db.booking.delete({ where: { id: booking.id } }); } catch (compErr) { console.error("[FACILITIES] booking compensation failed", compErr); }
+        return apiErr(409, "این بازه با رزرو دیگری تداخل دارد.", "SLOT_TAKEN");
+      }
       await audit({ user: me, action: "رزرو " + (isRoom ? "اتاق" : "تجهیزات"), entityType: "Booking", entityId: booking.id, schoolId });
       return apiOk({ booking });
     }
@@ -362,7 +377,14 @@ export async function DELETE(req: NextRequest) {
     const kind = url.searchParams.get("kind") ?? "";
     const id = url.searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "BAD_REQUEST");
-    if (kind === "room") await db.room.deleteMany({ where: { id, schoolId } });
+    if (kind === "room") {
+      // FIX: اتاق با رزروِ آینده (در انتظار/تأییدشده) حذف نمی‌شود — cascade قبلاً بی‌صدا پاکشان می‌کرد
+      const futureBookings = await db.booking.count({
+        where: { roomId: id, schoolId, status: { in: ["PENDING", "APPROVED"] }, endAt: { gte: new Date() } },
+      });
+      if (futureBookings > 0) return apiErr(409, "این اتاق رزرو آینده دارد و حذف نمی‌شود.", "HAS_FUTURE_BOOKINGS");
+      await db.room.deleteMany({ where: { id, schoolId } });
+    }
     else if (kind === "asset") await db.asset.deleteMany({ where: { id, schoolId } });
     else if (kind === "booking") await db.booking.deleteMany({ where: { id, schoolId } });
     else if (kind === "maintenance") await db.maintenanceTicket.deleteMany({ where: { id, schoolId } });

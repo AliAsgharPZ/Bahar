@@ -92,18 +92,31 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
         }
         data[field] = v != null ? String(v).slice(0, 300) : null;
       }
-      await db.user.update({ where: { id: target.id }, data });
+      // FIX: ویرایش کاربر + وضعیت درخواست در یک batch — خرابیِ دومی، پروفایلِ تغییرکرده با درخواستِ PENDING نمی‌گذارد
+      await db.$transaction([
+        db.user.update({ where: { id: target.id }, data }),
+        db.profileChangeRequest.update({
+          where: { id },
+          data: {
+            status: body.approve ? "APPROVED" : "REJECTED",
+            reviewedById: me.id,
+            reviewNote: body.note ? String(body.note).slice(0, 300) : null,
+            reviewedAt: new Date(),
+          },
+        }),
+      ]);
+      // (شاخهٔ رد، پایینِ همین بلوک با یک update تکی انجام می‌شود — در else جدا آمده است)
+    } else {
+      await db.profileChangeRequest.update({
+        where: { id },
+        data: {
+          status: body.approve ? "APPROVED" : "REJECTED",
+          reviewedById: me.id,
+          reviewNote: body.note ? String(body.note).slice(0, 300) : null,
+          reviewedAt: new Date(),
+        },
+      });
     }
-
-    await db.profileChangeRequest.update({
-      where: { id },
-      data: {
-        status: body.approve ? "APPROVED" : "REJECTED",
-        reviewedById: me.id,
-        reviewNote: body.note ? String(body.note).slice(0, 300) : null,
-        reviewedAt: new Date(),
-      },
-    });
 
     await audit({
       user: me, action: body.approve ? "APPROVE_PROFILE_CHANGE" : "REJECT_PROFILE_CHANGE",

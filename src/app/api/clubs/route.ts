@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock } from "@/lib/api";
 
 /* ============================================================
    بهار | باشگاه‌ها و فوق‌برنامه — کاتالوگ کلاس‌های فوق‌برنامه
@@ -54,6 +54,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{
       action?: string; id?: string; name?: string; coach?: string; weekday?: number;
       timeLabel?: string; capacity?: number; minGrade?: string; maxGrade?: string;
@@ -115,6 +117,17 @@ export async function POST(req: NextRequest) {
         create: { clubId: club.id, studentId, status },
         update: { status },
       });
+      // FIX (الگوی خوابگاه): شمارش پس از upsert — ثبت‌نامِ هم‌زمانِ بیش از ظرفیت، به لیست انتظار برمی‌گردد
+      if (status === "ENROLLED") {
+        const after = await db.clubEnrollment.count({ where: { clubId: club.id, status: "ENROLLED" } });
+        if (after > club.capacity) {
+          const waitlisted = await db.clubEnrollment.update({
+            where: { clubId_studentId: { clubId: club.id, studentId } },
+            data: { status: "WAITLIST" },
+          });
+          return apiOk({ enrollment: waitlisted, waitlisted: true });
+        }
+      }
       return apiOk({ enrollment: enr, waitlisted: status === "WAITLIST" });
     }
 
@@ -127,6 +140,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     const row = await db.club.findUnique({ where: { id }, select: { schoolId: true } });

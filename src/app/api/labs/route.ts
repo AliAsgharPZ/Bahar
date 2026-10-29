@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 import { PERMISSION_CATALOG, hasPermission } from "@/lib/roles";
 
 /* ============================================================
@@ -144,6 +144,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, STAFF);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{ role?: string; permissions?: string[] }>(req);
     const role = String(body.role ?? "");
     const perms = Array.isArray(body.permissions) ? body.permissions.filter((p) => typeof p === "string") : [];

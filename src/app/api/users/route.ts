@@ -4,7 +4,7 @@ import {
   hashPassword, generatePassword, isValidNationalId, isValidShadNumber,
 } from "@/lib/auth";
 import {
-  requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, actingSchoolIdFor } from "@/lib/api";
+  requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 import {
   ROLE_LABELS, DEFAULT_DEPUTY_PERMISSIONS, DEFAULT_TEACHER_PERMISSIONS,
   PERMISSION_CATALOG, DEFAULT_ADMIN_PERMISSIONS, ALL_SERVICE_PERMISSIONS,
@@ -300,6 +300,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     if (id === me.id) return apiErr(400, "حساب خودتان را نمی‌توانید حذف کنید.", "SELF");

@@ -111,23 +111,25 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     str("status", studentData);
     if (body.isActive !== undefined) userData.isActive = Boolean(body.isActive);
 
-    await db.user.update({ where: { id: student.userId }, data: userData });
-    await db.student.update({ where: { id }, data: studentData });
-
+    // FIX: ویرایش کاربر + پرونده + پیوندهای ولی + بازنشانی رمز در یک batch —
+    // خرابی وسط راه، پروفایل نیمه‌به‌روز نمی‌گذارد (خواندن‌ها بیرون از batch می‌مانند)
+    const profileOps: any[] = [];
     // ── مدیریت اولیا ──
     let addedParent: Record<string, unknown> | null = null;
     const removeParentIds = (body as Record<string, unknown>).removeParentIds;
     if (Array.isArray(removeParentIds)) {
       for (const pid of removeParentIds as string[]) {
-        await db.studentParent.deleteMany({ where: { studentId: id, parentUserId: String(pid) } });
+        profileOps.push(db.studentParent.deleteMany({ where: { studentId: id, parentUserId: String(pid) } }));
       }
     }
     const addParent = (body as Record<string, unknown>).addParent as ParentInput | undefined;
+    let addedParentInfo: { id: string; nationalId: string; firstName: string; lastName: string; role: string; schoolId: string; shadNumber: string | null } | null = null;
+    let addedParentPassword: string | undefined;
     if (addParent && addParent.nationalId) {
       const pNational = enDigits(String(addParent.nationalId)).trim();
       if (!isValidNationalId(pNational)) return apiErr(400, "کد ملی ولی نامعتبر است.", "BAD_NATIONAL_ID");
       const relation = ["FATHER", "MOTHER", "GUARDIAN"].includes(String(addParent.relation)) ? String(addParent.relation) : "GUARDIAN";
-      let parentUser = await db.user.findUnique({ where: { nationalId: pNational } });
+      const parentUser = await db.user.findUnique({ where: { nationalId: pNational } });
       let pPassword: string | undefined;
       if (!parentUser) {
         const pFirst = String(addParent.firstName ?? "").trim();
@@ -136,8 +138,10 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
           return apiErr(400, "نام و نام خانوادگی ولی الزامی است.", "BAD_PARENT_NAME");
         }
         pPassword = generatePassword();
-        parentUser = await db.user.create({
+        const newParentId = crypto.randomUUID();
+        profileOps.push(db.user.create({
           data: {
+            id: newParentId,
             nationalId: pNational,
             passwordHash: hashPassword(pPassword),
             tempPassword: pPassword,
@@ -151,45 +155,53 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
             schoolId: student.schoolId,
             createdBy: me.id,
           },
-        });
+        }));
+        addedParentInfo = { id: newParentId, nationalId: pNational, firstName: pFirst, lastName: pLast, role: "PARENT", schoolId: student.schoolId, shadNumber: addParent.shadNumber ? enDigits(String(addParent.shadNumber)).trim() : null };
       } else if (parentUser.role !== "PARENT") {
         return apiErr(409, "این کد ملی برای نقش دیگری ثبت شده است.", "ROLE_CONFLICT");
+      } else {
+        addedParentInfo = { id: parentUser.id, nationalId: pNational, firstName: parentUser.firstName, lastName: parentUser.lastName, role: "PARENT", schoolId: student.schoolId, shadNumber: parentUser.shadNumber };
       }
-      const linkExists = await db.studentParent.findFirst({ where: { studentId: id, parentUserId: parentUser.id } });
+      const linkExists = await db.studentParent.findFirst({ where: { studentId: id, parentUserId: addedParentInfo.id } });
       if (!linkExists) {
-        await db.studentParent.create({
-          data: { studentId: id, parentUserId: parentUser.id, relation },
-        });
+        profileOps.push(db.studentParent.create({
+          data: { studentId: id, parentUserId: addedParentInfo.id, relation },
+        }));
       }
-      let delivery: { ok: boolean; error?: string } | undefined;
-      if (pPassword && parentUser.shadNumber) {
-        const school = await db.school.findUnique({ where: { id: student.schoolId } });
-        delivery = await deliverCredentials(
-          { ...parentUser, tempPassword: pPassword },
-          school?.name ?? "مدرسه",
-          "ولی دانش‌آموز"
-        );
-      }
+      addedParentPassword = pPassword;
       addedParent = {
-        id: parentUser.id, nationalId: pNational,
-        firstName: parentUser.firstName, lastName: parentUser.lastName,
-        relation, password: pPassword, shadDelivery: delivery,
+        id: addedParentInfo.id, nationalId: pNational,
+        firstName: addedParentInfo.firstName, lastName: addedParentInfo.lastName,
+        relation, password: pPassword, shadDelivery: undefined,
       };
     }
 
-    // ── بازنشانی رمز ──
+    // ── بازنشانی رمز ── (در همان user.update ادغام می‌شود، نه update جداگانه)
     let newPassword: string | null = null;
     if (body.resetPassword === true) {
       newPassword = generatePassword();
-      await db.user.update({
-        where: { id: student.userId },
-        data: {
-          passwordHash: hashPassword(newPassword),
-          tempPassword: newPassword,
-          mustChangePassword: true,
-          failedAttempts: 0, lockedUntil: null,
-        },
-      });
+      userData.passwordHash = hashPassword(newPassword);
+      userData.tempPassword = newPassword;
+      userData.mustChangePassword = true;
+      userData.failedAttempts = 0;
+      userData.lockedUntil = null;
+    }
+
+    if (Object.keys(userData).length) profileOps.push(db.user.update({ where: { id: student.userId }, data: userData }));
+    if (Object.keys(studentData).length) profileOps.push(db.student.update({ where: { id }, data: studentData }));
+    if (profileOps.length) await db.$transaction(profileOps);
+
+    // ارسال‌های شاد پس از batch (اثر جانبی، نه بخشی از تراکنش)
+    if (addedParentInfo && addedParentPassword && addedParentInfo.shadNumber) {
+      const school = await db.school.findUnique({ where: { id: student.schoolId } });
+      const delivery = await deliverCredentials(
+        { ...addedParentInfo, tempPassword: addedParentPassword },
+        school?.name ?? "مدرسه",
+        "ولی دانش‌آموز"
+      );
+      if (addedParent) addedParent.shadDelivery = delivery;
+    }
+    if (newPassword) {
       const school = await db.school.findUnique({ where: { id: student.schoolId } });
       if (student.user.shadNumber) {
         await deliverCredentials(

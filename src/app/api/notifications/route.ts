@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, demoWriteBlock} from "@/lib/api";
 
 /** GET /api/notifications — اعلان‌های کاربر جاری + شمارش دسته‌ها */
 export async function GET(req: NextRequest) {
@@ -40,6 +40,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{ id?: string; all?: boolean }>(req);
     if (body.all) {
       await db.notification.updateMany({
@@ -62,6 +64,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     await db.notification.deleteMany({ where: { id, userId: me.id } });

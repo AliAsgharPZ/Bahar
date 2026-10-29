@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, demoWriteBlock} from "@/lib/api";
 
 /* ============================================================
    بهار | رسید خواندن اطلاعیه — هر کاربر با بازکردن اطلاعیه
@@ -12,6 +12,8 @@ type Ctx = { params: Promise<{ id: string }> };
 export async function POST(req: NextRequest, ctx: Ctx) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await ctx.params;
     const ann = await db.announcement.findUnique({ where: { id }, select: { id: true } });
     if (!ann) return apiErr(404, "اطلاعیه یافت نشد.", "NOT_FOUND");

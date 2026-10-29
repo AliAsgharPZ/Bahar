@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getSessionUser, type SessionUser } from "@/lib/api";
+import { getSessionUser, isDemoUser, type SessionUser } from "@/lib/api";
 
 /* ============================================================
    بهار | سرور MCP — تا ایجنت‌ها با سامانه کار کنند
@@ -14,6 +14,44 @@ import { getSessionUser, type SessionUser } from "@/lib/api";
    ============================================================ */
 
 const STAFF_WRITE = ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"];
+const STAFF_READ = ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"];
+const ROLE_TO_TARGET: Record<string, string> = {
+  MANAGER: "MANAGERS",
+  DEPUTY: "TEACHERS",
+  TEACHER: "TEACHERS",
+  STUDENT: "STUDENTS",
+  PARENT: "PARENTS",
+};
+
+/** هم‌قاعده با targetsUser در /api/announcements — برای خوانندهٔ غیرکارکنان */
+function targetsUserMcp(
+  a: { audienceRoles: string; targetProvinces: string; targetCounties: string; scope: string; schoolId: string | null; classId: string | null },
+  user: { role: string; schoolId: string | null; province: string | null; county: string | null },
+  userClassIds: string[],
+): boolean {
+  let audienceRoles: string[] = [];
+  let targetProvinces: string[] = [];
+  let targetCounties: string[] = [];
+  try { audienceRoles = JSON.parse(a.audienceRoles || "[]"); } catch { audienceRoles = []; }
+  try { targetProvinces = JSON.parse(a.targetProvinces || "[]"); } catch { targetProvinces = []; }
+  try { targetCounties = JSON.parse(a.targetCounties || "[]"); } catch { targetCounties = []; }
+  if (audienceRoles.length > 0) {
+    const target = ROLE_TO_TARGET[user.role] ?? (user.role === "SUPER_ADMIN" || user.role === "ADMIN" ? "MANAGERS" : null);
+    if (!target || !audienceRoles.includes(target)) return false;
+  }
+  if (a.classId && !userClassIds.includes(a.classId)) return false;
+  if (targetProvinces.length > 0 || targetCounties.length > 0) {
+    if (!user.schoolId) return user.role === "SUPER_ADMIN" || user.role === "ADMIN";
+    if (targetCounties.length > 0) {
+      const key = `${user.province ?? ""}|${user.county ?? ""}`;
+      if (!targetCounties.includes(key)) return false;
+    } else if (targetProvinces.length > 0) {
+      if (!user.province || !targetProvinces.includes(user.province)) return false;
+    }
+  }
+  return true;
+}
+
 const ATTENDANCE_WRITE = ["TEACHER", "MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"];
 
 type ToolDef = { name: string; description: string; inputSchema: { type: "object"; properties: Record<string, unknown>; required?: string[] } };
@@ -126,16 +164,45 @@ async function callTool(user: SessionUser, name: string, args: Record<string, un
       return db.shopProduct.findMany({ where: { schoolId, isActive: true }, orderBy: { name: "asc" }, take: 100 });
     }
     case "mcp_list_announcements": {
-      return db.announcement.findMany({ where: { schoolId }, orderBy: { createdAt: "desc" }, take: 20, select: { id: true, title: true, body: true, classId: true, pinned: true, createdAt: true } });
+      const rows = await db.announcement.findMany({ where: { schoolId }, orderBy: { createdAt: "desc" }, take: 20 });
+      // FIX: کارکنان فهرست کامل می‌بینند؛ غیرکارکنان فقط هدف‌گیری‌شده‌ها (هم‌قاعده با GET /api/announcements)
+      if (STAFF_READ.includes(user.role)) {
+        return rows.map((a) => ({ id: a.id, title: a.title, body: a.body, classId: a.classId, pinned: a.pinned, createdAt: a.createdAt }));
+      }
+      const school = await db.school.findUnique({ where: { id: schoolId }, select: { province: true, county: true, city: true } });
+      const userClassIds: string[] = [];
+      if (user.role === "STUDENT" && own) {
+        const p = await db.student.findMany({ where: { id: { in: own } }, select: { classId: true } });
+        userClassIds.push(...(p.map((x) => x.classId).filter(Boolean) as string[]));
+      } else if (user.role === "PARENT" && own) {
+        const kids = await db.studentParent.findMany({ where: { parentUserId: user.id }, include: { student: { select: { classId: true } } } });
+        userClassIds.push(...(kids.map((k) => k.student.classId).filter(Boolean) as string[]));
+      }
+      return rows
+        .filter((a) => targetsUserMcp(a, { role: user.role, schoolId: user.schoolId, province: school?.province ?? null, county: school?.county ?? school?.city ?? null }, userClassIds))
+        .map((a) => ({ id: a.id, title: a.title, body: a.body, classId: a.classId, pinned: a.pinned, createdAt: a.createdAt }));
     }
     case "mcp_list_tasks": {
+      // FIX: GET /api/tasks فقط کارکنان را می‌پذیرد؛ دانش‌آموز/ولی در MCP فقط تسک‌های خودشان را می‌بینند
+      if (!STAFF_READ.includes(user.role)) {
+        if (!own) return [];
+        return db.task.findMany({
+          where: { schoolId, studentId: { in: own }, ...(typeof args.status === "string" && args.status ? { status: args.status } : {}) },
+          orderBy: { createdAt: "desc" }, take: 50,
+        });
+      }
       return db.task.findMany({
         where: { schoolId, ...(typeof args.status === "string" && args.status ? { status: args.status } : {}) },
         orderBy: { createdAt: "desc" }, take: 50,
       });
     }
     case "mcp_create_announcement": {
-      if (!STAFF_WRITE.includes(user.role)) throw new Error("FORBIDDEN");
+      // FIX: هم‌قاعده با POST /api/announcements برای اطلاعیهٔ مدرسه‌ای — معاون رد می‌شود،
+      // ادمین سرویس فقط وقتی مدرسهٔ فعال (پنل) همان مدرسهٔ هدف باشد؛ سوپرادمین/مدیر آزادند
+      if (await isDemoUser(user)) throw new Error("FORBIDDEN");
+      if (user.role !== "MANAGER" && user.role !== "SUPER_ADMIN") {
+        if (!(user.role === "ADMIN" && user.schoolId === schoolId)) throw new Error("FORBIDDEN");
+      }
       const title = String(args.title ?? "").trim();
       const bodyText = String(args.body ?? "").trim();
       if (!title || !bodyText) throw new Error("BAD_INPUT");
@@ -146,6 +213,7 @@ async function callTool(user: SessionUser, name: string, args: Record<string, un
       return db.announcement.create({ data: { scope: "SCHOOL", schoolId, title, body: bodyText, classId: typeof args.classId === "string" && args.classId ? args.classId : null } });
     }
     case "mcp_create_task": {
+      if (await isDemoUser(user)) throw new Error("FORBIDDEN");
       if (!STAFF_WRITE.includes(user.role)) throw new Error("FORBIDDEN");
       const title = String(args.title ?? "").trim();
       if (!title) throw new Error("BAD_INPUT");
@@ -155,16 +223,30 @@ async function callTool(user: SessionUser, name: string, args: Record<string, un
       });
     }
     case "mcp_record_attendance": {
+      if (await isDemoUser(user)) throw new Error("FORBIDDEN");
       if (!ATTENDANCE_WRITE.includes(user.role)) throw new Error("FORBIDDEN");
       const studentId = String(args.studentId ?? "");
       const classId = String(args.classId ?? "");
       const date = String(args.date ?? "");
       const status = String(args.status ?? "");
       if (!["PRESENT", "ABSENT", "LATE", "EXCUSED", "MISSION", "HALF_DAY"].includes(status)) throw new Error("BAD_STATUS");
+      // FIX: هم‌قاعده با POST /api/attendance — فرمت تاریخ، زنگ نامنفی، معلم کلاس، دانش‌آموزِ همان کلاس، upsert
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("BAD_INPUT");
+      const period = Math.max(0, Math.round(Number(args.period ?? 0) || 0));
       await checkStudentAccess(user, schoolId, studentId);
-      const cls = await db.class.findFirst({ where: { id: classId, schoolId }, select: { id: true } });
+      const cls = await db.class.findFirst({ where: { id: classId, schoolId }, select: { id: true, homeroomTeacherId: true } });
       if (!cls) throw new Error("CLASS_NOT_FOUND");
-      return db.attendance.create({ data: { studentId, classId, date, status, period: Math.round(Number(args.period ?? 0) || 0), note: typeof args.note === "string" ? args.note.slice(0, 300) : null, recordedById: user.id } });
+      if (user.role === "TEACHER") {
+        const teaches = await db.teachingAssignment.findFirst({ where: { teacherId: user.id, classId } });
+        if (!teaches && cls.homeroomTeacherId !== user.id) throw new Error("FORBIDDEN");
+      }
+      const st = await db.student.findFirst({ where: { id: studentId, schoolId }, select: { classId: true } });
+      if (!st || st.classId !== classId) throw new Error("STUDENT_NOT_IN_CLASS");
+      return db.attendance.upsert({
+        where: { studentId_date_period: { studentId, date, period } },
+        create: { studentId, classId, date, status, period, note: typeof args.note === "string" ? args.note.slice(0, 300) : null, recordedById: user.id },
+        update: { status, note: typeof args.note === "string" ? args.note.slice(0, 300) : null, recordedById: user.id },
+      });
     }
     default:
       throw new Error("UNKNOWN_TOOL");

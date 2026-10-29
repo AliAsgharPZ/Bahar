@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { getSettings } from "@/lib/settings";
 import { telegramApi, telegramWebhookSecret } from "@/lib/telegram-core";
-import { requireUser, apiOk, handleApiError, ApiError, readJson, audit, rateLimit, ipOf } from "@/lib/api";
+import { requireUser, apiOk, handleApiError, ApiError, readJson, audit, rateLimit, ipOf, demoWriteBlock} from "@/lib/api";
 
 /* ============================================================
    بهار | راه‌انداز وب‌هوک ربات تلگرام (راند ۱۹)
@@ -75,6 +75,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, ["SUPER_ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     if (!rateLimit(`tgsetup:${ipOf(req)}:${me.id}`, 10, 60_000)) {
       throw new ApiError(429, "RATE_LIMITED", "درخواست‌های زیاد — کمی صبر کنید.");
     }

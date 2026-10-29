@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "crypto";
 import { db } from "@/lib/db";
-import { apiOk, apiErr, handleApiError, readJson } from "@/lib/api";
+import { apiOk, apiErr, handleApiError, readJson, demoWriteBlock } from "@/lib/api";
 import { getSettings } from "@/lib/settings";
 import { randomBytes } from "crypto";
 import { handleBotAction, type BotAction } from "@/lib/telegram-core";
@@ -69,6 +69,8 @@ export async function PUT(req: NextRequest) {
     const { getSessionUser } = await import("@/lib/api");
     const me = await getSessionUser(req);
     if (!me) return apiErr(401, "برای این عملیات باید وارد شوید.", "UNAUTHORIZED");
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const code = randomBytes(4).toString("hex").toUpperCase();
     await db.telegramLink.upsert({
       where: { userId: me.id },

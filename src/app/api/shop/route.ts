@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 import type { SessionUser } from "@/lib/api";
 
 /* ============================================================
@@ -58,6 +58,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{
       action?: string; id?: string; name?: string; category?: string; price?: number;
       stock?: number; allergens?: string | null; isActive?: boolean;
@@ -162,16 +164,21 @@ export async function POST(req: NextRequest) {
       const walletCount = stockWalletResults[lines.length];
       if (stockCounts.some((r) => r.count !== 1) || walletCount.count !== 1) {
         // جبران: برگرداندن موجودی‌ها و کیف پولی که کم شده‌اند.
-        await db.$transaction([
-          ...lines.map((l, i) =>
-            stockCounts[i].count === 1
-              ? db.shopProduct.updateMany({ where: { id: l.product.id }, data: { stock: { increment: l.qty } } })
-              : db.shopProduct.updateMany({ where: { id: "__none__" }, data: { stock: { increment: 0 } } }),
-          ),
-          walletCount.count === 1
-            ? db.studentWallet.updateMany({ where: { id: wallet.id }, data: { balance: { increment: total } } })
-            : db.studentWallet.updateMany({ where: { id: "__none__" }, data: { balance: { increment: 0 } } }),
-        ]);
+        try {
+          await db.$transaction([
+            ...lines.map((l, i) =>
+              stockCounts[i].count === 1
+                ? db.shopProduct.updateMany({ where: { id: l.product.id }, data: { stock: { increment: l.qty } } })
+                : db.shopProduct.updateMany({ where: { id: "__none__" }, data: { stock: { increment: 0 } } }),
+            ),
+            walletCount.count === 1
+              ? db.studentWallet.updateMany({ where: { id: wallet.id }, data: { balance: { increment: total } } })
+              : db.studentWallet.updateMany({ where: { id: "__none__" }, data: { balance: { increment: 0 } } }),
+          ]);
+        } catch (compErr) {
+          // FIX (L2): شکستِ جبران نباید بی‌صدا بماند — موجودی/کیف پولِ کم‌شده بدون سند فروش می‌ماند
+          console.error("[SHOP] sell compensation failed", compErr);
+        }
         if (stockCounts.some((r) => r.count !== 1)) return apiErr(409, "موجودی یک کالا کافی نیست.", "NO_STOCK");
         return apiErr(409, "موجودی کیف پول کافی نیست.", "NO_BALANCE");
       }
@@ -195,10 +202,14 @@ export async function POST(req: NextRequest) {
         return apiOk({ sale, balance: walletAfter?.balance ?? wallet.balance - total });
       } catch (e) {
         // جبران مرحلهٔ ۱ اگر مرحلهٔ ۲ ناتمام ماند.
-        await db.$transaction([
-          ...lines.map((l) => db.shopProduct.updateMany({ where: { id: l.product.id }, data: { stock: { increment: l.qty } } })),
-          db.studentWallet.updateMany({ where: { id: wallet.id }, data: { balance: { increment: total } } }),
-        ]);
+        try {
+          await db.$transaction([
+            ...lines.map((l) => db.shopProduct.updateMany({ where: { id: l.product.id }, data: { stock: { increment: l.qty } } })),
+            db.studentWallet.updateMany({ where: { id: wallet.id }, data: { balance: { increment: total } } }),
+          ]);
+        } catch (compErr) {
+          console.error("[SHOP] sell stage-2 compensation failed", compErr);
+        }
         throw e;
       }
     }

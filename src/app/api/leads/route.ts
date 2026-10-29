@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, ApiError, isDemoUser, actingSchoolIdFor , audit } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, ApiError, isDemoUser, actingSchoolIdFor , audit, demoWriteBlock} from "@/lib/api";
 
 /** GET /api/leads — لیدهای پیش‌ثبت‌نام سایت مدرسه (مدیر/ادمین) */
 export async function GET(req: NextRequest) {
@@ -61,6 +61,8 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     const row = await db.schoolLead.findUnique({ where: { id }, select: { schoolId: true } });

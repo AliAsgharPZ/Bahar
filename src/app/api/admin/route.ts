@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 import { getSettings, saveSettings } from "@/lib/settings";
 import { signToken, sessionCookie } from "@/lib/auth";
 import { PERMISSION_CATALOG, ROLE_LABELS, hasPermission } from "@/lib/roles";
@@ -127,6 +127,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, ["SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<Record<string, unknown>>(req);
     const action = String(body.action ?? "");
 

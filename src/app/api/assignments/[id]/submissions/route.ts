@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { randomBytes } from "crypto";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, audit } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, demoWriteBlock} from "@/lib/api";
 
 /* ============================================================
    بهار | تحویل تکلیف — دانش‌آموز تحویل می‌دهد و رسید زمان‌دار
@@ -67,6 +67,8 @@ export async function GET(req: NextRequest, ctx: Ctx) {
 export async function POST(req: NextRequest, ctx: Ctx) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await ctx.params;
     const a = await loadAssignment(id);
     if (!a) return apiErr(404, "تکلیف یافت نشد.", "NOT_FOUND");

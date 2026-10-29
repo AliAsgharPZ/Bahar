@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, audit } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, demoWriteBlock } from "@/lib/api";
 
 /* ============================================================
    بهار | جزئیات جلسهٔ امتحان — چیدمان خودکار صندلی برای یک
@@ -60,6 +60,8 @@ export async function GET(req: NextRequest, ctx: Ctx) {
 export async function POST(req: NextRequest, ctx: Ctx) {
   try {
     const me = await requireUser(req, STAFF);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await ctx.params;
     const session = await db.examSession.findUnique({ where: { id } });
     if (!session) return apiErr(404, "جلسه یافت نشد.", "NOT_FOUND");
@@ -79,16 +81,18 @@ export async function POST(req: NextRequest, ctx: Ctx) {
       const perRoom = Math.min(200, Math.max(5, Math.round(body.perRoom ?? 30)));
       const seed = [...session.id].reduce((s, c) => s + c.charCodeAt(0), 0);
       const shuffled = seededShuffle(students, seed);
-      // صندلی‌های قبلی همین کلاس در این جلسه پاک و از نو چیده می‌شوند
-      await db.examSeat.deleteMany({ where: { sessionId: id, student: { classId: cls.id } } });
-      await db.examSeat.createMany({
-        data: shuffled.map((s, i) => ({
-          sessionId: id,
-          studentId: s.id,
-          room: rooms[Math.min(rooms.length - 1, Math.floor(i / perRoom))],
-          seatNo: String((i % perRoom) + 1),
-        })),
-      });
+      // صندلی‌های قبلی همین کلاس در این جلسه پاک و از نو چیده می‌شوند — در یک batch تا خرابی، چیدمان قبلی را پاک نکند
+      await db.$transaction([
+        db.examSeat.deleteMany({ where: { sessionId: id, student: { classId: cls.id } } }),
+        db.examSeat.createMany({
+          data: shuffled.map((s, i) => ({
+            sessionId: id,
+            studentId: s.id,
+            room: rooms[Math.min(rooms.length - 1, Math.floor(i / perRoom))],
+            seatNo: String((i % perRoom) + 1),
+          })),
+        }),
+      ]);
       await audit({ user: me, action: "چیدمان صندلی امتحان", entityType: "ExamSession", entityId: id, schoolId: session.schoolId });
       return apiOk({ arranged: shuffled.length, rooms: rooms.length });
     }
@@ -101,7 +105,6 @@ export async function POST(req: NextRequest, ctx: Ctx) {
           select: { id: true },
         })).map((u) => u.id),
       );
-      await db.examInvigilator.deleteMany({ where: { sessionId: id } });
       const seen = new Set<string>();
       const rows = list
         .filter((x) => validUsers.has(x.userId))
@@ -112,7 +115,11 @@ export async function POST(req: NextRequest, ctx: Ctx) {
           seen.add(k);
           return true;
         });
-      if (rows.length) await db.examInvigilator.createMany({ data: rows });
+      // FIX: حذف + ساخت در یک batch تا خرابی، فهرست قبلی مراقبین را پاک نکند
+      await db.$transaction([
+        db.examInvigilator.deleteMany({ where: { sessionId: id } }),
+        ...(rows.length ? [db.examInvigilator.createMany({ data: rows })] : []),
+      ]);
       return apiOk({ invigilators: rows.length });
     }
 
@@ -125,6 +132,8 @@ export async function POST(req: NextRequest, ctx: Ctx) {
 export async function DELETE(req: NextRequest, ctx: Ctx) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await ctx.params;
     const session = await db.examSession.findUnique({ where: { id }, select: { schoolId: true } });
     if (!session) return apiErr(404, "جلسه یافت نشد.", "NOT_FOUND");

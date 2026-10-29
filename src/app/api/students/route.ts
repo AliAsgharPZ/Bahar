@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { hashPassword, generatePassword, isValidNationalId, isValidShadNumber } from "@/lib/auth";
-import { requirePermission, requireUser, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, isDemoUser, ApiError } from "@/lib/api";
+import { requirePermission, requireUser, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, isDemoUser, ApiError, demoWriteBlock} from "@/lib/api";
 import { deliverCredentials } from "@/lib/shad";
 import { enDigits } from "@/lib/persian";
 import { avatarApiFields } from "@/lib/avatar";
@@ -191,47 +191,82 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── ساخت دانش‌آموز — FIX (راند ۱۶): کاربر + پرونده + پیوندها در یک تراکنش ──
-    const student = await (async () => {
-      const user = await db.user.create({
-        data: {
-          nationalId,
-          passwordHash: hashPassword(password),
-          tempPassword: password,
-          mustChangePassword: true,
-          role: "STUDENT",
-          firstName,
-          lastName,
-          fatherName: body.fatherName ? String(body.fatherName) : null,
-          gender: body.gender ? String(body.gender) : null,
-          birthDate: (() => {
-            if (!body.birthDate) return null;
-            const d = new Date(String(body.birthDate));
-            if (isNaN(d.getTime())) throw new ApiError(400, "BAD_DATE", "تاریخ تولد نامعتبر است.");
-            return d;
-          })(),
-          birthPlace: body.birthPlace ? String(body.birthPlace) : null,
-          phone: body.phone ? enDigits(String(body.phone)).trim() : null,
-          shadNumber,
-          address: body.address ? String(body.address) : null,
-          schoolId,
-          createdBy: me.id,
-        },
-      });
-      return db.student.create({
-        data: {
-          userId: user.id,
-          schoolId,
-          classId,
-          studentNumber,
-          entryYear: body.entryYear ? String(body.entryYear) : null,
-          previousSchool: body.previousSchool ? String(body.previousSchool) : null,
-          healthNotes: body.healthNotes ? String(body.healthNotes) : null,
-          parents: { create: parentLinks },
-        },
-      });
-    })();
+    // ── ساخت دانش‌آموز — کاربر + پرونده + پیوندها در یک batch تراکنش ──
+    // (قبلاً IIFE بود: خرابیِ student.create کاربر یتیم می‌ساخت)
+    const studentUserId = crypto.randomUUID();
+    const studentId = crypto.randomUUID();
+    const autoNumber = !String(body.studentNumber ?? "").trim();
+    const studentData = {
+      nationalId,
+      passwordHash: hashPassword(password),
+      tempPassword: password,
+      mustChangePassword: true,
+      role: "STUDENT",
+      firstName,
+      lastName,
+      fatherName: body.fatherName ? String(body.fatherName) : null,
+      gender: body.gender ? String(body.gender) : null,
+      birthDate: (() => {
+        if (!body.birthDate) return null;
+        const d = new Date(String(body.birthDate));
+        if (isNaN(d.getTime())) throw new ApiError(400, "BAD_DATE", "تاریخ تولد نامعتبر است.");
+        return d;
+      })(),
+      birthPlace: body.birthPlace ? String(body.birthPlace) : null,
+      phone: body.phone ? enDigits(String(body.phone)).trim() : null,
+      shadNumber,
+      address: body.address ? String(body.address) : null,
+      schoolId,
+      createdBy: me.id,
+    };
+    let student: { id: string; userId: string } | null = null;
+    // شمارهٔ خودکار در رقابت هم‌زمان ممکن است تکراری شود — batch اتمی است پس تلاش مجدد بی‌خطر است
+    for (let attempt = 0; attempt < 4; attempt++) {
+      try {
+        const [, createdStudent] = await db.$transaction([
+          db.user.create({ data: { id: studentUserId, ...studentData } }),
+          db.student.create({
+            data: {
+              id: studentId,
+              userId: studentUserId,
+              schoolId,
+              classId,
+              studentNumber,
+              entryYear: body.entryYear ? String(body.entryYear) : null,
+              previousSchool: body.previousSchool ? String(body.previousSchool) : null,
+              healthNotes: body.healthNotes ? String(body.healthNotes) : null,
+              parents: { create: parentLinks },
+            },
+          }),
+        ]);
+        student = createdStudent;
+        break;
+      } catch (e) {
+        const uniqueClash = e instanceof Error && e.message.includes("Unique constraint");
+        if (autoNumber && uniqueClash && attempt < 3) {
+          const count = await db.student.count({ where: { schoolId } });
+          studentNumber = String(1000 + count + 1);
+          continue;
+        }
+        throw e;
+      }
+    }
+    // جبران ظرفیت (الگوی خوابگاه): ساخت هم‌زمان ممکن است کلاس را پر کرده باشد
+    if (classId) {
+      const clsNow = await db.class.findUnique({ where: { id: classId }, select: { capacity: true } });
+      if (clsNow?.capacity) {
+        const inClassNow = await db.student.count({ where: { classId } });
+        if (inClassNow > clsNow.capacity) {
+          await db.$transaction([
+            db.student.delete({ where: { id: student!.id } }),
+            db.user.delete({ where: { id: student!.userId } }),
+          ]);
+          return apiErr(400, "ظرفیت این کلاس تکمیل است.", "CLASS_FULL");
+        }
+      }
+    }
 
+    if (!student) throw new Error("STUDENT_CREATE_FAILED");
     // ── ارسال اعتبارنامه با شاد (راند ۱۸: فقط وقتی شاد مدرسه روشن باشد) ──
     const shadOn = school?.shadEnabled !== false;
     let shadDelivery: { ok: boolean; error?: string } = { ok: false, error: shadOn ? "NO_SHAD_NUMBER" : "SHAD_DISABLED" };
@@ -275,6 +310,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     const row = await db.student.findUnique({ where: { id }, select: { schoolId: true } });

@@ -207,6 +207,7 @@ export async function POST(req: NextRequest) {
       if (duplicate) return apiErr(400, "این کتاب همین حالا دست همین دانش‌آموز است.", "DUPLICATE_LOAN");
       if (loanedCount >= book.totalCopies) return apiErr(400, "همهٔ نسخه‌های این کتاب در امانت است.", "NO_COPIES");
       const dueDays = Math.min(60, Math.max(1, Math.floor(Number(body.dueDays) || 14)));
+      // FIX (الگوی خوابگاه): ساخت + شمارش پس از ساخت — امانتِ هم‌زمان برای آخرین نسخه یا همان دانش‌آموز، همان‌جا حذف و 409 می‌شود
       const loan = await db.bookLoan.create({
         data: {
           schoolId,
@@ -216,6 +217,18 @@ export async function POST(req: NextRequest) {
           createdById: me.id,
         },
       });
+      const [dupeAfter, loanedAfter] = await Promise.all([
+        db.bookLoan.count({ where: { bookId: book.id, studentId: student.id, returnedAt: null } }),
+        db.bookLoan.count({ where: { bookId: book.id, returnedAt: null } }),
+      ]);
+      if (dupeAfter > 1) {
+        try { await db.bookLoan.delete({ where: { id: loan.id } }); } catch (compErr) { console.error("[LIBRARY] loan compensation failed", compErr); }
+        return apiErr(400, "این کتاب همین حالا دست همین دانش‌آموز است.", "DUPLICATE_LOAN");
+      }
+      if (loanedAfter > book.totalCopies) {
+        try { await db.bookLoan.delete({ where: { id: loan.id } }); } catch (compErr) { console.error("[LIBRARY] loan compensation failed", compErr); }
+        return apiErr(400, "همهٔ نسخه‌های این کتاب در امانت است.", "NO_COPIES");
+      }
       await audit({ user: me, action: "امانت کتاب", entityType: "BookLoan", entityId: loan.id, meta: { book: book.title } });
       return apiOk({ loan });
     }
@@ -237,12 +250,16 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     const row = await db.book.findUnique({ where: { id }, select: { schoolId: true } });
     if (!row) return apiErr(404, "یافت نشد.", "NOT_FOUND");
     if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
-    
+    // FIX: همان گاردِ deleteBook در POST — امانت فعال با cascade پاک نمی‌شود
+    const active = await db.bookLoan.count({ where: { bookId: id, returnedAt: null } });
+    if (active > 0) return apiErr(400, "این کتاب نسخهٔ در امانت دارد و حذف نمی‌شود.", "HAS_ACTIVE_LOANS");
     await db.book.delete({ where: { id } });
     return apiOk({ ok: true });
   } catch (e) { return handleApiError(e); }

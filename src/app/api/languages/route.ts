@@ -1,7 +1,7 @@
 // بهار | API بسته‌های زبان کاستوم — فهرست/ایجاد (آپلود JSON)
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { apiOk, ApiError, handleApiError, requireUser, readJson, rateLimit, ipOf } from "@/lib/api";
+import { apiOk, ApiError, handleApiError, requireUser, readJson, rateLimit, ipOf, demoWriteBlock} from "@/lib/api";
 import { CATALOG_KEYS, validateLanguagePack, LANG_PACK_MAX_BYTES } from "@/lib/langs";
 import { SHIPPED_LANG_PACKS } from "@/lib/langs/shipped";
 
@@ -56,6 +56,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, ["SUPER_ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     if (!rateLimit(`lang-upload:${ipOf(req)}`, 10, 60_000)) throw new ApiError(429, "TOO_MANY_REQUESTS", "درخواست‌های زیاد — کمی صبر کنید.");
 
     // حجم بدنه — قبل از parse کامل

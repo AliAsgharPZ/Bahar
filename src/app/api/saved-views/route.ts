@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, demoWriteBlock} from "@/lib/api";
 
 // ============================================================
 // بهار | نمایه‌های ذخیره‌شده (Saved Views)
@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{ page?: string; name?: string; config?: string }>(req);
     const page = String(body.page ?? "").trim();
     const name = String(body.name ?? "").trim();
@@ -60,6 +62,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id")?.trim();
     if (!id) return apiErr(400, "شناسه نمایه الزامی است.", "BAD_INPUT");
     const view = await db.savedView.findUnique({ where: { id } });

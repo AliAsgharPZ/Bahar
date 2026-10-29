@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
       return apiErr(400, "این شهرستان به استان انتخابی تعلق ندارد.", "BAD_COUNTY");
     }
     // ── مدیر مدرسه ──
+    let managerIsNew = false;
     let managerData: { id: string; nationalId: string; password: string; firstName: string; lastName: string } | null = null;
     let shadDelivery: { ok: boolean; error?: string } = { ok: false, error: "NO_MANAGER" };
     let managerId: string | null = null;
@@ -138,16 +139,19 @@ export async function POST(req: NextRequest) {
         });
         managerData = { id: manager.id, nationalId: mNationalId, password, firstName: mFirstName, lastName: mLastName };
         managerId = manager.id;
+        managerIsNew = true;
       }
     }
 
-    // FIX (راند ۱۶): مدرسه + پیوند مدیر + سایت در یک تراکنش — خرابی وسط راه کاربر یتیم نمی‌سازد
+    // FIX: مدرسه + پیوند مدیر + سایت در یک batch تراکنش — خرابی وسط راه کاربر یتیم نمی‌سازد
     let subdomain = slugify(name);
     const taken = await db.schoolSite.findUnique({ where: { subdomain } });
     if (taken) subdomain = `${subdomain}-${code}`.slice(0, 40);
-    const school = await (async () => {
-      const created = await db.school.create({
+    const schoolId = crypto.randomUUID();
+    const schoolOps: any[] = [
+      db.school.create({
         data: {
+          id: schoolId,
           name,
           code,
           type: body.type ? String(body.type) : null,
@@ -162,15 +166,23 @@ export async function POST(req: NextRequest) {
           logoUrl: body.logoUrl ? String(body.logoUrl) : null,
           managerId,
         },
-      });
-      if (managerId) {
-        await db.user.update({ where: { id: managerId }, data: { schoolId: created.id } });
+      }),
+    ];
+    if (managerId) schoolOps.push(db.user.update({ where: { id: managerId }, data: { schoolId } }));
+    schoolOps.push(db.schoolSite.create({
+      data: { schoolId, subdomain, templateId: "classic", published: false },
+    }));
+    let school: { id: string; name: string } & Record<string, unknown>;
+    try {
+      const [created] = await db.$transaction(schoolOps);
+      school = created as { id: string; name: string } & Record<string, unknown>;
+    } catch (e) {
+      // جبران: اگر مدیر در همین درخواست ساخته شده بود، یتیم نماند
+      if (managerIsNew && managerId) {
+        try { await db.user.delete({ where: { id: managerId } }); } catch { /* جبرانِ جبران: خطا به خطای اصلی نمی‌چسبد */ }
       }
-      await db.schoolSite.create({
-        data: { schoolId: created.id, subdomain, templateId: "classic", published: false },
-      });
-      return created;
-    })();
+      throw e;
+    }
     const site = { subdomain };
 
     if (managerData && body.managerShadNumber) {

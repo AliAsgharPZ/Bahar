@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 import { validatePluginManifest } from "@/lib/plugins/contract";
 
 /* ============================================================
@@ -30,6 +30,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{ action?: string; manifest?: unknown; id?: string; pluginId?: string }>(req);
     const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
 

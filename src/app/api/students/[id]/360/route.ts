@@ -270,6 +270,8 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
 export async function POST(req: NextRequest, ctx: Ctx) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await ctx.params;
     const student = await db.student.findUnique({ where: { id }, include: { user: true } });
     if (!student) return apiErr(404, "دانش‌آموز یافت نشد.", "NOT_FOUND");

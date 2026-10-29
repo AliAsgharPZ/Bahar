@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { requireUser, apiOk, apiErr, handleApiError, audit, readJson } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, audit, readJson, demoWriteBlock} from "@/lib/api";
 import { db } from "@/lib/db";
 import { saveSettings, getSettings } from "@/lib/settings";
 import { refreshCountryCache } from "@/lib/country/server";
@@ -13,6 +13,8 @@ import { refreshCountryCache } from "@/lib/country/server";
 export async function PATCH(req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
   try {
     const me = await requireUser(req, ["SUPER_ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await ctx.params;
     const body = await readJson<{ action?: string }>(req);
     const action = body.action ?? "";

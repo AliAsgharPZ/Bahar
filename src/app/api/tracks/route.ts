@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 
 /* ============================================================
    بهار | مسیرهای تخصصی — آموزش عالی و فنی‌حرفه‌ای
@@ -60,6 +60,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{
       action?: string; id?: string; kind?: string; name?: string; field?: string; degreeLevel?: string; description?: string; startYear?: string;
       programmeId?: string; studentId?: string; title?: string; status?: string; grade?: number; note?: string; defenseDate?: string;

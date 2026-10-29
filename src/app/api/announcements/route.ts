@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, requirePermission, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, ApiError, isDemoUser , actingSchoolIdFor } from "@/lib/api";
+import { requireUser, requirePermission, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, ApiError, isDemoUser , actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 import { getCountrySync } from "@/lib/country/cache";
 import { hasPermission, parsePermissions } from "@/lib/roles";
 
@@ -208,6 +208,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     const row = await db.announcement.findUnique({ where: { id }, select: { schoolId: true } });

@@ -111,8 +111,11 @@ export async function POST(req: NextRequest) {
       }
       const valid = [...new Set(optionIds)].filter((oid) => poll.options.some((o) => o.id === oid));
       if (!valid.length) return apiErr(400, "گزینه نامعتبر.", "BAD_OPTION");
-      if (existing) await db.pollVote.deleteMany({ where: { pollId, userId: me.id } });
-      await db.pollVote.createMany({ data: valid.map((optionId) => ({ pollId, optionId, userId: me.id })) });
+      // FIX: حذف رأی قبلی + ثبت رأی تازه در یک batch تا خرابی، رأی قبلی را پاک نکند
+      await db.$transaction([
+        ...(existing ? [db.pollVote.deleteMany({ where: { pollId, userId: me.id } })] : []),
+        db.pollVote.createMany({ data: valid.map((optionId) => ({ pollId, optionId, userId: me.id })) }),
+      ]);
       await audit({ user: me, action: "ثبت رأی", entityType: "Poll", entityId: pollId, schoolId, meta: { options: valid.length } });
       return apiOk({ ok: true });
     }
@@ -178,6 +181,8 @@ function rateLimitSuggest(userId: string): boolean {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const url = new URL(req.url);
     const id = url.searchParams.get("id") ?? "";
     const kind = url.searchParams.get("kind") ?? "poll";

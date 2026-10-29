@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, actingSchoolIdFor, demoWriteBlock } from "@/lib/api";
 import { hashPassword, generatePassword, isValidNationalId } from "@/lib/auth";
 
 /* ============================================================
@@ -31,6 +31,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, STAFF);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
     if (!schoolId) return apiErr(400, "کاربر به مدرسه‌ای متصل نیست.", "NO_SCHOOL");
     const body = await readJson<{
@@ -55,27 +57,52 @@ export async function POST(req: NextRequest) {
       const firstName = (body.firstName ?? "").trim();
       const lastName = (body.lastName ?? "").trim();
       if (firstName.length < 2 || lastName.length < 2) return apiErr(400, "نام و نام خانوادگی دانش‌آموز الزامی است.", "BAD_NAME");
-      const cls = body.classId ? await db.class.findFirst({ where: { id: body.classId, schoolId }, select: { id: true } }) : null;
+      const cls = body.classId ? await db.class.findFirst({ where: { id: body.classId, schoolId }, select: { id: true, capacity: true } }) : null;
       if (body.classId && !cls) return apiErr(404, "کلاس یافت نشد.", "NO_CLASS");
+      // FIX: تبدیل هم مثل ساخت دانش‌آموز، ظرفیت کلاس را رعایت می‌کند
+      if (cls?.capacity) {
+        const inClass = await db.student.count({ where: { classId: cls.id } });
+        if (inClass >= cls.capacity) return apiErr(400, "ظرفیت این کلاس تکمیل است.", "CLASS_FULL");
+      }
       const existing = await db.user.findUnique({ where: { nationalId }, select: { id: true } });
       if (existing) return apiErr(409, "کاربری با این کد ملی از قبل وجود دارد.", "DUP_USER");
 
       const tempPassword = generatePassword();
-      const count = await db.student.count({ where: { schoolId } });
-      const user = await db.user.create({
-        data: {
-          nationalId, firstName, lastName, role: "STUDENT", schoolId,
-          phone: lead.phone || null,
-          passwordHash: hashPassword(tempPassword), tempPassword, mustChangePassword: true,
-        },
-      });
-      const student = await db.student.create({
-        data: {
-          userId: user.id, schoolId, classId: cls?.id ?? null,
-          studentNumber: `${new Date().getFullYear() % 100}${String(count + 1).padStart(4, "0")}`,
-        },
-      });
-      await db.schoolLead.update({ where: { id: lead.id }, data: { status: "ENROLLED", convertedStudentId: student.id } });
+      // FIX: کاربر + پرونده + به‌روزرسانی لید در یک batch — خرابیِ وسط راه کاربر یتیم نمی‌سازد
+      const userId = crypto.randomUUID();
+      const newStudentId = crypto.randomUUID();
+      let student: { id: string } | null = null;
+      for (let attempt = 0; attempt < 4; attempt++) {
+        try {
+          const count = await db.student.count({ where: { schoolId } });
+          const [, createdStudent] = await db.$transaction([
+            db.user.create({
+              data: {
+                id: userId,
+                nationalId, firstName, lastName, role: "STUDENT", schoolId,
+                phone: lead.phone || null,
+                passwordHash: hashPassword(tempPassword), tempPassword, mustChangePassword: true,
+              },
+            }),
+            db.student.create({
+              data: {
+                id: newStudentId,
+                userId, schoolId, classId: cls?.id ?? null,
+                studentNumber: `${new Date().getFullYear() % 100}${String(count + 1).padStart(4, "0")}`,
+              },
+            }),
+            db.schoolLead.update({ where: { id: lead.id }, data: { status: "ENROLLED", convertedStudentId: newStudentId } }),
+          ]);
+          student = createdStudent;
+          break;
+        } catch (e) {
+          // شمارهٔ دانش‌آموزیِ شمارشی در رقابت هم‌زمان تکراری می‌شود — batch اتمی است پس تلاش مجدد بی‌خطر است
+          if (e instanceof Error && e.message.includes("Unique constraint") && attempt < 3) continue;
+          throw e;
+        }
+      }
+      const user = { id: userId };
+      if (!student) throw new Error("STUDENT_CREATE_FAILED");
       await audit({ user: me, action: "تبدیل لید به دانش‌آموز", entityType: "Student", entityId: student.id, schoolId });
       return apiOk({ studentId: student.id, userId: user.id, tempPassword });
     }
@@ -89,6 +116,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     const row = await db.schoolLead.findUnique({ where: { id }, select: { schoolId: true } });

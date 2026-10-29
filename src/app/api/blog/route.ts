@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { apiOk, apiErr, handleApiError, readJson, ApiError, isDemoUser , audit } from "@/lib/api";
 import { slugify, enDigits } from "@/lib/persian";
-import { requireUser } from "@/lib/api";
+import { requireUser, demoWriteBlock } from "@/lib/api";
 import { hasPermission } from "@/lib/roles";
 
 // ============================================================
@@ -91,7 +91,9 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    await requireUser(req, ["MANAGER", "SUPER_ADMIN", "ADMIN"]);
+    const me = await requireUser(req, ["MANAGER", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     await db.blogPost.deleteMany({ where: { id } });

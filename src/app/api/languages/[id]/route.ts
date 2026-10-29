@@ -1,12 +1,14 @@
 // بهار | API مدیریت بسته زبان — فعال/غیرفعال/حذف + انتخاب زبان کاربر
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { apiOk, ApiError, handleApiError, requireUser, readJson, audit, ipOf } from "@/lib/api";
+import { apiOk, ApiError, handleApiError, requireUser, readJson, audit, ipOf, demoWriteBlock} from "@/lib/api";
 
 /** تغییر وضعیت بسته (ACTIVE/DISABLED/DRAFT) یا انتخاب زبان کاربر */
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await params;
     const body = await readJson<{ status?: string; action?: string }>(req);
 
@@ -59,6 +61,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const me = await requireUser(req, ["SUPER_ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const { id } = await params;
     const pack = await db.languagePack.findUnique({ where: { id } });
     if (!pack) throw new ApiError(404, "NOT_FOUND", "بسته زبان یافت نشد.");

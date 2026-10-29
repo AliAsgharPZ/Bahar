@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, rateLimit } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, rateLimit, demoWriteBlock} from "@/lib/api";
 import { todayKey, toKey } from "@/lib/persian";
 
 // ============================================================
@@ -125,6 +125,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, ["STUDENT"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     if (!rateLimit(`wellbeing:${me.id}`, 6, 60_000)) {
       return apiErr(429, "درخواست‌های پی‌درپی؛ کمی صبر کنید.", "RATE_LIMITED");
     }
@@ -166,6 +168,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
     const row = await db.wellbeingCheckin.findUnique({ where: { id }, select: { authorizedBy: true, student: { select: { schoolId: true } } } });

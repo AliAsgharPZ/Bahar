@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock } from "@/lib/api";
 
 /* ============================================================
    بهار | بوفه و کیف پول دانش‌آموزی — ولی کیف پول را شارژ
@@ -50,6 +50,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{
       action?: string; studentId?: string; amount?: number; note?: string; dailyLimit?: number | null;
     }>(req);
@@ -72,9 +74,13 @@ export async function POST(req: NextRequest) {
       if (!allowed) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
       if (amount <= 0 || amount > 50_000_000) return apiErr(400, "مبلغ شارژ نامعتبر است.", "BAD_AMOUNT");
       const wallet = await ensureWallet();
-      const updated = await db.studentWallet.update({ where: { id: wallet.id }, data: { balance: { increment: amount } } });
-      await db.walletTx.create({ data: { walletId: wallet.id, kind: "TOPUP", amount, note: body.note?.trim().slice(0, 200) || "شارژ کیف پول", createdById: me.id } });
-      return apiOk({ balance: updated.balance });
+      // FIX: شارژ + ثبت تراکنش در یک batch تا موجودی بدون سند نماند
+      const [, , updated] = await db.$transaction([
+        db.studentWallet.update({ where: { id: wallet.id }, data: { balance: { increment: amount } } }),
+        db.walletTx.create({ data: { walletId: wallet.id, kind: "TOPUP", amount, note: body.note?.trim().slice(0, 200) || "شارژ کیف پول", createdById: me.id } }),
+        db.studentWallet.findUnique({ where: { id: wallet.id }, select: { balance: true } }),
+      ]);
+      return apiOk({ balance: updated?.balance ?? wallet.balance + amount });
     }
 
     if (body.action === "setLimit") {
@@ -90,6 +96,8 @@ export async function POST(req: NextRequest) {
 
     if (body.action === "spend") {
       await requireUser(req, STAFF);
+      // FIX: خرج هم مثل شارژ به مدرسه مقید است — کادر مدرسه دیگر نمی‌تواند از کیف پول این مدرسه خرج کند
+      if (me.schoolId && me.schoolId !== st.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
       if (amount <= 0 || amount > 10_000_000) return apiErr(400, "مبلغ خرید نامعتبر است.", "BAD_AMOUNT");
       const wallet = await ensureWallet();
       if (wallet.balance < amount) return apiErr(409, "موجودی کیف پول کافی نیست.", "NO_BALANCE");
@@ -103,9 +111,27 @@ export async function POST(req: NextRequest) {
         const spent = Math.abs(spentToday._sum.amount ?? 0);
         if (spent + amount > wallet.dailyLimit) return apiErr(409, "از سقف خرج روزانهٔ ولی بیشتر می‌شود.", "OVER_LIMIT");
       }
-      const updated = await db.studentWallet.update({ where: { id: wallet.id }, data: { balance: { decrement: amount } } });
-      await db.walletTx.create({ data: { walletId: wallet.id, kind: "SPEND", amount: -amount, note: body.note?.trim().slice(0, 200) || "خرید بوفه", createdById: me.id } });
-      return apiOk({ balance: updated.balance });
+      // FIX (الگوی بوفه، دو مرحله): مرحله ۱ فقط کم‌شدن نگه‌دارشده است؛
+      // count=0 یعنی موجودی هم‌زمان کم شده و هیچ سندی ساخته نمی‌شود.
+      // مرحله ۲ ثبت سند است و در صورت شکست، کم‌شدن جبران می‌شود.
+      const [guarded] = await db.$transaction([
+        db.studentWallet.updateMany({ where: { id: wallet.id, balance: { gte: amount } }, data: { balance: { decrement: amount } } }),
+      ]);
+      if (guarded.count !== 1) return apiErr(409, "موجودی کیف پول کافی نیست.", "NO_BALANCE");
+      try {
+        const [, walletAfter] = await db.$transaction([
+          db.walletTx.create({ data: { walletId: wallet.id, kind: "SPEND", amount: -amount, note: body.note?.trim().slice(0, 200) || "خرید بوفه", createdById: me.id } }),
+          db.studentWallet.findUnique({ where: { id: wallet.id }, select: { balance: true } }),
+        ]);
+        return apiOk({ balance: walletAfter?.balance ?? wallet.balance - amount });
+      } catch (e) {
+        try {
+          await db.studentWallet.updateMany({ where: { id: wallet.id }, data: { balance: { increment: amount } } });
+        } catch (compErr) {
+          console.error("[WALLET] spend compensation failed", compErr);
+        }
+        throw e;
+      }
     }
 
     return apiErr(400, "عملیات نامعتبر.", "BAD_ACTION");

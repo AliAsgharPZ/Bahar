@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     // فقط دانش‌آموزان همان مدرسه
     const students = await db.student.findMany({
       where: { id: { in: ids }, schoolId },
-      select: { id: true, tags: true },
+      select: { id: true, tags: true, classId: true },
     });
     if (students.length === 0) return apiErr(404, "دانش‌آموزی از این مدرسه یافت نشد.", "NOT_FOUND");
 
@@ -48,6 +48,13 @@ export async function POST(req: NextRequest) {
       if (classId) {
         const cls = await db.class.findFirst({ where: { id: classId, schoolId } });
         if (!cls) return apiErr(404, "کلاس هدف یافت نشد.", "CLASS_NOT_FOUND");
+        // FIX: انتقال گروهی هم ظرفیت را رعایت می‌کند — فقط تازه‌واردها شمرده می‌شوند
+        if (cls.capacity) {
+          const alreadyThere = students.filter((s) => s.classId === classId).length;
+          const newcomers = students.length - alreadyThere;
+          const inTarget = await db.student.count({ where: { classId } });
+          if (inTarget + newcomers > cls.capacity) return apiErr(409, "ظرفیت این کلاس تکمیل است.", "CLASS_FULL");
+        }
       }
       const res = await db.student.updateMany({ where: { id: { in: students.map((s) => s.id) } }, data: { classId } });
       await audit({ user: me, action: "عملیات گروهی: انتقال کلاس", entityType: "Student", meta: { count: res.count, classId } });

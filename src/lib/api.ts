@@ -211,7 +211,13 @@ export async function uniqueTicketCode(): Promise<string> {
     const exists = await db.ticket.findUnique({ where: { code: candidate }, select: { id: true } });
     if (!exists) return candidate;
   }
-  return `BK-${Date.now().toString(36).toUpperCase().slice(-6)}`; // پشتیبان در فضای پر
+  // FIX: پشتیبان هم از randomUUID مشتق می‌شود — مثل قبل بر پایهٔ زمان نیست تا در همان میلی‌ثانیه تصادم نگیرد
+  for (let i = 0; i < 8; i++) {
+    const candidate = `BK-${crypto.randomUUID().replace(/-/g, "").slice(0, 6).toUpperCase()}`;
+    const exists = await db.ticket.findUnique({ where: { code: candidate }, select: { id: true } });
+    if (!exists) return candidate;
+  }
+  return `BK-${crypto.randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase()}`;
 }
 
 /** خواندن بدنه JSON با مدیریت خطا */

@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock } from "@/lib/api";
 import { GUIDANCE_AREAS, rankStreams, type GuidanceScores } from "@/lib/guidance";
 
 /* ============================================================
@@ -44,9 +44,16 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, STAFF);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{ studentId?: string; scores?: GuidanceScores; counselorNote?: string }>(req);
     const studentId = String(body.studentId ?? "");
-    const st = await db.student.findUnique({ where: { id: studentId }, select: { id: true, schoolId: true } });
+    // FIX: دانش‌آموز فقط از مدرسهٔ خودِ کاربر — مثل GET همین فایل
+    const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
+    const st = schoolId
+      ? await db.student.findFirst({ where: { id: studentId, schoolId }, select: { id: true, schoolId: true } })
+      : null;
+    // (مدرسه نامشخص = دانش‌آموز در مدرسهٔ کاربر یافت نمی‌شود → 404، هم‌قاعده با GET)
     if (!st) return apiErr(404, "دانش‌آموز یافت نشد.", "NOT_FOUND");
     const scores: GuidanceScores = {};
     for (const a of GUIDANCE_AREAS) {
@@ -74,10 +81,15 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const studentId = new URL(req.url).searchParams.get("studentId") ?? "";
     if (!studentId) return apiErr(400, "دانش‌آموز لازم است.", "NO_STUDENT");
-    await db.guidanceRecord.deleteMany({ where: { studentId } });
+    // FIX: حذف فقط در مدرسهٔ خودِ کاربر
+    const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
+    if (!schoolId) return apiErr(400, "کاربر به مدرسه‌ای متصل نیست.", "NO_SCHOOL");
+    await db.guidanceRecord.deleteMany({ where: { studentId, schoolId } });
     return apiOk({ ok: true });
   } catch (e) { return handleApiError(e); }
 }

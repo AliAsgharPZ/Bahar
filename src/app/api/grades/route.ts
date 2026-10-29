@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, requirePermission, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, isDemoUser } from "@/lib/api";
+import { requireUser, requirePermission, apiOk, apiErr, handleApiError, readJson, audit, requireSchoolId, isDemoUser, demoWriteBlock } from "@/lib/api";
 import { hasPermission } from "@/lib/roles";
 
 /**
@@ -159,52 +159,58 @@ export async function POST(req: NextRequest) {
     let skippedInvalid = 0;
     let skippedLocked = 0;
     let skippedStudent = 0;
+    // FIX: اعتبارسنجی + خواندن رکوردهای قبلی بیرون، همهٔ نوشتن‌ها در یک batch —
+    // خرابی وسط حلقه، رکوردهای قبلی را ذخیره‌شده و بعدی‌ها را گمشده نمی‌گذارد
+    const ops: any[] = [];
+    const drops: Array<{ studentId: string; drop: number }> = [];
     for (const r of records) {
       if (!r.studentId || !studentIds.has(r.studentId)) { skippedStudent++; continue; }
       const score = Number(r.score);
       const maxScore = Number(r.maxScore ?? 20);
       const weight = Number(r.weight ?? 1);
       if (!Number.isFinite(score) || score < 0 || !Number.isFinite(maxScore) || maxScore < 1 || maxScore > 200 || score > maxScore || !Number.isFinite(weight) || weight < 0 || weight > 20) { skippedInvalid++; continue; } // FIX راند ۱۶
-      saved++;
       const data = {
         score, maxScore, weight: Number(r.weight ?? 1),
         note: r.note || null, enteredById: me.id,
       };
       const prev = await db.gradeRecord.findFirst({
         where: { studentId: r.studentId, classId, subjectId, term, kind },
-        select: { id: true, score: true, note: true },
+        select: { id: true, score: true, note: true, locked: true },
       });
       if (prev) {
         // ── Grade Lock: نمره نهایی‌شده فقط با دسترسی unlock_grades ──
-        const prevFull = await db.gradeRecord.findUnique({ where: { id: prev.id }, select: { locked: true } });
-        if (prevFull?.locked && me.role !== "MANAGER" && me.role !== "SUPER_ADMIN" && !me.permissions.includes("unlock_grades")) {
-          saved--; skippedLocked++; continue; // نمره قفل است
+        if (prev.locked && me.role !== "MANAGER" && me.role !== "SUPER_ADMIN" && !me.permissions.includes("unlock_grades")) {
+          skippedLocked++; continue; // نمره قفل است
         }
-        await db.gradeRecord.update({ where: { id: prev.id }, data });
+        saved++;
+        ops.push(db.gradeRecord.update({ where: { id: prev.id }, data }));
         // ── تاریخچه تغییر نمره ──
         if (prev.score !== score) {
-          await db.gradeHistory.create({
+          ops.push(db.gradeHistory.create({
             data: { gradeRecordId: prev.id, studentId: r.studentId, oldScore: prev.score, newScore: score, oldNote: prev.note, newNote: r.note || null, changedById: me.id, source: "UPDATE" },
-          });
-          // ── اتوماسیون افت نمره ──
+          }));
           const drop = prev.score - score;
-          const sid = r.studentId;
-          if (drop >= 4 && sid) {
-            const su = await db.student.findUnique({ where: { id: sid }, include: { user: true } });
-            if (su) {
-              import("@/lib/automation").then(({ runAutomations }) =>
-                runAutomations({ type: "GRADE_DROP", schoolId, studentId: sid, studentName: `${su.user.firstName} ${su.user.lastName}`, subjectName: subject.name, drop })
-              );
-            }
-          }
+          if (drop >= 4) drops.push({ studentId: r.studentId, drop });
         }
       } else {
-        const created = await db.gradeRecord.create({
-          data: { studentId: r.studentId, classId, subjectId, term, kind, ...data },
-        });
-        await db.gradeHistory.create({
-          data: { gradeRecordId: created.id, studentId: r.studentId, oldScore: null, newScore: score, newNote: r.note || null, changedById: me.id, source: "CREATE" },
-        });
+        saved++;
+        const newId = crypto.randomUUID();
+        ops.push(db.gradeRecord.create({
+          data: { id: newId, studentId: r.studentId, classId, subjectId, term, kind, ...data },
+        }));
+        ops.push(db.gradeHistory.create({
+          data: { gradeRecordId: newId, studentId: r.studentId, oldScore: null, newScore: score, newNote: r.note || null, changedById: me.id, source: "CREATE" },
+        }));
+      }
+    }
+    if (ops.length) await db.$transaction(ops);
+    // اتوماسیون افت نمره پس از batch (اثر جانبی، نه بخشی از تراکنش)
+    for (const d of drops) {
+      const su = await db.student.findUnique({ where: { id: d.studentId }, include: { user: true } });
+      if (su) {
+        import("@/lib/automation").then(({ runAutomations }) =>
+          runAutomations({ type: "GRADE_DROP", schoolId, studentId: d.studentId, studentName: `${su.user.firstName} ${su.user.lastName}`, subjectName: subject.name, drop: d.drop })
+        );
       }
     }
 
@@ -298,12 +304,18 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
-    const row = await db.gradeRecord.findUnique({ where: { id }, select: { enteredById: true, student: { select: { schoolId: true } } } });
+    const row = await db.gradeRecord.findUnique({ where: { id }, select: { locked: true, student: { select: { schoolId: true } } } });
     if (!row) return apiErr(404, "نمره یافت نشد.", "NOT_FOUND");
+    // FIX: قفل مثل PATCH undo اعمال می‌شود و میان‌برِ ثبت‌کننده حذف شد — فقط عضویت در مدرسه ملاک است
+    if (row.locked && !["MANAGER", "SUPER_ADMIN"].includes(me.role) && !hasPermission(me, "unlock_grades")) {
+      return apiErr(423, "این نمره نهایی شده است؛ ابتدا مدیر آن را بازگشایی کند.", "LOCKED");
+    }
     const inSchool = me.schoolId && row.student.schoolId === me.schoolId;
-    if (!inSchool && row.enteredById !== me.id && !["SUPER_ADMIN", "ADMIN"].includes(me.role)) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    if (!inSchool && !["SUPER_ADMIN", "ADMIN"].includes(me.role)) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
     await db.gradeRecord.delete({ where: { id } });
     return apiOk({ ok: true });
   } catch (e) { return handleApiError(e); }

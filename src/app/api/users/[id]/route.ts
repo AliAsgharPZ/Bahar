@@ -179,6 +179,7 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     }
 
     // ── تغییر نقش ──
+    let managedSchoolId: string | null = null;
     if (body.role !== undefined && String(body.role) !== user.role) {
       const newRole = String(body.role);
       const VALID = ["ADMIN", "MANAGER", "DEPUTY", "TEACHER", "CUSTODIAN", "STUDENT", "PARENT"];
@@ -198,12 +199,10 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
           return apiErr(403, "نقش سرایدار در این مدرسه غیرفعال است.", "CUSTODIAN_DISABLED");
         }
       }
-      // مدیر → سلب مدیریت مدرسه
+      // مدیر → سلب مدیریت مدرسه (خواندن بیرون، نوشتن در batch پایین)
       if (user.role === "MANAGER") {
         const managed = await db.school.findFirst({ where: { managerId: user.id } });
-        if (managed && newRole !== "MANAGER") {
-          await db.school.update({ where: { id: managed.id }, data: { managerId: null } });
-        }
+        if (managed && newRole !== "MANAGER") managedSchoolId = managed.id;
       }
       if (newRole === "MANAGER") data.schoolId = data.schoolId ?? user.schoolId;
       if (newRole === "ADMIN") data.schoolId = null;
@@ -252,11 +251,15 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
       data.lockedUntil = null;
     }
 
-    await db.user.update({ where: { id }, data });
+    // FIX: سلب مدیریت + ویرایش کاربر + ارتقای مدیر در یک batch — خرابی وسط راه مدیر بی‌مدرسه/مدرسه بی‌مدیر نمی‌سازد
+    const userOps: any[] = [];
+    if (managedSchoolId) userOps.push(db.school.update({ where: { id: managedSchoolId }, data: { managerId: null } }));
+    userOps.push(db.user.update({ where: { id }, data }));
     // اگر به مدیر ارتقا یافته و مدرسه مشخص شده، متصل شود
     if (body.role === "MANAGER" && (data.schoolId as string | undefined)) {
-      await db.school.update({ where: { id: data.schoolId as string }, data: { managerId: id } });
+      userOps.push(db.school.update({ where: { id: data.schoolId as string }, data: { managerId: id } }));
     }
+    await db.$transaction(userOps);
 
     if (newPassword && user.shadNumber && user.schoolId) {
       const school = await db.school.findUnique({ where: { id: user.schoolId } });
@@ -326,61 +329,75 @@ export async function DELETE(req: NextRequest, ctx: Ctx) {
 
     // ── حذف کامل از کل سامانه ──
     // اگر مدیر مدرسه است، مدرسه‌اش آزاد شود (داخل تراکنش — راند ۱۶)
-    await (async () => {
-      await db.school.updateMany({ where: { managerId: user.id }, data: { managerId: null } });
+    // FIX: همهٔ حذف‌ها در یک batch تراکنش — خرابی وسط راه کاربر نیمه‌حذف‌شده نمی‌سازد
+    const studentPre = await db.student.findUnique({ where: { userId: user.id } });
+    const ops: any[] = [];
+      ops.push(db.school.updateMany({ where: { managerId: user.id }, data: { managerId: null } }));
 
       // رکوردهای مستقیم
-      await db.profileChangeRequest.deleteMany({ where: { OR: [{ userId: user.id }, { reviewedById: user.id }] } });
-      await db.ticketMessage.deleteMany({ where: { senderId: user.id } });
-      await db.blogPost.updateMany({ where: { authorId: user.id }, data: { authorId: null } });
-      await db.shadSession.updateMany({ where: { authorizedBy: user.id }, data: { authorizedBy: null } });
+      ops.push(db.profileChangeRequest.deleteMany({ where: { OR: [{ userId: user.id }, { reviewedById: user.id }] } }));
+      ops.push(db.ticketMessage.deleteMany({ where: { senderId: user.id } }));
+      ops.push(db.blogPost.updateMany({ where: { authorId: user.id }, data: { authorId: null } }));
+      ops.push(db.shadSession.updateMany({ where: { authorizedBy: user.id }, data: { authorizedBy: null } }));
 
       // FIX (راند ۱۶): روابط FK الزامی که قبلاً پاک نمی‌شدند → خطای ۵۰۰ قید کلید خارجی
       // جلسات (درخواست‌دهنده/کارمند)، رزروها، تیکت‌های تعمیر، مداخلات، گواهی‌ها، ایمپورت‌ها، چک‌این‌ها
-      await db.meeting.deleteMany({ where: { OR: [{ requestedById: user.id }, { staffId: user.id }] } });
-      await db.booking.deleteMany({ where: { byId: user.id } });
-      await db.maintenanceTicket.deleteMany({ where: { reportedById: user.id } });
-      await db.intervention.deleteMany({ where: { startedById: user.id } });
-      await db.certificate.deleteMany({ where: { issuedById: user.id } });
-      await db.importJob.deleteMany({ where: { userId: user.id } });
+      ops.push(db.meeting.deleteMany({ where: { OR: [{ requestedById: user.id }, { staffId: user.id }] } }));
+      ops.push(db.booking.deleteMany({ where: { byId: user.id } }));
+      ops.push(db.maintenanceTicket.deleteMany({ where: { reportedById: user.id } }));
+      ops.push(db.intervention.deleteMany({ where: { startedById: user.id } }));
+      ops.push(db.certificate.deleteMany({ where: { issuedById: user.id } }));
+      ops.push(db.importJob.deleteMany({ where: { userId: user.id } }));
       // چک‌این‌های سلامت روان با مجوز این کاربر (خوداظهاری دانش‌آموز)
-      await db.wellbeingCheckin.deleteMany({ where: { authorizedBy: user.id } });
+      ops.push(db.wellbeingCheckin.deleteMany({ where: { authorizedBy: user.id } }));
 
       // دانش‌آموز؟ — پرونده + همه داده‌ها
-      const student = await db.student.findUnique({ where: { userId: user.id } });
+      const student = studentPre;
       if (student) {
-        await db.attendance.deleteMany({ where: { studentId: student.id } });
-        await db.gradeRecord.deleteMany({ where: { studentId: student.id } });
-        await db.studentFee.deleteMany({ where: { studentId: student.id } });
-        await db.studentParent.deleteMany({ where: { studentId: student.id } });
-        await db.riskScore.deleteMany({ where: { studentId: student.id } });
-        await db.wellbeingCheckin.deleteMany({ where: { studentId: student.id } });
-        await db.student.delete({ where: { id: student.id } });
+        ops.push(db.attendance.deleteMany({ where: { studentId: student.id } }));
+        ops.push(db.gradeRecord.deleteMany({ where: { studentId: student.id } }));
+        ops.push(db.studentFee.deleteMany({ where: { studentId: student.id } }));
+        ops.push(db.studentParent.deleteMany({ where: { studentId: student.id } }));
+        ops.push(db.riskScore.deleteMany({ where: { studentId: student.id } }));
+        ops.push(db.wellbeingCheckin.deleteMany({ where: { studentId: student.id } }));
+        ops.push(db.student.delete({ where: { id: student.id } }));
       }
       // ولی؟ — پیوندها
-      await db.studentParent.deleteMany({ where: { parentUserId: user.id } });
+      ops.push(db.studentParent.deleteMany({ where: { parentUserId: user.id } }));
 
       // کارمند؟ — واگذاری‌ها
-      await db.teachingAssignment.deleteMany({ where: { teacherId: user.id } });
-      await db.scheduleSlot.updateMany({ where: { teacherId: user.id }, data: { teacherId: null } });
-      await db.class.updateMany({ where: { homeroomTeacherId: user.id }, data: { homeroomTeacherId: null } });
-      await db.assignment.deleteMany({ where: { teacherId: user.id } });
-      await db.attendance.updateMany({ where: { recordedById: user.id }, data: { recordedById: null } });
-      await db.gradeRecord.updateMany({ where: { enteredById: user.id }, data: { enteredById: null } });
-      await db.schoolEvent.updateMany({ where: { createdById: user.id }, data: { createdById: null } });
-      await db.announcement.updateMany({ where: { createdById: user.id }, data: { createdById: null } });
+      ops.push(db.teachingAssignment.deleteMany({ where: { teacherId: user.id } }));
+      ops.push(db.scheduleSlot.updateMany({ where: { teacherId: user.id }, data: { teacherId: null } }));
+      ops.push(db.class.updateMany({ where: { homeroomTeacherId: user.id }, data: { homeroomTeacherId: null } }));
+      ops.push(db.assignment.deleteMany({ where: { teacherId: user.id } }));
+      ops.push(db.attendance.updateMany({ where: { recordedById: user.id }, data: { recordedById: null } }));
+      ops.push(db.gradeRecord.updateMany({ where: { enteredById: user.id }, data: { enteredById: null } }));
+      ops.push(db.schoolEvent.updateMany({ where: { createdById: user.id }, data: { createdById: null } }));
+      ops.push(db.announcement.updateMany({ where: { createdById: user.id }, data: { createdById: null } }));
 
       // پیام‌ها
-      await db.message.deleteMany({ where: { OR: [{ senderId: user.id }, { recipientId: user.id }] } });
+      ops.push(db.message.deleteMany({ where: { OR: [{ senderId: user.id }, { recipientId: user.id }] } }));
 
       // تیکت‌های خودش
-      await db.ticket.deleteMany({ where: { userId: user.id } });
+      ops.push(db.ticket.deleteMany({ where: { userId: user.id } }));
 
       // تیکت‌های اداره‌شده — پیام‌هایش بالا حذف شد؛ رکورد فعالیت بماند
-      await db.auditLog.updateMany({ where: { userId: user.id }, data: { userId: null } });
+      ops.push(db.auditLog.updateMany({ where: { userId: user.id }, data: { userId: null } }));
 
-      await db.user.delete({ where: { id: user.id } });
-    })();
+      // FIX: روابط کاربرِ بدون Cascade که قبلاً نه پاک و نه null می‌شدند
+      ops.push(db.task.updateMany({ where: { assigneeId: user.id }, data: { assigneeId: null } }));
+      ops.push(db.task.updateMany({ where: { createdById: user.id }, data: { createdById: null } }));
+      ops.push(db.poll.updateMany({ where: { createdById: user.id }, data: { createdById: null } }));
+      ops.push(db.question.updateMany({ where: { createdById: user.id }, data: { createdById: null } }));
+      ops.push(db.resourceLink.updateMany({ where: { addedById: user.id }, data: { addedById: null } }));
+      ops.push(db.behaviorRecord.updateMany({ where: { recordedById: user.id }, data: { recordedById: null } }));
+      ops.push(db.studentBadge.updateMany({ where: { awardedById: user.id }, data: { awardedById: null } }));
+      ops.push(db.asset.updateMany({ where: { custodianId: user.id }, data: { custodianId: null } }));
+      ops.push(db.gradeHistory.updateMany({ where: { changedById: user.id }, data: { changedById: null } }));
+      ops.push(db.backup.updateMany({ where: { createdById: user.id }, data: { createdById: null } }));
+      ops.push(db.user.delete({ where: { id: user.id } }));
+    await db.$transaction(ops);
+
 
     await audit({
       user: me, action: "DELETE_USER", entityType: "USER", entityId: id,

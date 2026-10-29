@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 
 /* ============================================================
    بهار | خوابگاه شبانه‌روزی — ساختمان، اتاق، اسکان، مرخصی
@@ -66,6 +66,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{
       action?: string; id?: string; name?: string; address?: string; buildingId?: string;
       floor?: number; capacity?: number; notes?: string; isActive?: boolean;
@@ -142,11 +144,11 @@ export async function POST(req: NextRequest) {
           db.dormAssignment.count({ where: { studentId, status: "ACTIVE" } }),
         ]);
         if (roomCount > room.capacity) {
-          await db.dormAssignment.delete({ where: { id: assignment.id } });
+          try { await db.dormAssignment.delete({ where: { id: assignment.id } }); } catch (compErr) { console.error("[DORM] assign compensation failed", compErr); }
           return apiErr(409, "ظرفیت اتاق تکمیل است.", "FULL");
         }
         if (studentCount > 1) {
-          await db.dormAssignment.delete({ where: { id: assignment.id } });
+          try { await db.dormAssignment.delete({ where: { id: assignment.id } }); } catch (compErr) { console.error("[DORM] assign compensation failed", compErr); }
           return apiErr(409, "این دانش‌آموز هم‌اکنون اسکان فعال دارد.", "ALREADY");
         }
         return apiOk({ assignment });

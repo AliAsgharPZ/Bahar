@@ -220,6 +220,26 @@ export async function POST(req: NextRequest) {
       // راند ۱۸: mapping خودکار (هم‌تراز validate) + mapping صریح
       const m = autoMap(commitHeaders, body.mapping, staffJob);
       const validations = staffJob ? validateStaff(rows, m) : validateStudents(rows, m);
+      // FIX: همان بررسی‌های تکراریِ مرحلهٔ validate در commit هم اجرا می‌شود —
+      // کد ملیِ ساخته‌شده بین validate و commit، یا تکراریِ داخل خود فایل، سطر را خطا می‌دهد نه کاربر یتیم
+      {
+        const nidKey = m.nationalId ?? "nationalId";
+        const seen = new Map<string, number>();
+        for (const v of validations) {
+          const nid = v.data[nidKey] ?? v.data.nationalId ?? "";
+          if (nid && seen.has(nid)) v.errors.push(`کد ملی تکراری با سطر ${seen.get(nid)}`);
+          else if (nid) seen.set(nid, v.row);
+        }
+        const nids = [...new Set(validations.map((v) => v.data[nidKey] ?? "").filter(Boolean))];
+        if (nids.length) {
+          const existing = await db.user.findMany({ where: { nationalId: { in: nids } }, select: { nationalId: true } });
+          const existingSet = new Set(existing.map((e) => e.nationalId));
+          for (const v of validations) {
+            const nid = v.data[nidKey] ?? "";
+            if (existingSet.has(nid)) v.errors.push("کاربری با این کد ملی از قبل وجود دارد");
+          }
+        }
+      }
       const get = (row: Row, field: string) => row[m[field] ?? field] ?? "";
 
       const errors: Array<{ row: number; error: string }> = [];
@@ -265,9 +285,12 @@ export async function POST(req: NextRequest) {
         const nationalId = get(row, "nationalId");
         const tempPassword = generatePassword();
         try {
-          await (async () => {
-            const user = await db.user.create({
+          // FIX: کاربر + پرونده در یک batch — خرابیِ پرونده، کاربر یتیم نمی‌سازد
+          const userId = crypto.randomUUID();
+          await db.$transaction([
+            db.user.create({
               data: {
+                id: userId,
                 nationalId,
                 passwordHash: hashPassword(tempPassword),
                 tempPassword,
@@ -281,18 +304,18 @@ export async function POST(req: NextRequest) {
                 address: get(row, "address") || null,
                 schoolId,
               },
-            });
-            await db.student.create({
+            }),
+            db.student.create({
               data: {
-                userId: user.id,
+                userId,
                 schoolId,
                 classId: body.classId!,
                 studentNumber: get(row, "studentNumber") || `${Date.now().toString().slice(-6)}${v.row}`,
                 entryYear: body.entryYear ?? null,
                 previousSchool: get(row, "previousSchool") || null,
               },
-            });
-          })();
+            }),
+          ]);
           success++;
         } catch (e) {
           errors.push({ row: v.row, error: e instanceof Error ? e.message.slice(0, 120) : "خطا" });

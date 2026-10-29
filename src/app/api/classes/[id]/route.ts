@@ -22,6 +22,9 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     if (body.capacity !== undefined) {
       const cap = toInt(body.capacity, 1, 200);
       if (cap === null) return apiErr(400, "ظرفیت باید عدد ۱ تا ۲۰۰ باشد.", "BAD_CAPACITY");
+      // FIX (هم‌قاعده با updateRoom خوابگاه): ظرفیتِ کمتر از شمارِ فعلیِ کلاس رد می‌شود
+      const enrolled = await db.student.count({ where: { classId: id } });
+      if (cap < enrolled) return apiErr(409, "ظرفیت جدید از شمار دانش‌آموزان فعلی کمتر است.", "OVER_OCCUPIED");
       data.capacity = cap;
     } // FIX راند ۱۶
     if (body.roomNumber !== undefined) data.roomNumber = body.roomNumber ? String(body.roomNumber) : null;

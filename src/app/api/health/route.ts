@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
 
 /* ============================================================
    بهار | پروندهٔ بهداشت و درمانگاه (سبک) — کارت سلامت هر
@@ -71,6 +71,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, STAFF);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
     if (!schoolId) return apiErr(400, "کاربر به مدرسه‌ای متصل نیست.", "NO_SCHOOL");
     const body = await readJson<{
@@ -161,6 +163,8 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const me = await requireUser(req, ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const url = new URL(req.url);
     const id = url.searchParams.get("id") ?? "";
     const kind = url.searchParams.get("kind") ?? "visit";

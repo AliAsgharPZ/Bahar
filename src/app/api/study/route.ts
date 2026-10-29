@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, demoWriteBlock} from "@/lib/api";
 import { todayKey, jalaliToDate, toJalaliKey } from "@/lib/persian";
 
 /* ============================================================
@@ -77,6 +77,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const body = await readJson<{ action?: string; id?: string; title?: string; minutes?: number; date?: string; studentId?: string }>(req);
     const studentId = await resolveStudentId(me, String(body.studentId ?? ""));
     if (!studentId) return apiErr(400, "دانش‌آموز مشخص نیست.", "NO_STUDENT");

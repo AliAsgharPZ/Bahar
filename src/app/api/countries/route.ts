@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { requireUser, apiOk, apiErr, handleApiError, audit } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, audit, demoWriteBlock} from "@/lib/api";
 import { db } from "@/lib/db";
 import { validateCountryPack } from "@/lib/country/pack";
 import { COUNTRY_PACK_MAX_BYTES } from "@/lib/country/types";
@@ -27,6 +27,8 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const me = await requireUser(req, ["SUPER_ADMIN"]);
+    const blocked = await demoWriteBlock(me);
+    if (blocked) return blocked;
     const url = new URL(req.url);
     const dryRun = url.searchParams.get("validate") === "1";
 
