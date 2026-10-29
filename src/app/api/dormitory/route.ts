@@ -123,22 +123,34 @@ export async function POST(req: NextRequest) {
       const room = await db.dormRoom.findFirst({ where: { id: String(body.roomId ?? "") }, include: { building: true } });
       if (!room || room.building.schoolId !== schoolId) return apiErr(404, "اتاق یافت نشد.", "NOT_FOUND");
       if (!room.isActive) return apiErr(409, "اتاق غیرفعال است.", "INACTIVE");
+      /* اسکان با فرم batch تراکنش (نه callback تعاملی): آداپتور D1
+         فرم تعاملی را پشتیبانی نمی‌کند. پس نگه‌دارها اول بیرون از
+         تراکنش خوانده می‌شوند، ساخت اسکان + شمارشِ پس از ساخت در
+         یک batch انجام می‌شود، و اگر شمارش پس از ساخت نشان داد
+         ظرفیت پر شده یا دانش‌آموز اسکان فعال دیگری دارد، اسکانِ
+         تازه‌ساخته همان‌جا حذف می‌شود (جبران خوش‌بینانه). */
+      const preCount = await db.dormAssignment.count({ where: { roomId: room.id, status: "ACTIVE" } });
+      const preExisting = await db.dormAssignment.findFirst({ where: { studentId, status: "ACTIVE" } });
+      if (preCount >= room.capacity) return apiErr(409, "ظرفیت اتاق تکمیل است.", "FULL");
+      if (preExisting) return apiErr(409, "این دانش‌آموز هم‌اکنون اسکان فعال دارد.", "ALREADY");
       try {
-        const assignment = await db.$transaction(async (tx) => {
-          const [activeCount, existing] = await Promise.all([
-            tx.dormAssignment.count({ where: { roomId: room.id, status: "ACTIVE" } }),
-            tx.dormAssignment.findFirst({ where: { studentId, status: "ACTIVE" } }),
-          ]);
-          if (activeCount >= room.capacity) throw new Error("FULL");
-          if (existing) throw new Error("ALREADY");
-          return tx.dormAssignment.create({
+        const [assignment, roomCount, studentCount] = await db.$transaction([
+          db.dormAssignment.create({
             data: { schoolId, studentId, roomId: room.id, bedLabel: String(body.bedLabel ?? "").trim().slice(0, 40), createdById: me.id },
-          });
-        });
+          }),
+          db.dormAssignment.count({ where: { roomId: room.id, status: "ACTIVE" } }),
+          db.dormAssignment.count({ where: { studentId, status: "ACTIVE" } }),
+        ]);
+        if (roomCount > room.capacity) {
+          await db.dormAssignment.delete({ where: { id: assignment.id } });
+          return apiErr(409, "ظرفیت اتاق تکمیل است.", "FULL");
+        }
+        if (studentCount > 1) {
+          await db.dormAssignment.delete({ where: { id: assignment.id } });
+          return apiErr(409, "این دانش‌آموز هم‌اکنون اسکان فعال دارد.", "ALREADY");
+        }
         return apiOk({ assignment });
       } catch (e) {
-        if (e instanceof Error && e.message === "FULL") return apiErr(409, "ظرفیت اتاق تکمیل است.", "FULL");
-        if (e instanceof Error && e.message === "ALREADY") return apiErr(409, "این دانش‌آموز هم‌اکنون اسکان فعال دارد.", "ALREADY");
         throw e;
       }
     }
