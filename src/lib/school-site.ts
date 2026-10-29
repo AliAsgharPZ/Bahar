@@ -193,6 +193,17 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
       { label: "سرمه‌ای", primary: "#1F3A5F", accent: "#CC785C", bg: "#F7F5F0" },
     ],
   },
+  {
+    id: "figma",
+    name: "بوم رنگی",
+    desc: "قاب سیاه‌وسفید دقیق با بلوک‌های رنگی شاد؛ جسور و خلاق — برای مدارس هنری، خلاق و پرانرژی",
+    palettes: [
+      { label: "لیمویی", primary: "#000000", accent: "#65A30D", bg: "#FFFFFF" },
+      { label: "یاسی", primary: "#000000", accent: "#7C3AED", bg: "#F7F7F5" },
+      { label: "مرجانی", primary: "#000000", accent: "#FF385C", bg: "#FFFFFF" },
+      { label: "آبی", primary: "#000000", accent: "#0066CC", bg: "#F7F7F5" },
+    ],
+  },
 ];
 
 /** تمپلیت‌های قدیمی که در ویرایشگر نشان داده نمی‌شوند ولی سایت‌های
