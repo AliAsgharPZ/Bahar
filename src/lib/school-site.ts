@@ -182,6 +182,17 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
       { label: "نارنجی انرژی", primary: "#F0803C", accent: "#FFB37A", bg: "#14100C" },
     ],
   },
+  {
+    id: "claude",
+    name: "سرمقالهٔ گرم",
+    desc: "کاغذ گرم، تیترهای ادیتوریال و خطوط مویی؛ آرام و خوانا — برای مدارس فکری، پژوهشی و با سابقه",
+    palettes: [
+      { label: "سفال گرم", primary: "#CC785C", accent: "#A9583E", bg: "#FAF9F5" },
+      { label: "جنگل و کاغذ", primary: "#2F5233", accent: "#C17C28", bg: "#FAF8F2" },
+      { label: "آلویی", primary: "#5B2A4A", accent: "#C98A2E", bg: "#FBF7FA" },
+      { label: "سرمه‌ای", primary: "#1F3A5F", accent: "#CC785C", bg: "#F7F5F0" },
+    ],
+  },
 ];
 
 /** تمپلیت‌های قدیمی که در ویرایشگر نشان داده نمی‌شوند ولی سایت‌های
