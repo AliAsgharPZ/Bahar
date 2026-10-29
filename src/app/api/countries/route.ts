@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { requireUser, apiOk, apiErr, handleApiError, audit, demoWriteBlock} from "@/lib/api";
 import { db } from "@/lib/db";
 import { validateCountryPack } from "@/lib/country/pack";
+import { SHIPPED_PACKS } from "@/lib/country/shipped";
 import { COUNTRY_PACK_MAX_BYTES } from "@/lib/country/types";
 import { getSettings } from "@/lib/settings";
 
@@ -18,7 +19,13 @@ export async function GET() {
       select: { id: true, code: true, name: true, nativeName: true, status: true, version: true, notes: true, createdAt: true },
     });
     const settings = await getSettings();
-    return apiOk({ packs, active: settings.countryPackCode || "IR" });
+    // بسته‌های همراه سامانه (از کد، نه پایگاه داده) — تا فهرست خالی دیده نشود
+    const shipped = SHIPPED_PACKS.map((p) => ({
+      code: p.code, name: p.name, nativeName: p.nativeName, direction: p.direction,
+      calendar: p.calendar, regions: p.regions.length,
+      counties: p.regions.reduce((s, r) => s + r.counties.length, 0),
+    }));
+    return apiOk({ packs, shipped, active: settings.countryPackCode || "IR" });
   } catch (e) {
     return handleApiError(e);
   }

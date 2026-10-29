@@ -25,6 +25,7 @@ type PackRow = {
 
 type CountryResponse = {
   packs: PackRow[];
+  shipped?: { code: string; name: string; nativeName: string; direction: string; calendar: string; regions: number; counties: number }[];
   active: string;
 };
 
@@ -114,7 +115,25 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
       {loading && <p className="t-sm text-steel">در حال بارگذاری…</p>}
       {error && <p className="t-sm text-destructive">بارگذاری ناموفق بود.</p>}
 
-      {/* جدول بسته‌ها */}
+      {/* جدول بسته‌ها — اول بسته‌های همراه سامانه */}
+      {data && (data.shipped ?? []).length > 0 && (
+        <div className="flex flex-col gap-2 mb-2">
+          <div className="flex items-center justify-between text-[10.5px] text-stone px-1">
+            <span>{faNumber((data.shipped ?? []).length)} بسته کشور همراه سامانه</span>
+          </div>
+          {(data.shipped ?? []).filter((s) => s.code !== "IR").map((s) => (
+            <div key={s.code} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
+              <div className="flex flex-col min-w-0">
+                <b className="text-[12.5px]">{s.name} <span className="text-stone font-mono text-[10.5px]">({s.code})</span></b>
+                <span className="text-[10.5px] text-steel">{s.nativeName} · {faNumber(s.regions)} منطقه · {faNumber(s.counties)} شهرستان · همراه سامانه</span>
+              </div>
+              <span className={`b-badge ms-auto ${data.active === s.code ? "b-badge-success" : "b-badge-neutral"}`}>
+                {data.active === s.code ? "فعال" : "همراه سامانه"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
       {data && (
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 text-[11px] text-stone">

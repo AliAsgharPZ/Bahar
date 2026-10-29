@@ -30,6 +30,7 @@ type PackRow = {
 
 type LangResponse = {
   packs: PackRow[];
+  selectable?: { code: string; name: string; nativeName: string; direction: string; source: string }[];
   catalogSize: number;
 };
 
@@ -121,12 +122,29 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
         «کیت ساخت زبان» در سایت سامانه.
       </p>
 
-      {/* فهرست بسته‌ها */}
+      {/* فهرست بسته‌ها — اول بسته‌های همراه سامانه (نه فقط کاستوم‌های پایگاه داده) */}
       {loading && <div className="text-center py-6"><Loader2 className="w-5 h-5 animate-spin inline text-spring" /></div>}
       {error && <div className="b-card-sm !border-destructive/30 bg-destructive/5 text-destructive px-4 py-3 text-[12px]">{error}</div>}
-      {data && data.packs.length === 0 && (
-        <div className="b-card-sm !rounded-xl p-5 text-center text-steel text-[12px] leading-6">
-          هنوز بسته زبانی ثبت نشده است — تمپلیت را دانلود کنید، ترجمه کنید و اینجا بارگذاری کنید.
+      {data && (data.selectable ?? []).filter((s) => s.source === "shipped").length > 0 && (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between text-[10.5px] text-stone px-1">
+            <span>{faNumber((data.selectable ?? []).filter((s) => s.source === "shipped").length)} بسته همراه سامانه (فارسی پایه + این‌ها)</span>
+          </div>
+          {(data.selectable ?? []).filter((s) => s.source === "shipped").map((s) => (
+            <div key={s.code} className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap">
+              <span className="w-2.5 h-2.5 rounded-full shrink-0 bg-success" />
+              <div className="min-w-0 flex-1">
+                <b className="text-[12.5px] block truncate">{s.nativeName} <span className="text-steel font-normal">({s.name})</span></b>
+                <div className="text-[10.5px] text-steel flex flex-wrap items-center gap-x-2">
+                  <span dir="ltr" className="font-mono">{s.code}</span>
+                  <span>·</span>
+                  <span>{s.direction === "ltr" ? "چپ‌به‌راست" : "راست‌به‌چپ"}</span>
+                  <span>·</span>
+                  <span>همراه سامانه</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
       {data && data.packs.length > 0 && (
