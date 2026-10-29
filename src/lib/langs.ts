@@ -3259,7 +3259,7 @@ export function validateLanguagePack(input: {
       errors.push(`مقدار کلید «${key}» بیش از حد بلند است (حداکثر ۳۰۰ نویسه)`);
       continue;
     }
-    if (/<script|javascript:|on\w+\s*=/i.test(value)) {
+    if (/<script|javascript:|(?:^|\s)on\w+\s*=/i.test(value)) {
       errors.push(`مقدار کلید «${key}» شامل کد/اسکریپت مجاز نیست`);
       continue;
     }
@@ -3615,7 +3615,7 @@ export function validateSitePack(input: { siteStrings?: unknown }): { ok: boolea
     if (!SITE_KEYS.includes(key)) { unknownKeys.push(key); continue; }
     if (typeof value !== "string") { errors.push(`مقدار کلید سایت «${key}» باید متن باشد`); continue; }
     if (value.length > 300) { errors.push(`مقدار کلید سایت «${key}» بیش از حد بلند است (حداکثر ۳۰۰ نویسه)`); continue; }
-    if (/<script|javascript:|on\w+\s*=/i.test(value)) { errors.push(`مقدار کلید سایت «${key}» شامل کد/اسکریپت مجاز نیست`); continue; }
+    if (/<script|javascript:|(?:^|\s)on\w+\s*=/i.test(value)) { errors.push(`مقدار کلید سایت «${key}» شامل کد/اسکریپت مجاز نیست`); continue; }
     keyCount++;
   }
   if (unknownKeys.length > 0) warnings.push(`${unknownKeys.length} کلید سایت ناشناخته نادیده گرفته می‌شود: ${unknownKeys.slice(0, 5).join("، ")}${unknownKeys.length > 5 ? "…" : ""}`);
