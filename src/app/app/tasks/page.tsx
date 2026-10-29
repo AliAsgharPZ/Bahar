@@ -6,6 +6,7 @@ import { Plus, Trash2, ListTodo, CheckCircle2, Clock, CircleDashed, Calendar, Fl
 import { toast } from "sonner";
 import { apiGet, apiPost, apiPatch, apiDelete } from "@/lib/client";
 import { faNumber, formatDateFa } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 import { PageHeader, LoadingBlock, EmptyState , ErrorBox } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 
@@ -19,18 +20,19 @@ type Task = {
 type Member = { id: string; firstName: string; lastName: string; role: string };
 
 const COLS = [
-  { key: "TODO", label: "در صف", icon: CircleDashed, color: "text-stone" },
-  { key: "IN_PROGRESS", label: "در جریان", icon: Clock, color: "text-info" },
-  { key: "DONE", label: "انجام‌شده", icon: CheckCircle2, color: "text-success" },
+  { key: "TODO", label: "tasks.status.todo", icon: CircleDashed, color: "text-stone" },
+  { key: "IN_PROGRESS", label: "tasks.status.inProgress", icon: Clock, color: "text-info" },
+  { key: "DONE", label: "tasks.status.done", icon: CheckCircle2, color: "text-success" },
 ];
 const PRIO: Record<string, { label: string; cls: string }> = {
-  URGENT: { label: "فوری", cls: "b-badge-critical" },
-  HIGH: { label: "بالا", cls: "b-badge-warning" },
-  NORMAL: { label: "معمولی", cls: "b-badge-neutral" },
-  LOW: { label: "پایین", cls: "b-badge-neutral" },
+  URGENT: { label: "shell.notif.cat.urgent", cls: "b-badge-critical" },
+  HIGH: { label: "tasks.priority.high", cls: "b-badge-warning" },
+  NORMAL: { label: "tasks.priority.normal", cls: "b-badge-neutral" },
+  LOW: { label: "tasks.priority.low", cls: "b-badge-neutral" },
 };
 
 export default function TasksPage() {
+  const { t: tr } = useLang();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [canManage, setCanManage] = useState(false);
@@ -43,7 +45,7 @@ export default function TasksPage() {
   const load = useCallback(() => {
     apiGet<{ tasks: Task[]; members: Member[]; canManage: boolean }>(`/api/tasks${mine ? "?mine=1" : ""}`)
       .then((d) => { setLoadError(""); setTasks(d.tasks); setMembers(d.members); setCanManage(d.canManage); })
-      .catch((e) => setLoadError(e instanceof Error ? e.message : "خطا در بارگذاری تسک‌ها"))
+      .catch((e) => setLoadError(e instanceof Error ? e.message : tr("tasks.loadError")))
       .finally(() => setLoading(false));
   }, [mine]);
   useEffect(load, [load]);
@@ -52,19 +54,19 @@ export default function TasksPage() {
     if (!form.title.trim()) return;
     try {
       await apiPost("/api/tasks", { ...form, dueDate: form.dueDate || undefined });
-      toast.success("تسک ایجاد شد");
+      toast.success(tr("tasks.created"));
       setForm({ title: "", description: "", priority: "NORMAL", dueDate: "", assigneeId: "" });
       setShowNew(false);
       load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : tr("common.errorShort")); }
   }
   async function move(t: Task, status: string) {
     const prev = [...tasks];
     setTasks((ts) => ts.map((x) => (x.id === t.id ? { ...x, status } : x)));
-    try { await apiPatch("/api/tasks", { id: t.id, status }); } catch { setTasks(prev); toast.error("جابجایی ناموفق"); }
+    try { await apiPatch("/api/tasks", { id: t.id, status }); } catch { setTasks(prev); toast.error(tr("tasks.moveFailed")); }
   }
   async function remove(id: string) {
-    try { await apiDelete(`/api/tasks?id=${id}`); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    try { await apiDelete(`/api/tasks?id=${id}`); load(); } catch (e) { toast.error(e instanceof Error ? e.message : tr("common.errorShort")); }
   }
 
   if (loading) return <LoadingBlock />;
@@ -72,45 +74,45 @@ export default function TasksPage() {
   return (
     <div>
       <PageHeader
-        title="مدیریت تسک‌ها"
-        desc="کارهای مدرسه با مسئول، ددلاین و اولویت — کشیدن بین ستون‌ها"
+        title={tr("tasks.title")}
+        desc={tr("tasks.desc")}
         action={
           <div className="flex gap-2">
-            <button onClick={() => setMine((v) => !v)} className={`b-pill-tab ${mine ? "b-pill-tab-active" : ""}`}>فقط تسک‌های من</button>
-            <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> تسک جدید</button>
+            <button onClick={() => setMine((v) => !v)} className={`b-pill-tab ${mine ? "b-pill-tab-active" : ""}`}>{tr("tasks.onlyMine")}</button>
+            <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {tr("tasks.new")}</button>
           </div>
         }
       />
       {showNew && (
         <div className="b-card-md p-5 mb-6 grid gap-3 sm:grid-cols-2">
-          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="عنوان تسک *" className="b-input sm:col-span-2" autoFocus />
-          <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="شرح (اختیاری)" className="b-input sm:col-span-2 !min-h-[70px]" />
+          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder={tr("tasks.form.title")} className="b-input sm:col-span-2" autoFocus />
+          <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder={tr("tasks.form.description")} className="b-input sm:col-span-2 !min-h-[70px]" />
           <Select
             value={form.priority}
             onChange={(v) => setForm({ ...form, priority: v })}
-            options={[{ value: "LOW", label: "اولویت: پایین" }, { value: "NORMAL", label: "اولویت: معمولی" }, { value: "HIGH", label: "اولویت: بالا" }, { value: "URGENT", label: "اولویت: فوری" }]}
+            options={[{ value: "LOW", label: tr("tasks.priorityOption.low") }, { value: "NORMAL", label: tr("tasks.priorityOption.normal") }, { value: "HIGH", label: tr("tasks.priorityOption.high") }, { value: "URGENT", label: tr("tasks.priorityOption.urgent") }]}
             className="w-full"
             buttonClassName="!w-full"
           />
-          <input type="date" value={form.dueDate} onChange={(e) => setForm({ ...form, dueDate: e.target.value })} className="b-input" title="ددلاین" />
+          <input type="date" value={form.dueDate} onChange={(e) => setForm({ ...form, dueDate: e.target.value })} className="b-input" title={tr("tasks.form.deadline")} />
           {canManage && (
             <Select
               value={form.assigneeId}
               onChange={(v) => setForm({ ...form, assigneeId: v })}
-              options={[{ value: "", label: "بدون مسئول" }, ...members.map((m) => ({ value: m.id, label: `${m.firstName} ${m.lastName}` }))]}
-              placeholder="بدون مسئول"
+              options={[{ value: "", label: tr("tasks.form.noAssignee") }, ...members.map((m) => ({ value: m.id, label: `${m.firstName} ${m.lastName}` }))]}
+              placeholder={tr("tasks.form.noAssignee")}
               className="w-full sm:col-span-2"
               buttonClassName="!w-full"
             />
           )}
           <div className="flex gap-2 sm:col-span-2">
-            <button onClick={create} className="b-btn b-btn-spring b-btn-sm">ایجاد</button>
-            <button onClick={() => setShowNew(false)} className="b-btn b-btn-ghost b-btn-sm">انصراف</button>
+            <button onClick={create} className="b-btn b-btn-spring b-btn-sm">{tr("common.create")}</button>
+            <button onClick={() => setShowNew(false)} className="b-btn b-btn-ghost b-btn-sm">{tr("common.cancel")}</button>
           </div>
         </div>
       )}
       {tasks.length === 0 ? (
-        <EmptyState icon={ListTodo} title="تسکی نیست" desc="اولین تسک مدرسه را بسازید." />
+        <EmptyState icon={ListTodo} title={tr("tasks.empty.title")} desc={tr("tasks.empty.desc")} />
       ) : (
         <div className="grid gap-4 lg:grid-cols-3">
           {COLS.map((col) => {
@@ -127,7 +129,7 @@ export default function TasksPage() {
                 }}>
                 <div className="flex items-center gap-2 mb-3 px-1">
                   <col.icon className={`w-4 h-4 ${col.color}`} />
-                  <span className="font-bold text-[13.5px]">{col.label}</span>
+                  <span className="font-bold text-[13.5px]">{tr(col.label)}</span>
                   <span className="b-badge b-badge-neutral ms-auto">{faNumber(items.length)}</span>
                 </div>
                 <div className="flex flex-col gap-2.5">
@@ -148,17 +150,17 @@ export default function TasksPage() {
                         </div>
                         {t.description && <p className="text-[11px] text-steel mt-1 line-clamp-2">{t.description}</p>}
                         <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-                          <span className={`b-badge !text-[9.5px] !px-1.5 !py-0.5 ${PRIO[t.priority]?.cls ?? "b-badge-neutral"}`}>{PRIO[t.priority]?.label}</span>
+                          <span className={`b-badge !text-[9.5px] !px-1.5 !py-0.5 ${PRIO[t.priority]?.cls ?? "b-badge-neutral"}`}>{tr(PRIO[t.priority]?.label ?? "")}</span>
                           {t.dueDate && <span className={`text-[10px] flex items-center gap-0.5 ${overdue ? "text-destructive font-bold" : "text-stone"}`}><Calendar className="w-3 h-3" />{formatDateFa(t.dueDate)}</span>}
                           {t.student && <span className="text-[10px] text-steel truncate">🎓 {t.student.user.firstName} {t.student.user.lastName}</span>}
                           {t.assignee && <span className="text-[10px] text-steel ms-auto">{t.assignee.firstName} {t.assignee.lastName}</span>}
-                          {t.sourceKind === "AUTOMATION" && <span className="b-badge b-badge-spring !text-[9px] !px-1.5 !py-0">خودکار</span>}
+                          {t.sourceKind === "AUTOMATION" && <span className="b-badge b-badge-spring !text-[9px] !px-1.5 !py-0">{tr("tasks.auto")}</span>}
                         </div>
                         {t.status !== "DONE" && (
                           <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            {t.status === "TODO" && <button onClick={() => move(t, "IN_PROGRESS")} className="b-btn b-btn-sm b-btn-ghost !min-h-[24px] !text-[9.5px] !px-2 !py-0">شروع</button>}
-                            {t.status === "IN_PROGRESS" && <button onClick={() => move(t, "TODO")} className="b-btn b-btn-sm b-btn-ghost !min-h-[24px] !text-[9.5px] !px-2 !py-0">بازگشت</button>}
-                            <button onClick={() => move(t, "DONE")} className="b-btn b-btn-sm b-btn-spring !min-h-[24px] !text-[9.5px] !px-2 !py-0">انجام شد</button>
+                            {t.status === "TODO" && <button onClick={() => move(t, "IN_PROGRESS")} className="b-btn b-btn-sm b-btn-ghost !min-h-[24px] !text-[9.5px] !px-2 !py-0">{tr("tasks.start")}</button>}
+                            {t.status === "IN_PROGRESS" && <button onClick={() => move(t, "TODO")} className="b-btn b-btn-sm b-btn-ghost !min-h-[24px] !text-[9.5px] !px-2 !py-0">{tr("common.back")}</button>}
+                            <button onClick={() => move(t, "DONE")} className="b-btn b-btn-sm b-btn-spring !min-h-[24px] !text-[9.5px] !px-2 !py-0">{tr("tasks.done")}</button>
                           </div>
                         )}
                       </motion.div>

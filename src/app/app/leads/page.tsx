@@ -6,6 +6,7 @@ import { useApi, apiPatch } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { formatDateTimeFa, relativeTimeFa, faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type Lead = {
   id: string;
@@ -19,27 +20,28 @@ type Lead = {
 };
 
 const STATUS_LABELS: Record<string, string> = {
-  NEW: "جدید", CONTACTED: "تماس گرفته شد", REGISTERED: "ثبت‌نام کامل", ARCHIVED: "بایگانی",
+  NEW: "leads.status.new", CONTACTED: "leads.status.contacted", REGISTERED: "leads.status.registered", ARCHIVED: "leads.status.archived",
 };
 
 export default function LeadsPage() {
+  const { t } = useLang();
   const { data, loading, error, refetch } = useApi<{ leads: Lead[]; summary: { total: number; new: number; contacted: number; registered: number } }>("/api/leads");
 
   async function changeStatus(lead: Lead, status: string) {
     try {
       await apiPatch("/api/leads", { id: lead.id, status });
-      toast.success("وضعیت به‌روزرسانی شد.");
+      toast.success(t("leads.statusUpdated"));
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="پیش‌ثبت‌نام‌های سایت مدرسه"
-        desc="درخواست‌هایی که از فرم «پیش‌ثبت‌نام» سایت عمومی مدرسه ثبت شده‌اند."
+        title={t("leads.title")}
+        desc={t("leads.desc")}
       />
 
       {loading && <LoadingBlock />}
@@ -47,18 +49,18 @@ export default function LeadsPage() {
 
       {data?.summary && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatCard icon={CheckCheck} label="کل درخواست‌ها" value={data.summary.total} tone="spring" />
-          <StatCard icon={Phone} label="در انتظار تماس" value={data.summary.new} tone={data.summary.new ? "blossom" : "soft"} />
-          <StatCard icon={UserRound} label="تماس گرفته‌شده" value={data.summary.contacted} tone="ink" />
-          <StatCard icon={CalendarDays} label="ثبت‌نام کامل" value={data.summary.registered} tone="soft" />
+          <StatCard icon={CheckCheck} label={t("leads.total")} value={data.summary.total} tone="spring" />
+          <StatCard icon={Phone} label={t("leads.awaitingCall")} value={data.summary.new} tone={data.summary.new ? "blossom" : "soft"} />
+          <StatCard icon={UserRound} label={t("leads.contacted")} value={data.summary.contacted} tone="ink" />
+          <StatCard icon={CalendarDays} label={t("leads.registered")} value={data.summary.registered} tone="soft" />
         </div>
       )}
 
       {data && data.leads.length === 0 && (
         <EmptyState
           icon={CheckCheck}
-          title="درخواستی نیست"
-          desc="با انتشار سایت مدرسه، درخواست‌های پیش‌ثبت‌نام اینجا نمایش داده می‌شوند."
+          title={t("leads.empty.title")}
+          desc={t("leads.empty.desc")}
         />
       )}
 
@@ -72,11 +74,11 @@ export default function LeadsPage() {
               <div className="min-w-0 flex-1">
                 <b className="text-[13.5px] block truncate">
                   {l.name}
-                  {l.parentName ? <span className="text-[11px] text-steel font-normal"> — ولی: {l.parentName}</span> : null}
+                  {l.parentName ? <span className="text-[11px] text-steel font-normal"> — {t("leads.parentPrefix")} {l.parentName}</span> : null}
                 </b>
                 <span className="text-[11.5px] text-steel flex items-center gap-2 flex-wrap">
                   <a href={`tel:${l.phone}`} dir="ltr" className="font-mono text-spring hover:underline">{l.phone}</a>
-                  {l.grade && <span>پایه {l.grade}</span>}
+                  {l.grade && <span>{t("leads.gradePrefix")} {l.grade}</span>}
                   <span className="text-stone">{relativeTimeFa(l.createdAt)}</span>
                 </span>
                 {l.message && <p className="text-[11.5px] text-steel mt-1 max-w-xl truncate">{l.message}</p>}
@@ -84,7 +86,7 @@ export default function LeadsPage() {
               <Select
                 value={l.status}
                 onChange={(v) => changeStatus(l, v)}
-                options={Object.entries(STATUS_LABELS).map(([k, v]) => ({ value: k, label: v }))}
+                options={Object.entries(STATUS_LABELS).map(([k, v]) => ({ value: k, label: t(v) }))}
                 className="!w-auto max-w-[160px]"
                 buttonClassName="!h-10"
               />

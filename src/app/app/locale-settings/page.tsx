@@ -7,11 +7,13 @@ import { useApi } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { convertScore } from "@/lib/grades-scale";
+import { useLang } from "@/lib/i18n";
 
 type Locale = { id: string; name: string; calendarSystem: string; gradingScale: string; currencyLabel: string; weekStart: string };
 type Opt = { value: string; label: string };
 
 export default function LocaleSettingsPage() {
+  const { t } = useLang();
   const { data, loading, error, refetch } = useApi<{ locale: Locale; scales: Opt[]; calendars: Opt[] }>("/api/school-locale");
   const [draft, setDraft] = useState<Locale | null>(null);
   const [saving, setSaving] = useState(false);
@@ -24,51 +26,51 @@ export default function LocaleSettingsPage() {
     if (!val) return;
     setSaving(true);
     try {
-      await apiSend(val);
-      toast.success("پروفایل کشور ذخیره شد.");
+      await apiSend(val, t("localeSettings.saveError"));
+      toast.success(t("localeSettings.saved"));
       setDraft(null);
       refetch();
-    } catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); }
+    } catch (err) { toast.error(err instanceof Error ? err.message : t("common.errorShort")); }
     finally { setSaving(false); }
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="پروفایل کشور مدرسه" desc="تقویم، مقیاس نمره، واحد پول و آغاز هفته — تا سامانه با ساختار آموزشی کشور شما هماهنگ شود." />
+      <PageHeader title={t("localeSettings.title")} desc={t("localeSettings.desc")} />
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
       {data && val && (
         <div className="grid lg:grid-cols-2 gap-4 items-start">
           <div className="b-card p-6 flex flex-col gap-4">
             <b className="text-[14px] flex items-center gap-2"><Globe2 className="w-4 h-4 text-spring" /> {data.locale.name}</b>
-            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">تقویم سامانه</span>
+            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.calendar")}</span>
               <Select className="w-full" buttonClassName="!w-full" value={val.calendarSystem} onChange={(v) => set({ calendarSystem: v })}
-                options={data.calendars} placeholder="تقویم" /></label>
-            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">مقیاس نمره</span>
+                options={data.calendars} placeholder={t("localeSettings.calendarPlaceholder")} /></label>
+            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.scale")}</span>
               <Select className="w-full" buttonClassName="!w-full" value={val.gradingScale} onChange={(v) => set({ gradingScale: v })}
-                options={data.scales} placeholder="مقیاس" /></label>
+                options={data.scales} placeholder={t("localeSettings.scalePlaceholder")} /></label>
             <div className="grid grid-cols-2 gap-3">
-              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">واحد پول</span>
-                <input className="b-input" value={val.currencyLabel} onChange={(e) => set({ currencyLabel: e.target.value })} placeholder="تومان" /></label>
-              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">آغاز هفته</span>
+              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.currency")}</span>
+                <input className="b-input" value={val.currencyLabel} onChange={(e) => set({ currencyLabel: e.target.value })} placeholder={t("localeSettings.currencyPlaceholder")} /></label>
+              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.weekStart")}</span>
                 <Select className="w-full" buttonClassName="!w-full" value={val.weekStart} onChange={(v) => set({ weekStart: v })}
-                  options={[{ value: "SATURDAY", label: "شنبه" }, { value: "SUNDAY", label: "یکشنبه" }, { value: "MONDAY", label: "دوشنبه" }]} placeholder="آغاز هفته" /></label>
+                  options={[{ value: "SATURDAY", label: t("localeSettings.weekday.saturday") }, { value: "SUNDAY", label: t("localeSettings.weekday.sunday") }, { value: "MONDAY", label: t("localeSettings.weekday.monday") }]} placeholder={t("localeSettings.weekStart")} /></label>
             </div>
             <button className="b-btn b-btn-spring self-start" disabled={saving} onClick={save}>
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("common.save")}
             </button>
-            <p className="text-[11.5px] text-steel">مقیاس نمره از همین حالا روی ستون «نمره در مقیاس مدرسه» در خروجی اکسل و CSV نمرات اعمال می‌شود.</p>
+            <p className="text-[11.5px] text-steel">{t("localeSettings.scaleNote")}</p>
           </div>
 
           <div className="b-card p-6 flex flex-col gap-3">
-            <b className="text-[14px]">مبدل زندهٔ نمره</b>
-            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">نمره از ۲۰</span>
+            <b className="text-[14px]">{t("localeSettings.converter")}</b>
+            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.score20")}</span>
               <input className="b-input w-36" dir="ltr" inputMode="decimal" value={sample} onChange={(e) => setSample(e.target.value)} /></label>
             <div className="grid grid-cols-2 gap-2 text-[13px]">
-              <span className="rounded-xl bg-cloud p-3">از ۱۰۰: <b>{convertScore(Number(sample) || 0, "SCORE100")}</b></span>
+              <span className="rounded-xl bg-cloud p-3">{t("localeSettings.outOf100")} <b>{convertScore(Number(sample) || 0, "SCORE100")}</b></span>
               <span className="rounded-xl bg-cloud p-3">GPA: <b>{convertScore(Number(sample) || 0, "GPA4")}</b></span>
-              <span className="rounded-xl bg-cloud p-3">حرفی: <b>{convertScore(Number(sample) || 0, "LETTER")}</b></span>
-              <span className="rounded-xl bg-cloud p-3">مقیاس فعلی مدرسه: <b>{convertScore(Number(sample) || 0, val.gradingScale)}</b></span>
+              <span className="rounded-xl bg-cloud p-3">{t("localeSettings.letter")} <b>{convertScore(Number(sample) || 0, "LETTER")}</b></span>
+              <span className="rounded-xl bg-cloud p-3">{t("localeSettings.currentScale")} <b>{convertScore(Number(sample) || 0, val.gradingScale)}</b></span>
             </div>
           </div>
         </div>
@@ -77,7 +79,7 @@ export default function LocaleSettingsPage() {
   );
 }
 
-async function apiSend(val: Locale) {
+async function apiSend(val: Locale, saveError: string) {
   const res = await fetch("/api/school-locale", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -87,6 +89,6 @@ async function apiSend(val: Locale) {
     }),
   });
   const j = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(j?.error?.message ?? "خطا در ذخیره");
+  if (!res.ok) throw new Error(j?.error?.message ?? saveError);
   return j;
 }

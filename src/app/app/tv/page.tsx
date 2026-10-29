@@ -5,6 +5,7 @@ import { Cake, CalendarDays, Megaphone, Trophy, UtensilsCrossed, Maximize } from
 import { useApi } from "@/lib/client";
 import { LoadingBlock, ErrorBox } from "@/components/shared/bits";
 import { formatDateFa, formatTimeFa, faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type Tv = {
   schoolName: string; today: string;
@@ -18,6 +19,7 @@ type Tv = {
 const SLIDES = ["announcements", "events", "celebrations", "house"] as const;
 
 export default function TvPage() {
+  const { t } = useLang();
   const { data, loading, error, refetch } = useApi<Tv>("/api/tv");
   const [slide, setSlide] = useState(0);
   const [now, setNow] = useState(new Date());
@@ -39,14 +41,14 @@ export default function TvPage() {
       {/* نوار بالای تابلو */}
       <div className="b-hero-grad b-aurora px-6 md:px-10 py-6 flex items-center justify-between gap-4 text-white" style={{ background: "var(--ink)" }}>
         <div className="flex flex-col">
-          <b className="text-[22px] md:text-[30px] b-grad-text">{data.schoolName || "مدرسهٔ ما"}</b>
-          <span className="text-[13px] opacity-80">{formatDateFa(now)} · تابلوی مدرسه</span>
+          <b className="text-[22px] md:text-[30px] b-grad-text">{data.schoolName || t("tv.schoolFallback")}</b>
+          <span className="text-[13px] opacity-80">{formatDateFa(now)} · {t("nav.tv")}</span>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-[30px] md:text-[40px] font-extrabold tabular-nums" dir="ltr">{formatTimeFa(now)}</span>
           <button
             className="no-print w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"
-            title="تمام‌صفحه"
+            title={t("tv.fullscreen")}
             onClick={() => { if (rootRef.current) void rootRef.current.requestFullscreen?.().catch(() => {}); }}
           >
             <Maximize className="w-5 h-5" />
@@ -57,8 +59,8 @@ export default function TvPage() {
       <div className="p-6 md:p-10 min-h-[46vh]">
         {cur === "announcements" && (
           <div className="b-rise flex flex-col gap-4" key="a">
-            <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><Megaphone className="w-6 h-6 text-spring" /> اطلاعیه‌ها</h2>
-            {data.announcements.length === 0 && <p className="text-steel text-[16px]">اطلاعیهٔ تازه‌ای نیست.</p>}
+            <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><Megaphone className="w-6 h-6 text-spring" /> {t("tv.announcements")}</h2>
+            {data.announcements.length === 0 && <p className="text-steel text-[16px]">{t("tv.noAnnouncements")}</p>}
             {data.announcements.slice(0, 4).map((a) => (
               <div key={a.id} className="border-b border-hairline pb-3">
                 <b className="text-[17px] md:text-[20px]">{a.pinned ? "📌 " : ""}{a.title}</b>
@@ -69,8 +71,8 @@ export default function TvPage() {
         )}
         {cur === "events" && (
           <div className="b-rise flex flex-col gap-4" key="e">
-            <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><CalendarDays className="w-6 h-6 text-spring" /> رویدادهای امروز و فردا</h2>
-            {data.events.length === 0 && <p className="text-steel text-[16px]">رویدادی برای امروز و فردا ثبت نشده است.</p>}
+            <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><CalendarDays className="w-6 h-6 text-spring" /> {t("tv.eventsTodayTomorrow")}</h2>
+            {data.events.length === 0 && <p className="text-steel text-[16px]">{t("tv.noEvents")}</p>}
             {data.events.map((e) => (
               <div key={e.id} className="flex items-center justify-between border-b border-hairline pb-3">
                 <b className="text-[17px] md:text-[20px]">{e.title}</b>
@@ -82,36 +84,36 @@ export default function TvPage() {
         {cur === "celebrations" && (
           <div className="b-rise grid md:grid-cols-2 gap-8" key="c">
             <div className="flex flex-col gap-3">
-              <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><Cake className="w-6 h-6 text-blossom" /> تولدهای امروز</h2>
-              {data.birthdays.length === 0 && <p className="text-steel text-[16px]">امروز تولدی نداریم.</p>}
+              <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><Cake className="w-6 h-6 text-blossom" /> {t("tv.birthdaysToday")}</h2>
+              {data.birthdays.length === 0 && <p className="text-steel text-[16px]">{t("tv.noBirthdays")}</p>}
               {data.birthdays.map((b, i) => (
-                <span key={i} className="text-[17px] md:text-[20px]">🎂 {b.name} <span className="text-steel text-[14px]">({b.role === "TEACHER" ? "همکار" : "دانش‌آموز"})</span></span>
+                <span key={i} className="text-[17px] md:text-[20px]">🎂 {b.name} <span className="text-steel text-[14px]">({(b.role === "TEACHER" ? t("tv.role.teacher") : t("role.student"))})</span></span>
               ))}
             </div>
             <div className="flex flex-col gap-3">
-              <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><UtensilsCrossed className="w-6 h-6 text-spring" /> غذای امروز</h2>
+              <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><UtensilsCrossed className="w-6 h-6 text-spring" /> {t("tv.mealToday")}</h2>
               {data.meal ? (
                 <div className="text-[16px] md:text-[18px] flex flex-col gap-2">
-                  <span>صبحانه: {data.meal.breakfast || "—"}</span>
-                  <span>ناهار: {data.meal.lunch || "—"}</span>
-                  <span>میان‌وعده: {data.meal.snack || "—"}</span>
+                  <span>{t("tv.meal.breakfast")} {data.meal.breakfast || "—"}</span>
+                  <span>{t("tv.meal.lunch")} {data.meal.lunch || "—"}</span>
+                  <span>{t("tv.meal.snack")} {data.meal.snack || "—"}</span>
                 </div>
-              ) : <p className="text-steel text-[16px]">برنامهٔ غذایی امروز تنظیم نشده است.</p>}
+              ) : <p className="text-steel text-[16px]">{t("tv.noMeal")}</p>}
             </div>
           </div>
         )}
         {cur === "house" && (
           <div className="b-rise flex flex-col items-center gap-4 text-center" key="h">
-            <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><Trophy className="w-6 h-6 text-spring" /> صدرنشین لیگ خانه‌ها</h2>
+            <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><Trophy className="w-6 h-6 text-spring" /> {t("tv.topHouse")}</h2>
             {data.topHouse ? (
               <>
                 <span className="w-24 h-24 rounded-full flex items-center justify-center text-white text-[34px] font-extrabold" style={{ background: data.topHouse.color }}>
                   {data.topHouse.name.slice(0, 1)}
                 </span>
-                <b className="text-[26px] md:text-[34px]">خانهٔ {data.topHouse.name}</b>
-                <span className="text-[16px] text-steel">{faNumber(data.topHouse.points)} امتیاز</span>
+                <b className="text-[26px] md:text-[34px]">{t("tv.housePrefix")} {data.topHouse.name}</b>
+                <span className="text-[16px] text-steel">{faNumber(data.topHouse.points)} {t("tv.points")}</span>
               </>
-            ) : <p className="text-steel text-[16px]">هنوز خانه‌ای تعریف نشده است.</p>}
+            ) : <p className="text-steel text-[16px]">{t("tv.noHouse")}</p>}
           </div>
         )}
       </div>
@@ -119,7 +121,7 @@ export default function TvPage() {
       {/* نشانگر اسلایدها */}
       <div className="flex items-center justify-center gap-2 pb-5">
         {SLIDES.map((s, i) => (
-          <button key={s} onClick={() => setSlide(i)} aria-label={`اسلاید ${i + 1}`}
+          <button key={s} onClick={() => setSlide(i)} aria-label={`${t("tv.slide")} ${i + 1}`}
             className={`h-2 rounded-full transition-all ${i === slide ? "w-8 bg-spring" : "w-2 bg-hairline"}`} />
         ))}
       </div>
