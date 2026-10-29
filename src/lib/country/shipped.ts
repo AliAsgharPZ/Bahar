@@ -3,6 +3,10 @@ import irPack from "./packs/ir.json";
 import irVillages from "./packs/ir-villages.json";
 import aePack from "./packs/ae.json";
 import saPack from "./packs/sa.json";
+import dePack from "./packs/de.json";
+import usPack from "./packs/us.json";
+import frPack from "./packs/fr.json";
+import itPack from "./packs/it.json";
 
 /* ============================================================
    بهار | بسته‌های کشورِ همراه سامانه (shipped packs)
@@ -12,7 +16,9 @@ import saPack from "./packs/sa.json";
    صادقانه: روستاهای ایران در سطح استان وارد شده‌اند (۵۲٬۲۲۵ نام از
    GeoNames، بدون تفکیک شهرستان — چون منبع، شهرستان را ندارد)؛
    divisions تا سطح روستا را دارد ولی فهرست روستاهای هر شهر هنوز
-   خالی است. امارات و عربستان هنوز روستا ندارند.
+   خالی است. امارات و عربستان هنوز روستا ندارند. آلمان، آمریکا،
+   فرانسه و ایتالیا فقط در سطح استان/ایالت‌اند (بدون شهر و روستا)؛
+   مقیاس نمره و فهرست پایه‌هایشان عمومی است، نه نظام رسمی کشور.
    ============================================================ */
 
 export type ShippedPackSummary = {
@@ -51,7 +57,7 @@ function summarize(pack: CountryProfile): ShippedPackSummary {
   };
 }
 
-export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile];
+export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile, dePack as CountryProfile, usPack as CountryProfile, frPack as CountryProfile, itPack as CountryProfile];
 export const SHIPPED_SUMMARIES: ShippedPackSummary[] = SHIPPED_PACKS.map(summarize);
 export const SHIPPED_CODES = SHIPPED_PACKS.map((p) => p.code);
 

@@ -1,0 +1,307 @@
+{
+  "code": "IT",
+  "name": "ایتالیا",
+  "nativeName": "Italia",
+  "locale": "it-IT",
+  "direction": "ltr",
+  "timezone": "Europe/Rome",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "کد مالیاتی",
+    "algorithm": "digits",
+    "pattern": "^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$",
+    "placeholder": "RSSMRA80A01H501U",
+    "example": "RSSMRA80A01H501U"
+  },
+  "phone": {
+    "pattern": "^\\+39\\d{9,10}$",
+    "placeholder": "+393331234567",
+    "example": "+393331234567"
+  },
+  "currency": {
+    "label": "یورو",
+    "code": "EUR",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ ۱",
+    "پایهٔ ۲",
+    "پایهٔ ۳",
+    "پایهٔ ۴",
+    "پایهٔ ۵",
+    "پایهٔ ۶",
+    "پایهٔ ۷",
+    "پایهٔ ۸",
+    "پایهٔ ۹",
+    "پایهٔ ۱۰",
+    "پایهٔ ۱۱",
+    "پایهٔ ۱۲"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "regions": [
+    {
+      "name": "آبروتزو",
+      "center": "لاکویلا",
+      "counties": [
+        "آبروتزو"
+      ]
+    },
+    {
+      "name": "باسیلیکاتا",
+      "center": "پوتنزا",
+      "counties": [
+        "باسیلیکاتا"
+      ]
+    },
+    {
+      "name": "کالابریا",
+      "center": "کاتانزارو",
+      "counties": [
+        "کالابریا"
+      ]
+    },
+    {
+      "name": "کامپانیا",
+      "center": "ناپل",
+      "counties": [
+        "کامپانیا"
+      ]
+    },
+    {
+      "name": "امیلیا-رومانیا",
+      "center": "بولونیا",
+      "counties": [
+        "امیلیا-رومانیا"
+      ]
+    },
+    {
+      "name": "فریولی-ونציה جولیا",
+      "center": "تریسته",
+      "counties": [
+        "فریولی-ونציה جولیا"
+      ]
+    },
+    {
+      "name": "لاتزیو",
+      "center": "رم",
+      "counties": [
+        "لاتزیو"
+      ]
+    },
+    {
+      "name": "لیگوریا",
+      "center": "جنوآ",
+      "counties": [
+        "لیگوریا"
+      ]
+    },
+    {
+      "name": "لومباردیا",
+      "center": "میلان",
+      "counties": [
+        "لومباردیا"
+      ]
+    },
+    {
+      "name": "مارکه",
+      "center": "آنکونا",
+      "counties": [
+        "مارکه"
+      ]
+    },
+    {
+      "name": "مولیز",
+      "center": "کامپوباسو",
+      "counties": [
+        "مولیز"
+      ]
+    },
+    {
+      "name": "پیمونت",
+      "center": "تورین",
+      "counties": [
+        "پیمونت"
+      ]
+    },
+    {
+      "name": "پولیا",
+      "center": "باری",
+      "counties": [
+        "پولیا"
+      ]
+    },
+    {
+      "name": "ساردینیا",
+      "center": "کالیاری",
+      "counties": [
+        "ساردینیا"
+      ]
+    },
+    {
+      "name": "سیسیل",
+      "center": "پالرمو",
+      "counties": [
+        "سیسیل"
+      ]
+    },
+    {
+      "name": "توسکانی",
+      "center": "فلورانس",
+      "counties": [
+        "توسکانی"
+      ]
+    },
+    {
+      "name": "ترنتینو-آلتو آدیجه",
+      "center": "ترنتو",
+      "counties": [
+        "ترنتینو-آلتو آدیجه"
+      ]
+    },
+    {
+      "name": "اومبریا",
+      "center": "پروجا",
+      "counties": [
+        "اومبریا"
+      ]
+    },
+    {
+      "name": "واله دآوستا",
+      "center": "آئوستا",
+      "counties": [
+        "واله دآوستا"
+      ]
+    },
+    {
+      "name": "ونتو",
+      "center": "ونیز",
+      "counties": [
+        "ونتو"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "آبروتزو",
+      "cities": []
+    },
+    {
+      "province": "باسیلیکاتا",
+      "cities": []
+    },
+    {
+      "province": "کالابریا",
+      "cities": []
+    },
+    {
+      "province": "کامپانیا",
+      "cities": []
+    },
+    {
+      "province": "امیلیا-رومانیا",
+      "cities": []
+    },
+    {
+      "province": "فریولی-ونציה جولیا",
+      "cities": []
+    },
+    {
+      "province": "لاتزیو",
+      "cities": []
+    },
+    {
+      "province": "لیگوریا",
+      "cities": []
+    },
+    {
+      "province": "لومباردیا",
+      "cities": []
+    },
+    {
+      "province": "مارکه",
+      "cities": []
+    },
+    {
+      "province": "مولیز",
+      "cities": []
+    },
+    {
+      "province": "پیمونت",
+      "cities": []
+    },
+    {
+      "province": "پولیا",
+      "cities": []
+    },
+    {
+      "province": "ساردینیا",
+      "cities": []
+    },
+    {
+      "province": "سیسیل",
+      "cities": []
+    },
+    {
+      "province": "توسکانی",
+      "cities": []
+    },
+    {
+      "province": "ترنتینو-آلتو آدیجه",
+      "cities": []
+    },
+    {
+      "province": "اومبریا",
+      "cities": []
+    },
+    {
+      "province": "واله دآوستا",
+      "cities": []
+    },
+    {
+      "province": "ونتو",
+      "cities": []
+    }
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "version": "1.0.0",
+  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور."
+}
