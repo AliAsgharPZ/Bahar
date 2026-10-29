@@ -5,7 +5,10 @@ import { Baby, BarChart3, ClipboardCheck, MessageCircle } from "lucide-react";
 import { useApi } from "@/lib/client";
 import { PageHeader, LoadingBlock, EmptyState, StatCard, ErrorBox } from "@/components/shared/bits";
 import { UserAvatar } from "@/components/shared/user-avatar";
-import { faNumber, PARENT_RELATION_LABELS } from "@/lib/persian";
+import { faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
+
+const PARENT_TKEY: Record<string, string> = { FATHER: "enum.parentRelation.FATHER", MOTHER: "enum.parentRelation.MOTHER", GUARDIAN: "enum.parentRelation.GUARDIAN" };
 
 type Me = {
   user: {
@@ -45,6 +48,7 @@ type Dashboard = {
 };
 
 export default function ChildrenPage() {
+  const { t } = useLang();
   const { data: meData, loading, error: meError } = useApi<Me>("/api/auth/me");
   const { data: dash, error: dashError } = useApi<Dashboard>("/api/dashboard");
 
@@ -61,15 +65,15 @@ export default function ChildrenPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="فرزندانم"
-        desc="خلاصه وضعیت تحصیلی فرزندان شما در مدرسه."
+        title={t("children.title")}
+        desc={t("children.desc")}
       />
 
       {children.length === 0 && (
         <EmptyState
           icon={Baby}
-          title="فرزندی به حساب شما متصل نیست"
-          desc="برای اتصال حساب شما به فرزندتان، با مدیر مدرسه هماهنگ کنید."
+          title={t("dashboard.empty.noChildLinked")}
+          desc={t("dashboard.empty.contactManagerToLink")}
         />
       )}
 
@@ -77,14 +81,14 @@ export default function ChildrenPage() {
         <>
           {dashError && (
             <p className="b-card-sm p-3 text-[12px] text-warning-deep">
-              آمار تحصیلی فعلاً در دسترس نیست ({dashError}) — اطلاعات فرزندان زیر به‌روز است.
+              {t("children.statsUnavailable")} ({dashError}) — {t("children.statsNote")}
             </p>
           )}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard icon={Baby} label="فرزند" value={children.length} tone="spring" />
-            <StatCard icon={BarChart3} label="میانگین کل فرزندان" value={avgGpa !== null ? faNumber(avgGpa) : "—"} tone="ink" hint="از ۲۰" />
-            <StatCard icon={ClipboardCheck} label="جمع غیبت‌ها" value={faNumber(totalAbsences)} />
-            <StatCard icon={MessageCircle} label="پیام نخوانده" value={faNumber(dash?.stats?.unread ?? 0)} />
+            <StatCard icon={Baby} label={t("children.child")} value={children.length} tone="spring" />
+            <StatCard icon={BarChart3} label={t("children.avgAll")} value={avgGpa !== null ? faNumber(avgGpa) : "—"} tone="ink" hint={t("children.from20")} />
+            <StatCard icon={ClipboardCheck} label={t("children.totalAbsences")} value={faNumber(totalAbsences)} />
+            <StatCard icon={MessageCircle} label={t("children.unread")} value={faNumber(dash?.stats?.unread ?? 0)} />
           </div>
 
           <div className="grid md:grid-cols-2 gap-5">
@@ -98,7 +102,7 @@ export default function ChildrenPage() {
                       <div className="flex flex-col min-w-0">
                         <b className="text-[15px] truncate">{c.student.user.firstName} {c.student.user.lastName}</b>
                         <span className="text-[11.5px] text-steel">
-                          {PARENT_RELATION_LABELS[c.relation] ?? c.relation} · کلاس {c.student.class?.name ?? "—"}
+                          {PARENT_TKEY[c.relation] ? t(PARENT_TKEY[c.relation]) : c.relation} · {t("common.class")} {c.student.class?.name ?? "—"}
                         </span>
                       </div>
                     </div>
@@ -108,27 +112,27 @@ export default function ChildrenPage() {
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="b-card-sm !rounded-xl p-3">
                       <div className="text-[18px] font-bold">{st?.student.gpa !== null && st?.student.gpa !== undefined ? faNumber(st.student.gpa) : "—"}</div>
-                      <div className="text-[10.5px] text-steel">میانگین از ۲۰</div>
+                      <div className="text-[10.5px] text-steel">{t("children.avgFrom20")}</div>
                     </div>
                     <div className="b-card-sm !rounded-xl p-3">
                       <div className="text-[18px] font-bold">{faNumber(st?.student.absences ?? 0)}</div>
-                      <div className="text-[10.5px] text-steel">غیبت</div>
+                      <div className="text-[10.5px] text-steel">{t("dashboard.mini.absence")}</div>
                     </div>
                     <div className="b-card-sm !rounded-xl p-3">
                       <div className="text-[18px] font-bold">{st?.student.attendanceRate !== null && st?.student.attendanceRate !== undefined ? faNumber(st.student.attendanceRate) + "٪" : "—"}</div>
-                      <div className="text-[10.5px] text-steel">درصد حضور</div>
+                      <div className="text-[10.5px] text-steel">{t("dashboard.attendancePct")}</div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap">
                     <Link href={`/app/grades`} className="b-btn b-btn-soft b-btn-sm flex-1 justify-center">
-                      <BarChart3 className="w-3.5 h-3.5" /> کارنامه
+                      <BarChart3 className="w-3.5 h-3.5" /> {t("children.reportCard")}
                     </Link>
                     <Link href="/app/attendance" className="b-btn b-btn-soft b-btn-sm flex-1 justify-center">
-                      <ClipboardCheck className="w-3.5 h-3.5" /> حضور و غیاب
+                      <ClipboardCheck className="w-3.5 h-3.5" /> {t("nav.attendance")}
                     </Link>
                     <Link href="/app/messages" className="b-btn b-btn-ghost b-btn-sm flex-1 justify-center">
-                      <MessageCircle className="w-3.5 h-3.5" /> پیام معلم
+                      <MessageCircle className="w-3.5 h-3.5" /> {t("children.teacherMessage")}
                     </Link>
                   </div>
                 </div>

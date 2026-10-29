@@ -8,6 +8,7 @@ import { useApi, apiPost, apiPatch, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatusBadge } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { formatDateTimeFa, relativeTimeFa, faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type Ticket = {
   id: string;
@@ -25,14 +26,15 @@ type Ticket = {
   messages: Array<{ id: string; body: string; fromAdmin: boolean; createdAt: string; sender: { firstName: string; lastName: string; role: string } | null }>;
 };
 
-const STATUS_LABELS: Record<string, string> = { OPEN: "باز", ANSWERED: "پاسخ داده‌شده", CLOSED: "بسته" };
-const PRIORITY_LABELS: Record<string, string> = { LOW: "کم", NORMAL: "معمولی", HIGH: "فوری" };
-const CATEGORY_LABELS: Record<string, string> = {
-  GENERAL: "عمومی", TECHNICAL: "مشکل فنی", BILLING: "پرداخت و مالی",
-  SUGGESTION: "پیشنهاد",
+const STATUS_TKEY: Record<string, string> = { OPEN: "dashboard.ticket.open", ANSWERED: "tickets.status.ANSWERED", CLOSED: "dashboard.ticket.closed" };
+const PRIORITY_TKEY: Record<string, string> = { LOW: "tickets.priority.LOW", NORMAL: "tickets.priority.NORMAL", HIGH: "dashboard.urgent" };
+const CATEGORY_TKEY: Record<string, string> = {
+  GENERAL: "settings.general", TECHNICAL: "tickets.category.TECHNICAL", BILLING: "tickets.category.BILLING",
+  SUGGESTION: "tickets.category.SUGGESTION",
 };
 
 export default function TicketsPage() {
+  const { t } = useLang();
   const params = useSearchParams();
   const [scope, setScope] = useState<"mine" | "all">("mine");
   const [status, setStatus] = useState<string>("");
@@ -55,13 +57,13 @@ export default function TicketsPage() {
     setSaving(true);
     try {
       await apiPost("/api/tickets", form);
-      toast.success("تیکت ثبت شد؛ پشتیبانی بهار پاسخ می‌دهد.");
+      toast.success(t("tickets.toast.created"));
       setShowCreate(false);
       setForm({ subject: "", category: "GENERAL", priority: "NORMAL", message: "" });
       setScope("mine");
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -75,48 +77,48 @@ export default function TicketsPage() {
       setReply("");
       const res = await fetch(`/api/tickets?scope=${scope}${category ? `&category=${category}` : ""}`);
       const json = await res.json().catch(() => null);
-      if (!res.ok || !json?.tickets) throw new Error(json?.error?.message ?? "خطا در دریافت تیکت");
+      if (!res.ok || !json?.tickets) throw new Error(json?.error?.message ?? t("tickets.error.load"));
       const updated = (json.tickets as Ticket[]).find((t) => t.id === openTicket.id);
       if (updated) setOpenTicket({ ...updated, messages: updated.messages });
       refetch();
-      toast.success("پیام ارسال شد.");
+      toast.success(t("tickets.toast.replySent"));
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setReplying(false);
     }
   }
 
-  async function changeStatus(t: Ticket, newStatus: string) {
+  async function changeStatus(tk: Ticket, newStatus: string) {
     try {
-      await apiPatch(`/api/tickets/${t.id}`, { status: newStatus });
-      toast.success("وضعیت تیکت تغییر کرد.");
+      await apiPatch(`/api/tickets/${tk.id}`, { status: newStatus });
+      toast.success(t("tickets.toast.statusChanged"));
       setOpenTicket(null);
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="پشتیبانی"
-        desc="تیکت خود را ثبت کنید تا ادمین‌های سرویس بهار پاسخ دهند — از مشکل فنی تا درخواست مالی."
+        title={t("nav.tickets")}
+        desc={t("tickets.desc")}
         action={
           <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShowCreate(true)}>
-            <Plus className="w-4 h-4" /> تیکت جدید
+            <Plus className="w-4 h-4" /> {t("tickets.newTicket")}
           </button>
         }
       />
 
       <div className="flex flex-wrap items-center gap-2">
         <button className={`b-pill-tab ${scope === "mine" ? "b-pill-tab-active" : ""}`} onClick={() => setScope("mine")}>
-          تیکت‌های من
+          {t("tickets.mine")}
         </button>
         {isStaff && (
           <button className={`b-pill-tab ${scope === "all" ? "b-pill-tab-active" : ""}`} onClick={() => setScope("all")}>
-            صف پشتیبانی
+            {t("tickets.queue")}
           </button>
         )}
         <span className="w-px h-6 bg-hairline mx-1" />
@@ -126,12 +128,12 @@ export default function TicketsPage() {
             className={`b-pill-tab ${status === st ? "b-pill-tab-active" : ""}`}
             onClick={() => setStatus(st)}
           >
-            {st ? STATUS_LABELS[st] : "همه"}
+            {st ? (STATUS_TKEY[st] ? t(STATUS_TKEY[st]) : st) : t("common.all")}
           </button>
         ))}
         {category && (
-          <button className="b-pill-tab b-pill-tab-active" onClick={() => setCategory("")} title="حذف فیلتر دسته">
-            {CATEGORY_LABELS[category] ?? category} ✕
+          <button className="b-pill-tab b-pill-tab-active" onClick={() => setCategory("")} title={t("tickets.clearCategoryFilter")}>
+            {CATEGORY_TKEY[category] ? t(CATEGORY_TKEY[category]) : category} ✕
           </button>
         )}
       </div>
@@ -141,33 +143,33 @@ export default function TicketsPage() {
       {data && data.tickets.length === 0 && (
         <EmptyState
           icon={LifeBuoy}
-          title="تیکتی نیست"
-          desc="تیکتی ثبت نشده است؛ هر وقت لازم شد تیکت جدید بزنید."
-          action={<button className="b-btn b-btn-spring b-btn-sm mt-2" onClick={() => setShowCreate(true)}><Plus className="w-4 h-4" /> تیکت جدید</button>}
+          title={t("dashboard.empty.noTicket")}
+          desc={t("tickets.empty.desc")}
+          action={<button className="b-btn b-btn-spring b-btn-sm mt-2" onClick={() => setShowCreate(true)}><Plus className="w-4 h-4" /> {t("tickets.newTicket")}</button>}
         />
       )}
 
       {data && data.tickets.length > 0 && (
         <div className="flex flex-col gap-2.5">
-          {data.tickets.map((t) => (
+          {data.tickets.map((tk) => (
             <button
-              key={t.id}
+              key={tk.id}
               className="b-btn b-btn-ghost b-card-sm p-4 flex flex-wrap items-center gap-3 text-right hover:border-spring/40 transition-colors"
-              onClick={() => setOpenTicket({ ...t, messages: t.messages })}
+              onClick={() => setOpenTicket({ ...tk, messages: tk.messages })}
             >
-              <span className="font-mono text-[11px] text-stone shrink-0" dir="ltr">{t.code}</span>
-              <span className="b-badge b-badge-soft shrink-0">{t.categoryLabel}</span>
-              <b className="text-[13.5px] truncate min-w-0 flex-1">{t.subject}</b>
-              {scope === "all" && t.requester && (
+              <span className="font-mono text-[11px] text-stone shrink-0" dir="ltr">{tk.code}</span>
+              <span className="b-badge b-badge-soft shrink-0">{tk.categoryLabel}</span>
+              <b className="text-[13.5px] truncate min-w-0 flex-1">{tk.subject}</b>
+              {scope === "all" && tk.requester && (
                 <span className="text-[11px] text-steel truncate hidden md:inline">
-                  {t.requester.name}{t.requester.schoolName ? ` · ${t.requester.schoolName}` : ""}
+                  {tk.requester.name}{tk.requester.schoolName ? ` · ${tk.requester.schoolName}` : ""}
                 </span>
               )}
-              {t.priority === "HIGH" && <span className="b-badge b-badge-critical shrink-0">فوری</span>}
-              <span className={`b-badge shrink-0 ${t.status === "OPEN" ? "b-badge-warning" : t.status === "ANSWERED" ? "b-badge-spring" : "b-badge-neutral"}`}>
-                {STATUS_LABELS[t.status]}
+              {tk.priority === "HIGH" && <span className="b-badge b-badge-critical shrink-0">{t("dashboard.urgent")}</span>}
+              <span className={`b-badge shrink-0 ${tk.status === "OPEN" ? "b-badge-warning" : tk.status === "ANSWERED" ? "b-badge-spring" : "b-badge-neutral"}`}>
+                {STATUS_TKEY[tk.status] ? t(STATUS_TKEY[tk.status]) : tk.status}
               </span>
-              <span className="text-[10.5px] text-stone shrink-0">{relativeTimeFa(t.updatedAt)}</span>
+              <span className="text-[10.5px] text-stone shrink-0">{relativeTimeFa(tk.updatedAt)}</span>
             </button>
           ))}
         </div>
@@ -178,44 +180,44 @@ export default function TicketsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => !saving && setShowCreate(false)} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-lg b-pop">
-            <h2 className="font-bold text-lg mb-1">تیکت جدید</h2>
-            <p className="t-sm text-steel mb-6">پاسخ در گفتگوی همین تیکت نمایش داده می‌شود.</p>
+            <h2 className="font-bold text-lg mb-1">{t("tickets.newTicket")}</h2>
+            <p className="t-sm text-steel mb-6">{t("tickets.threadNote")}</p>
             <form onSubmit={create} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">موضوع *</span>
-                <input className="b-input" value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} required placeholder="مثلا: خطا در ثبت حضور و غیاب" />
+                <span className="text-[12.5px] font-bold">{t("tickets.field.subject")}</span>
+                <input className="b-input" value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} required placeholder={t("tickets.placeholder.subject")} />
               </label>
               <div className="grid grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">دسته</span>
+                  <span className="text-[12.5px] font-bold">{t("tickets.field.category")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
                     value={form.category}
                     onChange={(v) => setForm((f) => ({ ...f, category: v }))}
-                    options={Object.entries(CATEGORY_LABELS).map(([k, v]) => ({ value: k, label: v }))}
+                    options={Object.entries(CATEGORY_TKEY).map(([k, key]) => ({ value: k, label: t(key) }))}
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">فوریت</span>
+                  <span className="text-[12.5px] font-bold">{t("tickets.field.priority")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
                     value={form.priority}
                     onChange={(v) => setForm((f) => ({ ...f, priority: v }))}
-                    options={[{ value: "LOW", label: "کم" }, { value: "NORMAL", label: "معمولی" }, { value: "HIGH", label: "فوری" }]}
+                    options={[{ value: "LOW", label: t("tickets.priority.LOW") }, { value: "NORMAL", label: t("tickets.priority.NORMAL") }, { value: "HIGH", label: t("dashboard.urgent") }]}
                   />
                 </label>
               </div>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">شرح *</span>
-                <textarea rows={5} className="b-input !rounded-2xl resize-none" value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} required placeholder="مشکل یا درخواست خود را کامل توضیح دهید…" />
+                <span className="text-[12.5px] font-bold">{t("tickets.field.message")}</span>
+                <textarea rows={5} className="b-input !rounded-2xl resize-none" value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} required placeholder={t("tickets.placeholder.message")} />
               </label>
               <div className="flex items-center gap-3">
                 <button type="submit" disabled={saving} className="b-btn b-btn-spring">
-                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} ثبت تیکت
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} {t("tickets.submit")}
                 </button>
-                <button type="button" className="b-btn b-btn-ghost" onClick={() => setShowCreate(false)}>انصراف</button>
+                <button type="button" className="b-btn b-btn-ghost" onClick={() => setShowCreate(false)}>{t("common.cancel")}</button>
               </div>
             </form>
           </div>
@@ -231,16 +233,16 @@ export default function TicketsPage() {
               <div className="min-w-0">
                 <b className="block text-[15px] truncate">{openTicket.subject}</b>
                 <span className="text-[11.5px] text-steel">
-                  <span dir="ltr" className="font-mono">{openTicket.code}</span> · {openTicket.categoryLabel} · {PRIORITY_LABELS[openTicket.priority]}
+                  <span dir="ltr" className="font-mono">{openTicket.code}</span> · {openTicket.categoryLabel} · {PRIORITY_TKEY[openTicket.priority] ? t(PRIORITY_TKEY[openTicket.priority]) : openTicket.priority}
                   {scope === "all" && openTicket.requester ? ` · ${openTicket.requester.name}` : ""}
                 </span>
               </div>
               <span className="flex gap-1 shrink-0">
-                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-cloud" aria-label="حذف تیکت"
-                  onClick={async () => { if (!window.confirm("این تیکت و کل گفتگویش حذف شود؟")) return; try { await apiDelete(`/api/tickets/${openTicket.id}`); toast.success("تیکت حذف شد."); setOpenTicket(null); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
+                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-cloud" aria-label={t("tickets.deleteTicket")}
+                  onClick={async () => { if (!window.confirm(t("tickets.deleteConfirm"))) return; try { await apiDelete(`/api/tickets/${openTicket.id}`); toast.success(t("tickets.toast.deleted")); setOpenTicket(null); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
                   <Trash2 className="w-5 h-5" />
                 </button>
-                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={() => setOpenTicket(null)} aria-label="بستن">
+                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={() => setOpenTicket(null)} aria-label={t("common.close")}>
                   <XCircle className="w-5 h-5" />
                 </button>
               </span>
@@ -255,7 +257,7 @@ export default function TicketsPage() {
                     ))}
                   </div>
                   <span className="text-[10px] text-stone mt-1 px-1">
-                    {m.fromAdmin ? "پشتیبانی بهار" : m.sender ? `${m.sender.firstName} ${m.sender.lastName}` : "کاربر"} · {formatDateTimeFa(m.createdAt)}
+                    {m.fromAdmin ? t("tickets.support") : m.sender ? `${m.sender.firstName} ${m.sender.lastName}` : t("dashboard.unit.user")} · {formatDateTimeFa(m.createdAt)}
                   </span>
                 </div>
               ))}
@@ -268,7 +270,7 @@ export default function TicketsPage() {
                     <textarea
                       rows={1}
                       className="b-input !min-h-11 resize-none"
-                      placeholder="پاسخ خود را بنویسید…"
+                      placeholder={t("tickets.placeholder.reply")}
                       value={reply}
                       onChange={(e) => setReply(e.target.value)}
                       onKeyDown={(e) => {
@@ -285,16 +287,16 @@ export default function TicketsPage() {
                   <button
                     className="b-btn b-btn-ghost b-btn-sm !text-steel"
                     onClick={() => changeStatus(openTicket, "CLOSED")}
-                    title="بستن تیکت"
+                    title={t("tickets.closeTicket")}
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5" /> بستن
+                    <CheckCircle2 className="w-3.5 h-3.5" /> {t("common.close")}
                   </button>
                 </>
               ) : (
                 <>
-                  <span className="b-badge b-badge-neutral">این تیکت بسته شده است</span>
+                  <span className="b-badge b-badge-neutral">{t("tickets.closedNotice")}</span>
                   <button className="b-btn b-btn-soft b-btn-sm" onClick={() => changeStatus(openTicket, "OPEN")}>
-                    <RotateCcw className="w-3.5 h-3.5" /> بازگشایی
+                    <RotateCcw className="w-3.5 h-3.5" /> {t("tickets.reopen")}
                   </button>
                 </>
               )}

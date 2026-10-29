@@ -4,6 +4,7 @@ import { Award, BookOpenCheck, ClipboardCheck, Printer, Sparkles, UserRound } fr
 import { useApi } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { formatDateFa, faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type Portfolio = {
   student: { name: string; className: string; grade: string; schoolName: string; houseName: string | null; studentNumber: string };
@@ -17,6 +18,7 @@ type Portfolio = {
 type Me = { user: { role: string } };
 
 export default function PortfolioPage() {
+  const { t } = useLang();
   const { data: me } = useApi<Me>("/api/auth/me");
   const { data, loading, error } = useApi<{ portfolio: Portfolio | null }>("/api/portfolio");
   const p = data?.portfolio;
@@ -24,17 +26,17 @@ export default function PortfolioPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="پورتفولیو دیجیتال"
-        desc="همهٔ دستاوردهای دانش‌آموز در یک صفحهٔ افتخار — آمادهٔ چاپ برای ارائه."
+        title={t("portfolio.title")}
+        desc={t("portfolio.desc")}
         action={p ? (
           <button className="b-btn b-btn-spring b-btn-sm" onClick={() => window.print()}>
-            <Printer className="w-4 h-4" /> چاپ پورتفولیو
+            <Printer className="w-4 h-4" /> {t("portfolio.print")}
           </button>
         ) : undefined}
       />
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
-      {data && !p && <EmptyState icon={Sparkles} title="پورتفولیو برای این حساب در دسترس نیست" />}
+      {data && !p && <EmptyState icon={Sparkles} title={t("portfolio.empty")} />}
       {p && (
         <>
           <div className="b-card b-grad-border p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-5">
@@ -44,8 +46,8 @@ export default function PortfolioPage() {
             <div className="flex flex-col gap-1">
               <b className="text-[22px] b-grad-text">{p.student.name}</b>
               <span className="text-[13px] text-steel">
-                {p.student.schoolName} · {p.student.className} · پایهٔ {p.student.grade}
-                {p.student.houseName ? ` · خانهٔ ${p.student.houseName}` : ""} · شمارهٔ دانش‌آموزی {p.student.studentNumber}
+                {p.student.schoolName} · {p.student.className} · {t("portfolio.gradePrefix")} {p.student.grade}
+                {p.student.houseName ? ` · ${t("portfolio.housePrefix")} ${p.student.houseName}` : ""} · {t("portfolio.studentNumberPrefix")} {p.student.studentNumber}
               </span>
               <span className="flex gap-1.5 mt-1 flex-wrap">
                 {p.badges.slice(0, 6).map((b) => (
@@ -56,16 +58,16 @@ export default function PortfolioPage() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard icon={Award} label="گواهینامه" value={p.certificates.length} tone="spring" />
-            <StatCard icon={Sparkles} label="نشان افتخار" value={p.badges.length} tone="blossom" />
-            <StatCard icon={BookOpenCheck} label="کتاب خوانده‌شده" value={p.booksRead} tone="soft" />
-            <StatCard icon={ClipboardCheck} label="نرخ حضور" value={p.attendanceRate != null ? `${faNumber(p.attendanceRate)}٪` : "—"} tone="ink" />
+            <StatCard icon={Award} label={t("portfolio.certificates")} value={p.certificates.length} tone="spring" />
+            <StatCard icon={Sparkles} label={t("portfolio.honors")} value={p.badges.length} tone="blossom" />
+            <StatCard icon={BookOpenCheck} label={t("portfolio.booksRead")} value={p.booksRead} tone="soft" />
+            <StatCard icon={ClipboardCheck} label={t("dashboard.attendanceRate")} value={p.attendanceRate != null ? `${faNumber(p.attendanceRate)}٪` : "—"} tone="ink" />
           </div>
 
           <div className="grid lg:grid-cols-2 gap-4 items-start">
             <div className="b-card p-6 flex flex-col gap-2">
-              <b className="text-[14px]">گواهینامه‌ها</b>
-              {p.certificates.length === 0 && <span className="text-[12.5px] text-steel">هنوز گواهینامه‌ای صادر نشده است.</span>}
+              <b className="text-[14px]">{t("portfolio.certificatesTitle")}</b>
+              {p.certificates.length === 0 && <span className="text-[12.5px] text-steel">{t("portfolio.noCertificates")}</span>}
               {p.certificates.map((c) => (
                 <div key={c.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
                   <span>{c.title}</span>
@@ -75,8 +77,8 @@ export default function PortfolioPage() {
             </div>
             <div className="flex flex-col gap-4">
               <div className="b-card p-6 flex flex-col gap-2">
-                <b className="text-[14px]">بهترین آزمون‌های آنلاین</b>
-                {p.topQuizzes.length === 0 && <span className="text-[12.5px] text-steel">آزمون تحویل‌شده‌ای نیست.</span>}
+                <b className="text-[14px]">{t("portfolio.topQuizzes")}</b>
+                {p.topQuizzes.length === 0 && <span className="text-[12.5px] text-steel">{t("portfolio.noQuizzes")}</span>}
                 {p.topQuizzes.map((q, i) => (
                   <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
                     <span>{q.title}</span>
@@ -85,15 +87,15 @@ export default function PortfolioPage() {
                 ))}
               </div>
               <div className="b-card p-6 flex flex-col gap-2">
-                <b className="text-[14px]">نقاط قوت (از کارنامهٔ توصیفی)</b>
-                {p.strengths.length === 0 && <span className="text-[12.5px] text-steel">موردی ثبت نشده است.</span>}
+                <b className="text-[14px]">{t("portfolio.strengths")}</b>
+                {p.strengths.length === 0 && <span className="text-[12.5px] text-steel">{t("portfolio.noStrengths")}</span>}
                 {p.strengths.map((s, i) => (
                   <span key={i} className="text-[13px] flex gap-2"><Sparkles className="w-4 h-4 text-spring shrink-0 mt-0.5" /> {s}</span>
                 ))}
               </div>
             </div>
           </div>
-          <p className="t-cap text-stone text-center">این پورتفولیو خودکار از داده‌های سامانه ساخته می‌شود و همیشه به‌روز است.</p>
+          <p className="t-cap text-stone text-center">{t("portfolio.footer")}</p>
         </>
       )}
     </div>

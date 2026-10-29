@@ -5,6 +5,7 @@ import { ShieldAlert, TrendingUp, Loader2, ChevronLeft, FileText, Activity } fro
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { useApi, apiGet } from "@/lib/client";
 import { faNumber, formatDateFa, faDigits } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 // ============================================================
 // بهار | بینش‌ها و هشدار زودهنگام — راند ۱۶
@@ -29,16 +30,17 @@ type InsightsData = {
   top: TopRow[];
 };
 
-const LEVEL_LABELS: Record<string, string> = { HIGH: "پرخطر", MODERATE: "نیازمند توجه", LOW: "سالم" };
+const LEVEL_TKEY: Record<string, string> = { HIGH: "insights.level.high", MODERATE: "insights.level.moderate", LOW: "insights.level.low" };
 const LEVEL_BADGE: Record<string, string> = { HIGH: "b-badge-critical", MODERATE: "b-badge-warning", LOW: "b-badge-success" };
-const FACTOR_LABELS: Record<string, string> = {
-  attendance: "حضور و غیاب",
-  grades: "نمرات",
-  behavior: "رفتار",
-  wellbeing: "سلامت روان",
+const FACTOR_TKEY: Record<string, string> = {
+  attendance: "nav.attendance",
+  grades: "nav.grades",
+  behavior: "dashboard.mini.behavior",
+  wellbeing: "nav.wellbeing",
 };
 
 export default function InsightsPage() {
+  const { t } = useLang();
   const [levelFilter, setLevelFilter] = useState<string>("");
   const url = levelFilter ? `/api/insights?level=${levelFilter}` : "/api/insights";
   const { data, loading, error, refetch } = useApi<InsightsData>(url, [levelFilter]);
@@ -81,8 +83,8 @@ export default function InsightsPage() {
 
   useEffect(() => { /* refetch when filter changes via useApi dep */ }, [levelFilter]);
 
-  if (loading && !data) return <LoadingBlock label="بینش‌ها در حال محاسبه…" />;
-  if (error) return <ErrorBox message={typeof error === "string" ? error : "بارگذاری بینش‌ها ناموفق بود"} />;
+  if (loading && !data) return <LoadingBlock label={t("insights.loading")} />;
+  if (error) return <ErrorBox message={typeof error === "string" ? error : t("insights.error.load")} />;
   if (!data) return null;
 
   const high = data.levelCounts.HIGH ?? 0;
@@ -93,24 +95,24 @@ export default function InsightsPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="بینش‌ها و هشدار زودهنگام"
-        desc={`امتیاز ریسک دانش‌آموزان دوره ${faDigits(data.period)} از حضور، نمرات، رفتار و سلامت روان — محاسبه روزانه`}
+        title={t("nav.insights")}
+        desc={`${t("insights.desc.before")} ${faDigits(data.period)} ${t("insights.desc.after")}`}
       />
 
       {/* کارت‌های سطح */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <StatCard icon={ShieldAlert} label="پرخطر (مداخله فوری)" value={faNumber(high)} tone={high > 0 ? "warning" : "spring"} />
-        <StatCard icon={TrendingUp} label="نیازمند توجه" value={faNumber(moderate)} tone="warning" />
-        <StatCard icon={Activity} label="وضعیت سالم" value={faNumber(low)} tone="spring" />
+        <StatCard icon={ShieldAlert} label={t("insights.highUrgent")} value={faNumber(high)} tone={high > 0 ? "warning" : "spring"} />
+        <StatCard icon={TrendingUp} label={t("insights.level.moderate")} value={faNumber(moderate)} tone="warning" />
+        <StatCard icon={Activity} label={t("insights.healthyStatus")} value={faNumber(low)} tone="spring" />
       </div>
 
       {/* فیلتر */}
       <div className="flex flex-wrap items-center gap-2">
         {[
-          { v: "", label: `همه (${faNumber(total)})` },
-          { v: "HIGH", label: `پرخطر (${faNumber(high)})` },
-          { v: "MODERATE", label: `توجه (${faNumber(moderate)})` },
-          { v: "LOW", label: `سالم (${faNumber(low)})` },
+          { v: "", label: `${t("common.all")} (${faNumber(total)})` },
+          { v: "HIGH", label: `${t("insights.level.high")} (${faNumber(high)})` },
+          { v: "MODERATE", label: `${t("insights.filter.attention")} (${faNumber(moderate)})` },
+          { v: "LOW", label: `${t("insights.level.low")} (${faNumber(low)})` },
         ].map((f) => (
           <button
             key={f.v}
@@ -121,7 +123,7 @@ export default function InsightsPage() {
           </button>
         ))}
         <button className="b-btn b-btn-ghost b-btn-sm ms-auto" onClick={() => refetch()}>
-          <Loader2 className="w-4 h-4" /> به‌روزرسانی
+          <Loader2 className="w-4 h-4" /> {t("common.refresh")}
         </button>
       </div>
 
@@ -129,8 +131,8 @@ export default function InsightsPage() {
       {data.top.length === 0 ? (
         <EmptyState
           icon={Activity}
-          title="هنوز امتیازی محاسبه نشده"
-          desc="امتیاز ریسک هر شب (زمان‌بند) و یا با «به‌روزرسانی» محاسبه می‌شود؛ پس از ثبت حضور/نمرات چند روزه داده کافی جمع می‌شود."
+          title={t("insights.empty.title")}
+          desc={t("insights.empty.desc")}
         />
       ) : (
         <div className="b-card-sm overflow-hidden">
@@ -138,12 +140,12 @@ export default function InsightsPage() {
             <table className="w-full text-[12.5px] min-w-[640px]">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[11px]">
-                  <th className="text-right py-3 px-4 font-bold">دانش‌آموز</th>
-                  <th className="text-right py-3 px-4 font-bold">کلاس</th>
-                  <th className="text-right py-3 px-4 font-bold">امتیاز ریسک</th>
-                  <th className="text-right py-3 px-4 font-bold">سطح</th>
-                  <th className="text-right py-3 px-4 font-bold">آخرین محاسبه</th>
-                  <th className="text-right py-3 px-4 font-bold">عملیات</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("common.class")}</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("insights.table.riskScore")}</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("insights.table.level")}</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("insights.table.lastComputed")}</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("common.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -162,15 +164,15 @@ export default function InsightsPage() {
                         <b>{faNumber(r.score)}</b>
                       </div>
                     </td>
-                    <td className="py-3 px-4"><span className={`b-badge ${LEVEL_BADGE[r.level]}`}>{LEVEL_LABELS[r.level]}</span></td>
+                    <td className="py-3 px-4"><span className={`b-badge ${LEVEL_BADGE[r.level]}`}>{LEVEL_TKEY[r.level] ? t(LEVEL_TKEY[r.level]) : r.level}</span></td>
                     <td className="py-3 px-4 text-steel text-[11.5px]">{formatDateFa(r.computedAt)}</td>
                     <td className="py-3 px-4">
                       <div className="flex gap-1.5">
                         <button className="b-btn b-btn-ghost b-btn-sm !min-h-[28px] !text-[11px]" onClick={() => openDetail(r.studentId)}>
-                          عوامل
+                          {t("insights.factors")}
                         </button>
                         <button className="b-btn b-btn-soft b-btn-sm !min-h-[28px] !text-[11px]" onClick={() => openNarrative(r.studentId, r.name)}>
-                          <FileText className="w-3.5 h-3.5" /> روایت
+                          <FileText className="w-3.5 h-3.5" /> {t("insights.narrative")}
                         </button>
                       </div>
                     </td>
@@ -183,20 +185,20 @@ export default function InsightsPage() {
       )}
 
       {/* مودال عوامل */}
-      {detailLoading && <LoadingBlock label="محاسبه عوامل…" />}
+      {detailLoading && <LoadingBlock label={t("insights.loadingFactors")} />}
       {detail && (
         <div className="b-card-sm p-4">
           <div className="flex items-center gap-2 mb-3">
             <b className="text-[13px]">{detail.student.name}</b>
             {detail.student.className && <span className="b-badge b-badge-neutral">{detail.student.className}</span>}
-            <span className={`b-badge ${LEVEL_BADGE[detail.risk.level]} ms-auto`}>{LEVEL_LABELS[detail.risk.level]} — {faNumber(detail.risk.score)}</span>
+            <span className={`b-badge ${LEVEL_BADGE[detail.risk.level]} ms-auto`}>{LEVEL_TKEY[detail.risk.level] ? t(LEVEL_TKEY[detail.risk.level]) : detail.risk.level} — {faNumber(detail.risk.score)}</span>
             <button className="b-btn b-btn-ghost text-steel hover:text-ink" onClick={() => setDetail(null)}>✕</button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {detail.risk.factors.map((f) => (
               <div key={f.key} className="b-card-sm !rounded-xl p-3">
                 <div className="flex items-center justify-between mb-1.5">
-                  <b className="text-[12px]">{FACTOR_LABELS[f.key] ?? f.key}</b>
+                  <b className="text-[12px]">{FACTOR_TKEY[f.key] ? t(FACTOR_TKEY[f.key]) : f.key}</b>
                   <span className={`b-badge ${f.score >= 66 ? "b-badge-critical" : f.score >= 33 ? "b-badge-warning" : "b-badge-success"}`}>{faNumber(f.score)}</span>
                 </div>
                 <div className="w-full h-1.5 rounded-full bg-cloud overflow-hidden mb-2">
@@ -206,7 +208,7 @@ export default function InsightsPage() {
                   />
                 </div>
                 <p className="text-[11px] text-steel leading-relaxed">{f.detail}</p>
-                <p className="text-[10px] text-stone mt-1">وزن: {faNumber(Math.round(f.weight * 100))}٪</p>
+                <p className="text-[10px] text-stone mt-1">{t("insights.factor.weight")}: {faNumber(Math.round(f.weight * 100))}٪</p>
               </div>
             ))}
           </div>
@@ -218,20 +220,20 @@ export default function InsightsPage() {
         <div className="b-card-sm p-4">
           <div className="flex items-center gap-2 mb-3">
             <FileText className="w-4 h-4 text-spring" />
-            <b className="text-[13px]">روایت تحلیلی — {narrFor}</b>
+            <b className="text-[13px]">{t("insights.narrativeTitle")} — {narrFor}</b>
             <div className="ms-auto flex gap-1.5">
               {narrative && (
                 <button
                   className="b-btn b-btn-soft b-btn-sm !min-h-[28px] !text-[11px]"
                   onClick={() => navigator.clipboard?.writeText(narrative.narrative).then(() => window.dispatchEvent(new Event("bahar-toast-copy"))).catch(() => {})}
                 >
-                  کپی متن
+                  {t("insights.copyText")}
                 </button>
               )}
               <button className="b-btn b-btn-ghost text-steel hover:text-ink" onClick={() => { setNarrative(null); setNarrLoading(false); }}>✕</button>
             </div>
           </div>
-          {narrLoading && <LoadingBlock label="تولید روایت…" />}
+          {narrLoading && <LoadingBlock label={t("insights.loadingNarrative")} />}
           {narrative && (
             <div className="text-[13px] leading-[2] whitespace-pre-line bg-cloud/40 rounded-xl p-4">
               {narrative.narrative}
@@ -241,8 +243,7 @@ export default function InsightsPage() {
       )}
 
       <p className="text-[11px] text-stone leading-relaxed">
-        امتیازها قضاوت نهایی نیستند — ابزار تصمیم‌گیری برای معلمان و مشاوران‌اند.
-        عوامل: حضور (۳۵٪)، نمرات (۳۰٪)، سلامت روان (۲۰٪)، رفتار (۱۵٪). داده سلامت روان از چک‌این‌های دانش‌آموزان می‌آید.
+        {t("insights.footerNote")}
       </p>
     </div>
   );
