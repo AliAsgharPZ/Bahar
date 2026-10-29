@@ -146,7 +146,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
               {currentLang === "fa" ? (
                 <span className="inline-flex items-center gap-1 text-[12px] text-spring font-bold"><Check className="w-4 h-4" /> اعمال‌شده</span>
               ) : (
-                <button onClick={() => applyLang("fa")} disabled={busy === "apply"} className="b-btn b-btn-spring b-btn-sm">اعمال روی سایت</button>
+                <button onClick={() => applyLang("fa")} disabled={busy === "apply"} className="text-[12px] text-spring font-bold hover:underline shrink-0">اعمال</button>
               )}
             </div>
             {(data.selectable ?? []).filter((s) => s.source === "shipped").map((s) => (
@@ -163,7 +163,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
                 {currentLang === s.code ? (
                   <span className="inline-flex items-center gap-1 text-[12px] text-spring font-bold"><Check className="w-4 h-4" /> اعمال‌شده</span>
                 ) : (
-                  <button onClick={() => applyLang(s.code)} disabled={busy === "apply"} className="b-btn b-btn-spring b-btn-sm">اعمال روی سایت</button>
+                  <button onClick={() => applyLang(s.code)} disabled={busy === "apply"} className="text-[12px] text-spring font-bold hover:underline shrink-0">اعمال</button>
                 )}
               </div>
             ))}
