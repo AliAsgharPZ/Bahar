@@ -1,5 +1,7 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useCallback, useEffect, useState } from "react";
 import { FileQuestion, Plus, Trash2, Printer } from "lucide-react";
 import { toast } from "sonner";
@@ -12,12 +14,14 @@ import { Select } from "@/components/shared/pickers";
 type Question = { id: string; topic: string; difficulty: string; kind: string; body: string; options: string; answer: string | null; explanation: string | null; imageUrl: string | null; subject: { name: string } | null; createdBy: { firstName: string; lastName: string } | null };
 type Subject = { id: string; name: string; grade: string | null };
 
-const DIFF: Record<string, { label: string; cls: string }> = {
-  EASY: { label: "آسان", cls: "b-badge-success" }, MEDIUM: { label: "متوسط", cls: "b-badge-warning" }, HARD: { label: "سخت", cls: "b-badge-critical" },
-};
-const KIND: Record<string, string> = { MULTI: "چندگزینه‌ای", SHORT: "تشریحی کوتاه", ESSAY: "مقاله‌ای", FILL: "جای خالی" };
+
 
 export default function QuestionBankPage() {
+  const { t } = useLang();
+  const DIFF: Record<string, { label: string; cls: string }> = {
+    EASY: { label: t("enum.difficulty.EASY"), cls: "b-badge-success" }, MEDIUM: { label: t("enum.difficulty.MEDIUM"), cls: "b-badge-warning" }, HARD: { label: t("enum.difficulty.HARD"), cls: "b-badge-critical" },
+  };
+  const KIND: Record<string, string> = { MULTI: t("enum.questionKind.MULTI"), SHORT: t("enum.questionKind.SHORT"), ESSAY: t("enum.questionKind.ESSAY"), FILL: t("enum.questionKind.FILL") };
   const [questions, setQuestions] = useState<Question[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,33 +37,33 @@ export default function QuestionBankPage() {
     if (filters.difficulty) p.set("difficulty", filters.difficulty);
     apiGet<{ questions: Question[]; subjects: Subject[] }>(`/api/question-bank?${p}`)
       .then((d) => { setLoadError(""); setQuestions(d.questions); setSubjects(d.subjects); })
-      .catch((e) => setLoadError(e instanceof Error ? e.message : "خطا در بارگذاری بانک سوال"))
+      .catch((e) => setLoadError(e instanceof Error ? e.message : t("questionBank.loadError")))
       .finally(() => setLoading(false));
   }, [filters]);
   useEffect(load, [load]);
 
   async function submit() {
-    if (!form.body.trim() || !form.topic.trim()) { toast.error("متن سوال و مبحث لازم است"); return; }
+    if (!form.body.trim() || !form.topic.trim()) { toast.error(t("questionBank.toast.required")); return; }
     try {
       await apiPost("/api/question-bank", {
         ...form,
         subjectId: form.subjectId || undefined,
         options: form.kind === "MULTI" ? form.options.filter(Boolean) : [],
       });
-      toast.success("سوال به بانک اضافه شد");
+      toast.success(t("questionBank.toast.added"));
       setForm({ subjectId: "", topic: "", difficulty: "MEDIUM", kind: "MULTI", body: "", options: ["", "", "", ""], answer: "", explanation: "", imageUrl: "" });
       setShowNew(false); load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
   async function remove(id: string) {
-    try { await apiDelete(`/api/question-bank?id=${id}`); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    try { await apiDelete(`/api/question-bank?id=${id}`); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
   function toggle(id: string) {
     setSelected((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   }
   function printPaper(mode: "questions" | "answers") {
     const chosen = questions.filter((q) => selected.has(q.id));
-    if (!chosen.length) { toast.error("حداقل یک سوال انتخاب کنید"); return; }
+    if (!chosen.length) { toast.error(t("questionBank.toast.pick")); return; }
     const w = window.open("", "_blank");
     if (!w) return;
     const items = chosen.map((q, i) => {
@@ -100,13 +104,13 @@ export default function QuestionBankPage() {
   return (
     <div>
       <PageHeader
-        title="بانک سوال"
-        desc={`سوالات با درجه سختی — ${faNumber(questions.length)} سوال؛ برای چاپ برگه سوال و پاسخنامه انتخاب کنید`}
+        title={t("nav.questionBank")}
+        desc={`${t("questionBank.descPrefix")} ${faNumber(questions.length)} ${t("questionBank.descUnit")} ${t("questionBank.descSuffix")}`}
         action={
           <div className="flex gap-2">
-            <button onClick={() => printPaper("questions")} disabled={!selected.size} className="b-btn b-btn-sm b-btn-ghost"><Printer className="w-4 h-4" /> برگه سوال</button>
-            <button onClick={() => printPaper("answers")} disabled={!selected.size} className="b-btn b-btn-sm b-btn-spring"><Printer className="w-4 h-4" /> پاسخنامه</button>
-            <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-ink"><Plus className="w-4 h-4" /> سوال جدید</button>
+            <button onClick={() => printPaper("questions")} disabled={!selected.size} className="b-btn b-btn-sm b-btn-ghost"><Printer className="w-4 h-4" /> {t("questionBank.printQuestions")}</button>
+            <button onClick={() => printPaper("answers")} disabled={!selected.size} className="b-btn b-btn-sm b-btn-spring"><Printer className="w-4 h-4" /> {t("questionBank.printAnswers")}</button>
+            <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-ink"><Plus className="w-4 h-4" /> {t("questionBank.new")}</button>
           </div>
         }
       />
@@ -115,16 +119,16 @@ export default function QuestionBankPage() {
           <Select
             value={form.subjectId}
             onChange={(v) => setForm({ ...form, subjectId: v })}
-            options={[{ value: "", label: "درس (اختیاری)" }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]}
-            placeholder="درس (اختیاری)"
+            options={[{ value: "", label: t("questionBank.field.subjectOptional") }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]}
+            placeholder={t("questionBank.field.subjectOptional")}
             className="w-full"
             buttonClassName="!w-full"
           />
-          <input value={form.topic} onChange={(e) => setForm({ ...form, topic: e.target.value })} placeholder="مبحث (مثلاً مشتق) *" className="b-input" />
+          <input value={form.topic} onChange={(e) => setForm({ ...form, topic: e.target.value })} placeholder={t("questionBank.placeholder.topic")} className="b-input" />
           <Select
             value={form.difficulty}
             onChange={(v) => setForm({ ...form, difficulty: v })}
-            options={[{ value: "EASY", label: "سختی: آسان" }, { value: "MEDIUM", label: "سختی: متوسط" }, { value: "HARD", label: "سختی: سخت" }]}
+            options={[{ value: "EASY", label: `${t("questionBank.difficultyPrefix")} ${t("enum.difficulty.EASY")}` }, { value: "MEDIUM", label: `${t("questionBank.difficultyPrefix")} ${t("enum.difficulty.MEDIUM")}` }, { value: "HARD", label: `${t("questionBank.difficultyPrefix")} ${t("enum.difficulty.HARD")}` }]}
             className="w-full"
             buttonClassName="!w-full"
           />
@@ -135,39 +139,39 @@ export default function QuestionBankPage() {
             className="w-full"
             buttonClassName="!w-full"
           />
-          <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} placeholder="متن سوال *" className="b-input sm:col-span-2 !min-h-[70px]" />
+          <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} placeholder={t("questionBank.placeholder.body")} className="b-input sm:col-span-2 !min-h-[70px]" />
           {form.kind === "MULTI" && (
             <div className="sm:col-span-2 grid grid-cols-2 gap-2">
               {form.options.map((o, i) => (
-                <input key={i} value={o} onChange={(e) => { const opts = [...form.options]; opts[i] = e.target.value; setForm({ ...form, options: opts }); }} placeholder={`گزینه ${toFa(i + 1)}`} className="b-input !h-10" />
+                <input key={i} value={o} onChange={(e) => { const opts = [...form.options]; opts[i] = e.target.value; setForm({ ...form, options: opts }); }} placeholder={`${t("questionBank.option")} ${toFa(i + 1)}`} className="b-input !h-10" />
               ))}
             </div>
           )}
-          <input value={form.answer} onChange={(e) => setForm({ ...form, answer: e.target.value })} placeholder="پاسخ صحیح" className="b-input" />
-          <input value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} placeholder="لینک تصویر (اختیاری — چاپ سیاه‌وسفید می‌شود)" className="b-input" dir="ltr" />
-          <button onClick={submit} className="b-btn b-btn-sm b-btn-spring sm:col-span-2 w-fit">ثبت سوال</button>
+          <input value={form.answer} onChange={(e) => setForm({ ...form, answer: e.target.value })} placeholder={t("questionBank.placeholder.answer")} className="b-input" />
+          <input value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} placeholder={t("questionBank.placeholder.image")} className="b-input" dir="ltr" />
+          <button onClick={submit} className="b-btn b-btn-sm b-btn-spring sm:col-span-2 w-fit">{t("questionBank.submit")}</button>
         </div>
       )}
       <div className="flex gap-1.5 mb-5">
         <Select
           value={filters.subjectId}
           onChange={(v) => setFilters({ ...filters, subjectId: v })}
-          options={[{ value: "", label: "همه درس‌ها" }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]}
-          placeholder="همه درس‌ها"
+          options={[{ value: "", label: t("questionBank.filter.allSubjects") }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]}
+          placeholder={t("questionBank.filter.allSubjects")}
           className="!w-40"
           buttonClassName="!h-10 !w-40"
         />
         <Select
           value={filters.difficulty}
           onChange={(v) => setFilters({ ...filters, difficulty: v })}
-          options={[{ value: "", label: "همه سطوح" }, { value: "EASY", label: "آسان" }, { value: "MEDIUM", label: "متوسط" }, { value: "HARD", label: "سخت" }]}
-          placeholder="همه سطوح"
+          options={[{ value: "", label: t("questionBank.filter.allLevels") }, { value: "EASY", label: t("enum.difficulty.EASY") }, { value: "MEDIUM", label: t("enum.difficulty.MEDIUM") }, { value: "HARD", label: t("enum.difficulty.HARD") }]}
+          placeholder={t("questionBank.filter.allLevels")}
           className="!w-32"
           buttonClassName="!h-10 !w-32"
         />
-        {selected.size > 0 && <span className="b-badge b-badge-spring self-center">{faNumber(selected.size)} انتخاب‌شده</span>}
+        {selected.size > 0 && <span className="b-badge b-badge-spring self-center">{faNumber(selected.size)} {t("common.selected")}</span>}
       </div>
-      {questions.length === 0 ? <EmptyState icon={FileQuestion} title="سوالی ثبت نشده" desc="اولین سوال بانک را بسازید." /> : (
+      {questions.length === 0 ? <EmptyState icon={FileQuestion} title={t("questionBank.empty.noQuestion")} desc={t("questionBank.empty.createFirst")} /> : (
         <div className="flex flex-col gap-2.5">
           {questions.map((q) => {
             const opts = JSON.parse(q.options || "[]") as string[];
@@ -182,7 +186,7 @@ export default function QuestionBankPage() {
                   </div>
                   <p className="text-[13px] font-bold leading-relaxed">{q.body}</p>
                   {opts.length > 0 && <p className="text-[11.5px] text-steel mt-1">{opts.map((o, j) => `${["۱)", "۲)", "۳)", "۴)"][j] ?? ""} ${o}`).join("   ")}</p>}
-                  {q.answer && <p className="text-[11px] text-spring-deep mt-1">پاسخ: {q.answer}</p>}
+                  {q.answer && <p className="text-[11px] text-spring-deep mt-1">{t("questionBank.answer")} {q.answer}</p>}
                 </div>
                 <button onClick={(e) => { e.preventDefault(); remove(q.id); }} className="b-btn b-btn-ghost text-stone hover:text-destructive shrink-0"><Trash2 className="w-4 h-4" /></button>
               </label>

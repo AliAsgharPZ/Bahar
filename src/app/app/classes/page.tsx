@@ -1,5 +1,7 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, School, Loader2, Trash2, Users, BookOpen } from "lucide-react";
@@ -34,6 +36,7 @@ type Me = { user: { role: string; permissions: string[]; actingSchool?: { id: st
 const empty = { name: "", grade: "دهم", field: "", academicYear: "1404-1405", capacity: "28", roomNumber: "", homeroomTeacherId: "" };
 
 export default function ClassesPage() {
+  const { t } = useLang();
   const confirm = useConfirm();
   const { data: me } = useApi2<Me>("/api/auth/me");
   const { data, loading, error, refetch } = useApi<{ classes: ClassRow[] }>("/api/classes");
@@ -64,30 +67,30 @@ export default function ClassesPage() {
     try {
       if (editing) {
         await apiPatch(`/api/classes/${editing.id}`, { ...form, capacity: Number(form.capacity) });
-        toast.success("کلاس ویرایش شد.");
+        toast.success(t("classes.toast.edited"));
         setEditing(null);
       } else {
         await apiPost("/api/classes", { ...form, capacity: Number(form.capacity) });
-        toast.success("کلاس ساخته شد.");
+        toast.success(t("classes.toast.created"));
         setShowCreate(false);
       }
       setForm(empty);
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
   }
 
   async function archive(c: ClassRow) {
-    if (!(await confirm({ title: "بایگانی کلاس", description: `کلاس «${c.name}» بایگانی شود؟`, confirmLabel: "بایگانی", danger: true }))) return;
+    if (!(await confirm({ title: t("classes.archive.title"), description: `${t("classes.archive.descStart")} «${c.name}» ${t("classes.archive.descEnd")}`, confirmLabel: t("classes.archive.confirm"), danger: true }))) return;
     try {
       await apiDelete(`/api/classes/${c.id}`);
-      toast.success("کلاس بایگانی شد.");
+      toast.success(t("classes.toast.archived"));
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
@@ -96,21 +99,21 @@ export default function ClassesPage() {
     if (!manage) return;
     try {
       await apiPost("/api/teaching", { ...assignForm, classId: manage.id });
-      toast.success("معلم به درس تخصیص یافت.");
+      toast.success(t("classes.toast.teacherAssigned"));
       setAssignForm({ teacherId: "", subjectId: "" });
       refetchTeaching();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
   async function removeAssignment(id: string) {
     try {
       await apiDelete(`/api/teaching/${id}`);
-      toast.success("تخصیص حذف شد.");
+      toast.success(t("classes.toast.assignmentRemoved"));
       refetchTeaching();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
@@ -119,12 +122,12 @@ export default function ClassesPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="کلاس‌ها"
-        desc="مدیریت پایه‌ها، رشته‌ها، معلم مشاور و تخصیص معلمان به درس‌ها."
+        title={t("nav.classes")}
+        desc={t("classes.desc")}
         action={
           canManage && (
             <button className="b-btn b-btn-spring b-btn-sm" onClick={() => { setShowCreate(true); setEditing(null); setForm(empty); }}>
-              <Plus className="w-4 h-4" /> کلاس جدید
+              <Plus className="w-4 h-4" /> {t("classes.new")}
             </button>
           )
         }
@@ -132,15 +135,15 @@ export default function ClassesPage() {
 
       {/* راند ۱۹: در موبایل تک‌ستونه — قبلاً ۳ ستونِ ۱۱۹px برچسب‌ها را نامرئی می‌کرد */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard icon={School} label="کلاس" value={data?.classes.length ?? 0} tone="spring" />
-        <StatCard icon={Users} label="دانش‌آموز" value={totalStudents} tone="ink" />
-        <StatCard icon={BookOpen} label="تخصیص معلم-درس" value={data?.classes.reduce((s, c) => s + c._count.teachingAssignments, 0) ?? 0} />
+        <StatCard icon={School} label={t("common.class")} value={data?.classes.length ?? 0} tone="spring" />
+        <StatCard icon={Users} label={t("common.student")} value={totalStudents} tone="ink" />
+        <StatCard icon={BookOpen} label={t("classes.stat.teacherSubjectAssignments")} value={data?.classes.reduce((s, c) => s + c._count.teachingAssignments, 0) ?? 0} />
       </div>
 
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
       {data && data.classes.length === 0 && (
-        <EmptyState icon={School} title="کلاسی ثبت نشده" desc="اولین کلاس مدرسه را بسازید." />
+        <EmptyState icon={School} title={t("classes.empty.noClass")} desc={t("classes.empty.createFirst")} />
       )}
 
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -153,29 +156,29 @@ export default function ClassesPage() {
                 </span>
                 <div className="min-w-0">
                   <b className="text-[15px] block truncate">{c.name}</b>
-                  <span className="text-[11.5px] text-steel">{c.field ?? "عمومی"} · {c.academicYear}</span>
+                  <span className="text-[11.5px] text-steel">{c.field ?? t("settings.general")} · {c.academicYear}</span>
                 </div>
               </div>
-              {c.roomNumber && <span className="b-badge b-badge-neutral">اتاق {faNumber(c.roomNumber)}</span>}
+              {c.roomNumber && <span className="b-badge b-badge-neutral">{t("classes.room")} {faNumber(c.roomNumber)}</span>}
             </div>
 
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="b-card-sm !rounded-xl p-2.5">
                 <div className="font-bold text-[15px]">{faNumber(c._count.students)}</div>
-                <div className="text-[10.5px] text-steel">دانش‌آموز / {faNumber(c.capacity)}</div>
+                <div className="text-[10.5px] text-steel">{t("common.student")} / {faNumber(c.capacity)}</div>
               </div>
               <div className="b-card-sm !rounded-xl p-2.5">
                 <div className="font-bold text-[15px]">{faNumber(c._count.teachingAssignments)}</div>
-                <div className="text-[10.5px] text-steel">درس فعال</div>
+                <div className="text-[10.5px] text-steel">{t("classes.activeSubjects")}</div>
               </div>
               <div className="b-card-sm !rounded-xl p-2.5">
                 <div className="font-bold text-[15px]">{faNumber(c._count.scheduleSlots)}</div>
-                <div className="text-[10.5px] text-steel">زنگ هفتگی</div>
+                <div className="text-[10.5px] text-steel">{t("classes.weeklyPeriods")}</div>
               </div>
             </div>
 
             <p className="t-sm text-steel">
-              مشاور: <b className="text-ink">{c.homeroomTeacher ? `${c.homeroomTeacher.firstName} ${c.homeroomTeacher.lastName}` : "—"}</b>
+              {t("classes.homeroom")} <b className="text-ink">{c.homeroomTeacher ? `${c.homeroomTeacher.firstName} ${c.homeroomTeacher.lastName}` : "—"}</b>
             </p>
 
             {canManage && (
@@ -184,12 +187,12 @@ export default function ClassesPage() {
                   className="b-btn b-btn-soft b-btn-sm flex-1"
                   onClick={() => { setEditing(c); setForm({ name: c.name, grade: c.grade, field: c.field ?? "", academicYear: c.academicYear, capacity: String(c.capacity), roomNumber: c.roomNumber ?? "", homeroomTeacherId: c.homeroomTeacherId ?? "" }); }}
                 >
-                  <Pencil className="w-3.5 h-3.5" /> ویرایش
+                  <Pencil className="w-3.5 h-3.5" /> {t("common.edit")}
                 </button>
                 <button className="b-btn b-btn-ghost b-btn-sm flex-1" onClick={() => setManage(c)}>
-                  <BookOpen className="w-3.5 h-3.5" /> معلم‌ها
+                  <BookOpen className="w-3.5 h-3.5" /> {t("classes.teachers")}
                 </button>
-                <button className="b-btn b-btn-ghost !p-0 w-9 h-9 !min-h-9" onClick={() => archive(c)} aria-label="بایگانی">
+                <button className="b-btn b-btn-ghost !p-0 w-9 h-9 !min-h-9" onClick={() => archive(c)} aria-label={t("classes.archive.confirm")}>
                   <Trash2 className="w-4 h-4 text-destructive" />
                 </button>
               </div>
@@ -202,14 +205,14 @@ export default function ClassesPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => { setShowCreate(false); setEditing(null); }} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-xl b-pop">
-            <h2 className="font-bold text-lg mb-6">{editing ? `ویرایش ${editing.name}` : "کلاس جدید"}</h2>
+            <h2 className="font-bold text-lg mb-6">{editing ? `${t("common.edit")} ${editing.name}` : t("classes.new")}</h2>
             <form onSubmit={save} className="grid sm:grid-cols-2 gap-4">
               <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[12.5px] font-bold">نام کلاس *</span>
-                <input className="b-input" value={form.name} onChange={(e) => set("name", e.target.value)} required placeholder="مثلاً دهم ریاضی ۱" />
+                <span className="text-[12.5px] font-bold">{t("classes.field.className")}</span>
+                <input className="b-input" value={form.name} onChange={(e) => set("name", e.target.value)} required placeholder={t("classes.placeholder.className")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">پایه *</span>
+                <span className="text-[12.5px] font-bold">{t("classes.field.grade")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -219,7 +222,7 @@ export default function ClassesPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">رشته</span>
+                <span className="text-[12.5px] font-bold">{t("classes.field.field")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -229,33 +232,33 @@ export default function ClassesPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">سال تحصیلی *</span>
+                <span className="text-[12.5px] font-bold">{t("classes.field.academicYear")}</span>
                 <input className="b-input" dir="ltr" value={form.academicYear} onChange={(e) => set("academicYear", e.target.value)} required />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">ظرفیت</span>
+                <span className="text-[12.5px] font-bold">{t("classes.field.capacity")}</span>
                 <input className="b-input" dir="ltr" inputMode="numeric" value={form.capacity} onChange={(e) => set("capacity", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">شماره اتاق</span>
+                <span className="text-[12.5px] font-bold">{t("classes.field.roomNumber")}</span>
                 <input className="b-input" value={form.roomNumber} onChange={(e) => set("roomNumber", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">معلم مشاور</span>
+                <span className="text-[12.5px] font-bold">{t("classes.field.homeroomTeacher")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
                   value={form.homeroomTeacherId}
                   onChange={(v) => set("homeroomTeacherId", v)}
-                  options={[{ value: "", label: "— بدون مشاور —" }, ...teachers.map((t) => ({ value: t.id, label: `${t.firstName} ${t.lastName}` }))]}
-                  placeholder="— بدون مشاور —"
+                  options={[{ value: "", label: t("classes.noHomeroom") }, ...teachers.map((t) => ({ value: t.id, label: `${t.firstName} ${t.lastName}` }))]}
+                  placeholder={t("classes.noHomeroom")}
                 />
               </label>
               <div className="sm:col-span-2 flex items-center gap-3 mt-2">
                 <button type="submit" disabled={saving} className="b-btn b-btn-spring">
-                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : editing ? "ذخیره" : "ایجاد کلاس"}
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : editing ? t("common.save") : t("classes.createClass")}
                 </button>
-                <button type="button" className="b-btn b-btn-ghost" onClick={() => { setShowCreate(false); setEditing(null); }}>انصراف</button>
+                <button type="button" className="b-btn b-btn-ghost" onClick={() => { setShowCreate(false); setEditing(null); }}>{t("common.cancel")}</button>
               </div>
             </form>
           </div>
@@ -266,12 +269,12 @@ export default function ClassesPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => setManage(null)} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-xl max-h-[90vh] overflow-y-auto b-scroll b-pop">
-            <h2 className="font-bold text-lg mb-1">معلمان کلاس {manage.name}</h2>
-            <p className="t-sm text-steel mb-6">تخصیص معلم به هر درس؛ معلم موجود جایگزین می‌شود.</p>
+            <h2 className="font-bold text-lg mb-1">{t("classes.manageTitle")} {manage.name}</h2>
+            <p className="t-sm text-steel mb-6">{t("classes.manageDesc")}</p>
 
             <form onSubmit={assignTeacher} className="grid grid-cols-[1fr_1fr_auto] gap-3 items-end">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">درس</span>
+                <span className="text-[12px] font-bold">{t("classes.assign.subject")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -282,7 +285,7 @@ export default function ClassesPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">معلم</span>
+                <span className="text-[12px] font-bold">{t("common.teacher")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -292,7 +295,7 @@ export default function ClassesPage() {
                   placeholder="—"
                 />
               </label>
-              <button type="submit" className="b-btn b-btn-spring b-btn-sm">تخصیص</button>
+              <button type="submit" className="b-btn b-btn-spring b-btn-sm">{t("classes.assign.submit")}</button>
             </form>
 
             <div className="mt-6 flex flex-col gap-2.5">
@@ -305,14 +308,14 @@ export default function ClassesPage() {
                   <button
                     className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
                     onClick={() => removeAssignment(a.id)}
-                    aria-label="حذف"
+                    aria-label={t("common.delete")}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               ))}
               {teachingData && teachingData.assignments.length === 0 && (
-                <p className="t-sm text-steel">تخصیصی ثبت نشده است.</p>
+                <p className="t-sm text-steel">{t("classes.empty.noAssignment")}</p>
               )}
             </div>
           </div>

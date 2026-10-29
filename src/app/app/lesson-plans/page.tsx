@@ -1,5 +1,7 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useState } from "react";
 import { toast } from "sonner";
 import { NotebookPen, Loader2, Plus, CheckCheck, Trash2 } from "lucide-react";
@@ -15,6 +17,7 @@ type SubjectRow = { id: string; name: string };
 type Me = { user: { role: string; id: string } };
 
 export default function LessonPlansPage() {
+  const { t } = useLang();
   const { data: me } = useApi<Me>("/api/auth/me");
   const isManager = ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"].includes(me?.user.role ?? "");
   const [classFilter, setClassFilter] = useState("");
@@ -32,17 +35,17 @@ export default function LessonPlansPage() {
     setSaving(true);
     try {
       await apiPost("/api/lesson-plans", form);
-      toast.success("طرح درس ثبت شد.");
+      toast.success(t("lessonPlans.toast.added"));
       setForm((f) => ({ ...f, topic: "", objectives: "" }));
       refetch();
-    } catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); }
+    } catch (err) { toast.error(err instanceof Error ? err.message : t("common.errorShort")); }
     finally { setSaving(false); }
   }
 
   async function act(id: string, action: string) {
     setBusyId(id + action);
     try { await apiPost("/api/lesson-plans", { action, id }); refetch(); }
-    catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); }
+    catch (err) { toast.error(err instanceof Error ? err.message : t("common.errorShort")); }
     finally { setBusyId(""); }
   }
 
@@ -53,44 +56,44 @@ export default function LessonPlansPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="طرح درس و بودجه‌بندی"
-        desc="برای هر جلسه مبحث و اهداف را ثبت کنید؛ پوشش واقعی کلاس همیشه معلوم است."
+        title={t("nav.lessonPlans")}
+        desc={t("lessonPlans.desc")}
         action={
           <Select value={classFilter} onChange={setClassFilter}
-            options={[{ value: "", label: "همهٔ کلاس‌ها" }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder="فیلتر کلاس" />
+            options={[{ value: "", label: t("lessonPlans.filter.allClasses") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("lessonPlans.filter.classPlaceholder")} />
         }
       />
       {data && (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          <StatCard icon={NotebookPen} label="کل طرح درس‌ها" value={plans.length} tone="ink" />
-          <StatCard icon={CheckCheck} label="تدریس‌شده" value={taught} tone="spring" />
-          <StatCard icon={NotebookPen} label="درصد پوشش" value={plans.length ? `${faNumber(Math.round((taught / plans.length) * 100))}٪` : "—"} tone="soft" />
+          <StatCard icon={NotebookPen} label={t("lessonPlans.stat.total")} value={plans.length} tone="ink" />
+          <StatCard icon={CheckCheck} label={t("lessonPlans.stat.taught")} value={taught} tone="spring" />
+          <StatCard icon={NotebookPen} label={t("lessonPlans.stat.coverage")} value={plans.length ? `${faNumber(Math.round((taught / plans.length) * 100))}٪` : "—"} tone="soft" />
         </div>
       )}
 
       {!isManager && (
         <form onSubmit={add} className="b-card p-5 grid md:grid-cols-2 gap-3">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">کلاس</span>
+          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.class")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.classId} onChange={(v) => setForm((f) => ({ ...f, classId: v }))}
-              options={[{ value: "", label: "بدون کلاس مشخص" }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder="کلاس" /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">درس</span>
+              options={[{ value: "", label: t("lessonPlans.noClass") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("common.class")} /></label>
+          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("lessonPlans.field.subject")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.subjectId} onChange={(v) => setForm((f) => ({ ...f, subjectId: v }))}
-              options={[{ value: "", label: "—" }, ...(subjectsData?.subjects ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder="درس" /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">مبحث *</span>
-            <input className="b-input" value={form.topic} onChange={(e) => setForm((f) => ({ ...f, topic: e.target.value }))} placeholder="مثلاً کسرها — جمع کسرهای هم‌مخرج" required /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">روز (شمسی) *</span>
+              options={[{ value: "", label: "—" }, ...(subjectsData?.subjects ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("lessonPlans.field.subject")} /></label>
+          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("lessonPlans.field.topic")}</span>
+            <input className="b-input" value={form.topic} onChange={(e) => setForm((f) => ({ ...f, topic: e.target.value }))} placeholder={t("lessonPlans.placeholder.topic")} required /></label>
+          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("lessonPlans.field.date")}</span>
             <input className="b-input" dir="ltr" value={form.date} onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))} required /></label>
-          <label className="flex flex-col gap-1.5 md:col-span-2"><span className="text-[12px] font-bold">اهداف و شرح</span>
+          <label className="flex flex-col gap-1.5 md:col-span-2"><span className="text-[12px] font-bold">{t("lessonPlans.field.objectives")}</span>
             <textarea className="b-input min-h-20" value={form.objectives} onChange={(e) => setForm((f) => ({ ...f, objectives: e.target.value }))} /></label>
           <button className="b-btn b-btn-spring justify-self-start" disabled={saving}>
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} ثبت طرح درس
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} {t("lessonPlans.submit")}
           </button>
         </form>
       )}
 
       {isManager && coverage.length > 0 && (
         <div className="b-card p-5">
-          <b className="text-[13.5px] block mb-3">پوشش به‌ازای معلم</b>
+          <b className="text-[13.5px] block mb-3">{t("lessonPlans.coverage.title")}</b>
           <div className="flex flex-col gap-2">
             {coverage.map((c) => (
               <div key={c.teacherId} className="flex items-center gap-3 text-[13px]">
@@ -98,7 +101,7 @@ export default function LessonPlansPage() {
                 <span className="flex-1 h-2.5 rounded-full bg-cloud overflow-hidden">
                   <span className="block h-full bg-spring rounded-full" style={{ width: `${c.planned ? (c.taught / c.planned) * 100 : 0}%` }} />
                 </span>
-                <span className="text-steel shrink-0">{faNumber(c.taught)} از {faNumber(c.planned)} تدریس‌شده</span>
+                <span className="text-steel shrink-0">{faNumber(c.taught)} {t("common.from")} {faNumber(c.planned)} {t("lessonPlans.stat.taught")}</span>
               </div>
             ))}
           </div>
@@ -107,7 +110,7 @@ export default function LessonPlansPage() {
 
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
-      {data && plans.length === 0 && <EmptyState icon={NotebookPen} title="طرح درسی ثبت نشده" />}
+      {data && plans.length === 0 && <EmptyState icon={NotebookPen} title={t("lessonPlans.empty.noPlan")} />}
       <div className="flex flex-col gap-2 b-auto-stagger">
         {plans.map((p) => (
           <div key={p.id} className="b-card-sm p-4 flex items-center justify-between gap-3 flex-wrap">
@@ -117,13 +120,13 @@ export default function LessonPlansPage() {
               {p.objectives && <span className="text-[11.5px] text-steel line-clamp-1">{p.objectives}</span>}
             </span>
             <span className="flex items-center gap-1.5 shrink-0">
-              <span className={`b-badge ${p.status === "TAUGHT" ? "b-badge-spring" : "b-badge-neutral"}`}>{p.status === "TAUGHT" ? "تدریس‌شده" : "برنامه‌ریزی‌شده"}</span>
+              <span className={`b-badge ${p.status === "TAUGHT" ? "b-badge-spring" : "b-badge-neutral"}`}>{p.status === "TAUGHT" ? t("lessonPlans.stat.taught") : t("lessonPlans.status.planned")}</span>
               {p.status !== "TAUGHT" && (
                 <button className="b-btn b-btn-spring b-btn-sm" disabled={busyId === p.id + "taught"} onClick={() => act(p.id, "taught")}>
-                  <CheckCheck className="w-3.5 h-3.5" /> تدریس شد
+                  <CheckCheck className="w-3.5 h-3.5" /> {t("lessonPlans.markTaught")}
                 </button>
               )}
-              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={busyId === p.id + "delete"} onClick={() => act(p.id, "delete")} aria-label="حذف">
+              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={busyId === p.id + "delete"} onClick={() => act(p.id, "delete")} aria-label={t("common.delete")}>
                 <Trash2 className="w-4 h-4" />
               </button>
             </span>

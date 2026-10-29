@@ -1,5 +1,7 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -19,9 +21,11 @@ type Detail = {
   attempt?: { startedAt: string; submittedAt: string | null; score: number | null; answers: Record<string, string> } | null;
 };
 
-const KIND: Record<string, string> = { MULTI: "چندگزینه‌ای", SHORT: "تشریحی کوتاه", ESSAY: "مقاله‌ای", FILL: "جای خالی" };
+
 
 export default function QuizDetailPage() {
+  const { t } = useLang();
+  const KIND: Record<string, string> = { MULTI: t("enum.questionKind.MULTI"), SHORT: t("enum.questionKind.SHORT"), ESSAY: t("enum.questionKind.ESSAY"), FILL: t("enum.questionKind.FILL") };
   const params = useParams<{ id: string }>();
   const id = params.id;
   const [data, setData] = useState<Detail | null>(null);
@@ -36,7 +40,7 @@ export default function QuizDetailPage() {
     setLoading(true);
     apiGet<Detail>(`/api/quizzes/${id}`)
       .then((d) => { setData(d); setLoadError(""); })
-      .catch((e) => setLoadError(e instanceof Error ? e.message : "خطا در بارگذاری"))
+      .catch((e) => setLoadError(e instanceof Error ? e.message : t("quizzes.loadError")))
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -52,12 +56,12 @@ export default function QuizDetailPage() {
     setBusy(true);
     try {
       const res = await apiPost<{ attempt: { score: number | null } }>(`/api/quizzes/${id}`, { action: "submit", answers });
-      toast.success(auto ? "زمان تمام شد و آزمون خودکار تحویل داده شد." : "آزمون تحویل داده شد.");
-      if (res.attempt.score !== null) toast.success(`نمرهٔ شما: ${faNumber(res.attempt.score)} از ۱۰۰`);
+      toast.success(auto ? t("quizzes.detail.toast.autoSubmitted") : t("quizzes.detail.toast.submitted"));
+      if (res.attempt.score !== null) toast.success(`${t("quizzes.detail.scorePrefix")} ${faNumber(res.attempt.score)} ${t("quizzes.score.outOf")}`);
       load();
     } catch (e) {
       submittedRef.current = false;
-      toast.error(e instanceof Error ? e.message : "خطا در تحویل");
+      toast.error(e instanceof Error ? e.message : t("quizzes.detail.toast.submitError"));
     } finally { setBusy(false); }
   }, [answers, id, load]);
 
@@ -80,7 +84,7 @@ export default function QuizDetailPage() {
     try {
       await apiPost(`/api/quizzes/${id}`, { action: "start" });
       load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
     finally { setBusy(false); }
   }
 
@@ -91,8 +95,8 @@ export default function QuizDetailPage() {
     return `${faNumber(m)}:${String(s).padStart(2, "0")}`;
   }, [remain]);
 
-  if (loading && !data) return <div><PageHeader title="آزمون آنلاین" /><LoadingBlock /></div>;
-  if (loadError) return <div><PageHeader title="آزمون آنلاین" /><ErrorBox message={loadError} /></div>;
+  if (loading && !data) return <div><PageHeader title={t("nav.quizzes")} /><LoadingBlock /></div>;
+  if (loadError) return <div><PageHeader title={t("nav.quizzes")} /><ErrorBox message={loadError} /></div>;
   if (!data) return null;
 
   const isStaff = Array.isArray(data.attempts);
@@ -101,15 +105,15 @@ export default function QuizDetailPage() {
     <div>
       <PageHeader
         title={data.quiz.title}
-        desc={isStaff ? "جزئیات آزمون، پاسخ‌نامه و نتایج دانش‌آموزان" : `${faNumber(data.questions.length)} سؤال · ${faNumber(data.quiz.durationMin)} دقیقه`}
-        action={<Link href="/app/quizzes" className="b-btn b-btn-ghost"><ArrowRight className="w-4 h-4" /> همهٔ آزمون‌ها</Link>}
+        desc={isStaff ? t("quizzes.detail.descStaff") : `${faNumber(data.questions.length)} ${t("quizzes.unit.question")} · ${faNumber(data.quiz.durationMin)} ${t("quizzes.unit.minute")}`}
+        action={<Link href="/app/quizzes" className="b-btn b-btn-ghost"><ArrowRight className="w-4 h-4" /> {t("quizzes.detail.allQuizzes")}</Link>}
       />
 
       {/* ── نمای کادر ── */}
       {isStaff && (
         <>
           <section className="b-card p-4 md:p-5 mb-5 no-print">
-            <h2 className="font-extrabold text-[15px] mb-3">سؤال‌ها و پاسخ‌نامه</h2>
+            <h2 className="font-extrabold text-[15px] mb-3">{t("quizzes.detail.questionsAnswers")}</h2>
             <div className="flex flex-col gap-3">
               {data.questions.map((q, i) => (
                 <div key={q.id} className="rounded-xl border border-[--hairline] p-3.5">
@@ -119,25 +123,25 @@ export default function QuizDetailPage() {
                       {q.options.map((o, oi) => <li key={oi}>· {o}</li>)}
                     </ul>
                   )}
-                  <p className="text-[12px] mt-2"><span className="text-spring-deep font-bold">پاسخ: {q.answer ?? "—"}</span>{q.explanation ? <span className="text-stone"> — {q.explanation}</span> : null}</p>
+                  <p className="text-[12px] mt-2"><span className="text-spring-deep font-bold">{t("quizzes.detail.answer")} {q.answer ?? "—"}</span>{q.explanation ? <span className="text-stone"> — {q.explanation}</span> : null}</p>
                 </div>
               ))}
             </div>
           </section>
           <section className="b-card p-4 md:p-5 no-print">
-            <h2 className="font-extrabold text-[15px] mb-3">نتایج دانش‌آموزان</h2>
+            <h2 className="font-extrabold text-[15px] mb-3">{t("quizzes.detail.results")}</h2>
             {data.attempts!.length === 0 ? (
-              <p className="text-[13px] text-stone">هنوز دانش‌آموزی شرکت نکرده است.</p>
+              <p className="text-[13px] text-stone">{t("quizzes.detail.emptyAttempts")}</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="b-table w-full">
-                  <thead><tr><th>دانش‌آموز</th><th>کلاس</th><th>وضعیت</th><th>نمره از ۱۰۰</th></tr></thead>
+                  <thead><tr><th>{t("common.student")}</th><th>{t("common.class")}</th><th>{t("common.status")}</th><th>{t("quizzes.detail.scoreOutOf")}</th></tr></thead>
                   <tbody className="b-rows-in">
                     {data.attempts!.map((a) => (
                       <tr key={a.id}>
                         <td className="font-semibold">{a.studentName}</td>
                         <td>{a.className}</td>
-                        <td>{a.submittedAt ? <span className="b-badge b-badge-success">تحویل‌شده</span> : <span className="b-badge b-badge-warning">در حال پاسخ</span>}</td>
+                        <td>{a.submittedAt ? <span className="b-badge b-badge-success">{t("quizzes.detail.submitted")}</span> : <span className="b-badge b-badge-warning">{t("quizzes.detail.inProgress")}</span>}</td>
                         <td className="font-bold">{a.score !== null ? faNumber(a.score) : "—"}</td>
                       </tr>
                     ))}
@@ -202,11 +206,11 @@ export default function QuizDetailPage() {
           <ClipboardList className="w-10 h-10 mx-auto text-spring mb-3" />
           <h2 className="font-extrabold text-[18px] mb-2">{data.quiz.title}</h2>
           <p className="text-[13px] text-stone leading-relaxed mb-6">
-            این آزمون {faNumber(data.questions.length)} سؤال و {faNumber(data.quiz.durationMin)} دقیقه زمان دارد.
-            با زدن «شروع»، زمان‌سنج فعال می‌شود و فقط یکبار می‌توانید پاسخ‌ها را تحویل دهید.
+            {t("quizzes.detail.introStart")} {faNumber(data.questions.length)} {t("quizzes.unit.question")} {t("dashboard.uptime.and")} {faNumber(data.quiz.durationMin)} {t("quizzes.unit.minute")} {t("quizzes.detail.introEnd")}
+            {" "}{t("quizzes.detail.introNote")}
           </p>
           <button className="b-btn b-btn-spring" disabled={busy} onClick={start}>
-            <Play className="w-4 h-4" /> شروع آزمون
+            <Play className="w-4 h-4" /> {t("quizzes.start")}
           </button>
         </div>
       )}
@@ -217,17 +221,17 @@ export default function QuizDetailPage() {
           {inProgress && (
             <div className={`sticky top-16 z-20 mb-4 rounded-xl px-4 py-2.5 flex items-center gap-2 font-extrabold text-[14px] ${remain !== null && remain < 60 ? "bg-[--critical-soft] text-[--critical]" : "bg-[--spring-tint] text-spring-deep"}`}>
               <Timer className="w-4.5 h-4.5" />
-              زمان باقی‌مانده: <span dir="ltr">{remainText}</span>
-              <span className="ms-auto text-[11.5px] font-medium opacity-80">با پایان زمان، آزمون خودکار تحویل می‌شود</span>
+              {t("quizzes.detail.remaining")} <span dir="ltr">{remainText}</span>
+              <span className="ms-auto text-[11.5px] font-medium opacity-80">{t("quizzes.detail.autoSubmitNote")}</span>
             </div>
           )}
           {submitted && (
             <div className="b-card p-5 mb-5 text-center">
               <CircleCheck className="w-9 h-9 mx-auto text-spring mb-2" />
-              <p className="font-extrabold text-[16px]">آزمون تحویل داده شد</p>
+              <p className="font-extrabold text-[16px]">{t("quizzes.detail.submittedTitle")}</p>
               {attempt.score !== null
-                ? <p className="text-spring-deep font-extrabold text-[22px] mt-1">نمره: {faNumber(attempt.score)} از ۱۰۰</p>
-                : <p className="text-[12.5px] text-stone mt-1">این آزمون سؤال تشریحی دارد و نمره‌اش بعد از تصحیح معلم اعلام می‌شود.</p>}
+                ? <p className="text-spring-deep font-extrabold text-[22px] mt-1">{t("quizzes.score.label")} {faNumber(attempt.score)} {t("quizzes.score.outOf")}</p>
+                : <p className="text-[12.5px] text-stone mt-1">{t("quizzes.detail.essayNote")}</p>}
             </div>
           )}
           <div className="flex flex-col gap-3.5">
@@ -236,10 +240,10 @@ export default function QuizDetailPage() {
                 <p className="font-semibold text-[14px] leading-relaxed mb-3">
                   {faNumber(i + 1)}. {q.body}
                   <span className="b-badge ms-2">{KIND[q.kind] ?? q.kind}</span>
-                  {submitted && q.correct === true && <span className="b-badge b-badge-success ms-1"><CircleCheck className="w-3 h-3" /> درست</span>}
-                  {submitted && q.correct === false && <span className="b-badge b-badge-critical ms-1"><CircleX className="w-3 h-3" /> نادرست</span>}
+                  {submitted && q.correct === true && <span className="b-badge b-badge-success ms-1"><CircleCheck className="w-3 h-3" /> {t("quizzes.detail.correct")}</span>}
+                  {submitted && q.correct === false && <span className="b-badge b-badge-critical ms-1"><CircleX className="w-3 h-3" /> {t("quizzes.detail.incorrect")}</span>}
                 </p>
-                {q.imageUrl && <img src={q.imageUrl} alt="تصویر سؤال" className="max-h-56 rounded-lg border border-[--hairline] mb-3" />}
+                {q.imageUrl && <img src={q.imageUrl} alt={t("quizzes.detail.imageAlt")} className="max-h-56 rounded-lg border border-[--hairline] mb-3" />}
                 {q.kind === "MULTI" && q.options.length > 0 ? (
                   <div className="flex flex-col gap-1.5">
                     {q.options.map((o, oi) => {
@@ -256,27 +260,27 @@ export default function QuizDetailPage() {
                   </div>
                 ) : q.kind === "FILL" || q.kind === "SHORT" ? (
                   submitted
-                    ? <p className="text-[13px]">پاسخ شما: <b>{q.myAnswer || "—"}</b>{q.correctAnswer ? <span className="text-spring-deep"> · پاسخ درست: <b>{q.correctAnswer}</b></span> : null}</p>
-                    : <input value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} className="b-input w-full" placeholder="پاسختان را بنویسید…" />
+                    ? <p className="text-[13px]">{t("quizzes.detail.yourAnswer")} <b>{q.myAnswer || "—"}</b>{q.correctAnswer ? <span className="text-spring-deep"> · {t("quizzes.detail.correctAnswer")} <b>{q.correctAnswer}</b></span> : null}</p>
+                    : <input value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} className="b-input w-full" placeholder={t("quizzes.detail.placeholder.answer")} />
                 ) : (
                   submitted
-                    ? <p className="text-[13px]">پاسخ شما: <b>{q.myAnswer || "—"}</b></p>
-                    : <textarea value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} className="b-input w-full min-h-24" placeholder="پاسخ تشریحی…" />
+                    ? <p className="text-[13px]">{t("quizzes.detail.yourAnswer")} <b>{q.myAnswer || "—"}</b></p>
+                    : <textarea value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} className="b-input w-full min-h-24" placeholder={t("quizzes.detail.placeholder.essay")} />
                 )}
-                {submitted && q.explanation && <p className="text-[12px] text-stone mt-2.5">توضیح: {q.explanation}</p>}
+                {submitted && q.explanation && <p className="text-[12px] text-stone mt-2.5">{t("quizzes.detail.explanation")} {q.explanation}</p>}
               </section>
             ))}
           </div>
           {inProgress && (
             <button className="b-btn b-btn-spring w-full mt-5" disabled={busy} onClick={() => void submit(false)}>
-              <Send className="w-4 h-4" /> تحویل نهایی آزمون
+              <Send className="w-4 h-4" /> {t("quizzes.detail.submitFinal")}
             </button>
           )}
         </>
       )}
 
       {!isStaff && !attempt && data.questions.length === 0 && (
-        <EmptyState icon={ClipboardList} title="سؤالی نیست" desc="این آزمون هنوز سؤالی ندارد." />
+        <EmptyState icon={ClipboardList} title={t("quizzes.detail.emptyNoQuestions")} desc={t("quizzes.detail.emptyNoQuestionsDesc")} />
       )}
     </div>
   );

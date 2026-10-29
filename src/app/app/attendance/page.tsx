@@ -1,24 +1,21 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Save, Loader2, ClipboardCheck, CheckCircle2, XCircle, Clock, FileText, Trash2, HeartPulse } from "lucide-react";
 import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
-import { todayJalali, toJalaliKey, faNumber, ATTENDANCE_LABELS } from "@/lib/persian";
+import { todayJalali, toJalaliKey, faNumber } from "@/lib/persian";
 
 type HealthAlert = { sportsStatus: string; sportsNote: string | null; conditions: string | null; mobilityNote: string | null; allergies: string | null; flags: string[] };
 type SheetStudent = { studentId: string; userId: string; fullName: string; nationalId: string; studentNumber: string; status: string | null; note: string | null; healthAlert?: HealthAlert | null };
 type Me = { user: { role: string; permissions: string[]; actingSchool?: { id: string; name: string } | null; children: Array<{ student: { id: string; user: { firstName: string; lastName: string } } }>; studentProfile: unknown } };
 type ClassRow = { id: string; name: string };
 
-const STATUS_OPTIONS = [
-  { value: "PRESENT", label: "حاضر", cls: "b-badge-success", icon: CheckCircle2 },
-  { value: "ABSENT", label: "غایب", cls: "b-badge-critical", icon: XCircle },
-  { value: "LATE", label: "تاخیر", cls: "b-badge-warning", icon: Clock },
-  { value: "EXCUSED", label: "موجه", cls: "b-badge-neutral", icon: FileText },
-];
+
 
 function lastDays(n: number): string[] {
   const out: string[] = [];
@@ -29,6 +26,13 @@ function lastDays(n: number): string[] {
 }
 
 export default function AttendancePage() {
+  const { t } = useLang();
+  const STATUS_OPTIONS = [
+    { value: "PRESENT", label: t("enum.attendance.PRESENT"), cls: "b-badge-success", icon: CheckCircle2 },
+    { value: "ABSENT", label: t("enum.attendance.ABSENT"), cls: "b-badge-critical", icon: XCircle },
+    { value: "LATE", label: t("enum.attendance.LATE"), cls: "b-badge-warning", icon: Clock },
+    { value: "EXCUSED", label: t("enum.attendance.EXCUSED"), cls: "b-badge-neutral", icon: FileText },
+  ];
   const { data: me } = useApi<Me>("/api/auth/me");
   const [classId, setClassId] = useState("");
   const [date, setDate] = useState(todayJalali());
@@ -80,10 +84,10 @@ export default function AttendancePage() {
     setSaving(true);
     try {
       await apiPost("/api/attendance", { classId, date, records });
-      toast.success(`حضور و غیاب ${date} ثبت شد.`);
+      toast.success(`${t("nav.attendance")} ${date} ${t("attendance.toast.savedSuffix")}`);
       refetchSheet();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -100,16 +104,16 @@ export default function AttendancePage() {
     return (
       <div className="flex flex-col gap-6">
         <PageHeader
-          title="حضور و غیاب"
-          desc="ثبت وضعیت روزانه دانش‌آموزان هر کلاس در تقویم شمسی."
+          title={t("nav.attendance")}
+          desc={t("attendance.desc")}
           action={
             <span className="flex gap-1.5">
               <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={!sheetData?.students.length}
-                onClick={async () => { if (!window.confirm("همهٔ رکوردهای حضور این روز برای این کلاس حذف شود؟")) return; try { const r = await apiDelete<{ deleted: number }>(`/api/attendance?classId=${classId}&date=${date}`); toast.success(`${faNumber(r.deleted)} رکورد حذف شد.`); setSheet({}); refetchSheet(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
-                <Trash2 className="w-4 h-4" /> پاک‌کردن این روز
+                onClick={async () => { if (!window.confirm(t("attendance.confirmClearDay"))) return; try { const r = await apiDelete<{ deleted: number }>(`/api/attendance?classId=${classId}&date=${date}`); toast.success(`${faNumber(r.deleted)} ${t("attendance.toast.recordsDeleted")}`); setSheet({}); refetchSheet(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
+                <Trash2 className="w-4 h-4" />{t("attendance.clearDay")}
               </button>
               <button className="b-btn b-btn-spring b-btn-sm" onClick={save} disabled={saving || !sheetData?.students.length}>
-                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ثبت برگه
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("attendance.saveSheet")}
               </button>
             </span>
           }
@@ -117,7 +121,7 @@ export default function AttendancePage() {
 
         <div className="flex flex-wrap items-center gap-3">
           <label className="flex items-center gap-2 text-[12.5px] font-bold">
-            کلاس:
+            {t("attendance.filter.class")}
             <Select
               value={classId}
               onChange={(v) => setClassId(v)}
@@ -125,29 +129,29 @@ export default function AttendancePage() {
             />
           </label>
           <label className="flex items-center gap-2 text-[12.5px] font-bold">
-            تاریخ:
+            {t("attendance.filter.date")}
             <input className="b-input !w-36" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder="1404-07-10" />
           </label>
           <div className="flex items-center gap-1.5 flex-wrap">
             {dayChips.map((d, i) => (
               <button key={d} onClick={() => setDate(d)} className={`b-pill-tab !text-[11px] !px-3 !py-1 ${date === d ? "b-pill-tab-active" : ""}`}>
-                {i === 0 ? "امروز" : d.slice(5)}
+                {i === 0 ? t("dashboard.today") : d.slice(5)}
               </button>
             ))}
           </div>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard icon={CheckCircle2} label="حاضر" value={counts.PRESENT ?? 0} tone="spring" />
-          <StatCard icon={XCircle} label="غایب" value={counts.ABSENT ?? 0} tone="blossom" />
-          <StatCard icon={Clock} label="تاخیر" value={counts.LATE ?? 0} />
-          <StatCard icon={FileText} label="موجه" value={counts.EXCUSED ?? 0} tone="ink" />
+          <StatCard icon={CheckCircle2} label={t("enum.attendance.PRESENT")} value={counts.PRESENT ?? 0} tone="spring" />
+          <StatCard icon={XCircle} label={t("enum.attendance.ABSENT")} value={counts.ABSENT ?? 0} tone="blossom" />
+          <StatCard icon={Clock} label={t("enum.attendance.LATE")} value={counts.LATE ?? 0} />
+          <StatCard icon={FileText} label={t("enum.attendance.EXCUSED")} value={counts.EXCUSED ?? 0} tone="ink" />
         </div>
 
         {sheetError && <ErrorBox message={sheetError} />}
         {sheetLoading && <LoadingBlock />}
         {sheetData && sheetData.students.length === 0 && (
-          <EmptyState icon={ClipboardCheck} title="این کلاس دانش‌آموزی ندارد" />
+          <EmptyState icon={ClipboardCheck} title={t("attendance.empty.noStudent")} />
         )}
         {sheetData && sheetData.students.length > 0 && (
           <div className="flex flex-col gap-2.5">
@@ -163,7 +167,7 @@ export default function AttendancePage() {
                     {st.healthAlert && (
                       <span className="b-badge b-badge-blossom mt-1 self-start" title={[st.healthAlert.sportsNote, st.healthAlert.conditions, st.healthAlert.mobilityNote, st.healthAlert.allergies].filter(Boolean).join(" · ")}>
                         <HeartPulse className="w-3 h-3" />
-                        {st.healthAlert.sportsStatus === "EXEMPT" ? "معاف از ورزش" : st.healthAlert.sportsStatus === "LIMITED" ? "ورزش محدود" : "هشدار سلامت"}
+                        {st.healthAlert.sportsStatus === "EXEMPT" ? t("attendance.health.exempt") : st.healthAlert.sportsStatus === "LIMITED" ? t("attendance.health.limited") : t("attendance.health.alert")}
                         {st.healthAlert.flags.length > 0 ? ` · ${st.healthAlert.flags.join("، ")}` : ""}
                       </span>
                     )}
@@ -185,7 +189,7 @@ export default function AttendancePage() {
                 </div>
                 <input
                   className="b-input md:flex-1 !h-10 !text-[12.5px]"
-                  placeholder="یادداشت (اختیاری)…"
+                  placeholder={t("attendance.placeholder.note")}
                   value={sheet[st.studentId]?.note ?? ""}
                   onChange={(e) => setNote(st.studentId, e.target.value)}
                 />
@@ -202,13 +206,13 @@ export default function AttendancePage() {
     return (
       <div className="flex flex-col gap-6">
         <PageHeader
-          title="حضور و غیاب"
-          desc="ثبت وضعیت روزانه دانش‌آموزان هر کلاس در تقویم شمسی."
+          title={t("nav.attendance")}
+          desc={t("attendance.desc")}
         />
         <EmptyState
           icon={ClipboardCheck}
-          title="دسترسی «حضور و غیاب» برای شما فعال نیست"
-          desc="برای ثبت حضور و غیاب، از مدیر مدرسه بخواهید دسترسی take_attendance را برای شما فعال کند."
+          title={t("attendance.noAccess.title")}
+          desc={t("attendance.noAccess.desc")}
         />
       </div>
     );
@@ -218,8 +222,8 @@ export default function AttendancePage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="حضور و غیاب"
-        desc={isParent ? "سابقه حضور و غیاب فرزند شما." : "سابقه حضور و غیاب شما."}
+        title={t("nav.attendance")}
+        desc={isParent ? t("attendance.desc.parent") : t("attendance.desc.student")}
       />
 
       {isParent && (meFull?.user.children?.length ?? 0) > 1 && (
@@ -239,24 +243,24 @@ export default function AttendancePage() {
       {historyError && <ErrorBox message={historyError} />}
       {historyLoading && <LoadingBlock />}
       {historyData && historyData.records.length === 0 && (
-        <EmptyState icon={ClipboardCheck} title="سابقه‌ای ثبت نشده" />
+        <EmptyState icon={ClipboardCheck} title={t("attendance.empty.noHistory")} />
       )}
       {historyData && historyData.records.length > 0 && (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard icon={CheckCircle2} label="حاضر" value={historyData.records.filter((r) => r.status === "PRESENT").length} tone="spring" />
-            <StatCard icon={XCircle} label="غایب" value={historyData.records.filter((r) => r.status === "ABSENT").length} tone="blossom" />
-            <StatCard icon={Clock} label="تاخیر" value={historyData.records.filter((r) => r.status === "LATE").length} />
-            <StatCard icon={FileText} label="موجه" value={historyData.records.filter((r) => r.status === "EXCUSED").length} tone="ink" />
+            <StatCard icon={CheckCircle2} label={t("enum.attendance.PRESENT")} value={historyData.records.filter((r) => r.status === "PRESENT").length} tone="spring" />
+            <StatCard icon={XCircle} label={t("enum.attendance.ABSENT")} value={historyData.records.filter((r) => r.status === "ABSENT").length} tone="blossom" />
+            <StatCard icon={Clock} label={t("enum.attendance.LATE")} value={historyData.records.filter((r) => r.status === "LATE").length} />
+            <StatCard icon={FileText} label={t("enum.attendance.EXCUSED")} value={historyData.records.filter((r) => r.status === "EXCUSED").length} tone="ink" />
           </div>
           <div className="b-card-sm overflow-hidden">
             <div className="max-h-[420px] overflow-auto b-scroll">
               <table className="w-full text-[13px]">
                 <thead className="sticky top-0 bg-background">
                   <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
-                    <th className="text-right py-3 px-4 font-bold">تاریخ</th>
-                    <th className="text-right py-3 px-4 font-bold">وضعیت</th>
-                    <th className="text-right py-3 px-4 font-bold">یادداشت</th>
+                    <th className="text-right py-3 px-4 font-bold">{t("common.date")}</th>
+                    <th className="text-right py-3 px-4 font-bold">{t("common.status")}</th>
+                    <th className="text-right py-3 px-4 font-bold">{t("attendance.table.note")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -265,7 +269,7 @@ export default function AttendancePage() {
                     return (
                       <tr key={r.id} className="b-row border-b border-hairline-soft/60 last:border-0">
                         <td className="py-3 px-4 font-mono text-[12px]" dir="ltr">{faNumber(r.date)}</td>
-                        <td className="py-3 px-4"><span className={`b-badge ${o?.cls ?? "b-badge-neutral"}`}>{ATTENDANCE_LABELS[r.status] ?? r.status}</span></td>
+                        <td className="py-3 px-4"><span className={`b-badge ${o?.cls ?? "b-badge-neutral"}`}>{STATUS_OPTIONS.find((s) => s.value === r.status)?.label ?? r.status}</span></td>
                         <td className="py-3 px-4 text-steel text-[12px]">{r.note ?? "—"}</td>
                       </tr>
                     );

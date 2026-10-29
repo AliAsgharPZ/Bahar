@@ -1,5 +1,7 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Save, CalendarDays, Loader2, Sparkles, Wand2, X } from "lucide-react";
@@ -34,6 +36,7 @@ function periodsOf(slots: Array<{ period: number }> | undefined): number[] {
 }
 
 export default function SchedulePage() {
+  const { t } = useLang();
   const { data: me } = useApi<Me>("/api/auth/me");
   const confirm = useConfirm();
   const [classId, setClassId] = useState<string>("");
@@ -88,7 +91,7 @@ export default function SchedulePage() {
     if (isStudent) return me?.user.studentProfile?.class?.name ?? "";
     if (isParent) {
       const child = meFull?.user.children?.find((c) => c.student.id === childId);
-      return child ? `کلاس ${child.student.user.firstName} ${child.student.user.lastName}` : "";
+      return child ? `${t("common.class")} ${child.student.user.firstName} ${child.student.user.lastName}` : "";
     }
     return classesData?.classes.find((c) => c.id === classId)?.name ?? "";
   }, [me, classesData, classId, isParent, meFull, childId]);
@@ -111,10 +114,10 @@ export default function SchedulePage() {
     setSaving(true);
     try {
       await apiPut("/api/schedule", { classId, slots });
-      toast.success("برنامه هفتگی ذخیره شد.");
+      toast.success(t("schedule.toast.saved"));
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -136,7 +139,7 @@ export default function SchedulePage() {
       const res = await apiPost<{ scenarios: Scenario[] }>("/api/timetable-generate", {});
       setScenarios(res.scenarios ?? []);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا در تولید برنامه");
+      toast.error(err instanceof Error ? err.message : t("schedule.toast.generateError"));
       setGenOpen(false);
     } finally {
       setGenLoading(false);
@@ -144,21 +147,21 @@ export default function SchedulePage() {
   }
 
   async function applyScenario(id: number) {
-    if (!(await confirm({ title: "اعمال برنامهٔ نمونه", description: "اعمال این برنامه، برنامهٔ فعلی همهٔ کلاس‌ها را جایگزین می‌کند. مطمئن هستید؟", confirmLabel: "اعمال", danger: true }))) return;
+    if (!(await confirm({ title: t("schedule.apply.title"), description: t("schedule.apply.desc"), confirmLabel: t("schedule.apply.confirm"), danger: true }))) return;
     setApplying(id);
     try {
       await apiPost("/api/timetable-generate", { apply: true, scenario: id });
-      toast.success("برنامه تولیدی اعمال شد.");
+      toast.success(t("schedule.toast.applied"));
       setGenOpen(false);
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setApplying(null);
     }
   }
 
-  if (loading && !data) return <LoadingBlock label="برنامه هفتگی در حال بارگذاری…" />;
+  if (loading && !data) return <LoadingBlock label={t("schedule.loading")} />;
 
   return (
     <div className="flex flex-col gap-6">
@@ -176,18 +179,18 @@ export default function SchedulePage() {
         </div>
       )}
       <PageHeader
-        title={isTeacher ? "برنامه هفتگی من" : "برنامه هفتگی"}
-        desc={isTeacher ? "زنگ‌هایی که به شما تخصیص یافته است." : isStudent ? `برنامه کلاس ${className}` : isParent ? `برنامه هفتگی ${className}` : canEdit ? "چیدمان زنگ‌ها و معلمان هر کلاس." : "برنامه هفتگی کلاس."}
+        title={isTeacher ? t("schedule.title.mine") : t("nav.schedule")}
+        desc={isTeacher ? t("schedule.desc.mine") : isStudent ? `${t("schedule.desc.classPrefix")} ${className}` : isParent ? `${t("nav.schedule")} ${className}` : canEdit ? t("schedule.desc.edit") : t("schedule.desc.view")}
         action={
           canEdit && classId && (
             <span className="flex items-center gap-2">
               {canAuto && (
                 <button className="b-btn b-btn-soft b-btn-sm" onClick={openGenerate}>
-                  <Wand2 className="w-4 h-4" /> تولید خودکار
+                  <Wand2 className="w-4 h-4" /> {t("schedule.autoGenerate")}
                 </button>
               )}
               <button className="b-btn b-btn-spring b-btn-sm" onClick={save} disabled={saving}>
-                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره برنامه
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("schedule.save")}
               </button>
             </span>
           )
@@ -197,7 +200,7 @@ export default function SchedulePage() {
       {canEdit && (
         <div className="flex flex-wrap items-center gap-3">
           <label className="flex items-center gap-2 text-[12.5px] font-bold">
-            کلاس:
+            {t("schedule.filter.class")}
             <Select
               value={classId}
               onChange={(v) => setClassId(v)}
@@ -212,15 +215,15 @@ export default function SchedulePage() {
       {!url && !canEdit && !isTeacher && (
         <EmptyState
           icon={CalendarDays}
-          title={isStudent ? "کلاسی برای شما ثبت نشده" : isParent ? "برنامه فرزند شما هنوز تنظیم نشده" : "کلاسی برای نمایش برنامه موجود نیست"}
-          desc={isStudent ? "برای مشاهده برنامه هفتگی، با مدیر مدرسه هماهنگ کنید تا در کلاس قرار بگیرید." : isParent ? "مدیر مدرسه برنامه کلاس فرزند شما را تنظیم نکرده است." : "ابتدا در بخش کلاس‌ها کلاس ایجاد کنید."}
+          title={isStudent ? t("schedule.empty.noClassStudent") : isParent ? t("schedule.empty.noScheduleParent") : t("schedule.empty.noClass")}
+          desc={isStudent ? t("schedule.empty.noClassStudentDesc") : isParent ? t("schedule.empty.noScheduleParentDesc") : t("schedule.empty.noClassDesc")}
         />
       )}
       {data && data.slots.length === 0 && !canEdit && !isTeacher && (
-        <EmptyState icon={CalendarDays} title="برنامه‌ای ثبت نشده" desc="مدیر مدرسه برنامه این کلاس را تنظیم نکرده است." />
+        <EmptyState icon={CalendarDays} title={t("schedule.empty.noSchedule")} desc={t("schedule.empty.noScheduleDesc")} />
       )}
       {isTeacher && data && data.slots.length === 0 && (
-        <EmptyState icon={CalendarDays} title="زنگی به شما تخصیص نیافته" desc="با مدیر مدرسه هماهنگ کنید." />
+        <EmptyState icon={CalendarDays} title={t("schedule.empty.noPeriodTeacher")} desc={t("schedule.empty.noPeriodTeacherDesc")} />
       )}
 
       {(data || isTeacher) && (data?.slots?.length || 0) > 0 && (
@@ -229,7 +232,7 @@ export default function SchedulePage() {
             <table className="w-full text-[12.5px] min-w-[640px]">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[11px]">
-                  <th className="text-right py-3 px-3 font-bold w-16">زنگ</th>
+                  <th className="text-right py-3 px-3 font-bold w-16">{t("schedule.table.period")}</th>
                   {daysOf(data?.slots).map((d) => (
                     <th key={d} className="text-right py-3 px-3 font-bold">{weekdayLabel(d)}</th>
                   ))}
@@ -270,16 +273,16 @@ export default function SchedulePage() {
                                 buttonClassName="!w-full !h-9 !text-[12px] !py-0"
                                 value={slot?.subjectId ?? ""}
                                 onChange={(v) => setSlot(d, p, "subjectId", v)}
-                                options={[{ value: "", label: "— خالی —" }, ...(subjectsData?.subjects ?? []).map((s) => ({ value: s.id, label: s.name }))]}
-                                placeholder="— خالی —"
+                                options={[{ value: "", label: t("schedule.slot.empty") }, ...(subjectsData?.subjects ?? []).map((s) => ({ value: s.id, label: s.name }))]}
+                                placeholder={t("schedule.slot.empty")}
                               />
                               <Select
                                 className="w-full"
                                 buttonClassName="!w-full !h-9 !text-[12px] !py-0"
                                 value={slot?.teacherId ?? ""}
                                 onChange={(v) => setSlot(d, p, "teacherId", v)}
-                                options={[{ value: "", label: "معلم؟" }, ...(teachersData?.users ?? []).map((t) => ({ value: t.id, label: `${t.firstName} ${t.lastName}` }))]}
-                                placeholder="معلم؟"
+                                options={[{ value: "", label: t("schedule.slot.teacherPlaceholder") }, ...(teachersData?.users ?? []).map((t) => ({ value: t.id, label: `${t.firstName} ${t.lastName}` }))]}
+                                placeholder={t("schedule.slot.teacherPlaceholder")}
                               />
                             </div>
                           </td>
@@ -310,8 +313,7 @@ export default function SchedulePage() {
       {canEdit && (
         <div className="b-card-tint !rounded-2xl p-4">
           <p className="t-sm leading-relaxed">
-            برای هر زنگ، «درس» و «معلم» را انتخاب کنید و در پایان «ذخیره برنامه» را بزنید. زنگ‌های خالی
-            حذف می‌شوند. زنگ‌های فعال نمایش داده می‌شوند (۴ تا ۸ زنگ).
+            {t("schedule.hint")}
           </p>
         </div>
       )}
@@ -321,31 +323,31 @@ export default function SchedulePage() {
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => !genLoading && setGenOpen(false)} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-2xl max-h-[92vh] overflow-y-auto b-scroll b-pop">
             <div className="flex items-center justify-between mb-1">
-              <h2 className="font-bold text-lg flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> تولید خودکار برنامه هفتگی</h2>
-              <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint" onClick={() => setGenOpen(false)} aria-label="بستن"><X className="w-4 h-4" /></button>
+              <h2 className="font-bold text-lg flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> {t("schedule.generate.title")}</h2>
+              <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint" onClick={() => setGenOpen(false)} aria-label={t("common.close")}><X className="w-4 h-4" /></button>
             </div>
             <p className="t-sm text-steel mb-5">
-              موتور برنامه‌ریزی بر اساس تخصیص‌های معلم/درس، چند گزینه بدون تداخل تولید می‌کند. اعمال گزینه، برنامه فعلی همه کلاس‌ها را جایگزین می‌کند.
+              {t("schedule.generate.desc")}
             </p>
 
-            {genLoading && <LoadingBlock label="در حال تولید گزینه‌ها…" />}
+            {genLoading && <LoadingBlock label={t("schedule.generate.loading")} />}
             {!genLoading && scenarios.map((sc) => (
               <div key={sc.id} className="b-card-sm !rounded-2xl p-4 mb-3 flex items-center gap-4">
                 <div className="flex-1">
-                  <b className="text-[14px]">گزینه {sc.label}</b>
+                  <b className="text-[14px]">{t("schedule.generate.option")} {sc.label}</b>
                   <p className="text-[11.5px] text-steel mt-0.5">
-                    {faNumber(sc.slots.length)} زنگ · کیفیت کل {faNumber(sc.scores.total)}٪ · بار معلم {faNumber(sc.scores.teacher)} · توزیع {faNumber(sc.scores.spread)}
-                    {sc.unscheduled.length > 0 && <span className="text-blossom"> · {faNumber(sc.unscheduled.length)} مورد زمان‌بندی‌نشده</span>}
+                    {faNumber(sc.slots.length)} {t("schedule.generate.periodUnit")} · {t("schedule.generate.quality")} {faNumber(sc.scores.total)}٪ · {t("schedule.generate.teacherLoad")} {faNumber(sc.scores.teacher)} · {t("schedule.generate.spread")} {faNumber(sc.scores.spread)}
+                    {sc.unscheduled.length > 0 && <span className="text-blossom"> · {faNumber(sc.unscheduled.length)} {t("schedule.generate.unscheduled")}</span>}
                   </p>
                 </div>
                 <button className="b-btn b-btn-spring b-btn-sm shrink-0" onClick={() => applyScenario(sc.id)} disabled={applying !== null}>
-                  {applying === sc.id ? <Loader2 className="w-4 h-4 animate-spin" /> : null} اعمال
+                  {applying === sc.id ? <Loader2 className="w-4 h-4 animate-spin" /> : null} {t("schedule.apply.confirm")}
                 </button>
               </div>
             ))}
             {!genLoading && scenarios.every((sc) => sc.unscheduled.length > 0) && scenarios.length > 0 && (
               <p className="text-[11.5px] text-warning-deep">
-                برخی درس‌ها زمان‌بندی نشدند (تداخل معلم یا ظرفیت زنگ) — با تعدیل ساعت هفتگی دروس یا تخصیص‌ها دوباره تلاش کنید.
+                {t("schedule.generate.unscheduledWarning")}
               </p>
             )}
           </div>

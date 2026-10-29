@@ -1,12 +1,14 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Save, Loader2, BarChart3, CalendarClock, TrendingUp, Users, NotebookPen, Lock, LockOpen, Undo2, ClipboardList } from "lucide-react";
 import { useApi, apiPost, apiPut, apiPatch } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
-import { faNumber, enDigits, GRADE_KIND_LABELS } from "@/lib/persian";
+import { faNumber, enDigits } from "@/lib/persian";
 
 type GradeRecord = { id: string; studentId: string; subjectId: string; term: number; kind: string; score: number; maxScore: number; weight?: number; locked?: boolean; subject: { id: string; name: string } };
 type GradeHistoryEntry = { id: string; gradeRecordId: string; oldScore: number | null; newScore: number | null; source: string; createdAt: string };
@@ -29,6 +31,11 @@ function scoreColor(score: number, max: number): string {
 }
 
 export default function GradesPage() {
+  const { t } = useLang();
+  const kindLabels: Record<string, string> = {
+    QUIZ: t("enum.gradeKind.QUIZ"), MIDTERM: t("enum.gradeKind.MIDTERM"), FINAL: t("enum.gradeKind.FINAL"),
+    PROJECT: t("enum.gradeKind.PROJECT"), ACTIVITY: t("enum.gradeKind.ACTIVITY"), BEHAVIOR: t("enum.gradeKind.BEHAVIOR"),
+  };
   const { data: me } = useApi<Me>("/api/auth/me");
   const role = me?.user.role;
   const isStudent = role === "STUDENT";
@@ -111,11 +118,11 @@ export default function GradesPage() {
       }
     }
     if (invalid.length > 0) {
-      toast.error(`نمره باید بین ۰ تا ۲۰ باشد — برای: ${invalid.slice(0, 3).join("، ")}${invalid.length > 3 ? " و…" : ""}`);
+      toast.error(`${t("grades.toast.invalidPrefix")} ${invalid.slice(0, 3).join("، ")}${invalid.length > 3 ? t("grades.toast.invalidSuffix") : ""}`);
       return;
     }
     if (records.length === 0) {
-      toast.error("هیچ نمره‌ای وارد نشده است.");
+      toast.error(t("grades.toast.noScores"));
       return;
     }
     setSaving(true);
@@ -123,13 +130,13 @@ export default function GradesPage() {
       const res = await apiPost<{ saved: number; skippedInvalid?: number; skippedLocked?: number; total?: number }>("/api/grades", { classId, subjectId, term, kind, records });
       const skipped = (res.skippedInvalid ?? 0) + (res.skippedLocked ?? 0);
       if (skipped > 0) {
-        toast.warning(`${faNumber(res.saved)} نمره ثبت شد — ${faNumber(skipped)} مورد ثبت نشد${res.skippedLocked ? " (نمره نهایی‌شده/قفل)" : " (نمره نامعتبر)"}.`);
+        toast.warning(`${faNumber(res.saved)} ${t("grades.toast.savedCount")} — ${faNumber(skipped)} ${t("grades.toast.skippedCount")}${res.skippedLocked ? ` ${t("grades.toast.skippedLocked")}` : ` ${t("grades.toast.skippedInvalid")}`}.`);
       } else {
-        toast.success(`${faNumber(res.saved)} نمره ثبت شد.`);
+        toast.success(`${faNumber(res.saved)} ${t("grades.toast.savedCount")}.`);
       }
       refetchBook();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -144,10 +151,10 @@ export default function GradesPage() {
     const lockNow = anyUnlocked; // اگر حتی یک نمره باز است → قفل کن
     try {
       const res = await apiPut<{ count: number }>("/api/grades", { classId, subjectId, term, locked: lockNow });
-      toast.success(lockNow ? `${faNumber(res.count)} نمره نهایی (قفل) شد.` : `${faNumber(res.count)} نمره بازگشایی شد.`);
+      toast.success(lockNow ? `${faNumber(res.count)} ${t("grades.toast.locked")}` : `${faNumber(res.count)} ${t("grades.toast.unlocked")}`);
       refetchBook();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
@@ -155,10 +162,10 @@ export default function GradesPage() {
   async function undoGrade(historyId: string) {
     try {
       const res = await apiPatch<{ restored: number | null }>("/api/grades", { historyId });
-      toast.success(res.restored !== null && res.restored !== undefined ? `نمره به ${faNumber(res.restored)} برگشت.` : "نمره برگردانده شد.");
+      toast.success(res.restored !== null && res.restored !== undefined ? `${t("grades.toast.restoredPrefix")} ${faNumber(res.restored)} ${t("grades.toast.restoredSuffix")}` : t("grades.toast.restoredPlain"));
       refetchBook();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
@@ -175,18 +182,18 @@ export default function GradesPage() {
     return (
       <div className="flex flex-col gap-6">
         <PageHeader
-          title="دفتر نمرات"
-          desc="ثبت و ویرایش نمرات هر درس برای کلاس — نمره از ۲۰."
+          title={t("grades.title")}
+          desc={t("grades.desc")}
           action={
             <button className="b-btn b-btn-spring b-btn-sm" onClick={save} disabled={saving || !bookData?.students.length}>
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ثبت نمرات
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("grades.save")}
             </button>
           }
         />
 
         <div className="flex flex-wrap items-center gap-3">
           <label className="flex items-center gap-2 text-[12.5px] font-bold">
-            کلاس:
+            {t("grades.filter.class")}
             <Select
               value={classId}
               onChange={(v) => { setClassId(v); setSubjectId(""); }}
@@ -198,28 +205,28 @@ export default function GradesPage() {
             />
           </label>
           <label className="flex items-center gap-2 text-[12.5px] font-bold">
-            درس:
+            {t("grades.filter.subject")}
             <Select
               value={subjectId}
               onChange={(v) => setSubjectId(v)}
-              options={[{ value: "", label: "— انتخاب —" }, ...subjectOptions.map((s) => ({ value: s.id, label: s.name }))]}
-              placeholder="— انتخاب —"
+              options={[{ value: "", label: t("grades.select.subject") }, ...subjectOptions.map((s) => ({ value: s.id, label: s.name }))]}
+              placeholder={t("grades.select.subject")}
             />
           </label>
           <label className="flex items-center gap-2 text-[12.5px] font-bold">
-            نیمسال:
+            {t("grades.filter.term")}
             <Select
               value={String(term)}
               onChange={(v) => setTerm(Number(v))}
-              options={[{ value: "1", label: "نیمسال ۱" }, { value: "2", label: "نیمسال ۲" }]}
+              options={[{ value: "1", label: t("grades.term.1") }, { value: "2", label: t("grades.term.2") }]}
             />
           </label>
           <label className="flex items-center gap-2 text-[12.5px] font-bold">
-            نوع:
+            {t("grades.filter.kind")}
             <Select
               value={kind}
               onChange={(v) => setKind(v)}
-              options={KINDS.map((k) => ({ value: k, label: GRADE_KIND_LABELS[k] }))}
+              options={KINDS.map((k) => ({ value: k, label: kindLabels[k] }))}
             />
           </label>
           {canLock && classId && subjectId && (bookData?.grades?.length ?? 0) > 0 && (
@@ -228,16 +235,16 @@ export default function GradesPage() {
               onClick={toggleLock}
             >
               {(bookData?.grades ?? []).every((g) => g.locked) ? <LockOpen className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-              {(bookData?.grades ?? []).every((g) => g.locked) ? "بازگشایی نمرات" : "نهایی‌کردن (قفل)"}
+              {(bookData?.grades ?? []).every((g) => g.locked) ? t("grades.unlock") : t("grades.lock")}
             </button>
           )}
         </div>
 
-        {classId && !subjectId && <EmptyState icon={BarChart3} title="درس را انتخاب کنید" desc="برای هر درسِ کلاس، نمرات جداگانه ثبت می‌شود." />}
+        {classId && !subjectId && <EmptyState icon={BarChart3} title={t("grades.empty.selectSubject")} desc={t("grades.empty.selectSubjectDesc")} />}
         {bookError && classId && subjectId && <ErrorBox message={bookError} />}
         {bookLoading && classId && subjectId && <LoadingBlock />}
         {bookData && classId && subjectId && bookData.students.length === 0 && (
-          <EmptyState icon={BarChart3} title="این کلاس دانش‌آموزی ندارد" />
+          <EmptyState icon={BarChart3} title={t("grades.empty.noStudent")} />
         )}
         {bookData && classId && subjectId && bookData.students.length > 0 && (
           <div className="b-card-sm overflow-hidden">
@@ -245,9 +252,9 @@ export default function GradesPage() {
               <table className="w-full text-[13px]">
                 <thead className="sticky top-0 bg-background">
                   <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
-                    <th className="text-right py-3 px-4 font-bold">دانش‌آموز</th>
-                    <th className="text-right py-3 px-4 font-bold w-32">نمره (از ۲۰)</th>
-                    <th className="text-right py-3 px-4 font-bold hidden md:table-cell">نمرات ثبت‌شده این درس</th>
+                    <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>
+                    <th className="text-right py-3 px-4 font-bold w-32">{t("grades.table.score")}</th>
+                    <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("grades.table.recorded")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -275,13 +282,13 @@ export default function GradesPage() {
                               const canUndo = h && (h.oldScore !== null || h.source === "UNDO") && h.source !== "INITIAL";
                               return (
                                 <span key={g.id} className="b-badge b-badge-neutral inline-flex items-center gap-1">
-                                  {GRADE_KIND_LABELS[g.kind]}: <b className={scoreColor(g.score, g.maxScore)}>{faNumber(g.score)}</b>
+                                  {kindLabels[g.kind]}: <b className={scoreColor(g.score, g.maxScore)}>{faNumber(g.score)}</b>
                                   {g.locked && <Lock className="w-3 h-3 text-warning-deep" />}
                                   {canUndo && (
                                     <button
                                       className="b-btn b-btn-ghost text-steel hover:text-spring transition-colors"
                                       onClick={() => undoGrade(h.id)}
-                                      title={`بازگردانی به ${h.oldScore !== null ? faNumber(h.oldScore) : "—"}`}
+                                      title={`${t("grades.undo.prefix")} ${h.oldScore !== null ? faNumber(h.oldScore) : "—"}`}
                                     >
                                       <Undo2 className="w-3 h-3" />
                                     </button>
@@ -327,11 +334,11 @@ export default function GradesPage() {
   if (!canEnter && !isStudent && !isParent) {
     return (
       <div className="flex flex-col gap-6">
-        <PageHeader title="کارنامه" desc="ثبت و مشاهده نمرات دانش‌آموزان." />
+        <PageHeader title={t("grades.report.title")} desc={t("grades.report.desc")} />
         <EmptyState
           icon={ClipboardList}
-          title="دسترسی «ثبت نمرات» برای شما فعال نیست"
-          desc="برای ثبت نمره، از مدیر مدرسه بخواهید دسترسی enter_grades را برای شما فعال کند."
+          title={t("grades.noAccess.title")}
+          desc={t("grades.noAccess.desc")}
         />
       </div>
     );
@@ -339,7 +346,7 @@ export default function GradesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="کارنامه" desc={isParent ? "نمرات فرزند شما به تفکیک درس." : "نمرات شما به تفکیک درس و نیمسال."} />
+      <PageHeader title={t("grades.report.title")} desc={isParent ? t("grades.report.descParent") : t("grades.report.descStudent")} />
 
       {isParent && (meFull?.user.children?.length ?? 0) > 1 && (
         <div className="flex flex-wrap gap-2">
@@ -353,14 +360,14 @@ export default function GradesPage() {
 
       {reportLoading && <LoadingBlock />}
       {reportError && <ErrorBox message={reportError} />}
-      {reportData && records.length === 0 && <EmptyState icon={BarChart3} title="نمره‌ای ثبت نشده" />}
+      {reportData && records.length === 0 && <EmptyState icon={BarChart3} title={t("grades.empty.noGrades")} />}
       {reportData && records.length > 0 && (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard icon={BarChart3} label="میانگین کل" value={gpa !== null ? faNumber(gpa) : "—"} tone="spring" hint="از ۲۰" />
-            <StatCard icon={BarChart3} label="درس" value={bySubject.size} tone="ink" />
-            <StatCard icon={BarChart3} label="نمره ثبت‌شده" value={records.length} />
-            <StatCard icon={BarChart3} label="بالاترین" value={faNumber(Math.max(...[...bySubject.values()].map((v) => v.avg)))} />
+            <StatCard icon={BarChart3} label={t("grades.stat.gpa")} value={gpa !== null ? faNumber(gpa) : "—"} tone="spring" hint={t("grades.stat.outOf20")} />
+            <StatCard icon={BarChart3} label={t("grades.stat.subject")} value={bySubject.size} tone="ink" />
+            <StatCard icon={BarChart3} label={t("grades.stat.recorded")} value={records.length} />
+            <StatCard icon={BarChart3} label={t("grades.stat.highest")} value={faNumber(Math.max(...[...bySubject.values()].map((v) => v.avg)))} />
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
@@ -376,7 +383,7 @@ export default function GradesPage() {
                 <div className="flex flex-wrap gap-1.5">
                   {v.items.map((g) => (
                     <span key={g.id} className="b-badge b-badge-neutral">
-                      {GRADE_KIND_LABELS[g.kind]} ن{faNumber(g.term)}: <b className={scoreColor(g.score, g.maxScore)}>{faNumber(g.score)}</b>
+                      {kindLabels[g.kind]} {t("grades.termShort")}{faNumber(g.term)}: <b className={scoreColor(g.score, g.maxScore)}>{faNumber(g.score)}</b>
                     </span>
                   ))}
                 </div>
@@ -393,15 +400,15 @@ export default function GradesPage() {
             <CalendarClock className="w-5 h-5" />
           </span>
           <div>
-            <b className="text-[16px] block">کارنامه ماهانه</b>
-            <span className="text-[11.5px] text-steel">روند ماه‌به‌ماه: میانگین نمرات، حضور و غیبت و تکالیف هر ماه شمسی</span>
+            <b className="text-[16px] block">{t("grades.monthly.title")}</b>
+            <span className="text-[11.5px] text-steel">{t("grades.monthly.desc")}</span>
           </div>
         </div>
 
-        {monthlyLoading && <LoadingBlock label="کارنامه ماهانه…" />}
+        {monthlyLoading && <LoadingBlock label={t("grades.monthly.loading")} />}
         {monthlyError && <ErrorBox message={monthlyError} />}
         {monthlyData && monthlyData.months.length === 0 && (
-          <p className="t-sm text-steel py-4">هنوز داده کافی برای کارنامه ماهانه ثبت نشده است.</p>
+          <p className="t-sm text-steel py-4">{t("grades.monthly.empty")}</p>
         )}
         {monthlyData && monthlyData.months.length > 0 && (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
@@ -411,7 +418,7 @@ export default function GradesPage() {
                   <b className="text-[13.5px]">{m.title}</b>
                   <span className="b-badge b-badge-spring !text-[10px]">
                     <TrendingUp className="w-3 h-3" />
-                    {m.avg !== null ? `میانگین ${faNumber(m.avg)}` : "بدون نمره"}
+                    {m.avg !== null ? `${t("grades.monthly.avg")} ${faNumber(m.avg)}` : t("grades.monthly.noGrade")}
                   </span>
                 </div>
 
@@ -427,21 +434,21 @@ export default function GradesPage() {
                 <div className="grid grid-cols-3 gap-1.5 text-center">
                   <div className="rounded-lg bg-cloud/70 py-1.5">
                     <b className="text-[12.5px] block text-spring">{faNumber(m.present)}</b>
-                    <span className="text-[9.5px] text-steel flex items-center justify-center gap-0.5"><Users className="w-2.5 h-2.5" /> حضور</span>
+                    <span className="text-[9.5px] text-steel flex items-center justify-center gap-0.5"><Users className="w-2.5 h-2.5" /> {t("dashboard.mini.attendance")}</span>
                   </div>
                   <div className="rounded-lg bg-cloud/70 py-1.5">
                     <b className="text-[12.5px] block text-destructive">{faNumber(m.absent)}</b>
-                    <span className="text-[9.5px] text-steel">غیبت</span>
+                    <span className="text-[9.5px] text-steel">{t("dashboard.mini.absence")}</span>
                   </div>
                   <div className="rounded-lg bg-cloud/70 py-1.5">
                     <b className="text-[12.5px] block text-warning-deep">{faNumber(m.late)}</b>
-                    <span className="text-[9.5px] text-steel">تاخیر</span>
+                    <span className="text-[9.5px] text-steel">{t("grades.monthly.late")}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between text-[10.5px] text-steel pt-1 border-t border-hairline-soft">
-                  <span className="flex items-center gap-1"><NotebookPen className="w-3 h-3" /> {faNumber(m.assignmentCount)} تکلیف</span>
-                  {m.attendanceRate !== null && <span>نرخ حضور: {faNumber(m.attendanceRate)}٪</span>}
+                  <span className="flex items-center gap-1"><NotebookPen className="w-3 h-3" /> {faNumber(m.assignmentCount)} {t("grades.monthly.assignments")}</span>
+                  {m.attendanceRate !== null && <span>{t("grades.monthly.attendanceRate")} {faNumber(m.attendanceRate)}٪</span>}
                 </div>
               </div>
             ))}

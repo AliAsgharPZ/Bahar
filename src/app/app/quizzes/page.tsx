@@ -1,5 +1,7 @@
 "use client";
 
+import { useLang } from "@/lib/i18n";
+
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ClipboardList, Plus, Play, Lock, Undo2, Trash2, ChevronLeft, CircleCheck } from "lucide-react";
@@ -15,14 +17,16 @@ type QBank = { id: string; body: string; kind: string; difficulty: string; topic
 type Subject = { id: string; name: string };
 type ClassRow = { id: string; name: string };
 
-const STATUS: Record<string, { label: string; cls: string }> = {
-  DRAFT: { label: "پیش‌نویس", cls: "b-badge-warning" },
-  OPEN: { label: "باز", cls: "b-badge-success" },
-  CLOSED: { label: "بسته", cls: "b-badge-critical" },
-};
-const KIND: Record<string, string> = { MULTI: "چندگزینه‌ای", SHORT: "تشریحی کوتاه", ESSAY: "مقاله‌ای", FILL: "جای خالی" };
+
 
 export default function QuizzesPage() {
+  const { t } = useLang();
+  const STATUS: Record<string, { label: string; cls: string }> = {
+    DRAFT: { label: t("enum.quizStatus.DRAFT"), cls: "b-badge-warning" },
+    OPEN: { label: t("enum.quizStatus.OPEN"), cls: "b-badge-success" },
+    CLOSED: { label: t("enum.quizStatus.CLOSED"), cls: "b-badge-critical" },
+  };
+  const KIND: Record<string, string> = { MULTI: t("enum.questionKind.MULTI"), SHORT: t("enum.questionKind.SHORT"), ESSAY: t("enum.questionKind.ESSAY"), FILL: t("enum.questionKind.FILL") };
   const [staff, setStaff] = useState<QuizStaff[] | null>(null);
   const [student, setStudent] = useState<QuizStudent[] | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,7 +51,7 @@ export default function QuizzesPage() {
         else { setStudent(list as QuizStudent[]); setStaff(null); }
         setLoadError("");
       })
-      .catch((e) => setLoadError(e instanceof Error ? e.message : "خطا در بارگذاری"))
+      .catch((e) => setLoadError(e instanceof Error ? e.message : t("quizzes.loadError")))
       .finally(() => setLoading(false));
   }, []);
 
@@ -67,8 +71,8 @@ export default function QuizzesPage() {
   }
 
   async function create() {
-    if (title.trim().length < 3) { toast.error("عنوان آزمون را وارد کنید."); return; }
-    if (picked.size === 0) { toast.error("حداقل یک سؤال انتخاب کنید."); return; }
+    if (title.trim().length < 3) { toast.error(t("quizzes.toast.titleShort")); return; }
+    if (picked.size === 0) { toast.error(t("quizzes.toast.pickQuestion")); return; }
     setBusy(true);
     try {
       await apiPost("/api/quizzes", {
@@ -78,55 +82,55 @@ export default function QuizzesPage() {
         questionIds: [...picked],
         durationMin,
       });
-      toast.success("آزمون ساخته شد (پیش‌نویس) — از فهرست منتشرش کنید.");
+      toast.success(t("quizzes.toast.created"));
       setShowNew(false); setTitle(""); setPicked(new Set());
       load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
     finally { setBusy(false); }
   }
 
   async function setStatus(q: QuizStaff, status: string) {
     try {
       await apiPatch("/api/quizzes", { id: q.id, status });
-      toast.success(status === "OPEN" ? "آزمون منتشر شد." : status === "CLOSED" ? "آزمون بسته شد." : "به پیش‌نویس برگشت.");
+      toast.success(status === "OPEN" ? t("quizzes.toast.published") : status === "CLOSED" ? t("quizzes.toast.closed") : t("quizzes.toast.draft"));
       load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
 
   async function remove(q: QuizStaff) {
-    if (!window.confirm(`آزمون «${q.title}» و همهٔ تلاش‌هایش حذف شود؟`)) return;
+    if (!window.confirm(`${t("quizzes.delete.descStart")} «${q.title}» ${t("quizzes.delete.descEnd")}`)) return;
     try {
       await apiDelete(`/api/quizzes?id=${q.id}`);
-      toast.success("آزمون حذف شد.");
+      toast.success(t("quizzes.toast.deleted"));
       load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
 
-  if (loading) return <div><PageHeader title="آزمون آنلاین" desc="ساخت آزمون از بانک سؤال و تصحیح خودکار" /><LoadingBlock /></div>;
+  if (loading) return <div><PageHeader title={t("nav.quizzes")} desc={t("quizzes.desc.loading")} /><LoadingBlock /></div>;
 
   // ── نمای دانش‌آموز ──
   if (student) {
     return (
       <div>
-        <PageHeader title="آزمون‌های آنلاین" desc="آزمون‌های باز کلاس شما — شروع کنید، پاسخ دهید، نمره را همان لحظه ببینید" />
+        <PageHeader title={t("quizzes.title.student")} desc={t("quizzes.desc.student")} />
         {loadError && <ErrorBox message={loadError} />}
         {student.length === 0 ? (
-          <EmptyState icon={ClipboardList} title="آزمون بازی نیست" desc="وقتی معلم آزمونی منتشر کند، اینجا می‌بینید." />
+          <EmptyState icon={ClipboardList} title={t("quizzes.empty.noOpen")} desc={t("quizzes.empty.noOpenDesc")} />
         ) : (
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 b-auto-stagger">
             {student.map((q) => (
               <article key={q.id} className="b-card b-card-hover p-4">
                 <h3 className="font-extrabold text-[15px] leading-snug mb-2">{q.title}</h3>
-                <p className="text-[12px] text-stone mb-4">{faNumber(q.questionCount)} سؤال · {faNumber(q.durationMin)} دقیقه</p>
+                <p className="text-[12px] text-stone mb-4">{faNumber(q.questionCount)} {t("quizzes.unit.question")} · {faNumber(q.durationMin)} {t("quizzes.unit.minute")}</p>
                 {q.submitted ? (
                   <div className="flex items-center gap-2">
-                    <span className="b-badge b-badge-success"><CircleCheck className="w-3.5 h-3.5" /> تحویل شده</span>
-                    {q.myScore !== null && <span className="font-extrabold text-spring-deep">نمره: {faNumber(q.myScore)} از ۱۰۰</span>}
-                    <Link href={`/app/quizzes/${q.id}`} className="b-btn b-btn-ghost b-btn-sm ms-auto">مشاهده پاسخ‌ها <ChevronLeft className="w-4 h-4" /></Link>
+                    <span className="b-badge b-badge-success"><CircleCheck className="w-3.5 h-3.5" /> {t("quizzes.submitted")}</span>
+                    {q.myScore !== null && <span className="font-extrabold text-spring-deep">{t("quizzes.score.label")} {faNumber(q.myScore)} {t("quizzes.score.outOf")}</span>}
+                    <Link href={`/app/quizzes/${q.id}`} className="b-btn b-btn-ghost b-btn-sm ms-auto">{t("quizzes.viewAnswers")} <ChevronLeft className="w-4 h-4" /></Link>
                   </div>
                 ) : (
                   <Link href={`/app/quizzes/${q.id}`} className="b-btn b-btn-spring w-full">
-                    <Play className="w-4 h-4" /> شروع آزمون
+                    <Play className="w-4 h-4" /> {t("quizzes.start")}
                   </Link>
                 )}
               </article>
@@ -141,34 +145,34 @@ export default function QuizzesPage() {
   return (
     <div>
       <PageHeader
-        title="آزمون آنلاین"
-        desc="ساخت آزمون از بانک سؤال، انتشار برای کلاس و تصحیح خودکار چندگزینه‌ای و جای‌خالی"
-        action={<button className="b-btn b-btn-spring" onClick={openNew}><Plus className="w-4 h-4" /> آزمون جدید</button>}
+        title={t("nav.quizzes")}
+        desc={t("quizzes.desc.staff")}
+        action={<button className="b-btn b-btn-spring" onClick={openNew}><Plus className="w-4 h-4" /> {t("quizzes.new")}</button>}
       />
       {loadError && <ErrorBox message={loadError} />}
       {!staff || staff.length === 0 ? (
-        <EmptyState icon={ClipboardList} title="هنوز آزمونی ساخته نشده" desc="با «آزمون جدید» از سؤال‌های بانک سؤال یک آزمون بسازید و برای کلاس منتشر کنید." />
+        <EmptyState icon={ClipboardList} title={t("quizzes.empty.noQuiz")} desc={t("quizzes.empty.noQuizDesc")} />
       ) : (
         <div className="b-card p-4 md:p-5">
           <div className="overflow-x-auto">
             <table className="b-table w-full">
-              <thead><tr><th>عنوان</th><th>درس / کلاس</th><th>سؤال</th><th>زمان</th><th>وضعیت</th><th>تلاش / تحویل</th><th>میانگین نمره</th><th></th></tr></thead>
+              <thead><tr><th>{t("quizzes.table.title")}</th><th>{t("quizzes.table.subjectClass")}</th><th>{t("quizzes.table.question")}</th><th>{t("quizzes.table.time")}</th><th>{t("common.status")}</th><th>{t("quizzes.table.attempts")}</th><th>{t("quizzes.table.avg")}</th><th></th></tr></thead>
               <tbody className="b-rows-in">
                 {staff.map((q) => (
                   <tr key={q.id}>
                     <td className="font-semibold"><Link href={`/app/quizzes/${q.id}`} className="hover:text-spring-deep">{q.title}</Link></td>
-                    <td>{q.subjectName ?? "—"}{q.className ? ` · ${q.className}` : " · همهٔ کلاس‌ها"}</td>
+                    <td>{q.subjectName ?? "—"}{q.className ? ` · ${q.className}` : ` · ${t("quizzes.allClasses")}`}</td>
                     <td>{faNumber(q.questionCount)}</td>
-                    <td>{faNumber(q.durationMin)} دقیقه</td>
+                    <td>{faNumber(q.durationMin)} {t("quizzes.unit.minute")}</td>
                     <td><span className={`b-badge ${STATUS[q.status]?.cls}`}>{STATUS[q.status]?.label}</span></td>
                     <td>{faNumber(q.attempts)} / {faNumber(q.submittedCount)}</td>
                     <td>{q.avgScore !== null ? faNumber(q.avgScore) : "—"}</td>
                     <td>
                       <span className="flex gap-1 justify-end">
-                        {q.status !== "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "OPEN")}><Play className="w-3.5 h-3.5" /> انتشار</button>}
-                        {q.status === "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "CLOSED")}><Lock className="w-3.5 h-3.5" /> بستن</button>}
-                        {q.status === "CLOSED" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "DRAFT")}><Undo2 className="w-3.5 h-3.5" /> پیش‌نویس</button>}
-                        <button className="b-btn b-btn-ghost b-icon-btn" title="حذف آزمون" onClick={() => remove(q)}><Trash2 className="w-4 h-4" /></button>
+                        {q.status !== "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "OPEN")}><Play className="w-3.5 h-3.5" /> {t("quizzes.publish")}</button>}
+                        {q.status === "OPEN" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "CLOSED")}><Lock className="w-3.5 h-3.5" /> {t("common.close")}</button>}
+                        {q.status === "CLOSED" && <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setStatus(q, "DRAFT")}><Undo2 className="w-3.5 h-3.5" /> {t("enum.quizStatus.DRAFT")}</button>}
+                        <button className="b-btn b-btn-ghost b-icon-btn" title={t("quizzes.delete.title")} onClick={() => remove(q)}><Trash2 className="w-4 h-4" /></button>
                       </span>
                     </td>
                   </tr>
@@ -183,17 +187,17 @@ export default function QuizzesPage() {
       {showNew && (
         <div className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
           <div className="b-card w-full max-w-2xl p-5 b-pop max-h-[92vh] overflow-y-auto">
-            <h3 className="font-extrabold text-[16px] mb-4">آزمون جدید از بانک سؤال</h3>
+            <h3 className="font-extrabold text-[16px] mb-4">{t("quizzes.newFromBank")}</h3>
             <div className="grid md:grid-cols-2 gap-3 mb-4">
-              <label className="b-field md:col-span-2"><span>عنوان *</span><input value={title} onChange={(e) => setTitle(e.target.value)} className="b-input" placeholder="مثلاً آزمون فصل ۳ ریاضی" /></label>
-              <label className="b-field"><span>درس</span>
-                <Select value={subjectId} onChange={setSubjectId} options={[{ value: "", label: "بدون درس مشخص" }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]} />
+              <label className="b-field md:col-span-2"><span>{t("quizzes.field.title")}</span><input value={title} onChange={(e) => setTitle(e.target.value)} className="b-input" placeholder={t("quizzes.placeholder.title")} /></label>
+              <label className="b-field"><span>{t("quizzes.field.subject")}</span>
+                <Select value={subjectId} onChange={setSubjectId} options={[{ value: "", label: t("quizzes.noSubject") }, ...subjects.map((s) => ({ value: s.id, label: s.name }))]} />
               </label>
-              <label className="b-field"><span>کلاس هدف</span>
-                <Select value={classId} onChange={setClassId} options={[{ value: "", label: "همهٔ کلاس‌های مدرسه" }, ...classes.map((c) => ({ value: c.id, label: c.name }))]} />
+              <label className="b-field"><span>{t("quizzes.field.targetClass")}</span>
+                <Select value={classId} onChange={setClassId} options={[{ value: "", label: t("quizzes.allSchoolClasses") }, ...classes.map((c) => ({ value: c.id, label: c.name }))]} />
               </label>
-              <label className="b-field"><span>مدت (دقیقه)</span><input type="number" min={5} max={180} value={durationMin} onChange={(e) => setDurationMin(Number(e.target.value) || 20)} className="b-input" /></label>
-              <p className="text-[12px] text-stone self-end pb-2">{faNumber(picked.size)} سؤال انتخاب شده</p>
+              <label className="b-field"><span>{t("quizzes.field.duration")}</span><input type="number" min={5} max={180} value={durationMin} onChange={(e) => setDurationMin(Number(e.target.value) || 20)} className="b-input" /></label>
+              <p className="text-[12px] text-stone self-end pb-2">{faNumber(picked.size)} {t("quizzes.picked")}</p>
             </div>
             <div className="flex flex-col gap-1.5 max-h-72 overflow-y-auto pe-1">
               {bank.map((q) => (
@@ -209,11 +213,11 @@ export default function QuizzesPage() {
                   </span>
                 </label>
               ))}
-              {bank.length === 0 && <p className="text-[12.5px] text-stone p-2">بانک سؤال خالی است — اول از صفحهٔ بانک سؤال، سؤال بسازید.</p>}
+              {bank.length === 0 && <p className="text-[12.5px] text-stone p-2">{t("quizzes.empty.bank")}</p>}
             </div>
             <div className="flex gap-2 mt-5">
-              <button className="b-btn b-btn-spring flex-1" disabled={busy} onClick={create}>ساخت آزمون (پیش‌نویس)</button>
-              <button className="b-btn b-btn-ghost" onClick={() => setShowNew(false)}>لغو</button>
+              <button className="b-btn b-btn-spring flex-1" disabled={busy} onClick={create}>{t("quizzes.createDraft")}</button>
+              <button className="b-btn b-btn-ghost" onClick={() => setShowNew(false)}>{t("quizzes.cancel")}</button>
             </div>
           </div>
         </div>
