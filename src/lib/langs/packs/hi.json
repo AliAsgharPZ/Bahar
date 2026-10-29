@@ -207,5 +207,7 @@
     "settings.backup": "बैकअप",
     "settings.telegram": "टेलीग्राम",
     "settings.saved": "सेटिंग्स सहेजी गईं"
-  }
+  },
+  "siteStrings": {},
+  "longStrings": {}
 }

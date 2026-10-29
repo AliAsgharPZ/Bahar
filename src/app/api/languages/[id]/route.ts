@@ -17,9 +17,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         return apiOk({ langCode: null });
       }
       const target = await db.languagePack.findFirst({ where: { code: id, status: "ACTIVE" } });
-      if (!target) throw new ApiError(404, "NOT_FOUND", "زبان فعال با این کد یافت نشد.");
-      await db.user.update({ where: { id: me.id }, data: { langCode: target.code } });
-      return apiOk({ langCode: target.code });
+      if (target) {
+        await db.user.update({ where: { id: me.id }, data: { langCode: target.code } });
+        return apiOk({ langCode: target.code });
+      }
+      // بستهٔ همراه سامانه هم انتخاب‌پذیر است (قبلاً ۴۰۴ می‌داد و ترجیح
+      // کاربر برای زبان‌های shipped هرگز ذخیره نمی‌شد — باگ دیده‌شدن، راند ۳).
+      const { shippedLangPack } = await import("@/lib/langs/shipped");
+      const shipped = shippedLangPack(id);
+      if (shipped) {
+        await db.user.update({ where: { id: me.id }, data: { langCode: shipped.code } });
+        return apiOk({ langCode: shipped.code });
+      }
+      throw new ApiError(404, "NOT_FOUND", "زبان فعال با این کد یافت نشد.");
     }
 
     if (me.role !== "SUPER_ADMIN") throw new ApiError(403, "ONLY_SUPER_ADMIN", "مدیریت بسته‌های زبان فقط برای مدیر کل سامانه ممکن است.");

@@ -207,5 +207,7 @@
     "settings.backup": "النسخ الاحتياطي",
     "settings.telegram": "تلغرام",
     "settings.saved": "تم حفظ الإعدادات"
-  }
+  },
+  "siteStrings": {},
+  "longStrings": {}
 }

@@ -1,4 +1,4 @@
-import { CATALOG_KEYS, SITE_CATALOG, SITE_KEYS, validateLanguagePack, validateSitePack } from "../langs";
+import { CATALOG_KEYS, LONG_CATALOG, LONG_KEYS, SITE_CATALOG, SITE_KEYS, validateLanguagePack, validateLongPack, validateSitePack } from "../langs";
 import enPack from "./packs/en.json";
 import arPack from "./packs/ar.json";
 import trPack from "./packs/tr.json";
@@ -10,17 +10,16 @@ import ptPack from "./packs/pt.json";
 import urPack from "./packs/ur.json";
 import azPack from "./packs/az.json";
 import hiPack from "./packs/hi.json";
+import zhPack from "./packs/zh.json";
 
 /* ============================================================
    بهار | بسته‌های زبانِ همراه سامانه (shipped packs)
-   هر هشت بستهٔ همراه سامانه کامل‌اند (۲۰۰ از ۲۰۰ کلید کاتالوگ):
-   انگلیسی، عربی، ترکی، فرانسوی، اسپانیایی، آلمانی، ایتالیایی و
-   پرتغالی؛ بستهٔ نهم، اردو، نیز ۲۰۰ از ۲۰۰ کلید را دارد ولی
-   ترجمهٔ دستیِ غیرمتخصص است و بازبینی تخصصی نشده است؛ بسته‌های
-   دهم و یازدهم، آذربایجانی و هندی، نیز همین وضعیت را دارند
-   (۲۰۰ از ۲۰۰ کلید، دستی، بازبینی‌نشده). کلیدهای ترجمه‌نشدهٔ بسته‌های دیگرِ پایگاه داده همچنان
-   به فارسی پایه بازمی‌گردند. فهرست نام همهٔ زبان‌های جهان (بدون
-   ترجمه) جداگانه در ./world.ts است و بستهٔ کامل شمرده نمی‌شود.
+   هشت بستهٔ همراه سامانه کامل‌اند (۲۰۰ از ۲۰۰ کلید کاتالوگ اپ + ۱۳۳ از ۱۳۳
+   جملهٔ سایت): انگلیسی، عربی، ترکی، فرانسوی، اسپانیایی، آلمانی، ایتالیایی و
+   پرتغالی؛ چهار بستهٔ دستیِ بدون بازبینی تخصصی نیز همین پوشش کامل را دارند:
+   اردو، آذربایجانی، هندی و چینی (چینی از z.ai، راند ۳). کلیدهای ترجمه‌نشدهٔ
+   بسته‌های دیگرِ پایگاه داده همچنان به فارسی پایه بازمی‌گردند. فهرست نام همهٔ
+   زبان‌های جهان (بدون ترجمه) جداگانه در ./world.ts است و بستهٔ کامل شمرده نمی‌شود.
    ============================================================ */
 
 export type ShippedLangPack = {
@@ -37,26 +36,35 @@ export type ShippedLangPack = {
   siteKeyCount: number;
   siteCoverage: number;
   siteMissingKeys: string[];
+  /** متن‌های بلند (FAQ، پاراگراف‌های کیت) — جدا از SITE، با fallback فارسی. */
+  longStrings: Record<string, string>;
+  longKeyCount: number;
+  longCoverage: number;
+  longMissingKeys: string[];
 };
 
-function build(pack: { code: string; name: string; nativeName: string; direction: string; strings: Record<string, string>; siteStrings?: Record<string, string> }): ShippedLangPack {
+function build(pack: { code: string; name: string; nativeName: string; direction: string; strings: Record<string, string>; siteStrings?: Record<string, string>; longStrings?: Record<string, string> }): ShippedLangPack {
   const result = validateLanguagePack(pack);
   const siteResult = validateSitePack(pack);
+  const longResult = validateLongPack(pack.longStrings);
   const missingKeys = CATALOG_KEYS.filter((k) => !(k in pack.strings));
   const siteStrings = pack.siteStrings ?? {};
   const siteMissingKeys = SITE_KEYS.filter((k) => !(k in siteStrings));
+  const longStrings = pack.longStrings ?? {};
+  const longMissingKeys = LONG_KEYS.filter((k) => !(k in longStrings));
   return {
     code: pack.code, name: pack.name, nativeName: pack.nativeName,
     direction: pack.direction as "rtl" | "ltr",
     strings: pack.strings, keyCount: result.stats.keyCount, coverage: result.stats.coverage, missingKeys,
     siteStrings, siteKeyCount: siteResult.stats.keyCount, siteCoverage: siteResult.stats.coverage, siteMissingKeys,
+    longStrings, longKeyCount: longResult.stats.keyCount, longCoverage: longResult.stats.coverage, longMissingKeys,
   };
 }
 
 export const SHIPPED_LANG_PACKS: ShippedLangPack[] = [
   build(enPack as never), build(arPack as never), build(trPack as never), build(frPack as never),
   build(esPack as never), build(dePack as never), build(itPack as never), build(ptPack as never),
-  build(urPack as never), build(azPack as never), build(hiPack as never),
+  build(urPack as never), build(azPack as never), build(hiPack as never), build(zhPack as never),
 ];
 
 export function shippedLangPack(code: string): ShippedLangPack | null {
@@ -68,6 +76,13 @@ export function siteStringsFor(code: string): { code: string; direction: "rtl" |
   const pack = code && code.toLowerCase() !== "fa" ? shippedLangPack(code) : null;
   if (!pack) return { code: "fa", direction: "rtl", siteStrings: SITE_CATALOG };
   return { code: pack.code, direction: pack.direction, siteStrings: { ...SITE_CATALOG, ...pack.siteStrings } };
+}
+
+/** متن‌های بلند برای یک زبان — فارسی پایه + ترجمهٔ بسته (فقدان = فارسی). */
+export function longStringsFor(code: string): { code: string; direction: "rtl" | "ltr"; longStrings: Record<string, string> } {
+  const pack = code && code.toLowerCase() !== "fa" ? shippedLangPack(code) : null;
+  if (!pack) return { code: "fa", direction: "rtl", longStrings: LONG_CATALOG };
+  return { code: pack.code, direction: pack.direction, longStrings: { ...LONG_CATALOG, ...pack.longStrings } };
 }
 
 /** زبان‌های قابل انتخاب در سایت عمومی (فارسی + بسته‌های همراه). */

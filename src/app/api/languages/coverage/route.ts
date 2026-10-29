@@ -1,6 +1,6 @@
 import { apiOk, handleApiError } from "@/lib/api";
 import { db } from "@/lib/db";
-import { CATALOG_KEYS, SITE_KEYS, validateLanguagePack } from "@/lib/langs";
+import { CATALOG_KEYS, LONG_KEYS, SITE_KEYS, validateLanguagePack } from "@/lib/langs";
 import { SHIPPED_LANG_PACKS, catalogDomains } from "@/lib/langs/shipped";
 import { WORLD_LANGUAGES } from "@/lib/langs/world";
 
@@ -28,8 +28,8 @@ export async function GET() {
     return apiOk({
       catalogSize: CATALOG_KEYS.length,
       siteCatalogSize: SITE_KEYS.length,
-      domains: catalogDomains(),
-      shipped: SHIPPED_LANG_PACKS.map((p) => ({ code: p.code, name: p.name, nativeName: p.nativeName, direction: p.direction, keyCount: p.keyCount, coverage: p.coverage, missingKeys: p.missingKeys, siteKeyCount: p.siteKeyCount, siteCoverage: p.siteCoverage, siteMissingKeys: p.siteMissingKeys })),
+      longCatalogSize: LONG_KEYS.length,
+      shipped: SHIPPED_LANG_PACKS.map((p) => ({ code: p.code, name: p.name, nativeName: p.nativeName, direction: p.direction, keyCount: p.keyCount, coverage: p.coverage, missingKeys: p.missingKeys, siteKeyCount: p.siteKeyCount, siteCoverage: p.siteCoverage, siteMissingKeys: p.siteMissingKeys, longKeyCount: p.longKeyCount, longCoverage: p.longCoverage, longMissingKeys: p.longMissingKeys })),
       dbPacks: dbRows,
       worldLanguages: WORLD_LANGUAGES,
     });

@@ -207,5 +207,7 @@
     "settings.backup": "Yedəkləmə",
     "settings.telegram": "Telegram",
     "settings.saved": "Tənzimləmələr yadda saxlanıldı"
-  }
+  },
+  "siteStrings": {},
+  "longStrings": {}
 }
