@@ -378,9 +378,9 @@ function ServiceDashboard({ data }: { data: Dash }) {
                   </span>
                   <span className="flex-1 min-w-0">
                     <span className="text-[12.5px] font-bold truncate block">{u.firstName} {u.lastName}</span>
-                    <span className="text-[10.5px] text-steel truncate block">{ROLE_TKEY[u.role] ? t(ROLE_TKEY[u.role]) : u.role}{u.school?.name ? ` · ${u.school.name}` : ""}</span>
+                    <span className="text-[12px] text-steel truncate block">{ROLE_TKEY[u.role] ? t(ROLE_TKEY[u.role]) : u.role}{u.school?.name ? ` · ${u.school.name}` : ""}</span>
                   </span>
-                  <span className="text-[10.5px] text-stone shrink-0">{relativeTimeFa(u.createdAt)}</span>
+                  <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(u.createdAt)}</span>
                 </motion.div>
               ))}
             </div>
@@ -406,7 +406,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
           <h3 className="font-bold mt-5 mb-3">{t("dashboard.quickActions")}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {QUICK.map((q) => (
-              <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-[10.5px] font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
+              <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-[12px] font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
                 <q.icon className="w-5 h-5" />
                 {q.label}
               </Link>
@@ -431,7 +431,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
                 <span className="text-steel truncate flex-1">
                   {a.user?.firstName ? `${a.user.firstName} ${a.user.lastName ?? ""}` : t("dashboard.system")} · {a.entityType}
                 </span>
-                <span className="text-stone text-[10.5px] shrink-0">{relativeTimeFa(a.createdAt)}</span>
+                <span className="text-stone text-[12px] shrink-0">{relativeTimeFa(a.createdAt)}</span>
               </div>
             ))}
           </div>
@@ -644,7 +644,7 @@ function HealthRow({ label, v }: { label: string; v: number | null | undefined }
           />
         ) : null}
       </div>
-      <span className="text-[10.5px] font-bold w-7 text-end">{has ? faNumber(v!) : "—"}</span>
+      <span className="text-[12px] font-bold w-7 text-end">{has ? faNumber(v!) : "—"}</span>
     </div>
   );
 }
@@ -734,7 +734,7 @@ function TeacherDashboard({ data }: { data: Dash }) {
                   <span className="b-dot bg-spring shrink-0" />
                   <span className="flex-1 text-[12.5px] font-bold truncate">{a.title}</span>
                   <span className="text-[12px] text-steel shrink-0">{a.class?.name}</span>
-                  <span className="text-[10.5px] text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
+                  <span className="text-[12px] text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
                 </div>
               ))}
             </div>
@@ -802,7 +802,7 @@ function StudentDashboard({ data }: { data: Dash }) {
                 <div key={sl.id} className="flex items-center gap-2.5 text-[12px] p-2 rounded-xl hover:bg-cloud">
                   <span className="w-6 h-6 rounded-lg bg-spring-tint text-spring-deep flex items-center justify-center text-[12px] font-bold shrink-0">{faNumber(sl.period)}</span>
                   <span className="flex-1 font-bold truncate">{sl.subject?.name}</span>
-                  <span className="text-[10.5px] text-steel shrink-0">{sl.teacher ? `${sl.teacher.firstName} ${sl.teacher.lastName}` : ""}</span>
+                  <span className="text-[12px] text-steel shrink-0">{sl.teacher ? `${sl.teacher.firstName} ${sl.teacher.lastName}` : ""}</span>
                 </div>
               ))}
             </div>
@@ -816,7 +816,7 @@ function StudentDashboard({ data }: { data: Dash }) {
                 <div key={a.id} className="flex items-center gap-2 text-[12px] p-2 rounded-xl hover:bg-cloud">
                   <span className="b-dot bg-blossom shrink-0" />
                   <span className="flex-1 font-bold truncate">{a.title}</span>
-                  <span className="text-[10.5px] text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
+                  <span className="text-[12px] text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
                 </div>
               ))}
             </div>
@@ -873,7 +873,7 @@ function ParentDashboard({ data }: { data: Dash }) {
             {announcements.map((a) => (
               <div key={a.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-cloud text-[12.5px]">
                 <span className="flex-1 font-bold truncate">{a.title}</span>
-                <span className="text-[10.5px] text-stone shrink-0">{formatDateFa(a.createdAt)}</span>
+                <span className="text-[12px] text-stone shrink-0">{formatDateFa(a.createdAt)}</span>
               </div>
             ))}
           </div>
@@ -888,7 +888,7 @@ function ParentDashboard({ data }: { data: Dash }) {
                 <span className={`b-badge ${m.status === "APPROVED" ? "b-badge-success" : "b-badge-warning"}`}>{m.status === "APPROVED" ? t("dashboard.meeting.approved") : t("dashboard.meeting.pending")}</span>
                 <span className="flex-1 font-bold truncate">{m.topic}</span>
                 <span className="text-[12px] text-steel">{m.staff.firstName} {m.staff.lastName}</span>
-                <span className="text-[10.5px] text-stone">{formatDateFa(m.slotStart)}</span>
+                <span className="text-[12px] text-stone">{formatDateFa(m.slotStart)}</span>
               </div>
             ))}
           </div>

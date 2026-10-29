@@ -492,7 +492,7 @@ export default function ImportsPage() {
                   </span>
                   <span className="flex flex-col min-w-0 flex-1">
                     <b className="text-[12.5px]">{x.label}</b>
-                    <span className="text-[10.5px] text-steel">{x.desc}</span>
+                    <span className="text-[12px] text-steel">{x.desc}</span>
                   </span>
                   {busy === `export-${x.type}` ? (
                     <Loader2 className="w-4 h-4 animate-spin text-spring shrink-0" />

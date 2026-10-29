@@ -310,7 +310,7 @@ export default async function CountriesPage() {
                         <tr key={f.name} className="border-b border-hairline-soft/50 last:border-0">
                           <td className="py-2.5 px-4 font-mono text-[12px] font-bold text-spring-deep" dir="ltr">{f.name}</td>
                           <td className="py-2.5 px-4 text-steel">{f.type}</td>
-                          <td className="py-2.5 px-4 font-mono text-[10.5px] text-ink" dir="ltr">{f.iran}</td>
+                          <td className="py-2.5 px-4 font-mono text-[12px] text-ink" dir="ltr">{f.iran}</td>
                           <td className="py-2.5 px-4 text-steel leading-relaxed">{fieldRule(doc.sec, f)}</td>
                         </tr>
                       ))}

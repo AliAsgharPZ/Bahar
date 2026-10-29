@@ -149,7 +149,7 @@ function LauncherItem({
             </span>
           )}
         </span>
-        <span className="text-[10.5px] font-bold text-ink text-center leading-[1.35] line-clamp-2 w-full px-0.5 [word-break:break-word]">
+        <span className="text-[12px] font-bold text-ink text-center leading-[1.35] line-clamp-2 w-full px-0.5 [word-break:break-word]">
           {n.tKey ? t(n.tKey) : n.label}
         </span>
       </Link>

@@ -103,7 +103,7 @@ export default function IdCardsPage() {
               <header className="px-4 py-2.5 flex items-center gap-2 text-white" style={{ background: "linear-gradient(120deg, var(--spring-deep), var(--spring))" }}>
                 <School className="w-4 h-4 shrink-0" />
                 <b className="text-[12.5px] truncate">{schoolName || t("common.school")}</b>
-                <span className="ms-auto text-[10.5px] opacity-85">{t("idCards.kart-dansh-amvzy")}</span>
+                <span className="ms-auto text-[12px] opacity-85">{t("idCards.kart-dansh-amvzy")}</span>
               </header>
               <div className="p-4 flex gap-3.5">
                 <UserAvatar user={s.user} size={76} rounded="xl" />

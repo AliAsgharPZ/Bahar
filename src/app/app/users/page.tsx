@@ -507,7 +507,7 @@ export default function UsersPage() {
                     }
                   />
                   {form.role === "CUSTODIAN" && !custodianAvailable && (
-                    <span className="text-[10.5px] text-warning-deep">{t("users.custodianDisabledNote")}</span>
+                    <span className="text-[12px] text-warning-deep">{t("users.custodianDisabledNote")}</span>
                   )}
                 </label>
                 <label className="flex flex-col gap-1.5">
@@ -521,7 +521,7 @@ export default function UsersPage() {
                       {t("users.invalidNationalIdRegister")}
                     </label>
                   )}
-                  {!isSuper && <span className="text-[10.5px] text-stone">{t("users.nationalIdAlgorithmNote")}</span>}
+                  {!isSuper && <span className="text-[12px] text-stone">{t("users.nationalIdAlgorithmNote")}</span>}
                 </label>
                 <label className="flex flex-col gap-1.5">
                   <span className="text-[12.5px] font-bold">{t("students.field.firstName")}</span>
@@ -562,7 +562,7 @@ export default function UsersPage() {
                   <label className="flex flex-col gap-1.5">
                     <span className="text-[12.5px] font-bold">{t("students.field.shadNumber")}</span>
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.shadNumber} onChange={(e) => set("shadNumber", e.target.value)} placeholder="09…" />
-                    <span className="text-[10.5px] text-stone">{t("users.shadNote")}</span>
+                    <span className="text-[12px] text-stone">{t("users.shadNote")}</span>
                   </label>
                 )}
                 {(form.role === "TEACHER" || form.role === "DEPUTY") && (
@@ -606,7 +606,7 @@ export default function UsersPage() {
                         />
                         <span className="flex flex-col">
                           <b className="text-[12.5px]">{p.label}</b>
-                          <span className="text-[10.5px] text-steel">{p.desc}</span>
+                          <span className="text-[12px] text-steel">{p.desc}</span>
                         </span>
                       </label>
                     ))}
@@ -630,15 +630,15 @@ export default function UsersPage() {
                         <div className="flex items-center justify-between mb-1">
                           <b className="text-[12.5px]">{g.group}</b>
                           <div className="flex items-center gap-2">
-                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-spring font-bold hover:underline" onClick={() => g.items.forEach((i) => { if (!form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
+                            <button type="button" className="b-btn b-btn-ghost text-[12px] text-spring font-bold hover:underline" onClick={() => g.items.forEach((i) => { if (!form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
                               {t("students.table.selectAll")}
                             </button>
-                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-steel hover:underline" onClick={() => g.items.forEach((i) => { if (form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
+                            <button type="button" className="b-btn b-btn-ghost text-[12px] text-steel hover:underline" onClick={() => g.items.forEach((i) => { if (form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
                               {t("users.perms.none")}
                             </button>
                           </div>
                         </div>
-                        <p className="text-[10.5px] text-stone mb-3">{g.desc}</p>
+                        <p className="text-[12px] text-stone mb-3">{g.desc}</p>
                         <div className="grid sm:grid-cols-2 gap-2">
                           {g.items.map((i) => (
                             <label key={i.key} className={`b-option flex items-center gap-3 !py-2 ${form.permissions.includes(i.key) ? "b-option-selected" : ""}`}>
@@ -738,7 +738,7 @@ export default function UsersPage() {
                       value={editForm.nationalId ?? ""}
                       onChange={(e) => setEditForm((ef) => ({ ...ef, nationalId: e.target.value }))}
                     />
-                    <span className="text-[10.5px] text-stone">{t("users.nationalIdChangeNote")}</span>
+                    <span className="text-[12px] text-stone">{t("users.nationalIdChangeNote")}</span>
                   </label>
                 )}
                 {[
@@ -789,7 +789,7 @@ export default function UsersPage() {
                         />
                         <span className="flex flex-col">
                           <b className="text-[12.5px]">{p.label}</b>
-                          <span className="text-[10.5px] text-steel">{p.desc}</span>
+                          <span className="text-[12px] text-steel">{p.desc}</span>
                         </span>
                       </label>
                     ))}
@@ -809,10 +809,10 @@ export default function UsersPage() {
                         <div className="flex items-center justify-between mb-2">
                           <b className="text-[12px]">{g.group}</b>
                           <div className="flex items-center gap-2">
-                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-spring font-bold" onClick={() => g.items.forEach((i) => { if (!editPerms.includes(i.key)) setEditPerms((ps) => [...ps, i.key]); })}>
+                            <button type="button" className="b-btn b-btn-ghost text-[12px] text-spring font-bold" onClick={() => g.items.forEach((i) => { if (!editPerms.includes(i.key)) setEditPerms((ps) => [...ps, i.key]); })}>
                               {t("common.all")}
                             </button>
-                            <button type="button" className="b-btn b-btn-ghost text-[10.5px] text-steel" onClick={() => setEditPerms((ps) => ps.filter((x) => !g.items.some((i) => i.key === x)))}>
+                            <button type="button" className="b-btn b-btn-ghost text-[12px] text-steel" onClick={() => setEditPerms((ps) => ps.filter((x) => !g.items.some((i) => i.key === x)))}>
                               {t("users.perms.none")}
                             </button>
                           </div>

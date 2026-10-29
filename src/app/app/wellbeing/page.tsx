@@ -104,7 +104,7 @@ function StudentCheckin() {
                   aria-label={t(m.tkey)}
                 >
                   <Icon className={`w-8 h-8 sm:w-10 sm:h-10 ${active ? m.cls : "text-stone"}`} />
-                  <span className={`text-[10.5px] font-bold ${active ? "text-ink" : "text-steel"}`}>{t(m.tkey)}</span>
+                  <span className={`text-[12px] font-bold ${active ? "text-ink" : "text-steel"}`}>{t(m.tkey)}</span>
                 </button>
               );
             })}
@@ -196,7 +196,7 @@ function StaffView() {
               return (
                 <div key={tr.date} className="flex-1 flex flex-col items-center gap-1 group min-w-[14px]" title={`${formatDateFa(tr.date)} — ${t("wellbeing.trendAvg")} ${faNumber(tr.avg)} (${faDigits(tr.n)} ${t("wellbeing.trendCheckins")})`}>
                   <div className={`w-full rounded-t-lg ${tone} transition-colors`} style={{ height: `${h}%` }} />
-                  <span className="text-[8.5px] text-stone group-hover:text-steel">{faDigits(tr.date.split("-")[2])}</span>
+                  <span className="text-[12px] text-stone group-hover:text-steel">{faDigits(tr.date.split("-")[2])}</span>
                 </div>
               );
             })}
@@ -216,7 +216,7 @@ function StaffView() {
               <div key={`${f.studentId}-${f.date}`} className="b-card-sm !rounded-xl p-3 flex items-start gap-3 flex-wrap">
                 <div className="flex flex-col min-w-0">
                   <b className="text-[12.5px]">{f.name}</b>
-                  <span className="text-[10.5px] text-steel">{f.className} · {formatDateFa(f.date)}</span>
+                  <span className="text-[12px] text-steel">{f.className} · {formatDateFa(f.date)}</span>
                 </div>
                 <span className={`b-badge ${f.mood <= 2 ? "b-badge-critical" : "b-badge-warning"} ms-auto`}>
                   {t("wellbeing.moodLabel")}: {faDigits(f.mood)} {t("wellbeing.of5")}
@@ -230,7 +230,7 @@ function StaffView() {
             ))}
           </div>
           {confirmNote && <p className="text-[12px] text-warning-deep mt-2">{confirmNote}</p>}
-          <p className="text-[10.5px] text-stone mt-3 leading-relaxed">
+          <p className="text-[12px] text-stone mt-3 leading-relaxed">
             {t("wellbeing.flaggedExplainer")}
           </p>
         </div>

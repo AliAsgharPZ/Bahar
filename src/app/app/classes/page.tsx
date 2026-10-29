@@ -165,15 +165,15 @@ export default function ClassesPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
               <div className="b-card-sm !rounded-xl p-2.5">
                 <div className="font-bold text-[15px]">{faNumber(c._count.students)}</div>
-                <div className="text-[10.5px] text-steel">{t("common.student")} / {faNumber(c.capacity)}</div>
+                <div className="text-[12px] text-steel">{t("common.student")} / {faNumber(c.capacity)}</div>
               </div>
               <div className="b-card-sm !rounded-xl p-2.5">
                 <div className="font-bold text-[15px]">{faNumber(c._count.teachingAssignments)}</div>
-                <div className="text-[10.5px] text-steel">{t("classes.activeSubjects")}</div>
+                <div className="text-[12px] text-steel">{t("classes.activeSubjects")}</div>
               </div>
               <div className="b-card-sm !rounded-xl p-2.5">
                 <div className="font-bold text-[15px]">{faNumber(c._count.scheduleSlots)}</div>
-                <div className="text-[10.5px] text-steel">{t("classes.weeklyPeriods")}</div>
+                <div className="text-[12px] text-steel">{t("classes.weeklyPeriods")}</div>
               </div>
             </div>
 

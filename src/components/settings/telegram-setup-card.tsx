@@ -137,7 +137,7 @@ export function TelegramSetupCard({ tokenSaved }: { tokenSaved: boolean }) {
           بررسی وضعیت
         </button>
         {status?.webhook && status.webhook.pendingUpdates > 0 && (
-          <span className="text-[10.5px] text-stone">{faDigits(status.webhook.pendingUpdates)} پیام در صف تلگرام</span>
+          <span className="text-[12px] text-stone">{faDigits(status.webhook.pendingUpdates)} پیام در صف تلگرام</span>
         )}
       </div>
 

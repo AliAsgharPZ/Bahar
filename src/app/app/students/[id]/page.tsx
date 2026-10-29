@@ -288,7 +288,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                       <FileCheck className={`w-5 h-5 shrink-0 ${status === "RECEIVED" ? "text-spring-deep" : "text-stone"}`} />
                       <div className="flex-1 min-w-0">
                         <p className="text-[12.5px] font-bold">{t(tkey)}</p>
-                        <p className="text-[10.5px] text-steel">
+                        <p className="text-[12px] text-steel">
                           {status === "RECEIVED" ? `${t("students.detail.doc.received")}${doc?.receivedAt ? " — " + formatDateFa(doc.receivedAt) : ""}` : status === "REJECTED" ? t("profile.requests.rejected") : t("students.detail.doc.pending")}
                           {expiring && <span className="text-destructive font-bold"> · {t("students.detail.doc.expiring")}</span>}
                         </p>
@@ -336,7 +336,7 @@ function InfoRow({ icon: Icon, label, value }: { icon: typeof Tag; label: string
 function MiniCard({ label, value, delta }: { label: string; value: string; delta?: number }) {
   return (
     <div className="p-3 rounded-2xl bg-cloud text-center">
-      <p className="text-[10.5px] text-steel">{label}</p>
+      <p className="text-[12px] text-steel">{label}</p>
       <p className="text-[16px] font-bold">{value}</p>
       {delta !== undefined && delta !== 0 && (
         <p className={`text-[12px] font-bold flex items-center justify-center gap-0.5 ${delta > 0 ? "text-success" : "text-destructive"}`}>
@@ -413,7 +413,7 @@ function GoalsTab({ studentId, canEdit, goals, interventions, analytics, reload 
                   </>
                 )}
               </div>
-              {g.dueDate && <p className="text-[10.5px] text-steel mt-1">{t("common.to")} {formatDateFa(g.dueDate)}</p>}
+              {g.dueDate && <p className="text-[12px] text-steel mt-1">{t("common.to")} {formatDateFa(g.dueDate)}</p>}
             </div>
           ))}
           {goals.length === 0 && <p className="t-sm text-steel text-center py-4">{t("students.detail.goalsEmpty")}</p>}

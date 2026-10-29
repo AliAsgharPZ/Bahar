@@ -254,7 +254,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           )}
         </AnimatePresence>
         {badge > 0 && !collapsed && (
-          <span className="b-badge b-badge-critical !px-2 !py-0.5 !text-[10.5px]">{faNumber(badge)}</span>
+          <span className="b-badge b-badge-critical !px-2 !py-0.5 !text-[12px]">{faNumber(badge)}</span>
         )}
         {badge > 0 && collapsed && (
           <span className="absolute top-1.5 end-1.5 w-2 h-2 rounded-full bg-destructive" />
@@ -292,7 +292,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                 aria-hidden
               >
                 <g.icon className="w-3.5 h-3.5 text-stone" />
-                <span className="text-[10.5px] font-bold tracking-wide text-stone">{g.tKey ? t(g.tKey) : g.label}</span>
+                <span className="text-[12px] font-bold tracking-wide text-stone">{g.tKey ? t(g.tKey) : g.label}</span>
               </div>
             )}
             {g.items.map((n) => {
@@ -443,7 +443,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             <button
               onClick={exitSchoolPanel}
               disabled={exiting}
-              className="flex items-center gap-1 rounded-full bg-spring-tint text-spring-deep text-[10.5px] font-bold px-2 h-7 max-w-36 shrink-0 ms-1"
+              className="flex items-center gap-1 rounded-full bg-spring-tint text-spring-deep text-[12px] font-bold px-2 h-7 max-w-36 shrink-0 ms-1"
               title={`${t("shell.exitSchoolPanel")} ${user.schoolName ?? ""}`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-spring animate-pulse shrink-0" />
@@ -666,7 +666,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                             <n.icon className={`w-5 h-5 shrink-0 ${active ? "text-spring-deep" : "text-steel"}`} />
                             <span className="flex-1 truncate">{n.tKey ? t(n.tKey) : n.label}</span>
                             {badge > 0 && (
-                              <span className="b-badge b-badge-critical !px-2 !py-0.5 !text-[10.5px]">{faNumber(badge)}</span>
+                              <span className="b-badge b-badge-critical !px-2 !py-0.5 !text-[12px]">{faNumber(badge)}</span>
                             )}
                           </Link>
                         );

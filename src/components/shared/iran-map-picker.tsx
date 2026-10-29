@@ -275,7 +275,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
                         </span>
                         <span className="flex flex-col min-w-0 text-right">
                           <b className="text-[12.5px]">{p.name}</b>
-                          <span className="text-[10.5px] text-steel">مرکز: {p.center}</span>
+                          <span className="text-[12px] text-steel">مرکز: {p.center}</span>
                         </span>
                       </button>
                     );

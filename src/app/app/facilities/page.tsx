@@ -256,7 +256,7 @@ function FacilitiesInner() {
                   <span className="text-[13px] font-bold">{tk.title}</span>
                   {tk.asset && <span className="text-[12px] text-steel">{tk.asset.name}</span>}
                   {tk.location && <span className="text-[12px] text-steel">📍 {tk.location}</span>}
-                  <span className="text-[10.5px] text-stone ms-auto flex items-center gap-1"><Timer className="w-3 h-3" /> SLA {faNumber(tk.slaHours)}{t("facilities.s")}</span>
+                  <span className="text-[12px] text-stone ms-auto flex items-center gap-1"><Timer className="w-3 h-3" /> SLA {faNumber(tk.slaHours)}{t("facilities.s")}</span>
                   {tk.status === "OPEN" && <button onClick={() => patch("maintenance", tk.id, { status: "IN_PROGRESS" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.shrva")}</button>}
                   {!["RESOLVED", "CLOSED"].includes(tk.status) && (
                     <button
@@ -299,8 +299,8 @@ function FacilitiesInner() {
                 </span>
                 <span className="text-[13px] font-bold">{v.name}</span>
                 <span className="text-[11.5px] text-steel flex-1">{v.purpose}{v.hostName ? ` ${t("facilities.myzban")} ${v.hostName}` : ""}</span>
-                {v.checkInAt && <span className="text-[10.5px] text-stone">{t("auth.login.submit")}: {formatTimeFa(v.checkInAt)}</span>}
-                {v.checkOutAt && <span className="text-[10.5px] text-stone">{t("shell.logoutShort")}: {formatTimeFa(v.checkOutAt)}</span>}
+                {v.checkInAt && <span className="text-[12px] text-stone">{t("auth.login.submit")}: {formatTimeFa(v.checkInAt)}</span>}
+                {v.checkOutAt && <span className="text-[12px] text-stone">{t("shell.logoutShort")}: {formatTimeFa(v.checkOutAt)}</span>}
                 {v.status === "CHECKED_IN" && <button onClick={() => patch("visitor", v.id, { action: "checkout" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.sbt-khrvj")}</button>}
               </div>
             ))}

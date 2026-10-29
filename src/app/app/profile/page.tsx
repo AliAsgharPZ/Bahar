@@ -249,7 +249,7 @@ export default function ProfilePage() {
                     <span className="text-[12px]">
                       {Object.keys(r.changes).map((f) => t(PROFILE_FIELD_TKEY[f] ?? f)).join("، ")}
                     </span>
-                    <span className="text-[10.5px] text-stone ms-auto">{relativeTimeFa(r.createdAt)}</span>
+                    <span className="text-[12px] text-stone ms-auto">{relativeTimeFa(r.createdAt)}</span>
                     {r.status === "REJECTED" && r.reviewNote && (
                       <span className="text-[12px] text-destructive w-full">{t("profile.requests.reason")} {r.reviewNote}</span>
                     )}
@@ -278,7 +278,7 @@ export default function ProfilePage() {
               <div key={r.label} className="b-card-sm p-4 flex items-center gap-3">
                 <r.icon className="w-5 h-5 text-spring shrink-0" />
                 <span className="flex flex-col min-w-0">
-                  <span className="text-[10.5px] text-steel">{r.label}</span>
+                  <span className="text-[12px] text-steel">{r.label}</span>
                   <b className={`text-[13px] truncate ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.value}</b>
                 </span>
               </div>
@@ -297,7 +297,7 @@ export default function ProfilePage() {
                   { label: t("students.field.healthNotes"), value: u.studentProfile.healthNotes ?? "—" },
                 ].map((r) => (
                   <div key={r.label} className="b-card-sm !rounded-xl p-3.5">
-                    <div className="text-[10.5px] text-steel">{r.label}</div>
+                    <div className="text-[12px] text-steel">{r.label}</div>
                     <b className="text-[13px]">{r.value}</b>
                   </div>
                 ))}

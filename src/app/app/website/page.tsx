@@ -139,7 +139,7 @@ export default function WebsiteEditorPage() {
       })()}
       <div className="min-w-0 flex-1">
         <b className="text-[12.5px] block">{label}</b>
-        {hint && <span className="text-[10.5px] text-steel block truncate">{hint}</span>}
+        {hint && <span className="text-[12px] text-steel block truncate">{hint}</span>}
       </div>
       <button type="button" className="b-btn b-btn-soft b-btn-sm shrink-0" onClick={() => pickFile(field)} disabled={uploading === field}>
         {uploading === field ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
@@ -431,7 +431,7 @@ export default function WebsiteEditorPage() {
                 disabled={uploading === "gallery"}
               >
                 {uploading === "gallery" ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
-                <span className="text-[10.5px] font-bold">افزودن</span>
+                <span className="text-[12px] font-bold">افزودن</span>
               </button>
             </div>
           </div>
@@ -515,8 +515,8 @@ export default function WebsiteEditorPage() {
                 <input className="b-input !rounded-l-none !rounded-r-full min-w-0" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} />
               </div>
               {/* پیش‌نمایش زندهٔ آدرس نهایی (اسلاگ‌شدهٔ سمت سرور) */}
-              <span className="text-[10.5px] text-stone font-bold" dir="ltr">→ /s/{effectiveSlug || "…"}</span>
-              <span className="text-[10.5px] text-stone">
+              <span className="text-[12px] text-stone font-bold" dir="ltr">→ /s/{effectiveSlug || "…"}</span>
+              <span className="text-[12px] text-stone">
                 سایت مدرسه در مسیر /s/{effectiveSlug || "…"} در دسترس است — اگر فارسی بنویسید، خودکار به حروف لاتین ترجمیه می‌شود. دامنه اختصاصی هم برای همهٔ مدارس در دسترس است.
               </span>
             </label>

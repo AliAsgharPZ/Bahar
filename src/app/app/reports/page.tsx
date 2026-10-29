@@ -172,7 +172,7 @@ function ReportsInner() {
               <span className="text-[11.5px] text-steel">{formatDateFa(j.createdAt)}</span>
               <span className="b-badge b-badge-success">{faNumber(j.successRows)} {t("shell.notif.cat.success")}</span>
               {j.failedRows > 0 && <span className="b-badge b-badge-critical">{faNumber(j.failedRows)} {t("dashboard.login.failed")}</span>}
-              <span className="text-[10.5px] text-stone ms-auto">{faNumber(j.totalRows)} {t("reports.job.rows")}</span>
+              <span className="text-[12px] text-stone ms-auto">{faNumber(j.totalRows)} {t("reports.job.rows")}</span>
             </div>
           ))}
         </div>
@@ -228,7 +228,7 @@ function ReportsInner() {
                 />
               </div>
               <button onClick={createSchedule} disabled={schedBusy} className="b-btn b-btn-spring"><CalendarClock className="w-4 h-4" /> {t("reports.schedule.activate")}</button>
-              <p className="text-[10.5px] text-stone leading-relaxed">{t("reports.schedule.note")}</p>
+              <p className="text-[12px] text-stone leading-relaxed">{t("reports.schedule.note")}</p>
             </div>
           </div>
           <div className="lg:col-span-2 flex flex-col gap-2.5">

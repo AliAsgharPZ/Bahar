@@ -360,7 +360,7 @@ export default function ShadPage() {
                     {o.body}
                   </pre>
                 )}
-                <div className="text-[10.5px] text-stone mt-2">
+                <div className="text-[12px] text-stone mt-2">
                   {o.sentAt ? formatDateTimeFa(o.sentAt) : formatDateTimeFa(o.createdAt)}
                   {o.error ? ` ${t("shad.khta")} ${o.error}` : ""}
                 </div>

@@ -249,7 +249,7 @@ export default function FinancePage() {
                         {f.student ? (
                           <>
                             <b className="block truncate">{f.student.user.firstName} {f.student.user.lastName}</b>
-                            <span className="text-[10.5px] text-steel">{f.student.class?.name ?? t("students.noClass")}</span>
+                            <span className="text-[12px] text-steel">{f.student.class?.name ?? t("students.noClass")}</span>
                           </>
                         ) : (
                           "—"

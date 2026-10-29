@@ -144,8 +144,8 @@ export default function CertificatesPage() {
               <FileCheck2 className="w-5 h-5 text-spring shrink-0" />
               <span className="text-[13px] font-bold">{c.title}</span>
               <span className="text-[12px] text-steel">{c.student.user.firstName} {c.student.user.lastName}</span>
-              <span className="text-[10.5px] text-stone" dir="ltr">{c.serial}</span>
-              <span className="text-[10.5px] text-stone">{formatDateFa(c.issuedAt)}</span>
+              <span className="text-[12px] text-stone" dir="ltr">{c.serial}</span>
+              <span className="text-[12px] text-stone">{formatDateFa(c.issuedAt)}</span>
               {c.revokedAt && <span className="b-badge b-badge-critical">{tr("certificates.revokedBadge")}</span>}
               <span className="flex items-center gap-1.5 ms-auto">
                 <span className="b-badge b-badge-spring" dir="ltr">QR: {c.verifyCode}</span>

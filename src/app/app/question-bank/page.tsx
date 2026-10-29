@@ -182,7 +182,7 @@ export default function QuestionBankPage() {
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     {q.subject && <span className="b-badge b-badge-neutral">{q.subject.name}</span>}
                     <span className={`b-badge ${DIFF[q.difficulty]?.cls ?? "b-badge-neutral"}`}>{DIFF[q.difficulty]?.label}</span>
-                    <span className="text-[10.5px] text-stone">{q.topic}</span>
+                    <span className="text-[12px] text-stone">{q.topic}</span>
                   </div>
                   <p className="text-[13px] font-bold leading-relaxed">{q.body}</p>
                   {opts.length > 0 && <p className="text-[11.5px] text-steel mt-1">{opts.map((o, j) => `${["۱)", "۲)", "۳)", "۴)"][j] ?? ""} ${o}`).join("   ")}</p>}

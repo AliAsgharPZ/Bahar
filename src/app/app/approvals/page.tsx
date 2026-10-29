@@ -78,7 +78,7 @@ export default function ApprovalsPage() {
                     <RoleBadge role={r.user.role} /> {r.user.school?.name ?? ""} — <span dir="ltr" className="font-mono">{r.user.nationalId}</span>
                   </span>
                 </div>
-                <span className="text-[10.5px] text-stone shrink-0">{relativeTimeFa(r.createdAt)}</span>
+                <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(r.createdAt)}</span>
               </div>
 
               <div className="b-card-sm !rounded-xl overflow-hidden mb-4">

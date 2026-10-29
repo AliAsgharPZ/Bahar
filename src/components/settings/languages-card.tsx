@@ -127,7 +127,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
       {error && <div className="b-card-sm !border-destructive/30 bg-destructive/5 text-destructive px-4 py-3 text-[12px]">{error}</div>}
       {data && (data.selectable ?? []).filter((s) => s.source === "shipped").length > 0 && (
         <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between text-[10.5px] text-stone px-1">
+          <div className="flex items-center justify-between text-[12px] text-stone px-1">
             <span>{faNumber((data.selectable ?? []).filter((s) => s.source === "shipped").length)} بسته همراه سامانه (فارسی پایه + این‌ها)</span>
           </div>
           {(data.selectable ?? []).filter((s) => s.source === "shipped").map((s) => (
@@ -135,7 +135,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
               <span className="w-2.5 h-2.5 rounded-full shrink-0 bg-success" />
               <div className="min-w-0 flex-1">
                 <b className="text-[12.5px] block truncate">{s.nativeName} <span className="text-steel font-normal">({s.name})</span></b>
-                <div className="text-[10.5px] text-steel flex flex-wrap items-center gap-x-2">
+                <div className="text-[12px] text-steel flex flex-wrap items-center gap-x-2">
                   <span dir="ltr" className="font-mono">{s.code}</span>
                   <span>·</span>
                   <span>{s.direction === "ltr" ? "چپ‌به‌راست" : "راست‌به‌چپ"}</span>
@@ -149,7 +149,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
       )}
       {data && data.packs.length > 0 && (
         <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between text-[10.5px] text-stone px-1">
+          <div className="flex items-center justify-between text-[12px] text-stone px-1">
             <span>{faNumber(data.packs.length)} بسته ثبت‌شده</span>
             <button onClick={refetch} className="hover:text-spring transition-colors inline-flex items-center gap-1">
               <RefreshCcw className="w-3 h-3" /> به‌روزرسانی
@@ -162,7 +162,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
                 <b className="text-[12.5px] block truncate">
                   {p.nativeName} <span className="text-steel font-normal">({p.name})</span>
                 </b>
-                <div className="text-[10.5px] text-steel flex flex-wrap items-center gap-x-2">
+                <div className="text-[12px] text-steel flex flex-wrap items-center gap-x-2">
                   <span dir="ltr" className="font-mono">{p.code}</span>
                   <span>·</span>
                   <span>{p.direction === "ltr" ? "چپ‌به‌راست" : "راست‌به‌چپ"}</span>
@@ -230,7 +230,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
         </span>
         <div className="min-w-0 flex-1">
           <b className="text-[12.5px] block">افزودن / جایگزینی بسته زبان</b>
-          <span className="text-[10.5px] text-stone">فایل .json حداکثر ۴۰۰KB — بسته هم‌کد جایگزین می‌شود</span>
+          <span className="text-[12px] text-stone">فایل .json حداکثر ۴۰۰KB — بسته هم‌کد جایگزین می‌شود</span>
         </div>
         <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
           {busy === "upload" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
@@ -253,7 +253,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
 
       </Collapsible>}
 
-      <div className="flex items-start gap-2 text-[10.5px] text-steel leading-5 rounded-xl bg-forest/5 dark:bg-forest/10 p-3">
+      <div className="flex items-start gap-2 text-[12px] text-steel leading-5 rounded-xl bg-forest/5 dark:bg-forest/10 p-3">
         <AlertTriangle className="w-3.5 h-3.5 text-warning shrink-0 mt-0.5" />
         بسته‌های زبان فقط متن رابط کاربری را عوض می‌کنند؛ داده‌های ثبت‌شده (نام دانش‌آموزان، عنوان درس‌ها و…) به زبان اصلی خودشان می‌مانند.
         تقویم و اعداد فارسی برای همه زبان‌ها فعال است.

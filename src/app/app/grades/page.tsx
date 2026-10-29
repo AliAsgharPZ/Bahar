@@ -446,7 +446,7 @@ export default function GradesPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-[10.5px] text-steel pt-1 border-t border-hairline-soft">
+                <div className="flex items-center justify-between text-[12px] text-steel pt-1 border-t border-hairline-soft">
                   <span className="flex items-center gap-1"><NotebookPen className="w-3 h-3" /> {faNumber(m.assignmentCount)} {t("grades.monthly.assignments")}</span>
                   {m.attendanceRate !== null && <span>{t("grades.monthly.attendanceRate")} {faNumber(m.attendanceRate)}٪</span>}
                 </div>

@@ -90,7 +90,7 @@ export function LanguageSwitcher({ compact = false, restricted = false }: { comp
             >
               <span className="flex flex-col items-start leading-tight min-w-0">
                 <span className="truncate">{o.nativeName}</span>
-                <span className="text-[10.5px] text-stone truncate">
+                <span className="text-[12px] text-stone truncate">
                   {o.name}
                   {o.direction === "ltr" ? " · LTR" : ""}
                 </span>

@@ -171,7 +171,7 @@ function EngagementInner() {
                     );
                   })}
                 </div>
-                <p className="text-[10.5px] text-stone mt-2.5">{faNumber(p.totalVotes)} {t("engagement.votes")}{voted ? ` · ${t("engagement.yourVoteRecorded")}` : closed ? ` · ${t("engagement.closed")}` : ""}</p>
+                <p className="text-[12px] text-stone mt-2.5">{faNumber(p.totalVotes)} {t("engagement.votes")}{voted ? ` · ${t("engagement.yourVoteRecorded")}` : closed ? ` · ${t("engagement.closed")}` : ""}</p>
               </motion.div>
             );
           })}
@@ -222,7 +222,7 @@ function EngagementInner() {
                   </div>
                   {h.topMembers.length > 0 && (
                     <div className="border-t border-hairline-soft pt-3 flex flex-col gap-1.5">
-                      <span className="text-[10.5px] text-stone">{t("engagement.topScorers")}</span>
+                      <span className="text-[12px] text-stone">{t("engagement.topScorers")}</span>
                       {h.topMembers.map((m, j) => (
                         <span key={m.id} className="text-[12px] flex items-center gap-2">
                           <span className="text-[12px] text-stone w-3">{faNumber(j + 1)}</span>

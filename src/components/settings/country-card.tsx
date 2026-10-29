@@ -118,14 +118,14 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
       {/* جدول بسته‌ها — اول بسته‌های همراه سامانه */}
       {data && (data.shipped ?? []).length > 0 && (
         <div className="flex flex-col gap-2 mb-2">
-          <div className="flex items-center justify-between text-[10.5px] text-stone px-1">
+          <div className="flex items-center justify-between text-[12px] text-stone px-1">
             <span>{faNumber((data.shipped ?? []).length)} بسته کشور همراه سامانه</span>
           </div>
           {(data.shipped ?? []).filter((s) => s.code !== "IR").map((s) => (
             <div key={s.code} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
               <div className="flex flex-col min-w-0">
-                <b className="text-[12.5px]">{s.name} <span className="text-stone font-mono text-[10.5px]">({s.code})</span></b>
-                <span className="text-[10.5px] text-steel">{s.nativeName} · {faNumber(s.regions)} منطقه · {faNumber(s.counties)} شهرستان · همراه سامانه</span>
+                <b className="text-[12.5px]">{s.name} <span className="text-stone font-mono text-[12px]">({s.code})</span></b>
+                <span className="text-[12px] text-steel">{s.nativeName} · {faNumber(s.regions)} منطقه · {faNumber(s.counties)} شهرستان · همراه سامانه</span>
               </div>
               <span className={`b-badge ms-auto ${data.active === s.code ? "b-badge-success" : "b-badge-neutral"}`}>
                 {data.active === s.code ? "فعال" : "همراه سامانه"}
@@ -143,8 +143,8 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
           {data.packs.map((p) => (
             <div key={p.id} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
               <div className="flex flex-col min-w-0">
-                <b className="text-[12.5px]">{p.name} <span className="text-stone font-mono text-[10.5px]">({p.code})</span></b>
-                <span className="text-[10.5px] text-steel">{p.nativeName} · نسخه {p.version}{p.notes ? ` · ${p.notes}` : ""}</span>
+                <b className="text-[12.5px]">{p.name} <span className="text-stone font-mono text-[12px]">({p.code})</span></b>
+                <span className="text-[12px] text-steel">{p.nativeName} · نسخه {p.version}{p.notes ? ` · ${p.notes}` : ""}</span>
               </div>
               <span className={`b-badge ms-auto ${p.status === "ACTIVE" ? "b-badge-success" : p.status === "DISABLED" ? "b-badge-neutral" : "b-badge-warning"}`}>
                 {p.status === "ACTIVE" ? "فعال" : p.status === "DISABLED" ? "غیرفعال" : "پیش‌نویس"}

@@ -187,7 +187,7 @@ export default function BlogAdminPage() {
                 </span>
               </div>
               <StatusBadge ok={p.status === "PUBLISHED"} okLabel={t("blog.status.published")} badLabel={t("enum.quizStatus.DRAFT")} />
-              <span className="text-[10.5px] text-stone">{p.status === "PUBLISHED" && p.publishedAt ? formatDateTimeFa(p.publishedAt) : relativeTimeFa(p.updatedAt)}</span>
+              <span className="text-[12px] text-stone">{p.status === "PUBLISHED" && p.publishedAt ? formatDateTimeFa(p.publishedAt) : relativeTimeFa(p.updatedAt)}</span>
             </div>
 
             {p.tags.length > 0 && (
@@ -333,7 +333,7 @@ export default function BlogAdminPage() {
               <label className="flex flex-col gap-1.5">
                 <span className="text-[12.5px] font-bold">{t("blog.slugLabel")}</span>
                 <input className="b-input" dir="ltr" value={editSlug} onChange={(e) => setEditSlug(e.target.value)} placeholder="my-post-slug" />
-                <span className="text-[10.5px] text-steel" dir="ltr">/blog/{editSlug || editing.slug}</span>
+                <span className="text-[12px] text-steel" dir="ltr">/blog/{editSlug || editing.slug}</span>
               </label>
               <label className="flex flex-col gap-1.5">
                 <span className="text-[12.5px] font-bold">{t("blog.tagsLabel")}</span>

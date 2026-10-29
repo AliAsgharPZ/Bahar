@@ -382,15 +382,15 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
           {f.regions.map((r, i) => (
             <div key={i} className="grid sm:grid-cols-[1fr_1fr_1.6fr_auto] gap-2 items-end b-card-sm !rounded-xl p-3">
               <label className="flex flex-col gap-1">
-                <span className="text-[10.5px] font-bold">نام منطقه</span>
+                <span className="text-[12px] font-bold">نام منطقه</span>
                 <input className="b-input !h-9" placeholder="استان آنکارا" value={r.name} onChange={(e) => set("regions", f.regions.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-[10.5px] font-bold">مرکز</span>
+                <span className="text-[12px] font-bold">مرکز</span>
                 <input className="b-input !h-9" placeholder="آنکارا" value={r.center} onChange={(e) => set("regions", f.regions.map((x, j) => (j === i ? { ...x, center: e.target.value } : x)))} />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-[10.5px] font-bold">شهرستان‌ها (با ویرگول)</span>
+                <span className="text-[12px] font-bold">شهرستان‌ها (با ویرگول)</span>
                 <input className="b-input !h-9" placeholder="چانکایا، کچی‌اورن…" value={r.counties} onChange={(e) => set("regions", f.regions.map((x, j) => (j === i ? { ...x, counties: e.target.value } : x)))} />
               </label>
               <button
@@ -417,7 +417,7 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
         >
           <span className="flex flex-col items-start gap-0.5">
             <b className="text-[12px]">ماژول شاد (شبکهٔ ملی ایران)</b>
-            <span className="text-[10.5px] text-steel leading-relaxed">
+            <span className="text-[12px] text-steel leading-relaxed">
               فقط برای کشور ایران روشن کنید — برای ریجن‌های دیگر نامی از شاد در سامانه دیده نمی‌شود.
             </span>
           </span>

@@ -256,7 +256,7 @@ export default function SchedulePage() {
                             {teacherSlot ? (
                               <div className="b-card-sm !rounded-lg p-2.5 bg-spring-tint !border-transparent">
                                 <b className="text-[12px] block truncate">{teacherSlot.subject?.name ?? "—"}</b>
-                                <span className="text-[10.5px] text-steel truncate block">{teacherSlot.class?.name ?? ""}</span>
+                                <span className="text-[12px] text-steel truncate block">{teacherSlot.class?.name ?? ""}</span>
                               </div>
                             ) : (
                               <span className="text-stone">—</span>
@@ -294,7 +294,7 @@ export default function SchedulePage() {
                           {view ? (
                             <div className="flex flex-col">
                               <b className="text-[12.5px]">{view.subject?.name ?? "—"}</b>
-                              {view.teacher && <span className="text-[10.5px] text-steel">{view.teacher.firstName} {view.teacher.lastName}</span>}
+                              {view.teacher && <span className="text-[12px] text-steel">{view.teacher.firstName} {view.teacher.lastName}</span>}
                             </div>
                           ) : (
                             <span className="text-stone">—</span>

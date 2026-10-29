@@ -87,7 +87,7 @@ export function CaptchaField({
           maxLength={8}
         />
       </div>
-      <div className="flex items-center justify-between text-[10.5px] text-stone">
+      <div className="flex items-center justify-between text-[12px] text-stone">
         <span>حروف و ارقام انگلیسی تصویر را وارد کنید</span>
         <button type="button" onClick={refresh} className="font-bold text-spring-deep hover:underline shrink-0">
           کد جدید

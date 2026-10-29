@@ -118,7 +118,7 @@ export function AvatarBuilder({
                         className="w-full h-full object-cover"
                       />
                     </span>
-                    <span className={`text-[10.5px] leading-tight text-center truncate w-full ${selected ? "font-bold text-spring-deep" : "text-steel"}`}>
+                    <span className={`text-[12px] leading-tight text-center truncate w-full ${selected ? "font-bold text-spring-deep" : "text-steel"}`}>
                       {avatarOptionLabel(opt)}
                     </span>
                   </button>

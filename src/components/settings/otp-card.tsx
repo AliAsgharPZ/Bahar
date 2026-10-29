@@ -95,7 +95,7 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
         >
           <span className="flex flex-col items-start gap-0.5">
             <b className="text-[12.5px]">کد یکبارمصرف هنگام ورود</b>
-            <span className="text-[10.5px] text-steel leading-relaxed">
+            <span className="text-[12px] text-steel leading-relaxed">
               {form.otpEnabled ? "برای همه کاربران هنگام ورود فعال است." : "خاموش — ورود فقط با رمز (و 2FA فردی در صورت فعال‌سازی)."}
             </span>
           </span>
@@ -112,7 +112,7 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
         >
           <span className="flex flex-col items-start gap-0.5">
             <b className="text-[12.5px]">حالت تست (بدون سرویس ارسال)</b>
-            <span className="text-[10.5px] text-steel leading-relaxed">
+            <span className="text-[12px] text-steel leading-relaxed">
               {form.otpTestMode ? "کد در فرم ورود نمایش داده می‌شود — فقط برای آزمایش!" : "کد فقط از طریق سرویس واقعی ارسال می‌شود."}
             </span>
           </span>

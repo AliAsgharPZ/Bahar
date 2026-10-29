@@ -219,7 +219,7 @@ export default function AnnouncementsPage() {
                   );
                 })}
               </div>
-              <p className="text-[10.5px] text-stone mt-1.5">{t("announcements.audienceHint")}</p>
+              <p className="text-[12px] text-stone mt-1.5">{t("announcements.audienceHint")}</p>
             </div>
 
             {/* هدف‌گیری نقشه */}
@@ -239,7 +239,7 @@ export default function AnnouncementsPage() {
                 </span>
                 <MapPin className="w-4 h-4 text-spring shrink-0" />
               </button>
-              <p className="text-[10.5px] text-stone mt-1.5">
+              <p className="text-[12px] text-stone mt-1.5">
                 {t("announcements.geoHint")}
               </p>
             </div>
@@ -292,12 +292,12 @@ export default function AnnouncementsPage() {
                     <MapPin className="w-3 h-3 inline ml-0.5" /> {reg}
                   </span>
                 )}
-                <span className="text-[10.5px] text-stone ms-auto">{a.school?.name ?? ""} · {relativeTimeFa(a.createdAt)}</span>
+                <span className="text-[12px] text-stone ms-auto">{a.school?.name ?? ""} · {relativeTimeFa(a.createdAt)}</span>
               </div>
               <b className="text-[14px] block mb-1.5">{a.title}</b>
               <p className="text-[13px] text-steel leading-relaxed whitespace-pre-line">{a.body}</p>
               <div className="flex items-center gap-3 mt-3 pt-2 border-t border-hairline-soft/60">
-                <span className="text-[10.5px] text-stone">
+                <span className="text-[12px] text-stone">
                   {a.createdBy ? `${a.createdBy.firstName} ${a.createdBy.lastName}` : t("dashboard.system")} · {formatDateTimeFa(a.createdAt)}
                 </span>
                 {canSend && (

@@ -465,7 +465,7 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
     return (
       <article className={`${lead ? "pb-6 mb-2" : "py-5"} border-b last:border-b-0`} style={{ borderColor: skin.border }}>
         {n.pinned && (
-          <span className="text-[10.5px] font-bold px-2 py-0.5 me-2 align-middle" style={{ color: skin.p.primary, border: `1px solid ${skin.p.primary}55` }}>مهم</span>
+          <span className="text-[12px] font-bold px-2 py-0.5 me-2 align-middle" style={{ color: skin.p.primary, border: `1px solid ${skin.p.primary}55` }}>مهم</span>
         )}
         <b className={`block ${lead ? "text-[19px] md:text-[23px]" : "text-[15px]"} font-bold leading-snug`} style={{ ...headingFont, color: skin.text }}>{n.title}</b>
         <p className={`mt-2 leading-[1.9] ${lead ? "line-clamp-4 text-[13.5px]" : "line-clamp-2 text-[12.5px]"}`} style={{ color: skin.sub }}>{n.body}</p>
@@ -479,7 +479,7 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
         {n.pinned && <span className="text-[12px] font-bold px-2.5 py-0.5 inline-block mb-2" style={{ background: `${skin.p.accent}22`, color: skin.p.accent }}>مهم</span>}
         <b className="block text-[14px] mb-2 leading-snug" style={{ color: skin.text }}>{n.title}</b>
         <p className="text-[12px] leading-relaxed line-clamp-3" style={{ color: skin.sub }}>{n.body}</p>
-        <span className="text-[10.5px] block mt-3" style={{ color: skin.faint }}>{date}</span>
+        <span className="text-[12px] block mt-3" style={{ color: skin.faint }}>{date}</span>
       </article>
     );
   }
@@ -491,7 +491,7 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
         )}
         <b className="block text-[14px] mb-2 leading-snug" style={{ color: skin.text }}>{n.title}</b>
         <p className="text-[12px] leading-relaxed line-clamp-3" style={{ color: skin.sub }}>{n.body}</p>
-        <span className="text-[10.5px] block mt-3" style={{ color: skin.faint }}>{date}</span>
+        <span className="text-[12px] block mt-3" style={{ color: skin.faint }}>{date}</span>
       </article>
     );
   }
@@ -499,7 +499,7 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
     return (
       <article className="py-5 border-b last:border-b-0" style={{ borderColor: skin.border }}>
         {n.pinned && (
-          <span className="text-[10.5px] font-bold px-2 py-0.5 me-2 align-middle" style={{ color: skin.p.primary, border: `1px solid ${skin.p.primary}55` }}>مهم</span>
+          <span className="text-[12px] font-bold px-2 py-0.5 me-2 align-middle" style={{ color: skin.p.primary, border: `1px solid ${skin.p.primary}55` }}>مهم</span>
         )}
         <b className="block text-[15px] font-semibold leading-snug" style={{ ...headingFont, color: skin.text }}>{n.title}</b>
         <p className="mt-2 leading-[1.9] line-clamp-2 text-[12.5px]" style={{ color: skin.sub }}>{n.body}</p>
@@ -513,7 +513,7 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
       {n.pinned && <span className="text-[12px] font-bold px-2.5 py-0.5 rounded-full mb-2 inline-block" style={{ background: `${skin.p.primary}15`, color: skin.p.primary }}>مهم</span>}
       <b className="block text-[14px] mb-2 leading-snug" style={{ color: skin.text }}>{n.title}</b>
       <p className="text-[12px] leading-relaxed line-clamp-3" style={{ color: skin.sub }}>{n.body}</p>
-      <span className="text-[10.5px] block mt-3" style={{ color: skin.faint }}>{date}</span>
+      <span className="text-[12px] block mt-3" style={{ color: skin.faint }}>{date}</span>
     </article>
   );
 }
@@ -543,7 +543,7 @@ function EventItem({ skin, e }: { skin: Skin; e: SiteData["events"][number] }) {
         <div>
           <b className="text-[14.5px] font-bold block leading-snug" style={{ ...headingFont, color: skin.text }}>{e.title}</b>
           {e.description && <p className="text-[12px] mt-1.5 leading-relaxed" style={{ color: skin.sub }}>{e.description}</p>}
-          <span className="text-[10.5px] mt-1.5 inline-block" style={{ color: skin.faint }}>{kind}</span>
+          <span className="text-[12px] mt-1.5 inline-block" style={{ color: skin.faint }}>{kind}</span>
         </div>
       </div>
     );
@@ -568,7 +568,7 @@ function EventItem({ skin, e }: { skin: Skin; e: SiteData["events"][number] }) {
         <div className="min-w-0">
           <b className="text-[14.5px] font-semibold block leading-snug break-words" style={{ ...headingFont, color: skin.text }}>{e.title}</b>
           {e.description && <p className="text-[12px] mt-1.5 leading-relaxed break-words" style={{ color: skin.sub }}>{e.description}</p>}
-          <span className="text-[10.5px] mt-1.5 inline-block" style={{ color: skin.faint }}>{kind}</span>
+          <span className="text-[12px] mt-1.5 inline-block" style={{ color: skin.faint }}>{kind}</span>
         </div>
       </div>
     );
@@ -576,7 +576,7 @@ function EventItem({ skin, e }: { skin: Skin; e: SiteData["events"][number] }) {
   // کلاسیک
   return (
     <div className="flex items-center gap-4 p-4" style={classicCard(skin)}>
-      <span className="text-[10.5px] font-bold px-3 py-1 rounded-full shrink-0" style={{ background: `${skin.p.accent}18`, color: skin.dark ? skin.p.accent : "#9C3B62" }}>{kind}</span>
+      <span className="text-[12px] font-bold px-3 py-1 rounded-full shrink-0" style={{ background: `${skin.p.accent}18`, color: skin.dark ? skin.p.accent : "#9C3B62" }}>{kind}</span>
       <div className="min-w-0 flex-1">
         <b className="text-[13.5px] block truncate" style={{ color: skin.text }}>{e.title}</b>
         {e.description && <p className="text-[11.5px] truncate" style={{ color: skin.sub }}>{e.description}</p>}
@@ -597,7 +597,7 @@ function ClassItem({ skin, c }: { skin: Skin; c: SiteData["classes"][number] }) 
       <div className="p-4 text-center" style={{ background: skin.dark ? "rgba(255,255,255,.04)" : "#fff" }}>
         <b className="block text-[13.5px]" style={{ color: skin.text }}>{c.name}</b>
         <span className="text-[12px] block mt-1" style={{ color: skin.faint }}>{grade}</span>
-        <span className="text-[10.5px] block mt-2 font-bold" style={{ color: skin.p.accent }}>{cap}</span>
+        <span className="text-[12px] block mt-2 font-bold" style={{ color: skin.p.accent }}>{cap}</span>
       </div>
     );
   }
@@ -615,7 +615,7 @@ function ClassItem({ skin, c }: { skin: Skin; c: SiteData["classes"][number] }) 
         <b className="text-[13px] shrink-0" style={{ color: skin.text }}>{c.name}</b>
         <span className="flex items-center gap-2 min-w-0">
           <span className="text-[12px] truncate" style={{ color: skin.sub }}>{grade}</span>
-          <span className="text-[10.5px] font-bold px-2.5 py-1 rounded-full shrink-0" style={{ background: skin.p.primary, color: skin.onPrimary }}>{faDigits(c.capacity)}</span>
+          <span className="text-[12px] font-bold px-2.5 py-1 rounded-full shrink-0" style={{ background: skin.p.primary, color: skin.onPrimary }}>{faDigits(c.capacity)}</span>
         </span>
       </div>
     );
@@ -625,7 +625,7 @@ function ClassItem({ skin, c }: { skin: Skin; c: SiteData["classes"][number] }) 
     <div className="p-4 text-center" style={classicCard(skin)}>
       <b className="block text-[13.5px] mb-1" style={{ color: skin.text }}>{c.name}</b>
       <span className="text-[12px]" style={{ color: skin.sub }}>{grade}</span>
-      <span className="text-[10.5px] block mt-2" style={{ color: skin.p.primary }}>{cap}</span>
+      <span className="text-[12px] block mt-2" style={{ color: skin.p.primary }}>{cap}</span>
     </div>
   );
 }
@@ -652,7 +652,7 @@ function StaffCard({ skin, st, i = 0 }: { skin: Skin; st: SiteData["staff"][numb
       <div className="p-5 text-center" style={{ borderRadius: skin.radius, background: skin.card, border: `1px solid ${skin.border}` }}>
         <span className="block mx-auto mb-3 w-fit"><UserAvatar user={st} size={64} rounded="xl" /></span>
         <b className="block text-[13px]" style={{ color: skin.text }}>{name}</b>
-        <span className="text-[10.5px]" style={{ color: skin.faint }}>{role}</span>
+        <span className="text-[12px]" style={{ color: skin.faint }}>{role}</span>
       </div>
     );
   }
@@ -661,7 +661,7 @@ function StaffCard({ skin, st, i = 0 }: { skin: Skin; st: SiteData["staff"][numb
       <div className="p-5 text-center transition-transform hover:-rotate-2" style={{ borderRadius: skin.radius, background: i % 2 ? `${skin.p.accent}16` : `${skin.p.primary}12` }}>
         <span className="block mx-auto mb-3 w-fit"><UserAvatar user={st} size={68} rounded="full" /></span>
         <b className="block text-[13px]" style={{ color: skin.text }}>{name}</b>
-        <span className="text-[10.5px]" style={{ color: skin.sub }}>{role}</span>
+        <span className="text-[12px]" style={{ color: skin.sub }}>{role}</span>
       </div>
     );
   }
@@ -670,7 +670,7 @@ function StaffCard({ skin, st, i = 0 }: { skin: Skin; st: SiteData["staff"][numb
     <div className="p-5 text-center" style={classicCard(skin)}>
       <span className="block mx-auto mb-3 w-fit"><UserAvatar user={st} size={64} rounded="xl" /></span>
       <b className="block text-[13px]" style={{ color: skin.text }}>{name}</b>
-      <span className="text-[10.5px]" style={{ color: skin.sub }}>{role}</span>
+      <span className="text-[12px]" style={{ color: skin.sub }}>{role}</span>
     </div>
   );
 }

@@ -809,7 +809,7 @@ export default function StudentsPage() {
                           <input className="b-input" value={p.education} onChange={(e) => setParent(i, "education", e.target.value)} />
                         </label>
                       </div>
-                      <p className="text-[10.5px] text-stone mt-2">{t("students.parent.existingHint")}</p>
+                      <p className="text-[12px] text-stone mt-2">{t("students.parent.existingHint")}</p>
                     </div>
                   ))}
                 </div>
@@ -856,7 +856,7 @@ export default function StudentsPage() {
                     { l: t("students.field.healthNotes"), v: detail.healthNotes ?? "—" },
                   ].map((r) => (
                     <div key={r.l} className="b-card-sm !rounded-xl p-3.5">
-                      <div className="text-[10.5px] text-steel mb-0.5">{r.l}</div>
+                      <div className="text-[12px] text-steel mb-0.5">{r.l}</div>
                       <div className={`text-[13px] font-bold ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.v}</div>
                     </div>
                   ))}
@@ -874,7 +874,7 @@ export default function StudentsPage() {
                         <span className="flex flex-col items-end gap-0.5 shrink-0">
                           <span dir="ltr" className="font-mono text-[12px] text-steel">{p.parentUser.nationalId}</span>
                           {p.parentUser.shadNumber && (
-                            <span className="flex items-center gap-1 text-[10.5px] text-spring">
+                            <span className="flex items-center gap-1 text-[12px] text-spring">
                               <Phone className="w-3 h-3" /> {t("students.detail.shadRegistered")}
                             </span>
                           )}

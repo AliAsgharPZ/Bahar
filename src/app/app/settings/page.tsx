@@ -244,7 +244,7 @@ export default function SettingsPage() {
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">{t("settings.field.mainHost")}</span>
               <input className="b-input" dir="ltr" placeholder="bahar.school" value={form.mainHost} disabled={!data.canEdit} onChange={(e) => set("mainHost", e.target.value)} />
-              <span className="text-[10.5px] text-stone">{t("settings.field.mainHostHint")}</span>
+              <span className="text-[12px] text-stone">{t("settings.field.mainHostHint")}</span>
             </label>
           </div>
 
@@ -270,7 +270,7 @@ export default function SettingsPage() {
               <input type="checkbox" className="accent-spring w-4 h-4" checked={form.demoEnabled} onChange={(e) => set("demoEnabled", e.target.checked)} />
               <span className="flex flex-col">
                 <b className="text-[12.5px]">{t("settings.demo.show")}</b>
-                <span className="text-[10.5px] text-steel">{t("settings.demo.hint")}</span>
+                <span className="text-[12px] text-steel">{t("settings.demo.hint")}</span>
               </span>
             </label>
             <div className="grid grid-cols-2 gap-4">
@@ -314,7 +314,7 @@ export default function SettingsPage() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <b className="text-[12.5px] block">{b.label}</b>
-                  <span className="text-[10.5px] text-stone">{b.hint}</span>
+                  <span className="text-[12px] text-stone">{b.hint}</span>
                 </div>
                 <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
                   {uploadingBrand === b.field ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
@@ -360,11 +360,11 @@ export default function SettingsPage() {
                 <div className="min-w-0 flex-1">
                   <b className="text-[12.5px] block">{a.label}</b>
                   {form[a.field] ? (
-                    <a href={form[a.field]} target="_blank" rel="noreferrer" className="text-[10.5px] text-spring font-bold hover:underline flex items-center gap-1">
+                    <a href={form[a.field]} target="_blank" rel="noreferrer" className="text-[12px] text-spring font-bold hover:underline flex items-center gap-1">
                       <Download className="w-3 h-3" /> {t("settings.apps.downloadActive")}
                     </a>
                   ) : (
-                    <span className="text-[10.5px] text-stone">{t("settings.apps.noFile")}</span>
+                    <span className="text-[12px] text-stone">{t("settings.apps.noFile")}</span>
                   )}
                 </div>
                 <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
@@ -406,7 +406,7 @@ export default function SettingsPage() {
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">{t("settings.field.shadGateway")}</span>
               <input className="b-input" dir="ltr" value={form.shadGatewayUrl} disabled={!data.canEdit} onChange={(e) => set("shadGatewayUrl", e.target.value)} />
-              <span className="text-[10.5px] text-stone">{t("settings.field.shadGatewayHint")}</span>
+              <span className="text-[12px] text-stone">{t("settings.field.shadGatewayHint")}</span>
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">{t("settings.field.telegramToken")}</span>
@@ -420,7 +420,7 @@ export default function SettingsPage() {
                 value={botTokenInput}
                 onChange={(e) => setBotTokenInput(e.target.value)}
               />
-              <span className="text-[10.5px] text-stone">{t("settings.field.telegramTokenHint")}</span>
+              <span className="text-[12px] text-stone">{t("settings.field.telegramTokenHint")}</span>
             </label>
             <label className="flex items-center gap-2.5 select-none cursor-pointer w-fit">
               <input
@@ -431,7 +431,7 @@ export default function SettingsPage() {
                 onChange={(e) => set("telegramBotEnabled", e.target.checked)}
               />
               <span className="text-[12px] font-bold">{t("settings.telegram.enable")}</span>
-              {!form.telegramBotToken && <span className="text-[10.5px] text-stone">{t("settings.telegram.tokenFirst")}</span>}
+              {!form.telegramBotToken && <span className="text-[12px] text-stone">{t("settings.telegram.tokenFirst")}</span>}
             </label>
             {/* راند ۱۹: اتصال وب‌هوک مستقیم از پنل — بدون پروسهٔ جدا */}
             <TelegramSetupCard tokenSaved={!!form.telegramBotToken} />

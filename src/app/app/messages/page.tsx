@@ -345,11 +345,11 @@ export default function MessagesPage() {
                   />
                   <div className="flex items-center justify-between px-1">
                     {shadVisible ? (
-                      <Link href={SHAD_URL} target="_blank" className="text-[10.5px] text-spring flex items-center gap-1 hover:underline">
+                      <Link href={SHAD_URL} target="_blank" className="text-[12px] text-spring flex items-center gap-1 hover:underline">
                         <Smartphone className="w-3 h-3" /> {t("messages.longToShad")}
                       </Link>
                     ) : <span />}
-                    <span className={`text-[10.5px] ${text.length > MAX_LEN ? "text-destructive font-bold" : "text-stone"}`}>
+                    <span className={`text-[12px] ${text.length > MAX_LEN ? "text-destructive font-bold" : "text-stone"}`}>
                       {faNumber(text.length)}/{faNumber(MAX_LEN)}
                     </span>
                   </div>
@@ -425,7 +425,7 @@ export default function MessagesPage() {
                             <UserAvatar user={c} size={40} />
                             <span className="flex flex-col min-w-0 flex-1">
                               <b className="text-[13px] truncate">{c.firstName} {c.lastName}</b>
-                              {c.schoolName && <span className="text-[10.5px] text-stone truncate">{c.schoolName}</span>}
+                              {c.schoolName && <span className="text-[12px] text-stone truncate">{c.schoolName}</span>}
                             </span>
                             <RoleBadge role={c.role} />
                           </button>

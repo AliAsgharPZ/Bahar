@@ -488,7 +488,7 @@ export default function SchoolsPage() {
                   >
                     <span className="flex flex-col items-start gap-0.5">
                       <b className="text-[12.5px]">{t("schools.modules.shad")}</b>
-                      <span className="text-[10.5px] text-steel leading-relaxed">
+                      <span className="text-[12px] text-steel leading-relaxed">
                         {editShad ? t("schools.modules.shadOn") : t("schools.modules.shadOff")}
                       </span>
                     </span>
@@ -504,7 +504,7 @@ export default function SchoolsPage() {
                   >
                     <span className="flex flex-col items-start gap-0.5">
                       <b className="text-[12.5px]">{t("schools.modules.custodian")}</b>
-                      <span className="text-[10.5px] text-steel leading-relaxed">
+                      <span className="text-[12px] text-steel leading-relaxed">
                         {editCustodian ? t("schools.modules.custodianOn") : t("schools.modules.custodianOff")}
                       </span>
                     </span>

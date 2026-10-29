@@ -194,7 +194,7 @@ export function BarChart({
                 }}
               />
               {d.value !== null && (
-                <span className="absolute inset-y-0 end-2 flex items-center text-[10.5px] font-bold text-ink-deep/70">
+                <span className="absolute inset-y-0 end-2 flex items-center text-[12px] font-bold text-ink-deep/70">
                   {faDigits(d.value.toFixed(1))}{suffix ?? ""}
                 </span>
               )}

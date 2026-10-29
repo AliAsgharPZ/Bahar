@@ -110,8 +110,8 @@ export default async function BlogIndexPage() {
                 <h3 className="text-[15px] font-bold leading-snug mb-2 group-hover:text-spring transition-colors line-clamp-2">{p.title}</h3>
                 <p className="text-[12px] text-steel leading-relaxed line-clamp-3 mb-3">{p.excerpt}</p>
                 <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-[10.5px] text-stone">{formatDateFa(p.publishedAt!)} · {p._count.comments.toLocaleString("fa-IR")} {tx("site.blog.commentsSuffix", "نظر")}</span>
-                  <span className="text-[10.5px] text-stone">{p.viewCount.toLocaleString("fa-IR")} {tx("site.blog.viewsSuffix", "بازدید")}</span>
+                  <span className="text-[12px] text-stone">{formatDateFa(p.publishedAt!)} · {p._count.comments.toLocaleString("fa-IR")} {tx("site.blog.commentsSuffix", "نظر")}</span>
+                  <span className="text-[12px] text-stone">{p.viewCount.toLocaleString("fa-IR")} {tx("site.blog.viewsSuffix", "بازدید")}</span>
                 </div>
               </div>
             </Link>

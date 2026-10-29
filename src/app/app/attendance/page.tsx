@@ -163,7 +163,7 @@ export default function AttendancePage() {
                   </span>
                   <span className="flex flex-col min-w-0">
                     <b className="text-[13.5px] truncate">{st.fullName}</b>
-                    <span className="text-[10.5px] text-steel" dir="ltr">{st.studentNumber}</span>
+                    <span className="text-[12px] text-steel" dir="ltr">{st.studentNumber}</span>
                     {st.healthAlert && (
                       <span className="b-badge b-badge-blossom mt-1 self-start" title={[st.healthAlert.sportsNote, st.healthAlert.conditions, st.healthAlert.mobilityNote, st.healthAlert.allergies].filter(Boolean).join(" · ")}>
                         <HeartPulse className="w-3 h-3" />

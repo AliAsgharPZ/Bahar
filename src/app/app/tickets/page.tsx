@@ -169,7 +169,7 @@ export default function TicketsPage() {
               <span className={`b-badge shrink-0 ${tk.status === "OPEN" ? "b-badge-warning" : tk.status === "ANSWERED" ? "b-badge-spring" : "b-badge-neutral"}`}>
                 {STATUS_TKEY[tk.status] ? t(STATUS_TKEY[tk.status]) : tk.status}
               </span>
-              <span className="text-[10.5px] text-stone shrink-0">{relativeTimeFa(tk.updatedAt)}</span>
+              <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(tk.updatedAt)}</span>
             </button>
           ))}
         </div>

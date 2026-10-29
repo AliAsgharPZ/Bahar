@@ -144,7 +144,7 @@ export function Select({
               }`}
             >
               <span className="flex-1 min-w-0 truncate">{o.label}</span>
-              {o.hint && <span className="text-[10.5px] text-stone shrink-0">{o.hint}</span>}
+              {o.hint && <span className="text-[12px] text-stone shrink-0">{o.hint}</span>}
               {o.value === value && <Check className="w-4 h-4 shrink-0" />}
             </button>
           ))}

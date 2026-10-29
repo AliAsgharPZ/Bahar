@@ -77,7 +77,7 @@ export function StatCard({
       <div className="flex flex-col min-w-0">
         <span className="text-[20px] sm:text-[22px] font-bold leading-tight">{display}</span>
         <span className="text-[12px] text-steel leading-snug line-clamp-2 [word-break:break-word]">{label}</span>
-        {hint && <span className="text-[10.5px] text-stone truncate">{hint}</span>}
+        {hint && <span className="text-[12px] text-stone truncate">{hint}</span>}
       </div>
     </div>
   );
