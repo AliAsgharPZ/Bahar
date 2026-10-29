@@ -7,8 +7,8 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  ArrowRight, Search, Bell, LogOut, KeyRound, Sparkles,
-  DoorOpen, PanelRightClose, PanelRightOpen, Menu, X, Settings, Printer,
+  ArrowLeft, Search, Bell, LogOut, KeyRound, Sparkles,
+  DoorOpen, PanelRightClose, PanelRightOpen, PanelLeftClose, PanelLeftOpen, Menu, X, Settings, Printer,
 } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { ROLE_LABELS } from "@/lib/roles";
@@ -84,7 +84,8 @@ function useIsDesktop(): boolean {
 function AppShellInner({ user, children }: { user: ShellUser; children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const isRtl = lang.direction !== "ltr";
   const [unread, setUnread] = useState(0);
   const [mobileUnread, setMobileUnread] = useState(0);
   const [approvals, setApprovals] = useState(0);
@@ -208,7 +209,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
 
   async function logout() {
     await apiPost("/api/auth/logout").catch(() => {});
-    toast.success("خارج شدید؛ به امید دیدار!");
+    toast.success(t("shell.signedOut"));
     router.replace("/login");
   }
 
@@ -216,12 +217,12 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
     setExiting(true);
     try {
       await apiPost(`/api/schools/${user.actingSchoolId}/enter`, { exit: true });
-      toast.success("از پنل مدرسه خارج شدید.");
+      toast.success(t("shell.schoolPanel.exited"));
       setMobileNavOpen(false);
       router.replace("/app/schools");
       router.refresh();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setExiting(false);
     }
@@ -242,9 +243,9 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
         <AnimatePresence initial={false}>
           {!collapsed && (
             <motion.span
-              initial={{ opacity: 0, x: 8 }}
+              initial={{ opacity: 0, x: isRtl ? 8 : -8 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 8 }}
+              exit={{ opacity: 0, x: isRtl ? 8 : -8 }}
               transition={{ duration: 0.14 }}
               className="flex-1 text-start truncate"
             >
@@ -256,7 +257,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           <span className="b-badge b-badge-critical !px-2 !py-0.5 !text-[10.5px]">{faNumber(badge)}</span>
         )}
         {badge > 0 && collapsed && (
-          <span className="absolute top-1.5 left-1.5 w-2 h-2 rounded-full bg-destructive" />
+          <span className="absolute top-1.5 end-1.5 w-2 h-2 rounded-full bg-destructive" />
         )}
       </>
     );
@@ -291,7 +292,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                 aria-hidden
               >
                 <g.icon className="w-3.5 h-3.5 text-stone" />
-                <span className="text-[10.5px] font-bold tracking-wide text-stone">{g.label}</span>
+                <span className="text-[10.5px] font-bold tracking-wide text-stone">{g.tKey ? t(g.tKey) : g.label}</span>
               </div>
             )}
             {g.items.map((n) => {
@@ -335,11 +336,11 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             onClick={exitSchoolPanel}
             disabled={exiting}
             className="b-promo b-promo-spring w-full mb-2 !justify-start"
-            title="خروج از پنل مدرسه"
+            title={t("shell.exitSchoolPanel")}
           >
             <DoorOpen className="w-4 h-4 shrink-0" />
-            <span className="truncate">پنل {user.schoolName}</span>
-            <span className="ms-auto text-[10px] font-bold shrink-0">خروج</span>
+            <span className="truncate">{t("shell.panel")} {user.schoolName}</span>
+            <span className="ms-auto text-[10px] font-bold shrink-0">{t("shell.logoutShort")}</span>
           </button>
         )}
         {/* راند ۱۹: کارت کاربر دو ردیفه — قبلاً نام/نقش (min-w-0) بین آواتار و ردیف کنترل‌ها
@@ -362,10 +363,10 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               onClick={exitSchoolPanel}
               disabled={exiting}
               className="b-btn b-btn-spring w-full"
-              title="خروج از پنل مدرسه"
+              title={t("shell.exitSchoolPanel")}
             >
               <DoorOpen className="w-4 h-4 shrink-0" />
-              خروج از پنل مدرسه
+              {t("shell.exitSchoolPanel")}
             </button>
           )}
           {inSchoolPanel && collapsed && (
@@ -373,8 +374,8 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               onClick={exitSchoolPanel}
               disabled={exiting}
               className="w-9 h-9 rounded-full flex items-center justify-center text-spring-deep bg-spring-tint transition-colors shrink-0"
-              title="خروج از پنل مدرسه"
-              aria-label="خروج از پنل مدرسه"
+              title={t("shell.exitSchoolPanel")}
+              aria-label={t("shell.exitSchoolPanel")}
             >
               <DoorOpen className="w-4 h-4" />
             </button>
@@ -386,8 +387,8 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               <button
                 onClick={logout}
                 className="ms-auto w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10 transition-colors shrink-0"
-                title="خروج از حساب"
-                aria-label="خروج"
+                title={t("shell.logout")}
+                aria-label={t("shell.logoutShort")}
               >
                 <LogOut className="w-5 h-5 flip-rtl" />
               </button>
@@ -408,8 +409,8 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           <button
             onClick={() => setMobileNavOpen(true)}
             className="w-10 h-10 rounded-full flex items-center justify-center text-ink hover:bg-spring-tint transition-colors shrink-0"
-            aria-label="منوی بخش‌ها"
-            title="منوی بخش‌ها"
+            aria-label={t("shell.sectionsMenu")}
+            title={t("shell.sectionsMenu")}
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -427,10 +428,10 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               <Link
                 href="/app"
                 className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-spring hover:bg-spring-tint transition-colors shrink-0"
-                aria-label="بازگشت به داشبورد"
-                title="بازگشت به داشبورد"
+                aria-label={t("shell.backToDashboard")}
+                title={t("shell.backToDashboard")}
               >
-                <ArrowRight className="w-5 h-5" />
+                <ArrowLeft className="w-5 h-5 flip-rtl" />
               </Link>
               <span className="text-[14px] font-bold truncate min-w-0" style={{ fontFamily: "var(--font-heading)" }}>
                 {activeSection ? (activeSection.tKey ? t(activeSection.tKey) : activeSection.label) : "بهار"}
@@ -443,11 +444,11 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               onClick={exitSchoolPanel}
               disabled={exiting}
               className="flex items-center gap-1 rounded-full bg-spring-tint text-spring-deep text-[10.5px] font-bold px-2 h-7 max-w-36 shrink-0 ms-1"
-              title={`خروج از پنل ${user.schoolName ?? ""}`}
+              title={`${t("shell.exitSchoolPanel")} ${user.schoolName ?? ""}`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-spring animate-pulse shrink-0" />
               <span className="truncate">{user.schoolName}</span>
-              <span className="shrink-0">خروج</span>
+              <span className="shrink-0">{t("shell.logoutShort")}</span>
               <DoorOpen className="w-3 h-3 shrink-0" />
             </button>
           )}
@@ -456,15 +457,15 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           <button
             onClick={() => window.print()}
             className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors"
-            aria-label="چاپ / خروجی PDF این صفحه"
-            title="چاپ / خروجی PDF"
+            aria-label={t("shell.printPage")}
+            title={t("shell.printShort")}
           >
             <Printer className="w-5 h-5" />
           </button>
           <button
             onClick={() => setSearchOpen(true)}
             className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors"
-            aria-label="جستجو"
+            aria-label={t("shell.search")}
           >
             <Search className="w-5 h-5" />
           </button>
@@ -472,8 +473,8 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             <Link
               href="/app/settings"
               className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors"
-              aria-label="تنظیمات سامانه"
-              title="تنظیمات سامانه"
+              aria-label={t("shell.systemSettings")}
+              title={t("shell.systemSettings")}
             >
               <Settings className="w-5 h-5" />
             </Link>
@@ -490,7 +491,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               />
             )}
             {mobileUnread > 0 && (
-              <span className="absolute -top-0.5 -left-0.5 min-w-[16px] h-4 px-1 rounded-full bg-blossom text-white text-[9.5px] font-bold flex items-center justify-center" aria-label={`${mobileUnread} اعلان خوانده‌نشده`}>
+              <span className="absolute -top-0.5 -end-0.5 min-w-[16px] h-4 px-1 rounded-full bg-blossom text-white text-[9.5px] font-bold flex items-center justify-center" aria-label={`${mobileUnread} ${t("shell.notif.unreadAria")}`}>
                 {mobileUnread > 9 ? "۹+" : faNumber(mobileUnread)}
               </span>
             )}
@@ -502,15 +503,15 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
       {custodianDisabled && (
         <div className="b-promo !bg-warning/10 !text-warning-deep no-print">
           <DoorOpen className="w-4 h-4 shrink-0" />
-          <span className="truncate">نقش سرایدار در این مدرسه موقتاً غیرفعال شده است؛ برای فعال‌سازی با مدیر مدرسه تماس بگیرید.</span>
+          <span className="truncate">{t("shell.banner.custodianDisabled")}</span>
         </div>
       )}
       {user.mustChangePassword && (
         <div className="b-promo b-promo-spring no-print">
           <KeyRound className="w-4 h-4 shrink-0" />
-          <span className="truncate">برای امنیت حساب، رمز عبور تصادفی اولیه را تغییر دهید.</span>
+          <span className="truncate">{t("shell.banner.changePassword")}</span>
           <Link href="/app/profile?change=1" className="underline underline-offset-4 shrink-0 font-bold">
-            تغییر رمز
+            {t("auth.changePassword.submit")}
           </Link>
         </div>
       )}
@@ -518,7 +519,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
       <div className="flex-1 flex">
         {/* سایدبار دسکتاپ — جمع‌شونده با افکت rubber band */}
         <motion.aside
-          className="hidden lg:block shrink-0 border-l border-hairline-soft bg-background sticky top-0 h-screen overflow-hidden no-print"
+          className="hidden lg:block shrink-0 border-e border-hairline-soft bg-background sticky top-0 h-screen overflow-hidden no-print"
           animate={{ width: collapsed ? 76 : 248 }}
           transition={{ type: "spring", stiffness: 480, damping: 30, mass: 0.9 }}
           initial={false}
@@ -528,11 +529,11 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             {/* دکمه جمع‌کردن سایدبار — کنار لبه */}
             <button
               onClick={() => setCollapsed((v) => !v)}
-              className="absolute -left-3 top-20 z-10 w-6 h-6 rounded-full bg-card border border-hairline-soft shadow-sm flex items-center justify-center text-steel hover:text-spring hover:border-spring transition-colors"
-              title={collapsed ? "بازکردن سایدبار" : "جمع‌کردن سایدبار"}
-              aria-label={collapsed ? "بازکردن سایدبار" : "جمع‌کردن سایدبار"}
+              className="absolute -end-3 top-20 z-10 w-6 h-6 rounded-full bg-card border border-hairline-soft shadow-sm flex items-center justify-center text-steel hover:text-spring hover:border-spring transition-colors"
+              title={collapsed ? t("shell.sidebar.expand") : t("shell.sidebar.collapse")}
+              aria-label={collapsed ? t("shell.sidebar.expand") : t("shell.sidebar.collapse")}
             >
-              {collapsed ? <PanelRightOpen className="w-3.5 h-3.5" /> : <PanelRightClose className="w-3.5 h-3.5" />}
+              {collapsed ? (isRtl ? <PanelRightOpen className="w-3.5 h-3.5" /> : <PanelLeftOpen className="w-3.5 h-3.5" />) : (isRtl ? <PanelRightClose className="w-3.5 h-3.5" /> : <PanelLeftClose className="w-3.5 h-3.5" />)}
             </button>
           </div>
         </motion.aside>
@@ -546,11 +547,11 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                 onClick={exitSchoolPanel}
                 disabled={exiting}
                 className="b-promo b-promo-spring !min-h-0 !py-1.5 max-w-72"
-                title="خروج از پنل مدرسه"
+                title={t("shell.exitSchoolPanel")}
               >
                 <DoorOpen className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">پنل {user.schoolName}</span>
-                <span className="ms-auto text-[10px] font-bold shrink-0">خروج</span>
+                <span className="truncate">{t("shell.panel")} {user.schoolName}</span>
+                <span className="ms-auto text-[10px] font-bold shrink-0">{t("shell.logoutShort")}</span>
               </button>
             )}
             <div className="flex-1" />
@@ -559,16 +560,16 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               className="flex items-center gap-2 h-9 px-3.5 rounded-full text-steel hover:text-foreground hover:bg-spring-tint transition-colors text-[13px]"
             >
               <Search className="w-4 h-4" />
-              <span className="hidden xl:inline">جستجو در همه‌جا…</span>
+              <span className="hidden xl:inline">{t("shell.search.everywhere")}</span>
               <kbd className="text-[10px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">⌘K</kbd>
             </button>
             <button
               onClick={() => window.print()}
               className="flex items-center gap-2 h-9 px-3.5 rounded-full text-steel hover:text-foreground hover:bg-spring-tint transition-colors text-[13px]"
-              title="چاپ / خروجی PDF این صفحه"
+              title={t("shell.printPage")}
             >
               <Printer className="w-4 h-4" />
-              <span className="hidden xl:inline">چاپ</span>
+              <span className="hidden xl:inline">{t("common.print")}</span>
             </button>
             {isDesktop && (
               <NotificationCenter
@@ -615,14 +616,14 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               aria-hidden
             />
             <motion.div
-              initial={{ x: "106%" }}
+              initial={{ x: isRtl ? "106%" : "-106%" }}
               animate={{ x: 0 }}
-              exit={{ x: "106%" }}
+              exit={{ x: isRtl ? "106%" : "-106%" }}
               transition={springRubber}
               className="fixed inset-y-0 start-0 z-50 w-[86vw] max-w-[340px] bg-background shadow-2xl flex flex-col lg:hidden"
               role="dialog"
               aria-modal="true"
-              aria-label="منوی بخش‌های بهار"
+              aria-label={t("shell.mobileMenu")}
             >
               <div className="flex items-center gap-2.5 h-16 px-4 border-b border-hairline-soft shrink-0">
                 <Image src={brand.logoUrl || "/logo.svg"} alt="بهار" width={28} height={28} className="shrink-0" />
@@ -632,7 +633,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                 <button
                   onClick={() => setMobileNavOpen(false)}
                   className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint transition-colors shrink-0"
-                  aria-label="بستن منو"
+                  aria-label={t("shell.closeMenu")}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -643,7 +644,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                   <div key={g.key} className="mb-4">
                     <div className="flex items-center gap-1.5 px-2 pt-1 pb-2" aria-hidden>
                       <g.icon className="w-3.5 h-3.5 text-stone" />
-                      <span className="text-[11px] font-bold tracking-wide text-stone">{g.label}</span>
+                      <span className="text-[11px] font-bold tracking-wide text-stone">{g.tKey ? t(g.tKey) : g.label}</span>
                       <span className="text-[10px] text-stone/70">({faNumber(g.items.length)})</span>
                     </div>
                     <div className="flex flex-col gap-0.5">
@@ -689,10 +690,10 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                       onClick={exitSchoolPanel}
                       disabled={exiting}
                       className="b-btn b-btn-spring w-full"
-                      title="خروج از پنل مدرسه"
+                      title={t("shell.exitSchoolPanel")}
                     >
                       <DoorOpen className="w-4 h-4 shrink-0" />
-                      خروج از پنل مدرسه
+                      {t("shell.exitSchoolPanel")}
                     </button>
                   )}
                   <div className="flex items-center gap-1 pt-2 border-t border-hairline-soft w-full">
@@ -701,8 +702,8 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                     <button
                       onClick={logout}
                       className="ms-auto w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10 transition-colors shrink-0"
-                      title="خروج از حساب"
-                      aria-label="خروج"
+                      title={t("shell.logout")}
+                      aria-label={t("shell.logoutShort")}
                     >
                       <LogOut className="w-5 h-5 flip-rtl" />
                     </button>
@@ -786,6 +787,7 @@ function NotificationCenter({
   setOpen: (v: boolean) => void;
   onCount: (n: number) => void;
 }) {
+  const { t } = useLang();
   const [items, setItems] = useState<NotifItem[]>([]);
   const [counts, setCounts] = useState<Record<string, number>>({ URGENT: 0, IMPORTANT: 0, INFO: 0, SUCCESS: 0 });
   const [filter, setFilter] = useState<string | null>(null);
@@ -817,10 +819,10 @@ function NotificationCenter({
 
   const total = Object.values(counts).reduce((s, n) => s + n, 0);
   const CATS: Array<{ key: string; label: string; dot: string }> = [
-    { key: "URGENT", label: "فوری", dot: "bg-destructive" },
-    { key: "IMPORTANT", label: "مهم", dot: "bg-warning" },
-    { key: "INFO", label: "اطلاع", dot: "bg-info" },
-    { key: "SUCCESS", label: "موفق", dot: "bg-success" },
+    { key: "URGENT", label: t("shell.notif.cat.urgent"), dot: "bg-destructive" },
+    { key: "IMPORTANT", label: t("shell.notif.cat.important"), dot: "bg-warning" },
+    { key: "INFO", label: t("shell.notif.cat.info"), dot: "bg-info" },
+    { key: "SUCCESS", label: t("shell.notif.cat.success"), dot: "bg-success" },
   ];
 
   return (
@@ -829,7 +831,7 @@ function NotificationCenter({
         ref={buttonRef}
         onClick={() => setOpen(!open)}
         className="relative w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-spring hover:bg-spring-tint transition-colors"
-        aria-label="اعلان‌ها"
+        aria-label={t("shell.notifications")}
       >
         <Bell className="w-5 h-5" />
         {total > 0 && (
@@ -837,7 +839,7 @@ function NotificationCenter({
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={springRubber}
-            className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[9px] font-bold flex items-center justify-center"
+            className="absolute top-1 start-1 min-w-[16px] h-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[9px] font-bold flex items-center justify-center"
           >
             {faNumber(total)}
           </motion.span>
@@ -852,7 +854,7 @@ function NotificationCenter({
         className="!rounded-[28px] p-0 overflow-hidden"
       >
         <div className="flex items-center justify-between px-4 h-14 border-b border-hairline-soft">
-          <span className="font-bold text-[15px]" style={{ fontFamily: "var(--font-heading)" }}>اعلان‌ها</span>
+          <span className="font-bold text-[15px]" style={{ fontFamily: "var(--font-heading)" }}>{t("shell.notifications")}</span>
           <button
             onClick={async () => {
               await apiPost("/api/notifications", { all: true }).catch(() => {});
@@ -860,7 +862,7 @@ function NotificationCenter({
             }}
             className="text-[11.5px] font-bold text-spring-deep hover:underline"
           >
-            خواندن همه
+            {t("shell.notif.readAll")}
           </button>
         </div>
         <div className="flex gap-1.5 px-3 py-2.5 border-b border-hairline-soft overflow-x-auto b-scroll">
@@ -868,7 +870,7 @@ function NotificationCenter({
             onClick={() => setFilter(null)}
             className={`b-pill-tab !text-[11px] !py-1 !px-3 ${!filter ? "b-pill-tab-active" : ""}`}
           >
-            همه
+            {t("common.all")}
           </button>
           {CATS.map((c) => (
             <button
@@ -892,7 +894,7 @@ function NotificationCenter({
           {!loading && items.length === 0 && (
             <div className="py-10 text-center text-steel text-[13px]">
               <Bell className="w-8 h-8 mx-auto mb-2 opacity-40" />
-              اعلانی نیست
+              {t("shell.notif.none")}
             </div>
           )}
           {items.map((n) => (
@@ -928,6 +930,7 @@ function NotificationCenter({
    جستجوی سراسری — پالت ⌘K با origin-aware ورود
    ============================================================ */
 function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useLang();
   const [q, setQ] = useState("");
   const [results, setResults] = useState<SearchResults>([]);
   const [loading, setLoading] = useState(false);
@@ -987,7 +990,7 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
             className="w-full max-w-xl b-card !rounded-[28px] overflow-hidden elev-3"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
-            aria-label="جستجوی سراسری"
+            aria-label={t("shell.search.global")}
           >
             <div className="flex items-center gap-3 px-5 h-16 border-b border-hairline-soft">
               <Search className="w-5 h-5 text-steel shrink-0" />
@@ -995,7 +998,7 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
                 ref={inputRef}
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="جستجو در همه‌جا… (دانش‌آموز، کلاس، درس، رویداد)"
+                placeholder={t("shell.search.placeholderFull")}
                 className="flex-1 bg-transparent outline-none text-[15px] text-ink placeholder:text-stone"
               />
               <kbd className="text-[10px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">Esc</kbd>
@@ -1010,7 +1013,7 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
               {!loading && q.trim().length >= 2 && results.length === 0 && (
                 <div className="py-10 text-center text-steel text-[13px]">
                   <Search className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                  نتیجه‌ای پیدا نشد
+                  {t("shell.search.noResults")}
                 </div>
               )}
               {results.map((r, i) => (
@@ -1034,7 +1037,7 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
               ))}
               {q.trim().length < 2 && (
                 <div className="p-6 text-center text-steel text-[12.5px]">
-                  حداقل ۲ حرف بنویسید — دانش‌آموز، کلاس، درس، کاربر، رویداد، اعلان و بلاگ جستجو می‌شوند
+                  {t("shell.search.hintMin2")}
                 </div>
               )}
             </div>

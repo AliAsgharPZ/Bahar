@@ -12,7 +12,7 @@ import {
   Settings, History,
 } from "lucide-react";
 import { apiGet } from "@/lib/client";
-import { ROLE_LABELS } from "@/lib/roles";
+import { useLang } from "@/lib/i18n";
 import { faNumber, faDigits, formatDateFa, relativeTimeFa, currencyLabel, jalaliParts } from "@/lib/persian";
 import { PageHeader, StatCard, LoadingBlock, EmptyState, ErrorBox } from "@/components/shared/bits";
 import { LineChart, BarChart, DonutChart, VBarChart, RadialGauge } from "@/components/shared/charts";
@@ -29,12 +29,24 @@ const ICONS: Record<string, typeof LifeBuoy> = {
 };
 
 const SEV_STYLE: Record<string, string> = {
-  URGENT: "border-r-4 !border-r-destructive",
-  IMPORTANT: "border-r-4 !border-r-[#f2a918]",
-  NORMAL: "border-r-4 !border-r-[#1972c4]",
+  URGENT: "border-s-4 !border-s-destructive",
+  IMPORTANT: "border-s-4 !border-s-[#f2a918]",
+  NORMAL: "border-s-4 !border-s-[#1972c4]",
+};
+
+const ROLE_TKEY: Record<string, string> = {
+  SUPER_ADMIN: "role.superAdmin",
+  ADMIN: "role.admin",
+  MANAGER: "role.manager",
+  DEPUTY: "role.deputy",
+  TEACHER: "role.teacher",
+  CUSTODIAN: "role.custodian",
+  STUDENT: "role.student",
+  PARENT: "role.parent",
 };
 
 export default function DashboardPage() {
+  const { t } = useLang();
   const [data, setData] = useState<Dash | null>(null);
   type ACItem = { key: string; title: string; description: string; count: number; href: string; severity: string; icon: string };
   const [actionCenter, setActionCenter] = useState<{ items: ACItem[]; needsAttention: ACItem[] } | null>(null);
@@ -47,19 +59,19 @@ export default function DashboardPage() {
   }, []);
 
   if (error) return <ErrorBox message={error} />;
-  if (!data || !actionCenter) return <LoadingBlock label="داشبورد در حال آماده‌سازی است…" />;
+  if (!data || !actionCenter) return <LoadingBlock label={t("dashboard.loading")} />;
 
   return (
     <div>
-      <PageHeader title={greeting(data)} desc={subTitle(data)} grad />
+      <PageHeader title={greeting(t)} desc={subTitle(data, t)} grad />
 
       {/* ═══ مرکز اقدامات ═══ */}
       {(actionCenter.items.length > 0 || actionCenter.needsAttention.length > 0) && (
         <section className="mb-8">
           <div className="flex items-center gap-2 mb-3">
             <span className="w-2 h-2 rounded-full bg-destructive b-pulse-dot" />
-            <h2 className="text-[16px] font-bold">نیازمند توجه شما</h2>
-            <span className="b-badge b-badge-critical">{faNumber(actionCenter.needsAttention.length)} فوری</span>
+            <h2 className="text-[16px] font-bold">{t("dashboard.attentionNeeded")}</h2>
+            <span className="b-badge b-badge-critical">{faNumber(actionCenter.needsAttention.length)} {t("dashboard.urgent")}</span>
           </div>
           <StaggerGroup className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {actionCenter.items.slice(0, 6).map((it) => {
@@ -95,42 +107,43 @@ export default function DashboardPage() {
       {data.scope === "student" && <StudentDashboard data={data} />}
       {data.scope === "parent" && <ParentDashboard data={data} />}
       {data.scope === "none" && (
-        <EmptyState icon={SchoolIcon} title="به بهار خوش آمدید" desc="هنوز به مدرسه‌ای متصل نیستید یا داده‌ای ثبت نشده است." />
+        <EmptyState icon={SchoolIcon} title={t("dashboard.welcomeNone")} desc={t("dashboard.noSchoolYet")} />
       )}
 
     </div>
   );
 }
 
-function greeting(_d: Dash): string {
+function greeting(t: (k: string) => string): string {
   const h = new Date().getHours();
-  return h < 12 ? "صبح بخیر" : h < 17 ? "بعدازظهر بخیر" : "شب بخیر";
+  return h < 12 ? t("dashboard.greet.morning") : h < 17 ? t("dashboard.greet.afternoon") : t("dashboard.greet.night");
 }
-function subTitle(d: Dash): string {
+function subTitle(d: Dash, t: (k: string) => string): string {
   const today = d.today as string | undefined;
   // FIX (راند ۱۶): «همین حالا» بی‌معنی حذف شد
-  return today ? `امروز ${formatDateFa(new Date())}` : "خلاصه وضعیت سامانه";
+  return today ? `${t("dashboard.today")} ${formatDateFa(new Date())}` : t("dashboard.systemSummary");
 }
 
 /* ═══════════ داشبورد سرویس (سوپرادمین) — کامل: سیستم + آمار + چارت‌ها ═══════════ */
-const JALALI_MONTHS = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
 
-function fmtSize(bytes: number | null): string {
+function fmtSize(bytes: number | null, t: (k: string) => string): string {
   if (bytes === null || bytes === undefined) return "—";
-  if (bytes < 1024) return `${faNumber(bytes)} بایت`;
-  if (bytes < 1048576) return `${faNumber(Math.round(bytes / 1024))} کیلوبایت`;
-  return `${faDigits((bytes / 1048576).toFixed(1))} مگابایت`;
+  if (bytes < 1024) return `${faNumber(bytes)} ${t("dashboard.unit.byte")}`;
+  if (bytes < 1048576) return `${faNumber(Math.round(bytes / 1024))} ${t("dashboard.unit.kb")}`;
+  return `${faDigits((bytes / 1048576).toFixed(1))} ${t("dashboard.unit.mb")}`;
 }
-function fmtUptime(sec: number): string {
+function fmtUptime(sec: number, t: (k: string) => string): string {
   const d = Math.floor(sec / 86400);
   const h = Math.floor((sec % 86400) / 3600);
   const m = Math.floor((sec % 3600) / 60);
-  if (d > 0) return `${faNumber(d)} روز و ${faNumber(h)} ساعت`;
-  if (h > 0) return `${faNumber(h)} ساعت و ${faNumber(m)} دقیقه`;
-  return `${faNumber(m)} دقیقه`;
+  if (d > 0) return `${faNumber(d)} ${t("dashboard.uptime.day")} ${t("dashboard.uptime.and")} ${faNumber(h)} ${t("dashboard.uptime.hour")}`;
+  if (h > 0) return `${faNumber(h)} ${t("dashboard.uptime.hour")} ${t("dashboard.uptime.and")} ${faNumber(m)} ${t("dashboard.uptime.minute")}`;
+  return `${faNumber(m)} ${t("dashboard.uptime.minute")}`;
 }
 
 function ServiceDashboard({ data }: { data: Dash }) {
+  const { t, lang } = useLang();
+  const isRtl = lang.direction !== "ltr";
   const s = data.stats as Record<string, unknown>;
   const growth = (data.schoolGrowth as Array<{ month: string; count: number }>) ?? [];
   const wc = (data.whatChanged as Record<string, number>) ?? {};
@@ -160,12 +173,12 @@ function ServiceDashboard({ data }: { data: Dash }) {
     25 /* هسته در حال اجرا */;
 
   const QUICK = [
-    { href: "/app/schools", label: "مدارس", icon: SchoolIcon },
-    { href: "/app/users", label: "کاربران", icon: Users },
-    { href: "/app/tickets", label: "تیکت‌ها", icon: LifeBuoy },
-    { href: "/app/settings", label: "تنظیمات", icon: Settings },
-    { href: "/app/blog", label: "بلاگ", icon: MessageCircle },
-    { href: "/app/audit", label: "گزارش فعالیت", icon: History },
+    { href: "/app/schools", label: t("nav.schools"), icon: SchoolIcon },
+    { href: "/app/users", label: t("nav.users"), icon: Users },
+    { href: "/app/tickets", label: t("nav.tickets"), icon: LifeBuoy },
+    { href: "/app/settings", label: t("settings.title"), icon: Settings },
+    { href: "/app/blog", label: t("nav.blog"), icon: MessageCircle },
+    { href: "/app/audit", label: t("nav.audit"), icon: History },
   ];
 
   return (
@@ -175,18 +188,18 @@ function ServiceDashboard({ data }: { data: Dash }) {
         <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
           <h3 className="font-bold flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-success b-pulse-dot" />
-            وضعیت سامانه
+            {t("dashboard.systemStatus")}
           </h3>
-          <span className="b-badge b-badge-success">آنلاین · {sys.env === "production" ? "محیط تولید" : "محیط توسعه"}</span>
+          <span className="b-badge b-badge-success">{t("shell.online")} · {sys.env === "production" ? t("dashboard.env.production") : t("dashboard.env.development")}</span>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-          <SysChip label="نسخه Node" value={sys.nodeVersion ?? "—"} />
-          <SysChip label="زمان فعالیت" value={fmtUptime(sys.uptimeSec ?? 0)} />
-          <SysChip label="حافظه (RSS)" value={`${faNumber(sys.memoryMb ?? 0)} MB`} />
-          <SysChip label="حجم پایگاه داده" value={fmtSize(sys.dbSizeBytes ?? null)} />
-          <SysChip label="پلتفرم" value={sys.platform ?? "—"} />
+          <SysChip label={t("dashboard.sys.nodeVersion")} value={sys.nodeVersion ?? "—"} />
+          <SysChip label={t("dashboard.sys.uptime")} value={fmtUptime(sys.uptimeSec ?? 0, t)} />
+          <SysChip label={t("dashboard.sys.memory")} value={`${faNumber(sys.memoryMb ?? 0)} MB`} />
+          <SysChip label={t("dashboard.sys.dbSize")} value={fmtSize(sys.dbSizeBytes ?? null, t)} />
+          <SysChip label={t("dashboard.sys.platform")} value={sys.platform ?? "—"} />
           <SysChip
-            label="آخرین پشتیبان"
+            label={t("dashboard.sys.lastBackup")}
             value={backup ? relativeTimeFa(backup.at) : "—"}
             tone={backupAgeHrs !== null && backupAgeHrs > 48 ? "warning" : "spring"}
           />
@@ -195,43 +208,43 @@ function ServiceDashboard({ data }: { data: Dash }) {
 
       {/* آمار کلیدی */}
       <StaggerGroup className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <StaggerItem><StatCard icon={SchoolIcon} label="مدارس فعال" value={<CountUp value={Number(s.schools ?? 0)} />} hint={wc.newUsers ? `${faNumber(wc.newUsers)}+ کاربر جدید این هفته` : undefined} /></StaggerItem>
-        <StaggerItem><StatCard icon={Users} label="کاربران" value={<CountUp value={Number(s.users ?? 0)} />} tone="ink" hint={`${faNumber(Number(s.logins24h ?? 0))} ورود در ۲۴ ساعت`} /></StaggerItem>
-        <StaggerItem><StatCard icon={GraduationCap} label="دانش‌آموزان" value={<CountUp value={Number(s.students ?? 0)} />} tone="blossom" hint={`${faNumber(Number(s.classes ?? 0))} کلاس فعال`} /></StaggerItem>
-        <StaggerItem><StatCard icon={LifeBuoy} label="تیکت‌های باز" value={<CountUp value={Number(s.openTickets ?? 0)} />} tone="warning" hint={`${faNumber(Number(s.messages ?? 0))} پیام · ${faNumber(Number(s.notifications ?? 0))} اعلان`} /></StaggerItem>
+        <StaggerItem><StatCard icon={SchoolIcon} label={t("dashboard.schoolsActive")} value={<CountUp value={Number(s.schools ?? 0)} />} hint={wc.newUsers ? `${faNumber(wc.newUsers)}+ ${t("dashboard.hint.newUsers")}` : undefined} /></StaggerItem>
+        <StaggerItem><StatCard icon={Users} label={t("nav.users")} value={<CountUp value={Number(s.users ?? 0)} />} tone="ink" hint={`${faNumber(Number(s.logins24h ?? 0))} ${t("dashboard.hint.logins24h")}`} /></StaggerItem>
+        <StaggerItem><StatCard icon={GraduationCap} label={t("nav.students")} value={<CountUp value={Number(s.students ?? 0)} />} tone="blossom" hint={`${faNumber(Number(s.classes ?? 0))} ${t("dashboard.hint.activeClasses")}`} /></StaggerItem>
+        <StaggerItem><StatCard icon={LifeBuoy} label={t("dashboard.openTickets")} value={<CountUp value={Number(s.openTickets ?? 0)} />} tone="warning" hint={`${faNumber(Number(s.messages ?? 0))} ${t("dashboard.hint.messages")} · ${faNumber(Number(s.notifications ?? 0))} ${t("dashboard.hint.notifications")}`} /></StaggerItem>
       </StaggerGroup>
 
       {/* ردیف دوم آمار — فیلدهایی که API برمی‌گرداند ولی نمایش داده نمی‌شدند */}
       <StaggerGroup className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <StaggerItem><StatCard icon={Users} label="معلمان" value={<CountUp value={Number(s.teachers ?? 0)} />} tone="soft" /></StaggerItem>
-        <StaggerItem><StatCard icon={MessageCircle} label="پست‌های بلاگ" value={<CountUp value={Number(s.blogPosts ?? 0)} />} tone="blossom" /></StaggerItem>
-        <StaggerItem><StatCard icon={Send} label="پیام شاد ارسال‌شده" value={<CountUp value={Number(s.shadSent ?? 0)} />} tone="ink" /></StaggerItem>
-        <StaggerItem><StatCard icon={BellPlus} label="اعلان‌ها" value={<CountUp value={Number(s.notifications ?? 0)} />} tone="warning" hint={`${faNumber(Number(s.messages ?? 0))} پیام`} /></StaggerItem>
+        <StaggerItem><StatCard icon={Users} label={t("dashboard.teachers")} value={<CountUp value={Number(s.teachers ?? 0)} />} tone="soft" /></StaggerItem>
+        <StaggerItem><StatCard icon={MessageCircle} label={t("dashboard.blogPosts")} value={<CountUp value={Number(s.blogPosts ?? 0)} />} tone="blossom" /></StaggerItem>
+        <StaggerItem><StatCard icon={Send} label={t("dashboard.shadSent")} value={<CountUp value={Number(s.shadSent ?? 0)} />} tone="ink" /></StaggerItem>
+        <StaggerItem><StatCard icon={BellPlus} label={t("shell.notifications")} value={<CountUp value={Number(s.notifications ?? 0)} />} tone="warning" hint={`${faNumber(Number(s.messages ?? 0))} ${t("dashboard.hint.messages")}`} /></StaggerItem>
       </StaggerGroup>
 
       {/* چارت‌های اصلی */}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="b-card-md p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold">رشد مدارس (۱۲ ماه اخیر)</h3>
-            <span className="b-badge b-badge-neutral">مجموع {faNumber(Number(s.schools ?? 0))} مدرسه</span>
+            <h3 className="font-bold">{t("dashboard.growthSchools")}</h3>
+            <span className="b-badge b-badge-neutral">{t("common.total")} {faNumber(Number(s.schools ?? 0))} {t("common.school")}</span>
           </div>
           <LineChart
             data={growth.map((g) => ({
-              label: JALALI_MONTHS[(jalaliParts(new Date(`${g.month}-15`)).m - 1)] ?? g.month,
+              label: t(`dashboard.month.${jalaliParts(new Date(`${g.month}-15`)).m}`) ?? g.month,
               value: g.count,
             }))}
             height={150}
           />
         </div>
         <div className="b-card-md p-5 flex flex-col items-center justify-center gap-3">
-          <h3 className="font-bold self-start">سلامت سرویس</h3>
-          <RadialGauge value={health} size={116} label="از ۱۰۰" />
+          <h3 className="font-bold self-start">{t("dashboard.serviceHealth")}</h3>
+          <RadialGauge value={health} size={116} label={t("dashboard.outOf100")} />
           <div className="w-full flex flex-col gap-1.5 text-[11.5px]">
-            <HealthMiniRow label="پشتیبان‌گیری" ok={backupAgeHrs !== null && backupAgeHrs <= 48} okText="به‌روز" badText={backupAgeHrs === null ? "بدون پشتیبان" : "قدیمی"} />
-            <HealthMiniRow label="ورودهای ناموفق" ok={failRatio < 10} okText={`${faNumber(failRatio)}٪`} badText={`${faNumber(failRatio)}٪ از کل`} />
-            <HealthMiniRow label="تیکت‌های باز" ok={Number(s.openTickets ?? 0) < 5} okText={`${faNumber(Number(s.openTickets ?? 0))} مورد`} badText={`${faNumber(Number(s.openTickets ?? 0))} مورد`} />
-            <HealthMiniRow label="هسته سرویس" ok okText="در حال اجرا" badText="" />
+            <HealthMiniRow label={t("dashboard.health.backup")} ok={backupAgeHrs !== null && backupAgeHrs <= 48} okText={t("dashboard.health.upToDate")} badText={backupAgeHrs === null ? t("dashboard.health.noBackup") : t("dashboard.health.stale")} />
+            <HealthMiniRow label={t("dashboard.health.failedLogins")} ok={failRatio < 10} okText={`${faNumber(failRatio)}٪`} badText={`${faNumber(failRatio)}٪ ${t("dashboard.health.ofTotal")}`} />
+            <HealthMiniRow label={t("dashboard.openTickets")} ok={Number(s.openTickets ?? 0) < 5} okText={`${faNumber(Number(s.openTickets ?? 0))} ${t("dashboard.unit.case")}`} badText={`${faNumber(Number(s.openTickets ?? 0))} ${t("dashboard.unit.case")}`} />
+            <HealthMiniRow label={t("dashboard.health.core")} ok okText={t("dashboard.health.running")} badText="" />
           </div>
         </div>
       </div>
@@ -240,12 +253,12 @@ function ServiceDashboard({ data }: { data: Dash }) {
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="b-card-md p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold">رشد کاربران (۱۲ ماه اخیر)</h3>
-            <span className="b-badge b-badge-neutral">مجموع {faNumber(Number(s.users ?? 0))} کاربر</span>
+            <h3 className="font-bold">{t("dashboard.growthUsers")}</h3>
+            <span className="b-badge b-badge-neutral">{t("common.total")} {faNumber(Number(s.users ?? 0))} {t("dashboard.unit.user")}</span>
           </div>
           <LineChart
             data={usersGrowth.map((g) => ({
-              label: JALALI_MONTHS[(jalaliParts(new Date(`${g.month}-15`)).m - 1)] ?? g.month,
+              label: t(`dashboard.month.${jalaliParts(new Date(`${g.month}-15`)).m}`) ?? g.month,
               value: g.count,
             }))}
             height={150}
@@ -253,12 +266,12 @@ function ServiceDashboard({ data }: { data: Dash }) {
         </div>
         <div className="b-card-md p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold">رشد دانش‌آموزان (۱۲ ماه اخیر)</h3>
-            <span className="b-badge b-badge-neutral">مجموع {faNumber(Number(s.students ?? 0))} دانش‌آموز</span>
+            <h3 className="font-bold">{t("dashboard.growthStudents")}</h3>
+            <span className="b-badge b-badge-neutral">{t("common.total")} {faNumber(Number(s.students ?? 0))} {t("common.student")}</span>
           </div>
           <LineChart
             data={studentsGrowth.map((g) => ({
-              label: JALALI_MONTHS[(jalaliParts(new Date(`${g.month}-15`)).m - 1)] ?? g.month,
+              label: t(`dashboard.month.${jalaliParts(new Date(`${g.month}-15`)).m}`) ?? g.month,
               value: g.count,
             }))}
             height={150}
@@ -270,31 +283,31 @@ function ServiceDashboard({ data }: { data: Dash }) {
       {/* نقش‌ها + ورودها */}
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">کاربران بر اساس نقش</h3>
+          <h3 className="font-bold mb-4">{t("dashboard.usersByRole")}</h3>
           <DonutChart
             parts={usersByRole.map((r, i) => ({
-              label: ROLE_LABELS[r.role] ?? r.role,
+              label: ROLE_TKEY[r.role] ? t(ROLE_TKEY[r.role]) : r.role,
               value: r.count,
               color: ["#00825e", "#e5548b", "#f2a918", "#00b37d", "#5d6f66", "#5d6f66", "#00b37d"][i % 7],
             }))}
-            centerLabel="کاربر"
+            centerLabel={t("dashboard.unit.user")}
           />
         </div>
         <div className="b-card-md p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold">ورودها در ۷ روز اخیر</h3>
+            <h3 className="font-bold">{t("dashboard.logins7d")}</h3>
             <span className="flex gap-1.5">
-              <span className="b-badge b-badge-spring">موفق {faNumber(success7)}</span>
-              <span className="b-badge b-badge-critical">ناموفق {faNumber(failed7)}</span>
+              <span className="b-badge b-badge-spring">{t("dashboard.login.success")} {faNumber(success7)}</span>
+              <span className="b-badge b-badge-critical">{t("dashboard.login.failed")} {faNumber(failed7)}</span>
             </span>
           </div>
           <div className="flex flex-col gap-3">
             <div>
-              <span className="text-[11px] text-steel block mb-1.5">ورودهای موفق (روزشمار)</span>
+              <span className="text-[11px] text-steel block mb-1.5">{t("dashboard.logins.successDaily")}</span>
               <VBarChart data={loginTrend.map((t) => ({ label: t.date.slice(5), value: t.success }))} height={110} color="var(--spring)" />
             </div>
             <div>
-              <span className="text-[11px] text-steel block mb-1.5">تلاش‌های ناموفق (روزشمار)</span>
+              <span className="text-[11px] text-steel block mb-1.5">{t("dashboard.logins.failedDaily")}</span>
               <VBarChart data={loginTrend.map((t) => ({ label: t.date.slice(5), value: t.failed }))} height={90} color="var(--destructive)" idSuffix="-f" />
             </div>
           </div>
@@ -302,31 +315,31 @@ function ServiceDashboard({ data }: { data: Dash }) {
       </div>
 
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">بزرگ‌ترین مدارس (دانش‌آموز)</h3>
+          <h3 className="font-bold mb-4">{t("dashboard.topSchools")}</h3>
           {topSchools.length === 0 ? (
-            <p className="t-sm text-steel py-6 text-center">مدرسه‌ای ثبت نشده است</p>
+            <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noSchool")}</p>
           ) : (
-            <BarChart data={topSchools.map((t) => ({ label: t.name, value: t.students }))} max={Math.max(...topSchools.map((t) => t.students), 1)} suffix=" نفر" />
+            <BarChart data={topSchools.map((t) => ({ label: t.name, value: t.students }))} max={Math.max(...topSchools.map((t) => t.students), 1)} suffix={` ${t("dashboard.unit.person")}`} />
           )}
         </div>
 
       {/* جدول همهٔ مدارس فعال */}
       <div className="b-card-md p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-bold">همهٔ مدارس فعال</h3>
-          <Link href="/app/schools" className="text-[11.5px] font-bold text-spring-deep hover:underline">مدیریت مدارس</Link>
+          <h3 className="font-bold">{t("dashboard.allActiveSchools")}</h3>
+          <Link href="/app/schools" className="text-[11.5px] font-bold text-spring-deep hover:underline">{t("dashboard.manageSchools")}</Link>
         </div>
         {allSchools.length === 0 ? (
-          <p className="t-sm text-steel py-6 text-center">مدرسه‌ای ثبت نشده است</p>
+          <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noSchool")}</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-[12.5px]">
               <thead>
                 <tr className="text-steel text-start border-b border-hairline-soft">
-                  <th className="text-start font-bold py-2 pe-3">مدرسه</th>
-                  <th className="text-start font-bold py-2 pe-3">دانش‌آموز</th>
-                  <th className="text-start font-bold py-2 pe-3">معلم</th>
-                  <th className="text-start font-bold py-2">کلاس</th>
+                  <th className="text-start font-bold py-2 pe-3">{t("common.school")}</th>
+                  <th className="text-start font-bold py-2 pe-3">{t("common.student")}</th>
+                  <th className="text-start font-bold py-2 pe-3">{t("common.teacher")}</th>
+                  <th className="text-start font-bold py-2">{t("common.class")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -350,22 +363,22 @@ function ServiceDashboard({ data }: { data: Dash }) {
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="b-card-md p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold">آخرین کاربران ثبت‌نام‌شده</h3>
-            <Link href="/app/users" className="text-[11.5px] font-bold text-spring-deep hover:underline">همه کاربران</Link>
+            <h3 className="font-bold">{t("dashboard.recentSignups")}</h3>
+            <Link href="/app/users" className="text-[11.5px] font-bold text-spring-deep hover:underline">{t("dashboard.allUsers")}</Link>
           </div>
           {recentSignups.length === 0 ? (
-            <p className="t-sm text-steel py-6 text-center">کاربری ثبت نشده است</p>
+            <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noUser")}</p>
           ) : (
             <div className="flex flex-col gap-1">
               {recentSignups.map((u, i) => (
-                <motion.div key={u.id} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
+                <motion.div key={u.id} initial={{ opacity: 0, x: isRtl ? 10 : -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
                   className="flex items-center gap-3 px-2 py-2 rounded-2xl hover:bg-spring-tint/40 transition-colors">
                   <span className="w-8 h-8 rounded-full bg-spring-tint text-spring-deep text-[12px] font-bold flex items-center justify-center shrink-0">
                     {u.firstName?.[0] ?? "؟"}
                   </span>
                   <span className="flex-1 min-w-0">
                     <span className="text-[12.5px] font-bold truncate block">{u.firstName} {u.lastName}</span>
-                    <span className="text-[10.5px] text-steel truncate block">{ROLE_LABELS[u.role] ?? u.role}{u.school?.name ? ` · ${u.school.name}` : ""}</span>
+                    <span className="text-[10.5px] text-steel truncate block">{ROLE_TKEY[u.role] ? t(ROLE_TKEY[u.role]) : u.role}{u.school?.name ? ` · ${u.school.name}` : ""}</span>
                   </span>
                   <span className="text-[10.5px] text-stone shrink-0">{relativeTimeFa(u.createdAt)}</span>
                 </motion.div>
@@ -374,23 +387,23 @@ function ServiceDashboard({ data }: { data: Dash }) {
           )}
         </div>
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">تیکت‌ها بر اساس وضعیت</h3>
+          <h3 className="font-bold mb-4">{t("dashboard.ticketsByStatus")}</h3>
           {ticketsByStatus.length === 0 ? (
-            <p className="t-sm text-steel py-6 text-center">تیکتی نیست</p>
+            <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noTicket")}</p>
           ) : (
             <div className="flex flex-col gap-2.5">
-              {ticketsByStatus.map((t) => (
-                <div key={t.status} className="flex items-center justify-between text-[12.5px] px-3 py-2 rounded-xl bg-cloud/60">
+              {ticketsByStatus.map((tk) => (
+                <div key={tk.status} className="flex items-center justify-between text-[12.5px] px-3 py-2 rounded-xl bg-cloud/60">
                   <span className="flex items-center gap-2">
-                    <span className={`b-dot ${t.status === "OPEN" ? "bg-destructive" : t.status === "CLOSED" ? "bg-success" : "bg-warning"}`} />
-                    <span className="font-bold">{t.status === "OPEN" ? "باز" : t.status === "ANSWERED" ? "پاسخ‌داده" : t.status === "CLOSED" ? "بسته" : t.status}</span>
+                    <span className={`b-dot ${tk.status === "OPEN" ? "bg-destructive" : tk.status === "CLOSED" ? "bg-success" : "bg-warning"}`} />
+                    <span className="font-bold">{tk.status === "OPEN" ? t("dashboard.ticket.open") : tk.status === "ANSWERED" ? t("dashboard.ticket.answered") : tk.status === "CLOSED" ? t("dashboard.ticket.closed") : tk.status}</span>
                   </span>
-                  <b>{faNumber(t.count)}</b>
+                  <b>{faNumber(tk.count)}</b>
                 </div>
               ))}
             </div>
           )}
-          <h3 className="font-bold mt-5 mb-3">اقدامات سریع</h3>
+          <h3 className="font-bold mt-5 mb-3">{t("dashboard.quickActions")}</h3>
           <div className="grid grid-cols-3 gap-2">
             {QUICK.map((q) => (
               <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-[10.5px] font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
@@ -405,18 +418,18 @@ function ServiceDashboard({ data }: { data: Dash }) {
       {/* آخرین رویدادهای امنیتی */}
       <div className="b-card-md p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-bold flex items-center gap-2"><History className="w-4 h-4 text-steel" /> آخرین رویدادهای ثبت‌شده (Audit)</h3>
-          <Link href="/app/audit" className="text-[11.5px] font-bold text-spring-deep hover:underline">گزارش کامل</Link>
+          <h3 className="font-bold flex items-center gap-2"><History className="w-4 h-4 text-steel" /> {t("dashboard.recentAudit")}</h3>
+          <Link href="/app/audit" className="text-[11.5px] font-bold text-spring-deep hover:underline">{t("dashboard.fullReport")}</Link>
         </div>
         {auditRows.length === 0 ? (
-          <p className="t-sm text-steel py-6 text-center">رویدادی ثبت نشده است</p>
+          <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noAudit")}</p>
         ) : (
           <div className="flex flex-col gap-1">
             {auditRows.slice(0, 6).map((a) => (
               <div key={a.id} className="flex items-center gap-3 px-2 py-1.5 rounded-xl text-[12px] hover:bg-spring-tint/40 transition-colors">
                 <span className="b-badge b-badge-neutral !text-[9.5px] !px-2 !py-0.5 shrink-0">{a.action}</span>
                 <span className="text-steel truncate flex-1">
-                  {a.user?.firstName ? `${a.user.firstName} ${a.user.lastName ?? ""}` : "سیستم"} · {a.entityType}
+                  {a.user?.firstName ? `${a.user.firstName} ${a.user.lastName ?? ""}` : t("dashboard.system")} · {a.entityType}
                 </span>
                 <span className="text-stone text-[10.5px] shrink-0">{relativeTimeFa(a.createdAt)}</span>
               </div>
@@ -451,6 +464,8 @@ function HealthMiniRow({ label, ok, okText, badText }: { label: string; ok: bool
 
 /* ═══════════ داشبورد مدیر ═══════════ */
 function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | null; setWhy: (v: string | null) => void }) {
+  const { t, lang } = useLang();
+  const isRtl = lang.direction !== "ltr";
   const s = data.stats as Record<string, number>;
   const hs = (data.healthScore ?? {}) as Partial<{ academics: number | null; attendance: number | null; finance: number | null; communication: number | null; staffLoad: number | null; overall: number | null }>;
   const trend = (data.attendanceTrend as Array<{ date: string; present: number; total: number }>) ?? [];
@@ -468,32 +483,32 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
     <div className="flex flex-col gap-8">
       {/* آمار کلیدی */}
       <StaggerGroup className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <StaggerItem><StatCard icon={GraduationCap} label="دانش‌آموزان" value={<CountUp value={s.students ?? 0} />} hint={`${faNumber(s.teachers ?? 0)} معلم`} /></StaggerItem>
+        <StaggerItem><StatCard icon={GraduationCap} label={t("nav.students")} value={<CountUp value={s.students ?? 0} />} hint={`${faNumber(s.teachers ?? 0)} ${t("common.teacher")}`} /></StaggerItem>
         <StaggerItem>
-          <StatCard icon={ClipboardCheck} label="حضور امروز" value={s.attendanceToday ? `${faNumber(Math.round(((s.attendanceToday - s.absentTodayCount) / s.attendanceToday) * 100))}٪` : "—"}
+          <StatCard icon={ClipboardCheck} label={t("dashboard.attendanceToday")} value={s.attendanceToday ? `${faNumber(Math.round(((s.attendanceToday - s.absentTodayCount) / s.attendanceToday) * 100))}٪` : "—"}
             tone={s.absentTodayCount > 0 ? "warning" : "spring"}
-            hint={`${faNumber(s.absentTodayCount ?? 0)} غایب · ${faNumber(s.lateTodayCount ?? 0)} تأخیر`} />
+            hint={`${faNumber(s.absentTodayCount ?? 0)} ${t("dashboard.hint.absent")} · ${faNumber(s.lateTodayCount ?? 0)} ${t("dashboard.hint.late")}`} />
         </StaggerItem>
-        <StaggerItem><StatCard icon={Wallet} label="وصول شهریه" value={`${faNumber(fee.paidRatio ?? 0)}٪`} tone={fee.paidRatio >= 80 ? "spring" : "warning"} hint={`${faNumber(fee.totalUnpaidAmount)} ${currencyLabel()} بدهی`} /></StaggerItem>
-        <StaggerItem><StatCard icon={SchoolIcon} label="کلاس‌های در حال برگزاری" value={<CountUp value={s.classesInSession ?? 0} />} tone="ink" hint={`از ${faNumber(s.classes ?? 0)} کلاس`} /></StaggerItem>
+        <StaggerItem><StatCard icon={Wallet} label={t("dashboard.feeCollection")} value={`${faNumber(fee.paidRatio ?? 0)}٪`} tone={fee.paidRatio >= 80 ? "spring" : "warning"} hint={`${faNumber(fee.totalUnpaidAmount)} ${currencyLabel()} ${t("dashboard.hint.debt")}`} /></StaggerItem>
+        <StaggerItem><StatCard icon={SchoolIcon} label={t("dashboard.classesInSession")} value={<CountUp value={s.classesInSession ?? 0} />} tone="ink" hint={`${t("common.from")} ${faNumber(s.classes ?? 0)} ${t("common.class")}`} /></StaggerItem>
       </StaggerGroup>
 
       {/* What Changed + سلامت مدرسه */}
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="b-card-md p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold">تغییرات از دیروز</h3>
-            <span className="b-badge b-badge-neutral">What Changed?</span>
+            <h3 className="font-bold">{t("dashboard.changesSinceYesterday")}</h3>
+            <span className="b-badge b-badge-neutral">{t("dashboard.whatChanged")}</span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <DeltaCard label="حضور" delta={wc.attendance} suffix="٪" />
-            <DeltaCard label="شهریه معوق" delta={wc.unpaidFees} invert />
-            <DeltaCard label="درخواست‌های جدید" delta={wc.newRequests} invert />
-            <DeltaCard label="دانش‌آموزان در معرض ریسک" delta={wc.riskStudents} invert />
+            <DeltaCard label={t("dashboard.delta.attendance")} delta={wc.attendance} suffix="٪" />
+            <DeltaCard label={t("dashboard.delta.unpaidFees")} delta={wc.unpaidFees} invert />
+            <DeltaCard label={t("dashboard.delta.newRequests")} delta={wc.newRequests} invert />
+            <DeltaCard label={t("dashboard.delta.riskStudents")} delta={wc.riskStudents} invert />
           </div>
           {todayDetail && todayDetail.absent.length > 0 && (
             <div className="mt-4 p-3 rounded-2xl bg-destructive/5 border border-destructive/15">
-              <p className="text-[12px] font-bold text-destructive mb-1.5">غایبان امروز:</p>
+              <p className="text-[12px] font-bold text-destructive mb-1.5">{t("dashboard.todayAbsents")}:</p>
               <p className="text-[11.5px] text-steel leading-relaxed">{todayDetail.absent.slice(0, 8).map((a) => `${a.name} (${a.class})`).join("، ")}{todayDetail.absent.length > 8 ? " و…" : ""}</p>
             </div>
           )}
@@ -502,7 +517,7 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
         <div className="b-card-md p-5">
           <div className="flex items-center gap-2 mb-3">
             <HeartPulse className="w-4.5 h-4.5 w-5 h-5 text-spring" />
-            <h3 className="font-bold">سلامت مدرسه</h3>
+            <h3 className="font-bold">{t("dashboard.schoolHealth")}</h3>
           </div>
           <div className="flex items-center gap-4 mb-4">
             <div className="relative w-20 h-20">
@@ -514,14 +529,14 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
               </svg>
               <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">{typeof hs.overall === "number" ? faNumber(hs.overall) : "—"}</span>
             </div>
-            <div className="text-[11.5px] text-steel leading-relaxed">امتیاز کلی از ۱۰۰</div>
+            <div className="text-[11.5px] text-steel leading-relaxed">{t("dashboard.scoreOutOf100")}</div>
           </div>
           <div className="flex flex-col gap-2">
-            <HealthRow label="تحصیلی" v={hs.academics} />
-            <HealthRow label="حضور" v={hs.attendance} />
-            <HealthRow label="مالی" v={hs.finance} />
-            <HealthRow label="ارتباطات" v={hs.communication} />
-            <HealthRow label="بار کارکنان" v={hs.staffLoad} />
+            <HealthRow label={t("dashboard.health.academics")} v={hs.academics} />
+            <HealthRow label={t("dashboard.health.attendance")} v={hs.attendance} />
+            <HealthRow label={t("dashboard.health.finance")} v={hs.finance} />
+            <HealthRow label={t("dashboard.health.communication")} v={hs.communication} />
+            <HealthRow label={t("dashboard.health.staffLoad")} v={hs.staffLoad} />
           </div>
         </div>
       </div>
@@ -530,14 +545,14 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="b-card-md p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold">روند حضور (۷ روز)</h3>
+            <h3 className="font-bold">{t("dashboard.attendanceTrend7d")}</h3>
             <WhyBtn id="attendance" open={why} setOpen={setWhy}
-              content={`${faNumber(s.absentTodayCount ?? 0)} غیبت امروز · ${faNumber(s.lateTodayCount ?? 0)} تأخیر · ${faNumber(s.teachersPresent ?? 0)} معلم ثبت کرده`} />
+              content={`${faNumber(s.absentTodayCount ?? 0)} ${t("dashboard.why.absencesToday")} · ${faNumber(s.lateTodayCount ?? 0)} ${t("dashboard.why.lates")} · ${faNumber(s.teachersPresent ?? 0)} ${t("dashboard.why.teachersRecorded")}`} />
           </div>
           <LineChart data={trend.map((t) => ({ label: t.date, value: t.present, total: t.total }))} height={130} />
         </div>
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">میانگین نمرات پایه‌ها</h3>
+          <h3 className="font-bold mb-4">{t("dashboard.avgByGrade")}</h3>
           <BarChart data={gradeByGrade.map((g) => ({ label: g.grade, value: g.avg }))} max={20} />
         </div>
       </div>
@@ -546,13 +561,13 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="b-card-md p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-destructive" /> دانش‌آموزان در معرض افت</h3>
-            <Link href="/app/students" className="text-[11.5px] font-bold text-spring-deep hover:underline">همه دانش‌آموزان</Link>
+            <h3 className="font-bold flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-destructive" /> {t("dashboard.atRiskDecline")}</h3>
+            <Link href="/app/students" className="text-[11.5px] font-bold text-spring-deep hover:underline">{t("dashboard.allStudents")}</Link>
           </div>
-          {risk.length === 0 ? <p className="t-sm text-steel py-6 text-center">مورد نگرانی‌ای نیست</p> : (
+          {risk.length === 0 ? <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noConcern")}</p> : (
             <div className="flex flex-col gap-2">
               {risk.map((r, i) => (
-                <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
+                <motion.div key={i} initial={{ opacity: 0, x: isRtl ? 10 : -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
                   className="flex items-center gap-3 p-3 rounded-2xl bg-destructive/5">
                   <span className="b-badge b-badge-critical shrink-0">-{faNumber(r.drop)}</span>
                   <span className="flex-1 min-w-0 text-[12.5px] font-bold truncate">{r.name}</span>
@@ -564,20 +579,20 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
           )}
         </div>
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4 flex items-center gap-2"><Cake className="w-4 h-4 text-blossom" /> تولدهای نزدیک</h3>
-          {bdays.length === 0 ? <p className="t-sm text-steel py-4 text-center">تولدی در این هفته نیست</p> : (
+          <h3 className="font-bold mb-4 flex items-center gap-2"><Cake className="w-4 h-4 text-blossom" /> {t("dashboard.birthdays")}</h3>
+          {bdays.length === 0 ? <p className="t-sm text-steel py-4 text-center">{t("dashboard.empty.noBirthdayThisWeek")}</p> : (
             <div className="flex flex-col gap-2">
               {bdays.slice(0, 5).map((b, i) => (
                 <div key={i} className="flex items-center justify-between text-[12px]">
                   <span className="font-bold truncate">{b.name}</span>
-                  <span className="text-steel shrink-0">{b.days === 0 ? "امروز!" : b.days > 0 ? `${faNumber(b.days)} روز دیگر` : `${faNumber(-b.days)} روز پیش`}</span>
+                  <span className="text-steel shrink-0">{b.days === 0 ? t("dashboard.birthday.today") : b.days > 0 ? `${faNumber(b.days)} ${t("dashboard.birthday.daysLater")}` : `${faNumber(-b.days)} ${t("dashboard.birthday.daysAgo")}`}</span>
                 </div>
               ))}
             </div>
           )}
           {behavior.length > 0 && (
             <>
-              <h3 className="font-bold mt-5 mb-3">آخرین رویدادهای رفتاری</h3>
+              <h3 className="font-bold mt-5 mb-3">{t("dashboard.recentBehavior")}</h3>
               <div className="flex flex-col gap-1.5">
                 {behavior.slice(0, 4).map((b, i) => (
                   <div key={i} className="flex items-center gap-2 text-[11.5px]">
@@ -595,11 +610,12 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
 }
 
 function DeltaCard({ label, delta, suffix, invert }: { label: string; delta: number | null | undefined; suffix?: string; invert?: boolean }) {
+  const { t } = useLang();
   if (delta === null || delta === undefined) {
     return <div className="p-3 rounded-2xl bg-cloud"><p className="text-[11px] text-steel">{label}</p><p className="text-[13px] font-bold text-stone mt-1">—</p></div>;
   }
   if (delta === 0) {
-    return <div className="p-3 rounded-2xl bg-cloud"><p className="text-[11px] text-steel">{label}</p><p className="text-[13px] font-bold text-steel mt-1">بدون تغییر</p></div>;
+    return <div className="p-3 rounded-2xl bg-cloud"><p className="text-[11px] text-steel">{label}</p><p className="text-[13px] font-bold text-steel mt-1">{t("dashboard.delta.noChange")}</p></div>;
   }
   const good = invert ? delta < 0 : delta > 0;
   return (
@@ -634,10 +650,11 @@ function HealthRow({ label, v }: { label: string; v: number | null | undefined }
 }
 
 function WhyBtn({ id, open, setOpen, content }: { id: string; open: string | null; setOpen: (v: string | null) => void; content: string }) {
+  const { t } = useLang();
   return (
     <div className="relative">
       <button onClick={() => setOpen(open === id ? null : id)} className="b-btn b-btn-ghost !min-h-[30px] !text-[11px] !px-3 !py-1">
-        چرا؟ <ChevronDown className={`w-3 h-3 transition-transform ${open === id ? "rotate-180" : ""}`} />
+        {t("dashboard.why")} <ChevronDown className={`w-3 h-3 transition-transform ${open === id ? "rotate-180" : ""}`} />
       </button>
       <AnimatePresence>
         {open === id && (
@@ -645,7 +662,7 @@ function WhyBtn({ id, open, setOpen, content }: { id: string; open: string | nul
             initial={{ opacity: 0, y: -4, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.97 }}
-            className="absolute top-full left-0 mt-2 z-20 b-card-sm p-3 text-[11px] text-steel leading-relaxed w-56 text-start shadow-lg"
+            className="absolute top-full end-0 mt-2 z-20 b-card-sm p-3 text-[11px] text-steel leading-relaxed w-56 text-start shadow-lg"
           >
             {content}
           </motion.div>
@@ -657,6 +674,8 @@ function WhyBtn({ id, open, setOpen, content }: { id: string; open: string | nul
 
 /* ═══════════ داشبورد معلم ═══════════ */
 function TeacherDashboard({ data }: { data: Dash }) {
+  const { t, lang } = useLang();
+  const isRtl = lang.direction !== "ltr";
   const s = data.stats as Record<string, number>;
   const slots = (data.todaySlots as Array<{ id: string; period: number; class: { name: string }; subject: { name: string } }>) ?? [];
   const assignments = (data.assignments as Array<{ id: string; title: string; dueDate: string; class: { name: string }; subject: { name: string } | null }>) ?? [];
@@ -665,15 +684,15 @@ function TeacherDashboard({ data }: { data: Dash }) {
     <div className="flex flex-col gap-8">
       {/* Quick Actions معلم */}
       <div className="b-card-tint p-5">
-        <h3 className="font-bold mb-4">عملیات سریع</h3>
+        <h3 className="font-bold mb-4">{t("dashboard.teacherQuickActions")}</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {[
-            { href: "/app/attendance", icon: ClipboardCheck, label: "ثبت حضور" },
-            { href: "/app/grades", icon: BarChart3, label: "ثبت نمره" },
-            { href: "/app/assignments", icon: NotebookPen, label: "تکلیف جدید" },
-            { href: "/app/announcements", icon: BellPlus, label: "ارسال اعلان" },
-            { href: "/app/behavior", icon: Sparkles, label: "ثبت رفتار" },
-            { href: "/app/question-bank", icon: FileCheck, label: "بانک سوال" },
+            { href: "/app/attendance", icon: ClipboardCheck, label: t("dashboard.qa.markAttendance") },
+            { href: "/app/grades", icon: BarChart3, label: t("dashboard.qa.enterGrade") },
+            { href: "/app/assignments", icon: NotebookPen, label: t("dashboard.qa.newAssignment") },
+            { href: "/app/announcements", icon: BellPlus, label: t("dashboard.qa.sendNotice") },
+            { href: "/app/behavior", icon: Sparkles, label: t("dashboard.qa.recordBehavior") },
+            { href: "/app/question-bank", icon: FileCheck, label: t("nav.questionBank") },
           ].map((a) => (
             <Link key={a.href} href={a.href} className="flex flex-col items-center gap-2 p-3.5 rounded-2xl bg-background hover:shadow-md transition-all hover:-translate-y-0.5">
               <span className="w-10 h-10 rounded-2xl bg-spring-tint text-spring-deep flex items-center justify-center"><a.icon className="w-5 h-5" /></span>
@@ -684,19 +703,19 @@ function TeacherDashboard({ data }: { data: Dash }) {
       </div>
 
       <StaggerGroup className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <StaggerItem><StatCard icon={SchoolIcon} label="کلاس‌های من" value={<CountUp value={s.classes ?? 0} />} hint={`${faNumber(s.students ?? 0)} دانش‌آموز`} /></StaggerItem>
-        <StaggerItem><StatCard icon={ClipboardCheck} label="حضور ثبت‌نشده امروز" value={<CountUp value={s.missingAttendance ?? 0} />} tone={s.missingAttendance ? "warning" : "spring"} /></StaggerItem>
-        <StaggerItem><StatCard icon={MessageCircle} label="پیام‌های والدین" value={<CountUp value={s.parentUnread ?? 0} />} tone={s.parentUnread ? "blossom" : "spring"} /></StaggerItem>
-        <StaggerItem><StatCard icon={Handshake} label="درخواست ملاقات" value={<CountUp value={s.pendingMeetings ?? 0} />} tone={s.pendingMeetings ? "warning" : "spring"} /></StaggerItem>
+        <StaggerItem><StatCard icon={SchoolIcon} label={t("dashboard.myClasses")} value={<CountUp value={s.classes ?? 0} />} hint={`${faNumber(s.students ?? 0)} ${t("common.student")}`} /></StaggerItem>
+        <StaggerItem><StatCard icon={ClipboardCheck} label={t("dashboard.missingAttendanceToday")} value={<CountUp value={s.missingAttendance ?? 0} />} tone={s.missingAttendance ? "warning" : "spring"} /></StaggerItem>
+        <StaggerItem><StatCard icon={MessageCircle} label={t("dashboard.parentMessages")} value={<CountUp value={s.parentUnread ?? 0} />} tone={s.parentUnread ? "blossom" : "spring"} /></StaggerItem>
+        <StaggerItem><StatCard icon={Handshake} label={t("dashboard.meetingRequests")} value={<CountUp value={s.pendingMeetings ?? 0} />} tone={s.pendingMeetings ? "warning" : "spring"} /></StaggerItem>
       </StaggerGroup>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">برنامه امروز من</h3>
-          {slots.length === 0 ? <p className="t-sm text-steel py-6 text-center">امروز زنگی ندارید</p> : (
+          <h3 className="font-bold mb-4">{t("dashboard.myTodaySchedule")}</h3>
+          {slots.length === 0 ? <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noPeriodTeacher")}</p> : (
             <div className="flex flex-col gap-2">
               {slots.map((sl, i) => (
-                <motion.div key={sl.id} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
+                <motion.div key={sl.id} initial={{ opacity: 0, x: isRtl ? 8 : -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
                   className="flex items-center gap-3 p-3 rounded-2xl bg-cloud">
                   <span className="w-9 h-9 rounded-xl bg-spring text-primary-foreground flex items-center justify-center text-[13px] font-bold shrink-0">{faNumber(sl.period)}</span>
                   <span className="flex-1 text-[13px] font-bold">{sl.subject?.name}</span>
@@ -707,8 +726,8 @@ function TeacherDashboard({ data }: { data: Dash }) {
           )}
         </div>
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">تکالیف نزدیک</h3>
-          {assignments.length === 0 ? <p className="t-sm text-steel py-6 text-center">تکلیفی ثبت نشده</p> : (
+          <h3 className="font-bold mb-4">{t("dashboard.upcomingAssignments")}</h3>
+          {assignments.length === 0 ? <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noAssignmentRecorded")}</p> : (
             <div className="flex flex-col gap-2">
               {assignments.slice(0, 5).map((a) => (
                 <div key={a.id} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-cloud transition-colors">
@@ -728,6 +747,7 @@ function TeacherDashboard({ data }: { data: Dash }) {
 
 /* ═══════════ داشبورد دانش‌آموز ═══════════ */
 function StudentDashboard({ data }: { data: Dash }) {
+  const { t } = useLang();
   const s = data.stats as Record<string, number>;
   const st = (data.subjectTrends as Array<{ subject: string; avg: number; delta: number }>) ?? [];
   const slots = (data.todaySlots as Array<{ id: string; period: number; subject: { name: string }; teacher: { firstName: string; lastName: string } | null }>) ?? [];
@@ -737,27 +757,27 @@ function StudentDashboard({ data }: { data: Dash }) {
   return (
     <div className="flex flex-col gap-8">
       <StaggerGroup className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <StaggerItem><StatCard icon={BarChart3} label="معدل" value={s.gpa ? faNumber(s.gpa) : "—"} hint={s.classRank ? `رتبه ${faNumber(s.classRank)} از ${faNumber(s.classSize)}` : undefined} /></StaggerItem>
-        <StaggerItem><StatCard icon={ClipboardCheck} label="درصد حضور" value={s.attendanceRate ? `${faNumber(s.attendanceRate)}٪` : "—"} tone="spring" hint={`${faNumber(s.absences)} غیبت`} /></StaggerItem>
-        <StaggerItem><StatCard icon={Award} label="امتیاز بج‌ها" value={<CountUp value={s.badgePoints ?? 0} />} tone="blossom" hint={`${faNumber(badges.length)} بج`} /></StaggerItem>
-        <StaggerItem><StatCard icon={Sparkles} label="امتیاز رفتاری" value={<CountUp value={s.behaviorPoints ?? 0} />} tone={s.behaviorPoints >= 0 ? "spring" : "warning"} /></StaggerItem>
+        <StaggerItem><StatCard icon={BarChart3} label={t("dashboard.gpa")} value={s.gpa ? faNumber(s.gpa) : "—"} hint={s.classRank ? `${t("dashboard.hint.rank")} ${faNumber(s.classRank)} ${t("common.from")} ${faNumber(s.classSize)}` : undefined} /></StaggerItem>
+        <StaggerItem><StatCard icon={ClipboardCheck} label={t("dashboard.attendancePct")} value={s.attendanceRate ? `${faNumber(s.attendanceRate)}٪` : "—"} tone="spring" hint={`${faNumber(s.absences)} ${t("dashboard.mini.absence")}`} /></StaggerItem>
+        <StaggerItem><StatCard icon={Award} label={t("dashboard.badgePoints")} value={<CountUp value={s.badgePoints ?? 0} />} tone="blossom" hint={`${faNumber(badges.length)} ${t("dashboard.unit.badge")}`} /></StaggerItem>
+        <StaggerItem><StatCard icon={Sparkles} label={t("dashboard.behaviorPoints")} value={<CountUp value={s.behaviorPoints ?? 0} />} tone={s.behaviorPoints >= 0 ? "spring" : "warning"} /></StaggerItem>
       </StaggerGroup>
 
       {featured && (
         <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="b-card-tint p-4 flex items-center gap-3">
           <span className="w-12 h-12 rounded-2xl bg-spring/15 text-spring-deep flex items-center justify-center"><Award className="w-6 h-6" /></span>
           <div className="flex-1">
-            <p className="text-[12.5px] font-bold">نشان ویژه شما: {featured.title}</p>
-            <p className="text-[11px] text-steel">برای دیدن همه بج‌ها و افتخارات به صفحه بج‌ها بروید</p>
+            <p className="text-[12.5px] font-bold">{t("dashboard.featuredBadge")} {featured.title}</p>
+            <p className="text-[11px] text-steel">{t("dashboard.seeAllBadges")}</p>
           </div>
-          <Link href="/app/badges" className="b-btn b-btn-sm b-btn-spring !min-h-[34px] !text-[11.5px]">بج‌های من</Link>
+          <Link href="/app/badges" className="b-btn b-btn-sm b-btn-spring !min-h-[34px] !text-[11.5px]">{t("dashboard.myBadges")}</Link>
         </motion.div>
       )}
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">روند درس‌ها</h3>
-          {st.length === 0 ? <p className="t-sm text-steel">هنوز نمره‌ای نیست</p> : (
+          <h3 className="font-bold mb-4">{t("dashboard.subjectTrends")}</h3>
+          {st.length === 0 ? <p className="t-sm text-steel">{t("dashboard.empty.noGradesYet")}</p> : (
             <div className="flex flex-col gap-2.5">
               {st.slice(0, 5).map((t) => (
                 <div key={t.subject} className="flex items-center gap-2">
@@ -775,8 +795,8 @@ function StudentDashboard({ data }: { data: Dash }) {
           )}
         </div>
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">برنامه امروز</h3>
-          {slots.length === 0 ? <p className="t-sm text-steel py-4 text-center">امروز زنگی نیست</p> : (
+          <h3 className="font-bold mb-4">{t("dashboard.todaySchedule")}</h3>
+          {slots.length === 0 ? <p className="t-sm text-steel py-4 text-center">{t("dashboard.empty.noPeriodStudent")}</p> : (
             <div className="flex flex-col gap-1.5">
               {slots.map((sl) => (
                 <div key={sl.id} className="flex items-center gap-2.5 text-[12px] p-2 rounded-xl hover:bg-cloud">
@@ -789,8 +809,8 @@ function StudentDashboard({ data }: { data: Dash }) {
           )}
         </div>
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">تکالیف در پیش رو</h3>
-          {assignments.length === 0 ? <p className="t-sm text-steel py-4 text-center">تکلیفی نیست</p> : (
+          <h3 className="font-bold mb-4">{t("dashboard.upcomingHomework")}</h3>
+          {assignments.length === 0 ? <p className="t-sm text-steel py-4 text-center">{t("dashboard.empty.noHomework")}</p> : (
             <div className="flex flex-col gap-1.5">
               {assignments.slice(0, 5).map((a) => (
                 <div key={a.id} className="flex items-center gap-2 text-[12px] p-2 rounded-xl hover:bg-cloud">
@@ -809,6 +829,7 @@ function StudentDashboard({ data }: { data: Dash }) {
 
 /* ═══════════ داشبورد والد ═══════════ */
 function ParentDashboard({ data }: { data: Dash }) {
+  const { t } = useLang();
   const children = (data.children as Array<{ relation: string; studentId: string; student: { name: string; class: string; gpa: number | null; attendanceRate: number | null; absences: number; lates: number; unpaidFees: number; unpaidAmount: number; behaviorPoints: number; nextClass: string | null; homework: number } }>) ?? [];
   const meetings = (data.meetings as Array<{ id: string; topic: string; status: string; slotStart: string; staff: { firstName: string; lastName: string } }>) ?? [];
   const announcements = (data.announcements as Array<{ id: string; title: string; createdAt: string }>) ?? [];
@@ -816,7 +837,7 @@ function ParentDashboard({ data }: { data: Dash }) {
   return (
     <div className="flex flex-col gap-8">
       {children.length === 0 && (
-        <EmptyState icon={GraduationCap} title="فرزندی به حساب شما متصل نیست" desc="برای اتصال حساب شما به فرزندتان، با مدیر مدرسه هماهنگ کنید." />
+        <EmptyState icon={GraduationCap} title={t("dashboard.empty.noChildLinked")} desc={t("dashboard.empty.contactManagerToLink")} />
       )}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
         {children.map((ch, i) => (
@@ -824,30 +845,30 @@ function ParentDashboard({ data }: { data: Dash }) {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="font-bold text-[15px]">{ch.student.name}</p>
-                <p className="text-[11.5px] text-steel">{ch.student.class} · {ch.relation === "FATHER" ? "پدر" : ch.relation === "MOTHER" ? "مادر" : "سرپرست"}</p>
+                <p className="text-[11.5px] text-steel">{ch.student.class} · {ch.relation === "FATHER" ? t("dashboard.relation.father") : ch.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}</p>
               </div>
-              <Link href={`/app/students/${ch.studentId}`} className="b-btn b-btn-sm b-btn-ghost !min-h-[32px] !text-[11px]">پرونده</Link>
+              <Link href={`/app/students/${ch.studentId}`} className="b-btn b-btn-sm b-btn-ghost !min-h-[32px] !text-[11px]">{t("dashboard.childFile")}</Link>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
-              <MiniStat label="معدل" value={ch.student.gpa ? faNumber(ch.student.gpa) : "—"} />
-              <MiniStat label="حضور" value={ch.student.attendanceRate ? `${faNumber(ch.student.attendanceRate)}٪` : "—"} good={(ch.student.attendanceRate ?? 0) >= 90} />
-              <MiniStat label="غیبت" value={faNumber(ch.student.absences)} good={ch.student.absences < 3} />
-              <MiniStat label="تأخیر" value={faNumber(ch.student.lates)} good={ch.student.lates < 3} />
-              <MiniStat label="تکلیف" value={faNumber(ch.student.homework)} />
-              <MiniStat label="رفتار" value={faNumber(ch.student.behaviorPoints)} good={ch.student.behaviorPoints >= 0} />
+              <MiniStat label={t("dashboard.gpa")} value={ch.student.gpa ? faNumber(ch.student.gpa) : "—"} />
+              <MiniStat label={t("dashboard.mini.attendance")} value={ch.student.attendanceRate ? `${faNumber(ch.student.attendanceRate)}٪` : "—"} good={(ch.student.attendanceRate ?? 0) >= 90} />
+              <MiniStat label={t("dashboard.mini.absence")} value={faNumber(ch.student.absences)} good={ch.student.absences < 3} />
+              <MiniStat label={t("dashboard.mini.late")} value={faNumber(ch.student.lates)} good={ch.student.lates < 3} />
+              <MiniStat label={t("dashboard.mini.homework")} value={faNumber(ch.student.homework)} />
+              <MiniStat label={t("dashboard.mini.behavior")} value={faNumber(ch.student.behaviorPoints)} good={ch.student.behaviorPoints >= 0} />
             </div>
             {ch.student.nextClass && (
-              <p className="mt-3 text-[11px] text-steel"><CheckCircle2 className="w-3.5 h-3.5 inline text-spring" /> زنگ بعدی: {ch.student.nextClass}</p>
+              <p className="mt-3 text-[11px] text-steel"><CheckCircle2 className="w-3.5 h-3.5 inline text-spring" /> {t("dashboard.nextPeriod")} {ch.student.nextClass}</p>
             )}
             {ch.student.unpaidFees > 0 && (
-              <p className="mt-2 text-[11px] text-destructive font-bold"><AlertTriangle className="w-3.5 h-3.5 inline" /> {faNumber(ch.student.unpaidFees)} قسط پرداخت‌نشده ({faNumber(ch.student.unpaidAmount)} {currencyLabel()})</p>
+              <p className="mt-2 text-[11px] text-destructive font-bold"><AlertTriangle className="w-3.5 h-3.5 inline" /> {faNumber(ch.student.unpaidFees)} {t("dashboard.unpaidInstallments")} ({faNumber(ch.student.unpaidAmount)} {currencyLabel()})</p>
             )}
           </motion.div>
         ))}
       </div>
       {announcements.length > 0 && (
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">اعلان‌های مدرسه</h3>
+          <h3 className="font-bold mb-4">{t("dashboard.schoolNotices")}</h3>
           <div className="flex flex-col gap-2">
             {announcements.map((a) => (
               <div key={a.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-cloud text-[12.5px]">
@@ -860,11 +881,11 @@ function ParentDashboard({ data }: { data: Dash }) {
       )}
       {meetings.length > 0 && (
         <div className="b-card-md p-5">
-          <h3 className="font-bold mb-4">ملاقات‌های در انتظار</h3>
+          <h3 className="font-bold mb-4">{t("dashboard.pendingMeetings")}</h3>
           <div className="flex flex-col gap-2">
             {meetings.map((m) => (
               <div key={m.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-cloud text-[12.5px]">
-                <span className={`b-badge ${m.status === "APPROVED" ? "b-badge-success" : "b-badge-warning"}`}>{m.status === "APPROVED" ? "تأییدشده" : "در انتظار"}</span>
+                <span className={`b-badge ${m.status === "APPROVED" ? "b-badge-success" : "b-badge-warning"}`}>{m.status === "APPROVED" ? t("dashboard.meeting.approved") : t("dashboard.meeting.pending")}</span>
                 <span className="flex-1 font-bold truncate">{m.topic}</span>
                 <span className="text-[11px] text-steel">{m.staff.firstName} {m.staff.lastName}</span>
                 <span className="text-[10.5px] text-stone">{formatDateFa(m.slotStart)}</span>

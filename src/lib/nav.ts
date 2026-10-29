@@ -21,14 +21,14 @@ import type { LucideIcon } from "lucide-react";
 
 export type NavGroupKey = "personal" | "education" | "students" | "comms" | "finance" | "admin" | "services";
 
-export const NAV_GROUPS: { key: NavGroupKey; label: string; icon: LucideIcon }[] = [
-  { key: "personal", label: "شخصی", icon: Home },
-  { key: "education", label: "آموزش", icon: BookOpen },
-  { key: "students", label: "دانش‌آموزان", icon: GraduationCap },
-  { key: "comms", label: "ارتباطات", icon: MessagesSquare },
-  { key: "finance", label: "امور مالی", icon: Coins },
-  { key: "admin", label: "مدیریت", icon: SlidersHorizontal },
-  { key: "services", label: "سرویس مدرسه", icon: Building2 },
+export const NAV_GROUPS: { key: NavGroupKey; label: string; tKey: string; icon: LucideIcon }[] = [
+  { key: "personal", label: "شخصی", tKey: "nav.group.personal", icon: Home },
+  { key: "education", label: "آموزش", tKey: "nav.group.education", icon: BookOpen },
+  { key: "students", label: "دانش‌آموزان", tKey: "nav.group.students", icon: GraduationCap },
+  { key: "comms", label: "ارتباطات", tKey: "nav.group.comms", icon: MessagesSquare },
+  { key: "finance", label: "امور مالی", tKey: "nav.group.finance", icon: Coins },
+  { key: "admin", label: "مدیریت", tKey: "nav.group.admin", icon: SlidersHorizontal },
+  { key: "services", label: "سرویس مدرسه", tKey: "nav.group.services", icon: Building2 },
 ];
 
 export type NavItem = {
@@ -57,9 +57,9 @@ export const NAV: NavItem[] = [
   { href: "/app/attendance", label: "حضور و غیاب", tKey: "nav.attendance", short: "حضور", icon: ClipboardCheck, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 3, group: "education" },
   { href: "/app/grades", label: "نمرات", tKey: "nav.grades", short: "نمرات", icon: BarChart3, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 0, group: "education" },
   { href: "/app/assignments", label: "تکالیف", tKey: "nav.assignments", short: "تکالیف", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 1, group: "education" },
-  { href: "/app/homework-balance", label: "تعادل تکالیف", short: "تعادل تکالیف", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 1, group: "education" },
-  { href: "/app/study-groups", label: "گروه‌های مطالعه", short: "گروه مطالعه", icon: Users, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 2, group: "education" },
-  { href: "/app/revision-plan", label: "برنامه مرور امتحان", short: "مرور امتحان", icon: CalendarDays, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 3, group: "education" },
+  { href: "/app/homework-balance", label: "تعادل تکالیف", tKey: "nav.homeworkBalance", short: "تعادل تکالیف", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 1, group: "education" },
+  { href: "/app/study-groups", label: "گروه‌های مطالعه", tKey: "nav.studyGroups", short: "گروه مطالعه", icon: Users, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 2, group: "education" },
+  { href: "/app/revision-plan", label: "برنامه مرور امتحان", tKey: "nav.revisionPlan", short: "مرور امتحان", icon: CalendarDays, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 3, group: "education" },
   { href: "/app/tasks", label: "تسک‌ها و اقدامات", tKey: "nav.tasks", short: "تسک‌ها", icon: ListTodo, roles: ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN", "CUSTODIAN"], tint: 2, group: "admin" },
   { href: "/app/behavior", label: "انضباط و رفتار", tKey: "nav.behavior", short: "انضباط", icon: HeartHandshake, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 3, group: "students" },
   { href: "/app/badges", label: "بج‌ها و افتخارات", tKey: "nav.badges", short: "بج‌ها", icon: Award, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT", "SUPER_ADMIN"], tint: 0, group: "students" },
@@ -106,7 +106,7 @@ export const NAV: NavItem[] = [
   { href: "/app/engagement", label: "نظرسنجی و پیشنهاد", tKey: "nav.engagement", short: "نظرسنجی", icon: Vote, roles: ["*"], tint: 3, group: "comms" },
   { href: "/app/certificates", label: "گواهی‌ها", tKey: "nav.certificates", short: "گواهی‌ها", icon: ScrollText, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 0, group: "students" },
   { href: "/app/reports", label: "گزارش‌ها و داده", tKey: "nav.reports", short: "گزارش‌ها", icon: FileBarChart, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 1, group: "admin" },
-  { href: "/app/imports", label: "ایمپورت و اکسپورت", short: "ایمپورت", icon: FileUp, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 3, group: "admin" },
+  { href: "/app/imports", label: "ایمپورت و اکسپورت", tKey: "nav.importExport", short: "ایمپورت", icon: FileUp, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"], tint: 3, group: "admin" },
   { href: "/app/finance", label: "امور مالی", tKey: "nav.finance", short: "مالی", icon: Wallet, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "STUDENT", "PARENT"], tint: 2, group: "finance" },
   { href: "/app/meetings", label: "ملاقات‌ها", tKey: "nav.meetings", short: "ملاقات", icon: Handshake, roles: ["*"], tint: 3, group: "comms" },
   { href: "/app/leaves", label: "مرخصی‌ها", tKey: "nav.leaves", short: "مرخصی", icon: CalendarOff, roles: ["MANAGER", "DEPUTY", "TEACHER", "SUPER_ADMIN", "ADMIN", "CUSTODIAN"], tint: 0, group: "admin" },

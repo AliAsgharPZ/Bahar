@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Loader2, Inbox, AlertTriangle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 /** شمارندهٔ متحرک اعداد (الگوی NumberTicker) — از صفر تا مقدار با شتاب‌نرم */
 export function CountUp({ value }: { value: number }) {
@@ -82,9 +83,11 @@ export function StatCard({
   );
 }
 
-export function LoadingBlock({ label = "در حال بارگذاری…" }: { label?: string }) {
+export function LoadingBlock({ label }: { label?: string }) {
+  const { t } = useLang();
+  const text = label ?? t("common.loading");
   return (
-    <div className="flex flex-col gap-4 py-6" role="status" aria-label={label}>
+    <div className="flex flex-col gap-4 py-6" role="status" aria-label={text}>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[0, 1, 2, 3].map((i) => (
           <div key={i} className="b-card-sm p-5 flex items-center gap-4">
@@ -102,7 +105,7 @@ export function LoadingBlock({ label = "در حال بارگذاری…" }: { la
         ))}
       </div>
       <span className="flex items-center justify-center gap-2 text-steel t-sm">
-        <Loader2 className="w-4 h-4 animate-spin text-spring" /> {label}
+        <Loader2 className="w-4 h-4 animate-spin text-spring" /> {text}
       </span>
     </div>
   );
@@ -138,23 +141,26 @@ export function ErrorBox({ message }: { message: string }) {
 }
 
 export function RoleBadge({ role }: { role: string }) {
+  const { t } = useLang();
   const map: Record<string, string> = {
     SUPER_ADMIN: "b-badge-ink",
     ADMIN: "b-badge-ink",
     MANAGER: "b-badge-spring",
     DEPUTY: "b-badge-blossom",
     TEACHER: "b-badge-neutral",
+    CUSTODIAN: "b-badge-neutral",
     STUDENT: "b-badge-neutral",
     PARENT: "b-badge-neutral",
   };
   const labels: Record<string, string> = {
-    SUPER_ADMIN: "ادمین ارشد",
-    ADMIN: "ادمین سرویس",
-    MANAGER: "مدیر",
-    DEPUTY: "معاون",
-    TEACHER: "معلم",
-    STUDENT: "دانش‌آموز",
-    PARENT: "ولی",
+    SUPER_ADMIN: t("role.badge.superAdmin"),
+    ADMIN: t("role.badge.admin"),
+    MANAGER: t("role.badge.manager"),
+    DEPUTY: t("role.badge.deputy"),
+    TEACHER: t("role.badge.teacher"),
+    CUSTODIAN: t("role.badge.custodian"),
+    STUDENT: t("role.badge.student"),
+    PARENT: t("role.badge.parent"),
   };
   return <span className={`b-badge ${map[role] ?? "b-badge-neutral"}`}>{labels[role] ?? role}</span>;
 }
