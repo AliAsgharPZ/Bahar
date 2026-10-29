@@ -118,7 +118,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
             </span>
             <div className="min-w-0">
               <h2 className="font-bold text-[16px] truncate">{title ?? "انتخاب منطقه روی نقشه ایران"}</h2>
-              <p className="text-[11.5px] text-steel truncate">
+              <p className="text-[12px] text-steel truncate">
                 {desc ?? "استان‌ها و شهرستان‌ها را برای هدف‌گیری انتخاب کنید — اختیاری و قابل ترکیب با نوع کاربر."}
               </p>
             </div>
@@ -141,7 +141,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
           >
             انتخاب شهرستان
           </button>
-          <span className="ms-auto text-[11.5px] text-steel">
+          <span className="ms-auto text-[12px] text-steel">
             {totalSelected > 0 || selection.counties.length > 0 ? (
               <>
                 {totalSelected > 0 && <b className="text-spring">{faNumber(totalSelected)} استان</b>}
@@ -153,7 +153,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
             )}
           </span>
           {(totalSelected > 0 || selection.counties.length > 0) && (
-            <button className="text-[11.5px] text-destructive font-bold hover:underline" onClick={clearAll}>
+            <button className="text-[12px] text-destructive font-bold hover:underline" onClick={clearAll}>
               پاک‌کردن
             </button>
           )}
@@ -234,7 +234,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
                   <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => setActiveProvince(null)} aria-label="بازگشت">
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <b className="text-[13px]">{activeProvince}</b>
+                  <b className="text-[14px]">{activeProvince}</b>
                   <span className="text-[12px] text-steel">شهرستان‌ها</span>
                   <button
                     className="ms-auto text-[12px] font-bold text-spring hover:underline"
@@ -274,7 +274,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
                           {selected ? <Check className="w-4 h-4" /> : faNumber(p.counties.length)}
                         </span>
                         <span className="flex flex-col min-w-0 text-right">
-                          <b className="text-[12.5px]">{p.name}</b>
+                          <b className="text-[12px]">{p.name}</b>
                           <span className="text-[12px] text-steel">مرکز: {p.center}</span>
                         </span>
                       </button>
@@ -296,7 +296,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
                         <span className={`w-4 h-4 rounded-[5px] shrink-0 flex items-center justify-center border ${selected ? "bg-spring border-spring" : "border-hairline"}`}>
                           {selected && <Check className="w-3 h-3 text-primary-foreground" />}
                         </span>
-                        <span className="text-[11.5px] truncate">{c}</span>
+                        <span className="text-[12px] truncate">{c}</span>
                       </button>
                     );
                   })}
@@ -308,7 +308,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
 
         {/* فوتر */}
         <div className="flex items-center justify-between gap-3 px-6 py-4 border-t border-hairline-soft shrink-0">
-          <p className="text-[11.5px] text-steel">
+          <p className="text-[12px] text-steel">
             انتخاب خالی = بدون محدودیت. اگر استان و شهرستان هر دو انتخاب شوند، شهرستان دقیق‌تر است.
           </p>
           <button className="b-btn b-btn-spring b-btn-sm" onClick={onClose}>
@@ -341,7 +341,7 @@ export function RegionSelectionButton({
       className="b-input flex items-center justify-between gap-2 text-right"
       onClick={onOpen}
     >
-      <span className="flex items-center gap-2 text-[13px]">
+      <span className="flex items-center gap-2 text-[14px]">
         <MapPin className="w-4 h-4 text-spring shrink-0" />
         {regionSummary(selection)}
       </span>

@@ -168,7 +168,7 @@ function Faq({ q, a }: { q: string; a: string }) {
         className="w-full flex items-center justify-between gap-4 text-right cursor-pointer"
         aria-expanded={open}
       >
-        <span className="font-bold text-[15px] md:text-base">{q}</span>
+        <span className="font-bold text-[16px] md:text-base">{q}</span>
         <ChevronDown
           className={`w-5 h-5 text-steel shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
         />
@@ -451,7 +451,7 @@ export function Landing({
                 </div>
                 <ul className="mt-4 flex flex-col gap-2.5">
                   {(shadEnabled ? r.capKeys : r.capKeys.filter((c) => c !== "site.role.manager.c4")).map((c) => (
-                    <li key={c} className="flex items-start gap-2 text-[13.5px] leading-relaxed">
+                    <li key={c} className="flex items-start gap-2 text-[14px] leading-relaxed">
                       <Check className="w-4 h-4 mt-0.5 shrink-0 opacity-70" />
                       <span className={r.tone === "spring" ? "" : "text-steel"}>{t(c)}</span>
                     </li>
@@ -472,7 +472,7 @@ export function Landing({
                 <span className="w-10 h-10 rounded-full bg-spring-tint text-spring flex items-center justify-center">
                   <m.icon className="w-5 h-5" />
                 </span>
-                <div className="font-bold text-[14.5px]">{t(m.tKey)}</div>
+                <div className="font-bold text-[14px]">{t(m.tKey)}</div>
                 <p className="t-sm text-steel">{t(m.dKey)}</p>
               </div>
             ))}

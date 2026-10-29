@@ -37,7 +37,7 @@ export function ShareBar({ url, title, texts }: { url: string; title: string; te
 
   return (
     <div className="b-card-sm !rounded-2xl p-4 flex flex-wrap items-center gap-3 mb-8">
-      <b className="text-[12.5px]">{t.heading}</b>
+      <b className="text-[12px]">{t.heading}</b>
       <button className="b-btn b-btn-soft b-btn-sm" onClick={copy}>
         {copied ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
         {copied ? t.copied : t.copyLink}

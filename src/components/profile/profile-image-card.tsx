@@ -166,7 +166,7 @@ export function ProfileImageCard({
 
   return (
     <div className="b-card-md p-6 md:p-8">
-      <h3 className="font-bold text-[15px] mb-1 flex items-center gap-2">
+      <h3 className="font-bold text-[16px] mb-1 flex items-center gap-2">
         <ImageIcon className="w-5 h-5 text-spring" /> تصویر پروفایل
       </h3>
       <p className="t-sm text-steel mb-5">
@@ -182,7 +182,7 @@ export function ProfileImageCard({
             <UserAvatar user={displayUser} size={96} className="ring-4 ring-spring-tint" />
           )}
           <div className="flex flex-col gap-1 md:hidden">
-            <b className="text-[13.5px]">{me.firstName} {me.lastName}</b>
+            <b className="text-[14px]">{me.firstName} {me.lastName}</b>
             <span className="text-[12px] text-steel">
               {state?.profileImageType === "upload" ? "عکس آپلودشده" : state?.profileImageType === "avatar" ? "آواتار اختصاصی" : "آواتار پیش‌فرض"}
             </span>
@@ -222,11 +222,11 @@ export function ProfileImageCard({
 
           {/* بازیابی انتخاب قبلی — اسلات غیرفعال */}
           {(inactiveUpload || inactiveAvatar) && (
-            <div className="flex flex-wrap items-center gap-2 text-[11.5px] text-steel">
+            <div className="flex flex-wrap items-center gap-2 text-[12px] text-steel">
               {inactiveUpload && (
                 <button
                   type="button"
-                  className="b-btn b-btn-ghost !py-1.5 !text-[11.5px]"
+                  className="b-btn b-btn-ghost !py-1.5 !text-[12px]"
                   disabled={busy}
                   onClick={() => activate("upload")}
                 >
@@ -236,7 +236,7 @@ export function ProfileImageCard({
               {inactiveAvatar && (
                 <button
                   type="button"
-                  className="b-btn b-btn-ghost !py-1.5 !text-[11.5px]"
+                  className="b-btn b-btn-ghost !py-1.5 !text-[12px]"
                   disabled={busy}
                   onClick={() => activate("avatar")}
                 >

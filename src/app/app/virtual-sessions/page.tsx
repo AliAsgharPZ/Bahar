@@ -79,7 +79,7 @@ export default function VirtualSessionsPage() {
               return (
                 <div key={s.id} className="b-card b-card-hover p-5 flex flex-col gap-2">
                   <div className="flex items-start justify-between gap-2">
-                    <b className="text-[15px]">{s.title}</b>
+                    <b className="text-[16px]">{s.title}</b>
                     {live && <span className="b-badge b-badge-critical">{t("virtualSessions.live")}</span>}
                   </div>
                   <p className="t-sm text-steel">

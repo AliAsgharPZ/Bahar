@@ -42,7 +42,7 @@ export default function TvPage() {
       <div className="b-hero-grad b-aurora px-6 md:px-10 py-6 flex items-center justify-between gap-4 text-white" style={{ background: "var(--ink)" }}>
         <div className="flex flex-col">
           <b className="text-[22px] md:text-[30px] b-grad-text">{data.schoolName || t("tv.schoolFallback")}</b>
-          <span className="text-[13px] opacity-80">{formatDateFa(now)} · {t("nav.tv")}</span>
+          <span className="text-[14px] opacity-80">{formatDateFa(now)} · {t("nav.tv")}</span>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-[30px] md:text-[40px] font-extrabold tabular-nums" dir="ltr">{formatTimeFa(now)}</span>
@@ -63,7 +63,7 @@ export default function TvPage() {
             {data.announcements.length === 0 && <p className="text-steel text-[16px]">{t("tv.noAnnouncements")}</p>}
             {data.announcements.slice(0, 4).map((a) => (
               <div key={a.id} className="border-b border-hairline pb-3">
-                <b className="text-[17px] md:text-[20px]">{a.pinned ? "📌 " : ""}{a.title}</b>
+                <b className="text-[18px] md:text-[20px]">{a.pinned ? "📌 " : ""}{a.title}</b>
                 <p className="text-[14px] md:text-[16px] text-steel leading-relaxed line-clamp-2">{a.body}</p>
               </div>
             ))}
@@ -75,7 +75,7 @@ export default function TvPage() {
             {data.events.length === 0 && <p className="text-steel text-[16px]">{t("tv.noEvents")}</p>}
             {data.events.map((e) => (
               <div key={e.id} className="flex items-center justify-between border-b border-hairline pb-3">
-                <b className="text-[17px] md:text-[20px]">{e.title}</b>
+                <b className="text-[18px] md:text-[20px]">{e.title}</b>
                 <span className="text-[14px] md:text-[16px] text-steel" dir="ltr">{formatTimeFa(e.startAt)}</span>
               </div>
             ))}
@@ -87,7 +87,7 @@ export default function TvPage() {
               <h2 className="flex items-center gap-2 text-[20px] md:text-[26px] font-extrabold"><Cake className="w-6 h-6 text-blossom" /> {t("tv.birthdaysToday")}</h2>
               {data.birthdays.length === 0 && <p className="text-steel text-[16px]">{t("tv.noBirthdays")}</p>}
               {data.birthdays.map((b, i) => (
-                <span key={i} className="text-[17px] md:text-[20px]">🎂 {b.name} <span className="text-steel text-[14px]">({(b.role === "TEACHER" ? t("tv.role.teacher") : t("role.student"))})</span></span>
+                <span key={i} className="text-[18px] md:text-[20px]">🎂 {b.name} <span className="text-steel text-[14px]">({(b.role === "TEACHER" ? t("tv.role.teacher") : t("role.student"))})</span></span>
               ))}
             </div>
             <div className="flex flex-col gap-3">

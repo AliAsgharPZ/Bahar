@@ -39,23 +39,23 @@ export function PasskeyCard() {
 
   return (
     <div className="b-card-md p-6 md:p-8">
-      <h3 className="font-bold text-[15px] mb-2 flex items-center gap-2">
+      <h3 className="font-bold text-[16px] mb-2 flex items-center gap-2">
         <Fingerprint className="w-5 h-5 text-spring" /> کلید عبور (Passkey)
       </h3>
       <p className="t-sm text-steel mb-5">
         با اثر انگشت، چهره یا قفل دستگاهتان وارد شوید — بدون رمز عبور. کلید روی همین دستگاه می‌ماند و رمزتان هرگز جایی نمی‌رود.
       </p>
       {!supported && (
-        <p className="text-[12.5px] text-warning-deep bg-warning/10 rounded-xl px-3 py-2 mb-4">
+        <p className="text-[12px] text-warning-deep bg-warning/10 rounded-xl px-3 py-2 mb-4">
           این مرورگر/دستگاه از Passkey پشتیبانی نمی‌کند؛ با یک مرورگر به‌روز دوباره تلاش کنید.
         </p>
       )}
       <div className="flex flex-col gap-2 mb-4">
-        {keys.length === 0 && <span className="text-[12.5px] text-steel">هنوز کلیدی نساخته‌اید.</span>}
+        {keys.length === 0 && <span className="text-[12px] text-steel">هنوز کلیدی نساخته‌اید.</span>}
         {keys.map((k) => (
           <div key={k.id} className="flex items-center gap-3 py-2 border-b border-hairline last:border-0">
             <Fingerprint className="w-4.5 h-4.5 text-spring shrink-0" />
-            <span className="flex-1 min-w-0 text-[13px]">
+            <span className="flex-1 min-w-0 text-[14px]">
               <b>{k.deviceLabel}</b>
               <span className="block text-[12px] text-steel">
                 ساخته‌شده {formatDateFa(k.createdAt)}{k.lastUsedAt ? ` · آخرین ورود ${formatDateFa(k.lastUsedAt)}` : " · هنوز استفاده نشده"}

@@ -83,8 +83,8 @@ export default function SubjectsPage() {
         {(data?.subjects ?? []).map((s) => (
           <div key={s.id} className="b-card-sm p-5 flex items-start justify-between gap-3">
             <div className="flex flex-col gap-1 min-w-0">
-              <b className="text-[14.5px] truncate">{s.name}</b>
-              <span className="text-[11.5px] text-steel">
+              <b className="text-[14px] truncate">{s.name}</b>
+              <span className="text-[12px] text-steel">
                 {faNumber(s.weeklyHours)} {t("subjects.hoursPerWeek")} {s.grade ? `· ${s.grade}` : ""} {s.code ? `· ${t("subjects.code")} ${s.code}` : ""}
               </span>
               <span className="b-badge b-badge-neutral self-start mt-1">{faNumber(s._count.teachingAssignments)} {t("subjects.assignments")}</span>
@@ -118,19 +118,19 @@ export default function SubjectsPage() {
             <h2 className="font-bold text-lg mb-6">{editing ? `${t("common.edit")} ${editing.name}` : t("subjects.new")}</h2>
             <form onSubmit={save} className="grid grid-cols-2 gap-4">
               <label className="flex flex-col gap-1.5 col-span-2">
-                <span className="text-[12.5px] font-bold">{t("subjects.field.name")}</span>
+                <span className="text-[12px] font-bold">{t("subjects.field.name")}</span>
                 <input className="b-input" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} required placeholder={t("subjects.placeholder.name")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("subjects.field.code")}</span>
+                <span className="text-[12px] font-bold">{t("subjects.field.code")}</span>
                 <input className="b-input" value={form.code} onChange={(e) => setForm((f) => ({ ...f, code: e.target.value }))} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("subjects.field.weeklyHours")}</span>
+                <span className="text-[12px] font-bold">{t("subjects.field.weeklyHours")}</span>
                 <input className="b-input" dir="ltr" inputMode="numeric" value={form.weeklyHours} onChange={(e) => setForm((f) => ({ ...f, weeklyHours: e.target.value }))} />
               </label>
               <label className="flex flex-col gap-1.5 col-span-2">
-                <span className="text-[12.5px] font-bold">{t("subjects.field.targetGrade")}</span>
+                <span className="text-[12px] font-bold">{t("subjects.field.targetGrade")}</span>
                 <input className="b-input" value={form.grade} onChange={(e) => setForm((f) => ({ ...f, grade: e.target.value }))} placeholder={t("subjects.placeholder.grade")} />
               </label>
               <div className="col-span-2 flex items-center gap-3">

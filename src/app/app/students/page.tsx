@@ -364,7 +364,7 @@ export default function StudentsPage() {
 
       {/* نمایه‌های ذخیره‌شده */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[11.5px] text-steel flex items-center gap-1.5 shrink-0">
+        <span className="text-[12px] text-steel flex items-center gap-1.5 shrink-0">
           <Bookmark className="w-3.5 h-3.5" /> {t("students.views.label")}
         </span>
         {savedViews.map((v) => (
@@ -394,7 +394,7 @@ export default function StudentsPage() {
       {/* نوار عملیات گروهی */}
       {sel.size > 0 && (
         <div className="b-card-sm !rounded-2xl border-spring/40 bg-spring-tint/60 flex flex-wrap items-center gap-2.5 sticky top-16 z-20">
-          <span className="text-[12.5px] font-bold flex items-center gap-1.5 text-spring-deep">
+          <span className="text-[12px] font-bold flex items-center gap-1.5 text-spring-deep">
             <ListChecks className="w-4 h-4" /> {faNumber(sel.size)} {t("students.bulk.selected")}
           </span>
           <Select
@@ -455,9 +455,9 @@ export default function StudentsPage() {
       {data && data.students.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[13px] b-rows-in">
+            <table className="w-full text-[14px] b-rows-in">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
+                <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   <th className="py-3 px-3 w-10">
                     <input
                       type="checkbox"
@@ -500,11 +500,11 @@ export default function StudentsPage() {
                     <td className="py-3 px-4 hidden md:table-cell">
                       <span className="b-badge b-badge-spring">{s.class?.name ?? t("students.noClass")}</span>
                     </td>
-                    <td className="py-3 px-4 hidden lg:table-cell"><span dir="ltr" className="font-mono text-[11.5px]">{s.user.nationalId}</span></td>
+                    <td className="py-3 px-4 hidden lg:table-cell"><span dir="ltr" className="font-mono text-[12px]">{s.user.nationalId}</span></td>
                     <td className="py-3 px-4 hidden lg:table-cell">
                       <div className="flex flex-col gap-0.5">
                         {s.parents.map((p) => (
-                          <span key={p.parentUserId} className="text-[11.5px] text-steel truncate">
+                          <span key={p.parentUserId} className="text-[12px] text-steel truncate">
                             {p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}: {p.parentUser.firstName} {p.parentUser.lastName}
                           </span>
                         ))}
@@ -513,7 +513,7 @@ export default function StudentsPage() {
                     </td>
                     {shadVisible && (
                       <td className="py-3 px-4 hidden md:table-cell">
-                        {s.user.shadNumber ? <span dir="ltr" className="font-mono text-[11.5px]">{s.user.shadNumber}</span> : <span className="text-stone text-[12px]">—</span>}
+                        {s.user.shadNumber ? <span dir="ltr" className="font-mono text-[12px]">{s.user.shadNumber}</span> : <span className="text-stone text-[12px]">—</span>}
                       </td>
                     )}
                     <td className="py-3 px-4">
@@ -615,13 +615,13 @@ export default function StudentsPage() {
 
             {/* اولیای فعلی */}
             <div className="mb-6">
-              <h3 className="font-bold text-[13.5px] mb-3">{t("students.parents.title")}</h3>
+              <h3 className="font-bold text-[14px] mb-3">{t("students.parents.title")}</h3>
               <div className="flex flex-col gap-2">
                 {editParents.map((p) => {
                   const removed = removedParents.includes(p.parentUserId);
                   return (
-                    <div key={p.parentUserId} className={`b-card-sm !rounded-xl p-3 flex items-center gap-3 ${removed ? "opacity-45 line-through" : ""}`}>
-                      <span className="text-[12.5px] font-bold flex-1 truncate">
+                    <div key={p.parentUserId} className={`b-card-sm !rounded-2xl p-3 flex items-center gap-3 ${removed ? "opacity-45 line-through" : ""}`}>
+                      <span className="text-[12px] font-bold flex-1 truncate">
                         {p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}: {p.parentUser.firstName} {p.parentUser.lastName}
                       </span>
                       <span className="font-mono text-[12px] text-steel" dir="ltr">{p.parentUser.nationalId}</span>
@@ -640,7 +640,7 @@ export default function StudentsPage() {
 
               {/* افزودن ولی جدید */}
               <div className="b-card-sm !rounded-2xl p-4 mt-3 grid sm:grid-cols-3 gap-3">
-                <p className="text-[11.5px] font-bold text-steel sm:col-span-3">{t("students.parent.addNewHint")}</p>
+                <p className="text-[12px] font-bold text-steel sm:col-span-3">{t("students.parent.addNewHint")}</p>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -676,7 +676,7 @@ export default function StudentsPage() {
 
             <form onSubmit={createStudent} className="flex flex-col gap-5">
               <div>
-                <h3 className="font-bold text-[13.5px] mb-3">{t("students.create.step1")}</h3>
+                <h3 className="font-bold text-[14px] mb-3">{t("students.create.step1")}</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
                   {[
                     { k: "nationalId", l: t("students.field.nationalIdUser"), dir: "ltr", ph: t("students.ph.nationalId") },
@@ -745,10 +745,10 @@ export default function StudentsPage() {
 
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-[13.5px]">{t("students.create.step2")}</h3>
+                  <h3 className="font-bold text-[14px]">{t("students.create.step2")}</h3>
                   <button
                     type="button"
-                    className="b-btn b-btn-ghost !py-1.5 !px-3 !text-[11.5px] !min-h-8"
+                    className="b-btn b-btn-ghost !py-1.5 !px-3 !text-[12px] !min-h-8"
                     onClick={() => setParents((ps) => [...ps, { ...emptyParent, relation: "MOTHER" }])}
                   >
                     <Plus className="w-3.5 h-3.5" /> {t("students.addParent")}
@@ -769,7 +769,7 @@ export default function StudentsPage() {
                       )}
                       <div className="grid sm:grid-cols-3 gap-3">
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[11.5px] font-bold">{t("students.parent.relation")}</span>
+                          <span className="text-[12px] font-bold">{t("students.parent.relation")}</span>
                           <Select
                             className="w-full"
                             buttonClassName="!w-full"
@@ -779,33 +779,33 @@ export default function StudentsPage() {
                           />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[11.5px] font-bold">{t("students.parent.nationalIdRequired")}</span>
+                          <span className="text-[12px] font-bold">{t("students.parent.nationalIdRequired")}</span>
                           <input className="b-input" dir="ltr" inputMode="numeric" value={p.nationalId} onChange={(e) => setParent(i, "nationalId", e.target.value)} placeholder={t("students.ph.nationalId")} />
                         </label>
                         {shadVisible && (
                           <label className="flex flex-col gap-1.5">
-                            <span className="text-[11.5px] font-bold">{t("students.parent.shadNumber")}</span>
+                            <span className="text-[12px] font-bold">{t("students.parent.shadNumber")}</span>
                             <input className="b-input" dir="ltr" inputMode="numeric" value={p.shadNumber} onChange={(e) => setParent(i, "shadNumber", e.target.value)} placeholder="09…" />
                           </label>
                         )}
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[11.5px] font-bold">{t("students.parent.firstNameRequired")}</span>
+                          <span className="text-[12px] font-bold">{t("students.parent.firstNameRequired")}</span>
                           <input className="b-input" value={p.firstName} onChange={(e) => setParent(i, "firstName", e.target.value)} />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[11.5px] font-bold">{t("students.parent.lastNameRequired")}</span>
+                          <span className="text-[12px] font-bold">{t("students.parent.lastNameRequired")}</span>
                           <input className="b-input" value={p.lastName} onChange={(e) => setParent(i, "lastName", e.target.value)} />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[11.5px] font-bold">{t("students.field.mobile")}</span>
+                          <span className="text-[12px] font-bold">{t("students.field.mobile")}</span>
                           <input className="b-input" dir="ltr" inputMode="numeric" value={p.phone} onChange={(e) => setParent(i, "phone", e.target.value)} placeholder="09…" />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[11.5px] font-bold">{t("students.parent.job")}</span>
+                          <span className="text-[12px] font-bold">{t("students.parent.job")}</span>
                           <input className="b-input" value={p.jobTitle} onChange={(e) => setParent(i, "jobTitle", e.target.value)} />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[11.5px] font-bold">{t("students.parent.education")}</span>
+                          <span className="text-[12px] font-bold">{t("students.parent.education")}</span>
                           <input className="b-input" value={p.education} onChange={(e) => setParent(i, "education", e.target.value)} />
                         </label>
                       </div>
@@ -855,9 +855,9 @@ export default function StudentsPage() {
                     { l: t("students.detail.status"), v: detail.status === "ACTIVE" ? t("common.active") : detail.status === "GRADUATED" ? t("enum.studentStatus.GRADUATED") : detail.status === "TRANSFERRED" ? t("enum.studentStatus.TRANSFERRED") : detail.status === "SUSPENDED" ? t("enum.studentStatus.SUSPENDED") : detail.status },
                     { l: t("students.field.healthNotes"), v: detail.healthNotes ?? "—" },
                   ].map((r) => (
-                    <div key={r.l} className="b-card-sm !rounded-xl p-3.5">
+                    <div key={r.l} className="b-card-sm !rounded-2xl p-3.5">
                       <div className="text-[12px] text-steel mb-0.5">{r.l}</div>
-                      <div className={`text-[13px] font-bold ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.v}</div>
+                      <div className={`text-[14px] font-bold ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.v}</div>
                     </div>
                   ))}
                 </div>
@@ -866,9 +866,9 @@ export default function StudentsPage() {
                   <h3 className="font-bold text-[14px] mb-3 flex items-center gap-2"><Users className="w-4 h-4 text-spring" /> {t("students.parents.title")}</h3>
                   <div className="flex flex-col gap-2.5">
                     {detailData.student.parents.map((p) => (
-                      <div key={p.parentUserId} className="b-card-sm !rounded-xl p-4 flex items-center justify-between gap-3">
+                      <div key={p.parentUserId} className="b-card-sm !rounded-2xl p-4 flex items-center justify-between gap-3">
                         <span className="flex flex-col min-w-0">
-                          <b className="text-[13px] truncate">{p.parentUser.firstName} {p.parentUser.lastName}</b>
+                          <b className="text-[14px] truncate">{p.parentUser.firstName} {p.parentUser.lastName}</b>
                           <span className="text-[12px] text-steel">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")} · {p.parentUser.jobTitle ?? "—"}</span>
                         </span>
                         <span className="flex flex-col items-end gap-0.5 shrink-0">
@@ -897,10 +897,10 @@ export default function StudentsPage() {
                           return acc;
                         }, {})
                       ).map(([name, v]) => (
-                        <div key={name} className="b-card-sm !rounded-xl p-3 text-center">
+                        <div key={name} className="b-card-sm !rounded-2xl p-3 text-center">
                           <div className="text-[12px] text-steel truncate">{name}</div>
                           <div className="text-[16px] font-bold">{faNumber(+(v.sum / v.w).toFixed(2))}</div>
-                          <div className="text-[9.5px] text-stone">{t("students.detail.avgFrom")} {faNumber(v.count)} {t("students.detail.gradesUnit")}</div>
+                          <div className="text-[12px] text-stone">{t("students.detail.avgFrom")} {faNumber(v.count)} {t("students.detail.gradesUnit")}</div>
                         </div>
                       ))}
                     </div>
@@ -933,12 +933,12 @@ export default function StudentsPage() {
       {/* اعتبارنامه‌ها — راند ۱۸: کپی سریع جایگزین/مکمل شاد */}
       {result && (
         <div className="fixed bottom-4 left-4 right-4 lg:start-auto lg:end-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md max-h-[70vh] overflow-y-auto b-scroll">
-          <h4 className="font-bold text-[13.5px] flex items-center gap-2 mb-3">
+          <h4 className="font-bold text-[14px] flex items-center gap-2 mb-3">
             <Send className="w-4 h-4 text-spring" /> {t("students.cred.heading")}
           </h4>
-          <div className="b-card-sm !rounded-xl p-3.5 mb-2.5">
+          <div className="b-card-sm !rounded-2xl p-3.5 mb-2.5">
             <div className="flex items-center justify-between gap-2">
-              <b className="text-[12.5px]">{result.name} ({t("common.student")})</b>
+              <b className="text-[12px]">{result.name} ({t("common.student")})</b>
               <button
                 onClick={() => copyCred(result.name, result.nationalId, result.password)}
                 className="b-btn b-btn-ghost !min-h-0 !p-1.5 shrink-0"
@@ -955,9 +955,9 @@ export default function StudentsPage() {
             {result.shadDelivery.ok && <span className="b-badge b-badge-success mt-2"><Check className="w-3 h-3" /> {t("students.cred.sentViaShad")}</span>}
           </div>
           {result.parents.filter((p) => p.isNew).map((p) => (
-            <div key={p.nationalId} className="b-card-sm !rounded-xl p-3.5 mb-2.5">
+            <div key={p.nationalId} className="b-card-sm !rounded-2xl p-3.5 mb-2.5">
               <div className="flex items-center justify-between gap-2">
-                <b className="text-[12.5px]">{p.firstName} {p.lastName} ({t("role.parent")})</b>
+                <b className="text-[12px]">{p.firstName} {p.lastName} ({t("role.parent")})</b>
                 <button
                   onClick={() => copyCred(`${p.firstName} ${p.lastName}`, p.nationalId, p.password)}
                   className="b-btn b-btn-ghost !min-h-0 !p-1.5 shrink-0"

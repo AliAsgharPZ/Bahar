@@ -128,11 +128,11 @@ export default function ClubsPage() {
           return (
             <div key={c.id} className={`b-card-md p-5 flex flex-col gap-2 ${!c.isActive ? "opacity-60" : ""}`}>
               <span className="flex items-center justify-between gap-2">
-                <b className="text-[15px]">{c.name}</b>
+                <b className="text-[16px]">{c.name}</b>
                 <span className={`b-badge ${c.isActive ? "b-badge-spring" : "b-badge-blossom"}`}>{c.isActive ? t("common.active") : t("common.inactive")}</span>
               </span>
-              <span className="text-[12.5px] text-steel">{DAY_TKEY[c.weekday] ? t(DAY_TKEY[c.weekday]) : ""}{c.timeLabel ? ` · ${c.timeLabel}` : ""}{c.coach ? ` · ${t("clubs.coach")}: ${c.coach}` : ""}</span>
-              <span className="text-[12.5px] text-steel">
+              <span className="text-[12px] text-steel">{DAY_TKEY[c.weekday] ? t(DAY_TKEY[c.weekday]) : ""}{c.timeLabel ? ` · ${c.timeLabel}` : ""}{c.coach ? ` · ${t("clubs.coach")}: ${c.coach}` : ""}</span>
+              <span className="text-[12px] text-steel">
                 {t("clubs.capacity")}: {faNumber(c.enrolledCount)} {t("common.from")} {faNumber(c.capacity)}{full ? ` (${t("clubs.full")})` : ""}
                 {c.minGrade || c.maxGrade ? ` · ${t("clubs.gradePrefix")} ${c.minGrade ?? "…"} ${t("common.to")} ${c.maxGrade ?? "…"}` : ""}
                 {c.fee > 0 ? ` · ${t("clubs.fee")} ${faNumber(c.fee)} ${t("clubs.currency")}` : ` · ${t("clubs.free")}`}

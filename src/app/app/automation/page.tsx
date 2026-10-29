@@ -94,11 +94,11 @@ export default function AutomationPage() {
             return (
               <motion.div key={r.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
                 className={`b-card-sm p-4 flex items-center gap-3 flex-wrap ${!r.active ? "opacity-55" : ""}`}>
-                <span className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${r.active ? "bg-spring-tint text-spring-deep" : "bg-cloud text-stone"}`}>
+                <span className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 ${r.active ? "bg-spring-tint text-spring-deep" : "bg-cloud text-stone"}`}>
                   <Zap className="w-4.5 h-4.5 w-5 h-5" />
                 </span>
                 <div className="flex-1 min-w-[180px]">
-                  <p className="text-[13px] font-bold">{r.name}</p>
+                  <p className="text-[14px] font-bold">{r.name}</p>
                   <p className="text-[12px] text-steel">
                     {triggers[r.trigger]}{cfg.threshold ? <> ({t("automation.threshold")} {faNumber(cfg.threshold)})</> : ""} ← {actions[r.action]}
                     {r.runCount > 0 ? <> · {faNumber(r.runCount)} {t("automation.runs")}</> : ""}

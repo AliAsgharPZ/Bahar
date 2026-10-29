@@ -39,7 +39,7 @@ export default function YearbookPage() {
           <div className="b-card b-grad-border p-6 md:p-8 text-center flex flex-col items-center gap-2">
             <GraduationCap className="w-10 h-10 text-spring" />
             <b className="text-[22px] b-grad-text">{yb.schoolName}</b>
-            <span className="text-[13px] text-steel">{t("yearbook.subtitle")}</span>
+            <span className="text-[14px] text-steel">{t("yearbook.subtitle")}</span>
             {yb.champion && (
               <span className="b-badge b-badge-blossom mt-1">
                 <Crown className="w-3.5 h-3.5" /> {t("yearbook.championPrefix")} {yb.champion.name} · {faNumber(yb.champion.points)} {t("yearbook.points")}
@@ -55,9 +55,9 @@ export default function YearbookPage() {
           <div className="grid lg:grid-cols-3 gap-4 items-start">
             <div className="b-card p-6 flex flex-col gap-1">
               <b className="text-[14px] mb-2">{t("yearbook.topByClass")}</b>
-              {yb.topByClass.length === 0 && <span className="text-[12.5px] text-steel">{t("yearbook.noGrades")}</span>}
+              {yb.topByClass.length === 0 && <span className="text-[12px] text-steel">{t("yearbook.noGrades")}</span>}
               {yb.topByClass.map((t, i) => (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span>{t.className}: <b>{t.name}</b></span>
                   <b className="text-spring">{faNumber(t.avg)}</b>
                 </div>
@@ -65,9 +65,9 @@ export default function YearbookPage() {
             </div>
             <div className="b-card p-6 flex flex-col gap-1">
               <b className="text-[14px] mb-2">{t("yearbook.topBooks")}</b>
-              {yb.topBooks.length === 0 && <span className="text-[12.5px] text-steel">{t("yearbook.noLoans")}</span>}
+              {yb.topBooks.length === 0 && <span className="text-[12px] text-steel">{t("yearbook.noLoans")}</span>}
               {yb.topBooks.map((b, i) => (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span>{b.title}</span>
                   <span className="text-steel">{faNumber(b.n)} {t("yearbook.loanUnit")}</span>
                 </div>
@@ -75,9 +75,9 @@ export default function YearbookPage() {
             </div>
             <div className="b-card p-6 flex flex-col gap-1">
               <b className="text-[14px] mb-2">{t("yearbook.mostBadges")}</b>
-              {yb.mostBadges.length === 0 && <span className="text-[12.5px] text-steel">{t("yearbook.noBadges")}</span>}
+              {yb.mostBadges.length === 0 && <span className="text-[12px] text-steel">{t("yearbook.noBadges")}</span>}
               {yb.mostBadges.map((b, i) => (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span className="flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-blossom" /> {b.name}</span>
                   <b className="text-blossom">{faNumber(b.n)} {t("yearbook.badgeUnit")}</b>
                 </div>

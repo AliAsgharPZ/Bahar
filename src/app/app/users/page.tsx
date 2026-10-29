@@ -356,9 +356,9 @@ export default function UsersPage() {
       {data && data.users.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[13px] b-rows-in">
+            <table className="w-full text-[14px] b-rows-in">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
+                <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   <th className="text-start py-3 px-4 font-bold">{t("users.table.user")}</th>
                   <th className="text-start py-3 px-4 font-bold hidden md:table-cell">{t("users.table.role")}</th>
                   <th className="text-start py-3 px-4 font-bold hidden lg:table-cell">{t("students.table.nationalId")}</th>
@@ -397,13 +397,13 @@ export default function UsersPage() {
                       </div>
                     </td>
                     <td className="py-3 px-4 hidden md:table-cell"><RoleBadge role={u.role} /></td>
-                    <td className="py-3 px-4 hidden lg:table-cell"><span dir="ltr" className="font-mono text-[11.5px]">{u.nationalId}</span></td>
+                    <td className="py-3 px-4 hidden lg:table-cell"><span dir="ltr" className="font-mono text-[12px]">{u.nationalId}</span></td>
                     <td className="py-3 px-4 hidden lg:table-cell">
-                      {u.shadNumber ? <span dir="ltr" className="font-mono text-[11.5px]">{u.shadNumber}</span> : <span className="text-stone text-[12px]">{t("users.notRegistered")}</span>}
+                      {u.shadNumber ? <span dir="ltr" className="font-mono text-[12px]">{u.shadNumber}</span> : <span className="text-stone text-[12px]">{t("users.notRegistered")}</span>}
                     </td>
-                    <td className="py-3 px-4 hidden md:table-cell text-steel text-[11.5px]">
+                    <td className="py-3 px-4 hidden md:table-cell text-steel text-[12px]">
                       {u.lastLoginAt ? relativeTimeFa(u.lastLoginAt) : t("users.noLogin")}
-                      {u.mustChangePassword && <span className="b-badge b-badge-warning ms-1 !text-[9px] !px-1.5">{t("users.initialPassword")}</span>}
+                      {u.mustChangePassword && <span className="b-badge b-badge-warning ms-1 !text-[12px] !px-1.5">{t("users.initialPassword")}</span>}
                     </td>
                     <td className="py-3 px-4"><StatusBadge ok={u.isActive} okLabel={t("common.active")} badLabel={t("common.inactive")} /></td>
                     <td className="py-3 px-4">
@@ -469,7 +469,7 @@ export default function UsersPage() {
             <form onSubmit={createUser} className="flex flex-col gap-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("users.field.roleRequired")}</span>
+                  <span className="text-[12px] font-bold">{t("users.field.roleRequired")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -511,7 +511,7 @@ export default function UsersPage() {
                   )}
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold flex items-center gap-1.5">
+                  <span className="text-[12px] font-bold flex items-center gap-1.5">
                     <IdCard className="w-3.5 h-3.5" /> {t("students.field.nationalIdUser")}
                   </span>
                   <input className="b-input" dir="ltr" inputMode="numeric" value={form.nationalId} onChange={(e) => set("nationalId", e.target.value)} required placeholder={t("students.ph.nationalId")} />
@@ -524,19 +524,19 @@ export default function UsersPage() {
                   {!isSuper && <span className="text-[12px] text-stone">{t("users.nationalIdAlgorithmNote")}</span>}
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("students.field.firstName")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.firstName")}</span>
                   <input className="b-input" value={form.firstName} onChange={(e) => set("firstName", e.target.value)} required />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("students.field.lastName")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.lastName")}</span>
                   <input className="b-input" value={form.lastName} onChange={(e) => set("lastName", e.target.value)} required />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("students.field.fatherName")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.fatherName")}</span>
                   <input className="b-input" value={form.fatherName} onChange={(e) => set("fatherName", e.target.value)} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("students.field.gender")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.gender")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -547,20 +547,20 @@ export default function UsersPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("users.field.birthDateJalali")}</span>
+                  <span className="text-[12px] font-bold">{t("users.field.birthDateJalali")}</span>
                   <JalaliDateInput value={form.birthDate ? form.birthDate : null} onChange={(d) => set("birthDate", d ? d.toISOString() : "")} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("students.field.birthPlace")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.birthPlace")}</span>
                   <input className="b-input" value={form.birthPlace} onChange={(e) => set("birthPlace", e.target.value)} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("students.field.mobile")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.mobile")}</span>
                   <input className="b-input" dir="ltr" inputMode="numeric" value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="09…" />
                 </label>
                 {shadVisible && (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("students.field.shadNumber")}</span>
+                    <span className="text-[12px] font-bold">{t("students.field.shadNumber")}</span>
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.shadNumber} onChange={(e) => set("shadNumber", e.target.value)} placeholder="09…" />
                     <span className="text-[12px] text-stone">{t("users.shadNote")}</span>
                   </label>
@@ -568,30 +568,30 @@ export default function UsersPage() {
                 {(form.role === "TEACHER" || form.role === "DEPUTY") && (
                   <>
                     <label className="flex flex-col gap-1.5">
-                      <span className="text-[12.5px] font-bold">{t("users.field.education")}</span>
+                      <span className="text-[12px] font-bold">{t("users.field.education")}</span>
                       <input className="b-input" value={form.education} onChange={(e) => set("education", e.target.value)} placeholder={t("users.ph.education")} />
                     </label>
                     <label className="flex flex-col gap-1.5">
-                      <span className="text-[12.5px] font-bold">{t("users.field.staffCode")}</span>
+                      <span className="text-[12px] font-bold">{t("users.field.staffCode")}</span>
                       <input className="b-input" dir="ltr" value={form.staffCode} onChange={(e) => set("staffCode", e.target.value)} />
                     </label>
                   </>
                 )}
                 {form.role === "PARENT" && (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("students.parent.job")}</span>
+                    <span className="text-[12px] font-bold">{t("students.parent.job")}</span>
                     <input className="b-input" value={form.jobTitle} onChange={(e) => set("jobTitle", e.target.value)} placeholder={t("users.ph.job")} />
                   </label>
                 )}
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold">{t("students.field.address")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.address")}</span>
                   <input className="b-input" value={form.address} onChange={(e) => set("address", e.target.value)} />
                 </label>
               </div>
 
               {(form.role === "DEPUTY" || form.role === "TEACHER") && (
                 <div className="b-card-sm !rounded-2xl p-5">
-                  <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-1">
+                  <h3 className="font-bold text-[14px] flex items-center gap-2 mb-1">
                     <ShieldCheck className="w-4 h-4 text-spring" /> {t("users.perms.title")} {ROLE_TKEY[form.role] ? t(ROLE_TKEY[form.role]) : form.role}
                   </h3>
                   <p className="t-cap text-stone mb-4">{t("users.perms.managerNote")}</p>
@@ -605,7 +605,7 @@ export default function UsersPage() {
                           onChange={() => togglePerm(p.key, "create")}
                         />
                         <span className="flex flex-col">
-                          <b className="text-[12.5px]">{p.label}</b>
+                          <b className="text-[12px]">{p.label}</b>
                           <span className="text-[12px] text-steel">{p.desc}</span>
                         </span>
                       </label>
@@ -616,7 +616,7 @@ export default function UsersPage() {
 
               {form.role === "ADMIN" && isSuper && (
                 <div className="b-card-sm !rounded-2xl p-5">
-                  <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-1">
+                  <h3 className="font-bold text-[14px] flex items-center gap-2 mb-1">
                     <ShieldCheck className="w-4 h-4 text-spring" /> {t("users.perms.adminFine")}
                   </h3>
                   <p className="t-cap text-stone mb-3">{t("users.perms.rangeNote")}</p>
@@ -628,7 +628,7 @@ export default function UsersPage() {
                     {filteredGroups.length === 0 ? (<p className="text-[12px] text-steel">{t("users.perms.noMatch")}</p>) : filteredGroups.map((g) => (
                       <div key={g.group} className="border border-hairline-soft rounded-2xl p-4">
                         <div className="flex items-center justify-between mb-1">
-                          <b className="text-[12.5px]">{g.group}</b>
+                          <b className="text-[12px]">{g.group}</b>
                           <div className="flex items-center gap-2">
                             <button type="button" className="b-btn b-btn-ghost text-[12px] text-spring font-bold hover:underline" onClick={() => g.items.forEach((i) => { if (!form.permissions.includes(i.key)) togglePerm(i.key, "create"); })}>
                               {t("students.table.selectAll")}
@@ -685,7 +685,7 @@ export default function UsersPage() {
               {(isSuper || isService) && (
                 <div className="b-card-sm !rounded-2xl p-4 grid sm:grid-cols-3 gap-4">
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("users.field.role")}</span>
+                    <span className="text-[12px] font-bold">{t("users.field.role")}</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -704,7 +704,7 @@ export default function UsersPage() {
                     />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold flex items-center gap-1"><Building2 className="w-3.5 h-3.5" /> {t("users.field.school")}</span>
+                    <span className="text-[12px] font-bold flex items-center gap-1"><Building2 className="w-3.5 h-3.5" /> {t("users.field.school")}</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -715,7 +715,7 @@ export default function UsersPage() {
                     />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("users.field.accountStatus")}</span>
+                    <span className="text-[12px] font-bold">{t("users.field.accountStatus")}</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -730,7 +730,7 @@ export default function UsersPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 {(isSuper || isService) && (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold flex items-center gap-1"><IdCard className="w-3.5 h-3.5" /> {t("students.detail.nationalId")}</span>
+                    <span className="text-[12px] font-bold flex items-center gap-1"><IdCard className="w-3.5 h-3.5" /> {t("students.detail.nationalId")}</span>
                     <input
                       className="b-input"
                       dir="ltr"
@@ -751,7 +751,7 @@ export default function UsersPage() {
                   { k: "postalCode", l: t("users.field.postalCode"), rtl: false },
                 ].map((f) => (
                   <label key={f.k} className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{f.l}</span>
+                    <span className="text-[12px] font-bold">{f.l}</span>
                     <input
                       className="b-input"
                       dir={f.rtl ? "rtl" : "ltr"}
@@ -761,21 +761,21 @@ export default function UsersPage() {
                   </label>
                 ))}
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("users.field.birthDateJalali")}</span>
+                  <span className="text-[12px] font-bold">{t("users.field.birthDateJalali")}</span>
                   <JalaliDateInput
                     value={editForm.birthDate || null}
                     onChange={(d) => setEditForm((ef) => ({ ...ef, birthDate: d ? d.toISOString() : "" }))}
                   />
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold">{t("students.field.address")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.address")}</span>
                   <input className="b-input" value={editForm.address ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, address: e.target.value }))} />
                 </label>
               </div>
 
               {(editIsStaff && (editing.role === "DEPUTY" || editing.role === "TEACHER")) && (
                 <div className="b-card-sm !rounded-2xl p-5">
-                  <h3 className="font-bold text-[13.5px] mb-3 flex items-center gap-2">
+                  <h3 className="font-bold text-[14px] mb-3 flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-spring" /> {t("users.perms.school")}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-2.5">
@@ -788,7 +788,7 @@ export default function UsersPage() {
                           onChange={() => togglePerm(p.key, "edit")}
                         />
                         <span className="flex flex-col">
-                          <b className="text-[12.5px]">{p.label}</b>
+                          <b className="text-[12px]">{p.label}</b>
                           <span className="text-[12px] text-steel">{p.desc}</span>
                         </span>
                       </label>
@@ -799,7 +799,7 @@ export default function UsersPage() {
 
               {editIsAdminRole && isSuper && (
                 <div className="b-card-sm !rounded-2xl p-5">
-                  <h3 className="font-bold text-[13.5px] mb-3 flex items-center gap-2">
+                  <h3 className="font-bold text-[14px] mb-3 flex items-center gap-2">
                     <ShieldCheck className="w-4 h-4 text-spring" /> {t("users.perms.adminFine")}
                     <span className="b-badge b-badge-soft ms-2">{faDigits(editPerms.length)} {t("common.active")}</span>
                   </h3>
@@ -845,10 +845,10 @@ export default function UsersPage() {
       {/* ───────── اعتبارنامه — راند ۱۸: کپی سریع جایگزین/مکمل شاد ───────── */}
       {credResult && (
         <div className="fixed bottom-4 left-4 right-4 lg:start-auto lg:end-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md">
-          <h4 className="font-bold text-[13.5px] flex items-center gap-2 mb-3">
+          <h4 className="font-bold text-[14px] flex items-center gap-2 mb-3">
             <Send className="w-4 h-4 text-spring" /> {t("students.cred.title")} {credResult.name}
           </h4>
-          <div className="grid grid-cols-[auto_1fr_auto] gap-x-3 gap-y-2 text-[12.5px] items-center">
+          <div className="grid grid-cols-[auto_1fr_auto] gap-x-3 gap-y-2 text-[12px] items-center">
             <span className="text-steel">{t("students.cred.username")}</span>
             <b dir="ltr" className="font-mono truncate">{credResult.nationalId}</b>
             <button

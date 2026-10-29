@@ -137,7 +137,7 @@ export default function InsightsPage() {
       ) : (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[12.5px] min-w-[640px]">
+            <table className="w-full text-[12px] min-w-[640px]">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>
@@ -165,7 +165,7 @@ export default function InsightsPage() {
                       </div>
                     </td>
                     <td className="py-3 px-4"><span className={`b-badge ${LEVEL_BADGE[r.level]}`}>{LEVEL_TKEY[r.level] ? t(LEVEL_TKEY[r.level]) : r.level}</span></td>
-                    <td className="py-3 px-4 text-steel text-[11.5px]">{formatDateFa(r.computedAt)}</td>
+                    <td className="py-3 px-4 text-steel text-[12px]">{formatDateFa(r.computedAt)}</td>
                     <td className="py-3 px-4">
                       <div className="flex gap-1.5">
                         <button className="b-btn b-btn-ghost b-btn-sm !min-h-[40px] !text-[12px]" onClick={() => openDetail(r.studentId)}>
@@ -189,14 +189,14 @@ export default function InsightsPage() {
       {detail && (
         <div className="b-card-sm p-4">
           <div className="flex items-center gap-2 mb-3">
-            <b className="text-[13px]">{detail.student.name}</b>
+            <b className="text-[14px]">{detail.student.name}</b>
             {detail.student.className && <span className="b-badge b-badge-neutral">{detail.student.className}</span>}
             <span className={`b-badge ${LEVEL_BADGE[detail.risk.level]} ms-auto`}>{LEVEL_TKEY[detail.risk.level] ? t(LEVEL_TKEY[detail.risk.level]) : detail.risk.level} — {faNumber(detail.risk.score)}</span>
             <button className="b-btn b-btn-ghost text-steel hover:text-ink" onClick={() => setDetail(null)}>✕</button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {detail.risk.factors.map((f) => (
-              <div key={f.key} className="b-card-sm !rounded-xl p-3">
+              <div key={f.key} className="b-card-sm !rounded-2xl p-3">
                 <div className="flex items-center justify-between mb-1.5">
                   <b className="text-[12px]">{FACTOR_TKEY[f.key] ? t(FACTOR_TKEY[f.key]) : f.key}</b>
                   <span className={`b-badge ${f.score >= 66 ? "b-badge-critical" : f.score >= 33 ? "b-badge-warning" : "b-badge-success"}`}>{faNumber(f.score)}</span>
@@ -220,7 +220,7 @@ export default function InsightsPage() {
         <div className="b-card-sm p-4">
           <div className="flex items-center gap-2 mb-3">
             <FileText className="w-4 h-4 text-spring" />
-            <b className="text-[13px]">{t("insights.narrativeTitle")} — {narrFor}</b>
+            <b className="text-[14px]">{t("insights.narrativeTitle")} — {narrFor}</b>
             <div className="ms-auto flex gap-1.5">
               {narrative && (
                 <button
@@ -235,7 +235,7 @@ export default function InsightsPage() {
           </div>
           {narrLoading && <LoadingBlock label={t("insights.loadingNarrative")} />}
           {narrative && (
-            <div className="text-[13px] leading-[2] whitespace-pre-line bg-cloud/40 rounded-xl p-4">
+            <div className="text-[14px] leading-[2] whitespace-pre-line bg-cloud/40 rounded-2xl p-4">
               {narrative.narrative}
             </div>
           )}

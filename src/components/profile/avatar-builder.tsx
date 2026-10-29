@@ -45,7 +45,7 @@ export function AvatarBuilder({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between gap-3">
-        <b className="text-[15px]">ساخت آواتار</b>
+        <b className="text-[16px]">ساخت آواتار</b>
         <button type="button" className="b-btn b-btn-ghost !p-2 !min-h-9" onClick={onCancel} aria-label="بستن سازنده آواتار">
           <X className="w-4 h-4" />
         </button>
@@ -74,7 +74,7 @@ export function AvatarBuilder({
             role="tab"
             aria-selected={tab === c.key}
             onClick={() => setTab(c.key)}
-            className={`shrink-0 px-4 py-2 rounded-full text-[12.5px] font-bold transition-colors ${
+            className={`shrink-0 px-4 py-2 rounded-full text-[12px] font-bold transition-colors ${
               tab === c.key
                 ? "bg-spring text-primary-foreground"
                 : "bg-spring-tint text-spring-deep hover:bg-spring-tint/70"
@@ -90,7 +90,7 @@ export function AvatarBuilder({
         {/* گرید سبک‌ها */}
         {category.styleField && category.styleOptions && (
           <div>
-            <b className="text-[12.5px] block mb-2.5">{category.styleLabel ?? category.label}</b>
+            <b className="text-[12px] block mb-2.5">{category.styleLabel ?? category.label}</b>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5">
               {options[category.styleOptions].map((opt) => {
                 const selected = params[category.styleField!] === opt;
@@ -131,7 +131,7 @@ export function AvatarBuilder({
         {/* گرید رنگ‌ها */}
         {category.colorField && category.colorOptions && (
           <div>
-            <b className="text-[12.5px] block mb-2.5">{category.colorLabel ?? category.label}</b>
+            <b className="text-[12px] block mb-2.5">{category.colorLabel ?? category.label}</b>
             <div className="flex flex-wrap gap-2.5">
               {options[category.colorOptions].map((hex) => {
                 const selected = params[category.colorField!] === hex;

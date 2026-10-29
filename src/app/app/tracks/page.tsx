@@ -76,9 +76,9 @@ export default function TracksPage() {
             </div>
             <div className="b-card p-6 flex flex-col gap-3">
               <b className="text-[14px]">{t("tracks.programme.list")}</b>
-              {data.programmes.length === 0 && <span className="text-[12.5px] text-steel">{t("tracks.programme.empty")}</span>}
+              {data.programmes.length === 0 && <span className="text-[12px] text-steel">{t("tracks.programme.empty")}</span>}
               {data.programmes.map((p) => (
-                <div key={p.id} className="py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={p.id} className="py-2 border-b border-hairline last:border-0 text-[14px]">
                   <b>{p.name}</b><span className="text-steel"> — {p.kind === "HIGHER_ED" ? t("tracks.kind.higherEd") : t("tracks.kind.vocational")}{p.field ? ` · ${p.field}` : ""}{p.degreeLevel ? ` · ${p.degreeLevel}` : ""} · {faNumber(p._count.enrollments)} {t("tracks.enroll.count")}</span>
                 </div>
               ))}
@@ -94,7 +94,7 @@ export default function TracksPage() {
                 <button className="b-btn b-btn-spring" disabled={busy === "createThesis" || !studentId || !thesisTitle} onClick={async () => { if (await post("createThesis", { programmeId: progId || undefined, studentId, title: thesisTitle })) setThesisTitle(""); }}>{t("tracks.thesis.create")}</button>
               </span>
               {data.theses.map((th) => (
-                <div key={th.id} className="py-1 border-b border-hairline last:border-0 text-[13px]">
+                <div key={th.id} className="py-1 border-b border-hairline last:border-0 text-[14px]">
                   <b>{String(th.title)}</b><span className="text-steel"> — {th.studentName} · {String(th.status)}</span>
                   <span className="flex gap-2 mt-1">
                     <button className="b-btn b-btn-ghost" onClick={() => post("updateThesis", { id: th.id, status: "IN_PROGRESS" })}>{t("tracks.thesis.inProgress")}</button>
@@ -114,7 +114,7 @@ export default function TracksPage() {
                 <button className="b-btn b-btn-spring" disabled={busy === "createInternship" || !studentId || !workplace || !intStart || !intEnd || !intHours} onClick={() => post("createInternship", { programmeId: progId || undefined, studentId, workplace, startDate: intStart, endDate: intEnd, hoursTotal: Number(intHours) || 0 })}>{t("tracks.internship.create")}</button>
               </span>
               {data.internships.map((i) => (
-                <div key={i.id} className="py-1 border-b border-hairline last:border-0 text-[13px]">
+                <div key={i.id} className="py-1 border-b border-hairline last:border-0 text-[14px]">
                   <b>{String(i.workplace)}</b><span className="text-steel"> — {i.studentName} · {faNumber(Number(i.hoursDone))} {t("common.from")} {faNumber(Number(i.hoursTotal))} {t("common.time")} · {String(i.status)}</span>
                 </div>
               ))}
@@ -125,7 +125,7 @@ export default function TracksPage() {
                 <button className="b-btn b-btn-spring" disabled={busy === "createWorkshop" || !wsTitle || !wsDate} onClick={() => post("createWorkshop", { programmeId: progId || undefined, title: wsTitle, date: wsDate })}>{t("tracks.workshop.create")}</button>
               </span>
               {data.workshops.map((w) => (
-                <div key={w.id} className="py-1 border-b border-hairline last:border-0 text-[13px]">
+                <div key={w.id} className="py-1 border-b border-hairline last:border-0 text-[14px]">
                   <b>{w.title}</b><span className="text-steel"> — {formatDateFa(w.date)} · {faNumber(w._count.attendances)} {t("enum.attendance.PRESENT")}</span>
                 </div>
               ))}

@@ -46,11 +46,11 @@ export default function PluginsPage() {
         <>
           <div className="b-card p-6 flex flex-col gap-1">
             <b className="text-[14px] mb-2">{t("plugins.marketplace")}</b>
-            {data.plugins.length === 0 && <span className="text-[12.5px] text-steel">{t("plugins.marketplace.empty")}</span>}
+            {data.plugins.length === 0 && <span className="text-[12px] text-steel">{t("plugins.marketplace.empty")}</span>}
             {data.plugins.map((p) => {
               const inst = installed.get(p.id);
               return (
-                <div key={p.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={p.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span><b>{p.name}</b><span className="text-steel"> — {p.code} · {t("plugins.version")} {p.version}{p.description ? ` · ${p.description}` : ""}{inst ? <> · {t("plugins.installed")} ({inst.status === "ACTIVE" ? t("common.active") : t("common.inactive")})</> : ""}</span></span>
                   <span className="flex gap-2">
                     {!inst && <button className="b-btn b-btn-spring" disabled={busy === "install" + p.id} onClick={() => act("install", p.id)}>{t("plugins.install")}</button>}
@@ -63,11 +63,11 @@ export default function PluginsPage() {
           </div>
           <div className="b-card p-6 flex flex-col gap-3">
             <b className="text-[14px]">{t("plugins.sandbox.title")}</b>
-            <p className="text-[12.5px] text-steel">{t("plugins.sandbox.hooksNote")} {PLUGIN_HOOKS.join("، ")}.</p>
+            <p className="text-[12px] text-steel">{t("plugins.sandbox.hooksNote")} {PLUGIN_HOOKS.join("، ")}.</p>
             <textarea className="b-input min-h-40 font-mono text-[12px]" dir="ltr" value={manifestText} onChange={(e) => setManifestText(e.target.value)} />
             <button className="b-btn b-btn-spring self-start" disabled={busy === "submit"} onClick={validateManifest}>{t("plugins.sandbox.validate")}</button>
             {Boolean(sandboxResult) && <pre className="text-[12px] overflow-x-auto whitespace-pre-wrap" dir="ltr">{JSON.stringify(sandboxResult, null, 2)}</pre>}
-            <p className="text-[12.5px] text-steel">{t("plugins.sandbox.contractBefore")} <code dir="ltr">src/lib/plugins/contract.ts</code> {t("plugins.sandbox.contractMid")} <code dir="ltr">/api/mcp</code> {t("plugins.sandbox.contractAfter")}</p>
+            <p className="text-[12px] text-steel">{t("plugins.sandbox.contractBefore")} <code dir="ltr">src/lib/plugins/contract.ts</code> {t("plugins.sandbox.contractMid")} <code dir="ltr">/api/mcp</code> {t("plugins.sandbox.contractAfter")}</p>
           </div>
         </>
       )}

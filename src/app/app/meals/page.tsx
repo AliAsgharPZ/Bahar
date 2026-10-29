@@ -53,16 +53,16 @@ export default function MealsPage() {
           return (
             <div key={d.weekday} className={`b-card-md p-5 flex flex-col gap-2.5 ${isToday ? "b-grad-border" : ""}`}>
               <span className="flex items-center justify-between">
-                <b className="text-[14.5px]">{DAY_TKEY[d.weekday] ? t(DAY_TKEY[d.weekday]) : ""}</b>
+                <b className="text-[14px]">{DAY_TKEY[d.weekday] ? t(DAY_TKEY[d.weekday]) : ""}</b>
                 {isToday && <span className="b-badge b-badge-spring">{t("dashboard.today")}</span>}
               </span>
               {isManager ? (
                 <>
-                  <label className="flex flex-col gap-1"><span className="text-[11.5px] font-bold text-steel">{t("meals.breakfast")}</span>
+                  <label className="flex flex-col gap-1"><span className="text-[12px] font-bold text-steel">{t("meals.breakfast")}</span>
                     <input className="b-input" value={val.breakfast} onChange={(e) => set({ breakfast: e.target.value })} placeholder="…" /></label>
-                  <label className="flex flex-col gap-1"><span className="text-[11.5px] font-bold text-steel">{t("meals.lunch")}</span>
+                  <label className="flex flex-col gap-1"><span className="text-[12px] font-bold text-steel">{t("meals.lunch")}</span>
                     <input className="b-input" value={val.lunch} onChange={(e) => set({ lunch: e.target.value })} placeholder="…" /></label>
-                  <label className="flex flex-col gap-1"><span className="text-[11.5px] font-bold text-steel">{t("meals.snack")}</span>
+                  <label className="flex flex-col gap-1"><span className="text-[12px] font-bold text-steel">{t("meals.snack")}</span>
                     <input className="b-input" value={val.snack} onChange={(e) => set({ snack: e.target.value })} placeholder="…" /></label>
                   <span className="flex gap-1.5">
                     <button className="b-btn b-btn-spring b-btn-sm self-start" disabled={savingDay === d.weekday} onClick={() => save(val)}>
@@ -76,7 +76,7 @@ export default function MealsPage() {
                   </span>
                 </>
               ) : (
-                <div className="flex flex-col gap-1.5 text-[13px]">
+                <div className="flex flex-col gap-1.5 text-[14px]">
                   <span><span className="text-steel">{t("meals.label.breakfast")} </span>{d.breakfast || "—"}</span>
                   <span><span className="text-steel">{t("meals.label.lunch")} </span>{d.lunch || "—"}</span>
                   <span><span className="text-steel">{t("meals.label.snack")} </span>{d.snack || "—"}</span>

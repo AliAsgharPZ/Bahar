@@ -120,7 +120,7 @@ export default function QuizzesPage() {
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3 b-auto-stagger">
             {student.map((q) => (
               <article key={q.id} className="b-card b-card-hover p-4">
-                <h3 className="font-extrabold text-[15px] leading-snug mb-2">{q.title}</h3>
+                <h3 className="font-extrabold text-[16px] leading-snug mb-2">{q.title}</h3>
                 <p className="text-[12px] text-stone mb-4">{faNumber(q.questionCount)} {t("quizzes.unit.question")} · {faNumber(q.durationMin)} {t("quizzes.unit.minute")}</p>
                 {q.submitted ? (
                   <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ export default function QuizzesPage() {
 
       {/* ساخت آزمون */}
       {showNew && (
-        <div className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
           <div className="b-card w-full max-w-2xl p-5 b-pop max-h-[92vh] overflow-y-auto">
             <h3 className="font-extrabold text-[16px] mb-4">{t("quizzes.newFromBank")}</h3>
             <div className="grid md:grid-cols-2 gap-3 mb-4">
@@ -208,12 +208,12 @@ export default function QuizzesPage() {
                     setPicked(next);
                   }} />
                   <span className="flex-1 min-w-0">
-                    <span className="block text-[13px] font-medium leading-relaxed">{q.body}</span>
+                    <span className="block text-[14px] font-medium leading-relaxed">{q.body}</span>
                     <span className="block text-[12px] text-stone mt-0.5">{KIND[q.kind] ?? q.kind} · {q.topic}{q.subject ? ` · ${q.subject.name}` : ""}</span>
                   </span>
                 </label>
               ))}
-              {bank.length === 0 && <p className="text-[12.5px] text-stone p-2">{t("quizzes.empty.bank")}</p>}
+              {bank.length === 0 && <p className="text-[12px] text-stone p-2">{t("quizzes.empty.bank")}</p>}
             </div>
             <div className="flex gap-2 mt-5">
               <button className="b-btn b-btn-spring flex-1" disabled={busy} onClick={create}>{t("quizzes.createDraft")}</button>

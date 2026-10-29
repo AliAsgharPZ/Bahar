@@ -124,7 +124,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
       </div>
 
       {open && (
-        <div className="absolute z-40 mt-2 b-card !rounded-2xl p-3 w-[248px] b-pop shadow-xl">
+        <div className="absolute z-40 mt-2 b-card !rounded-2xl p-3 w-[248px] b-pop b-shadow-rail">
           <div className="flex items-center justify-between mb-2">
             <button
               type="button"
@@ -141,7 +141,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
                 options={months.slice(1).map((m, i) => ({ value: String(i + 1), label: m }))}
                 ariaLabel="ماه"
                 className="!w-[92px]"
-                buttonClassName="!w-[92px] !h-7 !px-2 !text-[12.5px] !font-bold !rounded-full"
+                buttonClassName="!w-[92px] !h-7 !px-2 !text-[12px] !font-bold !rounded-full"
               />
               <Select
                 value={String(view.y)}
@@ -152,7 +152,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
                 })()}
                 ariaLabel="سال"
                 className="!w-[84px]"
-                buttonClassName="!w-[84px] !h-7 !px-2 !text-[12.5px] !font-bold !rounded-full"
+                buttonClassName="!w-[84px] !h-7 !px-2 !text-[12px] !font-bold !rounded-full"
               />
             </div>
             <button
@@ -186,7 +186,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
                 <button
                   key={d}
                   type="button"
-                  className={`h-7 rounded-full text-[11.5px] font-bold transition-colors ${
+                  className={`h-7 rounded-full text-[12px] font-bold transition-colors ${
                     selected
                       ? "bg-spring text-primary-foreground"
                       : isToday

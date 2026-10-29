@@ -52,7 +52,7 @@ export function Markdown({ source }: { source: string }) {
       }
       blocks.push(
         <div key={key++} className="overflow-x-auto b-scroll b-card-sm !rounded-xl my-4">
-          <table className="w-full text-[12.5px]">
+          <table className="w-full text-[12px]">
             <thead>
               <tr className="border-b border-hairline-soft text-steel">
                 {header.map((h, hi) => <th key={hi} className="text-right py-2.5 px-3 font-bold">{renderInline(h)}</th>)}
@@ -93,7 +93,7 @@ export function Markdown({ source }: { source: string }) {
     if (heading) {
       const level = heading[1].length;
       const text = heading[2];
-      const sizes = ["text-xl font-bold mt-6 mb-3", "text-lg font-bold mt-5 mb-2.5", "text-[15px] font-bold mt-4 mb-2", "text-[13.5px] font-bold mt-3 mb-1.5"];
+      const sizes = ["text-xl font-bold mt-6 mb-3", "text-lg font-bold mt-5 mb-2.5", "text-[16px] font-bold mt-4 mb-2", "text-[14px] font-bold mt-3 mb-1.5"];
       blocks.push(
         React.createElement(level === 1 ? "h2" : level === 2 ? "h3" : "h4", { key: key++, className: sizes[level - 1] }, renderInline(text))
       );
@@ -116,7 +116,7 @@ export function Markdown({ source }: { source: string }) {
         i += 1;
       }
       blocks.push(
-        <blockquote key={key++} className="border-e-4 border-spring/40 bg-spring-tint/60 rounded-s-xl px-4 py-3 my-4 text-[13px] text-ink leading-relaxed">
+        <blockquote key={key++} className="border-e-4 border-spring/40 bg-spring-tint/60 rounded-s-xl px-4 py-3 my-4 text-[14px] text-ink leading-relaxed">
           {renderInline(quote.join(" "))}
         </blockquote>
       );
@@ -133,11 +133,11 @@ export function Markdown({ source }: { source: string }) {
       }
       blocks.push(
         ordered ? (
-          <ol key={key++} className="list-decimal pe-6 flex flex-col gap-1.5 my-3 text-[13.5px] leading-relaxed">
+          <ol key={key++} className="list-decimal pe-6 flex flex-col gap-1.5 my-3 text-[14px] leading-relaxed">
             {items.map((it, ii) => <li key={ii}>{renderInline(it)}</li>)}
           </ol>
         ) : (
-          <ul key={key++} className="list-disc pe-6 flex flex-col gap-1.5 my-3 text-[13.5px] leading-relaxed">
+          <ul key={key++} className="list-disc pe-6 flex flex-col gap-1.5 my-3 text-[14px] leading-relaxed">
             {items.map((it, ii) => <li key={ii}>{renderInline(it)}</li>)}
           </ul>
         )
@@ -158,7 +158,7 @@ export function Markdown({ source }: { source: string }) {
       i += 1;
     }
     blocks.push(
-      <p key={key++} className="my-3 text-[13.5px] leading-[1.9]">
+      <p key={key++} className="my-3 text-[14px] leading-[1.9]">
         {renderInline(para.join(" "))}
       </p>
     );

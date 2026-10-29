@@ -72,10 +72,10 @@ export default function LeavesPage() {
           {leaves.map((l) => (
             <div key={l.id} className="b-card-sm p-4 flex items-center gap-3 flex-wrap">
               <span className={`b-badge ${l.status === "APPROVED" ? "b-badge-success" : l.status === "REJECTED" ? "b-badge-critical" : "b-badge-warning"}`}>{t(STATUS_TKEY[l.status] ?? l.status)}</span>
-              {canReview && <span className="text-[13px] font-bold">{l.user.firstName} {l.user.lastName}</span>}
+              {canReview && <span className="text-[14px] font-bold">{l.user.firstName} {l.user.lastName}</span>}
               <span className="b-badge b-badge-neutral">{t(KIND_TKEY[l.kind] ?? l.kind)}</span>
               <span className="text-[12px] text-steel">{formatDateFa(l.fromDate)} {t("common.to")} {formatDateFa(l.toDate)}</span>
-              {l.reason && <span className="text-[11.5px] text-steel flex-1 truncate">{l.reason}</span>}
+              {l.reason && <span className="text-[12px] text-steel flex-1 truncate">{l.reason}</span>}
               {l.reviewNote && <span className="text-[12px] text-spring-deep">{l.reviewNote}</span>}
               <button className="b-btn b-btn-ghost b-btn-sm !text-destructive ms-auto" onClick={async () => { if (!window.confirm(t("leaves.ayn-drkhvast-mrkhsy-hzf-shvd"))) return; try { await apiDelete(`/api/leaves?id=${l.id}`); toast.success(t("leaves.hzf-shd")); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>{t("common.delete")}</button>
               {canReview && l.status === "PENDING" && (

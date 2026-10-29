@@ -179,9 +179,9 @@ export default function BlogAdminPage() {
         {(data?.posts ?? []).map((p) => (
           <div key={p.id} className="b-card p-5">
             <div className="flex flex-wrap items-center gap-3 mb-3">
-              {p.coverUrl && <img src={p.coverUrl} alt={p.title} className="w-16 h-16 rounded-xl object-cover border border-hairline" />}
+              {p.coverUrl && <img src={p.coverUrl} alt={p.title} className="w-16 h-16 rounded-2xl object-cover border border-hairline" />}
               <div className="min-w-0 flex-1">
-                <b className="text-[14.5px] block truncate">{p.title}</b>
+                <b className="text-[14px] block truncate">{p.title}</b>
                 <span className="text-[12px] text-steel">
                   <span dir="ltr" className="font-mono">/blog/{p.slug}</span> · {p.author ? `${p.author.firstName} ${p.author.lastName}` : "—"} · {faNumber(p.viewCount)} {t("site.blog.viewsSuffix")}
                 </span>
@@ -216,15 +216,15 @@ export default function BlogAdminPage() {
             </div>
 
             {p.comments.length > 0 && (
-              <div className="mt-4 b-card-sm !rounded-xl overflow-hidden">
+              <div className="mt-4 b-card-sm !rounded-2xl overflow-hidden">
                 <b className="text-[12px] block p-3 border-b border-hairline-soft">{t("site.blog.commentsHeading")} ({faNumber(p.comments.length)})</b>
                 {p.comments.map((c) => (
                   <div key={c.id} className={`p-3 border-b border-hairline-soft/50 last:border-0 ${!c.approved ? "bg-warning/5" : ""}`}>
                     <div className="flex items-center gap-2 mb-1">
                       <b className="text-[12px]">{c.name}</b>
                       <span className="text-[12px] text-stone">{relativeTimeFa(c.createdAt)}</span>
-                      {!c.approved && <span className="b-badge b-badge-warning !text-[9px]">{t("dashboard.meeting.pending")}</span>}
-                      {c.approved && <span className="b-badge b-badge-spring !text-[9px]">{t("blog.comment.approved")}</span>}
+                      {!c.approved && <span className="b-badge b-badge-warning !text-[12px]">{t("dashboard.meeting.pending")}</span>}
+                      {c.approved && <span className="b-badge b-badge-spring !text-[12px]">{t("blog.comment.approved")}</span>}
                       <span className="ms-auto flex items-center gap-1">
                         {!c.approved && (
                           <>
@@ -258,29 +258,29 @@ export default function BlogAdminPage() {
             <h2 className="font-bold text-lg mb-6">{t("blog.newPost")}</h2>
             <form onSubmit={create} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("assignments.field.title")}</span>
+                <span className="text-[12px] font-bold">{t("assignments.field.title")}</span>
                 <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("blog.summary")}</span>
+                <span className="text-[12px] font-bold">{t("blog.summary")}</span>
                 <textarea rows={2} className="b-input !rounded-2xl resize-none" value={form.excerpt} onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))} placeholder={t("blog.excerptPlaceholder")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("blog.bodyLabel")}</span>
+                <span className="text-[12px] font-bold">{t("blog.bodyLabel")}</span>
                 <textarea rows={10} className="b-input !rounded-2xl resize-y" value={form.body} onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))} required />
               </label>
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("blog.tagsLabel")}</span>
+                  <span className="text-[12px] font-bold">{t("blog.tagsLabel")}</span>
                   <input className="b-input" value={form.tags} onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))} placeholder={t("blog.tagsPlaceholder")} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("blog.coverImage")}</span>
+                  <span className="text-[12px] font-bold">{t("blog.coverImage")}</span>
                   <div className="flex items-center gap-2">
                     {form.coverUrl ? (
-                      <img src={form.coverUrl} alt={t("blog.coverAlt")} className="w-11 h-11 rounded-xl object-cover border border-hairline" />
+                      <img src={form.coverUrl} alt={t("blog.coverAlt")} className="w-11 h-11 rounded-2xl object-cover border border-hairline" />
                     ) : (
-                      <span className="w-11 h-11 rounded-xl bg-cloud flex items-center justify-center text-stone">
+                      <span className="w-11 h-11 rounded-2xl bg-cloud flex items-center justify-center text-stone">
                         <Upload className="w-4 h-4" />
                       </span>
                     )}
@@ -319,28 +319,28 @@ export default function BlogAdminPage() {
             <h2 className="font-bold text-lg mb-6">{t("blog.editPost")}</h2>
             <form onSubmit={saveEdit} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("quizzes.table.title")}</span>
+                <span className="text-[12px] font-bold">{t("quizzes.table.title")}</span>
                 <input className="b-input" value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("blog.summary")}</span>
+                <span className="text-[12px] font-bold">{t("blog.summary")}</span>
                 <textarea rows={2} className="b-input !rounded-2xl resize-none" value={editing.excerpt ?? ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("sms.mtn")}</span>
+                <span className="text-[12px] font-bold">{t("sms.mtn")}</span>
                 <textarea rows={10} className="b-input !rounded-2xl resize-y" value={editing.body} onChange={(e) => setEditing({ ...editing, body: e.target.value })} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("blog.slugLabel")}</span>
+                <span className="text-[12px] font-bold">{t("blog.slugLabel")}</span>
                 <input className="b-input" dir="ltr" value={editSlug} onChange={(e) => setEditSlug(e.target.value)} placeholder="my-post-slug" />
                 <span className="text-[12px] text-steel" dir="ltr">/blog/{editSlug || editing.slug}</span>
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("blog.tagsLabel")}</span>
+                <span className="text-[12px] font-bold">{t("blog.tagsLabel")}</span>
                 <input className="b-input" value={editing.tags.join("، ")} onChange={(e) => setEditing({ ...editing, tags: e.target.value.split(/[،,]/).map((tg) => tg.trim()).filter(Boolean) })} />
               </label>
               <div className="flex flex-col gap-2">
-                <span className="text-[12.5px] font-bold">{t("blog.coverLabel")}</span>
+                <span className="text-[12px] font-bold">{t("blog.coverLabel")}</span>
                 {editing.coverUrl && (
                   <img src={editing.coverUrl} alt={t("blog.coverCurrentAlt")} className="w-full h-36 object-cover rounded-2xl" />
                 )}

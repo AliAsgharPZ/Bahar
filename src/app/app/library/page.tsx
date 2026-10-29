@@ -137,7 +137,7 @@ export default function LibraryPage() {
                       {b.title[0] ?? "ک"}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-bold text-[14.5px] leading-snug truncate">{b.title}</h3>
+                      <h3 className="font-bold text-[14px] leading-snug truncate">{b.title}</h3>
                       <p className="text-[12px] text-stone mt-0.5 truncate">{b.author ?? t("library.unknownAuthor")}{b.category ? ` · ${b.category}` : ""}</p>
                       <p className="text-[12px] text-stone mt-0.5">{b.shelf ? `${t("library.shelf")} ${b.shelf} · ` : ""}{b.isbn ? `${t("library.isbn")} ${b.isbn}` : ""}</p>
                     </div>
@@ -168,9 +168,9 @@ export default function LibraryPage() {
           {/* امانت‌های فعال (کادر) */}
           {data.canManage && (
             <section className="b-card p-4 md:p-5 mb-8">
-              <h2 className="font-extrabold text-[15px] mb-3">{t("library.activeLoans")} {overdueLoans.length > 0 && <span className="b-badge b-badge-critical ms-2">{faNumber(overdueLoans.length)} {t("library.overdue")}</span>}</h2>
+              <h2 className="font-extrabold text-[16px] mb-3">{t("library.activeLoans")} {overdueLoans.length > 0 && <span className="b-badge b-badge-critical ms-2">{faNumber(overdueLoans.length)} {t("library.overdue")}</span>}</h2>
               {data.activeLoans.length === 0 ? (
-                <p className="text-[13px] text-stone">{t("library.noActiveLoans")}</p>
+                <p className="text-[14px] text-stone">{t("library.noActiveLoans")}</p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="b-table w-full">
@@ -196,14 +196,14 @@ export default function LibraryPage() {
           {/* امانت‌های من (دانش‌آموز/ولی) */}
           {!data.canManage && data.myLoans.length > 0 && (
             <section className="b-card p-4 md:p-5">
-              <h2 className="font-extrabold text-[15px] mb-3">{t("library.myLoans")}</h2>
+              <h2 className="font-extrabold text-[16px] mb-3">{t("library.myLoans")}</h2>
               <div className="flex flex-col gap-2.5">
                 {data.myLoans.map((l) => (
-                  <div key={l.id} className="flex items-center gap-3 p-3 rounded-xl border border-[--hairline]">
+                  <div key={l.id} className="flex items-center gap-3 p-3 rounded-2xl border border-[--hairline]">
                     <BookOpen className="w-5 h-5 text-spring shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-[13.5px] truncate">{l.bookTitle}</p>
-                      <p className="text-[11.5px] text-stone">{l.studentName} · {t("library.due")}: {formatDateFa(l.dueAt)}</p>
+                      <p className="font-semibold text-[14px] truncate">{l.bookTitle}</p>
+                      <p className="text-[12px] text-stone">{l.studentName} · {t("library.due")}: {formatDateFa(l.dueAt)}</p>
                     </div>
                     {l.returnedAt
                       ? <span className="b-badge b-badge-success">{t("library.returned")}</span>
@@ -220,7 +220,7 @@ export default function LibraryPage() {
 
       {/* فرم کتاب */}
       {showForm && (
-        <div className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
           <div className="b-card w-full max-w-md p-5 b-pop">
             <h3 className="font-extrabold text-[16px] mb-4">{editing ? t("library.editBook") : t("library.newBook")}</h3>
             <div className="flex flex-col gap-3">
@@ -243,7 +243,7 @@ export default function LibraryPage() {
 
       {/* پنجره امانت */}
       {loanFor && (
-        <div className="fixed inset-0 z-50 bg-black/45 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
           <div className="b-card w-full max-w-md p-5 b-pop">
             <h3 className="font-extrabold text-[16px] mb-1">{t("library.loan")} «{loanFor.title}»</h3>
             <p className="text-[12px] text-stone mb-4">{t("library.loanHint")}</p>
@@ -256,8 +256,8 @@ export default function LibraryPage() {
             <div className="flex flex-col gap-1.5 max-h-64 overflow-y-auto">
               {students.map((s) => (
                 <button key={s.id} disabled={busy} onClick={() => loanTo(s.id)} className="b-btn b-btn-ghost text-start p-2.5 rounded-full border border-[--hairline] hover:border-[--spring] transition-colors">
-                  <span className="font-semibold text-[13px]">{s.user.firstName} {s.user.lastName}</span>
-                  <span className="text-[11.5px] text-stone ms-2">{s.class?.name ?? t("students.noClass")}{s.studentNumber ? ` · ${s.studentNumber}` : ""}</span>
+                  <span className="font-semibold text-[14px]">{s.user.firstName} {s.user.lastName}</span>
+                  <span className="text-[12px] text-stone ms-2">{s.class?.name ?? t("students.noClass")}{s.studentNumber ? ` · ${s.studentNumber}` : ""}</span>
                 </button>
               ))}
               {studentQ.trim().length >= 2 && students.length === 0 && <p className="text-[12px] text-stone p-2">{t("library.noStudent")}</p>}

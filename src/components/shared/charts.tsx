@@ -360,7 +360,7 @@ export function DonutChart({
           </g>
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-[17px] font-bold text-foreground">{centerLabel ?? faNumber(total)}</span>
+          <span className="text-[18px] font-bold text-foreground">{centerLabel ?? faNumber(total)}</span>
           {hover !== null && visible[hover] && (
             <span className="text-[12px] text-steel max-w-[80px] truncate text-center leading-tight mt-0.5">{visible[hover].label}</span>
           )}
@@ -373,12 +373,12 @@ export function DonutChart({
             type="button"
             onMouseEnter={() => setHover(i)}
             onMouseLeave={() => setHover(null)}
-            className={`flex items-center gap-2 text-[11.5px] rounded-lg px-1.5 py-0.5 transition-colors ${hover === i ? "bg-spring-tint" : ""}`}
+            className={`flex items-center gap-2 text-[12px] rounded-lg px-1.5 py-0.5 transition-colors ${hover === i ? "bg-spring-tint" : ""}`}
           >
             <span className="w-3 h-3 rounded-[4px] shrink-0" style={{ background: p.color }} />
             <span className="text-steel">{p.label}</span>
             <b>{faNumber(p.value)}</b>
-            <span className="text-stone !text-[9.5px]">({faNumber(pcts[i] ?? 0)}٪)</span>
+            <span className="text-stone !text-[12px]">({faNumber(pcts[i] ?? 0)}٪)</span>
           </button>
         ))}
       </div>
@@ -465,7 +465,7 @@ export function RadialGauge({
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-lg font-bold text-foreground">{v === null ? "—" : faNumber(v)}</span>
-        {label && <span className="text-[9px] text-stone">{label}</span>}
+        {label && <span className="text-[12px] text-stone">{label}</span>}
       </div>
     </div>
   );

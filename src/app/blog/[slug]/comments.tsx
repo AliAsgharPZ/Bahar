@@ -8,21 +8,21 @@ import { relativeTimeFa, enDigits } from "@/lib/persian";
 /** فهرست نظرات تاییدشده */
 export function CommentsList({ comments, firstComment }: { comments: Array<{ name: string; body: string; createdAt: string }>; firstComment?: string }) {
   if (comments.length === 0) {
-    return <p className="text-[12.5px] text-steel">{firstComment ?? "اولین نظر را شما بنویسید."}</p>;
+    return <p className="text-[12px] text-steel">{firstComment ?? "اولین نظر را شما بنویسید."}</p>;
   }
   return (
     <div className="flex flex-col gap-3">
       {comments.map((c, i) => (
-        <div key={i} className="b-card-sm !rounded-xl p-4 flex items-start gap-3">
+        <div key={i} className="b-card-sm !rounded-2xl p-4 flex items-start gap-3">
           <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0">
             <UserRound className="w-4 h-4" />
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <b className="text-[12.5px]">{c.name}</b>
+              <b className="text-[12px]">{c.name}</b>
               <span className="text-[12px] text-stone">{relativeTimeFa(c.createdAt)}</span>
             </div>
-            <p className="text-[12.5px] text-ink/80 leading-relaxed whitespace-pre-line">{c.body}</p>
+            <p className="text-[12px] text-ink/80 leading-relaxed whitespace-pre-line">{c.body}</p>
           </div>
         </div>
       ))}
@@ -61,9 +61,9 @@ export function CommentForm({ slug, texts }: { slug: string; texts?: CommentForm
 
   if (done) {
     return (
-      <div className="b-card-sm !rounded-xl p-4 text-center flex items-center justify-center gap-2">
+      <div className="b-card-sm !rounded-2xl p-4 text-center flex items-center justify-center gap-2">
         <Check className="w-4 h-4 text-spring shrink-0" />
-        <b className="text-[13px]">{t.done}</b>
+        <b className="text-[14px]">{t.done}</b>
       </div>
     );
   }

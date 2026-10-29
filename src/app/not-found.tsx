@@ -59,7 +59,7 @@ export default function NotFound() {
           </div>
 
           <div className="b-card-sm b-grad-border !rounded-2xl p-4 mt-8 text-right">
-            <b className="text-[12.5px] block mb-1">راه‌های دیگر:</b>
+            <b className="text-[12px] block mb-1">راه‌های دیگر:</b>
             <ul className="text-[12px] text-steel leading-relaxed flex flex-col gap-1">
               <li>· اگر حساب ندارید، صفحه «معرفی بهار» همه قابلیت‌ها را نشان می‌دهد.</li>
               <li>· اگر مدرسه شما از بهار استفاده می‌کند، رمز عبور از مدیر مدرسه‌تان می‌رسد.</li>

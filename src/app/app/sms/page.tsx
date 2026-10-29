@@ -38,7 +38,7 @@ export default function SmsPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader title={t("nav.sms")} desc={t("sms.arsal-grvhy-pyam-bh-avlya-karknan-ya-dansh-amvzan")} />
-      <div className="rounded-xl bg-blossom/10 border border-blossom/30 p-4 flex items-start gap-2 text-[12.5px]">
+      <div className="rounded-2xl bg-blossom/10 border border-blossom/30 p-4 flex items-start gap-2 text-[12px]">
         <Info className="w-4 h-4 shrink-0 mt-0.5 text-blossom" />
         <span>{t("sms.dr-ayn-astqrar-nmayshy-drgah-pyamk-vaqay-vsl-nyst-arsal-ha-ba-vz")} ({t("sms.kavh-ngar")}/{t("sms.mly-pyamk-v")}) {t("sms.hmyn-pnl-vaqay-my-shvd")}</span>
       </div>
@@ -67,7 +67,7 @@ export default function SmsPage() {
       {data && logs.length === 0 && <EmptyState icon={MessageSquare} title={t("sms.hnvz-pyamy-arsal-nshdh")} />}
       {logs.length > 0 && (
         <div className="b-card overflow-x-auto b-scroll">
-          <table className="w-full text-[13px] min-w-[640px]">
+          <table className="w-full text-[14px] min-w-[640px]">
             <thead><tr className="text-steel border-b border-hairline">
               <th className="p-3 text-start font-bold">{t("sms.zman")}</th>
               <th className="p-3 text-start font-bold">{t("sms.mkhatb")}</th>

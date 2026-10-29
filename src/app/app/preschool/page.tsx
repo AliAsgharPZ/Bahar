@@ -105,7 +105,7 @@ export default function PreschoolPage() {
 
       {(isAudience || studentId) && (
         <div className="b-card p-5 flex flex-col gap-3">
-          <b className="text-[13.5px] flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-spring" /> {t("preschool.pickupTitle")}</b>
+          <b className="text-[14px] flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-spring" /> {t("preschool.pickupTitle")}</b>
           <div className="flex flex-wrap gap-1.5">
             {pickups.map((p) => (
               <span key={p.id} className="b-badge b-badge-neutral !py-1.5 !px-3 flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function PreschoolPage() {
       {data && reports.length === 0 && <EmptyState icon={Baby} title={t("preschool.empty.title")} />}
       <div className="flex flex-col gap-3 b-auto-stagger">
         {reports.map((r) => (
-          <div key={r.id} className="b-card-sm p-5 flex flex-col gap-1.5 text-[13px]">
+          <div key={r.id} className="b-card-sm p-5 flex flex-col gap-1.5 text-[14px]">
             <span className="flex items-center justify-between flex-wrap gap-2">
               <b>{r.studentName ?? ""} <span className="text-steel font-normal">{r.className ?? ""}</span></b>
               <span className="flex gap-1.5 items-center">

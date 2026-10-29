@@ -85,7 +85,7 @@ export default function LabsPage() {
           )}
           <button className="b-btn b-btn-spring" disabled={busy} onClick={run}>{busy ? t("labs.running") : t("labs.run")}</button>
         </span>
-        <p className="text-[12.5px] text-steel">{t("labs.outputNote")}</p>
+        <p className="text-[12px] text-steel">{t("labs.outputNote")}</p>
       </div>
       {Boolean(result) && (
         <div className="b-card p-6">

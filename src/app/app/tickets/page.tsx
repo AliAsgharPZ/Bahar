@@ -159,7 +159,7 @@ export default function TicketsPage() {
             >
               <span className="font-mono text-[12px] text-stone shrink-0" dir="ltr">{tk.code}</span>
               <span className="b-badge b-badge-soft shrink-0">{tk.categoryLabel}</span>
-              <b className="text-[13.5px] truncate min-w-0 flex-1">{tk.subject}</b>
+              <b className="text-[14px] truncate min-w-0 flex-1">{tk.subject}</b>
               {scope === "all" && tk.requester && (
                 <span className="text-[12px] text-steel truncate hidden md:inline">
                   {tk.requester.name}{tk.requester.schoolName ? ` · ${tk.requester.schoolName}` : ""}
@@ -184,12 +184,12 @@ export default function TicketsPage() {
             <p className="t-sm text-steel mb-6">{t("tickets.threadNote")}</p>
             <form onSubmit={create} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("tickets.field.subject")}</span>
+                <span className="text-[12px] font-bold">{t("tickets.field.subject")}</span>
                 <input className="b-input" value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} required placeholder={t("tickets.placeholder.subject")} />
               </label>
               <div className="grid grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("tickets.field.category")}</span>
+                  <span className="text-[12px] font-bold">{t("tickets.field.category")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -199,7 +199,7 @@ export default function TicketsPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("tickets.field.priority")}</span>
+                  <span className="text-[12px] font-bold">{t("tickets.field.priority")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -210,7 +210,7 @@ export default function TicketsPage() {
                 </label>
               </div>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("tickets.field.message")}</span>
+                <span className="text-[12px] font-bold">{t("tickets.field.message")}</span>
                 <textarea rows={5} className="b-input !rounded-2xl resize-none" value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} required placeholder={t("tickets.placeholder.message")} />
               </label>
               <div className="flex items-center gap-3">
@@ -231,8 +231,8 @@ export default function TicketsPage() {
           <div className="relative b-card p-0 w-full max-w-2xl max-h-[90vh] overflow-hidden b-pop flex flex-col">
             <div className="flex items-start justify-between gap-3 px-6 py-4 border-b border-hairline-soft">
               <div className="min-w-0">
-                <b className="block text-[15px] truncate">{openTicket.subject}</b>
-                <span className="text-[11.5px] text-steel">
+                <b className="block text-[16px] truncate">{openTicket.subject}</b>
+                <span className="text-[12px] text-steel">
                   <span dir="ltr" className="font-mono">{openTicket.code}</span> · {openTicket.categoryLabel} · {PRIORITY_TKEY[openTicket.priority] ? t(PRIORITY_TKEY[openTicket.priority]) : openTicket.priority}
                   {scope === "all" && openTicket.requester ? ` · ${openTicket.requester.name}` : ""}
                 </span>
@@ -251,7 +251,7 @@ export default function TicketsPage() {
             <div className="flex-1 overflow-y-auto b-scroll p-5 flex flex-col gap-3 min-h-[240px]">
               {openTicket.messages.map((m) => (
                 <div key={m.id} className={`flex flex-col max-w-[80%] ${m.fromAdmin ? "self-start items-start" : "self-end items-end"}`}>
-                  <div className={`px-4 py-2.5 text-[13px] leading-relaxed ${m.fromAdmin ? "bubble-them !bg-spring-tint" : "bubble-me"}`}>
+                  <div className={`px-4 py-2.5 text-[14px] leading-relaxed ${m.fromAdmin ? "bubble-them !bg-spring-tint" : "bubble-me"}`}>
                     {m.body.split("\n").map((line, i) => (
                       <span key={i} className="block">{line || "‌"}</span>
                     ))}

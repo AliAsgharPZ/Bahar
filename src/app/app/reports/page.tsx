@@ -140,7 +140,7 @@ function ReportsInner() {
                 </div>
                 <div className="max-h-52 overflow-y-auto b-scroll flex flex-col gap-1.5">
                   {validation.preview.map((v) => (
-                    <div key={v.row} className={`p-2.5 rounded-xl text-[11.5px] flex items-start gap-2 ${v.errors.length ? "bg-destructive/10" : "bg-cloud"}`}>
+                    <div key={v.row} className={`p-2.5 rounded-2xl text-[12px] flex items-start gap-2 ${v.errors.length ? "bg-destructive/10" : "bg-cloud"}`}>
                       <span className="font-bold shrink-0">{t("reports.row.label")} {faNumber(v.row)}:</span>
                       {v.errors.length > 0 ? <span className="text-destructive">{v.errors.join("؛ ")}</span> : v.warnings.length > 0 ? <span className="text-warning-deep">{v.warnings.join("؛ ")}</span> : <span className="text-spring-deep">{t("reports.row.healthy")}</span>}
                     </div>
@@ -168,8 +168,8 @@ function ReportsInner() {
           {jobs.map((j) => (
             <div key={j.id} className="b-card-sm p-4 flex items-center gap-3 flex-wrap">
               {j.status === "DONE" ? <CheckCircle2 className="w-5 h-5 text-spring shrink-0" /> : <AlertTriangle className="w-5 h-5 text-warning shrink-0" />}
-              <span className="text-[13px] font-bold">{j.user.firstName} {j.user.lastName}</span>
-              <span className="text-[11.5px] text-steel">{formatDateFa(j.createdAt)}</span>
+              <span className="text-[14px] font-bold">{j.user.firstName} {j.user.lastName}</span>
+              <span className="text-[12px] text-steel">{formatDateFa(j.createdAt)}</span>
               <span className="b-badge b-badge-success">{faNumber(j.successRows)} {t("shell.notif.cat.success")}</span>
               {j.failedRows > 0 && <span className="b-badge b-badge-critical">{faNumber(j.failedRows)} {t("dashboard.login.failed")}</span>}
               <span className="text-[12px] text-stone ms-auto">{faNumber(j.totalRows)} {t("reports.job.rows")}</span>
@@ -236,7 +236,7 @@ function ReportsInner() {
               <div key={r.id} className={`b-card-sm p-4 flex items-center gap-3 flex-wrap ${!r.active ? "opacity-60" : ""}`}>
                 <CalendarClock className={`w-5 h-5 shrink-0 ${r.active ? "text-spring" : "text-stone"}`} />
                 <div className="min-w-0 flex-1">
-                  <b className="text-[13px] block">{r.kindLabel}</b>
+                  <b className="text-[14px] block">{r.kindLabel}</b>
                   <span className="text-[12px] text-steel">
                     {r.schedule === "DAILY" ? t("reports.schedule.daily") : `${t("reports.schedule.every")} ${DAYS_FA[r.dayOfWeek ?? 0]}`} · {t("common.time")} {faNumber(r.hour)} · {r.audience === "TEACHERS" ? t("dashboard.teachers") : t("reports.schedule.audienceManagers")}
                     {r.lastRunAt ? <> · {t("reports.schedule.lastRun")} {formatDateFa(r.lastRunAt)}</> : <> · {t("reports.schedule.neverRun")}</>}

@@ -51,16 +51,16 @@ export default function PayrollPage() {
         {data && mine.length === 0 && <EmptyState icon={Wallet} title={t("payroll.hnvz-fyshy-sbt-nshdh")} />}
         <div className="grid md:grid-cols-2 gap-4 b-auto-stagger">
           {mine.map((r) => (
-            <div key={r.id} className="b-card-md p-6 flex flex-col gap-2 text-[13px]">
+            <div key={r.id} className="b-card-md p-6 flex flex-col gap-2 text-[14px]">
               <div className="flex items-center justify-between">
-                <b className="text-[15px]">{t("payroll.fysh")} {r.yearMonth}</b>
+                <b className="text-[16px]">{t("payroll.fysh")} {r.yearMonth}</b>
                 <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => window.print()}><Printer className="w-4 h-4" /> {t("common.print")}</button>
               </div>
               <span className="flex justify-between"><span className="text-steel">{t("payroll.hqvq-payh")}</span><b>{toman(r.base)}</b></span>
               <span className="flex justify-between"><span className="text-steel">{t("payroll.mzaya")}</span><b>{toman(r.allowances)}</b></span>
               <span className="flex justify-between"><span className="text-steel">{t("payroll.ksvrat")}</span><b>{toman(r.deductions)}</b></span>
               <span className="flex justify-between border-t border-hairline pt-2"><span className="font-bold">{t("payroll.khals-prdakhty")}</span><b className="text-spring">{toman(r.base + r.allowances - r.deductions)}</b></span>
-              {r.note && <p className="text-[11.5px] text-steel">{r.note}</p>}
+              {r.note && <p className="text-[12px] text-steel">{r.note}</p>}
             </div>
           ))}
         </div>
@@ -92,7 +92,7 @@ export default function PayrollPage() {
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
       <div className="b-card overflow-x-auto b-scroll">
-        <table className="w-full text-[13px] min-w-[760px]">
+        <table className="w-full text-[14px] min-w-[760px]">
           <thead>
             <tr className="text-start text-steel border-b border-hairline">
               <th className="p-3 text-start font-bold">{t("payroll.karmnd")}</th>

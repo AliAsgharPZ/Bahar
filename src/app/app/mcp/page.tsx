@@ -18,7 +18,7 @@ export default function McpPage() {
       <PageHeader title={t("mcp.title")} desc={t("mcp.desc")} />
       <div className="b-card p-6 flex flex-col gap-3">
         <b className="text-[14px]">{t("mcp.endpoint.title")}</b>
-        <p className="text-[13px] text-steel">
+        <p className="text-[14px] text-steel">
           {t("mcp.endpoint.label")} <b dir="ltr">/api/mcp</b> — {t("mcp.endpoint.proto")}
           {t("mcp.auth")}
           {t("mcp.noSession")}
@@ -32,17 +32,17 @@ export default function McpPage() {
       <div className="grid lg:grid-cols-2 gap-4 items-start">
         <div className="b-card p-6 flex flex-col gap-1">
           <b className="text-[14px] mb-2">{t("mcp.tools.read")}</b>
-          {READ_TOOLS.map((t) => <code key={t} className="text-[12.5px] py-1 border-b border-hairline last:border-0" dir="ltr">{t}</code>)}
+          {READ_TOOLS.map((t) => <code key={t} className="text-[12px] py-1 border-b border-hairline last:border-0" dir="ltr">{t}</code>)}
         </div>
         <div className="b-card p-6 flex flex-col gap-1">
           <b className="text-[14px] mb-2">{t("mcp.tools.write")}</b>
-          {WRITE_TOOLS.map((t) => <code key={t} className="text-[12.5px] py-1 border-b border-hairline last:border-0" dir="ltr">{t}</code>)}
-          <p className="text-[12.5px] text-steel mt-2">{t("mcp.writeNote")}</p>
+          {WRITE_TOOLS.map((t) => <code key={t} className="text-[12px] py-1 border-b border-hairline last:border-0" dir="ltr">{t}</code>)}
+          <p className="text-[12px] text-steel mt-2">{t("mcp.writeNote")}</p>
         </div>
       </div>
       <div className="b-card p-6 flex flex-col gap-2">
         <b className="text-[14px] flex items-center gap-2"><Terminal className="w-4 h-4" /> {t("mcp.agentNote.title")}</b>
-        <p className="text-[13px] text-steel">{t("mcp.agentNote.first")}{" "}<code dir="ltr">initialize</code>{" "}{t("mcp.agentNote.afterInit")}{" "}<code dir="ltr">tools/list</code>{t("mcp.agentNote.afterList")}{" "}<code dir="ltr">tools/call</code>{t("mcp.agentNote.afterCall")}</p>
+        <p className="text-[14px] text-steel">{t("mcp.agentNote.first")}{" "}<code dir="ltr">initialize</code>{" "}{t("mcp.agentNote.afterInit")}{" "}<code dir="ltr">tools/list</code>{t("mcp.agentNote.afterList")}{" "}<code dir="ltr">tools/call</code>{t("mcp.agentNote.afterCall")}</p>
       </div>
     </div>
   );

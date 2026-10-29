@@ -64,7 +64,7 @@ export default function StaffAttendancePage() {
         {data.mine.length === 0
           ? <EmptyState icon={ClipboardCheck} title={t("staffAttendance.sabqh-ay-nyst")} desc={t("staffAttendance.hnvz-hzvry-bray-shma-sbt-nshdh-ast")} />
           : <section className="b-card p-5 overflow-x-auto b-scroll">
-              <table className="w-full text-[13px] min-w-[480px]">
+              <table className="w-full text-[14px] min-w-[480px]">
                 <thead><tr className="text-steel"><th className="p-2 text-start">{t("common.date")}</th><th className="p-2 text-start">{t("common.status")}</th><th className="p-2 text-start">{t("auth.login.submit")}</th><th className="p-2 text-start">{t("shell.logoutShort")}</th></tr></thead>
                 <tbody className="b-rows-in">
                   {data.mine.map((r) => (
@@ -91,7 +91,7 @@ export default function StaffAttendancePage() {
         action={<button className="b-btn b-btn-spring" disabled={busy} onClick={save}>{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("staffAttendance.sbt-hmh")}</button>}
       />
       <div className="flex items-center gap-3">
-        <label className="text-[12.5px] font-bold">{t("common.date")} ({t("staffAttendance.shmsy")}):</label>
+        <label className="text-[12px] font-bold">{t("common.date")} ({t("staffAttendance.shmsy")}):</label>
         <input className="b-input !w-44" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder="1404-08-05" />
       </div>
       <section className="b-card p-5 md:p-6">
@@ -101,7 +101,7 @@ export default function StaffAttendancePage() {
               {data.staff.map((row) => (
                 <div key={row.user.id} className="flex flex-wrap items-center gap-3 py-3">
                   <div className="flex-1 min-w-40">
-                    <b className="text-[13.5px]">{row.user.firstName} {row.user.lastName}</b>
+                    <b className="text-[14px]">{row.user.firstName} {row.user.lastName}</b>
                     <span className="t-cap text-steel block">{t(ROLE_TKEY[row.user.role] ?? row.user.role)}</span>
                   </div>
                   <div className="w-44">

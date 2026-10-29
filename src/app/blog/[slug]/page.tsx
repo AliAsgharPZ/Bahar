@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="max-w-3xl mx-auto px-4 h-16 flex items-center gap-3">
           <Link href="/blog" className="flex items-center gap-2">
             <Image src="/logo.svg" alt="بهار" width={28} height={28} />
-            <b className="text-[15px]">{tx("site.blog.label", "بلاگ")}</b>
+            <b className="text-[16px]">{tx("site.blog.label", "بلاگ")}</b>
           </Link>
           <div className="ms-auto flex items-center gap-1.5"><SiteLangSelect current={siteLang} /><ThemeToggle /><Link href="/" className="b-btn b-btn-soft b-btn-sm">{tx("site.blog.home", "خانه")}</Link></div>
         </div>

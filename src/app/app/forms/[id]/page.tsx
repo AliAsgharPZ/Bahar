@@ -72,7 +72,7 @@ export default function FormDetailPage() {
         {data.submissions.length === 0
           ? <EmptyState icon={ClipboardList} title={t("forms.paskhy-nyst")} desc={t("forms.hnvz-ksy-ayn-frm-ra-tkmyl-nkrdh-ast")} />
           : <section className="b-card p-5 md:p-6 overflow-x-auto b-scroll">
-              <table className="w-full text-[13px]">
+              <table className="w-full text-[14px]">
                 <thead>
                   <tr className="text-steel">
                     <th className="p-2 text-start">{t("common.student")}</th>
@@ -105,13 +105,13 @@ export default function FormDetailPage() {
       <section className="b-card p-5 md:p-6 flex flex-col gap-4 max-w-2xl">
         {form.fields.map((f) => (
           <label key={f.key} className="flex flex-col gap-1.5">
-            <span className="text-[12.5px] font-bold">{f.label}{f.required && <span className="text-destructive"> *</span>}</span>
+            <span className="text-[12px] font-bold">{f.label}{f.required && <span className="text-destructive"> *</span>}</span>
             {f.type === "textarea" ? (
               <textarea className="b-input !min-h-[90px]" disabled={closed} value={answers[f.key] ?? ""} onChange={(e) => setAnswers({ ...answers, [f.key]: e.target.value })} />
             ) : f.type === "select" ? (
               <Select value={answers[f.key] ?? ""} onChange={(v) => setAnswers({ ...answers, [f.key]: v })} placeholder={t("forms.antkhab-knyd")} options={(f.options ?? []).map((o) => ({ value: o, label: o }))} ariaLabel={f.label} />
             ) : f.type === "checkbox" ? (
-              <span className="flex items-center gap-2 text-[13px]">
+              <span className="flex items-center gap-2 text-[14px]">
                 <input type="checkbox" disabled={closed} checked={answers[f.key] === "بله"} onChange={(e) => setAnswers({ ...answers, [f.key]: e.target.checked ? t("common.yes") : t("common.no") })} />
                 {t("forms.t-yyd-my-knm")}
               </span>

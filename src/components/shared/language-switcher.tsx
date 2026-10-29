@@ -61,7 +61,7 @@ export function LanguageSwitcher({ compact = false, restricted = false }: { comp
         ref={btnRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-1.5 rounded-full px-2.5 h-9 text-[13px] text-steel hover:text-foreground hover:bg-forest/10 dark:hover:bg-forest/20 transition-colors"
+        className="inline-flex items-center gap-1.5 rounded-full px-2.5 h-9 text-[14px] text-steel hover:text-foreground hover:bg-forest/10 dark:hover:bg-forest/20 transition-colors"
         aria-haspopup="listbox"
         aria-expanded={open}
         title="زبان / Language"
@@ -86,7 +86,7 @@ export function LanguageSwitcher({ compact = false, restricted = false }: { comp
               role="option"
               aria-selected={o.code === current}
               onClick={() => pick(o.code)}
-              className="w-full flex items-center justify-between gap-2 rounded-xl px-3 py-2 text-[13px] text-popover-foreground hover:bg-forest/10 dark:hover:bg-forest/20 transition-colors text-start"
+              className="w-full flex items-center justify-between gap-2 rounded-xl px-3 py-2 text-[14px] text-popover-foreground hover:bg-forest/10 dark:hover:bg-forest/20 transition-colors text-start"
             >
               <span className="flex flex-col items-start leading-tight min-w-0">
                 <span className="truncate">{o.nativeName}</span>
@@ -101,7 +101,7 @@ export function LanguageSwitcher({ compact = false, restricted = false }: { comp
           <a
             href={restricted ? "/app/settings?tab=languages" : "/languages"}
             onClick={() => setOpen(false)}
-            className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[11.5px] text-steel hover:text-spring hover:bg-forest/5 transition-colors"
+            className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] text-steel hover:text-spring hover:bg-forest/5 transition-colors"
           >
             <PlusCircle className="w-3.5 h-3.5 shrink-0" />
             {restricted ? "زبان‌های بیشتر در تنظیمات" : "ساخت زبان جدید / Language kit ↗"}

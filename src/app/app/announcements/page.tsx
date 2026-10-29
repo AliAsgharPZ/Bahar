@@ -154,7 +154,7 @@ export default function AnnouncementsPage() {
       {canSend && (
         <form onSubmit={send} className="b-card p-5 md:p-6 flex flex-col gap-4">
           <div className="flex items-center gap-2 flex-wrap">
-            <b className="text-[13.5px] flex items-center gap-2"><BellRing className="w-4 h-4 text-spring" /> {t("announcements.newTitle")}</b>
+            <b className="text-[14px] flex items-center gap-2"><BellRing className="w-4 h-4 text-spring" /> {t("announcements.newTitle")}</b>
             {hasPlatform && (
               <div className="flex items-center gap-2 ms-auto">
                 <button
@@ -232,7 +232,7 @@ export default function AnnouncementsPage() {
                 className="b-btn b-btn-ghost b-input flex items-center justify-between gap-2"
                 onClick={() => setMapOpen(true)}
               >
-                <span className="text-[13px]">
+                <span className="text-[14px]">
                   {region.provinces.length || region.counties.length
                     ? `${region.provinces.length ? `${faDigits(region.provinces.length)} ${t("announcements.province")}` : ""}${region.provinces.length && region.counties.length ? " + " : ""}${region.counties.length ? `${faDigits(region.counties.length)} ${t("announcements.county")}` : ""}`
                     : t("announcements.allIran")}
@@ -295,7 +295,7 @@ export default function AnnouncementsPage() {
                 <span className="text-[12px] text-stone ms-auto">{a.school?.name ?? ""} · {relativeTimeFa(a.createdAt)}</span>
               </div>
               <b className="text-[14px] block mb-1.5">{a.title}</b>
-              <p className="text-[13px] text-steel leading-relaxed whitespace-pre-line">{a.body}</p>
+              <p className="text-[14px] text-steel leading-relaxed whitespace-pre-line">{a.body}</p>
               <div className="flex items-center gap-3 mt-3 pt-2 border-t border-hairline-soft/60">
                 <span className="text-[12px] text-stone">
                   {a.createdBy ? `${a.createdBy.firstName} ${a.createdBy.lastName}` : t("dashboard.system")} · {formatDateTimeFa(a.createdAt)}
@@ -315,7 +315,7 @@ export default function AnnouncementsPage() {
                 )}
               </div>
               {canSend && readOpen === a.id && (
-                <div className="mt-3 rounded-xl bg-cloud p-3 text-[12px]">
+                <div className="mt-3 rounded-2xl bg-cloud p-3 text-[12px]">
                   {readStats[a.id] ? (
                     <>
                       <b>{faDigits(readStats[a.id].count)} {t("announcements.readCount")}</b>

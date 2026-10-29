@@ -102,14 +102,14 @@ export default function IdCardsPage() {
             <article key={s.id} className="id-card-print b-card overflow-hidden">
               <header className="px-4 py-2.5 flex items-center gap-2 text-white" style={{ background: "linear-gradient(120deg, var(--spring-deep), var(--spring))" }}>
                 <School className="w-4 h-4 shrink-0" />
-                <b className="text-[12.5px] truncate">{schoolName || t("common.school")}</b>
+                <b className="text-[12px] truncate">{schoolName || t("common.school")}</b>
                 <span className="ms-auto text-[12px] opacity-85">{t("idCards.kart-dansh-amvzy")}</span>
               </header>
               <div className="p-4 flex gap-3.5">
                 <UserAvatar user={s.user} size={76} rounded="xl" />
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-extrabold text-[15.5px] leading-snug truncate">{s.user.firstName} {s.user.lastName}</h3>
-                  <dl className="text-[11.5px] text-stone mt-1.5 space-y-1">
+                  <h3 className="font-extrabold text-[16px] leading-snug truncate">{s.user.firstName} {s.user.lastName}</h3>
+                  <dl className="text-[12px] text-stone mt-1.5 space-y-1">
                     <div className="flex gap-1.5"><dt>{t("common.class")}:</dt><dd className="font-semibold text-[--ink]">{s.class?.name ?? "—"}{s.class?.grade ? ` ${t("idCards.payh")} ${s.class.grade}` : ""}</dd></div>
                     <div className="flex gap-1.5"><dt>{t("students.field.studentNumber")}:</dt><dd className="font-semibold text-[--ink]">{s.studentNumber ? faDigits(s.studentNumber) : "—"}</dd></div>
                     <div className="flex gap-1.5"><dt>{t("students.table.nationalId")}:</dt><dd className="font-semibold text-[--ink]">{faDigits(s.user.nationalId)}</dd></div>

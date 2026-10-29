@@ -199,7 +199,7 @@ export default function SchedulePage() {
 
       {canEdit && (
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-[12.5px] font-bold">
+          <label className="flex items-center gap-2 text-[12px] font-bold">
             {t("schedule.filter.class")}
             <Select
               value={classId}
@@ -229,7 +229,7 @@ export default function SchedulePage() {
       {(data || isTeacher) && (data?.slots?.length || 0) > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[12.5px] min-w-[640px]">
+            <table className="w-full text-[12px] min-w-[640px]">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   <th className="text-right py-3 px-3 font-bold w-16">{t("schedule.table.period")}</th>
@@ -293,7 +293,7 @@ export default function SchedulePage() {
                         <td key={key} className="py-2.5 px-3">
                           {view ? (
                             <div className="flex flex-col">
-                              <b className="text-[12.5px]">{view.subject?.name ?? "—"}</b>
+                              <b className="text-[12px]">{view.subject?.name ?? "—"}</b>
                               {view.teacher && <span className="text-[12px] text-steel">{view.teacher.firstName} {view.teacher.lastName}</span>}
                             </div>
                           ) : (
@@ -335,7 +335,7 @@ export default function SchedulePage() {
               <div key={sc.id} className="b-card-sm !rounded-2xl p-4 mb-3 flex items-center gap-4">
                 <div className="flex-1">
                   <b className="text-[14px]">{t("schedule.generate.option")} {sc.label}</b>
-                  <p className="text-[11.5px] text-steel mt-0.5">
+                  <p className="text-[12px] text-steel mt-0.5">
                     {faNumber(sc.slots.length)} {t("schedule.generate.periodUnit")} · {t("schedule.generate.quality")} {faNumber(sc.scores.total)}٪ · {t("schedule.generate.teacherLoad")} {faNumber(sc.scores.teacher)} · {t("schedule.generate.spread")} {faNumber(sc.scores.spread)}
                     {sc.unscheduled.length > 0 && <span className="text-blossom"> · {faNumber(sc.unscheduled.length)} {t("schedule.generate.unscheduled")}</span>}
                   </p>
@@ -346,7 +346,7 @@ export default function SchedulePage() {
               </div>
             ))}
             {!genLoading && scenarios.every((sc) => sc.unscheduled.length > 0) && scenarios.length > 0 && (
-              <p className="text-[11.5px] text-warning-deep">
+              <p className="text-[12px] text-warning-deep">
                 {t("schedule.generate.unscheduledWarning")}
               </p>
             )}

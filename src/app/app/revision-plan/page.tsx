@@ -84,7 +84,7 @@ export default function RevisionPlanPage() {
               return (
                 <div key={ex.id} className="b-card p-4 md:p-5 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <b className="text-[14.5px] min-w-0 truncate">{ex.title} · {ex.startsAt.slice(0, 10)}</b>
+                    <b className="text-[14px] min-w-0 truncate">{ex.title} · {ex.startsAt.slice(0, 10)}</b>
                     {exSessions.length > 0 && !done && (
                       <button className="b-btn b-btn-sm b-btn-ink shrink-0" onClick={() => save(ex.id)} disabled={savingId === ex.id}>
                         {savingId === ex.id ? t("revisionPlan.saving") : t("revisionPlan.save")}

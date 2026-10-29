@@ -93,10 +93,10 @@ export default function LessonPlansPage() {
 
       {isManager && coverage.length > 0 && (
         <div className="b-card p-5">
-          <b className="text-[13.5px] block mb-3">{t("lessonPlans.coverage.title")}</b>
+          <b className="text-[14px] block mb-3">{t("lessonPlans.coverage.title")}</b>
           <div className="flex flex-col gap-2">
             {coverage.map((c) => (
-              <div key={c.teacherId} className="flex items-center gap-3 text-[13px]">
+              <div key={c.teacherId} className="flex items-center gap-3 text-[14px]">
                 <span className="w-36 shrink-0 font-bold">{c.teacherName}</span>
                 <span className="flex-1 h-2.5 rounded-full bg-cloud overflow-hidden">
                   <span className="block h-full bg-spring rounded-full" style={{ width: `${c.planned ? (c.taught / c.planned) * 100 : 0}%` }} />
@@ -115,9 +115,9 @@ export default function LessonPlansPage() {
         {plans.map((p) => (
           <div key={p.id} className="b-card-sm p-4 flex items-center justify-between gap-3 flex-wrap">
             <span className="flex flex-col gap-0.5 min-w-0">
-              <b className="text-[13.5px]">{p.topic}</b>
-              <span className="text-[11.5px] text-steel">{p.teacherName} · {p.className || "—"} · {p.subjectName || "—"} · {p.date}</span>
-              {p.objectives && <span className="text-[11.5px] text-steel line-clamp-1">{p.objectives}</span>}
+              <b className="text-[14px]">{p.topic}</b>
+              <span className="text-[12px] text-steel">{p.teacherName} · {p.className || "—"} · {p.subjectName || "—"} · {p.date}</span>
+              {p.objectives && <span className="text-[12px] text-steel line-clamp-1">{p.objectives}</span>}
             </span>
             <span className="flex items-center gap-1.5 shrink-0">
               <span className={`b-badge ${p.status === "TAUGHT" ? "b-badge-spring" : "b-badge-neutral"}`}>{p.status === "TAUGHT" ? t("lessonPlans.stat.taught") : t("lessonPlans.status.planned")}</span>

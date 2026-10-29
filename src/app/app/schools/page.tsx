@@ -227,8 +227,8 @@ export default function SchoolsPage() {
                   </span>
                 )}
                 <div className="min-w-0 flex-1">
-                  <b className="text-[15px] block truncate">{s.name}</b>
-                  <span className="text-[11.5px] text-steel flex items-center gap-1.5 flex-wrap">
+                  <b className="text-[16px] block truncate">{s.name}</b>
+                  <span className="text-[12px] text-steel flex items-center gap-1.5 flex-wrap">
                     <span dir="ltr" className="font-mono">{s.code}</span>
                     {s.county && (
                       <>
@@ -247,7 +247,7 @@ export default function SchoolsPage() {
                   { l: t("common.class"), v: s.classCount },
                   { l: t("common.manager"), v: s.manager ? 1 : 0 },
                 ].map((x, i) => (
-                  <div key={i} className="b-card-sm !rounded-xl !p-2">
+                  <div key={i} className="b-card-sm !rounded-2xl !p-2">
                     <b className="text-[14px] block">{faDigits(x.v)}</b>
                     <span className="text-[12px] text-steel">{x.l}</span>
                   </div>
@@ -312,15 +312,15 @@ export default function SchoolsPage() {
             <form onSubmit={createSchool} className="flex flex-col gap-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolNameRequired")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.schoolNameRequired")}</span>
                   <input className="b-input" value={form.name} onChange={(e) => set("name", e.target.value)} required placeholder={t("schools.placeholder.schoolName")} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolCodeRequired")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.schoolCodeRequired")}</span>
                   <input className="b-input" dir="ltr" value={form.code} onChange={(e) => set("code", e.target.value)} required placeholder="BH-101" />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolType")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.schoolType")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -331,11 +331,11 @@ export default function SchoolsPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.phone")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.phone")}</span>
                   <input className="b-input" dir="ltr" value={form.phone} onChange={(e) => set("phone", e.target.value)} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.province")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.province")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -346,7 +346,7 @@ export default function SchoolsPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold flex items-center gap-1.5">
+                  <span className="text-[12px] font-bold flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-spring" /> {t("schools.field.county")}
                   </span>
                   <div className="flex gap-2">
@@ -364,26 +364,26 @@ export default function SchoolsPage() {
                   </div>
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold">{t("students.field.address")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.address")}</span>
                   <input className="b-input" value={form.address} onChange={(e) => set("address", e.target.value)} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.motto")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.motto")}</span>
                   <input className="b-input" value={form.motto} onChange={(e) => set("motto", e.target.value)} placeholder={t("schools.placeholder.motto")} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.establishedYear")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.establishedYear")}</span>
                   <input className="b-input" dir="ltr" value={form.establishedYear} onChange={(e) => set("establishedYear", e.target.value)} placeholder="1380" />
                 </label>
               </div>
 
               {/* مدیر */}
               <div className="b-card-sm !rounded-2xl p-5">
-                <h3 className="font-bold text-[13.5px] mb-1">{t("role.manager")}</h3>
+                <h3 className="font-bold text-[14px] mb-1">{t("role.manager")}</h3>
                 <p className="text-[12px] text-stone mb-4">{t("schools.manager.hint")}</p>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("schools.field.managerNationalId")}</span>
+                    <span className="text-[12px] font-bold">{t("schools.field.managerNationalId")}</span>
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.managerNationalId} onChange={(e) => set("managerNationalId", enDigits(e.target.value))} />
                     {isSuper && (
                       <label className="flex items-center gap-2 text-[12px] text-steel mt-0.5 cursor-pointer">
@@ -393,15 +393,15 @@ export default function SchoolsPage() {
                     )}
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("common.name")}</span>
+                    <span className="text-[12px] font-bold">{t("common.name")}</span>
                     <input className="b-input" value={form.managerFirstName} onChange={(e) => set("managerFirstName", e.target.value)} />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("students.ph.lastName")}</span>
+                    <span className="text-[12px] font-bold">{t("students.ph.lastName")}</span>
                     <input className="b-input" value={form.managerLastName} onChange={(e) => set("managerLastName", e.target.value)} />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("schools.field.managerShad")}</span>
+                    <span className="text-[12px] font-bold">{t("schools.field.managerShad")}</span>
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.managerShadNumber} onChange={(e) => set("managerShadNumber", enDigits(e.target.value))} placeholder="09…" />
                   </label>
                 </div>
@@ -431,12 +431,12 @@ export default function SchoolsPage() {
                   { k: "name", l: t("schools.field.schoolName") }, { k: "code", l: t("schools.field.schoolCode") },
                 ].map((f) => (
                   <label key={f.k} className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{f.l}</span>
+                    <span className="text-[12px] font-bold">{f.l}</span>
                     <input className="b-input" value={editForm[f.k] ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, [f.k]: e.target.value }))} />
                   </label>
                 ))}
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolType")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.schoolType")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -447,11 +447,11 @@ export default function SchoolsPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.phone")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.phone")}</span>
                   <input className="b-input" dir="ltr" value={editForm.phone ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, phone: e.target.value }))} />
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-spring" /> {t("schools.field.location")}</span>
+                  <span className="text-[12px] font-bold flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-spring" /> {t("schools.field.location")}</span>
                   <button type="button" className="b-btn b-btn-ghost b-input flex items-center gap-2" onClick={() => setEditMapOpen(true)}>
                     <MapPin className="w-4 h-4 text-spring" />
                     {editRegion.provinces[0]
@@ -460,22 +460,22 @@ export default function SchoolsPage() {
                   </button>
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold">{t("students.field.address")}</span>
+                  <span className="text-[12px] font-bold">{t("students.field.address")}</span>
                   <input className="b-input" value={editForm.address ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, address: e.target.value }))} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.mottoShort")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.mottoShort")}</span>
                   <input className="b-input" value={editForm.motto ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, motto: e.target.value }))} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("schools.field.establishedYear")}</span>
+                  <span className="text-[12px] font-bold">{t("schools.field.establishedYear")}</span>
                   <input className="b-input" dir="ltr" value={editForm.establishedYear ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, establishedYear: e.target.value }))} />
                 </label>
               </div>
 
               {/* راند ۱۸: ماژول‌های اختیاری — شاد و نقش سرایدار */}
               <div className="b-card-sm !rounded-2xl p-5">
-                <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-1.5"><Puzzle className="w-4 h-4 text-spring" /> {t("schools.modules.title")}</h3>
+                <h3 className="font-bold text-[14px] flex items-center gap-2 mb-1.5"><Puzzle className="w-4 h-4 text-spring" /> {t("schools.modules.title")}</h3>
                 <p className="text-[12px] text-steel mb-4 leading-relaxed">
                   {t("schools.modules.desc")}
                 </p>
@@ -487,7 +487,7 @@ export default function SchoolsPage() {
                     aria-pressed={editShad}
                   >
                     <span className="flex flex-col items-start gap-0.5">
-                      <b className="text-[12.5px]">{t("schools.modules.shad")}</b>
+                      <b className="text-[12px]">{t("schools.modules.shad")}</b>
                       <span className="text-[12px] text-steel leading-relaxed">
                         {editShad ? t("schools.modules.shadOn") : t("schools.modules.shadOff")}
                       </span>
@@ -503,7 +503,7 @@ export default function SchoolsPage() {
                     aria-pressed={editCustodian}
                   >
                     <span className="flex flex-col items-start gap-0.5">
-                      <b className="text-[12.5px]">{t("schools.modules.custodian")}</b>
+                      <b className="text-[12px]">{t("schools.modules.custodian")}</b>
                       <span className="text-[12px] text-steel leading-relaxed">
                         {editCustodian ? t("schools.modules.custodianOn") : t("schools.modules.custodianOff")}
                       </span>

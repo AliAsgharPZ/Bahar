@@ -138,7 +138,7 @@ export default async function LanguagesPage() {
               <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
                 <div className="text-lg font-bold truncate">{p.nativeName}</div>
                 <div className="text-[12px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
-                <span className="inline-block rounded-full bg-forest/10 text-spring text-[12px] px-2 py-0.5">
+                <span className="b-badge b-badge-spring">
                   {faDigits(p.coverage)}٪ {tx("site.kit.languages.wCoverage", "پوشش")}
                 </span>
               </div>
@@ -166,7 +166,7 @@ export default async function LanguagesPage() {
               <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
                 <div className="text-lg font-bold truncate">{p.nativeName}</div>
                 <div className="text-[12px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
-                <span className="inline-block rounded-full bg-forest/10 text-spring text-[12px] px-2 py-0.5">
+                <span className="b-badge b-badge-spring">
                   {tx("site.kit.languages.wApp", "اپ")} {faDigits(p.coverage)}٪ · {tx("site.kit.languages.wSite", "سایت")} {faDigits(p.siteCoverage)}٪ · {tx("site.kit.languages.wLong", "بلند")} {faDigits(p.longCoverage)}٪
                 </span>
                 <div className="text-[12px] text-stone mt-1">{tx("site.kit.shippedBadge", "همراه سامانه")}</div>

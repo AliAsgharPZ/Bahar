@@ -78,7 +78,7 @@ export default function GatePassesPage() {
         action={<button className="b-btn b-btn-spring" onClick={() => setOpen(true)}><Plus className="w-4 h-4" /> {t("gatePasses.drkhvast-jdyd")}</button>}
       />
       <div className="flex items-center gap-3">
-        <label className="text-[12.5px] font-bold">{t("common.date")} ({t("gatePasses.shmsy")}):</label>
+        <label className="text-[12px] font-bold">{t("common.date")} ({t("gatePasses.shmsy")}):</label>
         <input className="b-input !w-44" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} />
       </div>
 
@@ -89,7 +89,7 @@ export default function GatePassesPage() {
               {data.passes.map((p) => (
                 <div key={p.id} className="flex flex-wrap items-center gap-3 py-3">
                   <div className="flex-1 min-w-48">
-                    <b className="text-[13.5px]">{p.student?.user ? `${p.student.user.firstName} ${p.student.user.lastName}` : ""}</b>
+                    <b className="text-[14px]">{p.student?.user ? `${p.student.user.firstName} ${p.student.user.lastName}` : ""}</b>
                     {p.student?.class && <span className="t-cap text-steel"> · {p.student.class.name}</span>}
                     <span className="t-sm text-steel block">{p.reason}{p.exitTime ? ` ${t("gatePasses.saat")} ${p.exitTime}` : ""}{p.pickupBy ? ` ${t("gatePasses.thvyl-bh")} ${p.pickupBy}` : ""}</span>
                   </div>
@@ -123,7 +123,7 @@ export default function GatePassesPage() {
                 {students.length > 0 && !studentId && (
                   <div className="flex flex-col gap-1 max-h-40 overflow-y-auto b-scroll">
                     {students.map((s) => (
-                      <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-full p-2.5 text-start text-[13px]" onClick={() => setStudentId(s.id)}>
+                      <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-full p-2.5 text-start text-[14px]" onClick={() => setStudentId(s.id)}>
                         <b>{s.user.firstName} {s.user.lastName}</b> <span className="text-steel">{s.class?.name ?? ""}</span>
                       </button>
                     ))}

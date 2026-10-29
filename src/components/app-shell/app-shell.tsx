@@ -274,7 +274,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             ) : (
               <span className="flex flex-col leading-none min-w-0">
                 <span className="text-lg font-bold" style={{ fontFamily: "var(--font-heading)" }}>بهار</span>
-                <span className="text-[9.5px] text-steel truncate">{user.schoolName ?? "سرویس بهار"}</span>
+                <span className="text-[12px] text-steel truncate">{user.schoolName ?? "سرویس بهار"}</span>
               </span>
             )
           )}
@@ -302,7 +302,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                   key={n.href}
                   href={n.href}
                   title={collapsed ? (n.tKey ? t(n.tKey) : n.label) : undefined}
-                  className={`relative flex items-center gap-3 rounded-full ${collapsed ? "justify-center py-2.5 px-0" : "py-2.5 px-4"} text-[13.5px] font-bold z-[1] transition-colors duration-200 ${
+                  className={`relative flex items-center gap-3 rounded-full ${collapsed ? "justify-center py-2.5 px-0" : "py-2.5 px-4"} text-[14px] font-bold z-[1] transition-colors duration-200 ${
                     active
                       ? "text-invert-foreground"
                       : "text-ink hover:bg-spring-tint dark:hover:bg-spring-tint hover:text-spring-deep"
@@ -353,7 +353,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             <UserAvatar user={avatarUser} size={40} />
             {!collapsed && (
               <span className="flex flex-col min-w-0 flex-1">
-                <span className="text-[13px] font-bold truncate">{user.firstName} {user.lastName}</span>
+                <span className="text-[14px] font-bold truncate">{user.firstName} {user.lastName}</span>
                 <span className="text-[12px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
               </span>
             )}
@@ -491,7 +491,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               />
             )}
             {mobileUnread > 0 && (
-              <span className="absolute -top-0.5 -end-0.5 min-w-[16px] h-4 px-1 rounded-full bg-blossom text-white text-[9.5px] font-bold flex items-center justify-center" aria-label={`${mobileUnread} ${t("shell.notif.unreadAria")}`}>
+              <span className="absolute -top-0.5 -end-0.5 min-w-[16px] h-4 px-1 rounded-full bg-blossom text-white text-[12px] font-bold flex items-center justify-center" aria-label={`${mobileUnread} ${t("shell.notif.unreadAria")}`}>
                 {mobileUnread > 9 ? "۹+" : faNumber(mobileUnread)}
               </span>
             )}
@@ -557,7 +557,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             <div className="flex-1" />
             <button
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 h-9 px-3.5 rounded-full text-steel hover:text-foreground hover:bg-spring-tint transition-colors text-[13px]"
+              className="flex items-center gap-2 h-9 px-3.5 rounded-full text-steel hover:text-foreground hover:bg-spring-tint transition-colors text-[14px]"
             >
               <Search className="w-4 h-4" />
               <span className="hidden xl:inline">{t("shell.search.everywhere")}</span>
@@ -565,7 +565,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             </button>
             <button
               onClick={() => window.print()}
-              className="flex items-center gap-2 h-9 px-3.5 rounded-full text-steel hover:text-foreground hover:bg-spring-tint transition-colors text-[13px]"
+              className="flex items-center gap-2 h-9 px-3.5 rounded-full text-steel hover:text-foreground hover:bg-spring-tint transition-colors text-[14px]"
               title={t("shell.printPage")}
             >
               <Printer className="w-4 h-4" />
@@ -627,7 +627,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             >
               <div className="flex items-center gap-2.5 h-16 px-4 border-b border-hairline-soft shrink-0">
                 <Image src={brand.logoUrl || "/logo.svg"} alt="بهار" width={28} height={28} className="shrink-0" />
-                <span className="font-bold text-[17px] flex-1 truncate" style={{ fontFamily: "var(--font-heading)" }}>
+                <span className="font-bold text-[18px] flex-1 truncate" style={{ fontFamily: "var(--font-heading)" }}>
                   بهار
                 </span>
                 <button
@@ -657,7 +657,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                             href={n.href}
                             onClick={() => setMobileNavOpen(false)}
                             aria-current={active ? "page" : undefined}
-                            className={`flex items-center gap-3 rounded-2xl px-2.5 py-2 text-[13.5px] font-bold transition-colors ${
+                            className={`flex items-center gap-3 rounded-2xl px-2.5 py-2 text-[14px] font-bold transition-colors ${
                               active
                                 ? "bg-spring-tint text-spring-deep"
                                 : "text-ink hover:bg-spring-tint/60"
@@ -681,7 +681,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                   <div className="flex items-center gap-3 w-full">
                     <UserAvatar user={avatarUser} size={40} />
                     <span className="flex flex-col min-w-0 flex-1">
-                      <span className="text-[13px] font-bold truncate">{user.firstName} {user.lastName}</span>
+                      <span className="text-[14px] font-bold truncate">{user.firstName} {user.lastName}</span>
                       <span className="text-[12px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
                     </span>
                   </div>
@@ -839,7 +839,7 @@ function NotificationCenter({
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={springRubber}
-            className="absolute top-1 start-1 min-w-[16px] h-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[9px] font-bold flex items-center justify-center"
+            className="absolute top-1 start-1 min-w-[16px] h-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[12px] font-bold flex items-center justify-center"
           >
             {faNumber(total)}
           </motion.span>
@@ -854,13 +854,13 @@ function NotificationCenter({
         className="!rounded-[28px] p-0 overflow-hidden"
       >
         <div className="flex items-center justify-between px-4 h-14 border-b border-hairline-soft">
-          <span className="font-bold text-[15px]" style={{ fontFamily: "var(--font-heading)" }}>{t("shell.notifications")}</span>
+          <span className="font-bold text-[16px]" style={{ fontFamily: "var(--font-heading)" }}>{t("shell.notifications")}</span>
           <button
             onClick={async () => {
               await apiPost("/api/notifications", { all: true }).catch(() => {});
               load();
             }}
-            className="text-[11.5px] font-bold text-spring-deep hover:underline"
+            className="text-[12px] font-bold text-spring-deep hover:underline"
           >
             {t("shell.notif.readAll")}
           </button>
@@ -892,7 +892,7 @@ function NotificationCenter({
             </div>
           )}
           {!loading && items.length === 0 && (
-            <div className="py-10 text-center text-steel text-[13px]">
+            <div className="py-10 text-center text-steel text-[14px]">
               <Bell className="w-8 h-8 mx-auto mb-2 opacity-40" />
               {t("shell.notif.none")}
             </div>
@@ -912,10 +912,10 @@ function NotificationCenter({
               <span className={`b-dot mt-1.5 shrink-0 cat-${n.category}`} />
               <span className="flex-1 min-w-0">
                 <span className="flex items-center gap-2">
-                  <span className="text-[12.5px] font-bold truncate">{n.title}</span>
+                  <span className="text-[12px] font-bold truncate">{n.title}</span>
                   {!n.readAt && <span className="w-1.5 h-1.5 rounded-full bg-spring shrink-0" />}
                 </span>
-                <span className="block text-[11.5px] text-steel line-clamp-2 leading-relaxed">{n.body}</span>
+                <span className="block text-[12px] text-steel line-clamp-2 leading-relaxed">{n.body}</span>
                 <span className="block text-[12px] text-stone mt-0.5">{relativeTimeFa(n.createdAt)}</span>
               </span>
             </Link>
@@ -999,7 +999,7 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder={t("shell.search.placeholderFull")}
-                className="flex-1 bg-transparent outline-none text-[15px] text-ink placeholder:text-stone"
+                className="flex-1 bg-transparent outline-none text-[16px] text-ink placeholder:text-stone"
               />
               <kbd className="text-[12px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">Esc</kbd>
             </div>
@@ -1011,7 +1011,7 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
                 </div>
               )}
               {!loading && q.trim().length >= 2 && results.length === 0 && (
-                <div className="py-10 text-center text-steel text-[13px]">
+                <div className="py-10 text-center text-steel text-[14px]">
                   <Search className="w-8 h-8 mx-auto mb-2 opacity-40" />
                   {t("shell.search.noResults")}
                 </div>
@@ -1030,13 +1030,13 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
                 >
                   <span className="b-badge b-badge-spring shrink-0">{r.type}</span>
                   <span className="flex-1 min-w-0">
-                    <span className="block text-[13.5px] font-bold truncate">{r.title}</span>
-                    {r.subtitle && <span className="block text-[11.5px] text-steel truncate">{r.subtitle}</span>}
+                    <span className="block text-[14px] font-bold truncate">{r.title}</span>
+                    {r.subtitle && <span className="block text-[12px] text-steel truncate">{r.subtitle}</span>}
                   </span>
                 </motion.button>
               ))}
               {q.trim().length < 2 && (
-                <div className="p-6 text-center text-steel text-[12.5px]">
+                <div className="p-6 text-center text-steel text-[12px]">
                   {t("shell.search.hintMin2")}
                 </div>
               )}

@@ -230,9 +230,9 @@ export default function FinancePage() {
       {fees.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[13px] b-rows-in">
+            <table className="w-full text-[14px] b-rows-in">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
+                <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   {data?.scope !== "student" && <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>}
                   <th className="text-right py-3 px-4 font-bold">{t("finance.anvan")}</th>
                   <th className="text-right py-3 px-4 font-bold">{t("finance.mblgh")} (${currencyLabel()})</th>
@@ -258,7 +258,7 @@ export default function FinancePage() {
                     )}
                     <td className="py-3 px-4"><b className="truncate block max-w-[180px]">{f.title}</b></td>
                     <td className="py-3 px-4 font-bold">{faNumber(f.amount.toLocaleString("en-US"))}</td>
-                    <td className="py-3 px-4 text-steel hidden md:table-cell text-[11.5px]">
+                    <td className="py-3 px-4 text-steel hidden md:table-cell text-[12px]">
                       {f.dueDate ? formatDateFa(f.dueDate) : "—"}
                     </td>
                     <td className="py-3 px-4">
@@ -340,20 +340,20 @@ export default function FinancePage() {
             <p className="t-sm text-steel mb-6">{t("finance.my-tvanyd-bray-yk-dansh-amvz-ya-hmh-dansh-amvzan-yk-klas-sbt-kny")}</p>
             <form onSubmit={createFee} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("finance.anvan")} *</span>
+                <span className="text-[12px] font-bold">{t("finance.anvan")} *</span>
                 <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required placeholder={t("finance.shhryh-mhr-1405")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("finance.mblgh")} (${currencyLabel()}) *</span>
+                <span className="text-[12px] font-bold">{t("finance.mblgh")} (${currencyLabel()}) *</span>
                 <input className="b-input" dir="ltr" inputMode="numeric" value={form.amount} onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))} required placeholder="2500000" />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("finance.srsyd")} ({t("finance.shmsy")})</span>
+                <span className="text-[12px] font-bold">{t("finance.srsyd")} ({t("finance.shmsy")})</span>
                 <JalaliDateInput value={dueDate} onChange={setDueDate} />
               </label>
               <div className="grid grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("finance.hdf")}</span>
+                  <span className="text-[12px] font-bold">{t("finance.hdf")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -364,7 +364,7 @@ export default function FinancePage() {
                 </label>
                 {form.target === "class" ? (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("common.class")} *</span>
+                    <span className="text-[12px] font-bold">{t("common.class")} *</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -376,7 +376,7 @@ export default function FinancePage() {
                   </label>
                 ) : (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("common.student")} *</span>
+                    <span className="text-[12px] font-bold">{t("common.student")} *</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -389,7 +389,7 @@ export default function FinancePage() {
                 )}
               </div>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("finance.yaddasht")}</span>
+                <span className="text-[12px] font-bold">{t("finance.yaddasht")}</span>
                 <input className="b-input" value={form.note} onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))} />
               </label>
               <div className="flex items-center gap-3">

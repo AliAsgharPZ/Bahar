@@ -140,7 +140,7 @@ export default function AuditPage() {
       {data && data.logs.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="max-h-[560px] overflow-auto b-scroll">
-            <table className="w-full text-[12.5px]">
+            <table className="w-full text-[12px]">
               <thead className="sticky top-0 bg-background">
                 <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   <th className="text-right py-3 px-4 font-bold">{t("audit.table.time")}</th>

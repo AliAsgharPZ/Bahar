@@ -3,7 +3,7 @@ export default function Loading() {
   return (
     <div dir="rtl" className="min-h-[60vh] max-w-6xl mx-auto w-full px-4 py-10 flex flex-col gap-4" role="status" aria-label="در حال بارگذاری…">
       <div className="flex flex-col gap-2">
-        <span className="h-8 w-56 rounded-xl b-shimmer" />
+        <span className="h-8 w-56 rounded-2xl b-shimmer" />
         <span className="h-4 w-80 max-w-full rounded-lg b-shimmer" />
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

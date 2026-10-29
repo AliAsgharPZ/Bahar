@@ -54,7 +54,7 @@ export default function StudyPage() {
         {loading && <LoadingBlock />}
         {error && <ErrorBox message={error} />}
         <div className="flex flex-col">
-          {tasks.length === 0 && !loading && <span className="text-[12.5px] text-steel py-2">{t("study.noTasks")}</span>}
+          {tasks.length === 0 && !loading && <span className="text-[12px] text-steel py-2">{t("study.noTasks")}</span>}
           {tasks.map((tk) => (
             <div key={tk.id} className="flex items-center gap-3 py-2.5 border-b border-hairline last:border-0">
               <button
@@ -64,7 +64,7 @@ export default function StudyPage() {
               >
                 <Check className="w-4 h-4" />
               </button>
-              <span className={`flex-1 text-[13.5px] ${tk.done ? "line-through text-steel" : ""}`}>{tk.title}</span>
+              <span className={`flex-1 text-[14px] ${tk.done ? "line-through text-steel" : ""}`}>{tk.title}</span>
               <span className="text-[12px] text-steel">{faNumber(tk.minutes)} {t("dashboard.uptime.minute")}</span>
               <button className="b-btn b-btn-ghost text-stone hover:text-destructive" onClick={() => act("delete", { id: tk.id })} aria-label={t("common.delete")}>
                 <Trash2 className="w-4 h-4" />

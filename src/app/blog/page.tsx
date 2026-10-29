@@ -73,13 +73,13 @@ export default async function BlogIndexPage() {
             <span className="w-16 h-16 rounded-full bg-spring-tint text-spring flex items-center justify-center mx-auto mb-4">
               <Sprout className="w-8 h-8" />
             </span>
-            <b className="text-[15px] block mb-1">{tx("site.blog.emptyTitle", "هنوز پستی منتشر نشده")}</b>
-            <p className="text-[12.5px] text-steel">{tx("site.blog.emptySub", "به‌زودی مقالات و راهنماها اینجا منتشر می‌شود.")}</p>
+            <b className="text-[16px] block mb-1">{tx("site.blog.emptyTitle", "هنوز پستی منتشر نشده")}</b>
+            <p className="text-[12px] text-steel">{tx("site.blog.emptySub", "به‌زودی مقالات و راهنماها اینجا منتشر می‌شود.")}</p>
           </div>
         )}
 
         {featured && (
-          <Link href={`/blog/${featured.slug}`} className="b-card !rounded-3xl p-0 overflow-hidden block mb-8 hover:shadow-lg transition-shadow group">
+          <Link href={`/blog/${featured.slug}`} className="b-card !rounded-3xl p-0 overflow-hidden block mb-8 transition-shadow group">
             <div className="grid md:grid-cols-2">
               {featured.coverUrl ? (
                 <img src={featured.coverUrl} alt={featured.title} className="w-full h-56 md:h-full object-cover" />
@@ -93,8 +93,8 @@ export default async function BlogIndexPage() {
                 <h2 className="text-[20px] md:text-[24px] font-bold leading-snug mb-3 group-hover:text-spring transition-colors">
                   {featured.title}
                 </h2>
-                <p className="text-[13px] text-steel leading-relaxed mb-4 line-clamp-3">{featured.excerpt}</p>
-                <span className="text-[11.5px] text-stone">
+                <p className="text-[14px] text-steel leading-relaxed mb-4 line-clamp-3">{featured.excerpt}</p>
+                <span className="text-[12px] text-stone">
                   {featured.author ? `${featured.author.firstName} ${featured.author.lastName}` : tx("site.blog.fallbackAuthor", "تحریریه بهار")} · {formatDateFa(featured.publishedAt!)}
                 </span>
               </div>
@@ -107,7 +107,7 @@ export default async function BlogIndexPage() {
             <Link key={p.id} href={`/blog/${p.slug}`} className="b-card !rounded-2xl p-0 overflow-hidden block hover:shadow-md transition-all hover:-translate-y-0.5 group">
               {p.coverUrl && <img src={p.coverUrl} alt={p.title} className="w-full h-36 object-cover" />}
               <div className="p-5">
-                <h3 className="text-[15px] font-bold leading-snug mb-2 group-hover:text-spring transition-colors line-clamp-2">{p.title}</h3>
+                <h3 className="text-[16px] font-bold leading-snug mb-2 group-hover:text-spring transition-colors line-clamp-2">{p.title}</h3>
                 <p className="text-[12px] text-steel leading-relaxed line-clamp-3 mb-3">{p.excerpt}</p>
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <span className="text-[12px] text-stone">{formatDateFa(p.publishedAt!)} · {p._count.comments.toLocaleString("fa-IR")} {tx("site.blog.commentsSuffix", "نظر")}</span>

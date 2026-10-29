@@ -104,8 +104,8 @@ export default function MeetingsPage() {
           {meetings.map((m) => (
             <div key={m.id} className="b-card-sm p-4 flex items-center gap-3 flex-wrap">
               <span className={`b-badge ${m.status === "APPROVED" ? "b-badge-success" : m.status === "PENDING" ? "b-badge-warning" : m.status === "REJECTED" ? "b-badge-critical" : "b-badge-neutral"}`}>{STATUS_TKEY[m.status] ? t(STATUS_TKEY[m.status]) : m.status}</span>
-              <span className="text-[13px] font-bold">{m.topic}</span>
-              {m.student && <span className="text-[11.5px] text-steel">{t("meetings.about")} {m.student.user.firstName} {m.student.user.lastName}</span>}
+              <span className="text-[14px] font-bold">{m.topic}</span>
+              {m.student && <span className="text-[12px] text-steel">{t("meetings.about")} {m.student.user.firstName} {m.student.user.lastName}</span>}
               <span className="text-[12px] text-steel flex items-center gap-1"><Clock className="w-3 h-3" />{formatDateFa(m.slotStart)} · {formatTimeFa(m.slotStart)}</span>
               <span className="text-[12px] text-stone ms-auto">{m.requestedBy.firstName} ↔ {m.staff.firstName} {m.staff.lastName}</span>
               {m.status === "PENDING" && canRespond(m) && (

@@ -142,7 +142,7 @@ export default function CertificatesPage() {
             <motion.div key={c.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
               className={`b-card-sm p-4 flex items-center gap-3 flex-wrap ${c.revokedAt ? "opacity-50" : ""}`}>
               <FileCheck2 className="w-5 h-5 text-spring shrink-0" />
-              <span className="text-[13px] font-bold">{c.title}</span>
+              <span className="text-[14px] font-bold">{c.title}</span>
               <span className="text-[12px] text-steel">{c.student.user.firstName} {c.student.user.lastName}</span>
               <span className="text-[12px] text-stone" dir="ltr">{c.serial}</span>
               <span className="text-[12px] text-stone">{formatDateFa(c.issuedAt)}</span>
@@ -177,7 +177,7 @@ export default function CertificatesPage() {
               <div key={t.id} className="b-card-sm p-4 group">
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="b-badge b-badge-spring">{tr(KINDS[t.kind])}</span>
-                  <span className="text-[13px] font-bold flex-1">{t.title}</span>
+                  <span className="text-[14px] font-bold flex-1">{t.title}</span>
                   <button onClick={async () => { if (!(await confirm({ title: tr("certificates.deleteTemplateTitle"), description: tr("certificates.deleteTemplateDesc"), confirmLabel: tr("common.delete"), danger: true }))) return; apiDelete(`/api/certificates?template=${t.id}`).then(load).catch((e) => toast.error(e instanceof Error ? e.message : tr("certificates.deleteError"))); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
                 <p className="text-[12px] text-steel line-clamp-3 leading-relaxed">{t.bodyTemplate}</p>

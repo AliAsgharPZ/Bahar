@@ -117,9 +117,9 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
   return (
     <div className="b-card p-5 flex flex-col gap-4">
       <div className="flex items-center gap-2 flex-wrap">
-        <b className="text-[13.5px] flex items-center gap-2"><Languages className="w-4 h-4 text-spring" /> زبان‌ها و ترجمه (بسته‌های زبان کاستوم)</b>
+        <b className="text-[14px] flex items-center gap-2"><Languages className="w-4 h-4 text-spring" /> زبان‌ها و ترجمه (بسته‌های زبان کاستوم)</b>
       </div>
-      <p className="text-[11.5px] text-steel leading-relaxed">
+      <p className="text-[12px] text-steel leading-relaxed">
         زبان جدید را با فرم مترجم زیر بسازید یا فایل JSON بستهٔ آماده را بارگذاری کنید؛ بسته به‌صورت پیش‌نویس ذخیره می‌شود و
         با «فعال‌سازی» برای همه کاربران در انتخاب‌گر زبان (وب/اندروید/ویندوز) ظاهر می‌شود. راهنمای ساخت: صفحه
         «کیت ساخت زبان» در سایت سامانه.
@@ -140,7 +140,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
             <div className="px-4 py-3 flex items-center gap-3">
               <span className="w-2.5 h-2.5 rounded-full shrink-0 bg-success" />
               <div className="min-w-0 flex-1">
-                <b className="text-[13px] block truncate">فارسی <span className="text-steel font-normal">(پایه سامانه)</span></b>
+                <b className="text-[14px] block truncate">فارسی <span className="text-steel font-normal">(پایه سامانه)</span></b>
                 <div className="text-[12px] text-steel"><span dir="ltr" className="font-mono">fa</span> · راست‌به‌چپ</div>
               </div>
               {currentLang === "fa" ? (
@@ -153,7 +153,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
               <div key={s.code} className="px-4 py-3 flex items-center gap-3">
                 <span className="w-2.5 h-2.5 rounded-full shrink-0 bg-success" />
                 <div className="min-w-0 flex-1">
-                  <b className="text-[13px] block truncate">{s.nativeName} <span className="text-steel font-normal">({s.name})</span></b>
+                  <b className="text-[14px] block truncate">{s.nativeName} <span className="text-steel font-normal">({s.name})</span></b>
                   <div className="text-[12px] text-steel flex flex-wrap items-center gap-x-2">
                     <span dir="ltr" className="font-mono">{s.code}</span>
                     <span>·</span>
@@ -180,7 +180,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
             <div key={p.id} className="px-4 py-3 flex items-center gap-3 flex-wrap">
               <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${p.status === "ACTIVE" ? "bg-success" : p.status === "DRAFT" ? "bg-warning" : "bg-stone"}`} />
               <div className="min-w-0 flex-1">
-                <b className="text-[12.5px] block truncate">
+                <b className="text-[12px] block truncate">
                   {p.nativeName} <span className="text-steel font-normal">({p.name})</span>
                 </b>
                 <div className="text-[12px] text-steel flex flex-wrap items-center gap-x-2">
@@ -256,7 +256,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
           <span className="w-10 h-10 rounded-full bg-spring-tint text-spring flex items-center justify-center">
             <FileJson className="w-5 h-5" />
           </span>
-          <b className="text-[13px]">فایل بسته زبان را اینجا رها کنید</b>
+          <b className="text-[14px]">فایل بسته زبان را اینجا رها کنید</b>
           <span className="text-[12px] text-stone">فایل .json حداکثر ۴۰۰KB — بسته هم‌کد جایگزین می‌شود</span>
           <label className="b-btn b-btn-soft b-btn-sm cursor-pointer mt-1">
             {busy === "upload" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}

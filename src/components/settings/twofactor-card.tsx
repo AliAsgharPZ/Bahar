@@ -94,7 +94,7 @@ export function TwoFactorCard() {
 
   return (
     <div className="b-card-md p-6 md:p-8">
-      <h3 className="font-bold text-[15px] mb-2 flex items-center gap-2">
+      <h3 className="font-bold text-[16px] mb-2 flex items-center gap-2">
         <ShieldCheck className="w-5 h-5 text-spring" /> ورود دو مرحله‌ای (2FA)
       </h3>
       <p className="t-sm text-steel mb-5">
@@ -129,7 +129,7 @@ export function TwoFactorCard() {
             <img src={setup.qrSvg} alt="QR برای اپ احرازگر" className="w-44 h-44" />
           </div>
           <div className="flex flex-col gap-3">
-            <p className="text-[12.5px] text-steel leading-relaxed">
+            <p className="text-[12px] text-steel leading-relaxed">
               ۱. اپ احرازگر را باز کنید و «افزودن حساب» → «اسکن کد QR» را بزنید.<br />
               ۲. کد ۶ رقمی نمایش‌داده‌شده در اپ را زیر وارد کنید.
             </p>
@@ -166,8 +166,8 @@ export function TwoFactorCard() {
       {/* کدهای بازیابی — فقط یک‌بار */}
       {backupCodes && (
         <div className="b-card-sm !rounded-2xl p-4 !border-warning/40 bg-warning/5 mt-4">
-          <b className="block text-[13px] mb-1 text-warning-deep">کدهای بازیابی — همین حالا ذخیره کنید!</b>
-          <p className="text-[11.5px] text-steel mb-3">
+          <b className="block text-[14px] mb-1 text-warning-deep">کدهای بازیابی — همین حالا ذخیره کنید!</b>
+          <p className="text-[12px] text-steel mb-3">
             اگر اپ احرازگر را گم کردید، با هرکدام از این ۸ کد می‌توانید یک‌بار وارد شوید. این کدها <b>دیگر هرگز نمایش داده نمی‌شوند</b>.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -187,7 +187,7 @@ export function TwoFactorCard() {
       {/* غیرفعال‌سازی */}
       {phase === "enabled" && (
         <div className="b-card-sm !rounded-2xl p-4 mt-2">
-          <b className="block text-[13px] mb-3 flex items-center gap-2"><KeyRound className="w-4 h-4" /> غیرفعال‌سازی دو مرحله‌ای</b>
+          <b className="block text-[14px] mb-3 flex items-center gap-2"><KeyRound className="w-4 h-4" /> غیرفعال‌سازی دو مرحله‌ای</b>
           <div className="grid sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">رمز عبور *</span>

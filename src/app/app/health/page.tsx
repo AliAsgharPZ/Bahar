@@ -98,7 +98,7 @@ export default function HealthPage() {
           <b className="text-[14px] flex items-center gap-2"><HeartPulse className="w-4 h-4 text-blossom" /> {t("health.rosterTitle")} ({faNumber(rosterData.roster.length)})</b>
           <div className="flex flex-col divide-y divide-hairline-soft">
             {rosterData.roster.map((r) => (
-              <div key={r.studentId} className="py-2.5 flex flex-wrap items-center gap-2 text-[12.5px]">
+              <div key={r.studentId} className="py-2.5 flex flex-wrap items-center gap-2 text-[12px]">
                 <b>{r.name}</b>
                 <span className="text-steel">{r.className}</span>
                 <span className={r.sportsStatus === "EXEMPT" ? "b-badge b-badge-blossom" : "b-badge b-badge-warning"}>{SPORTS_TKEY[r.sportsStatus] ? t(SPORTS_TKEY[r.sportsStatus]) : r.sportsStatus}</span>
@@ -116,7 +116,7 @@ export default function HealthPage() {
         <div className="grid lg:grid-cols-2 gap-4 items-start">
           <div className="b-card p-6 flex flex-col gap-3">
             <b className="text-[14px] flex items-center gap-2"><HeartPulse className="w-4 h-4 text-blossom" /> {t("health.cardTitle")}</b>
-            {health?.allergies && <div className="rounded-xl bg-blossom/10 border border-blossom/30 p-3 text-[12.5px]"><b>{t("health.label.allergies")}</b> {health.allergies}</div>}
+            {health?.allergies && <div className="rounded-2xl bg-blossom/10 border border-blossom/30 p-3 text-[12px]"><b>{t("health.label.allergies")}</b> {health.allergies}</div>}
             {!isAudience ? (
               <form onSubmit={saveCard} className="flex flex-col gap-3">
                 <div className="grid grid-cols-2 gap-3">
@@ -143,7 +143,7 @@ export default function HealthPage() {
                   </div>
                   <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("health.field.sportsNote")}</span>
                     <input className="b-input" value={cardVal.sportsNote} onChange={(e) => setCard({ ...cardVal, sportsNote: e.target.value })} placeholder={t("health.placeholder.sportsNote")} /></label>
-                  <div className="flex flex-wrap gap-x-4 gap-y-2 text-[12.5px] font-bold">
+                  <div className="flex flex-wrap gap-x-4 gap-y-2 text-[12px] font-bold">
                     {([["asthma", t("health.condition.asthma")], ["heartCondition", t("health.condition.heartProblem")], ["seizures", t("health.condition.seizuresFull")], ["diabetes", t("health.condition.diabetes")]] as const).map(([k, label]) => (
                       <label key={k} className="flex items-center gap-1.5 cursor-pointer">
                         <input type="checkbox" checked={cardVal[k]} onChange={(e) => setCard({ ...cardVal, [k]: e.target.checked })} /> {label}
@@ -177,7 +177,7 @@ export default function HealthPage() {
                 </button>
               </form>
             ) : (
-              <div className="flex flex-col gap-2 text-[13px]">
+              <div className="flex flex-col gap-2 text-[14px]">
                 <span><span className="text-steel">{t("health.label.bloodType")} </span>{health?.bloodType ?? "—"}</span>
                 <span><span className="text-steel">{t("health.label.conditions")} </span>{health?.conditions ?? "—"}</span>
                 <span><span className="text-steel">{t("health.label.emergency")} </span>{health?.emergencyContact ?? "—"}</span>
@@ -197,7 +197,7 @@ export default function HealthPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("health.field.day")}</span>
                     <input className="b-input" dir="ltr" value={visit.date} onChange={(e) => setVisit((v) => ({ ...v, date: e.target.value }))} required /></label>
-                  <label className="flex items-end gap-2 pb-2"><input type="checkbox" checked={visit.sentHome} onChange={(e) => setVisit((v) => ({ ...v, sentHome: e.target.checked }))} /> <span className="text-[12.5px]">{t("health.sentHome")}</span></label>
+                  <label className="flex items-end gap-2 pb-2"><input type="checkbox" checked={visit.sentHome} onChange={(e) => setVisit((v) => ({ ...v, sentHome: e.target.checked }))} /> <span className="text-[12px]">{t("health.sentHome")}</span></label>
                 </div>
                 <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("health.field.complaint")}</span>
                   <input className="b-input" value={visit.complaint} onChange={(e) => setVisit((v) => ({ ...v, complaint: e.target.value }))} placeholder={t("health.placeholder.complaint")} required /></label>
@@ -210,9 +210,9 @@ export default function HealthPage() {
             )}
             <div className="b-card p-6 flex flex-col gap-2">
               <b className="text-[14px]">{t("health.visitHistory")}</b>
-              {(data.visits ?? []).length === 0 && <span className="text-[12.5px] text-steel">{t("health.noVisits")}</span>}
+              {(data.visits ?? []).length === 0 && <span className="text-[12px] text-steel">{t("health.noVisits")}</span>}
               {(data.visits ?? []).map((v) => (
-                <div key={v.id} className="flex flex-col gap-0.5 py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={v.id} className="flex flex-col gap-0.5 py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span className="flex justify-between items-center"><b>{v.complaint}</b><span className="flex items-center gap-2"><span className="text-steel">{v.date}</span><button className="b-btn b-btn-ghost text-stone hover:text-destructive" aria-label={t("health.deleteVisit")} onClick={async () => { if (!window.confirm(t("health.deleteConfirm"))) return; try { await apiDelete(`/api/health?id=${v.id}`); toast.success(t("health.toast.deleted")); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}><Trash2 className="w-3.5 h-3.5" /></button></span></span>
                   {v.action && <span className="text-steel">{v.action}</span>}
                   {v.sentHome && <span className="b-badge b-badge-blossom self-start">{t("health.sentHome")}</span>}

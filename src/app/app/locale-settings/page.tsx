@@ -59,18 +59,18 @@ export default function LocaleSettingsPage() {
             <button className="b-btn b-btn-spring self-start" disabled={saving} onClick={save}>
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("common.save")}
             </button>
-            <p className="text-[11.5px] text-steel">{t("localeSettings.scaleNote")}</p>
+            <p className="text-[12px] text-steel">{t("localeSettings.scaleNote")}</p>
           </div>
 
           <div className="b-card p-6 flex flex-col gap-3">
             <b className="text-[14px]">{t("localeSettings.converter")}</b>
             <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.score20")}</span>
               <input className="b-input w-36" dir="ltr" inputMode="decimal" value={sample} onChange={(e) => setSample(e.target.value)} /></label>
-            <div className="grid grid-cols-2 gap-2 text-[13px]">
-              <span className="rounded-xl bg-cloud p-3">{t("localeSettings.outOf100")} <b>{convertScore(Number(sample) || 0, "SCORE100")}</b></span>
-              <span className="rounded-xl bg-cloud p-3">GPA: <b>{convertScore(Number(sample) || 0, "GPA4")}</b></span>
-              <span className="rounded-xl bg-cloud p-3">{t("localeSettings.letter")} <b>{convertScore(Number(sample) || 0, "LETTER")}</b></span>
-              <span className="rounded-xl bg-cloud p-3">{t("localeSettings.currentScale")} <b>{convertScore(Number(sample) || 0, val.gradingScale)}</b></span>
+            <div className="grid grid-cols-2 gap-2 text-[14px]">
+              <span className="rounded-2xl bg-cloud p-3">{t("localeSettings.outOf100")} <b>{convertScore(Number(sample) || 0, "SCORE100")}</b></span>
+              <span className="rounded-2xl bg-cloud p-3">GPA: <b>{convertScore(Number(sample) || 0, "GPA4")}</b></span>
+              <span className="rounded-2xl bg-cloud p-3">{t("localeSettings.letter")} <b>{convertScore(Number(sample) || 0, "LETTER")}</b></span>
+              <span className="rounded-2xl bg-cloud p-3">{t("localeSettings.currentScale")} <b>{convertScore(Number(sample) || 0, val.gradingScale)}</b></span>
             </div>
           </div>
         </div>

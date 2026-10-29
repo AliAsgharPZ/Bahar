@@ -23,7 +23,7 @@ export function Collapsible({ title, children }: { title: string; children: Reac
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between gap-2 px-4 min-h-[44px] text-[13px] font-bold hover:bg-forest/5 dark:hover:bg-forest/10 transition-colors"
+        className="w-full flex items-center justify-between gap-2 px-4 min-h-[44px] text-[14px] font-bold hover:bg-forest/5 dark:hover:bg-forest/10 transition-colors"
       >
         <span>{title}</span>
         <ChevronDown className={`w-4 h-4 shrink-0 text-stone transition-transform duration-300 ease-in-out ${open ? "rotate-180" : ""}`} />

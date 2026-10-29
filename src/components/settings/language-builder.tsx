@@ -103,7 +103,7 @@ export function LanguageBuilder({ onCreated }: { onCreated?: () => void }) {
   return (
     <div className="b-card-sm !rounded-2xl p-4 md:p-5 flex flex-col gap-5">
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <h3 className="font-bold text-[13.5px] flex items-center gap-2">
+        <h3 className="font-bold text-[14px] flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-spring" /> ساخت بستهٔ زبان با فرم
         </h3>
         <span className={`b-badge ${coverage.pct >= 80 ? "b-badge-spring" : coverage.pct >= 40 ? "b-badge-warning" : "b-badge-neutral"}`}>
@@ -117,27 +117,27 @@ export function LanguageBuilder({ onCreated }: { onCreated?: () => void }) {
       {/* ── مشخصات بسته ── */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <label className="flex flex-col gap-1.5">
-          <span className="text-[11.5px] font-bold">کد زبان * (مثل en)</span>
+          <span className="text-[12px] font-bold">کد زبان * (مثل en)</span>
           <input className="b-input !h-10" dir="ltr" placeholder="en" value={meta.code} onChange={(e) => setMeta({ ...meta, code: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 12) })} />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-[11.5px] font-bold">نام (فارسی) *</span>
+          <span className="text-[12px] font-bold">نام (فارسی) *</span>
           <input className="b-input !h-10" placeholder="انگلیسی" value={meta.name} onChange={(e) => setMeta({ ...meta, name: e.target.value })} />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-[11.5px] font-bold">نام بومی *</span>
+          <span className="text-[12px] font-bold">نام بومی *</span>
           <input className="b-input !h-10" placeholder="English" value={meta.nativeName} onChange={(e) => setMeta({ ...meta, nativeName: e.target.value })} />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-[11.5px] font-bold">جهت متن</span>
+          <span className="text-[12px] font-bold">جهت متن</span>
           <Select value={meta.direction} onChange={(v) => setMeta({ ...meta, direction: v })} options={DIRECTION_OPTIONS} buttonClassName="!h-10" className="w-full" />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-[11.5px] font-bold">نسخه</span>
+          <span className="text-[12px] font-bold">نسخه</span>
           <input className="b-input !h-10" dir="ltr" placeholder="1.0.0" value={meta.version} onChange={(e) => setMeta({ ...meta, version: e.target.value })} />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="text-[11.5px] font-bold">پدیدگار (اختیاری)</span>
+          <span className="text-[12px] font-bold">پدیدگار (اختیاری)</span>
           <input className="b-input !h-10" placeholder="نام شما" value={meta.author} onChange={(e) => setMeta({ ...meta, author: e.target.value })} />
         </label>
       </div>
@@ -149,7 +149,7 @@ export function LanguageBuilder({ onCreated }: { onCreated?: () => void }) {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="جستجوی کلید یا متن فارسی…"
-          className="flex-1 bg-transparent outline-none text-[13px] min-w-0"
+          className="flex-1 bg-transparent outline-none text-[14px] min-w-0"
         />
         {q && <button onClick={() => setQ("")} className="text-stone hover:text-foreground text-[16px] leading-none" aria-label="پاک‌کردن">×</button>}
       </div>

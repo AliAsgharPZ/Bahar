@@ -107,25 +107,25 @@ export default function DormitoryPage() {
                     {busy === "assign" ? <Loader2 className="w-4 h-4 animate-spin" /> : <BedDouble className="w-4 h-4" />} {t("dormitory.askan")}
                   </button>
                 </span>
-                <p className="text-[12.5px] text-steel">{t("dormitory.askan-dvm-bray-dansh-amvzy-kh-askan-faal-dard-v-askan-dr-ataq-pr")}</p>
+                <p className="text-[12px] text-steel">{t("dormitory.askan-dvm-bray-dansh-amvzy-kh-askan-faal-dard-v-askan-dr-ataq-pr")}</p>
               </div>
             </div>
           )}
 
           <div className="b-card p-6 flex flex-col gap-1">
             <b className="text-[14px] mb-2">{t("dormitory.ataq-ha-v-saknan")}</b>
-            {rooms.length === 0 && <span className="text-[12.5px] text-steel">{t("dormitory.hnvz-ataqy-sbt-nshdh-ast")}</span>}
+            {rooms.length === 0 && <span className="text-[12px] text-steel">{t("dormitory.hnvz-ataqy-sbt-nshdh-ast")}</span>}
             {rooms.map((r) => (
-              <div key={r.id} className="py-2 border-b border-hairline last:border-0 text-[13px]">
+              <div key={r.id} className="py-2 border-b border-hairline last:border-0 text-[14px]">
                 <span><b>{r.buildingName} · {r.name}</b><span className="text-steel"> {t("dormitory.tbqh-2")} {faNumber(r.floor)} {t("dormitory.zrfyt-2")} {faNumber(r.capacity)} {t("dormitory.ashghal-2")} {faNumber(occupancy(r.id))}</span>{!r.isActive && <span className="text-steel"> ({t("common.inactive")})</span>}</span>
-                <span className="block text-[12.5px] text-steel">{activeAssignments.filter((a) => a.roomId === r.id).map((a) => `${a.studentName}${a.bedLabel ? ` (تخت ${a.bedLabel})` : ""}`).join("، ") || t("dormitory.bdvn-sakn")}</span>
+                <span className="block text-[12px] text-steel">{activeAssignments.filter((a) => a.roomId === r.id).map((a) => `${a.studentName}${a.bedLabel ? ` (تخت ${a.bedLabel})` : ""}`).join("، ") || t("dormitory.bdvn-sakn")}</span>
               </div>
             ))}
             {isStaff && activeAssignments.length > 0 && (
               <div className="flex flex-col gap-1 mt-3">
-                <b className="text-[13px]">{t("dormitory.payan-askan")}</b>
+                <b className="text-[14px]">{t("dormitory.payan-askan")}</b>
                 {activeAssignments.map((a) => (
-                  <div key={a.id} className="flex items-center justify-between text-[12.5px]">
+                  <div key={a.id} className="flex items-center justify-between text-[12px]">
                     <span>{a.studentName} — {a.buildingName} · {a.room.name}</span>
                     <button className="b-btn b-btn-ghost" disabled={busy === "endAssignment"} onClick={() => post("endAssignment", { id: a.id })}>{t("dormitory.payan-askan")}</button>
                   </div>
@@ -136,9 +136,9 @@ export default function DormitoryPage() {
 
           <div className="b-card p-6 flex flex-col gap-3">
             <b className="text-[14px]">{t("dormitory.mrkhsy-hay-khvabgahy")}</b>
-            {data.leaves.length === 0 && <span className="text-[12.5px] text-steel">{t("dormitory.mrkhsy-ay-sbt-nshdh-ast")}</span>}
+            {data.leaves.length === 0 && <span className="text-[12px] text-steel">{t("dormitory.mrkhsy-ay-sbt-nshdh-ast")}</span>}
             {data.leaves.map((l) => (
-              <div key={l.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+              <div key={l.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                 <span>{l.studentName}<span className="text-steel"> · {formatDateFa(l.fromDate)} {t("common.to")} {formatDateFa(l.toDate)}{l.reason ? ` · ${l.reason}` : ""}</span><span className="block text-[12px] text-steel">{t(LEAVE_TKEY[l.status] ?? l.status)}</span></span>
                 {isStaff && l.status === "PENDING" && (
                   <span className="flex gap-2">
@@ -151,7 +151,7 @@ export default function DormitoryPage() {
             {(isAudience || isStaff) && (
               <span className="flex gap-2 flex-wrap mt-1">
                 {isAudience && <Select value={leaveStudent} onChange={setLeaveStudent} options={[{ value: "", label: t("dormitory.antkhab-dansh-amvz") }, ...audienceStudents.map(([id, name]) => ({ value: id, label: name }))]} placeholder={t("common.student")} />}
-                {isStaff && <span className="text-[12.5px] text-steel">{t("dormitory.mrkhsy-ra-dansh-amvz-ya-vly-az-hmyn-sfhh-sbt-my-knd-kadr-fqt-t-y")}/{t("dormitory.rd-my-knd")}</span>}
+                {isStaff && <span className="text-[12px] text-steel">{t("dormitory.mrkhsy-ra-dansh-amvz-ya-vly-az-hmyn-sfhh-sbt-my-knd-kadr-fqt-t-y")}/{t("dormitory.rd-my-knd")}</span>}
                 {isAudience && (
                   <>
                     <input className="b-input w-36" type="date" value={leaveFrom} onChange={(e) => setLeaveFrom(e.target.value)} />

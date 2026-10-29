@@ -98,7 +98,7 @@ export default function ResourcesPage() {
             return (
               <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="b-card-sm p-4 hover:shadow-md transition-shadow group">
                 <div className="flex items-center gap-2.5 mb-2">
-                  <span className="w-9 h-9 rounded-xl bg-spring-tint text-spring-deep flex items-center justify-center shrink-0"><k.icon className="w-4.5 h-4.5 w-5 h-5" /></span>
+                  <span className="w-9 h-9 rounded-2xl bg-spring-tint text-spring-deep flex items-center justify-center shrink-0"><k.icon className="w-4.5 h-4.5 w-5 h-5" /></span>
                   <span className="b-badge b-badge-spring">{t(k.label)}</span>
                   {isStaff && (
                     <button onClick={(e) => { e.preventDefault(); remove(r.id); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive ms-auto">
@@ -106,8 +106,8 @@ export default function ResourcesPage() {
                     </button>
                   )}
                 </div>
-                <p className="text-[13.5px] font-bold group-hover:text-spring-deep transition-colors">{r.title}</p>
-                {r.description && <p className="text-[11.5px] text-steel line-clamp-2 mt-1">{r.description}</p>}
+                <p className="text-[14px] font-bold group-hover:text-spring-deep transition-colors">{r.title}</p>
+                {r.description && <p className="text-[12px] text-steel line-clamp-2 mt-1">{r.description}</p>}
                 <p className="text-[12px] text-stone mt-2">{r.subject?.name ?? t("resources.general")}{r.topic ? ` · ${r.topic}` : ""}</p>
               </a>
             );

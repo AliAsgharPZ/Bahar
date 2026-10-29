@@ -107,7 +107,7 @@ export default function ReportCommentsPage() {
         <div className="grid lg:grid-cols-[1fr_340px] gap-4 items-start">
           <div className="b-card p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <b className="text-[15px]">{t("reportComments.textTitle")} {term === 1 ? t("reportComments.term.first") : t("reportComments.term.second")}</b>
+              <b className="text-[16px]">{t("reportComments.textTitle")} {term === 1 ? t("reportComments.term.first") : t("reportComments.term.second")}</b>
               <div className="flex gap-2">
                 <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => setText(data.draft ?? "")}>
                   <Sparkles className="w-4 h-4" /> {t("reportComments.autoDraft")}
@@ -120,7 +120,7 @@ export default function ReportCommentsPage() {
               </div>
             </div>
             {data.draft && !text && (
-              <div className="rounded-xl bg-spring-tint/50 p-4 text-[13px] leading-relaxed">
+              <div className="rounded-2xl bg-spring-tint/50 p-4 text-[14px] leading-relaxed">
                 <b className="block mb-1 text-[12px]">{t("reportComments.draftHint")}</b>
                 {data.draft}
               </div>
@@ -131,7 +131,7 @@ export default function ReportCommentsPage() {
               <button className="b-btn b-btn-spring" disabled={saving || text.trim().length < 5} onClick={saveComment}>
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("reportComments.saveComment")}
               </button>
-              {saved && <span className="text-[11.5px] text-steel">{t("reportComments.savedNote")}</span>}
+              {saved && <span className="text-[12px] text-steel">{t("reportComments.savedNote")}</span>}
             </div>
           </div>
 
@@ -139,7 +139,7 @@ export default function ReportCommentsPage() {
             <b className="text-[14px]">{t("reportComments.bank.title")}</b>
             <div className="flex flex-col gap-1.5 max-h-72 overflow-y-auto b-scroll">
               {templates.map((tpl) => (
-                <div key={tpl.id} className="group rounded-lg bg-cloud p-3 text-[12.5px] leading-relaxed">
+                <div key={tpl.id} className="group rounded-lg bg-cloud p-3 text-[12px] leading-relaxed">
                   <p>{tpl.text}</p>
                   <div className="flex gap-2 mt-2">
                     <button className="b-badge b-badge-spring" onClick={() => setText((x) => (x ? `${x} ${tpl.text}` : tpl.text))}>{t("reportComments.bank.addToText")}</button>

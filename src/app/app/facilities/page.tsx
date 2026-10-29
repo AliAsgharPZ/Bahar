@@ -91,7 +91,7 @@ function FacilitiesInner() {
         {TABS.map((tb) => (
           <button key={tb.key} onClick={() => setTab(tb.key)} className={`b-pill-tab ${tab === tb.key ? "b-pill-tab-active" : ""}`}>
             <tb.icon className="w-3.5 h-3.5" /> {t(tb.tkey)}
-            {tb.key === "maintenance" && overdueCount > 0 && <span className="b-badge b-badge-critical !text-[9px] !px-1.5">{faNumber(overdueCount)}</span>}
+            {tb.key === "maintenance" && overdueCount > 0 && <span className="b-badge b-badge-critical !text-[12px] !px-1.5">{faNumber(overdueCount)}</span>}
           </button>
         ))}
       </div>
@@ -124,7 +124,7 @@ function FacilitiesInner() {
                   <p className="font-bold text-[14px]">{r.name}</p>
                   <button onClick={() => del("room", r.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
-                <p className="text-[11.5px] text-steel mt-1">{t("facilities.zrfyt")} {faNumber(r.capacity)} {t("dashboard.unit.person")}{r.floor ? ` ${t("facilities.tbqh")} ${faNumber(r.floor)}` : ""}</p>
+                <p className="text-[12px] text-steel mt-1">{t("facilities.zrfyt")} {faNumber(r.capacity)} {t("dashboard.unit.person")}{r.floor ? ` ${t("facilities.tbqh")} ${faNumber(r.floor)}` : ""}</p>
               </motion.div>
             ))}
           </div>
@@ -161,8 +161,8 @@ function FacilitiesInner() {
                     <span className={`b-badge ${b.status === "APPROVED" ? "b-badge-success" : b.status === "PENDING" ? "b-badge-warning" : "b-badge-neutral"}`}>
                       {b.status === "APPROVED" ? t("dashboard.meeting.approved") : b.status === "PENDING" ? t("dashboard.meeting.pending") : b.status}
                     </span>
-                    <span className="text-[12.5px] font-bold">{b.room?.name ?? t("facilities.tjhyzat")}</span>
-                    <span className="text-[11.5px] text-steel flex-1">{b.purpose}</span>
+                    <span className="text-[12px] font-bold">{b.room?.name ?? t("facilities.tjhyzat")}</span>
+                    <span className="text-[12px] text-steel flex-1">{b.purpose}</span>
                     <span className="text-[12px] text-steel">{formatDateFa(b.startAt)} · {formatTimeFa(b.startAt)}</span>
                     <span className="text-[12px] text-stone">{b.by.firstName} {b.by.lastName}</span>
                     {b.status === "PENDING" && <button onClick={() => patch("booking", b.id, { status: "APPROVED" })} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.t-yyd")}</button>}
@@ -200,7 +200,7 @@ function FacilitiesInner() {
             {assets.map((a, i) => (
               <motion.div key={a.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} className={`b-card-sm p-4 group ${assetParam === a.id ? "!border-spring ring-2 ring-spring/50 !bg-spring-tint/30" : ""}`}>
                 <div className="flex items-center justify-between">
-                  <p className="font-bold text-[13.5px]">{a.name}</p>
+                  <p className="font-bold text-[14px]">{a.name}</p>
                   <span className={`b-badge ${a.status === "OK" ? "b-badge-success" : a.status === "BROKEN" ? "b-badge-critical" : "b-badge-warning"}`}>{t(ASSET_TKEY[a.status] ?? a.status)}</span>
                 </div>
                 <p className="text-[12px] text-steel mt-1">{t("facilities.kd")}: {a.code}{a.location ? ` · ${a.location}` : ""}</p>
@@ -253,7 +253,7 @@ function FacilitiesInner() {
               return (
                 <div key={tk.id} className={`b-card-sm p-4 flex items-center gap-3 flex-wrap ${overdue ? "border-s-4 !border-s-destructive" : ""}`}>
                   <span className={`b-badge ${tk.status === "RESOLVED" || tk.status === "CLOSED" ? "b-badge-success" : tk.status === "IN_PROGRESS" ? "b-badge-warning" : "b-badge-neutral"}`}>{t(MT_TKEY[tk.status] ?? tk.status)}</span>
-                  <span className="text-[13px] font-bold">{tk.title}</span>
+                  <span className="text-[14px] font-bold">{tk.title}</span>
                   {tk.asset && <span className="text-[12px] text-steel">{tk.asset.name}</span>}
                   {tk.location && <span className="text-[12px] text-steel">📍 {tk.location}</span>}
                   <span className="text-[12px] text-stone ms-auto flex items-center gap-1"><Timer className="w-3 h-3" /> SLA {faNumber(tk.slaHours)}{t("facilities.s")}</span>
@@ -297,8 +297,8 @@ function FacilitiesInner() {
                 <span className={`b-badge ${v.status === "CHECKED_IN" ? "b-badge-success" : v.status === "CHECKED_OUT" ? "b-badge-neutral" : "b-badge-warning"}`}>
                   {v.status === "CHECKED_IN" ? t("enum.attendance.PRESENT") : v.status === "CHECKED_OUT" ? t("facilities.kharj-shdh") : v.expected ? t("facilities.mvrd-antzar") : v.status}
                 </span>
-                <span className="text-[13px] font-bold">{v.name}</span>
-                <span className="text-[11.5px] text-steel flex-1">{v.purpose}{v.hostName ? ` ${t("facilities.myzban")} ${v.hostName}` : ""}</span>
+                <span className="text-[14px] font-bold">{v.name}</span>
+                <span className="text-[12px] text-steel flex-1">{v.purpose}{v.hostName ? ` ${t("facilities.myzban")} ${v.hostName}` : ""}</span>
                 {v.checkInAt && <span className="text-[12px] text-stone">{t("auth.login.submit")}: {formatTimeFa(v.checkInAt)}</span>}
                 {v.checkOutAt && <span className="text-[12px] text-stone">{t("shell.logoutShort")}: {formatTimeFa(v.checkOutAt)}</span>}
                 {v.status === "CHECKED_IN" && <button onClick={() => patch("visitor", v.id, { action: "checkout" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.sbt-khrvj")}</button>}
@@ -327,7 +327,7 @@ function FacilitiesInner() {
             {lostItems.map((it) => (
               <div key={it.id} className={`b-card-sm p-4 ${it.status !== "FOUND" ? "opacity-60" : ""}`}>
                 <div className="flex items-center justify-between">
-                  <p className="font-bold text-[13px]">{it.title}</p>
+                  <p className="font-bold text-[14px]">{it.title}</p>
                   <span className={`b-badge ${it.status === "FOUND" ? "b-badge-warning" : it.status === "CLAIMED" ? "b-badge-success" : "b-badge-neutral"}`}>
                     {it.status === "FOUND" ? t("facilities.mvjvd") : it.status === "CLAIMED" ? t("facilities.thvyl-shdh") : t("facilities.dvr-rykhth")}
                   </span>

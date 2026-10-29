@@ -35,7 +35,7 @@ export default function NetworkPage() {
       {data && data.schools.length === 0 && <EmptyState icon={Network} title={t("network.empty.title")} />}
       {data && data.schools.length > 0 && (
         <div className="b-card overflow-x-auto b-scroll">
-          <table className="w-full text-[13px] min-w-[820px]">
+          <table className="w-full text-[14px] min-w-[820px]">
             <thead><tr className="text-steel border-b border-hairline">
               <th className="p-3 text-start font-bold">{t("common.school")}</th>
               <th className="p-3 text-start font-bold">{t("network.table.cityProvince")}</th>

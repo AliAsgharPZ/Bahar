@@ -74,7 +74,7 @@ export default function GuidancePage() {
               <b className="text-[14px]">{t("guidance.scoresTitle")}</b>
               {data.areas.map((a) => (
                 <label key={a.key} className="flex items-center justify-between gap-3">
-                  <span className="text-[13px]">{a.label}</span>
+                  <span className="text-[14px]">{a.label}</span>
                   <input className="b-input w-24" dir="ltr" inputMode="decimal" value={scores[a.key] ?? ""}
                     onChange={(e) => setDraft({ ...scores, [a.key]: e.target.value })} placeholder={t("guidance.placeholder.score")} />
                 </label>
@@ -95,22 +95,22 @@ export default function GuidancePage() {
           ) : (
             <div className="b-card p-6 flex flex-col gap-2">
               <b className="text-[14px]">{t("guidance.counselorNote")}</b>
-              <p className="text-[13px] leading-relaxed text-steel">{data.record?.counselorNote || t("guidance.noNote")}</p>
+              <p className="text-[14px] leading-relaxed text-steel">{data.record?.counselorNote || t("guidance.noNote")}</p>
             </div>
           )}
           <div className="b-card p-6 flex flex-col gap-3">
             <b className="text-[14px]">{t("guidance.ranking")}</b>
-            {!data.ranking && <span className="text-[12.5px] text-steel">{t("guidance.noScores")}</span>}
+            {!data.ranking && <span className="text-[12px] text-steel">{t("guidance.noScores")}</span>}
             {(data.ranking ?? []).map((r, i) => (
               <div key={r.key} className="flex flex-col gap-1">
-                <span className="flex items-center justify-between text-[13px]">
+                <span className="flex items-center justify-between text-[14px]">
                   <b>{faNumber(i + 1)}. {r.label} {i === 0 && <span className="b-badge b-badge-spring ms-1">{t("guidance.firstChoice")}</span>}</b>
                   <span className="text-spring font-bold">{faNumber(r.percent)}٪</span>
                 </span>
                 <span className="h-2.5 rounded-full bg-cloud overflow-hidden">
                   <span className={`block h-full rounded-full ${i === 0 ? "bg-spring" : "bg-spring/40"}`} style={{ width: `${r.percent}%` }} />
                 </span>
-                <span className="text-[11.5px] text-steel">{r.hint}</span>
+                <span className="text-[12px] text-steel">{r.hint}</span>
               </div>
             ))}
           </div>

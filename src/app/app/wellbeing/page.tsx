@@ -128,7 +128,7 @@ function StudentCheckin() {
       {/* تاریخچه */}
       {data.history.length > 0 && (
         <div className="b-card-sm p-4">
-          <b className="block text-[13px] mb-3">{t("wellbeing.history")} {faDigits(data.history.length)} {t("wellbeing.daysRecent")}</b>
+          <b className="block text-[14px] mb-3">{t("wellbeing.history")} {faDigits(data.history.length)} {t("wellbeing.daysRecent")}</b>
           <div className="flex items-end gap-1.5 h-24 overflow-x-auto b-scroll pb-1">
             {[...data.history].reverse().map((h) => {
               const m = MOODS.find((x) => x.v === h.mood);
@@ -136,7 +136,7 @@ function StudentCheckin() {
               return (
                 <div key={h.date} className="flex flex-col items-center gap-1 shrink-0" title={`${formatDateFa(h.date)} — ${m ? t(m.tkey) : ""}`}>
                   <Icon className={`w-5 h-5 ${h.mood <= 2 ? "text-destructive" : h.mood >= 4 ? "text-spring" : "text-steel"}`} />
-                  <span className="text-[9px] text-stone">{faDigits(h.date.split("-")[2])}</span>
+                  <span className="text-[12px] text-stone">{faDigits(h.date.split("-")[2])}</span>
                 </div>
               );
             })}
@@ -188,7 +188,7 @@ function StaffView() {
       {/* روند */}
       {data.trend.length > 0 && (
         <div className="b-card-sm p-4">
-          <b className="block text-[13px] mb-3">{t("wellbeing.trendTitle")}</b>
+          <b className="block text-[14px] mb-3">{t("wellbeing.trendTitle")}</b>
           <div className="flex items-end gap-1 h-28">
             {data.trend.map((tr) => {
               const h = Math.max(8, (tr.avg / 5) * 100);
@@ -209,20 +209,20 @@ function StaffView() {
         <div className="b-card-sm p-4 !border-warning/40">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle className="w-4 h-4 text-warning-deep" />
-            <b className="text-[13px] text-warning-deep">{t("wellbeing.needsFollowup")} ({faNumber(data.flagged.length)})</b>
+            <b className="text-[14px] text-warning-deep">{t("wellbeing.needsFollowup")} ({faNumber(data.flagged.length)})</b>
           </div>
           <div className="flex flex-col gap-2">
             {data.flagged.map((f) => (
-              <div key={`${f.studentId}-${f.date}`} className="b-card-sm !rounded-xl p-3 flex items-start gap-3 flex-wrap">
+              <div key={`${f.studentId}-${f.date}`} className="b-card-sm !rounded-2xl p-3 flex items-start gap-3 flex-wrap">
                 <div className="flex flex-col min-w-0">
-                  <b className="text-[12.5px]">{f.name}</b>
+                  <b className="text-[12px]">{f.name}</b>
                   <span className="text-[12px] text-steel">{f.className} · {formatDateFa(f.date)}</span>
                 </div>
                 <span className={`b-badge ${f.mood <= 2 ? "b-badge-critical" : "b-badge-warning"} ms-auto`}>
                   {t("wellbeing.moodLabel")}: {faDigits(f.mood)} {t("wellbeing.of5")}
                 </span>
                 {f.note && (
-                  <p className="text-[11.5px] text-steel leading-relaxed w-full bg-cloud/40 rounded-lg p-2">
+                  <p className="text-[12px] text-steel leading-relaxed w-full bg-cloud/40 rounded-lg p-2">
                     «{f.note}» — {t("wellbeing.flaggedNote")}
                   </p>
                 )}

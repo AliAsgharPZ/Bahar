@@ -50,7 +50,7 @@ export function AppLauncher() {
     <section className="lg:hidden" aria-label="بخش‌های بهار">
       <div className="flex items-center gap-2 mb-4 px-0.5">
         <LayoutGrid className="w-4 h-4 text-spring shrink-0" />
-        <h2 className="text-[15px] font-bold" style={{ fontFamily: "var(--font-heading)" }}>
+        <h2 className="text-[16px] font-bold" style={{ fontFamily: "var(--font-heading)" }}>
           بخش‌های بهار
         </h2>
         <span className="b-badge b-badge-neutral !text-[12px] !px-2 !py-0.5">{faNumber(items.length)}</span>
@@ -62,7 +62,7 @@ export function AppLauncher() {
           return (
             <div key={g.key}>
               <div className="flex items-center justify-between mb-2.5 px-0.5">
-                <h3 className="text-[13px] font-bold flex items-center gap-1.5">
+                <h3 className="text-[14px] font-bold flex items-center gap-1.5">
                   <g.icon className="w-3.5 h-3.5 text-spring" />
                   {g.label}
                   <span className="text-[12px] text-stone font-normal">({faNumber(g.items.length)})</span>

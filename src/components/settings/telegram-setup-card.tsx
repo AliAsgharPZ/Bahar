@@ -83,7 +83,7 @@ export function TelegramSetupCard({ tokenSaved }: { tokenSaved: boolean }) {
   return (
     <div className="b-card-sm !rounded-2xl p-4 flex flex-col gap-3 bg-cloud/40">
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <b className="text-[12.5px] flex items-center gap-1.5">
+        <b className="text-[12px] flex items-center gap-1.5">
           <Send className="w-4 h-4 text-spring" />
           اتصال ربات (وب‌هوک)
         </b>

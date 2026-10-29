@@ -52,7 +52,7 @@ export default function AlumniPage() {
       {rows.length === 0
         ? <EmptyState icon={GraduationCap} title={t("alumni.empty.title")} desc={t("alumni.empty.desc")} />
         : <section className="b-card p-5 md:p-6 overflow-x-auto b-scroll">
-            <table className="w-full text-[13px]">
+            <table className="w-full text-[14px]">
               <thead><tr className="text-steel"><th className="p-2 text-start">{t("common.name")}</th><th className="p-2 text-start">{t("alumni.table.graduationYear")}</th><th className="p-2 text-start">{t("alumni.table.university")}</th><th className="p-2 text-start">{t("alumni.table.field")}</th><th className="p-2 text-start">{t("alumni.table.outcome")}</th><th className="p-2"></th></tr></thead>
               <tbody className="b-rows-in">
                 {rows.map((g) => (

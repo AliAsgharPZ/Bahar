@@ -63,7 +63,7 @@ export default function StudyGroupsPage() {
             {result.groups.map((g, i) => (
               <div key={i} className="b-card p-4 md:p-5 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <b className="text-[14.5px]">{t("studyGroups.group")} {i + 1}</b>
+                  <b className="text-[14px]">{t("studyGroups.group")} {i + 1}</b>
                   <span className="b-badge b-badge-spring">{g.avg !== null ? `${t("studyGroups.avgPrefix")} ${g.avg}` : t("studyGroups.noAvg")}</span>
                 </div>
                 <ul className="mt-3 flex flex-col gap-1.5">

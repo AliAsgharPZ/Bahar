@@ -118,7 +118,7 @@ export function Select({
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="جستجو…"
-              className="flex-1 bg-transparent outline-none text-[13px] py-1.5 placeholder:text-stone min-w-0"
+              className="flex-1 bg-transparent outline-none text-[14px] py-1.5 placeholder:text-stone min-w-0"
             />
           </div>
         )}
@@ -137,7 +137,7 @@ export function Select({
                 onChange(o.value);
                 setOpen(false);
               }}
-              className={`w-full flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] text-start transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
+              className={`w-full flex items-center gap-2 rounded-xl px-3 py-2 text-[14px] text-start transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${
                 o.value === value
                   ? "bg-spring-tint text-spring-deep font-bold"
                   : "text-ink hover:bg-forest/5 dark:hover:bg-forest/15"
@@ -244,9 +244,9 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
                   <Icon className="w-5 h-5" />
                 </span>
                 <div className="min-w-0 flex-1 pt-0.5">
-                  <h3 className="text-[14.5px] font-bold leading-snug">{state.title}</h3>
+                  <h3 className="text-[14px] font-bold leading-snug">{state.title}</h3>
                   {state.description && (
-                    <div className="text-[12.5px] text-steel mt-1 leading-relaxed">{state.description}</div>
+                    <div className="text-[12px] text-steel mt-1 leading-relaxed">{state.description}</div>
                   )}
                 </div>
               </div>

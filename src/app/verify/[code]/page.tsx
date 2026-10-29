@@ -66,7 +66,7 @@ export default function VerifyPage({ params }: { params: Promise<{ code: string 
 
 function Row({ label, value, ltr }: { label: string; value: string; ltr?: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-3 text-[12.5px]">
+    <div className="flex items-center justify-between gap-3 text-[12px]">
       <span className="text-steel shrink-0">{label}:</span>
       <span className="font-bold truncate" dir={ltr ? "ltr" : undefined}>{value}</span>
     </div>

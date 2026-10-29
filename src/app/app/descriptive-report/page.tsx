@@ -117,7 +117,7 @@ export default function DescriptiveReportPage() {
           <div className="flex flex-col">
             {list.map((r) => (
               <div key={r.id} className="flex items-center justify-between gap-3 py-2.5 border-b border-hairline last:border-0">
-                <span className="text-[13px]">{r.competency}{r.note ? <span className="block text-[11.5px] text-steel mt-0.5">{r.note}</span> : null}</span>
+                <span className="text-[14px]">{r.competency}{r.note ? <span className="block text-[12px] text-steel mt-0.5">{r.note}</span> : null}</span>
                 <span className="flex items-center gap-2 shrink-0">
                   <span className={`b-badge ${LEVELS[r.level]?.cls ?? "b-badge-neutral"}`}>{LEVELS[r.level]?.label ?? r.level}</span>
                   {!isAudience && <button className="b-btn b-btn-ghost text-steel hover:text-destructive" onClick={() => del(r.id)} aria-label={t("common.delete")}><Trash2 className="w-4 h-4" /></button>}

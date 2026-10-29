@@ -143,14 +143,14 @@ export default function WalletPage() {
                   </span>
                 </>
               )}
-              {role === "STUDENT" && <p className="text-[12.5px] text-steel">{t("wallet.sharzh-kyf-pvl-v-tayyn-sqf-rvzanh-ba-vly-shmast")}</p>}
+              {role === "STUDENT" && <p className="text-[12px] text-steel">{t("wallet.sharzh-kyf-pvl-v-tayyn-sqf-rvzanh-ba-vly-shmast")}</p>}
             </div>
 
             <div className="b-card p-6 flex flex-col gap-1">
               <b className="text-[14px] mb-2">{t("wallet.ryz-traknsh-ha")}</b>
-              {data.txs.length === 0 && <span className="text-[12.5px] text-steel">{t("wallet.traknshy-sbt-nshdh-ast")}</span>}
+              {data.txs.length === 0 && <span className="text-[12px] text-steel">{t("wallet.traknshy-sbt-nshdh-ast")}</span>}
               {data.txs.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={tx.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span>{t(KIND_TKEY[tx.kind] ?? tx.kind)}{tx.note ? <span className="text-steel"> · {tx.note}</span> : ""}<span className="block text-[12px] text-steel">{formatDateFa(tx.createdAt)}</span></span>
                   <b className={tx.amount >= 0 ? "text-spring" : "text-blossom"} dir="ltr">{tx.amount >= 0 ? "+" : ""}{faNumber(tx.amount)}</b>
                 </div>
@@ -159,12 +159,12 @@ export default function WalletPage() {
           </div>
         <div className="b-card p-6 flex flex-col gap-4">
           <b className="text-[14px]">{t("wallet.frvshgah-bvfh")}</b>
-          {!shop && <span className="text-[12.5px] text-steel">{t("wallet.dr-hal-bargzary-kalaha")}</span>}
-          {shop && shop.products.length === 0 && <span className="text-[12.5px] text-steel">{t("wallet.hnvz-kalayy-sbt-nshdh-ast")}</span>}
+          {!shop && <span className="text-[12px] text-steel">{t("wallet.dr-hal-bargzary-kalaha")}</span>}
+          {shop && shop.products.length === 0 && <span className="text-[12px] text-steel">{t("wallet.hnvz-kalayy-sbt-nshdh-ast")}</span>}
           {shop && shop.products.length > 0 && (
             <div className="flex flex-col gap-1">
               {shop.products.map((pr) => (
-                <div key={pr.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={pr.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span><b>{pr.name}</b>{pr.category ? <span className="text-steel"> · {pr.category}</span> : ""}{pr.allergens ? <span className="block text-[12px] text-blossom">{t("wallet.hsasyt")}: {pr.allergens}</span> : ""}{!pr.isActive && <span className="text-stone"> ({t("common.inactive")})</span>}</span>
                   <span className="flex items-center gap-3"><span className={pr.stock <= 5 ? "text-blossom font-bold" : ""}>{t("wallet.mvjvdy")}: {faNumber(pr.stock)}</span><b dir="ltr">{faNumber(pr.price)} {t("wallet.tvman")}</b></span>
                 </div>
@@ -182,7 +182,7 @@ export default function WalletPage() {
                 <button className="b-btn b-btn-spring" disabled={busy === "product" || !prodName || !prodPrice} onClick={createProduct}>{t("wallet.afzvdn-kala")}</button>
               </span>
               <b className="text-[14px] mt-1">{t("wallet.frvsh-bh-dansh-amvz-antkhab-shdh")}</b>
-              {!studentId && <span className="text-[12.5px] text-steel">{t("wallet.avl-az-balay-sfhh-dansh-amvz-ra-antkhab-knyd")}</span>}
+              {!studentId && <span className="text-[12px] text-steel">{t("wallet.avl-az-balay-sfhh-dansh-amvz-ra-antkhab-knyd")}</span>}
               <span className="flex gap-2 flex-wrap">
                 <Select value={sellProductId} onChange={setSellProductId}
                   options={[{ value: "", label: t("wallet.antkhab-kala") }, ...(shop?.products ?? []).filter((pr) => pr.isActive).map((pr) => ({ value: pr.id, label: `${pr.name} — ${faNumber(pr.price)} ${t("wallet.tvman-mvjvdy")} ${faNumber(pr.stock)})` }))]} placeholder={t("wallet.kala")} />
@@ -193,9 +193,9 @@ export default function WalletPage() {
               </span>
               {shop && shop.sales.length > 0 && (
                 <div className="flex flex-col gap-1 mt-1">
-                  <b className="text-[13px]">{t("wallet.frvsh-hay-akhyr")}</b>
+                  <b className="text-[14px]">{t("wallet.frvsh-hay-akhyr")}</b>
                   {shop.sales.slice(0, 10).map((sa) => (
-                    <div key={sa.id} className="text-[12.5px] text-steel py-1 border-b border-hairline last:border-0">
+                    <div key={sa.id} className="text-[12px] text-steel py-1 border-b border-hairline last:border-0">
                       {sa.items.map((it) => `${it.name} ×${it.qty}`).join("، ")} — <b className="text-ink">{faNumber(sa.total)} {t("wallet.tvman")}</b> · {formatDateFa(sa.createdAt)}
                     </div>
                   ))}

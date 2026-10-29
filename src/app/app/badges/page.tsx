@@ -136,7 +136,7 @@ export default function BadgesPage() {
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="b-card-tint p-4 md:p-5">
               <div className="flex items-center gap-2 mb-4">
                 <Sparkles className="w-4 h-4 text-spring-deep shrink-0" />
-                <b className="text-[13.5px]">{t("badges.defineNew")}</b>
+                <b className="text-[14px]">{t("badges.defineNew")}</b>
                 <span className="b-badge b-badge-neutral !text-[12px]">
                   {inSchoolPanel ? (
                     <>{t("badges.schoolBadge")} «{user.schoolName}»</>
@@ -260,7 +260,7 @@ export default function BadgesPage() {
                 <motion.div key={e.id} initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: i * 0.06, type: "spring", stiffness: 500, damping: 28 }}
                   className={`b-card-sm p-4 text-center bg-gradient-to-b ${tier.cls}`}>
                   <Award className="w-8 h-8 mx-auto mb-2" />
-                  <p className="text-[12.5px] font-bold">{e.badge.title}</p>
+                  <p className="text-[12px] font-bold">{e.badge.title}</p>
                   <p className="text-[12px] opacity-70">{faNumber(e.badge.points)} {t("badges.points")} · {formatDateFa(e.awardedAt)}</p>
                   {e.isFeatured ? (
                     <span className="b-badge b-badge-blossom mt-1.5"><Star className="w-3 h-3 inline ml-1" />{t("badges.myFeatured")}</span>

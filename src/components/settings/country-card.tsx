@@ -103,7 +103,7 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
 
   return (
     <div className="b-card-md p-5 md:p-6">
-      <h3 className="font-bold text-[15px] mb-2 flex items-center gap-2">
+      <h3 className="font-bold text-[16px] mb-2 flex items-center gap-2">
         <Globe2 className="w-5 h-5 text-spring" /> کشور و بومی‌سازی
       </h3>
       <p className="t-sm text-steel mb-4">
@@ -124,7 +124,7 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
           {(data.shipped ?? []).filter((s) => s.code !== "IR").map((s) => (
             <div key={s.code} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
               <div className="flex flex-col min-w-0">
-                <b className="text-[12.5px]">{s.name} <span className="text-stone font-mono text-[12px]">({s.code})</span></b>
+                <b className="text-[12px]">{s.name} <span className="text-stone font-mono text-[12px]">({s.code})</span></b>
                 <span className="text-[12px] text-steel">{s.nativeName} · {faNumber(s.regions)} منطقه · {faNumber(s.counties)} شهرستان · همراه سامانه</span>
               </div>
               <span className={`b-badge ms-auto ${data.active === s.code ? "b-badge-success" : "b-badge-neutral"}`}>
@@ -143,7 +143,7 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
           {data.packs.map((p) => (
             <div key={p.id} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
               <div className="flex flex-col min-w-0">
-                <b className="text-[12.5px]">{p.name} <span className="text-stone font-mono text-[12px]">({p.code})</span></b>
+                <b className="text-[12px]">{p.name} <span className="text-stone font-mono text-[12px]">({p.code})</span></b>
                 <span className="text-[12px] text-steel">{p.nativeName} · نسخه {p.version}{p.notes ? ` · ${p.notes}` : ""}</span>
               </div>
               <span className={`b-badge ms-auto ${p.status === "ACTIVE" ? "b-badge-success" : p.status === "DISABLED" ? "b-badge-neutral" : "b-badge-warning"}`}>
@@ -212,17 +212,17 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
       {/* نتیجه اعتبارسنجی */}
       {dryRun && (
         <div className={`b-card-sm !rounded-2xl p-4 mb-4 ${dryRun.ok ? "!border-spring/40 bg-spring-tint/30" : "!border-destructive/40 bg-destructive/5"}`}>
-          <b className="block text-[13px] mb-2 flex items-center gap-2">
+          <b className="block text-[14px] mb-2 flex items-center gap-2">
             {dryRun.ok ? <CheckCircle2 className="w-4 h-4 text-spring" /> : <XCircle className="w-4 h-4 text-destructive" />}
             {dryRun.ok ? "اعتبارسنجی موفق" : `اعتبارسنجی ناموفق (${dryRun.errors.length} خطا)`}
           </b>
           {dryRun.errors.length > 0 && (
-            <ul className="text-[11.5px] text-destructive leading-relaxed list-disc ps-5 mb-2">
+            <ul className="text-[12px] text-destructive leading-relaxed list-disc ps-5 mb-2">
               {dryRun.errors.slice(0, 12).map((e, i) => <li key={i}>{e}</li>)}
             </ul>
           )}
           {dryRun.warnings.length > 0 && (
-            <ul className="text-[11.5px] text-warning-deep leading-relaxed list-disc ps-5 mb-2">
+            <ul className="text-[12px] text-warning-deep leading-relaxed list-disc ps-5 mb-2">
               {dryRun.warnings.slice(0, 6).map((w, i) => <li key={i}><AlertTriangle className="w-3 h-3 inline" /> {w}</li>)}
             </ul>
           )}

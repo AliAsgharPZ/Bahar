@@ -57,7 +57,7 @@ export default function TransportPage() {
         <div className="b-card p-5 flex flex-col gap-3">
           <b className="text-[14px]">{t("transport.vzayt-srvys-amrvz")}</b>
           {items.map((it, i) => (
-            <div key={i} className="flex items-center justify-between gap-3 text-[13px]">
+            <div key={i} className="flex items-center justify-between gap-3 text-[14px]">
               <span>{it.routeName}</span>
               <span className="flex gap-1.5">
                 <span className={`b-badge ${it.boardedAt ? "b-badge-spring" : "b-badge-neutral"}`}>{it.boardedAt ? t("transport.svar-shd") : t("transport.hnvz-svar-nshdh")}</span>
@@ -78,7 +78,7 @@ export default function TransportPage() {
           <div key={route} className="flex flex-col gap-1.5">
             <span className="text-[12px] font-bold text-steel">{route}</span>
             {list.map((it) => (
-              <div key={it.assignmentId} className="flex items-center justify-between gap-2 py-1 border-b border-hairline last:border-0 text-[12.5px]">
+              <div key={it.assignmentId} className="flex items-center justify-between gap-2 py-1 border-b border-hairline last:border-0 text-[12px]">
                 <span>{it.student?.name} <span className="text-steel">{it.stopName ?? ""}</span></span>
                 <span className="flex gap-1.5">
                   <button className={`b-badge ${it.boardedAt ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => mark(it.assignmentId!, "board", !it.boardedAt)}>{t("transport.svar")} {it.boardedAt ? "✓" : ""}</button>
@@ -191,7 +191,7 @@ export default function TransportPage() {
             {data.routes.map((r) => (
               <div key={r.id} className="b-card b-card-hover p-5 flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-2">
-                  <b className="text-[15px]">{r.name}</b>
+                  <b className="text-[16px]">{r.name}</b>
                   <span className="b-badge b-badge-neutral">{faNumber(r._count?.assignments ?? 0)}/{faNumber(r.capacity)} {t("dashboard.unit.person")}</span>
                 </div>
                 <p className="t-sm text-steel">
@@ -211,9 +211,9 @@ export default function TransportPage() {
 
           {data.assignments.length > 0 && (
             <section className="b-card p-5 md:p-6 flex flex-col gap-3">
-              <h2 className="font-bold text-[15px]">{t("transport.fhrst-svaran")}</h2>
+              <h2 className="font-bold text-[16px]">{t("transport.fhrst-svaran")}</h2>
               <div className="overflow-x-auto b-scroll">
-                <table className="w-full text-[13px]">
+                <table className="w-full text-[14px]">
                   <thead><tr className="text-steel text-start"><th className="p-2 text-start">{t("common.student")}</th><th className="p-2 text-start">{t("common.class")}</th><th className="p-2 text-start">{t("transport.msyr-2")}</th><th className="p-2 text-start">{t("transport.aystgah")}</th><th className="p-2 text-start">{t("transport.hzynh-mahanh")}</th><th className="p-2"></th></tr></thead>
                   <tbody className="b-rows-in">
                     {data.assignments.map((a) => (
@@ -263,7 +263,7 @@ export default function TransportPage() {
             {hits.length > 0 && !picked && (
               <div className="flex flex-col gap-1 max-h-44 overflow-y-auto b-scroll">
                 {hits.map((s) => (
-                  <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-full p-2.5 text-start text-[13px]" onClick={() => setPicked(s)}>
+                  <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-full p-2.5 text-start text-[14px]" onClick={() => setPicked(s)}>
                     <b>{s.user.firstName} {s.user.lastName}</b> <span className="text-steel">{s.class?.name ?? ""}</span>
                   </button>
                 ))}

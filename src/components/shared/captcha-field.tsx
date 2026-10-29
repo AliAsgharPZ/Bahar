@@ -50,7 +50,7 @@ export function CaptchaField({
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="flex items-center gap-1.5 text-[13px] font-bold">
+      <label className="flex items-center gap-1.5 text-[14px] font-bold">
         <ShieldCheck className="w-4 h-4 text-spring" />
         کد امنیتی
       </label>

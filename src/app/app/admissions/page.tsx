@@ -68,7 +68,7 @@ export default function AdmissionsPage() {
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
       {result && (
-        <div className="rounded-xl bg-spring-tint border border-spring/30 p-4 text-[13px] flex items-center justify-between gap-3 flex-wrap">
+        <div className="rounded-2xl bg-spring-tint border border-spring/30 p-4 text-[14px] flex items-center justify-between gap-3 flex-wrap">
           <span>{t("admissions.convertedPrefix")} <b dir="ltr" className="font-mono">{result.tempPassword}</b> — {t("admissions.convertedSuffix")}</span>
           <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => setResult(null)}>{t("common.close")}</button>
         </div>
@@ -81,11 +81,11 @@ export default function AdmissionsPage() {
           return (
             <div key={stage.key} className="b-card p-4 flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <b className="text-[13.5px]">{t(stage.label)}</b>
+                <b className="text-[14px]">{t(stage.label)}</b>
                 <span className={`b-badge ${stage.cls}`}>{faNumber(items.length)}</span>
               </div>
               {items.map((l) => (
-                <div key={l.id} className="rounded-xl border border-hairline p-3 flex flex-col gap-1.5 text-[12.5px]">
+                <div key={l.id} className="rounded-2xl border border-hairline p-3 flex flex-col gap-1.5 text-[12px]">
                   <span className="flex items-start justify-between gap-2"><b>{l.name}</b><button className="b-btn b-btn-ghost text-stone hover:text-destructive shrink-0" aria-label={t("admissions.deleteLead")} onClick={async () => { if (!window.confirm(`${t("admissions.deletePrefix")}${l.name}${t("admissions.deleteSuffix")}`)) return; try { await apiDelete(`/api/admissions?id=${l.id}`); toast.success(t("admissions.deleted")); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}><Trash2 className="w-3.5 h-3.5" /></button></span>
                   <span className="text-steel flex items-center gap-1"><Phone className="w-3.5 h-3.5" /> <span dir="ltr">{l.phone}</span>{l.parentName ? ` · ${t("admissions.parentPrefix")} ${l.parentName}` : ""}</span>
                   <span className="text-steel">{l.grade ? `${t("admissions.gradePrefix")} ${l.grade} · ` : ""}{formatDateFa(l.createdAt)}</span>
@@ -114,7 +114,7 @@ export default function AdmissionsPage() {
                   </span>
                 </div>
               ))}
-              {items.length === 0 && <p className="text-[11.5px] text-steel">{t("admissions.emptyStage")}</p>}
+              {items.length === 0 && <p className="text-[12px] text-steel">{t("admissions.emptyStage")}</p>}
             </div>
           );
         })}
@@ -123,7 +123,7 @@ export default function AdmissionsPage() {
       {converting && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4" onClick={() => setConverting(null)}>
           <form onSubmit={convert} className="b-card p-6 w-full max-w-md flex flex-col gap-3" onClick={(e) => e.stopPropagation()}>
-            <b className="text-[15px]">{t("admissions.convertPrefix")}{converting.name}{t("admissions.convertSuffix")}</b>
+            <b className="text-[16px]">{t("admissions.convertPrefix")}{converting.name}{t("admissions.convertSuffix")}</b>
             <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("admissions.form.nationalId")}</span>
               <input className="b-input" dir="ltr" inputMode="numeric" value={form.nationalId} onChange={(e) => setForm((f) => ({ ...f, nationalId: e.target.value }))} required /></label>
             <div className="grid grid-cols-2 gap-3">

@@ -218,7 +218,7 @@ export default function ProfilePage() {
                 <span className="t-sm text-steel" dir="ltr">
                   {t("profile.usernameLabel")} <b className="font-mono">{u.nationalId}</b>
                 </span>
-                {u.lastLoginAt && <span className="text-[11.5px] text-stone">{t("profile.lastLogin")} {formatDateFa(u.lastLoginAt)}</span>}
+                {u.lastLoginAt && <span className="text-[12px] text-stone">{t("profile.lastLogin")} {formatDateFa(u.lastLoginAt)}</span>}
               </div>
             </div>
           </div>
@@ -239,10 +239,10 @@ export default function ProfilePage() {
           {/* تاریخچه درخواست‌ها */}
           {reqData && reqData.requests.length > 0 && (
             <div className="b-card p-5">
-              <b className="text-[13.5px] block mb-4">{t("profile.requests.title")}</b>
+              <b className="text-[14px] block mb-4">{t("profile.requests.title")}</b>
               <div className="flex flex-col gap-2.5">
                 {reqData.requests.slice(0, 5).map((r) => (
-                  <div key={r.id} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
+                  <div key={r.id} className="b-card-sm !rounded-2xl p-3.5 flex flex-wrap items-center gap-3">
                     {r.status === "PENDING" && <span className="b-badge b-badge-warning"><Clock className="w-3 h-3 inline ml-1" /> {t("dashboard.meeting.pending")}</span>}
                     {r.status === "APPROVED" && <span className="b-badge b-badge-spring"><CheckCircle2 className="w-3 h-3 inline ml-1" /> {t("profile.requests.approved")}</span>}
                     {r.status === "REJECTED" && <span className="b-badge b-badge-critical"><XCircle className="w-3 h-3 inline ml-1" /> {t("profile.requests.rejected")}</span>}
@@ -279,7 +279,7 @@ export default function ProfilePage() {
                 <r.icon className="w-5 h-5 text-spring shrink-0" />
                 <span className="flex flex-col min-w-0">
                   <span className="text-[12px] text-steel">{r.label}</span>
-                  <b className={`text-[13px] truncate ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.value}</b>
+                  <b className={`text-[14px] truncate ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.value}</b>
                 </span>
               </div>
             ))}
@@ -287,7 +287,7 @@ export default function ProfilePage() {
 
           {u.studentProfile && (
             <div className="b-card-md p-6">
-              <h3 className="font-bold text-[15px] mb-4">{t("profile.student.title")}</h3>
+              <h3 className="font-bold text-[16px] mb-4">{t("profile.student.title")}</h3>
               <div className="grid sm:grid-cols-2 gap-4 mb-6">
                 {[
                   { label: t("common.class"), value: u.studentProfile.class?.name ?? "—" },
@@ -296,21 +296,21 @@ export default function ProfilePage() {
                   { label: t("students.field.previousSchool"), value: u.studentProfile.previousSchool ?? "—" },
                   { label: t("students.field.healthNotes"), value: u.studentProfile.healthNotes ?? "—" },
                 ].map((r) => (
-                  <div key={r.label} className="b-card-sm !rounded-xl p-3.5">
+                  <div key={r.label} className="b-card-sm !rounded-2xl p-3.5">
                     <div className="text-[12px] text-steel">{r.label}</div>
-                    <b className="text-[13px]">{r.value}</b>
+                    <b className="text-[14px]">{r.value}</b>
                   </div>
                 ))}
               </div>
-              <h4 className="font-bold text-[13.5px] mb-3">{t("profile.parents.title")}</h4>
+              <h4 className="font-bold text-[14px] mb-3">{t("profile.parents.title")}</h4>
               <div className="grid sm:grid-cols-2 gap-3">
                 {u.studentProfile.parents.map((p) => (
-                  <div key={p.parentUser.id} className="b-card-sm !rounded-xl p-4">
+                  <div key={p.parentUser.id} className="b-card-sm !rounded-2xl p-4">
                     <div className="flex items-center justify-between gap-2 mb-2">
-                      <b className="text-[13px]">{p.parentUser.firstName} {p.parentUser.lastName}</b>
+                      <b className="text-[14px]">{p.parentUser.firstName} {p.parentUser.lastName}</b>
                       <span className="b-badge b-badge-spring">{p.relation === "FATHER" ? t("enum.parentRelation.FATHER") : p.relation === "MOTHER" ? t("enum.parentRelation.MOTHER") : p.relation === "GUARDIAN" ? t("enum.parentRelation.GUARDIAN") : p.relation}</span>
                     </div>
-                    <div className="flex flex-col gap-1 text-[11.5px] text-steel">
+                    <div className="flex flex-col gap-1 text-[12px] text-steel">
                       <span dir="ltr" className="font-mono">{t("profile.parent.nationalId")} {p.parentUser.nationalId}</span>
                       {p.parentUser.phone && <span dir="ltr" className="font-mono">{t("profile.parent.phone")} {p.parentUser.phone}</span>}
                       {p.parentUser.shadNumber && <span dir="ltr" className="font-mono">{t("profile.parent.shad")} {p.parentUser.shadNumber}</span>}
@@ -328,7 +328,7 @@ export default function ProfilePage() {
 
       {/* تغییر رمز */}
       <div id="change-pw" className="b-card-md p-6 md:p-8">
-        <h3 className="font-bold text-[15px] mb-2 flex items-center gap-2">
+        <h3 className="font-bold text-[16px] mb-2 flex items-center gap-2">
           <KeyRound className="w-5 h-5 text-spring" /> {t("auth.changePassword.title")}
         </h3>
         <p className="t-sm text-steel mb-5">
@@ -338,15 +338,15 @@ export default function ProfilePage() {
         </p>
         <form onSubmit={changePassword} className="grid sm:grid-cols-3 gap-4">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[12.5px] font-bold">{t("profile.password.current")}</span>
+            <span className="text-[12px] font-bold">{t("profile.password.current")}</span>
             <input type="password" dir="ltr" className="b-input" value={cur} onChange={(e) => setCur(e.target.value)} required autoComplete="current-password" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[12.5px] font-bold">{t("profile.password.new")}</span>
+            <span className="text-[12px] font-bold">{t("profile.password.new")}</span>
             <input type="password" dir="ltr" className="b-input" value={next} onChange={(e) => setNext(e.target.value)} required minLength={8} autoComplete="new-password" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[12.5px] font-bold">{t("profile.password.confirm")}</span>
+            <span className="text-[12px] font-bold">{t("profile.password.confirm")}</span>
             <input type="password" dir="ltr" className="b-input" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength={8} autoComplete="new-password" />
           </label>
           <div className="sm:col-span-3">
@@ -378,7 +378,7 @@ export default function ProfilePage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 {(isService ? EDITABLE_FIELDS.filter((f) => ["firstName", "lastName", "phone", "email"].includes(f.key)) : EDITABLE_FIELDS).map((f) => (
                   <label key={f.key} className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t(PROFILE_FIELD_TKEY[f.key] ?? f.key)}</span>
+                    <span className="text-[12px] font-bold">{t(PROFILE_FIELD_TKEY[f.key] ?? f.key)}</span>
                     {f.select ? (
                       <Select
                         className="w-full"
@@ -400,7 +400,7 @@ export default function ProfilePage() {
                 ))}
               </div>
               <label className={isService ? "hidden" : "flex flex-col gap-1.5"}>
-                <span className="text-[12.5px] font-bold">{t("profile.edit.reasonLabel")}</span>
+                <span className="text-[12px] font-bold">{t("profile.edit.reasonLabel")}</span>
                 <input className="b-input" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("profile.edit.reasonPlaceholder")} />
               </label>
               <div className="flex items-center gap-3">
@@ -420,8 +420,8 @@ export default function ProfilePage() {
           <LogOut className="w-5 h-5 flip-rtl" />
         </span>
         <div className="flex-1 min-w-0">
-          <b className="text-[13px] block">{t("shell.logout")}</b>
-          <p className="text-[11.5px] text-steel leading-relaxed">{t("profile.logout.desc")}</p>
+          <b className="text-[14px] block">{t("shell.logout")}</b>
+          <p className="text-[12px] text-steel leading-relaxed">{t("profile.logout.desc")}</p>
         </div>
         <button type="button" onClick={doLogout} disabled={loggingOut} className="b-btn b-btn-sm !bg-destructive !text-destructive-foreground shrink-0">
           {loggingOut ? <Loader2 className="w-4 h-4 animate-spin" /> : t("shell.logoutShort")}

@@ -126,19 +126,19 @@ export default function WebsiteEditorPage() {
   const effectiveSlug = slugify(subdomain) || site.subdomain;
 
   const ImageField = ({ field, label, hint }: { field: string; label: string; hint?: string }) => (
-    <div className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3">
+    <div className="b-card-sm !rounded-2xl p-3.5 flex items-center gap-3">
       {(() => {
         const url = (config as unknown as Record<string, string>)?.[field];
         return url ? (
-          <img src={url} alt={label} className="w-14 h-14 rounded-xl object-cover border border-hairline shrink-0" />
+          <img src={url} alt={label} className="w-14 h-14 rounded-2xl object-cover border border-hairline shrink-0" />
         ) : (
-          <span className="w-14 h-14 rounded-xl bg-cloud flex items-center justify-center text-stone shrink-0">
+          <span className="w-14 h-14 rounded-2xl bg-cloud flex items-center justify-center text-stone shrink-0">
             <Upload className="w-5 h-5" />
           </span>
         );
       })()}
       <div className="min-w-0 flex-1">
-        <b className="text-[12.5px] block">{label}</b>
+        <b className="text-[12px] block">{label}</b>
         {hint && <span className="text-[12px] text-steel block truncate">{hint}</span>}
       </div>
       <button type="button" className="b-btn b-btn-soft b-btn-sm shrink-0" onClick={() => pickFile(field)} disabled={uploading === field}>
@@ -233,8 +233,8 @@ export default function WebsiteEditorPage() {
                   {t.id === "playful" && <span className="absolute top-3 left-3 w-6 h-6 rounded-full opacity-60" style={{ background: t.palettes[0].accent }} />}
                   {t.id === "academic" && <span className="absolute top-3 right-3 text-white text-[12px] font-bold px-2 py-0.5 rounded-full" style={{ background: t.palettes[0].primary }}>پایه</span>}
                 </div>
-                <b className="text-[14px] block mb-1">{t.name} {active && <span className="b-badge b-badge-spring !text-[9px] ms-1">فعال</span>}</b>
-                <p className="text-[11.5px] text-steel leading-relaxed mb-3">{t.desc}</p>
+                <b className="text-[14px] block mb-1">{t.name} {active && <span className="b-badge b-badge-spring !text-[12px] ms-1">فعال</span>}</b>
+                <p className="text-[12px] text-steel leading-relaxed mb-3">{t.desc}</p>
                 <div className="flex gap-2 flex-wrap">
                   {t.palettes.map((pal, pi) => (
                     <span
@@ -253,7 +253,7 @@ export default function WebsiteEditorPage() {
 
           <div className="b-card p-5 md:col-span-2 xl:col-span-3 flex flex-col gap-4">
             <div className="flex items-center gap-2 flex-wrap">
-              <b className="text-[13.5px]">رنگ‌بندی تمپلیت «{currentTemplate.name}»</b>
+              <b className="text-[14px]">رنگ‌بندی تمپلیت «{currentTemplate.name}»</b>
               <span className="text-[12px] text-steel">({currentTemplate.palettes.length} پالت پیشنهادی)</span>
               <button
                 type="button"
@@ -286,9 +286,9 @@ export default function WebsiteEditorPage() {
             </div>
 
             {/* رنگ دلخواه — انتخاب با پیکر رنگ یا ورودی هگز؛ در پیش‌نمایش و سایت ذخیره‌شده یکسان اعمال می‌شود */}
-            <div className="b-card-sm !rounded-xl p-4 flex flex-col gap-3" key={`${templateId}-${resolvedPalette.primary}-${resolvedPalette.accent}-${resolvedPalette.bg}`}>
+            <div className="b-card-sm !rounded-2xl p-4 flex flex-col gap-3" key={`${templateId}-${resolvedPalette.primary}-${resolvedPalette.accent}-${resolvedPalette.bg}`}>
               <div className="flex items-center gap-2 flex-wrap">
-                <b className="text-[12.5px]">رنگ دلخواه</b>
+                <b className="text-[12px]">رنگ دلخواه</b>
                 <span className="text-[12px] text-steel">با پیکر رنگ یا کد هگز، سه رنگ اصلی/لهجه/پس‌زمینه را خودتان بسازید</span>
                 {config?.customPalette && (
                   <button type="button" className="b-btn b-btn-ghost b-btn-sm ms-auto" onClick={() => patchConfig({ customPalette: null })}>
@@ -315,7 +315,7 @@ export default function WebsiteEditorPage() {
                         [row.key]: e.target.value,
                       },
                     })}
-                    className="w-10 h-10 rounded-xl border border-hairline p-1 shrink-0 cursor-pointer bg-transparent"
+                    className="w-10 h-10 rounded-2xl border border-hairline p-1 shrink-0 cursor-pointer bg-transparent"
                   />
                   <span className="text-[12px] font-bold w-20 shrink-0">{row.label}</span>
                   <input
@@ -323,7 +323,7 @@ export default function WebsiteEditorPage() {
                     defaultValue={row.value}
                     placeholder="#00825E"
                     aria-label={`کد هگز ${row.label}`}
-                    className="b-input !w-32 !h-10 !text-[13px] shrink-0"
+                    className="b-input !w-32 !h-10 !text-[14px] shrink-0"
                     onBlur={(e) => {
                       const v = e.currentTarget.value.trim();
                       if (/^#[0-9a-fA-F]{6}$/.test(v)) {
@@ -358,7 +358,7 @@ export default function WebsiteEditorPage() {
       {tab === "content" && config && (
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Type className="w-4 h-4 text-spring" /> بخش هیرو</b>
+            <b className="text-[14px] flex items-center gap-2"><Type className="w-4 h-4 text-spring" /> بخش هیرو</b>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">عنوان بزرگ</span>
               <input className="b-input" value={config.heroTitle} onChange={(e) => patchConfig({ heroTitle: e.target.value })} />
@@ -375,7 +375,7 @@ export default function WebsiteEditorPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Type className="w-4 h-4 text-spring" /> درباره و پیام مدیر</b>
+            <b className="text-[14px] flex items-center gap-2"><Type className="w-4 h-4 text-spring" /> درباره و پیام مدیر</b>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">عنوان درباره</span>
               <input className="b-input" value={config.aboutTitle} onChange={(e) => patchConfig({ aboutTitle: e.target.value })} />
@@ -393,7 +393,7 @@ export default function WebsiteEditorPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><MapPin className="w-4 h-4 text-spring" /> تماس</b>
+            <b className="text-[14px] flex items-center gap-2"><MapPin className="w-4 h-4 text-spring" /> تماس</b>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">تلفن (خالی = تلفن مدرسه)</span>
               <input className="b-input" dir="ltr" value={config.contactPhone} onChange={(e) => patchConfig({ contactPhone: e.target.value })} />
@@ -409,11 +409,11 @@ export default function WebsiteEditorPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2">گالری تصاویر</b>
+            <b className="text-[14px] flex items-center gap-2">گالری تصاویر</b>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               {config.gallery.map((g, i) => (
                 <div key={i} className="relative group">
-                  <img src={g} alt={`گالری ${i + 1}`} className="w-full aspect-[4/3] object-cover rounded-xl border border-hairline" />
+                  <img src={g} alt={`گالری ${i + 1}`} className="w-full aspect-[4/3] object-cover rounded-2xl border border-hairline" />
                   <button
                     type="button"
                     className="absolute top-1.5 left-1.5 w-7 h-7 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 max-md:opacity-100 transition-opacity"
@@ -426,7 +426,7 @@ export default function WebsiteEditorPage() {
               ))}
               <button
                 type="button"
-                className="b-btn b-btn-ghost aspect-[4/3] rounded-xl border-2 border-dashed border-hairline flex flex-col items-center justify-center gap-1 text-steel hover:border-spring/50 hover:text-spring transition-colors"
+                className="b-btn b-btn-ghost aspect-[4/3] rounded-2xl border-2 border-dashed border-hairline flex flex-col items-center justify-center gap-1 text-steel hover:border-spring/50 hover:text-spring transition-colors"
                 onClick={() => pickFile("gallery")}
                 disabled={uploading === "gallery"}
               >
@@ -437,9 +437,9 @@ export default function WebsiteEditorPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4 lg:col-span-2">
-            <b className="text-[13.5px]">سوالات متداول سایت مدرسه</b>
+            <b className="text-[14px]">سوالات متداول سایت مدرسه</b>
             {config.faq.map((f, i) => (
-              <div key={i} className="b-card-sm !rounded-xl p-4 grid sm:grid-cols-[1fr_1.4fr_auto] gap-3 items-center">
+              <div key={i} className="b-card-sm !rounded-2xl p-4 grid sm:grid-cols-[1fr_1.4fr_auto] gap-3 items-center">
                 <input
                   className="b-input"
                   value={f.q}
@@ -485,8 +485,8 @@ export default function WebsiteEditorPage() {
       {/* ───── بخش‌ها ───── */}
       {tab === "sections" && config && (
         <div className="b-card p-5">
-          <b className="text-[13.5px] block mb-1">روشن/خاموش کردن بخش‌های سایت</b>
-          <p className="text-[11.5px] text-steel mb-4">ترتیب و ساختار بخش‌ها در تمپلیت قفل است؛ فقط نمایش/عدم نمایش را کنترل می‌کنید.</p>
+          <b className="text-[14px] block mb-1">روشن/خاموش کردن بخش‌های سایت</b>
+          <p className="text-[12px] text-steel mb-4">ترتیب و ساختار بخش‌ها در تمپلیت قفل است؛ فقط نمایش/عدم نمایش را کنترل می‌کنید.</p>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2.5">
             {(Object.keys(SECTION_LABELS) as SiteSectionKey[]).map((key) => (
               <label key={key} className={`b-option !py-3 ${config.sections[key] ? "b-option-selected" : ""}`}>
@@ -507,11 +507,11 @@ export default function WebsiteEditorPage() {
       {tab === "domain" && (
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Globe className="w-4 h-4 text-spring" /> آدرس سایت مدرسه</b>
+            <b className="text-[14px] flex items-center gap-2"><Globe className="w-4 h-4 text-spring" /> آدرس سایت مدرسه</b>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">آدرس اختصاصی (حروف لاتین)</span>
               <div className="flex items-center" dir="ltr">
-                <span className="h-11 px-3 rounded-l-full bg-cloud border border-hairline flex items-center text-[11.5px] text-steel">bahar.school/</span>
+                <span className="h-11 px-3 rounded-l-full bg-cloud border border-hairline flex items-center text-[12px] text-steel">bahar.school/</span>
                 <input className="b-input !rounded-l-none !rounded-r-full min-w-0" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} />
               </div>
               {/* پیش‌نمایش زندهٔ آدرس نهایی (اسلاگ‌شدهٔ سمت سرور) */}
@@ -520,15 +520,15 @@ export default function WebsiteEditorPage() {
                 سایت مدرسه در مسیر /s/{effectiveSlug || "…"} در دسترس است — اگر فارسی بنویسید، خودکار به حروف لاتین ترجمیه می‌شود. دامنه اختصاصی هم برای همهٔ مدارس در دسترس است.
               </span>
             </label>
-            <div className="b-card-sm !rounded-xl p-4 text-[12.5px] leading-relaxed">
+            <div className="b-card-sm !rounded-2xl p-4 text-[12px] leading-relaxed">
               <b className="flex items-center gap-1.5 text-[12px] mb-1.5"><Lock className="w-3.5 h-3.5" /> چه چیزهایی قابل تغییر نیست؟</b>
               ساختار صفحات، ترتیب بخش‌ها، فرم پیش‌ثبت‌نام، سئو پایه و امنیت سایت قفل هستند تا برند مدارس یکدست و امن بماند. مدیر فقط محتوا، تصویر، رنگ و نمایش بخش‌ها را کنترل می‌کند.
             </div>
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Rocket className="w-4 h-4 text-spring" /> انتشار</b>
-            <div className="b-card-sm !rounded-xl p-4 flex items-center gap-3">
+            <b className="text-[14px] flex items-center gap-2"><Rocket className="w-4 h-4 text-spring" /> انتشار</b>
+            <div className="b-card-sm !rounded-2xl p-4 flex items-center gap-3">
               <span className={`b-badge ${published ? "b-badge-spring" : "b-badge-neutral"}`}>{published ? "منتشرشده" : "پیش‌نویس"}</span>
               <span className="text-[12px] text-steel">بازدید: {site.views.toLocaleString("fa-IR")}</span>
             </div>
@@ -543,7 +543,7 @@ export default function WebsiteEditorPage() {
                 </button>
               )}
             </div>
-            <p className="text-[11.5px] text-steel leading-relaxed">
+            <p className="text-[12px] text-steel leading-relaxed">
               با انتشار، سایت در آدرس عمومی برای همه قابل مشاهده می‌شود و لینک آن را می‌توانید در اطلاعیه‌ها و شاد برای اولیا بفرستید.
             </p>
           </div>

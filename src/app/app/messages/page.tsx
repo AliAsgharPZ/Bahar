@@ -139,7 +139,7 @@ export default function MessagesPage() {
     if (value.length > MAX_LEN) {
       toast.custom((_toast) => (
         <div className="b-card-md !rounded-2xl p-4 max-w-sm">
-          <b className="text-[13px] block mb-1">{t("messages.tooLong.before")} {faNumber(MAX_LEN)} {t("messages.tooLong.after")}</b>
+          <b className="text-[14px] block mb-1">{t("messages.tooLong.before")} {faNumber(MAX_LEN)} {t("messages.tooLong.after")}</b>
           <p className="t-sm text-steel">{t("messages.lightNote")}</p>
           {shadVisible && (
             <a href={SHAD_URL} target="_blank" rel="noreferrer" className="b-btn b-btn-soft b-btn-sm mt-3">
@@ -160,7 +160,7 @@ export default function MessagesPage() {
       if (err instanceof ApiClientError && err.shad) {
         toast.custom(() => (
           <div className="b-card-md !rounded-2xl p-4 max-w-sm">
-            <b className="text-[13px] block mb-1">{t("messages.heavyContent")}</b>
+            <b className="text-[14px] block mb-1">{t("messages.heavyContent")}</b>
             <p className="t-sm text-steel">{err.message}</p>
             {shadVisible && (
               <a href={SHAD_URL} target="_blank" rel="noreferrer" className="b-btn b-btn-soft b-btn-sm mt-3">
@@ -236,10 +236,10 @@ export default function MessagesPage() {
                 <UserAvatar user={th.partner} size={40} />
                 <span className="flex flex-col min-w-0 flex-1">
                   <span className="flex items-center justify-between gap-2">
-                    <b className="text-[13px] truncate">{th.partner.firstName} {th.partner.lastName}</b>
+                    <b className="text-[14px] truncate">{th.partner.firstName} {th.partner.lastName}</b>
                     {th.lastMessage && <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(th.lastMessage.sentAt)}</span>}
                   </span>
-                  <span className={`text-[11.5px] truncate ${th.unread > 0 ? "text-ink font-bold" : "text-steel"}`}>
+                  <span className={`text-[12px] truncate ${th.unread > 0 ? "text-ink font-bold" : "text-steel"}`}>
                     {th.lastMessage ? `${th.lastMessage.mine ? `${t("messages.you")} ` : ""}${th.lastMessage.body}` : "—"}
                   </span>
                 </span>
@@ -301,7 +301,7 @@ export default function MessagesPage() {
                       const mine = m.senderId !== chatData.other.id;
                       return (
                         <div key={m.id} className={`flex flex-col max-w-[78%] sm:max-w-[70%] ${mine ? "self-end items-end" : "self-start items-start"}`}>
-                          <div className={`px-4 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-line break-words ${mine ? "bubble-me" : "bubble-them"}`}>
+                          <div className={`px-4 py-2.5 text-[14px] leading-relaxed whitespace-pre-line break-words ${mine ? "bubble-me" : "bubble-them"}`}>
                             {m.body}
                           </div>
                           <span className="text-[12px] text-stone mt-1 px-1 flex items-center gap-1">
@@ -318,7 +318,7 @@ export default function MessagesPage() {
 
                 {showJump && (
                   <button
-                    className="sticky bottom-2 ms-auto me-2 w-10 h-10 rounded-full bg-invert text-invert-foreground flex items-center justify-center shadow-lg b-pop"
+                    className="sticky bottom-2 ms-auto me-2 w-10 h-10 rounded-full bg-invert text-invert-foreground flex items-center justify-center b-shadow-rail b-pop"
                     onClick={() => bottomRef.current?.scrollIntoView({ behavior: "smooth" })}
                     aria-label={t("messages.jumpToLatest")}
                   >
@@ -378,7 +378,7 @@ export default function MessagesPage() {
                   value={contactQ}
                   onChange={(e) => setContactQ(e.target.value)}
                   placeholder={t("messages.searchContacts")}
-                  className="b-input flex-1 bg-transparent outline-none text-[13px] min-w-0"
+                  className="b-input flex-1 bg-transparent outline-none text-[14px] min-w-0"
                 />
                 {contactQ && (
                   <button onClick={() => setContactQ("")} className="b-btn b-btn-ghost text-stone hover:text-foreground text-[16px] leading-none shrink-0" aria-label={t("messages.clearSearch")}>
@@ -410,7 +410,7 @@ export default function MessagesPage() {
                       <ChevronDown
                         className={`w-3.5 h-3.5 text-stone transition-transform duration-200 ${collapsed ? "-rotate-90" : ""}`}
                       />
-                      <b className="text-[12.5px]">{g.label}</b>
+                      <b className="text-[12px]">{g.label}</b>
                       <span className="b-badge b-badge-neutral !text-[12px] !px-1.5 !py-0">{faNumber(g.items.length)}</span>
                       <span className="flex-1 h-px bg-hairline-soft" />
                     </button>
@@ -420,11 +420,11 @@ export default function MessagesPage() {
                           <button
                             key={c.id}
                             onClick={() => pickContact(c)}
-                            className="b-btn b-btn-ghost b-card-sm !rounded-xl p-3.5 flex items-center gap-3 text-right hover:border-spring/40 transition-colors"
+                            className="b-btn b-btn-ghost b-card-sm !rounded-2xl p-3.5 flex items-center gap-3 text-right hover:border-spring/40 transition-colors"
                           >
                             <UserAvatar user={c} size={40} />
                             <span className="flex flex-col min-w-0 flex-1">
-                              <b className="text-[13px] truncate">{c.firstName} {c.lastName}</b>
+                              <b className="text-[14px] truncate">{c.firstName} {c.lastName}</b>
                               {c.schoolName && <span className="text-[12px] text-stone truncate">{c.schoolName}</span>}
                             </span>
                             <RoleBadge role={c.role} />

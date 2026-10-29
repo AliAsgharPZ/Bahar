@@ -45,7 +45,7 @@ export default function SubstitutionsPage() {
         title={t("substitutions.jaygzyny-malm-ghayb")}
         desc={t("substitutions.mrkhsy-hay-t-yydshdh-hr-rvz-zng-hay-tht-t-syr-v-namzdhay-azad-br")}
         action={
-          <label className="flex items-center gap-2 text-[12.5px] font-semibold">
+          <label className="flex items-center gap-2 text-[12px] font-semibold">
             <CalendarClock className="w-4 h-4 text-stone" />
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="b-input w-auto" dir="ltr" />
           </label>
@@ -55,7 +55,7 @@ export default function SubstitutionsPage() {
       {loadError && <ErrorBox message={loadError} />}
       {loading && !data ? <LoadingBlock /> : data && (
         <>
-          <p className="text-[13px] text-stone mb-5">
+          <p className="text-[14px] text-stone mb-5">
             {DAY_TKEY[data.dayOfWeek] ? t(DAY_TKEY[data.dayOfWeek]) : ""} · {formatDateFa(data.date)} —{" "}
             {data.absences.length === 0
               ? t("substitutions.hych-mrkhsy-t-yydshdh-ay-bray-ayn-rvz-nyst")
@@ -72,19 +72,19 @@ export default function SubstitutionsPage() {
                     <span className="w-9 h-9 rounded-full bg-[--critical-soft] text-[--critical] flex items-center justify-center" aria-hidden="true">
                       <UserRoundX className="w-4.5 h-4.5" />
                     </span>
-                    <h2 className="font-extrabold text-[15px]">{a.teacherName}</h2>
+                    <h2 className="font-extrabold text-[16px]">{a.teacherName}</h2>
                     <span className="b-badge b-badge-critical">{t("substitutions.dr-mrkhsy")}</span>
                     {a.slots.length === 0 && <span className="text-[12px] text-stone">{t("substitutions.ayn-rvz-zngy-dr-brnamh-ndard")}</span>}
                   </header>
                   {a.slots.length > 0 && (
                     <div className="flex flex-col gap-3">
                       {a.slots.map((s) => (
-                        <div key={s.slotId} className="rounded-xl border border-[--hairline] p-3.5">
-                          <p className="font-bold text-[13.5px] mb-2.5">
+                        <div key={s.slotId} className="rounded-2xl border border-[--hairline] p-3.5">
+                          <p className="font-bold text-[14px] mb-2.5">
                             {t("substitutions.zng")} {faNumber(s.period)} · {s.className} · {s.subjectName}
                           </p>
                           {s.candidates.length === 0 ? (
-                            <p className="text-[12.5px] text-[--critical]">{t("substitutions.dr-ayn-zng-hmh-malm-ha-klas-darnd-jaygzyn-azady-nyst")}</p>
+                            <p className="text-[12px] text-[--critical]">{t("substitutions.dr-ayn-zng-hmh-malm-ha-klas-darnd-jaygzyn-azady-nyst")}</p>
                           ) : (
                             <div className="flex flex-wrap gap-1.5">
                               {s.candidates.map((c) => (

@@ -15,7 +15,7 @@ const SIZES: Array<{ value: A11ySize; label: string }> = [
 function Toggle({ label, desc, checked, onChange }: { label: string; desc: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
     <label className="flex items-start justify-between gap-4 py-3 border-b border-hairline last:border-0 cursor-pointer">
-      <span><b className="text-[14px] block">{label}</b><span className="text-[12.5px] text-steel">{desc}</span></span>
+      <span><b className="text-[14px] block">{label}</b><span className="text-[12px] text-steel">{desc}</span></span>
       <input type="checkbox" className="b-check mt-1" checked={checked} onChange={(e) => onChange(e.target.checked)} />
     </label>
   );
@@ -34,7 +34,7 @@ export default function AccessibilityPage() {
             <button key={s.value} className={`b-btn ${settings.size === s.value ? "b-btn-spring" : "b-btn-soft"}`} onClick={() => update({ size: s.value })}>{t(s.label)}</button>
           ))}
         </span>
-        <p className="text-[12.5px] text-steel">{t("accessibility.textSizeNote")}</p>
+        <p className="text-[12px] text-steel">{t("accessibility.textSizeNote")}</p>
       </div>
       <div className="b-card p-6 flex flex-col">
         <b className="text-[14px] flex items-center gap-2 mb-1"><Accessibility className="w-4 h-4" /> {t("accessibility.display")}</b>
@@ -44,13 +44,13 @@ export default function AccessibilityPage() {
       </div>
       <div className="b-card p-6 flex flex-col gap-2">
         <b className="text-[14px] flex items-center gap-2"><Keyboard className="w-4 h-4" /> {t("accessibility.keyboardNav")}</b>
-        <ul className="text-[13px] text-steel flex flex-col gap-1.5 list-disc ps-5">
+        <ul className="text-[14px] text-steel flex flex-col gap-1.5 list-disc ps-5">
           <li>{t("accessibility.kb.tab")}</li>
           <li>{t("accessibility.kb.skip")}</li>
           <li>{t("accessibility.kb.search")}</li>
           <li>{t("accessibility.kb.labels")}</li>
         </ul>
-        <p className="text-[12.5px] text-steel flex items-center gap-2"><Zap className="w-4 h-4" /> {t("accessibility.reducedMotionNote")}</p>
+        <p className="text-[12px] text-steel flex items-center gap-2"><Zap className="w-4 h-4" /> {t("accessibility.reducedMotionNote")}</p>
       </div>
     </div>
   );

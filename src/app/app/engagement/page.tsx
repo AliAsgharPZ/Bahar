@@ -142,7 +142,7 @@ function EngagementInner() {
             return (
               <motion.div key={p.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className={`b-card-md p-5 ${closed ? "opacity-70" : ""}`}>
                 <div className="flex items-start justify-between gap-3 mb-1">
-                  <h3 className="font-bold text-[15px]">{p.question}</h3>
+                  <h3 className="font-bold text-[16px]">{p.question}</h3>
                   <span className="flex items-center gap-1.5 shrink-0">
                     {closed && <span className="b-badge b-badge-neutral">{t("engagement.closed")}</span>}
                     {canManage && (
@@ -164,7 +164,7 @@ function EngagementInner() {
                         <motion.span initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
                           className={`absolute inset-y-0 start-0 ${my ? "bg-spring/20" : "bg-spring-tint"}`} />
                         <span className="relative flex items-center gap-2">
-                          <span className="text-[13px] font-bold flex-1">{o.text}{my && <CheckCircle2 className="w-4 h-4 inline text-spring ms-1.5" />}</span>
+                          <span className="text-[14px] font-bold flex-1">{o.text}{my && <CheckCircle2 className="w-4 h-4 inline text-spring ms-1.5" />}</span>
                           <span className="text-[12px] text-steel">{faNumber(pct)}٪ ({faNumber(o.votes)})</span>
                         </span>
                       </button>
@@ -202,11 +202,11 @@ function EngagementInner() {
                   className={`b-card-md p-5 flex flex-col gap-3 ${i === 0 ? "ring-2" : ""}`}
                   style={i === 0 ? { boxShadow: `0 0 0 2px ${h.color}55` } : undefined}>
                   <div className="flex items-center gap-3">
-                    <span className="w-11 h-11 rounded-full flex items-center justify-center text-white font-extrabold text-[15px] shrink-0" style={{ background: h.color }}>
+                    <span className="w-11 h-11 rounded-full flex items-center justify-center text-white font-extrabold text-[16px] shrink-0" style={{ background: h.color }}>
                       {i === 0 ? <Trophy className="w-5 h-5" /> : faNumber(i + 1)}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <b className="text-[15px] flex items-center gap-1.5 truncate">{h.name} {i === 0 && <Crown className="w-4 h-4 text-[#f2a918] shrink-0" />}</b>
+                      <b className="text-[16px] flex items-center gap-1.5 truncate">{h.name} {i === 0 && <Crown className="w-4 h-4 text-[#f2a918] shrink-0" />}</b>
                       <span className="text-[12px] text-steel block">{faNumber(h.members)} {t("engagement.member")}{h.motto ? ` · ${h.motto}` : ""}</span>
                     </div>
                     <b className="text-[22px] font-extrabold" style={{ color: h.color }}>{faNumber(h.total)}</b>
@@ -269,8 +269,8 @@ function EngagementInner() {
                   <span className={`b-badge ${s.status === "ACCEPTED" ? "b-badge-success" : s.status === "REJECTED" ? "b-badge-critical" : s.status === "REVIEWING" ? "b-badge-warning" : "b-badge-neutral"}`}>{SUG_STATUS_TKEY[s.status] ? t(SUG_STATUS_TKEY[s.status]) : s.status}</span>
                   <span className="text-[12px] text-stone ms-auto">{s.authorName ?? t("engagement.anonymous")} · {formatDateFa(s.createdAt)}</span>
                 </div>
-                <p className="text-[13px] leading-relaxed">{s.body}</p>
-                {s.adminNote && <p className="text-[11.5px] text-spring-deep mt-2">{t("engagement.adminReply")}: {s.adminNote}</p>}
+                <p className="text-[14px] leading-relaxed">{s.body}</p>
+                {s.adminNote && <p className="text-[12px] text-spring-deep mt-2">{t("engagement.adminReply")}: {s.adminNote}</p>}
                 {canManage && (s.status === "NEW" || s.status === "REVIEWING") && (
                   <div className="flex gap-1.5 mt-2.5">
                     {s.status === "NEW" && <button onClick={() => review(s.id, "REVIEWING")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("engagement.suggestion.status.reviewing")}</button>}

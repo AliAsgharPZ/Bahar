@@ -224,7 +224,7 @@ export default function ShadPage() {
               <div className="b-divider" />
               <form onSubmit={requestCode} className="flex flex-wrap items-end gap-3">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("shad.shmarh-shad-mdyr-mdrsh")}</span>
+                  <span className="text-[12px] font-bold">{t("shad.shmarh-shad-mdyr-mdrsh")}</span>
                   <input
                     className="b-input !w-44"
                     dir="ltr"
@@ -265,7 +265,7 @@ export default function ShadPage() {
                 </div>
                 <div className="flex flex-wrap items-end gap-3">
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{t("shad.kd-tayyd-5-rqmy")}</span>
+                    <span className="text-[12px] font-bold">{t("shad.kd-tayyd-5-rqmy")}</span>
                     <input
                       className="b-input !w-36 text-center font-mono tracking-[0.3em]"
                       dir="ltr"
@@ -329,7 +329,7 @@ export default function ShadPage() {
 
       {/* گزارش ارسال */}
       <div>
-        <h3 className="font-bold text-[15px] mb-3">{t("shad.gzarsh-pyam-hay-shad")}</h3>
+        <h3 className="font-bold text-[16px] mb-3">{t("shad.gzarsh-pyam-hay-shad")}</h3>
         {loadError && <ErrorBox message={loadError} />}
         {!outbox && !loadError && <LoadingBlock />}
         {outbox && outbox.outbox.length === 0 && (
@@ -344,7 +344,7 @@ export default function ShadPage() {
                     <span className={`b-badge ${o.status === "SENT" ? "b-badge-success" : o.status === "QUEUED" ? "b-badge-warning" : "b-badge-critical"} shrink-0`}>
                       {o.status === "SENT" ? t("shad.arsal-shdh") : o.status === "QUEUED" ? t("dashboard.meeting.pending") : t("dashboard.login.failed")}
                     </span>
-                    <b className="text-[13px] truncate">{o.recipientName ?? "—"}</b>
+                    <b className="text-[14px] truncate">{o.recipientName ?? "—"}</b>
                     <span dir="ltr" className="font-mono text-[12px] text-steel">{o.recipientShadNumber}</span>
                   </div>
                   <button
@@ -356,7 +356,7 @@ export default function ShadPage() {
                   </button>
                 </div>
                 {showBody === o.id && (
-                  <pre className="t-sm text-steel whitespace-pre-wrap font-[inherit] mt-3 b-card-tint !rounded-xl p-3.5 leading-relaxed" dir="rtl">
+                  <pre className="t-sm text-steel whitespace-pre-wrap font-[inherit] mt-3 b-card-tint !rounded-2xl p-3.5 leading-relaxed" dir="rtl">
                     {o.body}
                   </pre>
                 )}
@@ -409,7 +409,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
+        className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12px] font-bold text-spring self-start"
       >
         <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
         {t("shad.atsal-vaqay-ba-tvkn-shad")} ({t("shad.akhtyary-bray-arsal-bh-tlfn-hay-vaqay")})
@@ -418,7 +418,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
         <form onSubmit={connect} className="flex flex-col gap-3">
           <div className="flex flex-wrap items-end gap-3">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12.5px] font-bold">{t("shad.shmarh-shad-mdyr-mdrsh")}</span>
+              <span className="text-[12px] font-bold">{t("shad.shmarh-shad-mdyr-mdrsh")}</span>
               <input
                 className="b-input !w-44"
                 dir="ltr"
@@ -430,10 +430,10 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
               />
             </label>
             <label className="flex flex-col gap-1.5 flex-1 min-w-[240px]">
-              <span className="text-[12.5px] font-bold">{t("shad.tvkn-hsab-shad")} (auth)</span>
+              <span className="text-[12px] font-bold">{t("shad.tvkn-hsab-shad")} (auth)</span>
               <div className="relative">
                 <input
-                  className="b-input pr-10 pl-10 !font-mono !text-[12.5px]"
+                  className="b-input pr-10 pl-10 !font-mono !text-[12px]"
                   dir="ltr"
                   type={showToken ? "text" : "password"}
                   value={token}
@@ -459,7 +459,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
           <button
             type="button"
             onClick={() => setGuideOpen((o) => !o)}
-            className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
+            className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12px] font-bold text-spring self-start"
           >
             <ChevronDown className={`w-4 h-4 transition-transform ${guideOpen ? "rotate-180" : ""}`} />
             {t("shad.tvkn-shad-ra-chtvr-bgyrm")}

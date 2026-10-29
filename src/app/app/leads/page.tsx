@@ -72,16 +72,16 @@ export default function LeadsPage() {
                 {l.name.split(" ").map((x) => x[0]).slice(0, 2).join("")}
               </span>
               <div className="min-w-0 flex-1">
-                <b className="text-[13.5px] block truncate">
+                <b className="text-[14px] block truncate">
                   {l.name}
                   {l.parentName ? <span className="text-[12px] text-steel font-normal"> — {t("leads.parentPrefix")} {l.parentName}</span> : null}
                 </b>
-                <span className="text-[11.5px] text-steel flex items-center gap-2 flex-wrap">
+                <span className="text-[12px] text-steel flex items-center gap-2 flex-wrap">
                   <a href={`tel:${l.phone}`} dir="ltr" className="font-mono text-spring hover:underline">{l.phone}</a>
                   {l.grade && <span>{t("leads.gradePrefix")} {l.grade}</span>}
                   <span className="text-stone">{relativeTimeFa(l.createdAt)}</span>
                 </span>
-                {l.message && <p className="text-[11.5px] text-steel mt-1 max-w-xl truncate">{l.message}</p>}
+                {l.message && <p className="text-[12px] text-steel mt-1 max-w-xl truncate">{l.message}</p>}
               </div>
               <Select
                 value={l.status}

@@ -68,7 +68,7 @@ export default async function SchoolSitePage({ params, searchParams }: Props) {
             <SproutIcon className="w-8 h-8" />
           </span>
           <h1 className="text-xl font-bold mb-2">سایت این مدرسه هنوز منتشر نشده</h1>
-          <p className="text-[13px] text-[#5B6B66] leading-relaxed">
+          <p className="text-[14px] text-[#5B6B66] leading-relaxed">
             مدیر مدرسه می‌تواند از پنل بهار، تمپلیت سایت را انتخاب و شخصی‌سازی کند و سپس منتشر شود.
           </p>
           <a href="/" className="b-btn b-btn-spring b-btn-sm mt-5 inline-flex">بازگشت به بهار</a>

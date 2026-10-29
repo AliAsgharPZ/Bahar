@@ -122,7 +122,7 @@ export default function BehaviorPage() {
                 {r.kind === "POSITIVE" ? <ThumbsUp className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
               </span>
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-bold truncate">{r.student.user.firstName} {r.student.user.lastName} <span className="text-steel font-normal">— {reasons[r.reason]?.label ?? r.reason}</span></p>
+                <p className="text-[14px] font-bold truncate">{r.student.user.firstName} {r.student.user.lastName} <span className="text-steel font-normal">— {reasons[r.reason]?.label ?? r.reason}</span></p>
                 <p className="text-[12px] text-steel truncate">
                   {r.student.class?.name ?? "—"} · {r.recordedBy ? `${r.recordedBy.firstName} ${r.recordedBy.lastName}` : t("dashboard.system")} · {relativeTimeFa(r.createdAt)}
                   {r.note ? ` · ${r.note}` : ""}

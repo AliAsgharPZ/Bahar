@@ -100,8 +100,8 @@ export default function ChildrenPage() {
                     <div className="flex items-center gap-3 min-w-0">
                       <UserAvatar user={c.student.user} size={48} />
                       <div className="flex flex-col min-w-0">
-                        <b className="text-[15px] truncate">{c.student.user.firstName} {c.student.user.lastName}</b>
-                        <span className="text-[11.5px] text-steel">
+                        <b className="text-[16px] truncate">{c.student.user.firstName} {c.student.user.lastName}</b>
+                        <span className="text-[12px] text-steel">
                           {PARENT_TKEY[c.relation] ? t(PARENT_TKEY[c.relation]) : c.relation} · {t("common.class")} {c.student.class?.name ?? "—"}
                         </span>
                       </div>
@@ -110,15 +110,15 @@ export default function ChildrenPage() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
-                    <div className="b-card-sm !rounded-xl p-3">
+                    <div className="b-card-sm !rounded-2xl p-3">
                       <div className="text-[18px] font-bold">{st?.student.gpa !== null && st?.student.gpa !== undefined ? faNumber(st.student.gpa) : "—"}</div>
                       <div className="text-[12px] text-steel">{t("children.avgFrom20")}</div>
                     </div>
-                    <div className="b-card-sm !rounded-xl p-3">
+                    <div className="b-card-sm !rounded-2xl p-3">
                       <div className="text-[18px] font-bold">{faNumber(st?.student.absences ?? 0)}</div>
                       <div className="text-[12px] text-steel">{t("dashboard.mini.absence")}</div>
                     </div>
-                    <div className="b-card-sm !rounded-xl p-3">
+                    <div className="b-card-sm !rounded-2xl p-3">
                       <div className="text-[18px] font-bold">{st?.student.attendanceRate !== null && st?.student.attendanceRate !== undefined ? faNumber(st.student.attendanceRate) + "٪" : "—"}</div>
                       <div className="text-[12px] text-steel">{t("dashboard.attendancePct")}</div>
                     </div>

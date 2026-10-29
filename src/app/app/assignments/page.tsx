@@ -134,7 +134,7 @@ export default function AssignmentsPage() {
       if (mine?.status === "EXEMPT") return <div className="b-badge b-badge-neutral self-start">{t("assignments.exempt")}</div>;
       if (mine) {
         return (
-          <div className="rounded-xl bg-spring-tint/60 p-3 flex items-center gap-2 text-[12.5px]">
+          <div className="rounded-2xl bg-spring-tint/60 p-3 flex items-center gap-2 text-[12px]">
             <ReceiptText className="w-4 h-4 text-spring shrink-0" />
             <span>{t("assignments.submitted.receipt")} <b dir="ltr">{mine.receiptCode}</b> · {formatDateFa(mine.submittedAt)}{mine.status === "LATE" ? ` · ${t("assignments.submitted.late")}` : ""}</span>
           </div>
@@ -165,9 +165,9 @@ export default function AssignmentsPage() {
         {open && (
           <div className="flex flex-col gap-1 max-h-64 overflow-y-auto b-scroll">
             {roster === null && <Loader2 className="w-4 h-4 animate-spin" />}
-            {counts && <p className="text-[11.5px] text-steel">{t("assignments.counts.from")} {faNumber(counts.total)} {t("assignments.counts.people")} {faNumber(counts.submitted)} {t("assignments.counts.submitted")} ({faNumber(counts.late)} {t("assignments.counts.late")}) · {faNumber(counts.exempt)} {t("assignments.counts.exempt")}</p>}
+            {counts && <p className="text-[12px] text-steel">{t("assignments.counts.from")} {faNumber(counts.total)} {t("assignments.counts.people")} {faNumber(counts.submitted)} {t("assignments.counts.submitted")} ({faNumber(counts.late)} {t("assignments.counts.late")}) · {faNumber(counts.exempt)} {t("assignments.counts.exempt")}</p>}
             {(roster ?? []).map((r) => (
-              <div key={r.student.id} className="flex items-center justify-between gap-2 py-1.5 border-b border-hairline last:border-0 text-[12.5px]">
+              <div key={r.student.id} className="flex items-center justify-between gap-2 py-1.5 border-b border-hairline last:border-0 text-[12px]">
                 <span>{r.student.firstName} {r.student.lastName}</span>
                 {r.submission?.status === "EXEMPT" ? (
                   <button className="b-badge b-badge-neutral" onClick={() => toggleExempt(r.student.id, false)}>{t("assignments.counts.exempt")} ✕</button>
@@ -190,14 +190,14 @@ export default function AssignmentsPage() {
     return (
       <div className="b-card-md p-6 flex flex-col gap-3">
         <div className="flex items-start justify-between gap-3">
-          <b className="text-[15px]">{a.title}</b>
+          <b className="text-[16px]">{a.title}</b>
           <span className={`b-badge ${overdue ? "b-badge-neutral" : "b-badge-spring"} shrink-0`}>
             <CalendarClock className="w-3 h-3" /> {formatDateFa(a.dueDate)}
           </span>
         </div>
         <p className="t-sm text-steel leading-relaxed line-clamp-4">{a.description}</p>
         <div className="flex items-center justify-between gap-3">
-          <span className="text-[11.5px] text-steel">
+          <span className="text-[12px] text-steel">
             {a.class?.name ?? "—"} {a.subject ? `· ${a.subject.name}` : ""} {a.teacher ? `· ${a.teacher.firstName} ${a.teacher.lastName}` : ""}
           </span>
           {canCreate && (
@@ -254,7 +254,7 @@ export default function AssignmentsPage() {
             <h2 className="font-bold text-lg mb-6">{t("assignments.new")}</h2>
             <form onSubmit={create} className="grid sm:grid-cols-2 gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("assignments.field.class")}</span>
+                <span className="text-[12px] font-bold">{t("assignments.field.class")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -265,7 +265,7 @@ export default function AssignmentsPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("assignments.field.subject")}</span>
+                <span className="text-[12px] font-bold">{t("assignments.field.subject")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -276,20 +276,20 @@ export default function AssignmentsPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[12.5px] font-bold">{t("assignments.field.title")}</span>
+                <span className="text-[12px] font-bold">{t("assignments.field.title")}</span>
                 <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required placeholder={t("assignments.placeholder.title")} />
               </label>
               <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[12.5px] font-bold">{t("assignments.field.description")}</span>
+                <span className="text-[12px] font-bold">{t("assignments.field.description")}</span>
                 <textarea className="b-input" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} required rows={4} placeholder={t("assignments.placeholder.description")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12.5px] font-bold">{t("assignments.field.due")}</span>
+                <span className="text-[12px] font-bold">{t("assignments.field.due")}</span>
                 <input className="b-input" dir="ltr" type="datetime-local" value={form.dueDate} onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} required />
               </label>
               {form.classId && (rosterData?.students.length ?? 0) > 0 && (
                 <div className="sm:col-span-2 flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">{t("assignments.field.targets")}</span>
+                  <span className="text-[12px] font-bold">{t("assignments.field.targets")}</span>
                   <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto b-scroll">
                     {(rosterData?.students ?? []).map((s) => {
                       const on = targets.includes(s.id);

@@ -74,16 +74,16 @@ export default function ApprovalsPage() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <b className="text-[14px] block truncate">{r.user.firstName} {r.user.lastName}</b>
-                  <span className="text-[11.5px] text-steel">
+                  <span className="text-[12px] text-steel">
                     <RoleBadge role={r.user.role} /> {r.user.school?.name ?? ""} — <span dir="ltr" className="font-mono">{r.user.nationalId}</span>
                   </span>
                 </div>
                 <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(r.createdAt)}</span>
               </div>
 
-              <div className="b-card-sm !rounded-xl overflow-hidden mb-4">
+              <div className="b-card-sm !rounded-2xl overflow-hidden mb-4">
                 <div className="overflow-x-auto b-scroll">
-                  <table className="w-full text-[12.5px]">
+                  <table className="w-full text-[12px]">
                     <thead>
                       <tr className="border-b border-hairline-soft text-steel text-[12px]">
                         <th className="text-right py-2 px-3 font-bold">{t("approvals.table.field")}</th>

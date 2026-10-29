@@ -202,7 +202,7 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
   return (
     <div className="b-card-sm !rounded-2xl p-4 md:p-5 flex flex-col gap-5">
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <h3 className="font-bold text-[13.5px] flex items-center gap-2">
+        <h3 className="font-bold text-[14px] flex items-center gap-2">
           <Wand2 className="w-4 h-4 text-spring" /> ساخت بستهٔ کشور با فرم
         </h3>
         <button className="b-btn b-btn-ghost b-btn-sm !text-[12px]" onClick={prefillFromIran} type="button">
@@ -218,27 +218,27 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
         <h4 className="text-[12px] font-bold mb-2.5 text-spring-deep">هویت کشور</h4>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">کد ۲ حرفی * (مثل TR)</span>
+            <span className="text-[12px] font-bold">کد ۲ حرفی * (مثل TR)</span>
             <input className="b-input !h-10" dir="ltr" placeholder="TR" value={f.code} onChange={(e) => set("code", e.target.value.toUpperCase().replace(/[^A-Z]/g, "").slice(0, 2))} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نام (فارسی) *</span>
+            <span className="text-[12px] font-bold">نام (فارسی) *</span>
             <input className="b-input !h-10" placeholder="ترکیه" value={f.name} onChange={(e) => set("name", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نام بومی *</span>
+            <span className="text-[12px] font-bold">نام بومی *</span>
             <input className="b-input !h-10" placeholder="Türkiye" value={f.nativeName} onChange={(e) => set("nativeName", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">locale</span>
+            <span className="text-[12px] font-bold">locale</span>
             <input className="b-input !h-10" dir="ltr" placeholder="tr-TR" value={f.locale} onChange={(e) => set("locale", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">جهت متن</span>
+            <span className="text-[12px] font-bold">جهت متن</span>
             <Select value={f.direction} onChange={(v) => set("direction", v)} options={DIRECTION_OPTIONS} buttonClassName="!h-10" className="w-full" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">منطقه زمانی</span>
+            <span className="text-[12px] font-bold">منطقه زمانی</span>
             <Select value={f.timezone} onChange={(v) => set("timezone", v)} searchable options={TIMEZONES.map((t) => ({ value: t, label: t }))} buttonClassName="!h-10" className="w-full" />
           </label>
         </div>
@@ -249,15 +249,15 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
         <h4 className="text-[12px] font-bold mb-2.5 text-spring-deep">تقویم و ارقام</h4>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نوع تقویم *</span>
+            <span className="text-[12px] font-bold">نوع تقویم *</span>
             <Select value={f.calendar} onChange={(v) => set("calendar", v)} searchable options={calendarOptions} buttonClassName="!h-10" className="w-full" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نمایش ارقام</span>
+            <span className="text-[12px] font-bold">نمایش ارقام</span>
             <Select value={f.digits} onChange={(v) => set("digits", v)} options={DIGITS_OPTIONS} buttonClassName="!h-10" className="w-full" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نمونهٔ سال تحصیلی</span>
+            <span className="text-[12px] font-bold">نمونهٔ سال تحصیلی</span>
             <input className="b-input !h-10" dir="ltr" placeholder="2025-2026" value={f.academicYearExample} onChange={(e) => set("academicYearExample", e.target.value)} />
           </label>
         </div>
@@ -268,27 +268,27 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
         <h4 className="text-[12px] font-bold mb-2.5 text-spring-deep">کد ملی و موبایل</h4>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">برچسب شناسه ملی</span>
+            <span className="text-[12px] font-bold">برچسب شناسه ملی</span>
             <input className="b-input !h-10" placeholder="کد ملی" value={f.nationalIdLabel} onChange={(e) => set("nationalIdLabel", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">الگوریتم اعتبارسنجی</span>
+            <span className="text-[12px] font-bold">الگوریتم اعتبارسنجی</span>
             <Select value={f.nationalIdAlgorithm} onChange={(v) => set("nationalIdAlgorithm", v)} options={algorithmOptions} buttonClassName="!h-10" className="w-full" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">الگوی کد ملی (regex)</span>
-            <input className="b-input !h-10 font-mono !text-[11.5px]" dir="ltr" placeholder="^\d{11}$" value={f.nationalIdPattern} onChange={(e) => set("nationalIdPattern", e.target.value)} />
+            <span className="text-[12px] font-bold">الگوی کد ملی (regex)</span>
+            <input className="b-input !h-10 font-mono !text-[12px]" dir="ltr" placeholder="^\d{11}$" value={f.nationalIdPattern} onChange={(e) => set("nationalIdPattern", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نمونهٔ کد ملی</span>
+            <span className="text-[12px] font-bold">نمونهٔ کد ملی</span>
             <input className="b-input !h-10" dir="ltr" value={f.nationalIdExample} onChange={(e) => set("nationalIdExample", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">الگوی موبایل (regex)</span>
-            <input className="b-input !h-10 font-mono !text-[11.5px]" dir="ltr" placeholder="^\+90\d{10}$" value={f.phonePattern} onChange={(e) => set("phonePattern", e.target.value)} />
+            <span className="text-[12px] font-bold">الگوی موبایل (regex)</span>
+            <input className="b-input !h-10 font-mono !text-[12px]" dir="ltr" placeholder="^\+90\d{10}$" value={f.phonePattern} onChange={(e) => set("phonePattern", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نمونهٔ موبایل</span>
+            <span className="text-[12px] font-bold">نمونهٔ موبایل</span>
             <input className="b-input !h-10" dir="ltr" value={f.phoneExample} onChange={(e) => set("phoneExample", e.target.value)} />
           </label>
         </div>
@@ -299,23 +299,23 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
         <h4 className="text-[12px] font-bold mb-2.5 text-spring-deep">ارز و نظام نمره</h4>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">واحد پول (نمایش)</span>
+            <span className="text-[12px] font-bold">واحد پول (نمایش)</span>
             <input className="b-input !h-10" placeholder="لیر" value={f.currencyLabel} onChange={(e) => set("currencyLabel", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">کد ارز</span>
+            <span className="text-[12px] font-bold">کد ارز</span>
             <input className="b-input !h-10" dir="ltr" placeholder="TRY" value={f.currencyCode} onChange={(e) => set("currencyCode", e.target.value.toUpperCase())} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">نمرهٔ کامل</span>
+            <span className="text-[12px] font-bold">نمرهٔ کامل</span>
             <input className="b-input !h-10" dir="ltr" inputMode="numeric" value={f.maxScore} onChange={(e) => set("maxScore", e.target.value.replace(/[^0-9]/g, ""))} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">تعداد نیمسال</span>
+            <span className="text-[12px] font-bold">تعداد نیمسال</span>
             <input className="b-input !h-10" dir="ltr" inputMode="numeric" value={f.terms} onChange={(e) => set("terms", e.target.value.replace(/[^0-9]/g, ""))} />
           </label>
           <label className="flex flex-col gap-1.5 sm:col-span-2">
-            <span className="text-[11.5px] font-bold">برچسب نیمسال‌ها (با ویرگول)</span>
+            <span className="text-[12px] font-bold">برچسب نیمسال‌ها (با ویرگول)</span>
             <input className="b-input !h-10" placeholder="نیمسال اول، نیمسال دوم" value={f.termLabels} onChange={(e) => set("termLabels", e.target.value)} />
           </label>
         </div>
@@ -349,15 +349,15 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
         <h4 className="text-[12px] font-bold mb-2.5 text-spring-deep">پایه‌ها، رشته‌ها و انواع مدرسه (با ویرگول جدا کنید)</h4>
         <div className="grid sm:grid-cols-3 gap-3">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">پایه‌های تحصیلی</span>
+            <span className="text-[12px] font-bold">پایه‌های تحصیلی</span>
             <input className="b-input !h-10" placeholder="نهم، دهم، یازدهم، دوازدهم" value={f.gradeLevels} onChange={(e) => set("gradeLevels", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">رشته‌ها</span>
+            <span className="text-[12px] font-bold">رشته‌ها</span>
             <input className="b-input !h-10" placeholder="ریاضی، تجربی…" value={f.fields} onChange={(e) => set("fields", e.target.value)} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[11.5px] font-bold">انواع مدرسه</span>
+            <span className="text-[12px] font-bold">انواع مدرسه</span>
             <input className="b-input !h-10" placeholder="دولتی، خصوصی…" value={f.schoolTypes} onChange={(e) => set("schoolTypes", e.target.value)} />
           </label>
         </div>
@@ -431,10 +431,10 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
       {(issues.errors.length > 0 || issues.warnings.length > 0) && (
         <div className="flex flex-col gap-1.5">
           {issues.errors.map((e, i) => (
-            <p key={`e${i}`} className="text-[11.5px] text-destructive flex items-start gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 rotate-180" /> {e}</p>
+            <p key={`e${i}`} className="text-[12px] text-destructive flex items-start gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 rotate-180" /> {e}</p>
           ))}
           {issues.warnings.map((w, i) => (
-            <p key={`w${i}`} className="text-[11.5px] text-warning-deep">⚠ {w}</p>
+            <p key={`w${i}`} className="text-[12px] text-warning-deep">⚠ {w}</p>
           ))}
         </div>
       )}

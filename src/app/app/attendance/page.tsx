@@ -120,7 +120,7 @@ export default function AttendancePage() {
         />
 
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-[12.5px] font-bold">
+          <label className="flex items-center gap-2 text-[12px] font-bold">
             {t("attendance.filter.class")}
             <Select
               value={classId}
@@ -128,7 +128,7 @@ export default function AttendancePage() {
               options={(classesData?.classes ?? []).map((c) => ({ value: c.id, label: c.name }))}
             />
           </label>
-          <label className="flex items-center gap-2 text-[12.5px] font-bold">
+          <label className="flex items-center gap-2 text-[12px] font-bold">
             {t("attendance.filter.date")}
             <input className="b-input !w-36" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder="1404-07-10" />
           </label>
@@ -162,7 +162,7 @@ export default function AttendancePage() {
                     {st.fullName.split(" ").map((x) => x[0]).slice(0, 2).join("")}
                   </span>
                   <span className="flex flex-col min-w-0">
-                    <b className="text-[13.5px] truncate">{st.fullName}</b>
+                    <b className="text-[14px] truncate">{st.fullName}</b>
                     <span className="text-[12px] text-steel" dir="ltr">{st.studentNumber}</span>
                     {st.healthAlert && (
                       <span className="b-badge b-badge-blossom mt-1 self-start" title={[st.healthAlert.sportsNote, st.healthAlert.conditions, st.healthAlert.mobilityNote, st.healthAlert.allergies].filter(Boolean).join(" · ")}>
@@ -180,7 +180,7 @@ export default function AttendancePage() {
                       <button
                         key={o.value}
                         onClick={() => setStatus(st.studentId, o.value)}
-                        className={`b-pill-tab !text-[11.5px] ${active ? "b-pill-tab-active" : ""}`}
+                        className={`b-pill-tab !text-[12px] ${active ? "b-pill-tab-active" : ""}`}
                       >
                         {o.label}
                       </button>
@@ -188,7 +188,7 @@ export default function AttendancePage() {
                   })}
                 </div>
                 <input
-                  className="b-input md:flex-1 !h-10 !text-[12.5px]"
+                  className="b-input md:flex-1 !h-10 !text-[12px]"
                   placeholder={t("attendance.placeholder.note")}
                   value={sheet[st.studentId]?.note ?? ""}
                   onChange={(e) => setNote(st.studentId, e.target.value)}
@@ -255,9 +255,9 @@ export default function AttendancePage() {
           </div>
           <div className="b-card-sm overflow-hidden">
             <div className="max-h-[420px] overflow-auto b-scroll">
-              <table className="w-full text-[13px]">
+              <table className="w-full text-[14px]">
                 <thead className="sticky top-0 bg-background">
-                  <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
+                  <tr className="border-b border-hairline-soft text-steel text-[12px]">
                     <th className="text-right py-3 px-4 font-bold">{t("common.date")}</th>
                     <th className="text-right py-3 px-4 font-bold">{t("common.status")}</th>
                     <th className="text-right py-3 px-4 font-bold">{t("attendance.table.note")}</th>

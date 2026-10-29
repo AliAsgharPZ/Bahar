@@ -124,7 +124,7 @@ export function EmptyState({
       <span className="w-14 h-14 rounded-full bg-spring-tint text-spring flex items-center justify-center">
         <Icon className="w-7 h-7" />
       </span>
-      <h3 className="font-bold text-[15px]">{title}</h3>
+      <h3 className="font-bold text-[16px]">{title}</h3>
       {desc && <p className="t-sm text-steel max-w-sm">{desc}</p>}
       {action}
     </div>
@@ -135,7 +135,7 @@ export function ErrorBox({ message }: { message: string }) {
   return (
     <div className="b-card-sm !border-destructive/30 bg-destructive/5 p-4 flex items-start gap-3 text-destructive">
       <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
-      <span className="text-[13.5px] font-medium leading-relaxed">{message}</span>
+      <span className="text-[14px] font-medium leading-relaxed">{message}</span>
     </div>
   );
 }

@@ -29,19 +29,19 @@ export default function CountriesPage() {
         <div className="b-card p-6 flex flex-col gap-1">
           <b className="text-[14px] mb-2">{t("countries.shippedTitle")}</b>
           {shipped.packs.map((p) => (
-            <div key={p.code} className="py-2 border-b border-hairline last:border-0 text-[13px]">
+            <div key={p.code} className="py-2 border-b border-hairline last:border-0 text-[14px]">
               <b>{p.name} ({p.code})</b><span className="text-steel"> — {p.nativeName} · {p.level}</span>
-              <span className="block text-[12.5px] text-steel">{t("countries.label.province")} {faNumber(p.provinces)} · {t("countries.label.city")} {faNumber(p.cities)} · {t("countries.label.village")} {faNumber(p.villages)}</span>
+              <span className="block text-[12px] text-steel">{t("countries.label.province")} {faNumber(p.provinces)} · {t("countries.label.city")} {faNumber(p.cities)} · {t("countries.label.village")} {faNumber(p.villages)}</span>
             </div>
           ))}
-          <p className="text-[12.5px] text-steel mt-2">{t("countries.honestNote")}</p>
+          <p className="text-[12px] text-steel mt-2">{t("countries.honestNote")}</p>
         </div>
       )}
       {shipped?.world && (
         <div className="b-card p-6 flex flex-col gap-2">
           <b className="text-[14px]">{t("countries.worldTitle")} — {faNumber(shipped.world.length)} {t("countries.worldUnit")}</b>
-          <p className="text-[12.5px] text-steel">{t("countries.worldNote")}</p>
-          <p className="text-[12.5px] text-steel leading-7">{shipped.world.map((c) => `${c.nameFa} (${c.nameEn})`).join(" · ")}</p>
+          <p className="text-[12px] text-steel">{t("countries.worldNote")}</p>
+          <p className="text-[12px] text-steel leading-7">{shipped.world.map((c) => `${c.nameFa} (${c.nameEn})`).join(" · ")}</p>
         </div>
       )}
       <div className="b-card p-6 flex flex-col gap-3">
@@ -52,12 +52,12 @@ export default function CountriesPage() {
           <Select value={city} onChange={setCity} options={[{ value: "", label: t("countries.select.city") }, ...(places?.cities ?? []).map((c) => ({ value: c, label: c }))]} placeholder={t("countries.select.cityShort")} />
         </span>
         {province && !city && (places?.provinceVillages ?? 0) > 0 && (
-          <p className="text-[13px] text-steel">
+          <p className="text-[14px] text-steel">
             {t("countries.provinceVillagesPrefix")} {province}: {faNumber(places!.provinceVillages)} {t("countries.provinceVillagesSuffix")}
           </p>
         )}
         {province && city && (
-          <p className="text-[13px] text-steel">
+          <p className="text-[14px] text-steel">
             {t("countries.cityVillagesPrefix")} {city}: {(places?.villages ?? []).length === 0 ? t("countries.cityVillagesNone") : places!.villages.join("، ")}
           </p>
         )}

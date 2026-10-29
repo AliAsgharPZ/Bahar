@@ -45,7 +45,7 @@ export default function PortfolioPage() {
             </span>
             <div className="flex flex-col gap-1">
               <b className="text-[22px] b-grad-text">{p.student.name}</b>
-              <span className="text-[13px] text-steel">
+              <span className="text-[14px] text-steel">
                 {p.student.schoolName} · {p.student.className} · {t("portfolio.gradePrefix")} {p.student.grade}
                 {p.student.houseName ? ` · ${t("portfolio.housePrefix")} ${p.student.houseName}` : ""} · {t("portfolio.studentNumberPrefix")} {p.student.studentNumber}
               </span>
@@ -67,20 +67,20 @@ export default function PortfolioPage() {
           <div className="grid lg:grid-cols-2 gap-4 items-start">
             <div className="b-card p-6 flex flex-col gap-2">
               <b className="text-[14px]">{t("portfolio.certificatesTitle")}</b>
-              {p.certificates.length === 0 && <span className="text-[12.5px] text-steel">{t("portfolio.noCertificates")}</span>}
+              {p.certificates.length === 0 && <span className="text-[12px] text-steel">{t("portfolio.noCertificates")}</span>}
               {p.certificates.map((c) => (
-                <div key={c.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                <div key={c.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                   <span>{c.title}</span>
-                  <span className="text-steel text-[11.5px]">{formatDateFa(c.issuedAt)}</span>
+                  <span className="text-steel text-[12px]">{formatDateFa(c.issuedAt)}</span>
                 </div>
               ))}
             </div>
             <div className="flex flex-col gap-4">
               <div className="b-card p-6 flex flex-col gap-2">
                 <b className="text-[14px]">{t("portfolio.topQuizzes")}</b>
-                {p.topQuizzes.length === 0 && <span className="text-[12.5px] text-steel">{t("portfolio.noQuizzes")}</span>}
+                {p.topQuizzes.length === 0 && <span className="text-[12px] text-steel">{t("portfolio.noQuizzes")}</span>}
                 {p.topQuizzes.map((q, i) => (
-                  <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
+                  <div key={i} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
                     <span>{q.title}</span>
                     <b className="text-spring">{q.score != null ? faNumber(q.score) : "—"}</b>
                   </div>
@@ -88,9 +88,9 @@ export default function PortfolioPage() {
               </div>
               <div className="b-card p-6 flex flex-col gap-2">
                 <b className="text-[14px]">{t("portfolio.strengths")}</b>
-                {p.strengths.length === 0 && <span className="text-[12.5px] text-steel">{t("portfolio.noStrengths")}</span>}
+                {p.strengths.length === 0 && <span className="text-[12px] text-steel">{t("portfolio.noStrengths")}</span>}
                 {p.strengths.map((s, i) => (
-                  <span key={i} className="text-[13px] flex gap-2"><Sparkles className="w-4 h-4 text-spring shrink-0 mt-0.5" /> {s}</span>
+                  <span key={i} className="text-[14px] flex gap-2"><Sparkles className="w-4 h-4 text-spring shrink-0 mt-0.5" /> {s}</span>
                 ))}
               </div>
             </div>

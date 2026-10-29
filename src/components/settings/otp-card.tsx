@@ -73,7 +73,7 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
   return (
     <div className="b-card p-5 flex flex-col gap-4">
       <div className="flex items-center gap-2 flex-wrap">
-        <b className="text-[13.5px] flex items-center gap-2">
+        <b className="text-[14px] flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-spring" /> ورود دومرحله‌ای با کد یکبارمصرف (ایمیل/پیامک)
         </b>
         <span className={`b-badge ${form.otpEnabled ? "b-badge-spring" : "b-badge-neutral"} ms-auto`}>
@@ -94,7 +94,7 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
           aria-pressed={form.otpEnabled}
         >
           <span className="flex flex-col items-start gap-0.5">
-            <b className="text-[12.5px]">کد یکبارمصرف هنگام ورود</b>
+            <b className="text-[12px]">کد یکبارمصرف هنگام ورود</b>
             <span className="text-[12px] text-steel leading-relaxed">
               {form.otpEnabled ? "برای همه کاربران هنگام ورود فعال است." : "خاموش — ورود فقط با رمز (و 2FA فردی در صورت فعال‌سازی)."}
             </span>
@@ -111,7 +111,7 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
           aria-pressed={form.otpTestMode}
         >
           <span className="flex flex-col items-start gap-0.5">
-            <b className="text-[12.5px]">حالت تست (بدون سرویس ارسال)</b>
+            <b className="text-[12px]">حالت تست (بدون سرویس ارسال)</b>
             <span className="text-[12px] text-steel leading-relaxed">
               {form.otpTestMode ? "کد در فرم ورود نمایش داده می‌شود — فقط برای آزمایش!" : "کد فقط از طریق سرویس واقعی ارسال می‌شود."}
             </span>
