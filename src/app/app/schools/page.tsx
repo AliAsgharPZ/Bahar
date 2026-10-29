@@ -11,6 +11,7 @@ import { IranMapPicker, type RegionSelection } from "@/components/shared/iran-ma
 import { Select, useConfirm } from "@/components/shared/pickers";
 import { relativeTimeFa, enDigits, faDigits } from "@/lib/persian";
 import { getCountrySync } from "@/lib/country/cache";
+import { useLang } from "@/lib/i18n";
 import { IRAN_PROVINCES, countiesOf } from "@/lib/iran";
 
 type SchoolRow = {
@@ -49,6 +50,7 @@ const emptyForm = {
 };
 
 export default function SchoolsPage() {
+  const { t } = useLang();
   const confirm = useConfirm();
   const { data: me } = useApi<Me>("/api/auth/me");
   const { data, loading, error, refetch } = useApi<{ schools: SchoolRow[] }>("/api/schools");
@@ -96,16 +98,16 @@ export default function SchoolsPage() {
         establishedYear: form.establishedYear ? Number(enDigits(form.establishedYear)) : undefined,
         county: region.counties[0]?.split("|")[1] ?? form.county,
       });
-      toast.success(`مدرسه ساخته شد${res.site ? ` — سایت: /s/${res.site.subdomain}` : ""}`);
+      toast.success(`${t("schools.toast.created")}${res.site ? ` — ${t("schools.toast.site")} /s/${res.site.subdomain}` : ""}`);
       if (res.manager) {
-        toast.info(`رمز مدیر: ${res.manager.password} (یک‌بار نمایش داده شد — در گفتگو ذخیره کنید)`);
+        toast.info(`${t("schools.toast.managerPassword")} ${res.manager.password} ${t("schools.toast.passwordOnce")}`);
       }
       setShowCreate(false);
       setForm(emptyForm);
       setRegion({ provinces: [], counties: [] });
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا در ساخت مدرسه");
+      toast.error(err instanceof Error ? err.message : t("schools.toast.createFailed"));
     } finally {
       setSaving(false);
     }
@@ -114,33 +116,33 @@ export default function SchoolsPage() {
   async function enterPanel(s: SchoolRow) {
     try {
       await apiPost(`/api/schools/${s.id}/enter`, {});
-      toast.success(`وارد پنل «${s.name}» شدید — حالا مثل مدیر این مدرسه عمل می‌کنید.`);
+      toast.success(`${t("schools.toast.enterBefore")} «${s.name}» ${t("schools.toast.enterAfter")}`);
       window.location.href = "/app";
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
   async function softDelete(s: SchoolRow) {
-    if (!(await confirm({ title: "غیرفعال‌سازی مدرسه", description: `مدرسه «${s.name}» غیرفعال شود؟`, confirmLabel: "غیرفعال‌سازی", danger: true }))) return;
+    if (!(await confirm({ title: t("schools.deactivate.title"), description: `${t("schools.deactivate.descBefore")} «${s.name}» ${t("schools.deactivate.descAfter")}`, confirmLabel: t("students.deactivate.confirm"), danger: true }))) return;
     try {
       await apiDelete(`/api/schools/${s.id}`);
-      toast.success("مدرسه غیرفعال شد.");
+      toast.success(t("schools.toast.deactivated"));
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
   async function hardDelete(s: SchoolRow) {
-    if (!(await confirm({ title: "حذف کامل مدرسه", description: <>حذف کامل «{s.name}» با همه دانش‌آموزان، کلاس‌ها، نمرات و داده‌ها؟<br />این عمل برگشت‌پذیر نیست!</>, confirmLabel: "حذف کامل", danger: true }))) return;
-    if (!(await confirm({ title: "تأیید نهایی", description: "تایید نهایی: واقعاً حذف کامل شود؟", confirmLabel: "بله، حذف کن", danger: true }))) return;
+    if (!(await confirm({ title: t("schools.delete.title"), description: <>{t("schools.delete.descBefore")} «{s.name}» {t("schools.delete.descMid")}<br />{t("schools.delete.descAfter")}</>, confirmLabel: t("schools.delete.confirm"), danger: true }))) return;
+    if (!(await confirm({ title: t("users.delete.finalTitle"), description: t("schools.delete.finalDesc"), confirmLabel: t("users.delete.confirmYes"), danger: true }))) return;
     try {
       await apiDelete(`/api/schools/${s.id}?mode=hard`);
-      toast.success("مدرسه به‌طور کامل حذف شد.");
+      toast.success(t("schools.toast.deleted"));
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
@@ -175,11 +177,11 @@ export default function SchoolsPage() {
         shadEnabled: editShad,
         custodianEnabled: editCustodian,
       });
-      toast.success("تغییرات مدرسه ذخیره شد.");
+      toast.success(t("schools.toast.saved"));
       setEditing(null);
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -190,12 +192,12 @@ export default function SchoolsPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="مدارس"
-        desc="مدیریت کامل مدارس: شهرستان، لوگو، سایت اختصاصی و ورود مستقیم به پنل هر مدرسه. همهٔ قابلیت‌ها رایگان است."
+        title={t("nav.schools")}
+        desc={t("schools.header.desc")}
         action={
           canCreateSchools ? (
             <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShowCreate(true)}>
-              <Plus className="w-4 h-4" /> مدرسه جدید
+              <Plus className="w-4 h-4" /> {t("schools.new")}
             </button>
           ) : undefined
         }
@@ -203,13 +205,13 @@ export default function SchoolsPage() {
 
       <div className="b-search-pill max-w-xs">
         <Search className="w-4 h-4" />
-        <input className="b-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="جست‌وجوی نام، کد یا شهرستان…" />
+        <input className="b-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("schools.search.placeholder")} />
       </div>
 
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
       {schools.length === 0 && !loading && (
-        <EmptyState title="مدرسه‌ای یافت نشد" desc={canCreateSchools ? "اولین مدرسه سرویس بهار را بسازید." : "برای ایجاد مدرسه با مدیر سرویس تماس بگیرید."} action={canCreateSchools ? <button className="b-btn b-btn-spring b-btn-sm mt-2" onClick={() => setShowCreate(true)}><Plus className="w-4 h-4" /> مدرسه جدید</button> : undefined} />
+        <EmptyState title={t("schools.empty.title")} desc={canCreateSchools ? t("schools.empty.createHint") : t("schools.empty.contactHint")} action={canCreateSchools ? <button className="b-btn b-btn-spring b-btn-sm mt-2" onClick={() => setShowCreate(true)}><Plus className="w-4 h-4" /> {t("schools.new")}</button> : undefined} />
       )}
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -240,10 +242,10 @@ export default function SchoolsPage() {
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
                 {[
-                  { l: "دانش‌آموز", v: s.studentCount },
-                  { l: "معلم", v: s.teacherCount },
-                  { l: "کلاس", v: s.classCount },
-                  { l: "مدیر", v: s.manager ? 1 : 0 },
+                  { l: t("common.student"), v: s.studentCount },
+                  { l: t("common.teacher"), v: s.teacherCount },
+                  { l: t("common.class"), v: s.classCount },
+                  { l: t("common.manager"), v: s.manager ? 1 : 0 },
                 ].map((x, i) => (
                   <div key={i} className="b-card-sm !rounded-xl !p-2">
                     <b className="text-[14px] block">{faDigits(x.v)}</b>
@@ -254,18 +256,18 @@ export default function SchoolsPage() {
 
               <div className="flex flex-col gap-1.5 text-[12px]">
                 <div className="flex justify-between">
-                  <span className="text-steel">مدیر</span>
-                  <b className="truncate">{s.manager ? `${s.manager.firstName} ${s.manager.lastName}` : "تعیین نشده"}</b>
+                  <span className="text-steel">{t("common.manager")}</span>
+                  <b className="truncate">{s.manager ? `${s.manager.firstName} ${s.manager.lastName}` : t("schools.manager.unset")}</b>
                 </div>
                 {s.site && (
                   <div className="flex justify-between">
-                    <span className="text-steel">سایت</span>
+                    <span className="text-steel">{t("schools.site.label")}</span>
                     {s.site.published ? (
                       <a href={`/s/${s.site.subdomain}`} target="_blank" rel="noreferrer" className="text-spring font-bold hover:underline flex items-center gap-1">
                         <Globe className="w-3 h-3" /> /s/{s.site.subdomain}
                       </a>
                     ) : (
-                      <span className="text-stone">پیش‌نویس (منتشر نشده)</span>
+                      <span className="text-stone">{t("schools.site.draft")}</span>
                     )}
                   </div>
                 )}
@@ -274,23 +276,23 @@ export default function SchoolsPage() {
               <div className="flex items-center gap-2 flex-wrap mt-auto pt-2 border-t border-hairline-soft">
                 {canEditSchools && (
                   <button className="b-btn b-btn-soft b-btn-sm" onClick={() => openEdit(s)}>
-                    <Pencil className="w-3.5 h-3.5" /> ویرایش
+                    <Pencil className="w-3.5 h-3.5" /> {t("common.edit")}
                   </button>
                 )}
                 {canEnterPanels && (
                   <button className="b-btn b-btn-spring b-btn-sm" onClick={() => enterPanel(s)}>
-                    <DoorOpen className="w-3.5 h-3.5" /> ورود به پنل
+                    <DoorOpen className="w-3.5 h-3.5" /> {t("schools.enterPanel")}
                   </button>
                 )}
                 {canEditSchools && (s.isActive ? (
-                  <button className="b-btn b-btn-ghost b-btn-sm !text-steel" onClick={() => softDelete(s)} title="غیرفعال‌سازی">
+                  <button className="b-btn b-btn-ghost b-btn-sm !text-steel" onClick={() => softDelete(s)} title={t("schools.deactivate.title")}>
                     <Ban className="w-3.5 h-3.5" />
                   </button>
                 ) : (
-                  <span className="b-badge b-badge-neutral !text-[10px]">غیرفعال</span>
+                  <span className="b-badge b-badge-neutral !text-[10px]">{t("common.inactive")}</span>
                 ))}
                 {canDeleteSchools && (
-                  <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={() => hardDelete(s)} title="حذف کامل">
+                  <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={() => hardDelete(s)} title={t("schools.delete.title")}>
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
@@ -305,47 +307,47 @@ export default function SchoolsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => !saving && setShowCreate(false)} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto b-scroll b-pop">
-            <h2 className="font-bold text-lg mb-1">مدرسه جدید</h2>
-            <p className="t-sm text-steel mb-6">پس از ثبت، آدرس اختصاصی سایت مدرسه (نام-مدرسه در مسیر /s/) خودکار ساخته می‌شود و مدیر می‌تواند تمپلیتش را شخصی‌سازی کند.</p>
+            <h2 className="font-bold text-lg mb-1">{t("schools.new")}</h2>
+            <p className="t-sm text-steel mb-6">{t("schools.create.desc")}</p>
             <form onSubmit={createSchool} className="flex flex-col gap-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">نام مدرسه *</span>
-                  <input className="b-input" value={form.name} onChange={(e) => set("name", e.target.value)} required placeholder="دبیرستان بهار" />
+                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolNameRequired")}</span>
+                  <input className="b-input" value={form.name} onChange={(e) => set("name", e.target.value)} required placeholder={t("schools.placeholder.schoolName")} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">کد مدرسه *</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolCodeRequired")}</span>
                   <input className="b-input" dir="ltr" value={form.code} onChange={(e) => set("code", e.target.value)} required placeholder="BH-101" />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">نوع مدرسه</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolType")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
                     value={form.type}
                     onChange={(v) => set("type", v)}
-                    options={[{ value: "", label: "— انتخاب —" }, ...getCountrySync().schoolTypes.map((t) => ({ value: t, label: t }))]}
-                    placeholder="— انتخاب —"
+                    options={[{ value: "", label: t("users.selectPlaceholder") }, ...getCountrySync().schoolTypes.map((x) => ({ value: x, label: x }))]}
+                    placeholder={t("users.selectPlaceholder")}
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">تلفن</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.phone")}</span>
                   <input className="b-input" dir="ltr" value={form.phone} onChange={(e) => set("phone", e.target.value)} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">استان</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.province")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
                     value={form.province}
                     onChange={(v) => { set("province", v); setRegion((r) => ({ ...r, provinces: v ? [v] : [], counties: [] })); }}
-                    options={[{ value: "", label: "— انتخاب استان —" }, ...IRAN_PROVINCES.map((p) => ({ value: p.fa, label: `${p.fa} (${p.center})` }))]}
-                    placeholder="— انتخاب استان —"
+                    options={[{ value: "", label: t("schools.select.province") }, ...IRAN_PROVINCES.map((p) => ({ value: p.fa, label: `${p.fa} (${p.center})` }))]}
+                    placeholder={t("schools.select.province")}
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
                   <span className="text-[12.5px] font-bold flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-spring" /> شهرستان
+                    <MapPin className="w-3.5 h-3.5 text-spring" /> {t("schools.field.county")}
                   </span>
                   <div className="flex gap-2">
                     <Select
@@ -353,53 +355,53 @@ export default function SchoolsPage() {
                       buttonClassName="!w-full"
                       value={region.counties[0]?.split("|")[1] ?? ""}
                       onChange={(v) => setRegion((r) => ({ ...r, counties: v && form.province ? [`${form.province}|${v}`] : [] }))}
-                      options={[{ value: "", label: "— انتخاب شهرستان —" }, ...counties.map((c) => ({ value: c, label: c }))]}
-                      placeholder="— انتخاب شهرستان —"
+                      options={[{ value: "", label: t("schools.select.county") }, ...counties.map((c) => ({ value: c, label: c }))]}
+                      placeholder={t("schools.select.county")}
                     />
-                    <button type="button" className="b-btn b-btn-soft !px-3" onClick={() => setMapOpen(true)} title="انتخاب از نقشه">
+                    <button type="button" className="b-btn b-btn-soft !px-3" onClick={() => setMapOpen(true)} title={t("schools.map.pickTitle")}>
                       <MapPin className="w-4 h-4" />
                     </button>
                   </div>
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold">آدرس</span>
+                  <span className="text-[12.5px] font-bold">{t("students.field.address")}</span>
                   <input className="b-input" value={form.address} onChange={(e) => set("address", e.target.value)} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">شعار مدرسه</span>
-                  <input className="b-input" value={form.motto} onChange={(e) => set("motto", e.target.value)} placeholder="مدرسه‌ای برای آینده" />
+                  <span className="text-[12.5px] font-bold">{t("schools.field.motto")}</span>
+                  <input className="b-input" value={form.motto} onChange={(e) => set("motto", e.target.value)} placeholder={t("schools.placeholder.motto")} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">سال تاسیس</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.establishedYear")}</span>
                   <input className="b-input" dir="ltr" value={form.establishedYear} onChange={(e) => set("establishedYear", e.target.value)} placeholder="1380" />
                 </label>
               </div>
 
               {/* مدیر */}
               <div className="b-card-sm !rounded-2xl p-5">
-                <h3 className="font-bold text-[13.5px] mb-1">مدیر مدرسه</h3>
-                <p className="text-[11px] text-stone mb-4">اگر حساب مدیر را از قبل ساخته‌اید فقط کد ملی را وارد کنید؛ وگرنه مشخصات کامل را ثبت کنید.</p>
+                <h3 className="font-bold text-[13.5px] mb-1">{t("role.manager")}</h3>
+                <p className="text-[11px] text-stone mb-4">{t("schools.manager.hint")}</p>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">کد ملی مدیر</span>
+                    <span className="text-[12.5px] font-bold">{t("schools.field.managerNationalId")}</span>
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.managerNationalId} onChange={(e) => set("managerNationalId", enDigits(e.target.value))} />
                     {isSuper && (
                       <label className="flex items-center gap-2 text-[11px] text-steel mt-0.5 cursor-pointer">
                         <input type="checkbox" className="accent-spring w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
-                        ثبت با کد نامعتبر (سوپرادمین)
+                        {t("schools.manager.forceInvalid")}
                       </label>
                     )}
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">نام</span>
+                    <span className="text-[12.5px] font-bold">{t("common.name")}</span>
                     <input className="b-input" value={form.managerFirstName} onChange={(e) => set("managerFirstName", e.target.value)} />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">نام خانوادگی</span>
+                    <span className="text-[12.5px] font-bold">{t("students.ph.lastName")}</span>
                     <input className="b-input" value={form.managerLastName} onChange={(e) => set("managerLastName", e.target.value)} />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">شماره شاد مدیر</span>
+                    <span className="text-[12.5px] font-bold">{t("schools.field.managerShad")}</span>
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.managerShadNumber} onChange={(e) => set("managerShadNumber", enDigits(e.target.value))} placeholder="09…" />
                   </label>
                 </div>
@@ -407,9 +409,9 @@ export default function SchoolsPage() {
 
               <div className="flex items-center gap-3">
                 <button type="submit" disabled={saving} className="b-btn b-btn-spring">
-                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "ساخت مدرسه"}
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : t("schools.create.submit")}
                 </button>
-                <button type="button" className="b-btn b-btn-ghost" onClick={() => setShowCreate(false)} disabled={saving}>انصراف</button>
+                <button type="button" className="b-btn b-btn-ghost" onClick={() => setShowCreate(false)} disabled={saving}>{t("common.cancel")}</button>
               </div>
             </form>
           </div>
@@ -421,12 +423,12 @@ export default function SchoolsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => !saving && setEditing(null)} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto b-scroll b-pop">
-            <h2 className="font-bold text-lg mb-1">ویرایش {editing.name}</h2>
-            <p className="t-sm text-steel mb-6">همه مشخصات مدرسه قابل تغییر است — لوگو از بخش «سایت مدرسه» آپلود می‌شود.</p>
+            <h2 className="font-bold text-lg mb-1">{t("common.edit")} {editing.name}</h2>
+            <p className="t-sm text-steel mb-6">{t("schools.edit.desc")}</p>
             <form onSubmit={saveEdit} className="flex flex-col gap-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { k: "name", l: "نام مدرسه" }, { k: "code", l: "کد مدرسه" },
+                  { k: "name", l: t("schools.field.schoolName") }, { k: "code", l: t("schools.field.schoolCode") },
                 ].map((f) => (
                   <label key={f.k} className="flex flex-col gap-1.5">
                     <span className="text-[12.5px] font-bold">{f.l}</span>
@@ -434,48 +436,48 @@ export default function SchoolsPage() {
                   </label>
                 ))}
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">نوع مدرسه</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.schoolType")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
                     value={editForm.type ?? ""}
                     onChange={(v) => setEditForm((ef) => ({ ...ef, type: v }))}
-                    options={[{ value: "", label: "—" }, ...getCountrySync().schoolTypes.map((t) => ({ value: t, label: t }))]}
+                    options={[{ value: "", label: "—" }, ...getCountrySync().schoolTypes.map((x) => ({ value: x, label: x }))]}
                     placeholder="—"
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">تلفن</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.phone")}</span>
                   <input className="b-input" dir="ltr" value={editForm.phone ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, phone: e.target.value }))} />
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-spring" /> موقعیت (استان/شهرستان)</span>
+                  <span className="text-[12.5px] font-bold flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-spring" /> {t("schools.field.location")}</span>
                   <button type="button" className="b-btn b-btn-ghost b-input flex items-center gap-2" onClick={() => setEditMapOpen(true)}>
                     <MapPin className="w-4 h-4 text-spring" />
                     {editRegion.provinces[0]
                       ? `${editRegion.counties[0]?.split("|")[1] ?? editRegion.provinces[0]}، ${editRegion.provinces[0]}`
-                      : "انتخاب از نقشه ایران"}
+                      : t("schools.map.pickIran")}
                   </button>
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2">
-                  <span className="text-[12.5px] font-bold">آدرس</span>
+                  <span className="text-[12.5px] font-bold">{t("students.field.address")}</span>
                   <input className="b-input" value={editForm.address ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, address: e.target.value }))} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">شعار</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.mottoShort")}</span>
                   <input className="b-input" value={editForm.motto ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, motto: e.target.value }))} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">سال تاسیس</span>
+                  <span className="text-[12.5px] font-bold">{t("schools.field.establishedYear")}</span>
                   <input className="b-input" dir="ltr" value={editForm.establishedYear ?? ""} onChange={(e) => setEditForm((ef) => ({ ...ef, establishedYear: e.target.value }))} />
                 </label>
               </div>
 
               {/* راند ۱۸: ماژول‌های اختیاری — شاد و نقش سرایدار */}
               <div className="b-card-sm !rounded-2xl p-5">
-                <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-1.5"><Puzzle className="w-4 h-4 text-spring" /> ماژول‌های اختیاری</h3>
+                <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-1.5"><Puzzle className="w-4 h-4 text-spring" /> {t("schools.modules.title")}</h3>
                 <p className="text-[11px] text-steel mb-4 leading-relaxed">
-                  هر دو کاملاً اختیاری‌اند؛ خاموش‌کردنشان به کار سامانه آسیبی نمی‌زند — جایشان قابلیت جایگزین (کپی اعتبارنامه روی صفحه) فعال می‌شود.
+                  {t("schools.modules.desc")}
                 </p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <button
@@ -485,9 +487,9 @@ export default function SchoolsPage() {
                     aria-pressed={editShad}
                   >
                     <span className="flex flex-col items-start gap-0.5">
-                      <b className="text-[12.5px]">دروازه شاد</b>
+                      <b className="text-[12.5px]">{t("schools.modules.shad")}</b>
                       <span className="text-[10.5px] text-steel leading-relaxed">
-                        {editShad ? "ارسال خودکار رمز و اطلاعیه با شاد روشن است." : "خاموش — رمز کاربرها هنگام ساخت قابل کپی است."}
+                        {editShad ? t("schools.modules.shadOn") : t("schools.modules.shadOff")}
                       </span>
                     </span>
                     <span className={`ms-auto w-10 h-6 rounded-full shrink-0 transition-colors relative ${editShad ? "bg-spring" : "bg-cloud"}`}>
@@ -501,9 +503,9 @@ export default function SchoolsPage() {
                     aria-pressed={editCustodian}
                   >
                     <span className="flex flex-col items-start gap-0.5">
-                      <b className="text-[12.5px]">نقش سرایدار</b>
+                      <b className="text-[12.5px]">{t("schools.modules.custodian")}</b>
                       <span className="text-[10.5px] text-steel leading-relaxed">
-                        {editCustodian ? "می‌توانید حساب سرایدار برای امکانات و اموال بسازید." : "خاموش — ساخت حساب سرایدار بسته است."}
+                        {editCustodian ? t("schools.modules.custodianOn") : t("schools.modules.custodianOff")}
                       </span>
                     </span>
                     <span className={`ms-auto w-10 h-6 rounded-full shrink-0 transition-colors relative ${editCustodian ? "bg-spring" : "bg-cloud"}`}>
@@ -515,9 +517,9 @@ export default function SchoolsPage() {
 
               <div className="flex items-center gap-3">
                 <button type="submit" disabled={saving} className="b-btn b-btn-spring">
-                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "ذخیره"}
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : t("common.save")}
                 </button>
-                <button type="button" className="b-btn b-btn-ghost" onClick={() => setEditing(null)}>بستن</button>
+                <button type="button" className="b-btn b-btn-ghost" onClick={() => setEditing(null)}>{t("common.close")}</button>
               </div>
             </form>
           </div>
@@ -532,15 +534,15 @@ export default function SchoolsPage() {
           setRegion(sel);
           if (sel.provinces[0]) set("province", sel.provinces[0]);
         }}
-        title="انتخاب شهرستان مدرسه"
-        desc="یک شهرستان (یا استان) انتخاب کنید — در فهرست مدارس و هدف‌گیری اطلاعیه استفاده می‌شود."
+        title={t("schools.map.createTitle")}
+        desc={t("schools.map.createDesc")}
       />
       <IranMapPicker
         open={editMapOpen}
         onClose={() => setEditMapOpen(false)}
         selection={editRegion}
         onChange={setEditRegion}
-        title="تغییر موقعیت مدرسه"
+        title={t("schools.map.editTitle")}
       />
     </div>
   );

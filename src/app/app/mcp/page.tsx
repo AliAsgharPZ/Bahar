@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHeader } from "@/components/shared/bits";
+import { useLang } from "@/lib/i18n";
 import { Terminal } from "lucide-react";
 
 const READ_TOOLS = [
@@ -11,16 +12,17 @@ const READ_TOOLS = [
 const WRITE_TOOLS = ["mcp_create_announcement", "mcp_create_task", "mcp_record_attendance"];
 
 export default function McpPage() {
+  const { t } = useLang();
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="سرور MCP بهار" desc="تا ایجنت‌ها با سامانه کار کنند — با همان نشست و نقش کاربر، بدون توکن یا میان‌بر تازه." />
+      <PageHeader title={t("mcp.title")} desc={t("mcp.desc")} />
       <div className="b-card p-6 flex flex-col gap-3">
-        <b className="text-[14px]">نقطهٔ اتصال</b>
+        <b className="text-[14px]">{t("mcp.endpoint.title")}</b>
         <p className="text-[13px] text-steel">
-          نشانی سرور: <b dir="ltr">/api/mcp</b> — پروتکل JSON-RPC 2.0.
-          احراز هویت دقیقاً با همان کوکی نشست بهار انجام می‌شود؛ ایجنت باید با همان حساب وارد شده باشد.
-          بدون نشست معتبر، همهٔ ابزارها خطای احراز هویت می‌دهند و هیچ داده‌ای برنمی‌گردد.
-          داده همیشه به مدرسهٔ همان کاربر محدود است و دانش‌آموز/ولی فقط دادهٔ خودش یا فرزندانش را می‌بیند.
+          {t("mcp.endpoint.label")} <b dir="ltr">/api/mcp</b> — {t("mcp.endpoint.proto")}
+          {t("mcp.auth")}
+          {t("mcp.noSession")}
+          {t("mcp.scope")}
         </p>
         <pre className="b-card p-4 text-[12px] overflow-x-auto" dir="ltr">{`{
   "jsonrpc": "2.0", "id": 1, "method": "tools/call",
@@ -29,18 +31,18 @@ export default function McpPage() {
       </div>
       <div className="grid lg:grid-cols-2 gap-4 items-start">
         <div className="b-card p-6 flex flex-col gap-1">
-          <b className="text-[14px] mb-2">ابزارهای خواندنی</b>
+          <b className="text-[14px] mb-2">{t("mcp.tools.read")}</b>
           {READ_TOOLS.map((t) => <code key={t} className="text-[12.5px] py-1 border-b border-hairline last:border-0" dir="ltr">{t}</code>)}
         </div>
         <div className="b-card p-6 flex flex-col gap-1">
-          <b className="text-[14px] mb-2">ابزارهای نوشتنی (فقط نقش‌های مجاز همان عملیات)</b>
+          <b className="text-[14px] mb-2">{t("mcp.tools.write")}</b>
           {WRITE_TOOLS.map((t) => <code key={t} className="text-[12.5px] py-1 border-b border-hairline last:border-0" dir="ltr">{t}</code>)}
-          <p className="text-[12.5px] text-steel mt-2">ثبت حضور فقط برای معلم/مدیر/معاون؛ اطلاعیه و تسک فقط برای کادر مدرسه. هیچ ابزار نوشتنی برای نقش دانش‌آموز/ولی باز نیست.</p>
+          <p className="text-[12.5px] text-steel mt-2">{t("mcp.writeNote")}</p>
         </div>
       </div>
       <div className="b-card p-6 flex flex-col gap-2">
-        <b className="text-[14px] flex items-center gap-2"><Terminal className="w-4 h-4" /> نکته برای ایجنت‌ها</b>
-        <p className="text-[13px] text-steel">اول <code dir="ltr">initialize</code> را بفرستید، بعد <code dir="ltr">tools/list</code>، بعد <code dir="ltr">tools/call</code>. اگر پاسخ «NO_SCHOOL» گرفتید، یعنی حساب به مدرسه‌ای وصل نیست؛ سوپرادمین می‌تواند schoolId را در آرگومان بدهد.</p>
+        <b className="text-[14px] flex items-center gap-2"><Terminal className="w-4 h-4" /> {t("mcp.agentNote.title")}</b>
+        <p className="text-[13px] text-steel">{t("mcp.agentNote.first")}{" "}<code dir="ltr">initialize</code>{" "}{t("mcp.agentNote.afterInit")}{" "}<code dir="ltr">tools/list</code>{t("mcp.agentNote.afterList")}{" "}<code dir="ltr">tools/call</code>{t("mcp.agentNote.afterCall")}</p>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { useApi } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { formatDateTimeFa } from "@/lib/persian";
 import { History } from "lucide-react";
+import { useLang } from "@/lib/i18n";
 
 type Log = {
   id: string; userName: string | null; action: string; entityType: string | null;
@@ -122,18 +123,19 @@ function isPersian(s: string): boolean {
 }
 
 export default function AuditPage() {
+  const { t } = useLang();
   const { data, loading, error } = useApi<{ logs: Log[] }>("/api/audit?limit=100");
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="گزارش فعالیت"
-        desc="ثبت خودکار همه رخدادهای مهم سامانه — شفافیت کامل برای مدیریت."
+        title={t("nav.audit")}
+        desc={t("audit.header.desc")}
       />
 
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
-      {data && data.logs.length === 0 && <EmptyState icon={History} title="رخدادی ثبت نشده" />}
+      {data && data.logs.length === 0 && <EmptyState icon={History} title={t("audit.empty.title")} />}
 
       {data && data.logs.length > 0 && (
         <div className="b-card-sm overflow-hidden">
@@ -141,11 +143,11 @@ export default function AuditPage() {
             <table className="w-full text-[12.5px]">
               <thead className="sticky top-0 bg-background">
                 <tr className="border-b border-hairline-soft text-steel text-[11px]">
-                  <th className="text-right py-3 px-4 font-bold">زمان</th>
-                  <th className="text-right py-3 px-4 font-bold">کاربر</th>
-                  <th className="text-right py-3 px-4 font-bold">رخداد</th>
-                  <th className="text-right py-3 px-4 font-bold hidden md:table-cell">موجودیت</th>
-                  <th className="text-right py-3 px-4 font-bold hidden lg:table-cell">جزئیات</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("audit.table.time")}</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("users.table.user")}</th>
+                  <th className="text-right py-3 px-4 font-bold">{t("audit.table.event")}</th>
+                  <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("audit.table.entity")}</th>
+                  <th className="text-right py-3 px-4 font-bold hidden lg:table-cell">{t("common.details")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -169,7 +171,7 @@ export default function AuditPage() {
                   return (
                     <tr key={l.id} className="b-row border-b border-hairline-soft/60 last:border-0">
                       <td className="py-2.5 px-4 text-steel whitespace-nowrap">{formatDateTimeFa(l.createdAt)}</td>
-                      <td className="py-2.5 px-4"><b>{l.userName ?? "سیستم"}</b></td>
+                      <td className="py-2.5 px-4"><b>{l.userName ?? t("dashboard.system")}</b></td>
                       <td className="py-2.5 px-4">{LABELS[l.action] ?? (isPersian(l.action) ? l.action : l.action)}</td>
                       <td className="py-2.5 px-4 hidden md:table-cell">
                         <span className={`b-badge ${TYPE_COLORS[l.entityType ?? ""] ?? "b-badge-neutral"}`}>

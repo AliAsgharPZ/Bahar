@@ -15,7 +15,8 @@ import { Select } from "@/components/shared/pickers";
 import { ProfileImageCard } from "@/components/profile/profile-image-card";
 import { TwoFactorCard } from "@/components/settings/twofactor-card";
 import { PasskeyCard } from "@/components/shared/passkey-card";
-import { formatDateFa, PARENT_RELATION_LABELS, GENDER_LABELS, relativeTimeFa, enDigits } from "@/lib/persian";
+import { formatDateFa, relativeTimeFa, enDigits } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 import type { AvatarParams } from "@/lib/avatar";
 
 type Me = {
@@ -48,31 +49,33 @@ type ChangeRequest = {
   reviewNote: string | null;
 };
 
-const FIELD_LABELS: Record<string, string> = {
-  firstName: "نام", lastName: "نام خانوادگی", fatherName: "نام پدر", gender: "جنسیت",
-  birthPlace: "محل تولد", birthDate: "تاریخ تولد", phone: "موبایل", homePhone: "تلفن خانه",
-  email: "ایمیل", address: "آدرس", postalCode: "کد پستی", shadNumber: "شماره شاد",
-  education: "مدرک تحصیلی", fieldOfStudy: "رشته تحصیلی", jobTitle: "شغل",
+const EDITABLE_FIELDS: { key: string; ltr?: boolean; select?: boolean }[] = [
+  { key: "firstName" },
+  { key: "lastName" },
+  { key: "fatherName" },
+  { key: "gender", select: true },
+  { key: "birthPlace" },
+  { key: "phone", ltr: true },
+  { key: "homePhone", ltr: true },
+  { key: "email", ltr: true },
+  { key: "address" },
+  { key: "postalCode", ltr: true },
+  { key: "shadNumber", ltr: true },
+  { key: "education" },
+  { key: "fieldOfStudy" },
+  { key: "jobTitle" },
+] as { key: string; ltr?: boolean; select?: boolean }[];
+
+const PROFILE_FIELD_TKEY: Record<string, string> = {
+  firstName: "common.name", lastName: "students.ph.lastName", fatherName: "students.field.fatherName",
+  gender: "students.field.gender", birthPlace: "students.field.birthPlace", birthDate: "profile.field.birthDate",
+  phone: "students.field.mobile", homePhone: "users.field.homePhone", email: "users.field.email",
+  address: "students.field.address", postalCode: "users.field.postalCode", shadNumber: "students.field.shadNumber",
+  education: "users.field.education", fieldOfStudy: "users.field.fieldOfStudy", jobTitle: "students.parent.job",
 };
 
-const EDITABLE_FIELDS: { key: string; label: string; ltr?: boolean; select?: boolean }[] = [
-  { key: "firstName", label: "نام" },
-  { key: "lastName", label: "نام خانوادگی" },
-  { key: "fatherName", label: "نام پدر" },
-  { key: "gender", label: "جنسیت", select: true },
-  { key: "birthPlace", label: "محل تولد" },
-  { key: "phone", label: "موبایل", ltr: true },
-  { key: "homePhone", label: "تلفن خانه", ltr: true },
-  { key: "email", label: "ایمیل", ltr: true },
-  { key: "address", label: "آدرس" },
-  { key: "postalCode", label: "کد پستی", ltr: true },
-  { key: "shadNumber", label: "شماره شاد", ltr: true },
-  { key: "education", label: "مدرک تحصیلی" },
-  { key: "fieldOfStudy", label: "رشته تحصیلی" },
-  { key: "jobTitle", label: "شغل" },
-] as { key: string; label: string; ltr?: boolean; select?: boolean }[];
-
 export default function ProfilePage() {
+  const { t } = useLang();
   const params = useSearchParams();
   const router = useRouter();
   const { data, loading, error: meError, refetch: refetchMe } = useApi<Me>("/api/auth/me");
@@ -88,7 +91,7 @@ export default function ProfilePage() {
     setLoggingOut(true);
     try {
       await apiPost("/api/auth/logout").catch(() => {});
-      toast.success("خارج شدید؛ به امید دیدار!");
+      toast.success(t("shell.signedOut"));
       router.replace("/login");
     } finally {
       setLoggingOut(false);
@@ -111,17 +114,17 @@ export default function ProfilePage() {
   async function changePassword(e: React.FormEvent) {
     e.preventDefault();
     if (next !== confirm) {
-      toast.error("تکرار رمز با رمز جدید یکسان نیست.");
+      toast.error(t("profile.toast.passwordMismatch"));
       return;
     }
     setSaving(true);
     try {
       await apiPost("/api/auth/change-password", { currentPassword: cur, newPassword: next });
-      toast.success("رمز عبور تغییر کرد!");
+      toast.success(t("profile.toast.passwordChanged"));
       setCur(""); setNext(""); setConfirm("");
       window.location.reload();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -152,7 +155,7 @@ export default function ProfilePage() {
           phone: enDigits(editForm.phone ?? ""),
           email: editForm.email ?? "",
         });
-        toast.success("مشخصات شما ذخیره شد.");
+        toast.success(t("profile.toast.saved"));
         setEditing(false);
         refetchMe();
       } else {
@@ -163,29 +166,29 @@ export default function ProfilePage() {
           changes[f.key] = val.trim();
         }
         const res = await apiPost<{ approver: string }>("/api/profile-requests", { changes, reason: reason || undefined });
-        toast.success(`درخواست ثبت شد و به ${res.approver} ارسال شد.`);
+        toast.success(`${t("profile.toast.requestBefore")} ${res.approver} ${t("profile.toast.requestAfter")}`);
         setEditing(false);
         refetchReqs();
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSubmitting(false);
     }
   }
 
   if (loading) return <LoadingBlock />;
-  if (meError || !data) return <ErrorBox message={meError ?? "خطا در بارگذاری پروفایل"} />;
+  if (meError || !data) return <ErrorBox message={meError ?? t("profile.error.load")} />;
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="پروفایل من"
-        desc={u?.school ? `متصل به ${u.school.name}` : "سرویس بهار"}
+        title={t("profile.title")}
+        desc={u?.school ? `${t("profile.connectedTo")} ${u.school.name}` : "سرویس بهار"}
         action={
           u ? (
             <button className="b-btn b-btn-spring b-btn-sm" onClick={openEdit}>
-              <Pencil className="w-4 h-4" /> ویرایش مشخصات من
+              <Pencil className="w-4 h-4" /> {t("profile.edit.title")}
             </button>
           ) : undefined
         }
@@ -210,12 +213,12 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <b className="text-lg">{u.firstName} {u.lastName}</b>
                   <RoleBadge role={u.role} />
-                  {u.mustChangePassword && <span className="b-badge b-badge-warning">رمز اولیه — تغییر دهید</span>}
+                  {u.mustChangePassword && <span className="b-badge b-badge-warning">{t("profile.badge.initialPassword")}</span>}
                 </div>
                 <span className="t-sm text-steel" dir="ltr">
-                  نام کاربری (کد ملی): <b className="font-mono">{u.nationalId}</b>
+                  {t("profile.usernameLabel")} <b className="font-mono">{u.nationalId}</b>
                 </span>
-                {u.lastLoginAt && <span className="text-[11.5px] text-stone">آخرین ورود: {formatDateFa(u.lastLoginAt)}</span>}
+                {u.lastLoginAt && <span className="text-[11.5px] text-stone">{t("profile.lastLogin")} {formatDateFa(u.lastLoginAt)}</span>}
               </div>
             </div>
           </div>
@@ -227,8 +230,8 @@ export default function ProfilePage() {
               {/* راند ۱۹: truncate حذف شد — جملهٔ راهنما در موبایل نصفه دیده نمی‌شد؛ حالا می‌شکند */}
               <span className="leading-snug">
                 {u.hasPendingChanges
-                  ? "درخواست تغییر شما در انتظار تایید بالادستی است."
-                  : "برای تغییر مشخصات، درخواست ثبت کنید و مدیر (بالادستی) تایید کند."}
+                  ? t("profile.pending.waiting")
+                  : t("profile.pending.hint")}
               </span>
             </div>
           )}
@@ -236,19 +239,19 @@ export default function ProfilePage() {
           {/* تاریخچه درخواست‌ها */}
           {reqData && reqData.requests.length > 0 && (
             <div className="b-card p-5">
-              <b className="text-[13.5px] block mb-4">درخواست‌های تغییر من</b>
+              <b className="text-[13.5px] block mb-4">{t("profile.requests.title")}</b>
               <div className="flex flex-col gap-2.5">
                 {reqData.requests.slice(0, 5).map((r) => (
                   <div key={r.id} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
-                    {r.status === "PENDING" && <span className="b-badge b-badge-warning"><Clock className="w-3 h-3 inline ml-1" /> در انتظار</span>}
-                    {r.status === "APPROVED" && <span className="b-badge b-badge-spring"><CheckCircle2 className="w-3 h-3 inline ml-1" /> تایید و اعمال شد</span>}
-                    {r.status === "REJECTED" && <span className="b-badge b-badge-critical"><XCircle className="w-3 h-3 inline ml-1" /> رد شد</span>}
+                    {r.status === "PENDING" && <span className="b-badge b-badge-warning"><Clock className="w-3 h-3 inline ml-1" /> {t("dashboard.meeting.pending")}</span>}
+                    {r.status === "APPROVED" && <span className="b-badge b-badge-spring"><CheckCircle2 className="w-3 h-3 inline ml-1" /> {t("profile.requests.approved")}</span>}
+                    {r.status === "REJECTED" && <span className="b-badge b-badge-critical"><XCircle className="w-3 h-3 inline ml-1" /> {t("profile.requests.rejected")}</span>}
                     <span className="text-[12px]">
-                      {Object.keys(r.changes).map((f) => FIELD_LABELS[f] ?? f).join("، ")}
+                      {Object.keys(r.changes).map((f) => t(PROFILE_FIELD_TKEY[f] ?? f)).join("، ")}
                     </span>
                     <span className="text-[10.5px] text-stone ms-auto">{relativeTimeFa(r.createdAt)}</span>
                     {r.status === "REJECTED" && r.reviewNote && (
-                      <span className="text-[11px] text-destructive w-full">علت: {r.reviewNote}</span>
+                      <span className="text-[11px] text-destructive w-full">{t("profile.requests.reason")} {r.reviewNote}</span>
                     )}
                   </div>
                 ))}
@@ -258,19 +261,19 @@ export default function ProfilePage() {
 
           <div className="grid md:grid-cols-2 gap-4">
             {[
-              { icon: IdCard, label: "نام پدر", value: u.fatherName ?? "—" },
-              { icon: UserRound, label: "جنسیت", value: GENDER_LABELS[u.gender ?? ""] ?? "—" },
-              { icon: UserRound, label: "تاریخ تولد", value: u.birthDate ? formatDateFa(u.birthDate) : "—" },
-              { icon: MapPin, label: "محل تولد", value: u.birthPlace ?? "—" },
-              { icon: Phone, label: "موبایل", value: u.phone ?? "—", mono: true },
-              { icon: Phone, label: "شماره شاد", value: u.shadNumber ?? "—", mono: true },
-              { icon: Phone, label: "تلفن منزل", value: u.homePhone ?? "—", mono: true },
-              { icon: MapPin, label: "آدرس", value: u.address ?? "—" },
-              { icon: IdCard, label: "کد پستی", value: u.postalCode ?? "—", mono: true },
-              { icon: GraduationCap, label: "مدرک تحصیلی", value: u.education ?? "—" },
-              { icon: GraduationCap, label: "رشته تحصیلی", value: u.fieldOfStudy ?? "—" },
-              { icon: ShieldCheck, label: "کد پرسنلی", value: u.staffCode ?? "—", mono: true },
-              { icon: GraduationCap, label: "شغل", value: u.jobTitle ?? "—" },
+              { icon: IdCard, label: t("students.field.fatherName"), value: u.fatherName ?? "—" },
+              { icon: UserRound, label: t("students.field.gender"), value: u.gender === "MALE" ? t("enum.gender.MALE") : u.gender === "FEMALE" ? t("enum.gender.FEMALE") : "—" },
+              { icon: UserRound, label: t("profile.field.birthDate"), value: u.birthDate ? formatDateFa(u.birthDate) : "—" },
+              { icon: MapPin, label: t("students.field.birthPlace"), value: u.birthPlace ?? "—" },
+              { icon: Phone, label: t("students.field.mobile"), value: u.phone ?? "—", mono: true },
+              { icon: Phone, label: t("students.field.shadNumber"), value: u.shadNumber ?? "—", mono: true },
+              { icon: Phone, label: t("profile.info.homePhone"), value: u.homePhone ?? "—", mono: true },
+              { icon: MapPin, label: t("students.field.address"), value: u.address ?? "—" },
+              { icon: IdCard, label: t("users.field.postalCode"), value: u.postalCode ?? "—", mono: true },
+              { icon: GraduationCap, label: t("users.field.education"), value: u.education ?? "—" },
+              { icon: GraduationCap, label: t("users.field.fieldOfStudy"), value: u.fieldOfStudy ?? "—" },
+              { icon: ShieldCheck, label: t("users.field.staffCode"), value: u.staffCode ?? "—", mono: true },
+              { icon: GraduationCap, label: t("students.parent.job"), value: u.jobTitle ?? "—" },
             ].map((r) => (
               <div key={r.label} className="b-card-sm p-4 flex items-center gap-3">
                 <r.icon className="w-5 h-5 text-spring shrink-0" />
@@ -284,14 +287,14 @@ export default function ProfilePage() {
 
           {u.studentProfile && (
             <div className="b-card-md p-6">
-              <h3 className="font-bold text-[15px] mb-4">اطلاعات دانش‌آموزی</h3>
+              <h3 className="font-bold text-[15px] mb-4">{t("profile.student.title")}</h3>
               <div className="grid sm:grid-cols-2 gap-4 mb-6">
                 {[
-                  { label: "کلاس", value: u.studentProfile.class?.name ?? "—" },
-                  { label: "شماره دانش‌آموزی", value: u.studentProfile.studentNumber },
-                  { label: "سال ورود", value: u.studentProfile.entryYear ?? "—" },
-                  { label: "مدرسه قبلی", value: u.studentProfile.previousSchool ?? "—" },
-                  { label: "یادداشت سلامت", value: u.studentProfile.healthNotes ?? "—" },
+                  { label: t("common.class"), value: u.studentProfile.class?.name ?? "—" },
+                  { label: t("students.field.studentNumber"), value: u.studentProfile.studentNumber },
+                  { label: t("students.field.entryYear"), value: u.studentProfile.entryYear ?? "—" },
+                  { label: t("students.field.previousSchool"), value: u.studentProfile.previousSchool ?? "—" },
+                  { label: t("students.field.healthNotes"), value: u.studentProfile.healthNotes ?? "—" },
                 ].map((r) => (
                   <div key={r.label} className="b-card-sm !rounded-xl p-3.5">
                     <div className="text-[10.5px] text-steel">{r.label}</div>
@@ -299,24 +302,24 @@ export default function ProfilePage() {
                   </div>
                 ))}
               </div>
-              <h4 className="font-bold text-[13.5px] mb-3">اطلاعات اولیا</h4>
+              <h4 className="font-bold text-[13.5px] mb-3">{t("profile.parents.title")}</h4>
               <div className="grid sm:grid-cols-2 gap-3">
                 {u.studentProfile.parents.map((p) => (
                   <div key={p.parentUser.id} className="b-card-sm !rounded-xl p-4">
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <b className="text-[13px]">{p.parentUser.firstName} {p.parentUser.lastName}</b>
-                      <span className="b-badge b-badge-spring">{PARENT_RELATION_LABELS[p.relation] ?? p.relation}</span>
+                      <span className="b-badge b-badge-spring">{p.relation === "FATHER" ? t("enum.parentRelation.FATHER") : p.relation === "MOTHER" ? t("enum.parentRelation.MOTHER") : p.relation === "GUARDIAN" ? t("enum.parentRelation.GUARDIAN") : p.relation}</span>
                     </div>
                     <div className="flex flex-col gap-1 text-[11.5px] text-steel">
-                      <span dir="ltr" className="font-mono">کد ملی: {p.parentUser.nationalId}</span>
-                      {p.parentUser.phone && <span dir="ltr" className="font-mono">موبایل: {p.parentUser.phone}</span>}
-                      {p.parentUser.shadNumber && <span dir="ltr" className="font-mono">شاد: {p.parentUser.shadNumber}</span>}
-                      {p.parentUser.jobTitle && <span>شغل: {p.parentUser.jobTitle}</span>}
-                      {p.parentUser.education && <span>تحصیلات: {p.parentUser.education}</span>}
+                      <span dir="ltr" className="font-mono">{t("profile.parent.nationalId")} {p.parentUser.nationalId}</span>
+                      {p.parentUser.phone && <span dir="ltr" className="font-mono">{t("profile.parent.phone")} {p.parentUser.phone}</span>}
+                      {p.parentUser.shadNumber && <span dir="ltr" className="font-mono">{t("profile.parent.shad")} {p.parentUser.shadNumber}</span>}
+                      {p.parentUser.jobTitle && <span>{t("profile.parent.job")} {p.parentUser.jobTitle}</span>}
+                      {p.parentUser.education && <span>{t("profile.parent.education")} {p.parentUser.education}</span>}
                     </div>
                   </div>
                 ))}
-                {u.studentProfile.parents.length === 0 && <p className="t-sm text-steel">ولی ثبت نشده است.</p>}
+                {u.studentProfile.parents.length === 0 && <p className="t-sm text-steel">{t("students.detail.noParent")}</p>}
               </div>
             </div>
           )}
@@ -326,29 +329,29 @@ export default function ProfilePage() {
       {/* تغییر رمز */}
       <div id="change-pw" className="b-card-md p-6 md:p-8">
         <h3 className="font-bold text-[15px] mb-2 flex items-center gap-2">
-          <KeyRound className="w-5 h-5 text-spring" /> تغییر رمز عبور
+          <KeyRound className="w-5 h-5 text-spring" /> {t("auth.changePassword.title")}
         </h3>
         <p className="t-sm text-steel mb-5">
           {data?.user.mustChangePassword
-            ? "رمز فعلی شما تصادفی است؛ برای امنیت، همین حالا آن را عوض کنید."
-            : "رمز عبور حداقل ۸ نویسه با حرف و رقم."}
+            ? t("profile.password.mustChangeDesc")
+            : t("profile.password.ruleDesc")}
         </p>
         <form onSubmit={changePassword} className="grid sm:grid-cols-3 gap-4">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[12.5px] font-bold">رمز فعلی *</span>
+            <span className="text-[12.5px] font-bold">{t("profile.password.current")}</span>
             <input type="password" dir="ltr" className="b-input" value={cur} onChange={(e) => setCur(e.target.value)} required autoComplete="current-password" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[12.5px] font-bold">رمز جدید *</span>
+            <span className="text-[12.5px] font-bold">{t("profile.password.new")}</span>
             <input type="password" dir="ltr" className="b-input" value={next} onChange={(e) => setNext(e.target.value)} required minLength={8} autoComplete="new-password" />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[12.5px] font-bold">تکرار رمز جدید *</span>
+            <span className="text-[12.5px] font-bold">{t("profile.password.confirm")}</span>
             <input type="password" dir="ltr" className="b-input" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength={8} autoComplete="new-password" />
           </label>
           <div className="sm:col-span-3">
             <button type="submit" disabled={saving} className="b-btn b-btn-spring">
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "تغییر رمز"}
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : t("auth.changePassword.submit")}
             </button>
           </div>
         </form>
@@ -365,24 +368,24 @@ export default function ProfilePage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => !submitting && setEditing(false)} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-xl max-h-[90vh] overflow-y-auto b-scroll b-pop">
-            <h2 className="font-bold text-lg mb-1">ویرایش مشخصات من</h2>
+            <h2 className="font-bold text-lg mb-1">{t("profile.edit.title")}</h2>
             <p className="t-sm text-steel mb-6">
               {isService
-                ? "نقش‌های سرویس مستقیماً ذخیره می‌شوند (فیلدهای پایه)."
-                : `پس از ثبت، درخواست به ${u?.role === "MANAGER" ? "ادمین سرویس" : "مدیر مدرسه"} ارسال می‌شود و پس از تایید، تغییرات اعمال می‌شود.`}
+                ? t("profile.edit.serviceDesc")
+                : `${t("profile.edit.requestBefore")} ${u?.role === "MANAGER" ? t("role.admin") : t("role.manager")} ${t("profile.edit.requestAfter")}`}
             </p>
             <form onSubmit={submitChanges} className="flex flex-col gap-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 {(isService ? EDITABLE_FIELDS.filter((f) => ["firstName", "lastName", "phone", "email"].includes(f.key)) : EDITABLE_FIELDS).map((f) => (
                   <label key={f.key} className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">{f.label}</span>
+                    <span className="text-[12.5px] font-bold">{t(PROFILE_FIELD_TKEY[f.key] ?? f.key)}</span>
                     {f.select ? (
                       <Select
                         className="w-full"
                         buttonClassName="!w-full"
                         value={editForm[f.key] ?? ""}
                         onChange={(v) => setEditForm((ef) => ({ ...ef, [f.key]: v }))}
-                        options={[{ value: "", label: "—" }, { value: "MALE", label: "مرد" }, { value: "FEMALE", label: "زن" }]}
+                        options={[{ value: "", label: "—" }, { value: "MALE", label: t("profile.edit.genderMale") }, { value: "FEMALE", label: t("profile.edit.genderFemale") }]}
                         placeholder="—"
                       />
                     ) : (
@@ -397,14 +400,14 @@ export default function ProfilePage() {
                 ))}
               </div>
               <label className={isService ? "hidden" : "flex flex-col gap-1.5"}>
-                <span className="text-[12.5px] font-bold">دلیل تغییر (اختیاری)</span>
-                <input className="b-input" value={reason} onChange={(e) => setReason(e.target.value)} placeholder="مثلا: شماره موبایل عوض شده…" />
+                <span className="text-[12.5px] font-bold">{t("profile.edit.reasonLabel")}</span>
+                <input className="b-input" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("profile.edit.reasonPlaceholder")} />
               </label>
               <div className="flex items-center gap-3">
                 <button type="submit" disabled={submitting} className="b-btn b-btn-spring">
-                  {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} ثبت درخواست
+                  {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} {t("profile.edit.submit")}
                 </button>
-                <button type="button" className="b-btn b-btn-ghost" onClick={() => setEditing(false)}>انصراف</button>
+                <button type="button" className="b-btn b-btn-ghost" onClick={() => setEditing(false)}>{t("common.cancel")}</button>
               </div>
             </form>
           </div>
@@ -417,11 +420,11 @@ export default function ProfilePage() {
           <LogOut className="w-5 h-5 flip-rtl" />
         </span>
         <div className="flex-1 min-w-0">
-          <b className="text-[13px] block">خروج از حساب</b>
-          <p className="text-[11.5px] text-steel leading-relaxed">نشست این دستگاه بسته می‌شود؛ ورود دوباره با کد ملی و رمز عبور.</p>
+          <b className="text-[13px] block">{t("shell.logout")}</b>
+          <p className="text-[11.5px] text-steel leading-relaxed">{t("profile.logout.desc")}</p>
         </div>
         <button type="button" onClick={doLogout} disabled={loggingOut} className="b-btn b-btn-sm !bg-destructive !text-destructive-foreground shrink-0">
-          {loggingOut ? <Loader2 className="w-4 h-4 animate-spin" /> : "خروج"}
+          {loggingOut ? <Loader2 className="w-4 h-4 animate-spin" /> : t("shell.logoutShort")}
         </button>
       </div>
     </div>

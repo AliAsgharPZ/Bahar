@@ -14,6 +14,7 @@ import { CountryCard } from "@/components/settings/country-card";
 import { OtpCard } from "@/components/settings/otp-card";
 import { TelegramSetupCard } from "@/components/settings/telegram-setup-card";
 import { formatDateTimeFa, faNumber, faDigits } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type Settings = {
   siteTitle: string;
@@ -61,6 +62,7 @@ type SettingsResponse = {
 };
 
 export default function SettingsPage() {
+  const { t } = useLang();
   const { data, loading, error, refetch } = useApi<SettingsResponse>("/api/settings");
   const [tab, setTab] = useState<"general" | "backup" | "design" | "languages" | "country">("general");
   const [form, setForm] = useState<Settings | null>(null);
@@ -83,13 +85,13 @@ export default function SettingsPage() {
       fd.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body: fd });
       const json = await res.json().catch(() => null);
-      if (!res.ok) throw new Error(json?.error?.message ?? "خطا در آپلود");
+      if (!res.ok) throw new Error(json?.error?.message ?? t("settings.toast.uploadFailed"));
       await apiPut("/api/settings", { [field]: json.url });
-      toast.success("تصویر آپلود و اعمال شد.");
+      toast.success(t("settings.toast.brandUploaded"));
       refetch();
       setForm((f) => (f ? { ...f, [field]: json.url } : f));
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setUploadingBrand(null);
     }
@@ -103,14 +105,14 @@ export default function SettingsPage() {
       fd.append("kind", "app");
       const res = await fetch("/api/upload", { method: "POST", body: fd });
       const json = await res.json().catch(() => null);
-      if (!res.ok) throw new Error(json?.error?.message ?? "خطا در آپلود");
+      if (!res.ok) throw new Error(json?.error?.message ?? t("settings.toast.uploadFailed"));
       const field = kind === "android" ? "androidAppUrl" : "windowsAppUrl";
       await apiPut("/api/settings", { [field]: json.url });
-      toast.success(`فایل ${kind === "android" ? "اندروید" : "ویندوز"} آپلود شد و لینک دانلود فعال شد.`);
+      toast.success(`${t("settings.upload.file")} ${kind === "android" ? t("settings.upload.appAndroid") : t("settings.upload.appWindows")} ${t("settings.upload.done")}`);
       refetch();
       setForm((f) => (f ? { ...f, [field]: json.url } : f));
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setUploadingApp(null);
     }
@@ -121,7 +123,7 @@ export default function SettingsPage() {
   // خطای سند زبان طراحی — قبلاً برای همیشه روی «در حال بارگذاری» می‌ماند
   if (designApiError && !designError) setDesignError(designApiError);
 
-  if (loading) return <LoadingBlock label="تنظیمات…" />;
+  if (loading) return <LoadingBlock label={t("settings.loading")} />;
   if (error) return <ErrorBox message={error} />;
   if (!data) return null;
   if (form === null) setForm(data.settings);
@@ -140,10 +142,10 @@ export default function SettingsPage() {
       else delete payload.telegramBotToken;
       await apiPut("/api/settings", payload);
       setBotTokenInput("");
-      toast.success("تنظیمات ذخیره شد.");
+      toast.success(t("settings.toast.saved"));
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -153,23 +155,23 @@ export default function SettingsPage() {
     setBackingUp(true);
     try {
       const res = await apiPut<{ backup: { filename: string; recordCount: number } }>("/api/settings", { action: "backup" });
-      toast.success(`بکاپ ساخته شد — ${res.backup.recordCount.toLocaleString("fa-IR")} رکورد.`);
+      toast.success(`${t("settings.backup.created")} ${res.backup.recordCount.toLocaleString("fa-IR")} ${t("settings.backup.records")}`);
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setBackingUp(false);
     }
   }
 
   async function deleteBackup(b: BackupRow) {
-    if (!confirm(`نسخه «${b.filename}» حذف شود؟`)) return;
+    if (!confirm(`${t("settings.backup.deleteBefore")} «${b.filename}» ${t("settings.backup.deleteAfter")}`)) return;
     try {
       await apiDelete(`/api/settings/backup/${b.id}`);
-      toast.success("نسخه حذف شد.");
+      toast.success(t("settings.toast.backupDeleted"));
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     }
   }
 
@@ -184,11 +186,11 @@ export default function SettingsPage() {
         body: JSON.stringify({ payload, confirm: true }),
       });
       const json = await res.json().catch(() => null);
-      if (!res.ok) throw new Error(json?.error?.message ?? "خطا در بازیابی");
-      toast.success(`بازیابی انجام شد — ${json.total?.toLocaleString("fa-IR")} رکورد بازگردانده شد.`);
+      if (!res.ok) throw new Error(json?.error?.message ?? t("settings.toast.restoreFailed"));
+      toast.success(`${t("settings.restore.done")} ${json.total?.toLocaleString("fa-IR")} ${t("settings.restore.records")}`);
       refetch();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "فایل نامعتبر است");
+      toast.error(err instanceof Error ? err.message : t("settings.toast.invalidFile"));
     } finally {
       setRestoring(false);
       setConfirmRestore(false);
@@ -197,25 +199,25 @@ export default function SettingsPage() {
   }
 
   const tabs = [
-    { id: "general", label: "عمومی", icon: Settings },
-    { id: "languages", label: "زبان‌ها", icon: Languages },
-    { id: "country", label: "کشور", icon: Globe2 },
-    { id: "backup", label: "پشتیبان‌گیری", icon: HardDriveDownload },
-    { id: "design", label: "زبان طراحی", icon: Palette },
+    { id: "general", label: t("settings.general"), icon: Settings },
+    { id: "languages", label: t("settings.languages"), icon: Languages },
+    { id: "country", label: t("settings.tab.country"), icon: Globe2 },
+    { id: "backup", label: t("settings.backup"), icon: HardDriveDownload },
+    { id: "design", label: t("settings.tab.design"), icon: Palette },
   ] as const;
 
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="تنظیمات سامانه"
-        desc="این بخش فقط برای مدیر کل سامانه است — تنظیمات سراسری، پشتیبان‌گیری و سند زبان طراحی."
+        title={t("shell.systemSettings")}
+        desc={t("settings.header.desc")}
       />
 
       <div className="flex flex-wrap gap-2">
-        {tabs.map((t) => (
-          <button key={t.id} className={`b-pill-tab ${tab === t.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(t.id)}>
-            <t.icon className="w-3.5 h-3.5 inline ml-1" />
-            {t.label}
+        {tabs.map((tb) => (
+          <button key={tb.id} className={`b-pill-tab ${tab === tb.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(tb.id)}>
+            <tb.icon className="w-3.5 h-3.5 inline ml-1" />
+            {tb.label}
           </button>
         ))}
       </div>
@@ -224,10 +226,10 @@ export default function SettingsPage() {
       {tab === "general" && form && (
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Settings className="w-4 h-4 text-spring" /> هویت سرویس</b>
+            <b className="text-[13.5px] flex items-center gap-2"><Settings className="w-4 h-4 text-spring" /> {t("settings.card.identity")}</b>
             {[
-              { k: "siteTitle", l: "عنوان سایت" },
-              { k: "siteTagline", l: "شعار سایت" },
+              { k: "siteTitle", l: t("settings.field.siteTitle") },
+              { k: "siteTagline", l: t("settings.field.siteTagline") },
             ].map((f) => (
               <label key={f.k} className="flex flex-col gap-1.5">
                 <span className="text-[12px] font-bold">{f.l}</span>
@@ -235,20 +237,20 @@ export default function SettingsPage() {
               </label>
             ))}
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">دامنه اصلی (اطلاعاتی)</span>
+              <span className="text-[12px] font-bold">{t("settings.field.mainHost")}</span>
               <input className="b-input" dir="ltr" placeholder="bahar.school" value={form.mainHost} disabled={!data.canEdit} onChange={(e) => set("mainHost", e.target.value)} />
-              <span className="text-[10.5px] text-stone">سایت هر مدرسه به‌صورت صفحه اختصاصی در مسیر /s/نام-مدرسه در دسترس است.</span>
+              <span className="text-[10.5px] text-stone">{t("settings.field.mainHostHint")}</span>
             </label>
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Shield className="w-4 h-4 text-spring" /> تماس و فروش</b>
+            <b className="text-[13.5px] flex items-center gap-2"><Shield className="w-4 h-4 text-spring" /> {t("settings.card.contact")}</b>
             {[
-              { k: "supportPhone", l: "تلفن پشتیبانی" },
-              { k: "supportEmail", l: "ایمیل پشتیبانی" },
-              { k: "salesPhone", l: "تلفن فروش" },
-              { k: "salesTelegram", l: "لینک تلگرام فروش" },
-              { k: "salesInstagram", l: "لینک اینستاگرام" },
+              { k: "supportPhone", l: t("settings.field.supportPhone") },
+              { k: "supportEmail", l: t("settings.field.supportEmail") },
+              { k: "salesPhone", l: t("settings.field.salesPhone") },
+              { k: "salesTelegram", l: t("settings.field.salesTelegram") },
+              { k: "salesInstagram", l: t("settings.field.salesInstagram") },
             ].map((f) => (
               <label key={f.k} className="flex flex-col gap-1.5">
                 <span className="text-[12px] font-bold">{f.l}</span>
@@ -258,44 +260,44 @@ export default function SettingsPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px]">حساب دمو (صفحه معرفی)</b>
+            <b className="text-[13.5px]">{t("settings.card.demo")}</b>
             <label className="b-option !py-3 items-center gap-3">
               <input type="checkbox" className="accent-spring w-4 h-4" checked={form.demoEnabled} onChange={(e) => set("demoEnabled", e.target.checked)} />
               <span className="flex flex-col">
-                <b className="text-[12.5px]">نمایش حساب دمو در صفحه معرفی</b>
-                <span className="text-[10.5px] text-steel">برای تست مدیران مدارس جدید — کدملی و رمز دمو روی همان صفحه نمایش داده می‌شود.</span>
+                <b className="text-[12.5px]">{t("settings.demo.show")}</b>
+                <span className="text-[10.5px] text-steel">{t("settings.demo.hint")}</span>
               </span>
             </label>
             <div className="grid grid-cols-2 gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">کدملی مدیر دمو</span>
+                <span className="text-[12px] font-bold">{t("settings.field.demoManagerNationalId")}</span>
                 <input className="b-input" dir="ltr" value={form.demoManagerNationalId} disabled={!data.canEdit} onChange={(e) => set("demoManagerNationalId", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">کدملی دانش‌آموز دمو</span>
+                <span className="text-[12px] font-bold">{t("settings.field.demoStudentNationalId")}</span>
                 <input className="b-input" dir="ltr" value={form.demoStudentNationalId} disabled={!data.canEdit} onChange={(e) => set("demoStudentNationalId", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">رمز مدیر دمو</span>
+                <span className="text-[12px] font-bold">{t("settings.field.demoManagerPassword")}</span>
                 <input className="b-input" dir="ltr" value={form.demoManagerPassword} disabled={!data.canEdit} onChange={(e) => set("demoManagerPassword", e.target.value)} />
-                <span className="text-[10px] text-stone">برای اعمال، رمز کاربر دمو در بانک باید همسان باشد (seed همین کار را می‌کند).</span>
+                <span className="text-[10px] text-stone">{t("settings.demo.passwordHint")}</span>
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">رمز دانش‌آموز دمو</span>
+                <span className="text-[12px] font-bold">{t("settings.field.demoStudentPassword")}</span>
                 <input className="b-input" dir="ltr" value={form.demoStudentPassword} disabled={!data.canEdit} onChange={(e) => set("demoStudentPassword", e.target.value)} />
               </label>
             </div>
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Palette className="w-4 h-4 text-spring" /> هویت بصری سرویس</b>
+            <b className="text-[13.5px] flex items-center gap-2"><Palette className="w-4 h-4 text-spring" /> {t("settings.card.branding")}</b>
             <p className="text-[11.5px] text-steel leading-relaxed">
-              لوگو، لوگوتایپ و فاوآیکون دلخواه را آپلود کنید؛ در صفحه ورود، پنل کاربری و تب مرورگر اعمال می‌شود (اندازه پیشنهادی: لوگو مربعی ۵۱۲×۵۱۲، فاوآیکون ۱۹۲×۱۹۲).
+              {t("settings.branding.desc")}
             </p>
             {([
-              { field: "logoUrl" as const, label: "لوگوی سرویس", hint: "نمایش‌داده‌شده در سایدبار پنل و صفحه ورود", accept: "image/png,image/svg+xml,image/webp" },
-              { field: "logotypeUrl" as const, label: "لوگوتایپ (نسخه تصویری نام)", hint: "جایگزین نوشته «بهار» کنار لوگو", accept: "image/png,image/svg+xml,image/webp" },
-              { field: "faviconUrl" as const, label: "فاوآیکون", hint: "آیکون تب مرورگر و صفحه اصلی موبایل", accept: "image/png,image/svg+xml,image/webp" },
+              { field: "logoUrl" as const, label: t("settings.brand.logo"), hint: t("settings.brand.logoHint"), accept: "image/png,image/svg+xml,image/webp" },
+              { field: "logotypeUrl" as const, label: t("settings.brand.logotype"), hint: t("settings.brand.logotypeHint"), accept: "image/png,image/svg+xml,image/webp" },
+              { field: "faviconUrl" as const, label: t("settings.brand.favicon"), hint: t("settings.brand.faviconHint"), accept: "image/png,image/svg+xml,image/webp" },
             ]).map((b) => (
               <div key={b.field} className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap">
                 <span className="w-11 h-11 rounded-2xl bg-spring-tint flex items-center justify-center shrink-0 overflow-hidden">
@@ -311,7 +313,7 @@ export default function SettingsPage() {
                 </div>
                 <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
                   {uploadingBrand === b.field ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-                  {form[b.field] ? "جایگزینی" : "آپلود"}
+                  {form[b.field] ? t("settings.brand.replace") : t("settings.brand.upload")}
                   <input
                     type="file"
                     accept={b.accept}
@@ -328,7 +330,7 @@ export default function SettingsPage() {
                   <button
                     className="b-btn b-btn-ghost b-btn-sm !text-destructive"
                     onClick={() => { set(b.field, ""); }}
-                    title="حذف (پس از ذخیره اعمال می‌شود)"
+                    title={t("settings.brand.deleteTitle")}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -338,13 +340,13 @@ export default function SettingsPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px] flex items-center gap-2"><Smartphone className="w-4 h-4 text-spring" /> فایل‌های دانلود اپ‌ها</b>
+            <b className="text-[13.5px] flex items-center gap-2"><Smartphone className="w-4 h-4 text-spring" /> {t("settings.card.apps")}</b>
             <p className="text-[11.5px] text-steel leading-relaxed">
-              فایل APK اندروید یا EXE ویندوز را آپلود کنید؛ لینک دانلود در صفحه اصلی (متن‌های «اندروید/ویندوز») فعال می‌شود.
+              {t("settings.apps.desc")}
             </p>
             {([
-              { kind: "android" as const, icon: Smartphone, label: "اپ اندروید (APK)", field: "androidAppUrl", accept: ".apk" },
-              { kind: "windows" as const, icon: Monitor, label: "اپ ویندوز (EXE/MSI/ZIP)", field: "windowsAppUrl", accept: ".exe,.msi,.zip" },
+              { kind: "android" as const, icon: Smartphone, label: t("settings.apps.android"), field: "androidAppUrl", accept: ".apk" },
+              { kind: "windows" as const, icon: Monitor, label: t("settings.apps.windows"), field: "windowsAppUrl", accept: ".exe,.msi,.zip" },
             ]).map((a) => (
               <div key={a.kind} className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap">
                 <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0">
@@ -354,15 +356,15 @@ export default function SettingsPage() {
                   <b className="text-[12.5px] block">{a.label}</b>
                   {form[a.field] ? (
                     <a href={form[a.field]} target="_blank" rel="noreferrer" className="text-[10.5px] text-spring font-bold hover:underline flex items-center gap-1">
-                      <Download className="w-3 h-3" /> دانلود فعال است
+                      <Download className="w-3 h-3" /> {t("settings.apps.downloadActive")}
                     </a>
                   ) : (
-                    <span className="text-[10.5px] text-stone">فایلی آپلود نشده — لینک به صفحه معرفی می‌رود</span>
+                    <span className="text-[10.5px] text-stone">{t("settings.apps.noFile")}</span>
                   )}
                 </div>
                 <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
                   {uploadingApp === a.kind ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-                  {form[a.field] ? "جایگزینی فایل" : "آپلود فایل"}
+                  {form[a.field] ? t("settings.apps.replaceFile") : t("settings.apps.uploadFile")}
                   <input
                     type="file"
                     accept={a.accept}
@@ -380,40 +382,40 @@ export default function SettingsPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[13.5px]">امنیت و دروازه شاد</b>
+            <b className="text-[13.5px]">{t("settings.card.security")}</b>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">طول نشست (روز)</span>
+                <span className="text-[12px] font-bold">{t("settings.field.sessionDays")}</span>
                 <input className="b-input" dir="ltr" type="number" min={1} max={90} value={form.sessionDays} disabled={!data.canEdit} onChange={(e) => set("sessionDays", Number(e.target.value))} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">حداکثر تلاش ورود</span>
+                <span className="text-[12px] font-bold">{t("settings.field.loginMaxAttempts")}</span>
                 <input className="b-input" dir="ltr" type="number" min={3} max={20} value={form.loginMaxAttempts} disabled={!data.canEdit} onChange={(e) => set("loginMaxAttempts", Number(e.target.value))} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">دوره بکاپ خودکار</span>
+                <span className="text-[12px] font-bold">{t("settings.field.autoBackupDays")}</span>
                 <input className="b-input" dir="ltr" type="number" min={1} max={365} value={form.autoBackupDays} disabled={!data.canEdit} onChange={(e) => set("autoBackupDays", Number(e.target.value))} />
-                <span className="text-[10px] text-stone">روز — پیش‌فرض ۳۰</span>
+                <span className="text-[10px] text-stone">{t("settings.field.autoBackupDaysHint")}</span>
               </label>
             </div>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">آدرس دروازه شاد (سرویس جانبی)</span>
+              <span className="text-[12px] font-bold">{t("settings.field.shadGateway")}</span>
               <input className="b-input" dir="ltr" value={form.shadGatewayUrl} disabled={!data.canEdit} onChange={(e) => set("shadGatewayUrl", e.target.value)} />
-              <span className="text-[10.5px] text-stone">سرویس python جانبی که با حساب شاد مدیر به پیام‌رسان شاد وصل می‌شود.</span>
+              <span className="text-[10.5px] text-stone">{t("settings.field.shadGatewayHint")}</span>
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">توکن ربات تلگرام (BotFather)</span>
+              <span className="text-[12px] font-bold">{t("settings.field.telegramToken")}</span>
               <input
                 className="b-input"
                 dir="ltr"
                 type="password"
                 autoComplete="off"
-                placeholder={form.telegramBotToken ? "•••••••••••• (ذخیره شده — برای تغییر وارد کنید)" : "مثلاً ۱۲۳۴۵۶:ABC-DEF..."}
+                placeholder={form.telegramBotToken ? t("settings.placeholder.tokenSaved") : t("settings.placeholder.tokenExample")}
                 disabled={!data.canEdit}
                 value={botTokenInput}
                 onChange={(e) => setBotTokenInput(e.target.value)}
               />
-              <span className="text-[10.5px] text-stone">برای اتصال ربات اطلاع‌رسانی؛ خالی بگذارید تا بدون تغییر بماند.</span>
+              <span className="text-[10.5px] text-stone">{t("settings.field.telegramTokenHint")}</span>
             </label>
             <label className="flex items-center gap-2.5 select-none cursor-pointer w-fit">
               <input
@@ -423,8 +425,8 @@ export default function SettingsPage() {
                 disabled={!data.canEdit || !form.telegramBotToken}
                 onChange={(e) => set("telegramBotEnabled", e.target.checked)}
               />
-              <span className="text-[12px] font-bold">فعال‌سازی ربات تلگرام</span>
-              {!form.telegramBotToken && <span className="text-[10.5px] text-stone">(ابتدا توکن را ذخیره کنید)</span>}
+              <span className="text-[12px] font-bold">{t("settings.telegram.enable")}</span>
+              {!form.telegramBotToken && <span className="text-[10.5px] text-stone">{t("settings.telegram.tokenFirst")}</span>}
             </label>
             {/* راند ۱۹: اتصال وب‌هوک مستقیم از پنل — بدون پروسهٔ جدا */}
             <TelegramSetupCard tokenSaved={!!form.telegramBotToken} />
@@ -436,12 +438,12 @@ export default function SettingsPage() {
 
           <div className="lg:col-span-2 flex items-center gap-3">
             <button className="b-btn b-btn-spring" onClick={save} disabled={saving || !data.canEdit}>
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />} ذخیره تنظیمات
+              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />} {t("settings.save.action")}
             </button>
             {!data.canEdit && (
-              <span className="text-[11.5px] text-warning-deep">مشاهده‌ای — ویرایش تنظیمات فقط برای مدیر کل سامانه</span>
+              <span className="text-[11.5px] text-warning-deep">{t("settings.save.readOnly")}</span>
             )}
-            <button className="b-btn b-btn-ghost" onClick={() => setForm(data.settings)} disabled={!data.canEdit}>بازگردانی مقادیر</button>
+            <button className="b-btn b-btn-ghost" onClick={() => setForm(data.settings)} disabled={!data.canEdit}>{t("settings.save.reset")}</button>
           </div>
         </div>
       )}
@@ -455,24 +457,24 @@ export default function SettingsPage() {
         <div className="flex flex-col gap-4">
           <div className="b-card p-5 flex flex-wrap items-center gap-4">
             <div className="min-w-0 flex-1">
-              <b className="text-[13.5px] flex items-center gap-2 block mb-1"><HardDriveDownload className="w-4 h-4 text-spring" /> نسخه پشتیبان کامل</b>
+              <b className="text-[13.5px] flex items-center gap-2 block mb-1"><HardDriveDownload className="w-4 h-4 text-spring" /> {t("settings.backup.title")}</b>
               <p className="text-[12px] text-steel leading-relaxed">
-                همه داده‌ها (کاربران، مدارس، نمرات، حضور، مالی و…) در یک فایل JSON ذخیره می‌شود.
-                بکاپ خودکار هر {faDigits(data.settings.autoBackupDays)} روز یک‌بار توسط زمان‌بند سامانه انجام می‌شود؛
-                {data.autoCreated && <b className="text-spring"> (بکاپ خودکار همین حالا ساخته شد)</b>}
+                {t("settings.backup.desc")}
+                {t("settings.backup.autoBefore")} {faDigits(data.settings.autoBackupDays)} {t("settings.backup.autoAfter")}
+                {data.autoCreated && <b className="text-spring"> {t("settings.backup.autoJustCreated")}</b>}
               </p>
             </div>
             <button className="b-btn b-btn-spring b-btn-sm" onClick={backupNow} disabled={backingUp}>
-              {backingUp ? <Loader2 className="w-4 h-4 animate-spin" /> : <HardDriveDownload className="w-4 h-4" />} بکاپ دستی
+              {backingUp ? <Loader2 className="w-4 h-4 animate-spin" /> : <HardDriveDownload className="w-4 h-4" />} {t("settings.backup.manual")}
             </button>
           </div>
 
           <div className="b-card p-5">
-            <b className="text-[13.5px] flex items-center gap-2 block mb-4"><Upload className="w-4 h-4 text-spring" /> بازیابی از فایل بکاپ</b>
+            <b className="text-[13.5px] flex items-center gap-2 block mb-4"><Upload className="w-4 h-4 text-spring" /> {t("settings.restore.title")}</b>
             {confirmRestore ? (
               <div className="b-card-sm !rounded-xl p-4 !border-destructive/30 !bg-destructive/5">
                 <p className="text-[12.5px] text-destructive font-bold mb-2">
-                  هشدار: بازیابی، همه داده‌های فعلی را پاک و با فایل بکاپ جایگزین می‌کند. مطمئن هستید؟
+                  {t("settings.restore.warning")}
                 </p>
                 <div className="flex items-center gap-3">
                   <input
@@ -485,36 +487,36 @@ export default function SettingsPage() {
                       if (f) restoreFile(f);
                     }}
                   />
-                  <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => setConfirmRestore(false)}>انصراف</button>
+                  <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => setConfirmRestore(false)}>{t("common.cancel")}</button>
                 </div>
               </div>
             ) : (
               <button className="b-btn b-btn-soft b-btn-sm" onClick={() => setConfirmRestore(true)} disabled={restoring}>
-                {restoring ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />} آپلود فایل بکاپ برای بازیابی
+                {restoring ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />} {t("settings.restore.upload")}
               </button>
             )}
           </div>
 
           <div className="b-card-sm overflow-hidden">
             <div className="p-4 border-b border-hairline-soft flex items-center justify-between">
-              <b className="text-[13.5px]">نسخه‌های موجود ({faNumber(data.backups.length)})</b>
+              <b className="text-[13.5px]">{t("settings.backup.existing")} ({faNumber(data.backups.length)})</b>
               <button className="b-btn b-btn-ghost b-btn-sm !text-steel" onClick={() => refetch()}>
-                <RefreshCcw className="w-3.5 h-3.5" /> بروزرسانی
+                <RefreshCcw className="w-3.5 h-3.5" /> {t("settings.backup.refresh")}
               </button>
             </div>
             {data.backups.length === 0 ? (
-              <p className="t-sm text-steel text-center py-8">هنوز نسخه‌ای ثبت نشده است.</p>
+              <p className="t-sm text-steel text-center py-8">{t("settings.backup.empty")}</p>
             ) : (
               <div className="overflow-x-auto b-scroll">
                 <table className="w-full text-[12.5px]">
                   <thead>
                     <tr className="border-b border-hairline-soft text-steel text-[11px]">
-                      <th className="text-right py-2.5 px-4 font-bold">فایل</th>
-                      <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">نوع</th>
-                      <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">رکورد</th>
-                      <th className="text-right py-2.5 px-4 font-bold">حجم</th>
-                      <th className="text-right py-2.5 px-4 font-bold hidden sm:table-cell">زمان</th>
-                      <th className="text-right py-2.5 px-4 font-bold">عملیات</th>
+                      <th className="text-right py-2.5 px-4 font-bold">{t("settings.backup.table.file")}</th>
+                      <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.kind")}</th>
+                      <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.records")}</th>
+                      <th className="text-right py-2.5 px-4 font-bold">{t("settings.backup.table.size")}</th>
+                      <th className="text-right py-2.5 px-4 font-bold hidden sm:table-cell">{t("settings.backup.table.time")}</th>
+                      <th className="text-right py-2.5 px-4 font-bold">{t("common.actions")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -522,17 +524,17 @@ export default function SettingsPage() {
                       <tr key={b.id} className="b-row border-b border-hairline-soft/50 last:border-0">
                         <td className="py-2.5 px-4"><span dir="ltr" className="font-mono text-[11px] block truncate max-w-[220px]">{b.filename}</span></td>
                         <td className="py-2.5 px-4 hidden md:table-cell">
-                          <span className={`b-badge ${b.kind === "AUTO" ? "b-badge-neutral" : "b-badge-spring"}`}>{b.kind === "AUTO" ? "خودکار" : "دستی"}</span>
+                          <span className={`b-badge ${b.kind === "AUTO" ? "b-badge-neutral" : "b-badge-spring"}`}>{b.kind === "AUTO" ? t("settings.backup.kindAuto") : t("settings.backup.kindManual")}</span>
                         </td>
                         <td className="py-2.5 px-4 hidden md:table-cell">{faNumber(b.recordCount)}</td>
-                        <td className="py-2.5 px-4 text-steel">{faNumber(Math.round(b.sizeBytes / 1024))} کیلوبایت</td>
+                        <td className="py-2.5 px-4 text-steel">{faNumber(Math.round(b.sizeBytes / 1024))} {t("dashboard.unit.kb")}</td>
                         <td className="py-2.5 px-4 text-steel text-[11px] hidden sm:table-cell">{formatDateTimeFa(b.createdAt)}</td>
                         <td className="py-2.5 px-4">
                           <div className="flex items-center gap-1">
-                            <a href={`/api/settings/backup/${b.id}`} className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" title="دانلود">
+                            <a href={`/api/settings/backup/${b.id}`} className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" title={t("common.download")}>
                               <Download className="w-4 h-4" />
                             </a>
-                            <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteBackup(b)} title="حذف">
+                            <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteBackup(b)} title={t("common.delete")}>
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
@@ -555,8 +557,8 @@ export default function SettingsPage() {
               <FileJson className="w-5 h-5" />
             </span>
             <div>
-              <b className="text-[14px] block">سند زبان طراحی بهار</b>
-              <span className="text-[11.5px] text-steel">فقط-خواندنی — برای انسان و هوش مصنوعی — نسخه ۳</span>
+              <b className="text-[14px] block">{t("settings.design.title")}</b>
+              <span className="text-[11.5px] text-steel">{t("settings.design.subtitle")}</span>
             </div>
             <span className="ms-auto b-badge b-badge-neutral">Read-only</span>
           </div>
@@ -566,7 +568,7 @@ export default function SettingsPage() {
             ) : designError ? (
               <ErrorBox message={designError} />
             ) : (
-              <p className="t-sm text-steel py-8 text-center">سند در حال بارگذاری…</p>
+              <p className="t-sm text-steel py-8 text-center">{t("settings.design.loading")}</p>
             )}
           </div>
         </div>

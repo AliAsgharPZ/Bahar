@@ -8,11 +8,13 @@ import { apiGet, apiPost, apiPatch, apiDelete } from "@/lib/client";
 import { faNumber, relativeTimeFa } from "@/lib/persian";
 import { PageHeader, LoadingBlock, EmptyState , ErrorBox } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
+import { useLang } from "@/lib/i18n";
 
 type Rule = { id: string; name: string; trigger: string; config: string; action: string; actionConfig: string; active: boolean; runCount: number; lastRunAt: string | null };
 type Log = { id: string; ruleName?: string; trigger: string; summary: string; result: string; createdAt: string };
 
 export default function AutomationPage() {
+  const { t } = useLang();
   const [rules, setRules] = useState<Rule[]>([]);
   const [logs, setLogs] = useState<Log[]>([]);
   const [triggers, setTriggers] = useState<Record<string, string>>({});
@@ -25,29 +27,29 @@ export default function AutomationPage() {
   const load = useCallback(() => {
     apiGet<{ rules: Rule[]; logs: Log[]; triggers: Record<string, string>; actions: Record<string, string> }>("/api/automation")
       .then((d) => { setLoadError(""); setRules(d.rules); setLogs(d.logs); setTriggers(d.triggers); setActions(d.actions); })
-      .catch((e) => setLoadError(e instanceof Error ? e.message : "خطا در بارگذاری قوانین"))
+      .catch((e) => setLoadError(e instanceof Error ? e.message : t("automation.error.load")))
       .finally(() => setLoading(false));
   }, []);
   useEffect(load, [load]);
 
   async function create() {
-    if (!form.name.trim()) { toast.error("نام قانون لازم است"); return; }
+    if (!form.name.trim()) { toast.error(t("automation.toast.nameRequired")); return; }
     try {
       await apiPost("/api/automation", {
         name: form.name, trigger: form.trigger, action: form.action,
         config: { threshold: Number(form.threshold) || 5 },
         actionConfig: { title: form.title || form.name, target: "MANAGER" },
       });
-      toast.success("قانون فعال شد");
+      toast.success(t("automation.toast.activated"));
       setForm({ name: "", trigger: "ABSENT_THRESHOLD", threshold: "5", action: "NOTIFY", title: "" });
       setShowNew(false); load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
   async function toggle(r: Rule) {
-    try { await apiPatch("/api/automation", { id: r.id, active: !r.active }); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    try { await apiPatch("/api/automation", { id: r.id, active: !r.active }); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
   async function remove(id: string) {
-    try { await apiDelete(`/api/automation?id=${id}`); load(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    try { await apiDelete(`/api/automation?id=${id}`); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
 
   if (loading) return <LoadingBlock />;
@@ -56,13 +58,13 @@ export default function AutomationPage() {
   return (
     <div>
       <PageHeader
-        title="اتوماسیون مدرسه"
-        desc="قوانین شرطی ساده — «اگر غیبت از ۵ گذشت، به مدیر اطلاع بده»"
-        action={<button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> قانون جدید</button>}
+        title={t("automation.title")}
+        desc={t("automation.desc")}
+        action={<button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {t("automation.newRule")}</button>}
       />
       {showNew && (
         <div className="b-card-md p-5 mb-6 grid gap-3 sm:grid-cols-2">
-          <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="نام قانون (مثلاً هشدار غیبت مکرر) *" className="b-input" />
+          <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder={t("automation.placeholder.ruleName")} className="b-input" />
           <Select
             value={form.trigger}
             onChange={(v) => setForm({ ...form, trigger: v })}
@@ -71,7 +73,7 @@ export default function AutomationPage() {
             buttonClassName="!w-full"
           />
           {THRESHOLD_TRIGGERS.includes(form.trigger) && (
-            <input type="number" value={form.threshold} onChange={(e) => setForm({ ...form, threshold: e.target.value })} placeholder="آستانه (مثلاً 5)" className="b-input" />
+            <input type="number" value={form.threshold} onChange={(e) => setForm({ ...form, threshold: e.target.value })} placeholder={t("automation.placeholder.threshold")} className="b-input" />
           )}
           <Select
             value={form.action}
@@ -80,11 +82,11 @@ export default function AutomationPage() {
             className="w-full"
             buttonClassName="!w-full"
           />
-          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="عنوان اعلان/تسک (اختیاری)" className="b-input sm:col-span-2" />
-          <button onClick={create} className="b-btn b-btn-sm b-btn-spring sm:col-span-2 w-fit">ایجاد و فعال‌سازی</button>
+          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder={t("automation.placeholder.title")} className="b-input sm:col-span-2" />
+          <button onClick={create} className="b-btn b-btn-sm b-btn-spring sm:col-span-2 w-fit">{t("automation.create")}</button>
         </div>
       )}
-      {rules.length === 0 ? <EmptyState icon={Zap} title="قانونی تعریف نشده" desc="اولین اتوماسیون مدرسه را بسازید." /> : (
+      {rules.length === 0 ? <EmptyState icon={Zap} title={t("automation.empty.title")} desc={t("automation.empty.desc")} /> : (
         <div className="flex flex-col gap-2.5 mb-8">
           {rules.map((r, i) => {
             let cfg: { threshold?: number } = {};
@@ -98,12 +100,12 @@ export default function AutomationPage() {
                 <div className="flex-1 min-w-[180px]">
                   <p className="text-[13px] font-bold">{r.name}</p>
                   <p className="text-[11px] text-steel">
-                    {triggers[r.trigger]}{cfg.threshold ? ` (آستانه ${faNumber(cfg.threshold)})` : ""} ← {actions[r.action]}
-                    {r.runCount > 0 ? ` · ${faNumber(r.runCount)} بار اجرا` : ""}
+                    {triggers[r.trigger]}{cfg.threshold ? <> ({t("automation.threshold")} {faNumber(cfg.threshold)})</> : ""} ← {actions[r.action]}
+                    {r.runCount > 0 ? <> · {faNumber(r.runCount)} {t("automation.runs")}</> : ""}
                   </p>
                 </div>
                 <button onClick={() => toggle(r)} className={`b-btn b-btn-sm !min-h-[28px] !text-[10px] !px-2.5 !py-0 ${r.active ? "b-btn-ghost" : "b-btn-spring"}`}>
-                  <Power className="w-3.5 h-3.5" /> {r.active ? "خاموش" : "روشن"}
+                  <Power className="w-3.5 h-3.5" /> {r.active ? t("automation.off") : t("automation.on")}
                 </button>
                 <button onClick={() => remove(r.id)} className="b-btn b-btn-ghost text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
               </motion.div>
@@ -113,7 +115,7 @@ export default function AutomationPage() {
       )}
       {logs.length > 0 && (
         <div>
-          <h2 className="font-bold mb-3 flex items-center gap-2"><History className="w-4 h-4 text-steel" /> اجراهای اخیر</h2>
+          <h2 className="font-bold mb-3 flex items-center gap-2"><History className="w-4 h-4 text-steel" /> {t("automation.recentRuns")}</h2>
           <div className="b-card-sm divide-y divide-hairline-soft/60">
             {logs.map((l) => (
               <div key={l.id} className="flex items-center gap-3 p-3 text-[12px] flex-wrap">
