@@ -468,12 +468,12 @@ export default function StudentsPage() {
                       title={t("students.table.selectAll")}
                     />
                   </th>
-                  <th className="text-right py-3 px-4 font-bold">{t("students.table.student")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("common.class")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden lg:table-cell">{t("students.table.nationalId")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden lg:table-cell">{t("students.table.parents")}</th>
-                  {shadVisible && <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("students.table.shad")}</th>}
-                  <th className="text-right py-3 px-4 font-bold">{t("students.table.actions")}</th>
+                  <th className="text-start py-3 px-4 font-bold">{t("students.table.student")}</th>
+                  <th className="text-start py-3 px-4 font-bold hidden md:table-cell">{t("common.class")}</th>
+                  <th className="text-start py-3 px-4 font-bold hidden lg:table-cell">{t("students.table.nationalId")}</th>
+                  <th className="text-start py-3 px-4 font-bold hidden lg:table-cell">{t("students.table.parents")}</th>
+                  {shadVisible && <th className="text-start py-3 px-4 font-bold hidden md:table-cell">{t("students.table.shad")}</th>}
+                  <th className="text-start py-3 px-4 font-bold">{t("students.table.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -760,7 +760,7 @@ export default function StudentsPage() {
                       {parents.length > 1 && (
                         <button
                           type="button"
-                          className="absolute top-3 left-3 w-7 h-7 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
+                          className="absolute top-3 end-3 w-7 h-7 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
                           onClick={() => setParents((ps) => ps.filter((_, idx) => idx !== i))}
                           aria-label={t("students.parent.removeAria")}
                         >
@@ -932,7 +932,7 @@ export default function StudentsPage() {
 
       {/* اعتبارنامه‌ها — راند ۱۸: کپی سریع جایگزین/مکمل شاد */}
       {result && (
-        <div className="fixed bottom-4 left-4 right-4 lg:right-auto lg:left-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md max-h-[70vh] overflow-y-auto b-scroll">
+        <div className="fixed bottom-4 left-4 right-4 lg:start-auto lg:end-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md max-h-[70vh] overflow-y-auto b-scroll">
           <h4 className="font-bold text-[13.5px] flex items-center gap-2 mb-3">
             <Send className="w-4 h-4 text-spring" /> {t("students.cred.heading")}
           </h4>

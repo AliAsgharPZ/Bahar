@@ -359,13 +359,13 @@ export default function UsersPage() {
             <table className="w-full text-[13px] b-rows-in">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[11.5px]">
-                  <th className="text-right py-3 px-4 font-bold">{t("users.table.user")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("users.table.role")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden lg:table-cell">{t("students.table.nationalId")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden lg:table-cell">{t("users.table.shadContact")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("users.table.lastLogin")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("users.table.status")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("students.table.actions")}</th>
+                  <th className="text-start py-3 px-4 font-bold">{t("users.table.user")}</th>
+                  <th className="text-start py-3 px-4 font-bold hidden md:table-cell">{t("users.table.role")}</th>
+                  <th className="text-start py-3 px-4 font-bold hidden lg:table-cell">{t("students.table.nationalId")}</th>
+                  <th className="text-start py-3 px-4 font-bold hidden lg:table-cell">{t("users.table.shadContact")}</th>
+                  <th className="text-start py-3 px-4 font-bold hidden md:table-cell">{t("users.table.lastLogin")}</th>
+                  <th className="text-start py-3 px-4 font-bold">{t("users.table.status")}</th>
+                  <th className="text-start py-3 px-4 font-bold">{t("students.table.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -844,7 +844,7 @@ export default function UsersPage() {
 
       {/* ───────── اعتبارنامه — راند ۱۸: کپی سریع جایگزین/مکمل شاد ───────── */}
       {credResult && (
-        <div className="fixed bottom-4 left-4 right-4 lg:right-auto lg:left-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md">
+        <div className="fixed bottom-4 left-4 right-4 lg:start-auto lg:end-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md">
           <h4 className="font-bold text-[13.5px] flex items-center gap-2 mb-3">
             <Send className="w-4 h-4 text-spring" /> {t("students.cred.title")} {credResult.name}
           </h4>
