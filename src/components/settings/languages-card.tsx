@@ -33,7 +33,7 @@ type LangResponse = {
   catalogSize: number;
 };
 
-export function LanguagesCard() {
+export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
   const { data, loading, error, refetch } = useApi<LangResponse>("/api/languages");
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -191,7 +191,7 @@ export function LanguagesCard() {
         </div>
       )}
 
-      <Collapsible title="ساخت زبان جدید">
+      {canCreate && <Collapsible title="ساخت زبان جدید">
       {/* راند ۱۸: انتخاب روش — فرم مترجم یا آپلود JSON */}
       <div className="flex items-center gap-1.5">
         <button className={`b-pill-tab ${mode === "builder" ? "b-pill-tab-active" : ""}`} onClick={() => setMode("builder")} aria-pressed={mode === "builder"}>
@@ -233,7 +233,7 @@ export function LanguagesCard() {
       </div>
       )}
 
-      </Collapsible>
+      </Collapsible>}
 
       <div className="flex items-start gap-2 text-[10.5px] text-steel leading-5 rounded-xl bg-forest/5 dark:bg-forest/10 p-3">
         <AlertTriangle className="w-3.5 h-3.5 text-warning shrink-0 mt-0.5" />

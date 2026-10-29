@@ -454,8 +454,8 @@ export default function SettingsPage() {
       )}
 
       {/* ───── زبان‌ها ───── */}
-      {tab === "languages" && <LanguagesCard />}
-      {tab === "country" && <CountryCard />}
+      {tab === "languages" && <LanguagesCard canCreate={data?.canEdit ?? false} />}
+      {tab === "country" && <CountryCard canCreate={data?.canEdit ?? false} />}
 
       {/* ───── پشتیبان‌گیری ───── */}
       {tab === "backup" && (

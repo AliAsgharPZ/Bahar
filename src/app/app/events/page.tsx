@@ -75,6 +75,20 @@ export default function EventsPage() {
     }
   }
 
+  // لینک افزودن به گوگل‌کالندر — بدون نیاز به OAuth؛ کاربر با حساب گوگل خودش تأیید می‌کند
+  function googleCalendarUrl(ev: Event) {
+    const fmt = (d: Date) => d.toISOString().replaceAll("-", "").replaceAll(":", "").split(".")[0] + "Z";
+    const start = new Date(ev.startAt);
+    const end = ev.endAt ? new Date(ev.endAt) : new Date(start.getTime() + 3600000);
+    const q = new URLSearchParams({
+      action: "TEMPLATE",
+      text: ev.title,
+      dates: `${fmt(start)}/${fmt(end)}`,
+      details: ev.description ?? "",
+    });
+    return `https://calendar.google.com/calendar/render?${q.toString()}`;
+  }
+
   function EventCard({ ev, dim }: { ev: Event; dim?: boolean }) {
     return (
       <div className={`b-card-md p-6 flex flex-col gap-3 ${dim ? "opacity-70" : ""}`}>
@@ -97,6 +111,9 @@ export default function EventsPage() {
           <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> {formatDateFa(ev.startAt)} · {formatTimeFa(ev.startAt)}</span>
           {ev.endAt && <span>{t("common.to")} {formatDateFa(ev.endAt)}</span>}
           {ev.createdBy && <span>· {t("events.recordedBy")}: {ev.createdBy.firstName} {ev.createdBy.lastName}</span>}
+          <a href={googleCalendarUrl(ev)} target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm !min-h-[30px]">
+            <CalendarDays className="w-3.5 h-3.5" /> افزودن به گوگل‌کالندر
+          </a>
         </div>
       </div>
     );

@@ -35,7 +35,7 @@ type Validation = {
   stats: { regions: number; counties: number; workDays: number; gradeLevels: number; hasMap: boolean; mapProvinces: number; bytes: number };
 };
 
-export function CountryCard() {
+export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
   const { data, loading, error, refetch } = useApi<CountryResponse>("/api/countries");
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -152,7 +152,7 @@ export function CountryCard() {
           )}
         </div>
       )}
-      <Collapsible title="ساخت کشور جدید">
+      {canCreate && <Collapsible title="ساخت کشور جدید">
       {/* راند ۱۸: انتخاب روش — فرم یا آپلود JSON */}
       <div className="flex items-center gap-1.5 mb-4">
         <button className={`b-pill-tab ${mode === "builder" ? "b-pill-tab-active" : ""}`} onClick={() => setMode("builder")} aria-pressed={mode === "builder"}>
@@ -218,7 +218,7 @@ export function CountryCard() {
         </div>
       )}
 
-      </Collapsible>
+      </Collapsible>}
     </div>
   );
 }
