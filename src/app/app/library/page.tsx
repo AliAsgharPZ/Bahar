@@ -255,7 +255,7 @@ export default function LibraryPage() {
             </div>
             <div className="flex flex-col gap-1.5 max-h-64 overflow-y-auto">
               {students.map((s) => (
-                <button key={s.id} disabled={busy} onClick={() => loanTo(s.id)} className="b-btn b-btn-ghost text-start p-2.5 rounded-lg border border-[--hairline] hover:border-[--spring] transition-colors">
+                <button key={s.id} disabled={busy} onClick={() => loanTo(s.id)} className="b-btn b-btn-ghost text-start p-2.5 rounded-full border border-[--hairline] hover:border-[--spring] transition-colors">
                   <span className="font-semibold text-[13px]">{s.user.firstName} {s.user.lastName}</span>
                   <span className="text-[11.5px] text-stone ms-2">{s.class?.name ?? t("students.noClass")}{s.studentNumber ? ` · ${s.studentNumber}` : ""}</span>
                 </button>

@@ -244,7 +244,7 @@ function ReportsInner() {
                 </div>
                 <button onClick={() => runSchedule(r.id)} className="b-btn b-btn-ghost b-btn-sm" title={t("reports.schedule.runNow")}><Play className="w-3.5 h-3.5" /> {t("reports.schedule.run")}</button>
                 <button onClick={() => toggleSchedule(r.id, !r.active)} className={`b-btn b-btn-sm ${r.active ? "b-btn-soft" : "b-btn-spring"}`}>{r.active ? t("common.inactive") : t("common.active")}</button>
-                <button onClick={() => deleteSchedule(r.id)} className="w-8 h-8 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors" title={t("common.delete")}><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => deleteSchedule(r.id)} className="w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors" title={t("common.delete")}><Trash2 className="w-4 h-4" /></button>
               </div>
             ))}
           </div>

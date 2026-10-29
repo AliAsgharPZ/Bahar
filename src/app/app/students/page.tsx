@@ -518,17 +518,17 @@ export default function StudentsPage() {
                     )}
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-1">
-                        <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openDetail(s)} title={t("students.row.viewFile")}>
+                        <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openDetail(s)} title={t("students.row.viewFile")}>
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => resetPassword(s)} title={t("students.row.resetPassword")}>
+                        <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => resetPassword(s)} title={t("students.row.resetPassword")}>
                           <KeyRound className="w-4 h-4" />
                         </button>
-                        <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openEdit(s)} title={t("students.row.edit")}>
+                        <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openEdit(s)} title={t("students.row.edit")}>
                           <Pencil className="w-4 h-4" />
                         </button>
                         {s.user.isActive && (
-                          <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive transition-colors" onClick={() => deactivateStudent(s)} title={t("students.row.deactivate")}>
+                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive transition-colors" onClick={() => deactivateStudent(s)} title={t("students.row.deactivate")}>
                             <Trash2 className="w-4 h-4" />
                           </button>
                         )}

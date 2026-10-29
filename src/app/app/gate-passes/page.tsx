@@ -123,7 +123,7 @@ export default function GatePassesPage() {
                 {students.length > 0 && !studentId && (
                   <div className="flex flex-col gap-1 max-h-40 overflow-y-auto b-scroll">
                     {students.map((s) => (
-                      <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-xl p-2.5 text-start text-[13px]" onClick={() => setStudentId(s.id)}>
+                      <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-full p-2.5 text-start text-[13px]" onClick={() => setStudentId(s.id)}>
                         <b>{s.user.firstName} {s.user.lastName}</b> <span className="text-steel">{s.class?.name ?? ""}</span>
                       </button>
                     ))}

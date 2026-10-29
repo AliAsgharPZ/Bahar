@@ -539,7 +539,7 @@ export default function SettingsPage() {
                             <a href={`/api/settings/backup/${b.id}`} className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" title={t("common.download")}>
                               <Download className="w-4 h-4" />
                             </a>
-                            <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteBackup(b)} title={t("common.delete")}>
+                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteBackup(b)} title={t("common.delete")}>
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>

@@ -3,12 +3,13 @@
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import {
-  Languages, Upload, Download, CheckCircle2, XCircle, Trash2, Loader2,
+  Languages, Upload, Download, CheckCircle2, Check, XCircle, Trash2, Loader2,
   FileJson, RefreshCcw, ExternalLink, AlertTriangle,
 } from "lucide-react";
 import { useApi, apiPost } from "@/lib/client";
 import { faNumber } from "@/lib/persian";
 import { LanguageBuilder } from "@/components/settings/language-builder";
+import { switchLanguage } from "@/lib/i18n";
 import { Collapsible } from "@/components/shared/collapsible";
 import { useConfirm } from "@/components/shared/pickers";
 
@@ -41,6 +42,16 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
   const confirm = useConfirm();
   // راند ۱۸: ساخت بسته با فرم مترجم داخل پنل — بدون JSON
   const [mode, setMode] = useState<"builder" | "upload">("builder");
+  const [dragOver, setDragOver] = useState(false);
+  const [currentLang, setCurrentLang] = useState<string>(() =>
+    typeof document !== "undefined"
+      ? (document.cookie.match(/(?:^|;\s*)bahar_lang=([^;]+)/)?.[1] || "fa")
+      : "fa");
+  async function applyLang(code: string) {
+    if (code === currentLang) return;
+    setBusy("apply");
+    try { await switchLanguage(code); window.location.reload(); } catch { setBusy(null); }
+  }
 
   async function uploadPack(file: File) {
     setBusy("upload");
@@ -107,14 +118,6 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
     <div className="b-card p-5 flex flex-col gap-4">
       <div className="flex items-center gap-2 flex-wrap">
         <b className="text-[13.5px] flex items-center gap-2"><Languages className="w-4 h-4 text-spring" /> زبان‌ها و ترجمه (بسته‌های زبان کاستوم)</b>
-        <span className="ms-auto flex items-center gap-2">
-          <a href="/langs/template.json" download className="b-btn b-btn-ghost b-btn-sm">
-            <Download className="w-3.5 h-3.5" /> تمپلیت
-          </a>
-          <a href="/languages" target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm">
-            <ExternalLink className="w-3.5 h-3.5" /> گایدلاین سایت
-          </a>
-        </span>
       </div>
       <p className="text-[11.5px] text-steel leading-relaxed">
         زبان جدید را با فرم مترجم زیر بسازید یا فایل JSON بستهٔ آماده را بارگذاری کنید؛ بسته به‌صورت پیش‌نویس ذخیره می‌شود و
@@ -125,38 +128,56 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
       {/* فهرست بسته‌ها — اول بسته‌های همراه سامانه (نه فقط کاستوم‌های پایگاه داده) */}
       {loading && <div className="text-center py-6"><Loader2 className="w-5 h-5 animate-spin inline text-spring" /></div>}
       {error && <div className="b-card-sm !border-destructive/30 bg-destructive/5 text-destructive px-4 py-3 text-[12px]">{error}</div>}
-      {data && (data.selectable ?? []).filter((s) => s.source === "shipped").length > 0 && (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between text-[12px] text-stone px-1">
-            <span>{faNumber((data.selectable ?? []).filter((s) => s.source === "shipped").length)} بسته همراه سامانه (فارسی پایه + این‌ها)</span>
-          </div>
-          {(data.selectable ?? []).filter((s) => s.source === "shipped").map((s) => (
-            <div key={s.code} className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap">
-              <span className="w-2.5 h-2.5 rounded-full shrink-0 bg-success" />
-              <div className="min-w-0 flex-1">
-                <b className="text-[12.5px] block truncate">{s.nativeName} <span className="text-steel font-normal">({s.name})</span></b>
-                <div className="text-[12px] text-steel flex flex-wrap items-center gap-x-2">
-                  <span dir="ltr" className="font-mono">{s.code}</span>
-                  <span>·</span>
-                  <span>{s.direction === "ltr" ? "چپ‌به‌راست" : "راست‌به‌چپ"}</span>
-                  <span>·</span>
-                  <span>همراه سامانه</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-      {data && data.packs.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between text-[12px] text-stone px-1">
-            <span>{faNumber(data.packs.length)} بسته ثبت‌شده</span>
+      {data && (
+        <div className="b-card-sm !rounded-xl overflow-hidden">
+          <div className="flex items-center justify-between text-[12px] text-stone px-4 py-2.5 border-b border-hairline-soft">
+            <span>زبان‌ها — فارسی پایه + {faNumber((data.selectable ?? []).filter((s) => s.source === "shipped").length)} بسته همراه سامانه</span>
             <button onClick={refetch} className="hover:text-spring transition-colors inline-flex items-center gap-1">
               <RefreshCcw className="w-3 h-3" /> به‌روزرسانی
             </button>
           </div>
+          <div className="divide-y divide-[var(--hairline-soft)]">
+            <div className="px-4 py-3 flex items-center gap-3">
+              <span className="w-2.5 h-2.5 rounded-full shrink-0 bg-success" />
+              <div className="min-w-0 flex-1">
+                <b className="text-[13px] block truncate">فارسی <span className="text-steel font-normal">(پایه سامانه)</span></b>
+                <div className="text-[12px] text-steel"><span dir="ltr" className="font-mono">fa</span> · راست‌به‌چپ</div>
+              </div>
+              {currentLang === "fa" ? (
+                <span className="inline-flex items-center gap-1 text-[12px] text-spring font-bold"><Check className="w-4 h-4" /> اعمال‌شده</span>
+              ) : (
+                <button onClick={() => applyLang("fa")} disabled={busy === "apply"} className="b-btn b-btn-spring b-btn-sm">اعمال روی سایت</button>
+              )}
+            </div>
+            {(data.selectable ?? []).filter((s) => s.source === "shipped").map((s) => (
+              <div key={s.code} className="px-4 py-3 flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full shrink-0 bg-success" />
+                <div className="min-w-0 flex-1">
+                  <b className="text-[13px] block truncate">{s.nativeName} <span className="text-steel font-normal">({s.name})</span></b>
+                  <div className="text-[12px] text-steel flex flex-wrap items-center gap-x-2">
+                    <span dir="ltr" className="font-mono">{s.code}</span>
+                    <span>·</span>
+                    <span>{s.direction === "ltr" ? "چپ‌به‌راست" : "راست‌به‌چپ"}</span>
+                  </div>
+                </div>
+                {currentLang === s.code ? (
+                  <span className="inline-flex items-center gap-1 text-[12px] text-spring font-bold"><Check className="w-4 h-4" /> اعمال‌شده</span>
+                ) : (
+                  <button onClick={() => applyLang(s.code)} disabled={busy === "apply"} className="b-btn b-btn-spring b-btn-sm">اعمال روی سایت</button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {data && data.packs.length > 0 && (
+        <div className="b-card-sm !rounded-xl overflow-hidden">
+          <div className="flex items-center justify-between text-[12px] text-stone px-4 py-2.5 border-b border-hairline-soft">
+            <span>{faNumber(data.packs.length)} بسته کاستوم ثبت‌شده</span>
+          </div>
+          <div className="divide-y divide-[var(--hairline-soft)]">
           {data.packs.map((p) => (
-            <div key={p.id} className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap">
+            <div key={p.id} className="px-4 py-3 flex items-center gap-3 flex-wrap">
               <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${p.status === "ACTIVE" ? "bg-success" : p.status === "DRAFT" ? "bg-warning" : "bg-stone"}`} />
               <div className="min-w-0 flex-1">
                 <b className="text-[12.5px] block truncate">
@@ -206,6 +227,7 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
               </div>
             </div>
           ))}
+          </div>
         </div>
       )}
 
@@ -222,32 +244,41 @@ export function LanguagesCard({ canCreate = false }: { canCreate?: boolean }) {
 
       {mode === "builder" && <LanguageBuilder onCreated={refetch} />}
 
-      {/* بارگذاری */}
+      {/* بارگذاری با درگ و دراپ — داخل منوی کشویی ساخت */}
       {mode === "upload" && (
-      <div className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap border-dashed">
-        <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0">
-          <FileJson className="w-4 h-4" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <b className="text-[12.5px] block">افزودن / جایگزینی بسته زبان</b>
+      <div>
+        <div
+          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => { e.preventDefault(); setDragOver(false); const f = e.dataTransfer.files?.[0]; if (f) uploadPack(f); }}
+          className={`b-card-sm !rounded-xl p-5 flex flex-col items-center gap-2 text-center border-dashed transition-colors ${dragOver ? "!border-spring bg-spring-tint/30" : ""}`}
+        >
+          <span className="w-10 h-10 rounded-full bg-spring-tint text-spring flex items-center justify-center">
+            <FileJson className="w-5 h-5" />
+          </span>
+          <b className="text-[13px]">فایل بسته زبان را اینجا رها کنید</b>
           <span className="text-[12px] text-stone">فایل .json حداکثر ۴۰۰KB — بسته هم‌کد جایگزین می‌شود</span>
+          <label className="b-btn b-btn-soft b-btn-sm cursor-pointer mt-1">
+            {busy === "upload" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+            انتخاب فایل
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".json,application/json"
+              className="hidden"
+              disabled={busy !== null}
+              onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadPack(f); e.currentTarget.value = ""; }}
+            />
+          </label>
         </div>
-        <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
-          {busy === "upload" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-          انتخاب فایل
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".json,application/json"
-            className="hidden"
-            disabled={busy !== null}
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) uploadPack(f);
-              e.currentTarget.value = "";
-            }}
-          />
-        </label>
+        <div className="flex items-center gap-2 flex-wrap mt-3">
+          <a href="/langs/template.json" download className="b-btn b-btn-ghost b-btn-sm">
+            <Download className="w-3.5 h-3.5" /> دانلود تمپلیت
+          </a>
+          <a href="/languages" target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm">
+            <ExternalLink className="w-3.5 h-3.5" /> گایدلاین سایت
+          </a>
+        </div>
       </div>
       )}
 

@@ -270,23 +270,23 @@ export default function FinancePage() {
                     {canManage && (
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-1">
-                          <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => printReceipt(f)} title={t("finance.rsyd-chapy")}>
+                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => printReceipt(f)} title={t("finance.rsyd-chapy")}>
                             <Printer className="w-4 h-4" />
                           </button>
-                          <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => openEditFee(f)} title={t("finance.vyraysh-qlm")}>
+                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => openEditFee(f)} title={t("finance.vyraysh-qlm")}>
                             <Pencil className="w-4 h-4" />
                           </button>
                           {f.status !== "PAID" && (
-                            <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => changeStatus(f, "PAID")} title={t("finance.sbt-prdakht")}>
+                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => changeStatus(f, "PAID")} title={t("finance.sbt-prdakht")}>
                               <CheckCircle2 className="w-4 h-4" />
                             </button>
                           )}
                           {f.status === "UNPAID" && (
-                            <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => changeStatus(f, "WAIVED")} title={t("finance.maaf")}>
+                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => changeStatus(f, "WAIVED")} title={t("finance.maaf")}>
                               <Ban className="w-4 h-4" />
                             </button>
                           )}
-                          <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => remove(f)} title={t("common.delete")}>
+                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => remove(f)} title={t("common.delete")}>
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>

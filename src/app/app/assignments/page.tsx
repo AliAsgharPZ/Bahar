@@ -202,10 +202,10 @@ export default function AssignmentsPage() {
           </span>
           {canCreate && (
             <span className="flex items-center gap-1 shrink-0">
-              <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:text-spring hover:bg-spring-tint" onClick={() => openEdit(a)} aria-label={t("common.edit")}>
+              <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-spring hover:bg-spring-tint" onClick={() => openEdit(a)} aria-label={t("common.edit")}>
                 <Pencil className="w-4 h-4" />
               </button>
-              <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10" onClick={() => remove(a)} aria-label={t("common.delete")}>
+              <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10" onClick={() => remove(a)} aria-label={t("common.delete")}>
                 <Trash2 className="w-4 h-4" />
               </button>
             </span>

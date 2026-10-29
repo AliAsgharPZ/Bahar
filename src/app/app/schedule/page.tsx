@@ -324,7 +324,7 @@ export default function SchedulePage() {
           <div className="relative b-card p-6 md:p-8 w-full max-w-2xl max-h-[92vh] overflow-y-auto b-scroll b-pop">
             <div className="flex items-center justify-between mb-1">
               <h2 className="font-bold text-lg flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> {t("schedule.generate.title")}</h2>
-              <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint" onClick={() => setGenOpen(false)} aria-label={t("common.close")}><X className="w-4 h-4" /></button>
+              <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint" onClick={() => setGenOpen(false)} aria-label={t("common.close")}><X className="w-4 h-4" /></button>
             </div>
             <p className="t-sm text-steel mb-5">
               {t("schedule.generate.desc")}

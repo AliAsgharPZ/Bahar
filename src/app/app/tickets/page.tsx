@@ -238,11 +238,11 @@ export default function TicketsPage() {
                 </span>
               </div>
               <span className="flex gap-1 shrink-0">
-                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-cloud" aria-label={t("tickets.deleteTicket")}
+                <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-cloud" aria-label={t("tickets.deleteTicket")}
                   onClick={async () => { if (!window.confirm(t("tickets.deleteConfirm"))) return; try { await apiDelete(`/api/tickets/${openTicket.id}`); toast.success(t("tickets.toast.deleted")); setOpenTicket(null); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
                   <Trash2 className="w-5 h-5" />
                 </button>
-                <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={() => setOpenTicket(null)} aria-label={t("common.close")}>
+                <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={() => setOpenTicket(null)} aria-label={t("common.close")}>
                   <XCircle className="w-5 h-5" />
                 </button>
               </span>

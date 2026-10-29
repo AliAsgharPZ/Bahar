@@ -1,10 +1,22 @@
 "use client";
-// بهار | بخش کشویی — اول فقط تیتر دیده می‌شود، با کلیک و انیمیشن باز می‌شود
-import { useState, type ReactNode } from "react";
+// بهار | بخش کشویی — اول فقط تیتر دیده می‌شود، با کلیک و انیمیشن ارتفاع باز می‌شود
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 
 export function Collapsible({ title, children }: { title: string; children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    if (!innerRef.current) return;
+    const measure = () => setHeight(innerRef.current?.scrollHeight ?? 0);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(innerRef.current);
+    return () => ro.disconnect();
+  }, [children]);
+
   return (
     <div className="b-card-sm !rounded-xl overflow-hidden">
       <button
@@ -14,16 +26,14 @@ export function Collapsible({ title, children }: { title: string; children: Reac
         className="w-full flex items-center justify-between gap-2 px-4 min-h-[44px] text-[13px] font-bold hover:bg-forest/5 dark:hover:bg-forest/10 transition-colors"
       >
         <span>{title}</span>
-        <ChevronDown className={`w-4 h-4 shrink-0 text-stone transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-4 h-4 shrink-0 text-stone transition-transform duration-300 ease-in-out ${open ? "rotate-180" : ""}`} />
       </button>
       <div
-        className="grid transition-[grid-template-rows] duration-300 ease-in-out"
-        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
+        style={{ maxHeight: open ? `${height}px` : "0px", opacity: open ? 1 : 0 }}
+        className="overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out"
       >
-        <div className="overflow-hidden">
-          <div className={`px-3 pb-3 pt-1 flex flex-col gap-4 transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}>
-            {children}
-          </div>
+        <div ref={innerRef} className="px-3 pb-3 pt-1 flex flex-col gap-4">
+          {children}
         </div>
       </div>
     </div>

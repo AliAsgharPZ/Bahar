@@ -101,7 +101,7 @@ export default function EventsPage() {
             </span>
           </div>
           {canCreate && (
-            <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={() => remove(ev.id)} aria-label={t("common.delete")}>
+            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={() => remove(ev.id)} aria-label={t("common.delete")}>
               <Trash2 className="w-4 h-4" />
             </button>
           )}

@@ -211,7 +211,7 @@ function EngagementInner() {
                     </div>
                     <b className="text-[22px] font-extrabold" style={{ color: h.color }}>{faNumber(h.total)}</b>
                     {canManage && (
-                      <button onClick={() => deleteHouse(h.id)} className="w-8 h-8 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors shrink-0" title={t("engagement.deleteHouse")}>
+                      <button onClick={() => deleteHouse(h.id)} className="w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors shrink-0" title={t("engagement.deleteHouse")}>
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}

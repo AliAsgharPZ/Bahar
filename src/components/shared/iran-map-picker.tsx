@@ -123,7 +123,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
               </p>
             </div>
           </div>
-          <button className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={onClose} aria-label="بستن">
+          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-cloud shrink-0" onClick={onClose} aria-label="بستن">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -231,7 +231,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
             <div className="px-4 py-3 border-b border-hairline-soft flex items-center gap-2">
               {activeProvince ? (
                 <>
-                  <button className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => setActiveProvince(null)} aria-label="بازگشت">
+                  <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => setActiveProvince(null)} aria-label="بازگشت">
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <b className="text-[13px]">{activeProvince}</b>

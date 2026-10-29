@@ -263,7 +263,7 @@ export default function TransportPage() {
             {hits.length > 0 && !picked && (
               <div className="flex flex-col gap-1 max-h-44 overflow-y-auto b-scroll">
                 {hits.map((s) => (
-                  <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-xl p-2.5 text-start text-[13px]" onClick={() => setPicked(s)}>
+                  <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-full p-2.5 text-start text-[13px]" onClick={() => setPicked(s)}>
                     <b>{s.user.firstName} {s.user.lastName}</b> <span className="text-steel">{s.class?.name ?? ""}</span>
                   </button>
                 ))}
