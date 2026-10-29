@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { apiGet, apiPatch } from "@/lib/client";
-import { faNumber, formatDateFa, relativeTimeFa, STUDENT_STATUS_LABELS } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
+import { faNumber, formatDateFa, relativeTimeFa } from "@/lib/persian";
 import { PageHeader, LoadingBlock, ErrorBox } from "@/components/shared/bits";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { BarChart } from "@/components/shared/charts";
@@ -47,10 +48,20 @@ type Data360 = {
 };
 
 const DOC_KINDS: Array<[string, string]> = [
-  ["BIRTH_CERT", "شناسنامه"], ["NATIONAL_ID", "کارت ملی"], ["PHOTO", "عکس پرسنلی"],
-  ["HEALTH_INSURANCE", "بیمه سلامت"], ["PREV_TRANSCRIPT", "کارنامه قبلی"],
-  ["RESIDENCE", "سند سکونت"], ["GUARDIAN_ID", "مدارک ولی"],
+  ["BIRTH_CERT", "students.detail.doc.birthCert"], ["NATIONAL_ID", "students.detail.doc.nationalId"], ["PHOTO", "students.detail.doc.photo"],
+  ["HEALTH_INSURANCE", "students.detail.doc.healthInsurance"], ["PREV_TRANSCRIPT", "students.detail.doc.prevTranscript"],
+  ["RESIDENCE", "students.detail.doc.residence"], ["GUARDIAN_ID", "students.detail.doc.guardianId"],
 ];
+
+const STATUS_TKEY: Record<string, string> = {
+  ACTIVE: "common.active", GRADUATED: "enum.studentStatus.GRADUATED",
+  TRANSFERRED: "enum.studentStatus.TRANSFERRED", SUSPENDED: "enum.studentStatus.SUSPENDED",
+};
+
+const RISK_TKEY: Record<string, string> = {
+  SAFE: "students.detail.risk.safe", WATCH: "students.detail.risk.watch",
+  RISK: "students.detail.risk.risk", CRITICAL: "students.detail.risk.critical",
+};
 
 const TONE_ICON: Record<string, typeof CheckCircle2> = {
   POSITIVE: CheckCircle2, NEGATIVE: AlertTriangle, NEUTRAL: Clock,
@@ -63,6 +74,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
   const [tab, setTab] = useState<"overview" | "timeline" | "docs" | "goals" | "portfolio">("overview");
   const [showTagInput, setShowTagInput] = useState(false);
   const [newTag, setNewTag] = useState("");
+  const { t } = useLang();
 
   const load = useCallback(() => {
     apiGet<Data360>(`/api/students/${id}/360`).then(setData).catch((e) => setError(e.message));
@@ -70,11 +82,11 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
   useEffect(load, [load]);
 
   if (error) return <ErrorBox message={error} />;
-  if (!data) return <LoadingBlock label="پرونده ۳۶۰ درجه در حال باز شدن…" />;
+  if (!data) return <LoadingBlock label={t("students.detail.loading360")} />;
 
   const { student, analytics } = data;
   const riskColor = analytics.risk.level === "CRITICAL" ? "#e5548b" : analytics.risk.level === "RISK" ? "#f2a918" : analytics.risk.level === "WATCH" ? "#1972c4" : "#1b8148";
-  const riskLabel = { SAFE: "ایمن", WATCH: "تحت نظر", RISK: "در معرض ریسک", CRITICAL: "بحرانی" }[analytics.risk.level] ?? "";
+  const riskTKey = RISK_TKEY[analytics.risk.level];
 
   /** اعمال تغییر ۳۶۰ با بازخورد خطا (به‌جای حذف بی‌صدا) */
   async function apply360(body: Record<string, unknown>, okMsg?: string) {
@@ -83,13 +95,13 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
       if (okMsg) toast.success(okMsg);
       load();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "خطا در ذخیره‌سازی");
+      toast.error(e instanceof Error ? e.message : t("students.detail.toast.saveError"));
     }
   }
   async function addTag() {
-    const t = newTag.trim();
-    if (!t) return;
-    const next = [...data!.tags, t];
+    const tag = newTag.trim();
+    if (!tag) return;
+    const next = [...data!.tags, tag];
     await apply360({ op: "tags", tags: next });
     setNewTag("");
     setShowTagInput(false);
@@ -105,15 +117,15 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
-        <Link href="/app/students" className="w-9 h-9 rounded-full flex items-center justify-center bg-cloud hover:bg-spring-tint transition-colors" aria-label="بازگشت">
+        <Link href="/app/students" className="w-9 h-9 rounded-full flex items-center justify-center bg-cloud hover:bg-spring-tint transition-colors" aria-label={t("common.back")}>
           <ArrowRight className="w-5 h-5 flip-rtl" />
         </Link>
-        <span className="text-[12px] text-steel">دانش‌آموزان</span>
+        <span className="text-[12px] text-steel">{t("nav.students")}</span>
       </div>
 
       <PageHeader
         title={`${student.user.firstName} ${student.user.lastName}`}
-        desc={`شماره دانش‌آموزی ${faNumber(student.studentNumber)} — ${student.class?.name ?? "بدون کلاس"}${student.house ? ` · خانه ${student.house.name}` : ""}`}
+        desc={`${t("students.field.studentNumber")} ${faNumber(student.studentNumber)} — ${student.class?.name ?? t("students.noClass")}${student.house ? ` · ${t("shell.home")} ${student.house.name}` : ""}`}
         action={
           <div className="flex items-center gap-2">
             {student.badges.slice(0, 2).map((b) => (
@@ -127,32 +139,32 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
       <div className="b-card-md p-5 mb-6 flex flex-wrap items-center gap-5">
         <UserAvatar user={student.user} size={80} rounded="xl" />
         <div className="flex-1 min-w-[220px] grid grid-cols-2 sm:grid-cols-4 gap-3 text-[12px]">
-          <InfoRow icon={Users2} label="نام پدر" value={student.user.fatherName ?? "—"} />
-          <InfoRow icon={Tag} label="کد ملی" value={faNumber(student.user.nationalId)} />
-          <InfoRow icon={Cake} label="تاریخ تولد" value={student.user.birthDate ? formatDateFa(student.user.birthDate) : "—"} />
-          <InfoRow icon={Phone} label="تماس" value={student.user.phone ? faNumber(student.user.phone) : "—"} />
-          <InfoRow icon={HomeIcon} label="محل تولد" value={student.user.birthPlace ?? "—"} />
-          <InfoRow icon={GraduationCap} label="مدرسه قبلی" value={student.previousSchool ?? "—"} />
-          <InfoRow icon={Activity} label="یادداشت سلامت" value={student.healthNotes ?? "—"} />
-          <InfoRow icon={Tag} label="وضعیت" value={STUDENT_STATUS_LABELS[student.status] ?? student.status} />
+          <InfoRow icon={Users2} label={t("students.field.fatherName")} value={student.user.fatherName ?? "—"} />
+          <InfoRow icon={Tag} label={t("students.field.nationalId")} value={faNumber(student.user.nationalId)} />
+          <InfoRow icon={Cake} label={t("profile.field.birthDate")} value={student.user.birthDate ? formatDateFa(student.user.birthDate) : "—"} />
+          <InfoRow icon={Phone} label={t("students.detail.contact")} value={student.user.phone ? faNumber(student.user.phone) : "—"} />
+          <InfoRow icon={HomeIcon} label={t("students.field.birthPlace")} value={student.user.birthPlace ?? "—"} />
+          <InfoRow icon={GraduationCap} label={t("students.field.previousSchool")} value={student.previousSchool ?? "—"} />
+          <InfoRow icon={Activity} label={t("students.field.healthNotes")} value={student.healthNotes ?? "—"} />
+          <InfoRow icon={Tag} label={t("students.detail.status")} value={STATUS_TKEY[student.status] ? t(STATUS_TKEY[student.status]) : student.status} />
         </div>
         {/* تگ‌ها */}
         <div className="flex flex-wrap items-center gap-1.5 max-w-xs">
-          {data.tags.map((t) => (
-            <span key={t} className="b-badge b-badge-blossom group">
-              {t}
-              {data.canEdit && <button onClick={() => removeTag(t)} className="b-btn b-btn-ghost opacity-50 hover:opacity-100"><X className="w-3 h-3" /></button>}
+          {data.tags.map((tg) => (
+            <span key={tg} className="b-badge b-badge-blossom group">
+              {tg}
+              {data.canEdit && <button onClick={() => removeTag(tg)} className="b-btn b-btn-ghost opacity-50 hover:opacity-100"><X className="w-3 h-3" /></button>}
             </span>
           ))}
           {data.canEdit && (
             showTagInput ? (
               <span className="flex items-center gap-1">
                 <input value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTag()}
-                  placeholder="تگ جدید…" className="b-input !h-8 !text-[11px] !w-24 !px-2" autoFocus />
+                  placeholder={t("students.detail.tagPlaceholder")} className="b-input !h-8 !text-[11px] !w-24 !px-2" autoFocus />
                 <button onClick={addTag} className="b-btn b-btn-ghost text-spring-deep"><CheckCircle2 className="w-4 h-4" /></button>
               </span>
             ) : (
-              <button onClick={() => setShowTagInput(true)} className="b-badge b-badge-neutral hover:bg-spring-tint cursor-pointer"><Plus className="w-3 h-3" /> تگ</button>
+              <button onClick={() => setShowTagInput(true)} className="b-badge b-badge-neutral hover:bg-spring-tint cursor-pointer"><Plus className="w-3 h-3" /> {t("students.detail.tagAdd")}</button>
             )
           )}
         </div>
@@ -161,8 +173,8 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
       {/* تب‌ها */}
       <div className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
         {([
-          ["overview", "نمای کلی"], ["timeline", "تایم‌لاین"], ["docs", `اسناد (${faNumber(student.documents.filter((d) => d.status === "RECEIVED").length)}/${faNumber(DOC_KINDS.length)})`],
-          ["goals", `اهداف (${faNumber(student.goals.filter((g) => g.status === "ACTIVE").length)})`], ["portfolio", `پورتفولیو (${faNumber(student.portfolioItems.length)})`],
+          ["overview", t("students.detail.tab.overview")], ["timeline", t("students.detail.tab.timeline")], ["docs", `${t("students.detail.tab.docs")} (${faNumber(student.documents.filter((d) => d.status === "RECEIVED").length)}/${faNumber(DOC_KINDS.length)})`],
+          ["goals", `${t("students.detail.goals")} (${faNumber(student.goals.filter((g) => g.status === "ACTIVE").length)})`], ["portfolio", `${t("nav.portfolio")} (${faNumber(student.portfolioItems.length)})`],
         ] as const).map(([k, label]) => (
           <button key={k} onClick={() => setTab(k)} className={`b-pill-tab ${tab === k ? "b-pill-tab-active" : ""}`}>{label}</button>
         ))}
@@ -174,7 +186,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
           {tab === "overview" && (
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="b-card-md p-5">
-                <h3 className="font-bold mb-4">وضعیت پیگیری</h3>
+                <h3 className="font-bold mb-4">{t("students.detail.trackingStatus")}</h3>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="relative w-20 h-20">
                     <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
@@ -184,8 +196,8 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                     <span className="absolute inset-0 flex items-center justify-center text-lg font-bold" style={{ color: riskColor }}>{faNumber(analytics.risk.score)}</span>
                   </div>
                   <div>
-                    <p className="font-bold text-[14px]" style={{ color: riskColor }}>{riskLabel}</p>
-                    <p className="text-[11px] text-steel">شاخص نیاز به پیگیری</p>
+                    <p className="font-bold text-[14px]" style={{ color: riskColor }}>{riskTKey ? t(riskTKey) : ""}</p>
+                    <p className="text-[11px] text-steel">{t("students.detail.trackingIndex")}</p>
                   </div>
                 </div>
                 {analytics.risk.reasons.length > 0 && (
@@ -197,7 +209,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                 )}
                 {analytics.patterns.length > 0 && (
                   <div className="mt-4 pt-3 border-t border-hairline-soft">
-                    <p className="text-[11px] font-bold mb-1.5">الگوی غیبت:</p>
+                    <p className="text-[11px] font-bold mb-1.5">{t("students.detail.absencePattern")}</p>
                     {analytics.patterns.map((p, i) => <p key={i} className="text-[11px] text-steel">• {p}</p>)}
                   </div>
                 )}
@@ -205,29 +217,29 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
 
               <div className="b-card-md p-5 lg:col-span-2">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-                  <MiniCard label="معدل" value={analytics.gpa ? faNumber(analytics.gpa) : "—"} delta={analytics.trend} />
-                  <MiniCard label="حضور" value={analytics.attendanceRate ? `${faNumber(analytics.attendanceRate)}٪` : "—"} />
-                  <MiniCard label="غیبت" value={faNumber(analytics.absences)} />
-                  <MiniCard label="امتیاز رفتاری" value={faNumber(analytics.behaviorPoints)} />
+                  <MiniCard label={t("dashboard.gpa")} value={analytics.gpa ? faNumber(analytics.gpa) : "—"} delta={analytics.trend} />
+                  <MiniCard label={t("dashboard.mini.attendance")} value={analytics.attendanceRate ? `${faNumber(analytics.attendanceRate)}٪` : "—"} />
+                  <MiniCard label={t("dashboard.mini.absence")} value={faNumber(analytics.absences)} />
+                  <MiniCard label={t("dashboard.behaviorPoints")} value={faNumber(analytics.behaviorPoints)} />
                 </div>
-                <h3 className="font-bold mb-3">عملکرد درس‌ها</h3>
+                <h3 className="font-bold mb-3">{t("students.detail.subjectPerformance")}</h3>
                 <BarChart data={data.subjectBreakdown.slice(0, 8).map((s) => ({ label: s.name, value: s.avg }))} max={20} />
               </div>
 
               <div className="b-card-md p-5 lg:col-span-3">
-                <h3 className="font-bold mb-4">اولیا</h3>
+                <h3 className="font-bold mb-4">{t("students.parents.title")}</h3>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {student.parents.map((p, i) => (
                     <div key={i} className="p-3.5 rounded-2xl bg-cloud flex items-center gap-3">
                       <UserAvatar user={{ ...p.parentUser, avatar: p.parentUser.avatar ?? null }} size={40} />
                       <div className="flex-1 min-w-0">
                         <p className="text-[12.5px] font-bold truncate">{p.parentUser.firstName} {p.parentUser.lastName}</p>
-                        <p className="text-[11px] text-steel truncate">{p.relation === "FATHER" ? "پدر" : p.relation === "MOTHER" ? "مادر" : "سرپرست"}{p.parentUser.jobTitle ? ` · ${p.parentUser.jobTitle}` : ""}</p>
+                        <p className="text-[11px] text-steel truncate">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}{p.parentUser.jobTitle ? ` · ${p.parentUser.jobTitle}` : ""}</p>
                       </div>
                       {p.parentUser.phone && <span className="text-[11px] text-steel shrink-0">{faNumber(p.parentUser.phone)}</span>}
                     </div>
                   ))}
-                  {student.parents.length === 0 && <p className="t-sm text-steel">ولی ثبت نشده است</p>}
+                  {student.parents.length === 0 && <p className="t-sm text-steel">{t("students.detail.noParents")}</p>}
                 </div>
               </div>
             </div>
@@ -235,22 +247,22 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
 
           {tab === "timeline" && (
             <div className="b-card-md p-5">
-              <h3 className="font-bold mb-5">تایم‌لاین دانش‌آموز</h3>
-              {data.timeline.length === 0 ? <p className="t-sm text-steel text-center py-8">رخدادی ثبت نشده است</p> : (
+              <h3 className="font-bold mb-5">{t("students.detail.timelineTitle")}</h3>
+              {data.timeline.length === 0 ? <p className="t-sm text-steel text-center py-8">{t("students.detail.timelineEmpty")}</p> : (
                 <div className="relative ps-4">
                   <span className="absolute top-0 bottom-0 start-[7px] w-0.5 bg-hairline-soft" />
                   <StaggerGroup step={30} className="flex flex-col gap-4">
-                    {data.timeline.map((t, i) => {
-                      const Icon = TONE_ICON[t.tone] ?? Clock;
+                    {data.timeline.map((ev, i) => {
+                      const Icon = TONE_ICON[ev.tone] ?? Clock;
                       return (
                         <StaggerItem key={i}>
                           <div className="relative flex items-start gap-3">
-                            <span className={`absolute -start-4 top-1 w-4 h-4 rounded-full border-2 border-background ${t.tone === "POSITIVE" ? "bg-success" : t.tone === "NEGATIVE" ? "bg-destructive" : "bg-stone"}`} />
+                            <span className={`absolute -start-4 top-1 w-4 h-4 rounded-full border-2 border-background ${ev.tone === "POSITIVE" ? "bg-success" : ev.tone === "NEGATIVE" ? "bg-destructive" : "bg-stone"}`} />
                             <div className="flex-1 flex items-center gap-3 flex-wrap">
-                              <Icon className={`w-4 h-4 shrink-0 ${t.tone === "POSITIVE" ? "text-success" : t.tone === "NEGATIVE" ? "text-destructive" : "text-stone"}`} />
-                              <span className="text-[12.5px] font-bold">{t.title}</span>
-                              {t.detail && <span className="text-[11px] text-steel">{t.detail}</span>}
-                              <span className="text-[10px] text-stone ms-auto">{relativeTimeFa(t.at)}</span>
+                              <Icon className={`w-4 h-4 shrink-0 ${ev.tone === "POSITIVE" ? "text-success" : ev.tone === "NEGATIVE" ? "text-destructive" : "text-stone"}`} />
+                              <span className="text-[12.5px] font-bold">{ev.title}</span>
+                              {ev.detail && <span className="text-[11px] text-steel">{ev.detail}</span>}
+                              <span className="text-[10px] text-stone ms-auto">{relativeTimeFa(ev.at)}</span>
                             </div>
                           </div>
                         </StaggerItem>
@@ -264,10 +276,10 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
 
           {tab === "docs" && (
             <div className="b-card-md p-5">
-              <h3 className="font-bold mb-2">چک‌لیست مدارک</h3>
-              <p className="t-sm text-steel mb-5">مدارک لازم برای اداره‌های آموزش و پرونده تحصیلی</p>
+              <h3 className="font-bold mb-2">{t("students.detail.docsTitle")}</h3>
+              <p className="t-sm text-steel mb-5">{t("students.detail.docsDesc")}</p>
               <div className="grid gap-2.5 sm:grid-cols-2">
-                {DOC_KINDS.map(([kind, label]) => {
+                {DOC_KINDS.map(([kind, tkey]) => {
                   const doc = student.documents.find((d) => d.kind === kind);
                   const status = doc?.status ?? "PENDING";
                   const expiring = doc?.expiresAt && new Date(doc.expiresAt).getTime() - Date.now() < 30 * 86400000;
@@ -275,19 +287,19 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                     <div key={kind} className={`p-3.5 rounded-2xl border flex items-center gap-3 ${status === "RECEIVED" ? "bg-spring-tint/40 border-spring/20" : status === "REJECTED" ? "bg-destructive/5 border-destructive/20" : "bg-cloud border-transparent"}`}>
                       <FileCheck className={`w-5 h-5 shrink-0 ${status === "RECEIVED" ? "text-spring-deep" : "text-stone"}`} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-[12.5px] font-bold">{label}</p>
+                        <p className="text-[12.5px] font-bold">{t(tkey)}</p>
                         <p className="text-[10.5px] text-steel">
-                          {status === "RECEIVED" ? `دریافت شد${doc?.receivedAt ? " — " + formatDateFa(doc.receivedAt) : ""}` : status === "REJECTED" ? "رد شد" : "در انتظار دریافت"}
-                          {expiring && <span className="text-destructive font-bold"> · نزدیک انقضا!</span>}
+                          {status === "RECEIVED" ? `${t("students.detail.doc.received")}${doc?.receivedAt ? " — " + formatDateFa(doc.receivedAt) : ""}` : status === "REJECTED" ? t("profile.requests.rejected") : t("students.detail.doc.pending")}
+                          {expiring && <span className="text-destructive font-bold"> · {t("students.detail.doc.expiring")}</span>}
                         </p>
                       </div>
                       {data.canEdit && (
                         <div className="flex gap-1 shrink-0">
                           {status !== "RECEIVED" && (
-                            <button onClick={() => setDoc(kind, "RECEIVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[28px] !text-[10px] !px-2.5 !py-0.5">دریافت شد</button>
+                            <button onClick={() => setDoc(kind, "RECEIVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[28px] !text-[10px] !px-2.5 !py-0.5">{t("students.detail.doc.received")}</button>
                           )}
                           {status === "RECEIVED" && (
-                            <button onClick={() => setDoc(kind, "PENDING")} className="b-btn b-btn-sm b-btn-ghost !min-h-[28px] !text-[10px] !px-2.5 !py-0.5">برگشت</button>
+                            <button onClick={() => setDoc(kind, "PENDING")} className="b-btn b-btn-sm b-btn-ghost !min-h-[28px] !text-[10px] !px-2.5 !py-0.5">{t("enum.kindFa.REFUND")}</button>
                           )}
                         </div>
                       )}
@@ -347,42 +359,43 @@ function GoalsTab({ studentId, canEdit, goals, interventions, analytics, reload 
   const [target, setTarget] = useState("");
   const [ivDesc, setIvDesc] = useState("");
   const [showIv, setShowIv] = useState(false);
+  const { t } = useLang();
 
   async function addGoal() {
     if (!title.trim()) return;
     try {
       await apiPatch(`/api/students/${studentId}/360`, { op: "goal", title, metric: "GPA", targetValue: target || null });
       setTitle(""); setTarget(""); reload();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا در ثبت هدف"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("students.detail.toast.goalFailed")); }
   }
   async function addIntervention() {
     if (!ivDesc.trim()) return;
     try {
       await apiPatch(`/api/students/${studentId}/360`, { op: "intervention", kind: "MEETING", description: ivDesc });
       setIvDesc(""); setShowIv(false); reload();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا در ثبت اقدام"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("students.detail.toast.interventionFailed")); }
   }
   async function resolveIv(id: string) {
     try {
       await apiPatch(`/api/students/${studentId}/360`, { op: "intervention-resolve", interventionId: id, outcome: "خاتمه یافت" });
       reload();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
   async function goalStatus(gid: string, status: string) {
     try {
       await apiPatch(`/api/students/${studentId}/360`, { op: "goal-status", goalId: gid, status, currentValue: status === "ACHIEVED" ? (analytics.gpa?.toString() ?? "") : undefined });
       reload();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); }
   }
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <div className="b-card-md p-5">
-        <h3 className="font-bold mb-4 flex items-center gap-2"><Target className="w-4 h-4 text-spring" /> اهداف</h3>
+        <h3 className="font-bold mb-4 flex items-center gap-2"><Target className="w-4 h-4 text-spring" /> {t("students.detail.goals")}</h3>
         {canEdit && (
           <div className="flex gap-2 mb-4">
-            <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="هدف جدید (مثلاً معدل ۱۸)" className="b-input !h-10 flex-1" />
-            <input value={target} onChange={(e) => setTarget(e.target.value)} placeholder="مقدار هدف" className="b-input !h-10 !w-24" />
+            <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("students.detail.goalPlaceholder")} className="b-input !h-10 flex-1" />
+            <input value={target} onChange={(e) => setTarget(e.target.value)} placeholder={t("students.detail.goalTargetPlaceholder")} className="b-input !h-10 !w-24" />
             <button onClick={addGoal} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /></button>
           </div>
         )}
@@ -391,47 +404,47 @@ function GoalsTab({ studentId, canEdit, goals, interventions, analytics, reload 
             <div key={g.id} className={`p-3.5 rounded-2xl border ${g.status === "ACHIEVED" ? "bg-spring-tint/40 border-spring/20" : g.status === "ACTIVE" ? "bg-cloud border-transparent" : "opacity-50 bg-cloud border-transparent"}`}>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-[13px] font-bold flex-1">{g.title}</span>
-                {g.targetValue && <span className="b-badge b-badge-neutral">هدف: {faNumber(g.targetValue)}</span>}
-                {g.currentValue && <span className="b-badge b-badge-spring">فعلی: {faNumber(g.currentValue)}</span>}
+                {g.targetValue && <span className="b-badge b-badge-neutral">{t("students.detail.goalTargetPrefix")} {faNumber(g.targetValue)}</span>}
+                {g.currentValue && <span className="b-badge b-badge-spring">{t("exams.invigilators.current")} {faNumber(g.currentValue)}</span>}
                 {g.status === "ACTIVE" && canEdit && (
                   <>
-                    <button onClick={() => goalStatus(g.id, "ACHIEVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[26px] !text-[10px] !px-2.5 !py-0.5">محقق شد</button>
-                    <button onClick={() => goalStatus(g.id, "DROPPED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2.5 !py-0.5">رها شد</button>
+                    <button onClick={() => goalStatus(g.id, "ACHIEVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[26px] !text-[10px] !px-2.5 !py-0.5">{t("students.detail.goalAchieved")}</button>
+                    <button onClick={() => goalStatus(g.id, "DROPPED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2.5 !py-0.5">{t("students.detail.goalDropped")}</button>
                   </>
                 )}
               </div>
-              {g.dueDate && <p className="text-[10.5px] text-steel mt-1">تا {formatDateFa(g.dueDate)}</p>}
+              {g.dueDate && <p className="text-[10.5px] text-steel mt-1">{t("common.to")} {formatDateFa(g.dueDate)}</p>}
             </div>
           ))}
-          {goals.length === 0 && <p className="t-sm text-steel text-center py-4">هدفی ثبت نشده است</p>}
+          {goals.length === 0 && <p className="t-sm text-steel text-center py-4">{t("students.detail.goalsEmpty")}</p>}
         </div>
       </div>
       <div className="b-card-md p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-bold flex items-center gap-2"><HeartHandshake className="w-4 h-4 text-blossom" /> اقدامات حمایتی</h3>
-          {canEdit && !showIv && <button onClick={() => setShowIv(true)} className="b-btn b-btn-sm b-btn-ghost !min-h-[30px] !text-[11px]"><Plus className="w-3.5 h-3.5" /> ثبت اقدام</button>}
+          <h3 className="font-bold flex items-center gap-2"><HeartHandshake className="w-4 h-4 text-blossom" /> {t("students.detail.interventionsTitle")}</h3>
+          {canEdit && !showIv && <button onClick={() => setShowIv(true)} className="b-btn b-btn-sm b-btn-ghost !min-h-[30px] !text-[11px]"><Plus className="w-3.5 h-3.5" /> {t("students.detail.interventionAdd")}</button>}
         </div>
         {showIv && (
           <div className="mb-4 flex gap-2">
-            <input value={ivDesc} onChange={(e) => setIvDesc(e.target.value)} placeholder="شرح اقدام (مثلاً جلسه با خانواده برگزار شد…)" className="b-input !h-10 flex-1" autoFocus />
-            <button onClick={addIntervention} className="b-btn b-btn-sm b-btn-spring">ثبت</button>
+            <input value={ivDesc} onChange={(e) => setIvDesc(e.target.value)} placeholder={t("students.detail.interventionPlaceholder")} className="b-input !h-10 flex-1" autoFocus />
+            <button onClick={addIntervention} className="b-btn b-btn-sm b-btn-spring">{t("behavior.submit")}</button>
           </div>
         )}
         <div className="flex flex-col gap-2.5">
           {interventions.map((iv) => (
             <div key={iv.id} className={`p-3.5 rounded-2xl ${iv.status === "ACTIVE" ? "bg-blossom-tint/60" : "bg-cloud"}`}>
               <div className="flex items-center gap-2 flex-wrap">
-                <span className={`b-badge ${iv.status === "ACTIVE" ? "b-badge-blossom" : "b-badge-neutral"}`}>{iv.status === "ACTIVE" ? "در جریان" : "خاتمه‌یافته"}</span>
+                <span className={`b-badge ${iv.status === "ACTIVE" ? "b-badge-blossom" : "b-badge-neutral"}`}>{iv.status === "ACTIVE" ? t("tasks.status.inProgress") : t("students.detail.interventionClosed")}</span>
                 <span className="text-[12px] text-steel">{iv.startedBy.firstName} {iv.startedBy.lastName}</span>
                 {iv.status === "ACTIVE" && canEdit && (
-                  <button onClick={() => resolveIv(iv.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] ms-auto !px-2.5 !py-0.5">خاتمه</button>
+                  <button onClick={() => resolveIv(iv.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] ms-auto !px-2.5 !py-0.5">{t("students.detail.interventionResolve")}</button>
                 )}
               </div>
               <p className="text-[12.5px] mt-1.5 leading-relaxed">{iv.description}</p>
-              {iv.outcome && <p className="text-[11px] text-steel mt-1">نتیجه: {iv.outcome}</p>}
+              {iv.outcome && <p className="text-[11px] text-steel mt-1">{t("students.detail.interventionOutcome")} {iv.outcome}</p>}
             </div>
           ))}
-          {interventions.length === 0 && <p className="t-sm text-steel text-center py-4">اقدامی ثبت نشده است</p>}
+          {interventions.length === 0 && <p className="t-sm text-steel text-center py-4">{t("students.detail.interventionsEmpty")}</p>}
         </div>
       </div>
     </div>
@@ -445,42 +458,44 @@ function PortfolioTab({ studentId, canEdit, items, reload }: {
 }) {
   const [title, setTitle] = useState("");
   const [kind, setKind] = useState("PROJECT");
-  const KINDS: Array<[string, string]> = [["PROJECT", "پروژه"], ["CERTIFICATE", "گواهی"], ["COMPETITION", "مسابقه"], ["ARTWORK", "اثر هنری"], ["ACHIEVEMENT", "دستاورد"], ["SKILL", "مهارت"]];
+  const { t } = useLang();
+  const KINDS: Array<[string, string]> = [["PROJECT", "enum.gradeKind.PROJECT"], ["CERTIFICATE", "certificates.fallbackTitle"], ["COMPETITION", "students.detail.portfolio.competition"], ["ARTWORK", "students.detail.portfolio.artwork"], ["ACHIEVEMENT", "students.detail.portfolio.achievement"], ["SKILL", "students.detail.portfolio.skill"]];
+  const kindLabel = (k: string) => { const f = KINDS.find(([code]) => code === k); return f ? t(f[1]) : k; };
   async function addItem() {
     if (!title.trim()) return;
     try {
       await apiPatch(`/api/students/${studentId}/360`, { op: "portfolio", itemKind: kind, title });
       setTitle(""); reload();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا در ثبت مورد"); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("students.detail.toast.portfolioFailed")); }
   }
   return (
     <div className="b-card-md p-5">
-      <h3 className="font-bold mb-4 flex items-center gap-2"><Briefcase className="w-4 h-4 text-spring" /> پورتفولیو دانش‌آموز</h3>
+      <h3 className="font-bold mb-4 flex items-center gap-2"><Briefcase className="w-4 h-4 text-spring" /> {t("students.detail.portfolioTitle")}</h3>
       {canEdit && (
         <div className="flex flex-wrap gap-2 mb-5">
           <Select
             value={kind}
             onChange={(v) => setKind(v)}
-            options={KINDS.map(([k, l]) => ({ value: k, label: l }))}
+            options={KINDS.map(([k, tk]) => ({ value: k, label: t(tk) }))}
             className="!w-32"
             buttonClassName="!h-10 !w-32"
           />
-          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="عنوان مورد…" className="b-input !h-10 flex-1 min-w-[180px]" onKeyDown={(e) => e.key === "Enter" && addItem()} />
-          <button onClick={addItem} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> افزودن</button>
+          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("students.detail.portfolioTitlePlaceholder")} className="b-input !h-10 flex-1 min-w-[180px]" onKeyDown={(e) => e.key === "Enter" && addItem()} />
+          <button onClick={addItem} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {t("common.add")}</button>
         </div>
       )}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((it, i) => (
           <motion.div key={it.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
             className="p-4 rounded-2xl bg-cloud flex flex-col gap-1.5">
-            <span className="b-badge b-badge-spring w-fit">{KINDS.find(([k]) => k === it.kind)?.[1] ?? it.kind}</span>
+            <span className="b-badge b-badge-spring w-fit">{kindLabel(it.kind)}</span>
             <p className="text-[13px] font-bold">{it.title}</p>
             {it.description && <p className="text-[11.5px] text-steel line-clamp-2">{it.description}</p>}
-            {it.url && <a href={it.url} target="_blank" rel="noreferrer" className="text-[11px] text-spring-deep hover:underline">مشاهده لینک</a>}
+            {it.url && <a href={it.url} target="_blank" rel="noreferrer" className="text-[11px] text-spring-deep hover:underline">{t("students.detail.portfolioViewLink")}</a>}
             {it.date && <p className="text-[10px] text-stone">{formatDateFa(it.date)}</p>}
           </motion.div>
         ))}
-        {items.length === 0 && <p className="t-sm text-steel col-span-full text-center py-8">هنوز موردی به پورتفولیو اضافه نشده است</p>}
+        {items.length === 0 && <p className="t-sm text-steel col-span-full text-center py-8">{t("students.detail.portfolioEmpty")}</p>}
       </div>
     </div>
   );
