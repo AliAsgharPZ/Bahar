@@ -8,13 +8,17 @@ import dePack from "./packs/de.json";
 import itPack from "./packs/it.json";
 import ptPack from "./packs/pt.json";
 import urPack from "./packs/ur.json";
+import azPack from "./packs/az.json";
+import hiPack from "./packs/hi.json";
 
 /* ============================================================
    بهار | بسته‌های زبانِ همراه سامانه (shipped packs)
    هر هشت بستهٔ همراه سامانه کامل‌اند (۲۰۰ از ۲۰۰ کلید کاتالوگ):
    انگلیسی، عربی، ترکی، فرانسوی، اسپانیایی، آلمانی، ایتالیایی و
    پرتغالی؛ بستهٔ نهم، اردو، نیز ۲۰۰ از ۲۰۰ کلید را دارد ولی
-   ترجمهٔ دستیِ غیرمتخصص است و بازبینی تخصصی نشده است. کلیدهای ترجمه‌نشدهٔ بسته‌های دیگرِ پایگاه داده همچنان
+   ترجمهٔ دستیِ غیرمتخصص است و بازبینی تخصصی نشده است؛ بسته‌های
+   دهم و یازدهم، آذربایجانی و هندی، نیز همین وضعیت را دارند
+   (۲۰۰ از ۲۰۰ کلید، دستی، بازبینی‌نشده). کلیدهای ترجمه‌نشدهٔ بسته‌های دیگرِ پایگاه داده همچنان
    به فارسی پایه بازمی‌گردند. فهرست نام همهٔ زبان‌های جهان (بدون
    ترجمه) جداگانه در ./world.ts است و بستهٔ کامل شمرده نمی‌شود.
    ============================================================ */
@@ -43,7 +47,7 @@ function build(pack: { code: string; name: string; nativeName: string; direction
 export const SHIPPED_LANG_PACKS: ShippedLangPack[] = [
   build(enPack as never), build(arPack as never), build(trPack as never), build(frPack as never),
   build(esPack as never), build(dePack as never), build(itPack as never), build(ptPack as never),
-  build(urPack as never),
+  build(urPack as never), build(azPack as never), build(hiPack as never),
 ];
 
 export function shippedLangPack(code: string): ShippedLangPack | null {

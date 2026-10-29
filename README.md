@@ -123,7 +123,8 @@ school — in one install.
 - **Language coverage** — the UI catalogue is 200 keys (UI strings
   only, no guide prose). Shipped packs, all 200/200 (100%):
   **English, Arabic, Turkish, French, Spanish, German, Italian,
-  Portuguese** — untranslated keys in database packs fall back to
+  Portuguese** (reviewed packs), plus hand-written packs (not
+  professionally reviewed): **Urdu, Azerbaijani, Hindi** — untranslated keys in database packs fall back to
   Persian. On top of that, a **world name registry of 183 languages**
   (Persian + English + native names from ICU/CLDR) is shipped and
   shown on `/app/languages` — it is names only, never counted as a
