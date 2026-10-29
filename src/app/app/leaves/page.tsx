@@ -76,12 +76,12 @@ export default function LeavesPage() {
               <span className="b-badge b-badge-neutral">{t(KIND_TKEY[l.kind] ?? l.kind)}</span>
               <span className="text-[12px] text-steel">{formatDateFa(l.fromDate)} {t("common.to")} {formatDateFa(l.toDate)}</span>
               {l.reason && <span className="text-[11.5px] text-steel flex-1 truncate">{l.reason}</span>}
-              {l.reviewNote && <span className="text-[11px] text-spring-deep">{l.reviewNote}</span>}
+              {l.reviewNote && <span className="text-[12px] text-spring-deep">{l.reviewNote}</span>}
               <button className="b-btn b-btn-ghost b-btn-sm !text-destructive ms-auto" onClick={async () => { if (!window.confirm(t("leaves.ayn-drkhvast-mrkhsy-hzf-shvd"))) return; try { await apiDelete(`/api/leaves?id=${l.id}`); toast.success(t("leaves.hzf-shd")); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>{t("common.delete")}</button>
               {canReview && l.status === "PENDING" && (
                 <span className="flex gap-1.5 ms-auto">
-                  <button onClick={() => respond(l.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[28px] !text-[10px] !px-2.5 !py-0"><CheckCircle2 className="w-3.5 h-3.5" /> {t("leaves.t-yyd")}</button>
-                  <button onClick={() => respond(l.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[28px] !text-[10px] !px-2.5 !py-0 !text-destructive"><XCircle className="w-3.5 h-3.5" /> {t("leaves.rd")}</button>
+                  <button onClick={() => respond(l.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2.5 !py-0"><CheckCircle2 className="w-3.5 h-3.5" /> {t("leaves.t-yyd")}</button>
+                  <button onClick={() => respond(l.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2.5 !py-0 !text-destructive"><XCircle className="w-3.5 h-3.5" /> {t("leaves.rd")}</button>
                 </span>
               )}
             </div>

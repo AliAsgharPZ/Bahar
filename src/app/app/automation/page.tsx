@@ -99,12 +99,12 @@ export default function AutomationPage() {
                 </span>
                 <div className="flex-1 min-w-[180px]">
                   <p className="text-[13px] font-bold">{r.name}</p>
-                  <p className="text-[11px] text-steel">
+                  <p className="text-[12px] text-steel">
                     {triggers[r.trigger]}{cfg.threshold ? <> ({t("automation.threshold")} {faNumber(cfg.threshold)})</> : ""} ← {actions[r.action]}
                     {r.runCount > 0 ? <> · {faNumber(r.runCount)} {t("automation.runs")}</> : ""}
                   </p>
                 </div>
-                <button onClick={() => toggle(r)} className={`b-btn b-btn-sm !min-h-[28px] !text-[10px] !px-2.5 !py-0 ${r.active ? "b-btn-ghost" : "b-btn-spring"}`}>
+                <button onClick={() => toggle(r)} className={`b-btn b-btn-sm !min-h-[40px] !text-[12px] !px-2.5 !py-0 ${r.active ? "b-btn-ghost" : "b-btn-spring"}`}>
                   <Power className="w-3.5 h-3.5" /> {r.active ? t("automation.off") : t("automation.on")}
                 </button>
                 <button onClick={() => remove(r.id)} className="b-btn b-btn-ghost text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
@@ -122,7 +122,7 @@ export default function AutomationPage() {
                 <span className={`b-dot shrink-0 ${l.result === "DONE" ? "bg-success" : l.result === "SKIPPED" ? "bg-warning" : "bg-destructive"}`} />
                 <span className="font-bold">{triggers[l.trigger] ?? l.trigger}</span>
                 <span className="text-steel flex-1 truncate">{l.summary}</span>
-                <span className="text-[10px] text-stone shrink-0">{relativeTimeFa(l.createdAt)}</span>
+                <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(l.createdAt)}</span>
               </div>
             ))}
           </div>

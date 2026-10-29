@@ -157,11 +157,11 @@ export default function TicketsPage() {
               className="b-btn b-btn-ghost b-card-sm p-4 flex flex-wrap items-center gap-3 text-right hover:border-spring/40 transition-colors"
               onClick={() => setOpenTicket({ ...tk, messages: tk.messages })}
             >
-              <span className="font-mono text-[11px] text-stone shrink-0" dir="ltr">{tk.code}</span>
+              <span className="font-mono text-[12px] text-stone shrink-0" dir="ltr">{tk.code}</span>
               <span className="b-badge b-badge-soft shrink-0">{tk.categoryLabel}</span>
               <b className="text-[13.5px] truncate min-w-0 flex-1">{tk.subject}</b>
               {scope === "all" && tk.requester && (
-                <span className="text-[11px] text-steel truncate hidden md:inline">
+                <span className="text-[12px] text-steel truncate hidden md:inline">
                   {tk.requester.name}{tk.requester.schoolName ? ` · ${tk.requester.schoolName}` : ""}
                 </span>
               )}
@@ -256,7 +256,7 @@ export default function TicketsPage() {
                       <span key={i} className="block">{line || "‌"}</span>
                     ))}
                   </div>
-                  <span className="text-[10px] text-stone mt-1 px-1">
+                  <span className="text-[12px] text-stone mt-1 px-1">
                     {m.fromAdmin ? t("tickets.support") : m.sender ? `${m.sender.firstName} ${m.sender.lastName}` : t("dashboard.unit.user")} · {formatDateTimeFa(m.createdAt)}
                   </span>
                 </div>

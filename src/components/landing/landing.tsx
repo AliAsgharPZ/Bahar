@@ -251,7 +251,7 @@ export function Landing({
             <Image src="/logo.svg" alt={t("site.footer.logoAlt")} width={34} height={34} priority />
             <span className="flex flex-col leading-none">
               <span className="text-[22px] font-bold tracking-tight">بهار</span>
-              <span className="text-[10px] text-steel font-medium hidden sm:block">{t("site.brand.tagline")}</span>
+              <span className="text-[12px] text-steel font-medium hidden sm:block">{t("site.brand.tagline")}</span>
             </span>
           </Link>
 

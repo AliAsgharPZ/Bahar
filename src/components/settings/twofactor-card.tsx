@@ -174,7 +174,7 @@ export function TwoFactorCard() {
             {backupCodes.map((c) => (
               <div key={c} className="flex items-center gap-1.5">
                 <code className="b-input !font-mono !text-[12px] flex-1 text-center" dir="ltr">{c}</code>
-                <button type="button" className="b-btn b-btn-soft b-btn-sm !min-h-[34px]" onClick={() => copy(c, c)}>
+                <button type="button" className="b-btn b-btn-soft b-btn-sm !min-h-[40px]" onClick={() => copy(c, c)}>
                   {copied === c ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
               </div>
@@ -201,7 +201,7 @@ export function TwoFactorCard() {
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "غیرفعال‌سازی"}
             </button>
           </div>
-          <p className="text-[11px] text-stone mt-2">برای امنیت، غیرفعال‌سازی هم رمز و هم یک کد معتبر می‌خواهد.</p>
+          <p className="text-[12px] text-stone mt-2">برای امنیت، غیرفعال‌سازی هم رمز و هم یک کد معتبر می‌خواهد.</p>
         </div>
       )}
     </div>

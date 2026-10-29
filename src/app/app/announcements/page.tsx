@@ -159,14 +159,14 @@ export default function AnnouncementsPage() {
               <div className="flex items-center gap-2 ms-auto">
                 <button
                   type="button"
-                  className={`b-pill-tab !text-[11px] ${form.scope === "SCHOOL" ? "b-pill-tab-active" : ""}`}
+                  className={`b-pill-tab !text-[12px] ${form.scope === "SCHOOL" ? "b-pill-tab-active" : ""}`}
                   onClick={() => setForm((f) => ({ ...f, scope: "SCHOOL" }))}
                 >
                   {t("common.school")}
                 </button>
                 <button
                   type="button"
-                  className={`b-pill-tab !text-[11px] ${form.scope === "PLATFORM" ? "b-pill-tab-active" : ""}`}
+                  className={`b-pill-tab !text-[12px] ${form.scope === "PLATFORM" ? "b-pill-tab-active" : ""}`}
                   onClick={() => setForm((f) => ({ ...f, scope: "PLATFORM" }))}
                 >
                   <Globe2 className="w-3 h-3 inline ml-1" /> {t("announcements.scopePlatform")}
@@ -276,19 +276,19 @@ export default function AnnouncementsPage() {
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 {a.pinned && <Pin className="w-3.5 h-3.5 text-spring shrink-0" />}
                 {a.scope === "PLATFORM" && (
-                  <span className="b-badge b-badge-soft !text-[10px]">
+                  <span className="b-badge b-badge-soft !text-[12px]">
                     <Globe2 className="w-3 h-3 inline ml-0.5" /> {t("announcements.platform")}
                   </span>
                 )}
                 {a.audienceRoles.length > 0 ? (
                   a.audienceRoles.map((r) => (
-                    <span key={r} className="b-badge b-badge-neutral !text-[10px]">{ROLE_TARGET_TKEY[r] ? t(ROLE_TARGET_TKEY[r]) : r}</span>
+                    <span key={r} className="b-badge b-badge-neutral !text-[12px]">{ROLE_TARGET_TKEY[r] ? t(ROLE_TARGET_TKEY[r]) : r}</span>
                   ))
                 ) : (
-                  <span className="b-badge b-badge-neutral !text-[10px]">{t("common.all")}</span>
+                  <span className="b-badge b-badge-neutral !text-[12px]">{t("common.all")}</span>
                 )}
                 {reg && (
-                  <span className="b-badge b-badge-soft !text-[10px]">
+                  <span className="b-badge b-badge-soft !text-[12px]">
                     <MapPin className="w-3 h-3 inline ml-0.5" /> {reg}
                   </span>
                 )}
@@ -321,7 +321,7 @@ export default function AnnouncementsPage() {
                       <b>{faDigits(readStats[a.id].count)} {t("announcements.readCount")}</b>
                       <div className="flex flex-wrap gap-1.5 mt-2">
                         {readStats[a.id].readers.slice(0, 40).map((r, i) => (
-                          <span key={i} className="b-badge b-badge-neutral !text-[10px]">{r.name}</span>
+                          <span key={i} className="b-badge b-badge-neutral !text-[12px]">{r.name}</span>
                         ))}
                         {readStats[a.id].readers.length === 0 && <span className="text-steel">{t("announcements.noReaders")}</span>}
                       </div>

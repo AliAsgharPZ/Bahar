@@ -146,7 +146,7 @@ function EngagementInner() {
                   <span className="flex items-center gap-1.5 shrink-0">
                     {closed && <span className="b-badge b-badge-neutral">{t("engagement.closed")}</span>}
                     {canManage && (
-                      <button onClick={() => togglePoll(p.id, closed)} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0" title={closed ? t("engagement.reopenPoll") : t("engagement.closePoll")}>
+                      <button onClick={() => togglePoll(p.id, closed)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0" title={closed ? t("engagement.reopenPoll") : t("engagement.closePoll")}>
                         {closed ? t("engagement.reopen") : t("common.close")}
                       </button>
                     )}
@@ -165,7 +165,7 @@ function EngagementInner() {
                           className={`absolute inset-y-0 start-0 ${my ? "bg-spring/20" : "bg-spring-tint"}`} />
                         <span className="relative flex items-center gap-2">
                           <span className="text-[13px] font-bold flex-1">{o.text}{my && <CheckCircle2 className="w-4 h-4 inline text-spring ms-1.5" />}</span>
-                          <span className="text-[11px] text-steel">{faNumber(pct)}٪ ({faNumber(o.votes)})</span>
+                          <span className="text-[12px] text-steel">{faNumber(pct)}٪ ({faNumber(o.votes)})</span>
                         </span>
                       </button>
                     );
@@ -207,7 +207,7 @@ function EngagementInner() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <b className="text-[15px] flex items-center gap-1.5 truncate">{h.name} {i === 0 && <Crown className="w-4 h-4 text-[#f2a918] shrink-0" />}</b>
-                      <span className="text-[11px] text-steel block">{faNumber(h.members)} {t("engagement.member")}{h.motto ? ` · ${h.motto}` : ""}</span>
+                      <span className="text-[12px] text-steel block">{faNumber(h.members)} {t("engagement.member")}{h.motto ? ` · ${h.motto}` : ""}</span>
                     </div>
                     <b className="text-[22px] font-extrabold" style={{ color: h.color }}>{faNumber(h.total)}</b>
                     {canManage && (
@@ -216,7 +216,7 @@ function EngagementInner() {
                       </button>
                     )}
                   </div>
-                  <div className="flex items-center gap-3 text-[11px] text-steel">
+                  <div className="flex items-center gap-3 text-[12px] text-steel">
                     <span>{t("dashboard.mini.behavior")}: <b className="text-ink">{faNumber(h.behaviorPoints)}</b></span>
                     <span>{t("engagement.badges")}: <b className="text-ink">{faNumber(h.badgePoints)}</b></span>
                   </div>
@@ -225,7 +225,7 @@ function EngagementInner() {
                       <span className="text-[10.5px] text-stone">{t("engagement.topScorers")}</span>
                       {h.topMembers.map((m, j) => (
                         <span key={m.id} className="text-[12px] flex items-center gap-2">
-                          <span className="text-[10px] text-stone w-3">{faNumber(j + 1)}</span>
+                          <span className="text-[12px] text-stone w-3">{faNumber(j + 1)}</span>
                           <span className="flex-1 truncate">{m.name}</span>
                           <b style={{ color: h.color }}>{faNumber(m.points)}</b>
                         </span>
@@ -236,7 +236,7 @@ function EngagementInner() {
               ))}
             </div>
           )}
-          <p className="text-[11px] text-stone leading-relaxed">
+          <p className="text-[12px] text-stone leading-relaxed">
             {t("engagement.housesFootnote")}
           </p>
         </div>
@@ -256,7 +256,7 @@ function EngagementInner() {
                   className="!w-36"
                   buttonClassName="!w-36"
                 />
-                <button onClick={() => setSugAnon((v) => !v)} className={`b-pill-tab !text-[11px] ${sugAnon ? "b-pill-tab-active" : ""}`}>{sugAnon ? t("engagement.anonymous") : t("engagement.named")}</button>
+                <button onClick={() => setSugAnon((v) => !v)} className={`b-pill-tab !text-[12px] ${sugAnon ? "b-pill-tab-active" : ""}`}>{sugAnon ? t("engagement.anonymous") : t("engagement.named")}</button>
               </div>
               <button onClick={suggest} className="b-btn b-btn-spring w-full mt-3">{t("engagement.sendSuggestion")}</button>
             </div>
@@ -267,15 +267,15 @@ function EngagementInner() {
                 <div className="flex items-center gap-2 flex-wrap mb-1.5">
                   <span className="b-badge b-badge-neutral">{SUG_CAT_TKEY[s.category] ? t(SUG_CAT_TKEY[s.category]) : s.category}</span>
                   <span className={`b-badge ${s.status === "ACCEPTED" ? "b-badge-success" : s.status === "REJECTED" ? "b-badge-critical" : s.status === "REVIEWING" ? "b-badge-warning" : "b-badge-neutral"}`}>{SUG_STATUS_TKEY[s.status] ? t(SUG_STATUS_TKEY[s.status]) : s.status}</span>
-                  <span className="text-[11px] text-stone ms-auto">{s.authorName ?? t("engagement.anonymous")} · {formatDateFa(s.createdAt)}</span>
+                  <span className="text-[12px] text-stone ms-auto">{s.authorName ?? t("engagement.anonymous")} · {formatDateFa(s.createdAt)}</span>
                 </div>
                 <p className="text-[13px] leading-relaxed">{s.body}</p>
                 {s.adminNote && <p className="text-[11.5px] text-spring-deep mt-2">{t("engagement.adminReply")}: {s.adminNote}</p>}
                 {canManage && (s.status === "NEW" || s.status === "REVIEWING") && (
                   <div className="flex gap-1.5 mt-2.5">
-                    {s.status === "NEW" && <button onClick={() => review(s.id, "REVIEWING")} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0">{t("engagement.suggestion.status.reviewing")}</button>}
-                    <button onClick={() => review(s.id, "ACCEPTED")} className="b-btn b-btn-sm b-btn-spring !min-h-[26px] !text-[10px] !px-2 !py-0">{t("engagement.accept")}</button>
-                    <button onClick={() => review(s.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0 !text-destructive">{t("engagement.reject")}</button>
+                    {s.status === "NEW" && <button onClick={() => review(s.id, "REVIEWING")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("engagement.suggestion.status.reviewing")}</button>}
+                    <button onClick={() => review(s.id, "ACCEPTED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{t("engagement.accept")}</button>
+                    <button onClick={() => review(s.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive">{t("engagement.reject")}</button>
                   </div>
                 )}
               </motion.div>

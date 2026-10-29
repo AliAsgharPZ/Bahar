@@ -112,7 +112,7 @@ export default function PayrollPage() {
               const set = (k: string, v: string) => setDrafts((prev) => ({ ...prev, [user.id]: { ...d, [k]: v } }));
               return (
                 <tr key={user.id} className="border-b border-hairline last:border-0">
-                  <td className="p-3"><b>{user.firstName} {user.lastName}</b><span className="block text-[11px] text-steel">{t(ROLE_TKEY[user.role] ?? user.role)}</span></td>
+                  <td className="p-3"><b>{user.firstName} {user.lastName}</b><span className="block text-[12px] text-steel">{t(ROLE_TKEY[user.role] ?? user.role)}</span></td>
                   <td className="p-3"><input className="b-input w-32" dir="ltr" inputMode="numeric" value={d.base} onChange={(e) => set("base", e.target.value)} placeholder={t("payroll.0")} /></td>
                   <td className="p-3"><input className="b-input w-28" dir="ltr" inputMode="numeric" value={d.allowances} onChange={(e) => set("allowances", e.target.value)} placeholder={t("payroll.0")} /></td>
                   <td className="p-3"><input className="b-input w-28" dir="ltr" inputMode="numeric" value={d.deductions} onChange={(e) => set("deductions", e.target.value)} placeholder={t("payroll.0")} /></td>

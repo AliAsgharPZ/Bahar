@@ -416,9 +416,20 @@
   box-shadow: none;
 }
 .b-btn-sm {
-  @apply text-[13px];
+  @apply text-[14px];
   padding: 10px 22px;
   min-height: 40px;
+}
+/* Meta buy-CTA: cobalt pill, only for commerce actions (wallet top-up/sell) */
+.b-btn-buy {
+  background: #0064e0;
+  color: #fff;
+}
+.b-btn-buy:not(:disabled):hover {
+  background: #0457cb;
+}
+.b-btn-buy:active {
+  background: #0457cb;
 }
 .b-btn-lg {
   @apply text-base;
@@ -483,7 +494,7 @@
 
 /* Category pill tabs */
 .b-pill-tab {
-  @apply inline-flex items-center gap-1.5 rounded-full text-[13px] font-bold px-4 py-2 cursor-pointer
+  @apply inline-flex items-center gap-1.5 rounded-full text-[14px] font-bold px-4 py-2 cursor-pointer
     transition-colors duration-150 whitespace-nowrap;
   background: var(--background);
   color: var(--ink);
@@ -556,8 +567,20 @@
 }
 .b-input:focus {
   outline: none;
-  border: 2px solid var(--spring);
+  border: 2px solid #1876f2;
   padding-inline: 13px;
+}
+/* Meta input shape for raw text-like inputs that do not carry .b-input */
+input[type="text"], input[type="number"], input[type="email"], input[type="password"],
+input[type="date"], input[type="search"], input[type="tel"], input[type="url"] {
+  height: 44px;
+  border-radius: 8px;
+}
+input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
+input[type="password"]:focus, input[type="date"]:focus, input[type="search"]:focus,
+input[type="tel"]:focus, input[type="url"]:focus {
+  outline: none;
+  border: 2px solid #1876f2;
 }
 .b-input-error {
   border-color: var(--destructive) !important;

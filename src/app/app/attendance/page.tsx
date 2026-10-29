@@ -134,7 +134,7 @@ export default function AttendancePage() {
           </label>
           <div className="flex items-center gap-1.5 flex-wrap">
             {dayChips.map((d, i) => (
-              <button key={d} onClick={() => setDate(d)} className={`b-pill-tab !text-[11px] !px-3 !py-1 ${date === d ? "b-pill-tab-active" : ""}`}>
+              <button key={d} onClick={() => setDate(d)} className={`b-pill-tab !text-[12px] !px-3 !py-1 ${date === d ? "b-pill-tab-active" : ""}`}>
                 {i === 0 ? t("dashboard.today") : d.slice(5)}
               </button>
             ))}
@@ -158,7 +158,7 @@ export default function AttendancePage() {
             {sheetData.students.map((st) => (
               <div key={st.studentId} className="b-card-sm !rounded-2xl p-4 flex flex-col md:flex-row md:items-center gap-3">
                 <div className="flex items-center gap-3 min-w-0 md:w-56">
-                  <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center text-[11px] font-bold shrink-0">
+                  <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center text-[12px] font-bold shrink-0">
                     {st.fullName.split(" ").map((x) => x[0]).slice(0, 2).join("")}
                   </span>
                   <span className="flex flex-col min-w-0">

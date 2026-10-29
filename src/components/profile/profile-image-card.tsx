@@ -183,7 +183,7 @@ export function ProfileImageCard({
           )}
           <div className="flex flex-col gap-1 md:hidden">
             <b className="text-[13.5px]">{me.firstName} {me.lastName}</b>
-            <span className="text-[11px] text-steel">
+            <span className="text-[12px] text-steel">
               {state?.profileImageType === "upload" ? "عکس آپلودشده" : state?.profileImageType === "avatar" ? "آواتار اختصاصی" : "آواتار پیش‌فرض"}
             </span>
           </div>
@@ -246,7 +246,7 @@ export function ProfileImageCard({
             </div>
           )}
 
-          <p className="text-[11px] text-stone leading-relaxed">
+          <p className="text-[12px] text-stone leading-relaxed">
             JPG، PNG یا WebP تا ۴ مگابایت — برش دایره‌ای خودکار انجام می‌شود. با ساخت آواتار، عکس قبلی‌تان حذف نمی‌شود و هر وقت بخواهید قابل بازگشت است.
           </p>
         </div>

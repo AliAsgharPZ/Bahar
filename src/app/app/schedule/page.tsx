@@ -231,7 +231,7 @@ export default function SchedulePage() {
           <div className="overflow-x-auto b-scroll">
             <table className="w-full text-[12.5px] min-w-[640px]">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[11px]">
+                <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   <th className="text-right py-3 px-3 font-bold w-16">{t("schedule.table.period")}</th>
                   {daysOf(data?.slots).map((d) => (
                     <th key={d} className="text-right py-3 px-3 font-bold">{weekdayLabel(d)}</th>

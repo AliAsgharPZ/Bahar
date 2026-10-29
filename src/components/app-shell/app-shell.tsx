@@ -340,7 +340,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
           >
             <DoorOpen className="w-4 h-4 shrink-0" />
             <span className="truncate">{t("shell.panel")} {user.schoolName}</span>
-            <span className="ms-auto text-[10px] font-bold shrink-0">{t("shell.logoutShort")}</span>
+            <span className="ms-auto text-[12px] font-bold shrink-0">{t("shell.logoutShort")}</span>
           </button>
         )}
         {/* راند ۱۹: کارت کاربر دو ردیفه — قبلاً نام/نقش (min-w-0) بین آواتار و ردیف کنترل‌ها
@@ -354,7 +354,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             {!collapsed && (
               <span className="flex flex-col min-w-0 flex-1">
                 <span className="text-[13px] font-bold truncate">{user.firstName} {user.lastName}</span>
-                <span className="text-[11px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
+                <span className="text-[12px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
               </span>
             )}
           </div>
@@ -551,7 +551,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               >
                 <DoorOpen className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">{t("shell.panel")} {user.schoolName}</span>
-                <span className="ms-auto text-[10px] font-bold shrink-0">{t("shell.logoutShort")}</span>
+                <span className="ms-auto text-[12px] font-bold shrink-0">{t("shell.logoutShort")}</span>
               </button>
             )}
             <div className="flex-1" />
@@ -561,7 +561,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
             >
               <Search className="w-4 h-4" />
               <span className="hidden xl:inline">{t("shell.search.everywhere")}</span>
-              <kbd className="text-[10px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">⌘K</kbd>
+              <kbd className="text-[12px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">⌘K</kbd>
             </button>
             <button
               onClick={() => window.print()}
@@ -644,8 +644,8 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                   <div key={g.key} className="mb-4">
                     <div className="flex items-center gap-1.5 px-2 pt-1 pb-2" aria-hidden>
                       <g.icon className="w-3.5 h-3.5 text-stone" />
-                      <span className="text-[11px] font-bold tracking-wide text-stone">{g.tKey ? t(g.tKey) : g.label}</span>
-                      <span className="text-[10px] text-stone/70">({faNumber(g.items.length)})</span>
+                      <span className="text-[12px] font-bold tracking-wide text-stone">{g.tKey ? t(g.tKey) : g.label}</span>
+                      <span className="text-[12px] text-stone/70">({faNumber(g.items.length)})</span>
                     </div>
                     <div className="flex flex-col gap-0.5">
                       {g.items.map((n) => {
@@ -682,7 +682,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                     <UserAvatar user={avatarUser} size={40} />
                     <span className="flex flex-col min-w-0 flex-1">
                       <span className="text-[13px] font-bold truncate">{user.firstName} {user.lastName}</span>
-                      <span className="text-[11px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
+                      <span className="text-[12px] text-steel truncate">{ROLE_LABELS[user.role] ?? user.role}</span>
                     </span>
                   </div>
                   {inSchoolPanel && (
@@ -868,7 +868,7 @@ function NotificationCenter({
         <div className="flex gap-1.5 px-3 py-2.5 border-b border-hairline-soft overflow-x-auto b-scroll">
           <button
             onClick={() => setFilter(null)}
-            className={`b-pill-tab !text-[11px] !py-1 !px-3 ${!filter ? "b-pill-tab-active" : ""}`}
+            className={`b-pill-tab !text-[12px] !py-1 !px-3 ${!filter ? "b-pill-tab-active" : ""}`}
           >
             {t("common.all")}
           </button>
@@ -876,7 +876,7 @@ function NotificationCenter({
             <button
               key={c.key}
               onClick={() => setFilter(c.key)}
-              className={`b-pill-tab !text-[11px] !py-1 !px-3 ${filter === c.key ? "b-pill-tab-active" : ""}`}
+              className={`b-pill-tab !text-[12px] !py-1 !px-3 ${filter === c.key ? "b-pill-tab-active" : ""}`}
             >
               <span className={`b-dot ${c.dot}`} />
               {c.label}
@@ -916,7 +916,7 @@ function NotificationCenter({
                   {!n.readAt && <span className="w-1.5 h-1.5 rounded-full bg-spring shrink-0" />}
                 </span>
                 <span className="block text-[11.5px] text-steel line-clamp-2 leading-relaxed">{n.body}</span>
-                <span className="block text-[10px] text-stone mt-0.5">{relativeTimeFa(n.createdAt)}</span>
+                <span className="block text-[12px] text-stone mt-0.5">{relativeTimeFa(n.createdAt)}</span>
               </span>
             </Link>
           ))}
@@ -1001,7 +1001,7 @@ function UniversalSearch({ open, onClose }: { open: boolean; onClose: () => void
                 placeholder={t("shell.search.placeholderFull")}
                 className="flex-1 bg-transparent outline-none text-[15px] text-ink placeholder:text-stone"
               />
-              <kbd className="text-[10px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">Esc</kbd>
+              <kbd className="text-[12px] px-1.5 py-0.5 rounded-md bg-cloud text-steel border border-hairline font-mono">Esc</kbd>
             </div>
             <div className="max-h-[52vh] overflow-y-auto b-scroll">
               {loading && (

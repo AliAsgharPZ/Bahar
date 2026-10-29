@@ -163,9 +163,9 @@ function FacilitiesInner() {
                     </span>
                     <span className="text-[12.5px] font-bold">{b.room?.name ?? t("facilities.tjhyzat")}</span>
                     <span className="text-[11.5px] text-steel flex-1">{b.purpose}</span>
-                    <span className="text-[11px] text-steel">{formatDateFa(b.startAt)} · {formatTimeFa(b.startAt)}</span>
-                    <span className="text-[11px] text-stone">{b.by.firstName} {b.by.lastName}</span>
-                    {b.status === "PENDING" && <button onClick={() => patch("booking", b.id, { status: "APPROVED" })} className="b-btn b-btn-sm b-btn-spring !min-h-[26px] !text-[10px] !px-2 !py-0">{t("facilities.t-yyd")}</button>}
+                    <span className="text-[12px] text-steel">{formatDateFa(b.startAt)} · {formatTimeFa(b.startAt)}</span>
+                    <span className="text-[12px] text-stone">{b.by.firstName} {b.by.lastName}</span>
+                    {b.status === "PENDING" && <button onClick={() => patch("booking", b.id, { status: "APPROVED" })} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.t-yyd")}</button>}
                   </div>
                 ))}
               </div>
@@ -203,12 +203,12 @@ function FacilitiesInner() {
                   <p className="font-bold text-[13.5px]">{a.name}</p>
                   <span className={`b-badge ${a.status === "OK" ? "b-badge-success" : a.status === "BROKEN" ? "b-badge-critical" : "b-badge-warning"}`}>{t(ASSET_TKEY[a.status] ?? a.status)}</span>
                 </div>
-                <p className="text-[11px] text-steel mt-1">{t("facilities.kd")}: {a.code}{a.location ? ` · ${a.location}` : ""}</p>
+                <p className="text-[12px] text-steel mt-1">{t("facilities.kd")}: {a.code}{a.location ? ` · ${a.location}` : ""}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <button onClick={() => patch("asset", a.id, { status: a.status === "OK" ? "BROKEN" : "OK" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0">
+                  <button onClick={() => patch("asset", a.id, { status: a.status === "OK" ? "BROKEN" : "OK" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">
                     {a.status === "OK" ? t("facilities.sbt-khraby") : t("facilities.salm-shd")}
                   </button>
-                  <a href={`/api/qr/asset/${a.id}`} target="_blank" rel="noreferrer" className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0"><QrCode className="w-3 h-3" /> QR</a>
+                  <a href={`/api/qr/asset/${a.id}`} target="_blank" rel="noreferrer" className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0"><QrCode className="w-3 h-3" /> QR</a>
                   <button onClick={() => del("asset", a.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive ms-auto"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </motion.div>
@@ -254,10 +254,10 @@ function FacilitiesInner() {
                 <div key={tk.id} className={`b-card-sm p-4 flex items-center gap-3 flex-wrap ${overdue ? "border-s-4 !border-s-destructive" : ""}`}>
                   <span className={`b-badge ${tk.status === "RESOLVED" || tk.status === "CLOSED" ? "b-badge-success" : tk.status === "IN_PROGRESS" ? "b-badge-warning" : "b-badge-neutral"}`}>{t(MT_TKEY[tk.status] ?? tk.status)}</span>
                   <span className="text-[13px] font-bold">{tk.title}</span>
-                  {tk.asset && <span className="text-[11px] text-steel">{tk.asset.name}</span>}
-                  {tk.location && <span className="text-[11px] text-steel">📍 {tk.location}</span>}
+                  {tk.asset && <span className="text-[12px] text-steel">{tk.asset.name}</span>}
+                  {tk.location && <span className="text-[12px] text-steel">📍 {tk.location}</span>}
                   <span className="text-[10.5px] text-stone ms-auto flex items-center gap-1"><Timer className="w-3 h-3" /> SLA {faNumber(tk.slaHours)}{t("facilities.s")}</span>
-                  {tk.status === "OPEN" && <button onClick={() => patch("maintenance", tk.id, { status: "IN_PROGRESS" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0">{t("facilities.shrva")}</button>}
+                  {tk.status === "OPEN" && <button onClick={() => patch("maintenance", tk.id, { status: "IN_PROGRESS" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.shrva")}</button>}
                   {!["RESOLVED", "CLOSED"].includes(tk.status) && (
                     <button
                       onClick={() => {
@@ -265,7 +265,7 @@ function FacilitiesInner() {
                         if (note === null) return;
                         patch("maintenance", tk.id, { status: "RESOLVED", resolutionNote: note.trim() || t("facilities.rfa-shd") });
                       }}
-                      className="b-btn b-btn-sm b-btn-spring !min-h-[26px] !text-[10px] !px-2 !py-0"
+                      className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0"
                     >{t("facilities.rfa-shd")}</button>
                   )}
                 </div>
@@ -301,7 +301,7 @@ function FacilitiesInner() {
                 <span className="text-[11.5px] text-steel flex-1">{v.purpose}{v.hostName ? ` ${t("facilities.myzban")} ${v.hostName}` : ""}</span>
                 {v.checkInAt && <span className="text-[10.5px] text-stone">{t("auth.login.submit")}: {formatTimeFa(v.checkInAt)}</span>}
                 {v.checkOutAt && <span className="text-[10.5px] text-stone">{t("shell.logoutShort")}: {formatTimeFa(v.checkOutAt)}</span>}
-                {v.status === "CHECKED_IN" && <button onClick={() => patch("visitor", v.id, { action: "checkout" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0">{t("facilities.sbt-khrvj")}</button>}
+                {v.status === "CHECKED_IN" && <button onClick={() => patch("visitor", v.id, { action: "checkout" })} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.sbt-khrvj")}</button>}
               </div>
             ))}
             {visitors.length === 0 && <p className="t-sm text-steel">{t("facilities.mrajah-ay-sbt-nshdh-ast")}</p>}
@@ -332,7 +332,7 @@ function FacilitiesInner() {
                     {it.status === "FOUND" ? t("facilities.mvjvd") : it.status === "CLAIMED" ? t("facilities.thvyl-shdh") : t("facilities.dvr-rykhth")}
                   </span>
                 </div>
-                <p className="text-[11px] text-steel mt-1">{it.location ? `📍 ${it.location} · ` : ""}{formatDateFa(it.foundAt)}</p>
+                <p className="text-[12px] text-steel mt-1">{it.location ? `📍 ${it.location} · ` : ""}{formatDateFa(it.foundAt)}</p>
                 {it.status === "FOUND" && (
                   <button
                     onClick={() => {
@@ -341,7 +341,7 @@ function FacilitiesInner() {
                       if (!name.trim()) { toast.error(t("facilities.nam-thvyl-gyrndh-ra-vard-knyd")); return; }
                       patch("lostfound", it.id, { status: "CLAIMED", claimedByName: name.trim() });
                     }}
-                    className="b-btn b-btn-sm b-btn-ghost mt-2 !min-h-[26px] !text-[10px] !px-2 !py-0"
+                    className="b-btn b-btn-sm b-btn-ghost mt-2 !min-h-[40px] !text-[12px] !px-2 !py-0"
                   >{t("facilities.thvyl-shd")}</button>
                 )}
               </div>

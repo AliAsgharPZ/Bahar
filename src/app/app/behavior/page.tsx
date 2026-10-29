@@ -77,9 +77,9 @@ export default function BehaviorPage() {
         action={isStaff && <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {t("behavior.newRecord")}</button>}
       />
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div className="b-card-sm p-4 text-center"><p className="text-[11px] text-steel">{t("behavior.positives")}</p><p className="text-xl font-bold text-success">{faNumber(allPositives.length)}</p></div>
-        <div className="b-card-sm p-4 text-center"><p className="text-[11px] text-steel">{t("behavior.negatives")}</p><p className="text-xl font-bold text-destructive">{faNumber(allNegatives.length)}</p></div>
-        <div className="b-card-sm p-4 text-center"><p className="text-[11px] text-steel">{t("behavior.netPoints")}</p><p className={`text-xl font-bold ${allRecords.reduce((sum, r) => sum + r.points, 0) >= 0 ? "text-spring-deep" : "text-destructive"}`}>{faNumber(allRecords.reduce((sum, r) => sum + r.points, 0))}</p></div>
+        <div className="b-card-sm p-4 text-center"><p className="text-[12px] text-steel">{t("behavior.positives")}</p><p className="text-xl font-bold text-success">{faNumber(allPositives.length)}</p></div>
+        <div className="b-card-sm p-4 text-center"><p className="text-[12px] text-steel">{t("behavior.negatives")}</p><p className="text-xl font-bold text-destructive">{faNumber(allNegatives.length)}</p></div>
+        <div className="b-card-sm p-4 text-center"><p className="text-[12px] text-steel">{t("behavior.netPoints")}</p><p className={`text-xl font-bold ${allRecords.reduce((sum, r) => sum + r.points, 0) >= 0 ? "text-spring-deep" : "text-destructive"}`}>{faNumber(allRecords.reduce((sum, r) => sum + r.points, 0))}</p></div>
       </div>
       {showNew && (
         <div className="b-card-md p-5 mb-6 grid gap-3 sm:grid-cols-3">
@@ -123,7 +123,7 @@ export default function BehaviorPage() {
               </span>
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] font-bold truncate">{r.student.user.firstName} {r.student.user.lastName} <span className="text-steel font-normal">— {reasons[r.reason]?.label ?? r.reason}</span></p>
-                <p className="text-[11px] text-steel truncate">
+                <p className="text-[12px] text-steel truncate">
                   {r.student.class?.name ?? "—"} · {r.recordedBy ? `${r.recordedBy.firstName} ${r.recordedBy.lastName}` : t("dashboard.system")} · {relativeTimeFa(r.createdAt)}
                   {r.note ? ` · ${r.note}` : ""}
                 </p>

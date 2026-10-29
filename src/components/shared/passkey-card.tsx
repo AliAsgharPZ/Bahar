@@ -57,7 +57,7 @@ export function PasskeyCard() {
             <Fingerprint className="w-4.5 h-4.5 text-spring shrink-0" />
             <span className="flex-1 min-w-0 text-[13px]">
               <b>{k.deviceLabel}</b>
-              <span className="block text-[11px] text-steel">
+              <span className="block text-[12px] text-steel">
                 ساخته‌شده {formatDateFa(k.createdAt)}{k.lastUsedAt ? ` · آخرین ورود ${formatDateFa(k.lastUsedAt)}` : " · هنوز استفاده نشده"}
               </span>
             </span>

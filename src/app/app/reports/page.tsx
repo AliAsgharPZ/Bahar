@@ -126,7 +126,7 @@ function ReportsInner() {
           <div className="b-card-md p-5 flex flex-col gap-3">
             <h3 className="font-bold">{t("reports.import.step1")}</h3>
             <textarea value={csv} onChange={(e) => setCsv(e.target.value)} placeholder={t("reports.placeholder.columns")} className="b-input !min-h-[180px] font-mono !text-[12px]" dir="rtl" />
-            <button onClick={() => setCsv(SAMPLE_CSV)} className="b-btn b-btn-sm b-btn-ghost w-fit !text-[11px]">{t("reports.sample.insert")}</button>
+            <button onClick={() => setCsv(SAMPLE_CSV)} className="b-btn b-btn-sm b-btn-ghost w-fit !text-[12px]">{t("reports.sample.insert")}</button>
             <button onClick={validate} disabled={busy} className="b-btn b-btn-spring b-btn-sm w-fit">{t("reports.validate.action")}</button>
           </div>
           <div className="b-card-md p-5 flex flex-col gap-3">
@@ -134,9 +134,9 @@ function ReportsInner() {
             {validation ? (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <div className="p-3 rounded-2xl bg-cloud text-center"><p className="text-[10px] text-steel">{t("reports.stats.total")}</p><p className="text-lg font-bold">{faNumber(validation.total)}</p></div>
-                  <div className="p-3 rounded-2xl bg-spring-tint/50 text-center"><p className="text-[10px] text-steel">{t("reports.stats.healthy")}</p><p className="text-lg font-bold text-spring-deep">{faNumber(validation.valid)}</p></div>
-                  <div className="p-3 rounded-2xl bg-destructive/10 text-center"><p className="text-[10px] text-steel">{t("reports.stats.invalid")}</p><p className="text-lg font-bold text-destructive">{faNumber(validation.invalid)}</p></div>
+                  <div className="p-3 rounded-2xl bg-cloud text-center"><p className="text-[12px] text-steel">{t("reports.stats.total")}</p><p className="text-lg font-bold">{faNumber(validation.total)}</p></div>
+                  <div className="p-3 rounded-2xl bg-spring-tint/50 text-center"><p className="text-[12px] text-steel">{t("reports.stats.healthy")}</p><p className="text-lg font-bold text-spring-deep">{faNumber(validation.valid)}</p></div>
+                  <div className="p-3 rounded-2xl bg-destructive/10 text-center"><p className="text-[12px] text-steel">{t("reports.stats.invalid")}</p><p className="text-lg font-bold text-destructive">{faNumber(validation.invalid)}</p></div>
                 </div>
                 <div className="max-h-52 overflow-y-auto b-scroll flex flex-col gap-1.5">
                   {validation.preview.map((v) => (
@@ -237,7 +237,7 @@ function ReportsInner() {
                 <CalendarClock className={`w-5 h-5 shrink-0 ${r.active ? "text-spring" : "text-stone"}`} />
                 <div className="min-w-0 flex-1">
                   <b className="text-[13px] block">{r.kindLabel}</b>
-                  <span className="text-[11px] text-steel">
+                  <span className="text-[12px] text-steel">
                     {r.schedule === "DAILY" ? t("reports.schedule.daily") : `${t("reports.schedule.every")} ${DAYS_FA[r.dayOfWeek ?? 0]}`} · {t("common.time")} {faNumber(r.hour)} · {r.audience === "TEACHERS" ? t("dashboard.teachers") : t("reports.schedule.audienceManagers")}
                     {r.lastRunAt ? <> · {t("reports.schedule.lastRun")} {formatDateFa(r.lastRunAt)}</> : <> · {t("reports.schedule.neverRun")}</>}
                   </span>

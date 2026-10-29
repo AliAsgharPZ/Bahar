@@ -251,7 +251,7 @@ export default function ProfilePage() {
                     </span>
                     <span className="text-[10.5px] text-stone ms-auto">{relativeTimeFa(r.createdAt)}</span>
                     {r.status === "REJECTED" && r.reviewNote && (
-                      <span className="text-[11px] text-destructive w-full">{t("profile.requests.reason")} {r.reviewNote}</span>
+                      <span className="text-[12px] text-destructive w-full">{t("profile.requests.reason")} {r.reviewNote}</span>
                     )}
                   </div>
                 ))}

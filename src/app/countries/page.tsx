@@ -296,7 +296,7 @@ export default async function CountriesPage() {
                 <div className="overflow-x-auto b-scroll">
                   <table className="w-full text-[12px] min-w-[680px]">
                     <thead>
-                      <tr className="border-b border-hairline-soft text-steel text-[11px]">
+                      <tr className="border-b border-hairline-soft text-steel text-[12px]">
                         <th className="text-right py-2.5 px-4 font-bold w-[26%]">{tx("site.kit.countries.th.field", "فیلد")}</th>
                         <th className="text-right py-2.5 px-4 font-bold w-[22%]">{tx("site.kit.countries.th.type", "نوع")}</th>
                         <th className="text-right py-2.5 px-4 font-bold w-[20%]">{tx("site.kit.countries.th.iran", "مقدار ایران")}</th>
@@ -308,7 +308,7 @@ export default async function CountriesPage() {
                         .filter((f) => shadEnabled || f.name !== "modules.shad")
                         .map((f) => (
                         <tr key={f.name} className="border-b border-hairline-soft/50 last:border-0">
-                          <td className="py-2.5 px-4 font-mono text-[11px] font-bold text-spring-deep" dir="ltr">{f.name}</td>
+                          <td className="py-2.5 px-4 font-mono text-[12px] font-bold text-spring-deep" dir="ltr">{f.name}</td>
                           <td className="py-2.5 px-4 text-steel">{f.type}</td>
                           <td className="py-2.5 px-4 font-mono text-[10.5px] text-ink" dir="ltr">{f.iran}</td>
                           <td className="py-2.5 px-4 text-steel leading-relaxed">{fieldRule(doc.sec, f)}</td>
@@ -329,7 +329,7 @@ export default async function CountriesPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {Object.entries(CALENDAR_LABELS).map(([k, v]) => (
                 <div key={k} className="flex items-center gap-2 text-[12.5px]">
-                  <code className="font-mono text-[11px] text-spring-deep bg-spring-tint rounded px-1.5 py-0.5" dir="ltr">{k}</code>
+                  <code className="font-mono text-[12px] text-spring-deep bg-spring-tint rounded px-1.5 py-0.5" dir="ltr">{k}</code>
                   <span className="text-steel">{v}</span>
                   {k === "persian" && <span className="b-badge b-badge-success !text-[9.5px]">ایران</span>}
                 </div>
@@ -345,7 +345,7 @@ export default async function CountriesPage() {
           <div className="b-card !rounded-2xl p-5 flex flex-col gap-3">
             {Object.entries(ALGORITHM_LABELS).map(([k, v]) => (
               <div key={k} className="flex items-start gap-2.5 text-[12.5px]">
-                <code className="font-mono text-[11px] text-spring-deep bg-spring-tint rounded px-1.5 py-0.5 shrink-0" dir="ltr">{k}</code>
+                <code className="font-mono text-[12px] text-spring-deep bg-spring-tint rounded px-1.5 py-0.5 shrink-0" dir="ltr">{k}</code>
                 <div className="text-steel leading-relaxed">
                   <b className="text-ink">{v}</b>
                   {k === "iran-mod11" && (" — " + tx("site.kit.countries.algo.iranMod11", "رقم کنترل: مجموع ارقام × وزن نزولی ۱۰ تا ۲، باقیمانده بر ۱۱ (رمز رسمی کد ملی ایران)."))}

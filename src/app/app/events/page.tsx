@@ -111,7 +111,7 @@ export default function EventsPage() {
           <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> {formatDateFa(ev.startAt)} · {formatTimeFa(ev.startAt)}</span>
           {ev.endAt && <span>{t("common.to")} {formatDateFa(ev.endAt)}</span>}
           {ev.createdBy && <span>· {t("events.recordedBy")}: {ev.createdBy.firstName} {ev.createdBy.lastName}</span>}
-          <a href={googleCalendarUrl(ev)} target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm !min-h-[30px]">
+          <a href={googleCalendarUrl(ev)} target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm !min-h-[40px]">
             <CalendarDays className="w-3.5 h-3.5" /> افزودن به گوگل‌کالندر
           </a>
         </div>

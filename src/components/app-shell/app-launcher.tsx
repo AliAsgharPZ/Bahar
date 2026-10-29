@@ -53,7 +53,7 @@ export function AppLauncher() {
         <h2 className="text-[15px] font-bold" style={{ fontFamily: "var(--font-heading)" }}>
           بخش‌های بهار
         </h2>
-        <span className="b-badge b-badge-neutral !text-[10px] !px-2 !py-0.5">{faNumber(items.length)}</span>
+        <span className="b-badge b-badge-neutral !text-[12px] !px-2 !py-0.5">{faNumber(items.length)}</span>
       </div>
 
       <div className="flex flex-col gap-6">
@@ -65,12 +65,12 @@ export function AppLauncher() {
                 <h3 className="text-[13px] font-bold flex items-center gap-1.5">
                   <g.icon className="w-3.5 h-3.5 text-spring" />
                   {g.label}
-                  <span className="text-[10px] text-stone font-normal">({faNumber(g.items.length)})</span>
+                  <span className="text-[12px] text-stone font-normal">({faNumber(g.items.length)})</span>
                 </h3>
                 {g.items.length > 4 && (
                   <button
                     onClick={() => setExpanded(isOpen ? null : g.key)}
-                    className="flex items-center gap-1 text-[11px] font-bold text-spring-deep rounded-full px-2 py-0.5 hover:bg-spring-tint transition-colors"
+                    className="flex items-center gap-1 text-[12px] font-bold text-spring-deep rounded-full px-2 py-0.5 hover:bg-spring-tint transition-colors"
                     aria-expanded={isOpen}
                   >
                     {isOpen ? "نمایش کمتر" : "نمایش همه"}
@@ -144,7 +144,7 @@ function LauncherItem({
             <Icon className={`w-[25px] h-[25px] ${tint.fg}`} strokeWidth={2.1} />
           </span>
           {badge > 0 && (
-            <span className="absolute -top-1.5 -start-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center border-2 border-background">
+            <span className="absolute -top-1.5 -start-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive text-destructive-foreground text-[12px] font-bold flex items-center justify-center border-2 border-background">
               {badge > 99 ? "۹۹+" : faNumber(badge)}
             </span>
           )}

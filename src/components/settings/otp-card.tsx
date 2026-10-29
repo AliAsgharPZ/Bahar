@@ -140,12 +140,12 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold flex items-center gap-1"><Mail className="w-3.5 h-3.5 text-spring" /> آدرس سرویس ایمیل (POST JSON)</span>
               <input className="b-input" dir="ltr" placeholder="https://api.resend.com/emails" value={form.otpEmailApiUrl} disabled={!canEdit} onChange={(e) => set("otpEmailApiUrl", e.target.value)} />
-              <span className="text-[10px] text-stone">سازگار با Resend و سرویس‌های مشابه — هدر Authorization: Bearer.</span>
+              <span className="text-[12px] text-stone">سازگار با Resend و سرویس‌های مشابه — هدر Authorization: Bearer.</span>
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">کلید API ایمیل</span>
               <input className="b-input" dir="ltr" type="password" autoComplete="off" placeholder={form.otpEmailApiKey ? "•••••• (ذخیره شده — برای تغییر وارد کنید)" : "re_…"} value={emailKeyInput} disabled={!canEdit} onChange={(e) => setEmailKeyInput(e.target.value)} />
-              <span className="text-[10px] text-stone">خالی = بدون تغییر.</span>
+              <span className="text-[12px] text-stone">خالی = بدون تغییر.</span>
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">فرستنده (From)</span>
@@ -157,12 +157,12 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold flex items-center gap-1"><MessageSquare className="w-3.5 h-3.5 text-spring" /> آدرس سرویس پیامک (POST JSON)</span>
               <input className="b-input" dir="ltr" placeholder="https://api.sms.ir/v1/send" value={form.otpSmsApiUrl} disabled={!canEdit} onChange={(e) => set("otpSmsApiUrl", e.target.value)} />
-              <span className="text-[10px] text-stone">متغیرهای {`{to}`} و {`{code}`} در آدرس هم جایگزین می‌شوند. بدنه JSON شامل to/text است.</span>
+              <span className="text-[12px] text-stone">متغیرهای {`{to}`} و {`{code}`} در آدرس هم جایگزین می‌شوند. بدنه JSON شامل to/text است.</span>
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">کلید API پیامک</span>
               <input className="b-input" dir="ltr" type="password" autoComplete="off" placeholder={form.otpSmsApiKey ? "•••••• (ذخیره شده — برای تغییر وارد کنید)" : "کلید سرویس پیامک"} value={smsKeyInput} disabled={!canEdit} onChange={(e) => setSmsKeyInput(e.target.value)} />
-              <span className="text-[10px] text-stone">خالی = بدون تغییر.</span>
+              <span className="text-[12px] text-stone">خالی = بدون تغییر.</span>
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">شماره فرستنده (اختیاری)</span>
@@ -176,7 +176,7 @@ export function OtpCard({ canEdit }: { canEdit: boolean }) {
         <button className="b-btn b-btn-spring" onClick={save} disabled={saving || !canEdit}>
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره تنظیمات OTP
         </button>
-        <span className="text-[11px] text-steel flex items-center gap-1.5">
+        <span className="text-[12px] text-steel flex items-center gap-1.5">
           <Smartphone className="w-3.5 h-3.5 shrink-0" />
           توصیه: اول «حالت تست» را روشن کنید، یک ورود آزمایشی انجام دهید، بعد سرویس واقعی را تنظیم و حالت تست را خاموش کنید.
         </span>

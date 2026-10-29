@@ -182,7 +182,7 @@ export default function BlogAdminPage() {
               {p.coverUrl && <img src={p.coverUrl} alt={p.title} className="w-16 h-16 rounded-xl object-cover border border-hairline" />}
               <div className="min-w-0 flex-1">
                 <b className="text-[14.5px] block truncate">{p.title}</b>
-                <span className="text-[11px] text-steel">
+                <span className="text-[12px] text-steel">
                   <span dir="ltr" className="font-mono">/blog/{p.slug}</span> · {p.author ? `${p.author.firstName} ${p.author.lastName}` : "—"} · {faNumber(p.viewCount)} {t("site.blog.viewsSuffix")}
                 </span>
               </div>
@@ -193,7 +193,7 @@ export default function BlogAdminPage() {
             {p.tags.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mb-3">
                 {p.tags.map((tg, i) => (
-                  <span key={i} className="b-badge b-badge-soft !text-[10px]">{tg}</span>
+                  <span key={i} className="b-badge b-badge-soft !text-[12px]">{tg}</span>
                 ))}
               </div>
             )}
@@ -222,7 +222,7 @@ export default function BlogAdminPage() {
                   <div key={c.id} className={`p-3 border-b border-hairline-soft/50 last:border-0 ${!c.approved ? "bg-warning/5" : ""}`}>
                     <div className="flex items-center gap-2 mb-1">
                       <b className="text-[12px]">{c.name}</b>
-                      <span className="text-[10px] text-stone">{relativeTimeFa(c.createdAt)}</span>
+                      <span className="text-[12px] text-stone">{relativeTimeFa(c.createdAt)}</span>
                       {!c.approved && <span className="b-badge b-badge-warning !text-[9px]">{t("dashboard.meeting.pending")}</span>}
                       {c.approved && <span className="b-badge b-badge-spring !text-[9px]">{t("blog.comment.approved")}</span>}
                       <span className="ms-auto flex items-center gap-1">

@@ -50,7 +50,7 @@ export default function NetworkPage() {
             <tbody className="b-rows-in">
               {data.schools.map((s) => (
                 <tr key={s.id} className="border-b border-hairline last:border-0">
-                  <td className="p-3"><b>{s.name}</b><span className="block text-[11px] text-steel">{s.code}</span></td>
+                  <td className="p-3"><b>{s.name}</b><span className="block text-[12px] text-steel">{s.code}</span></td>
                   <td className="p-3">{[s.city, s.province].filter(Boolean).join(" · ") || "—"}</td>
                   <td className="p-3">{faNumber(s.students)}</td>
                   <td className="p-3">{faNumber(s.staff)}</td>

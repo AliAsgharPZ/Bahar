@@ -141,7 +141,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
                 options={months.slice(1).map((m, i) => ({ value: String(i + 1), label: m }))}
                 ariaLabel="ماه"
                 className="!w-[92px]"
-                buttonClassName="!w-[92px] !h-7 !px-2 !text-[12.5px] !font-bold !rounded-lg"
+                buttonClassName="!w-[92px] !h-7 !px-2 !text-[12.5px] !font-bold !rounded-full"
               />
               <Select
                 value={String(view.y)}
@@ -152,7 +152,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
                 })()}
                 ariaLabel="سال"
                 className="!w-[84px]"
-                buttonClassName="!w-[84px] !h-7 !px-2 !text-[12.5px] !font-bold !rounded-lg"
+                buttonClassName="!w-[84px] !h-7 !px-2 !text-[12.5px] !font-bold !rounded-full"
               />
             </div>
             <button
@@ -165,7 +165,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
             </button>
           </div>
 
-          <div className="grid grid-cols-7 gap-1 text-center text-[10px] text-stone mb-1">
+          <div className="grid grid-cols-7 gap-1 text-center text-[12px] text-stone mb-1">
             {weekdays().map((w) => (
               <span key={w.value}>{w.label.slice(0, 2)}</span>
             ))}
@@ -204,7 +204,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
           <div className="flex items-center justify-between mt-2 pt-2 border-t border-hairline-soft">
             <button
               type="button"
-              className="text-[11px] text-spring font-bold hover:underline"
+              className="text-[12px] text-spring font-bold hover:underline"
               onClick={() => {
                 const t = calendarParts(new Date());
                 setView({ y: t.y, m: t.m });
@@ -215,7 +215,7 @@ function CalendarPickerInput({ value, onChange, placeholder }: Props) {
             </button>
             <button
               type="button"
-              className="text-[11px] text-destructive font-bold hover:underline"
+              className="text-[12px] text-destructive font-bold hover:underline"
               onClick={() => {
                 onChange(null);
                 setText("");

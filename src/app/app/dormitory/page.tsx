@@ -139,7 +139,7 @@ export default function DormitoryPage() {
             {data.leaves.length === 0 && <span className="text-[12.5px] text-steel">{t("dormitory.mrkhsy-ay-sbt-nshdh-ast")}</span>}
             {data.leaves.map((l) => (
               <div key={l.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
-                <span>{l.studentName}<span className="text-steel"> · {formatDateFa(l.fromDate)} {t("common.to")} {formatDateFa(l.toDate)}{l.reason ? ` · ${l.reason}` : ""}</span><span className="block text-[11px] text-steel">{t(LEAVE_TKEY[l.status] ?? l.status)}</span></span>
+                <span>{l.studentName}<span className="text-steel"> · {formatDateFa(l.fromDate)} {t("common.to")} {formatDateFa(l.toDate)}{l.reason ? ` · ${l.reason}` : ""}</span><span className="block text-[12px] text-steel">{t(LEAVE_TKEY[l.status] ?? l.status)}</span></span>
                 {isStaff && l.status === "PENDING" && (
                   <span className="flex gap-2">
                     <button className="b-btn b-btn-spring" disabled={busy === "decideLeave"} onClick={() => post("decideLeave", { id: l.id, decision: "APPROVED" })}>{t("dormitory.t-yyd")}</button>

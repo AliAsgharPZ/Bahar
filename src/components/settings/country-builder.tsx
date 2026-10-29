@@ -205,7 +205,7 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
         <h3 className="font-bold text-[13.5px] flex items-center gap-2">
           <Wand2 className="w-4 h-4 text-spring" /> ساخت بستهٔ کشور با فرم
         </h3>
-        <button className="b-btn b-btn-ghost b-btn-sm !text-[11px]" onClick={prefillFromIran} type="button">
+        <button className="b-btn b-btn-ghost b-btn-sm !text-[12px]" onClick={prefillFromIran} type="button">
           <Globe2 className="w-3.5 h-3.5" /> پرکردن از قالب ایران
         </button>
       </div>
@@ -369,7 +369,7 @@ export function CountryBuilder({ onCreated }: { onCreated?: () => void }) {
           <h4 className="text-[12px] font-bold text-spring-deep">مناطق (استان/ایالت + شهرستان‌ها)</h4>
           <button
             type="button"
-            className="b-btn b-btn-ghost b-btn-sm !text-[11px]"
+            className="b-btn b-btn-ghost b-btn-sm !text-[12px]"
             onClick={() => set("regions", [...f.regions, { name: "", center: "", counties: "" }])}
           >
             <Plus className="w-3.5 h-3.5" /> افزودن منطقه

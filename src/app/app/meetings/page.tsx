@@ -106,17 +106,17 @@ export default function MeetingsPage() {
               <span className={`b-badge ${m.status === "APPROVED" ? "b-badge-success" : m.status === "PENDING" ? "b-badge-warning" : m.status === "REJECTED" ? "b-badge-critical" : "b-badge-neutral"}`}>{STATUS_TKEY[m.status] ? t(STATUS_TKEY[m.status]) : m.status}</span>
               <span className="text-[13px] font-bold">{m.topic}</span>
               {m.student && <span className="text-[11.5px] text-steel">{t("meetings.about")} {m.student.user.firstName} {m.student.user.lastName}</span>}
-              <span className="text-[11px] text-steel flex items-center gap-1"><Clock className="w-3 h-3" />{formatDateFa(m.slotStart)} · {formatTimeFa(m.slotStart)}</span>
-              <span className="text-[11px] text-stone ms-auto">{m.requestedBy.firstName} ↔ {m.staff.firstName} {m.staff.lastName}</span>
+              <span className="text-[12px] text-steel flex items-center gap-1"><Clock className="w-3 h-3" />{formatDateFa(m.slotStart)} · {formatTimeFa(m.slotStart)}</span>
+              <span className="text-[12px] text-stone ms-auto">{m.requestedBy.firstName} ↔ {m.staff.firstName} {m.staff.lastName}</span>
               {m.status === "PENDING" && canRespond(m) && (
                 <span className="flex gap-1.5">
-                  <button onClick={() => respond(m.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[26px] !text-[10px] !px-2 !py-0">{t("meetings.confirm")}</button>
-                  <button onClick={() => respond(m.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0 !text-destructive">{t("meetings.reject")}</button>
+                  <button onClick={() => respond(m.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{t("meetings.confirm")}</button>
+                  <button onClick={() => respond(m.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive">{t("meetings.reject")}</button>
                 </span>
               )}
-              {m.status === "APPROVED" && canRespond(m) && <button onClick={() => respond(m.id, "DONE")} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0">{t("meetings.done")}</button>}
+              {m.status === "APPROVED" && canRespond(m) && <button onClick={() => respond(m.id, "DONE")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("meetings.done")}</button>}
               {canCancel(m) && (
-                <button onClick={() => respond(m.id, "CANCELED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[26px] !text-[10px] !px-2 !py-0 !text-destructive">{t("meetings.cancelRequest")}</button>
+                <button onClick={() => respond(m.id, "CANCELED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive">{t("meetings.cancelRequest")}</button>
               )}
             </div>
           ))}

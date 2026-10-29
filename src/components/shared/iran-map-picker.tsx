@@ -221,7 +221,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
               })()}
             </svg>
             )}
-            <div className="absolute bottom-3 right-4 text-[11px] text-steel bg-background/80 rounded-full px-3 py-1">
+            <div className="absolute bottom-3 right-4 text-[12px] text-steel bg-background/80 rounded-full px-3 py-1">
               {hovered ? `استان ${hovered} — ${faNumber(countiesOf(hovered).length)} شهرستان` : "روی استان کلیک کنید تا انتخاب شود"}
             </div>
           </div>
@@ -235,9 +235,9 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <b className="text-[13px]">{activeProvince}</b>
-                  <span className="text-[11px] text-steel">شهرستان‌ها</span>
+                  <span className="text-[12px] text-steel">شهرستان‌ها</span>
                   <button
-                    className="ms-auto text-[11px] font-bold text-spring hover:underline"
+                    className="ms-auto text-[12px] font-bold text-spring hover:underline"
                     onClick={() => {
                       const all = countiesOf(activeProvince).map((c) => `${activeProvince}|${c}`);
                       onChange({
@@ -267,7 +267,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
                         onClick={() => (tab === "provinces" ? toggleProvince(p.name) : setActiveProvince(p.name))}
                       >
                         <span
-                          className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-[10px] font-bold ${
+                          className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-[12px] font-bold ${
                             selected ? "bg-spring text-primary-foreground" : "bg-cloud text-steel"
                           }`}
                         >

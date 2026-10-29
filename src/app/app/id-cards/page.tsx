@@ -118,7 +118,7 @@ export default function IdCardsPage() {
               </div>
               <footer className="px-4 pb-3.5 flex items-end justify-between gap-3">
                 <Barcode seed={s.studentNumber ?? s.id} />
-                <span className="text-[10px] text-stone">{t("idCards.ayn-kart-mtalq-bh-mdrsh-ast")}</span>
+                <span className="text-[12px] text-stone">{t("idCards.ayn-kart-mtalq-bh-mdrsh-ast")}</span>
               </footer>
             </article>
           ))}

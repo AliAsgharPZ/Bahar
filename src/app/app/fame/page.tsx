@@ -40,7 +40,7 @@ export default function FamePage() {
                   <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ background: h.color }} />
                   <span className="flex-1 min-w-0">
                     <b className="text-[13.5px] block truncate">{t("fame.housePrefix")} {h.name}</b>
-                    <span className="text-[11px] text-steel">{faNumber(h.members)} {t("fame.member")}{h.motto ? ` · ${h.motto}` : ""}</span>
+                    <span className="text-[12px] text-steel">{faNumber(h.members)} {t("fame.member")}{h.motto ? ` · ${h.motto}` : ""}</span>
                   </span>
                   <b className="text-spring">{faNumber(h.points)}</b>
                 </div>
@@ -56,7 +56,7 @@ export default function FamePage() {
                     <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0"><Icon className="w-4.5 h-4.5" /></span>
                     <span className="flex-1 min-w-0 text-[13px]">
                       <b>{f.studentName}</b> {f.title}
-                      <span className="block text-[11px] text-steel">{formatDateFa(f.at)}</span>
+                      <span className="block text-[12px] text-steel">{formatDateFa(f.at)}</span>
                     </span>
                   </div>
                 );

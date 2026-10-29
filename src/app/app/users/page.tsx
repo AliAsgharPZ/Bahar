@@ -382,7 +382,7 @@ export default function UsersPage() {
                         />
                         <span className="flex flex-col min-w-0">
                           <b className="truncate">{u.firstName} {u.lastName}</b>
-                          <span className="text-[11px] text-steel truncate">
+                          <span className="text-[12px] text-steel truncate">
                             {u.role === "STUDENT"
                               ? `${t("common.student")} ${u.studentProfile?.class?.name ?? ""}`
                               : u.role === "PARENT"
@@ -399,7 +399,7 @@ export default function UsersPage() {
                     <td className="py-3 px-4 hidden md:table-cell"><RoleBadge role={u.role} /></td>
                     <td className="py-3 px-4 hidden lg:table-cell"><span dir="ltr" className="font-mono text-[11.5px]">{u.nationalId}</span></td>
                     <td className="py-3 px-4 hidden lg:table-cell">
-                      {u.shadNumber ? <span dir="ltr" className="font-mono text-[11.5px]">{u.shadNumber}</span> : <span className="text-stone text-[11px]">{t("users.notRegistered")}</span>}
+                      {u.shadNumber ? <span dir="ltr" className="font-mono text-[11.5px]">{u.shadNumber}</span> : <span className="text-stone text-[12px]">{t("users.notRegistered")}</span>}
                     </td>
                     <td className="py-3 px-4 hidden md:table-cell text-steel text-[11.5px]">
                       {u.lastLoginAt ? relativeTimeFa(u.lastLoginAt) : t("users.noLogin")}
@@ -516,7 +516,7 @@ export default function UsersPage() {
                   </span>
                   <input className="b-input" dir="ltr" inputMode="numeric" value={form.nationalId} onChange={(e) => set("nationalId", e.target.value)} required placeholder={t("students.ph.nationalId")} />
                   {isSuper && (
-                    <label className="flex items-center gap-2 text-[11px] text-steel mt-1 cursor-pointer">
+                    <label className="flex items-center gap-2 text-[12px] text-steel mt-1 cursor-pointer">
                       <input type="checkbox" className="accent-spring w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
                       {t("users.invalidNationalIdRegister")}
                     </label>
@@ -625,7 +625,7 @@ export default function UsersPage() {
                     <input className="b-input" value={permFilter} onChange={(e) => setPermFilter(e.target.value)} placeholder={t("users.perms.searchPlaceholder")} />
                   </div>
                   <div className="flex flex-col gap-4">
-                    {filteredGroups.length === 0 ? (<p className="text-[11px] text-steel">{t("users.perms.noMatch")}</p>) : filteredGroups.map((g) => (
+                    {filteredGroups.length === 0 ? (<p className="text-[12px] text-steel">{t("users.perms.noMatch")}</p>) : filteredGroups.map((g) => (
                       <div key={g.group} className="border border-hairline-soft rounded-2xl p-4">
                         <div className="flex items-center justify-between mb-1">
                           <b className="text-[12.5px]">{g.group}</b>
@@ -650,7 +650,7 @@ export default function UsersPage() {
                               />
                               <span className="flex flex-col">
                                 <b className="text-[12px]">{i.label}</b>
-                                <span className="text-[10px] text-steel">{i.desc}</span>
+                                <span className="text-[12px] text-steel">{i.desc}</span>
                               </span>
                             </label>
                           ))}
@@ -804,7 +804,7 @@ export default function UsersPage() {
                     <span className="b-badge b-badge-soft ms-2">{faDigits(editPerms.length)} {t("common.active")}</span>
                   </h3>
                   <div className="flex flex-col gap-4">
-                    {filteredGroups.length === 0 ? (<p className="text-[11px] text-steel">{t("users.perms.noMatch")}</p>) : filteredGroups.map((g) => (
+                    {filteredGroups.length === 0 ? (<p className="text-[12px] text-steel">{t("users.perms.noMatch")}</p>) : filteredGroups.map((g) => (
                       <div key={g.group}>
                         <div className="flex items-center justify-between mb-2">
                           <b className="text-[12px]">{g.group}</b>

@@ -375,7 +375,7 @@ export default function StudentsPage() {
             </button>
           </span>
         ))}
-        {savedViews.length === 0 && <span className="text-[11px] text-stone">{t("students.views.hint")}</span>}
+        {savedViews.length === 0 && <span className="text-[12px] text-stone">{t("students.views.hint")}</span>}
         <span className="flex items-center gap-1.5 ms-auto">
           <input
             className="b-input !w-36 !h-9 !text-[12px]"
@@ -493,7 +493,7 @@ export default function StudentsPage() {
                         <UserAvatar user={s.user} size={36} />
                         <span className="flex flex-col min-w-0">
                           <b className="truncate">{s.user.firstName} {s.user.lastName}</b>
-                          <span className="text-[11px] text-steel" dir="ltr">{s.studentNumber}</span>
+                          <span className="text-[12px] text-steel" dir="ltr">{s.studentNumber}</span>
                         </span>
                       </div>
                     </td>
@@ -508,12 +508,12 @@ export default function StudentsPage() {
                             {p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}: {p.parentUser.firstName} {p.parentUser.lastName}
                           </span>
                         ))}
-                        {!s.parents.length && <span className="text-[11px] text-blossom">{t("students.noParent")}</span>}
+                        {!s.parents.length && <span className="text-[12px] text-blossom">{t("students.noParent")}</span>}
                       </div>
                     </td>
                     {shadVisible && (
                       <td className="py-3 px-4 hidden md:table-cell">
-                        {s.user.shadNumber ? <span dir="ltr" className="font-mono text-[11.5px]">{s.user.shadNumber}</span> : <span className="text-stone text-[11px]">—</span>}
+                        {s.user.shadNumber ? <span dir="ltr" className="font-mono text-[11.5px]">{s.user.shadNumber}</span> : <span className="text-stone text-[12px]">—</span>}
                       </td>
                     )}
                     <td className="py-3 px-4">
@@ -624,10 +624,10 @@ export default function StudentsPage() {
                       <span className="text-[12.5px] font-bold flex-1 truncate">
                         {p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}: {p.parentUser.firstName} {p.parentUser.lastName}
                       </span>
-                      <span className="font-mono text-[11px] text-steel" dir="ltr">{p.parentUser.nationalId}</span>
+                      <span className="font-mono text-[12px] text-steel" dir="ltr">{p.parentUser.nationalId}</span>
                       <button
                         type="button"
-                        className="b-btn b-btn-ghost text-[11px] font-bold text-destructive hover:underline"
+                        className="b-btn b-btn-ghost text-[12px] font-bold text-destructive hover:underline"
                         onClick={() => setRemovedParents((rs) => (removed ? rs.filter((x) => x !== p.parentUserId) : [...rs, p.parentUserId]))}
                       >
                         {removed ? t("students.parent.restore") : t("students.parent.unlink")}
@@ -869,10 +869,10 @@ export default function StudentsPage() {
                       <div key={p.parentUserId} className="b-card-sm !rounded-xl p-4 flex items-center justify-between gap-3">
                         <span className="flex flex-col min-w-0">
                           <b className="text-[13px] truncate">{p.parentUser.firstName} {p.parentUser.lastName}</b>
-                          <span className="text-[11px] text-steel">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")} · {p.parentUser.jobTitle ?? "—"}</span>
+                          <span className="text-[12px] text-steel">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")} · {p.parentUser.jobTitle ?? "—"}</span>
                         </span>
                         <span className="flex flex-col items-end gap-0.5 shrink-0">
-                          <span dir="ltr" className="font-mono text-[11px] text-steel">{p.parentUser.nationalId}</span>
+                          <span dir="ltr" className="font-mono text-[12px] text-steel">{p.parentUser.nationalId}</span>
                           {p.parentUser.shadNumber && (
                             <span className="flex items-center gap-1 text-[10.5px] text-spring">
                               <Phone className="w-3 h-3" /> {t("students.detail.shadRegistered")}
@@ -898,7 +898,7 @@ export default function StudentsPage() {
                         }, {})
                       ).map(([name, v]) => (
                         <div key={name} className="b-card-sm !rounded-xl p-3 text-center">
-                          <div className="text-[11px] text-steel truncate">{name}</div>
+                          <div className="text-[12px] text-steel truncate">{name}</div>
                           <div className="text-[16px] font-bold">{faNumber(+(v.sum / v.w).toFixed(2))}</div>
                           <div className="text-[9.5px] text-stone">{t("students.detail.avgFrom")} {faNumber(v.count)} {t("students.detail.gradesUnit")}</div>
                         </div>

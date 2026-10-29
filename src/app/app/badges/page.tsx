@@ -137,7 +137,7 @@ export default function BadgesPage() {
               <div className="flex items-center gap-2 mb-4">
                 <Sparkles className="w-4 h-4 text-spring-deep shrink-0" />
                 <b className="text-[13.5px]">{t("badges.defineNew")}</b>
-                <span className="b-badge b-badge-neutral !text-[10px]">
+                <span className="b-badge b-badge-neutral !text-[12px]">
                   {inSchoolPanel ? (
                     <>{t("badges.schoolBadge")} «{user.schoolName}»</>
                   ) : (
@@ -213,7 +213,7 @@ export default function BadgesPage() {
                   {t("common.cancel")}
                 </button>
                 {!inSchoolPanel && (
-                  <span className="text-[11px] text-steel leading-relaxed">
+                  <span className="text-[12px] text-steel leading-relaxed">
                     {t("badges.schoolHint")}
                   </span>
                 )}
@@ -261,11 +261,11 @@ export default function BadgesPage() {
                   className={`b-card-sm p-4 text-center bg-gradient-to-b ${tier.cls}`}>
                   <Award className="w-8 h-8 mx-auto mb-2" />
                   <p className="text-[12.5px] font-bold">{e.badge.title}</p>
-                  <p className="text-[10px] opacity-70">{faNumber(e.badge.points)} {t("badges.points")} · {formatDateFa(e.awardedAt)}</p>
+                  <p className="text-[12px] opacity-70">{faNumber(e.badge.points)} {t("badges.points")} · {formatDateFa(e.awardedAt)}</p>
                   {e.isFeatured ? (
                     <span className="b-badge b-badge-blossom mt-1.5"><Star className="w-3 h-3 inline ml-1" />{t("badges.myFeatured")}</span>
                   ) : (
-                    <button onClick={() => feature(e.badge.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[24px] !text-[10px] !px-2 !py-0 mt-1.5">
+                    <button onClick={() => feature(e.badge.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 mt-1.5">
                       <Star className="w-3 h-3" /> {t("badges.setFeatured")}
                     </button>
                   )}
@@ -336,7 +336,7 @@ function BadgeCard({ b, i, has, onDelete }: { b: BadgeT; i: number; has: boolean
     >
       <tier.icon className="w-7 h-7 mx-auto mb-2" />
       <p className="text-[12px] font-bold">{b.title}</p>
-      <p className="text-[10px] text-steel line-clamp-2 mt-0.5">{b.description}</p>
+      <p className="text-[12px] text-steel line-clamp-2 mt-0.5">{b.description}</p>
       <span className="b-badge b-badge-neutral mt-2">{t(TIER_TKEY[b.tier] ?? "badges.tier.bronze")} · {faNumber(b.points)}</span>
       {!has && <Lock className="absolute top-2 left-2 w-3.5 h-3.5 text-stone" />}
       {onDelete && (

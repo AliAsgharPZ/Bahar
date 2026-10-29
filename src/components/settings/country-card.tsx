@@ -136,7 +136,7 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
       )}
       {data && (
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-[11px] text-stone">
+          <div className="flex items-center gap-2 text-[12px] text-stone">
             <span className={`b-badge ${data.active === "IR" ? "b-badge-success" : "b-badge-neutral"}`}>ایران — پیش‌فرض داخلی</span>
             <span>تقویم شمسی · کد ملی mod-11 · ۳۱ استان · تومان</span>
           </div>
@@ -151,16 +151,16 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
               </span>
               <div className="flex gap-1.5">
                 {p.status !== "ACTIVE" && (
-                  <button className="b-btn b-btn-spring b-btn-sm !min-h-[30px]" onClick={() => action(p, "activate")} disabled={busy === p.id}>
+                  <button className="b-btn b-btn-spring b-btn-sm !min-h-[40px]" onClick={() => action(p, "activate")} disabled={busy === p.id}>
                     {busy === p.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />} فعال‌سازی
                   </button>
                 )}
                 {p.status === "ACTIVE" && (
-                  <button className="b-btn b-btn-soft b-btn-sm !min-h-[30px]" onClick={() => action(p, "disable")} disabled={busy === p.id}>
+                  <button className="b-btn b-btn-soft b-btn-sm !min-h-[40px]" onClick={() => action(p, "disable")} disabled={busy === p.id}>
                     <RefreshCcw className="w-3.5 h-3.5" /> بازگشت به ایران
                   </button>
                 )}
-                <button className="b-btn b-btn-ghost b-btn-sm !min-h-[30px] !text-destructive" onClick={() => action(p, "delete")} disabled={busy === p.id}>
+                <button className="b-btn b-btn-ghost b-btn-sm !min-h-[40px] !text-destructive" onClick={() => action(p, "delete")} disabled={busy === p.id}>
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -226,7 +226,7 @@ export function CountryCard({ canCreate = false }: { canCreate?: boolean }) {
               {dryRun.warnings.slice(0, 6).map((w, i) => <li key={i}><AlertTriangle className="w-3 h-3 inline" /> {w}</li>)}
             </ul>
           )}
-          <div className="flex flex-wrap gap-2 text-[11px] text-steel mt-1">
+          <div className="flex flex-wrap gap-2 text-[12px] text-steel mt-1">
             <span className="b-badge b-badge-neutral">استان‌ها: {faNumber(dryRun.stats.regions)}</span>
             <span className="b-badge b-badge-neutral">شهرستان‌ها: {faNumber(dryRun.stats.counties)}</span>
             <span className="b-badge b-badge-neutral">روزهای کاری: {faNumber(dryRun.stats.workDays)}</span>

@@ -148,19 +148,19 @@ export default function TasksPage() {
                             </button>
                           )}
                         </div>
-                        {t.description && <p className="text-[11px] text-steel mt-1 line-clamp-2">{t.description}</p>}
+                        {t.description && <p className="text-[12px] text-steel mt-1 line-clamp-2">{t.description}</p>}
                         <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                           <span className={`b-badge !text-[9.5px] !px-1.5 !py-0.5 ${PRIO[t.priority]?.cls ?? "b-badge-neutral"}`}>{tr(PRIO[t.priority]?.label ?? "")}</span>
-                          {t.dueDate && <span className={`text-[10px] flex items-center gap-0.5 ${overdue ? "text-destructive font-bold" : "text-stone"}`}><Calendar className="w-3 h-3" />{formatDateFa(t.dueDate)}</span>}
-                          {t.student && <span className="text-[10px] text-steel truncate">🎓 {t.student.user.firstName} {t.student.user.lastName}</span>}
-                          {t.assignee && <span className="text-[10px] text-steel ms-auto">{t.assignee.firstName} {t.assignee.lastName}</span>}
+                          {t.dueDate && <span className={`text-[12px] flex items-center gap-0.5 ${overdue ? "text-destructive font-bold" : "text-stone"}`}><Calendar className="w-3 h-3" />{formatDateFa(t.dueDate)}</span>}
+                          {t.student && <span className="text-[12px] text-steel truncate">🎓 {t.student.user.firstName} {t.student.user.lastName}</span>}
+                          {t.assignee && <span className="text-[12px] text-steel ms-auto">{t.assignee.firstName} {t.assignee.lastName}</span>}
                           {t.sourceKind === "AUTOMATION" && <span className="b-badge b-badge-spring !text-[9px] !px-1.5 !py-0">{tr("tasks.auto")}</span>}
                         </div>
                         {t.status !== "DONE" && (
                           <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            {t.status === "TODO" && <button onClick={() => move(t, "IN_PROGRESS")} className="b-btn b-btn-sm b-btn-ghost !min-h-[24px] !text-[9.5px] !px-2 !py-0">{tr("tasks.start")}</button>}
-                            {t.status === "IN_PROGRESS" && <button onClick={() => move(t, "TODO")} className="b-btn b-btn-sm b-btn-ghost !min-h-[24px] !text-[9.5px] !px-2 !py-0">{tr("common.back")}</button>}
-                            <button onClick={() => move(t, "DONE")} className="b-btn b-btn-sm b-btn-spring !min-h-[24px] !text-[9.5px] !px-2 !py-0">{tr("tasks.done")}</button>
+                            {t.status === "TODO" && <button onClick={() => move(t, "IN_PROGRESS")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[9.5px] !px-2 !py-0">{tr("tasks.start")}</button>}
+                            {t.status === "IN_PROGRESS" && <button onClick={() => move(t, "TODO")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[9.5px] !px-2 !py-0">{tr("common.back")}</button>}
+                            <button onClick={() => move(t, "DONE")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[9.5px] !px-2 !py-0">{tr("tasks.done")}</button>
                           </div>
                         )}
                       </motion.div>

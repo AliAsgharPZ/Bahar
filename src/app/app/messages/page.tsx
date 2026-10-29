@@ -39,7 +39,7 @@ function DaySeparator({ iso }: { iso: string }) {
   return (
     <div className="flex items-center gap-3 my-4">
       <span className="flex-1 h-px bg-hairline-soft" />
-      <span className="text-[10px] text-stone bg-cloud rounded-full px-3 py-1">{formatDateFa(iso)}</span>
+      <span className="text-[12px] text-stone bg-cloud rounded-full px-3 py-1">{formatDateFa(iso)}</span>
       <span className="flex-1 h-px bg-hairline-soft" />
     </div>
   );
@@ -237,13 +237,13 @@ export default function MessagesPage() {
                 <span className="flex flex-col min-w-0 flex-1">
                   <span className="flex items-center justify-between gap-2">
                     <b className="text-[13px] truncate">{th.partner.firstName} {th.partner.lastName}</b>
-                    {th.lastMessage && <span className="text-[10px] text-stone shrink-0">{relativeTimeFa(th.lastMessage.sentAt)}</span>}
+                    {th.lastMessage && <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(th.lastMessage.sentAt)}</span>}
                   </span>
                   <span className={`text-[11.5px] truncate ${th.unread > 0 ? "text-ink font-bold" : "text-steel"}`}>
                     {th.lastMessage ? `${th.lastMessage.mine ? `${t("messages.you")} ` : ""}${th.lastMessage.body}` : "—"}
                   </span>
                 </span>
-                {th.unread > 0 && <span className="b-badge b-badge-critical !px-2 !text-[10px] shrink-0">{faNumber(th.unread)}</span>}
+                {th.unread > 0 && <span className="b-badge b-badge-critical !px-2 !text-[12px] shrink-0">{faNumber(th.unread)}</span>}
               </button>
             ))}
           </div>
@@ -268,14 +268,14 @@ export default function MessagesPage() {
                 <UserAvatar user={active} size={40} />
                 <span className="flex flex-col min-w-0">
                   <b className="text-[14px] truncate">{active.firstName} {active.lastName}</b>
-                  <span className="text-[11px] text-steel">{ROLE_TKEY[active.role] ? t(ROLE_TKEY[active.role]) : active.role}</span>
+                  <span className="text-[12px] text-steel">{ROLE_TKEY[active.role] ? t(ROLE_TKEY[active.role]) : active.role}</span>
                 </span>
                 {shadVisible && active.shadNumber && (
                   <a
                     href={SHAD_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="b-btn b-btn-ghost b-btn-sm ms-auto !text-[11px] !min-h-9"
+                    className="b-btn b-btn-ghost b-btn-sm ms-auto !text-[12px] !min-h-9"
                     title={t("messages.shadChat")}
                   >
                     <ExternalLink className="w-3.5 h-3.5" /> شاد
@@ -304,7 +304,7 @@ export default function MessagesPage() {
                           <div className={`px-4 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-line break-words ${mine ? "bubble-me" : "bubble-them"}`}>
                             {m.body}
                           </div>
-                          <span className="text-[10px] text-stone mt-1 px-1 flex items-center gap-1">
+                          <span className="text-[12px] text-stone mt-1 px-1 flex items-center gap-1">
                             {formatTimeFa(m.sentAt)}
                             {mine && !m.readAt && <span className="text-spring">· {t("messages.sent")}</span>}
                             {mine && m.readAt && <span className="text-spring">· {t("messages.read")}</span>}
@@ -411,7 +411,7 @@ export default function MessagesPage() {
                         className={`w-3.5 h-3.5 text-stone transition-transform duration-200 ${collapsed ? "-rotate-90" : ""}`}
                       />
                       <b className="text-[12.5px]">{g.label}</b>
-                      <span className="b-badge b-badge-neutral !text-[10px] !px-1.5 !py-0">{faNumber(g.items.length)}</span>
+                      <span className="b-badge b-badge-neutral !text-[12px] !px-1.5 !py-0">{faNumber(g.items.length)}</span>
                       <span className="flex-1 h-px bg-hairline-soft" />
                     </button>
                     {!collapsed && (

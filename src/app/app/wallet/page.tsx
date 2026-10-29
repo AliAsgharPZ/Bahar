@@ -115,7 +115,7 @@ export default function WalletPage() {
                   <span className="flex gap-2 flex-wrap">
                     <input className="b-input w-40" dir="ltr" inputMode="numeric" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder={t("wallet.mblgh-tvman")} />
                     <input className="b-input flex-1 min-w-36" value={note} onChange={(e) => setNote(e.target.value)} placeholder={t("wallet.tvzyh-akhtyary")} />
-                    <button className="b-btn b-btn-spring" disabled={busy === "topup" || !amount} onClick={() => doAction("topup")}>
+                    <button className="b-btn b-btn-buy" disabled={busy === "topup" || !amount} onClick={() => doAction("topup")}>
                       {busy === "topup" ? <Loader2 className="w-4 h-4 animate-spin" /> : <PlusCircle className="w-4 h-4" />} {t("wallet.sharzh")}
                     </button>
                   </span>
@@ -151,7 +151,7 @@ export default function WalletPage() {
               {data.txs.length === 0 && <span className="text-[12.5px] text-steel">{t("wallet.traknshy-sbt-nshdh-ast")}</span>}
               {data.txs.map((tx) => (
                 <div key={tx.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
-                  <span>{t(KIND_TKEY[tx.kind] ?? tx.kind)}{tx.note ? <span className="text-steel"> · {tx.note}</span> : ""}<span className="block text-[11px] text-steel">{formatDateFa(tx.createdAt)}</span></span>
+                  <span>{t(KIND_TKEY[tx.kind] ?? tx.kind)}{tx.note ? <span className="text-steel"> · {tx.note}</span> : ""}<span className="block text-[12px] text-steel">{formatDateFa(tx.createdAt)}</span></span>
                   <b className={tx.amount >= 0 ? "text-spring" : "text-blossom"} dir="ltr">{tx.amount >= 0 ? "+" : ""}{faNumber(tx.amount)}</b>
                 </div>
               ))}
@@ -165,7 +165,7 @@ export default function WalletPage() {
             <div className="flex flex-col gap-1">
               {shop.products.map((pr) => (
                 <div key={pr.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[13px]">
-                  <span><b>{pr.name}</b>{pr.category ? <span className="text-steel"> · {pr.category}</span> : ""}{pr.allergens ? <span className="block text-[11px] text-blossom">{t("wallet.hsasyt")}: {pr.allergens}</span> : ""}{!pr.isActive && <span className="text-stone"> ({t("common.inactive")})</span>}</span>
+                  <span><b>{pr.name}</b>{pr.category ? <span className="text-steel"> · {pr.category}</span> : ""}{pr.allergens ? <span className="block text-[12px] text-blossom">{t("wallet.hsasyt")}: {pr.allergens}</span> : ""}{!pr.isActive && <span className="text-stone"> ({t("common.inactive")})</span>}</span>
                   <span className="flex items-center gap-3"><span className={pr.stock <= 5 ? "text-blossom font-bold" : ""}>{t("wallet.mvjvdy")}: {faNumber(pr.stock)}</span><b dir="ltr">{faNumber(pr.price)} {t("wallet.tvman")}</b></span>
                 </div>
               ))}
@@ -187,7 +187,7 @@ export default function WalletPage() {
                 <Select value={sellProductId} onChange={setSellProductId}
                   options={[{ value: "", label: t("wallet.antkhab-kala") }, ...(shop?.products ?? []).filter((pr) => pr.isActive).map((pr) => ({ value: pr.id, label: `${pr.name} — ${faNumber(pr.price)} ${t("wallet.tvman-mvjvdy")} ${faNumber(pr.stock)})` }))]} placeholder={t("wallet.kala")} />
                 <input className="b-input w-24" dir="ltr" inputMode="numeric" value={sellQty} onChange={(e) => setSellQty(e.target.value)} placeholder={t("wallet.tadad")} />
-                <button className="b-btn b-btn-spring" disabled={busy === "sell" || !studentId || !sellProductId} onClick={sellProduct}>
+                <button className="b-btn b-btn-buy" disabled={busy === "sell" || !studentId || !sellProductId} onClick={sellProduct}>
                   {busy === "sell" ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingBasket className="w-4 h-4" />} {t("wallet.sbt-frvsh-v-ksr-az-kyf-pvl")}
                 </button>
               </span>

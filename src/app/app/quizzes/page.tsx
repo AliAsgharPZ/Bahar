@@ -209,7 +209,7 @@ export default function QuizzesPage() {
                   }} />
                   <span className="flex-1 min-w-0">
                     <span className="block text-[13px] font-medium leading-relaxed">{q.body}</span>
-                    <span className="block text-[11px] text-stone mt-0.5">{KIND[q.kind] ?? q.kind} · {q.topic}{q.subject ? ` · ${q.subject.name}` : ""}</span>
+                    <span className="block text-[12px] text-stone mt-0.5">{KIND[q.kind] ?? q.kind} · {q.topic}{q.subject ? ` · ${q.subject.name}` : ""}</span>
                   </span>
                 </label>
               ))}

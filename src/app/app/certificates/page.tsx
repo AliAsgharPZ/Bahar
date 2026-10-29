@@ -149,8 +149,8 @@ export default function CertificatesPage() {
               {c.revokedAt && <span className="b-badge b-badge-critical">{tr("certificates.revokedBadge")}</span>}
               <span className="flex items-center gap-1.5 ms-auto">
                 <span className="b-badge b-badge-spring" dir="ltr">QR: {c.verifyCode}</span>
-                <button onClick={() => printCert(c)} className="b-btn b-btn-sm b-btn-ghost !min-h-[28px] !text-[10px] !px-2 !py-0"><Printer className="w-3.5 h-3.5" /> {tr("common.print")}</button>
-                {!c.revokedAt && canRevoke && <button onClick={() => revoke(c.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[28px] !text-[10px] !px-2 !py-0 !text-destructive"><Ban className="w-3.5 h-3.5" /> {tr("certificates.revoke")}</button>}
+                <button onClick={() => printCert(c)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0"><Printer className="w-3.5 h-3.5" /> {tr("common.print")}</button>
+                {!c.revokedAt && canRevoke && <button onClick={() => revoke(c.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive"><Ban className="w-3.5 h-3.5" /> {tr("certificates.revoke")}</button>}
               </span>
             </motion.div>
           ))}
@@ -180,7 +180,7 @@ export default function CertificatesPage() {
                   <span className="text-[13px] font-bold flex-1">{t.title}</span>
                   <button onClick={async () => { if (!(await confirm({ title: tr("certificates.deleteTemplateTitle"), description: tr("certificates.deleteTemplateDesc"), confirmLabel: tr("common.delete"), danger: true }))) return; apiDelete(`/api/certificates?template=${t.id}`).then(load).catch((e) => toast.error(e instanceof Error ? e.message : tr("certificates.deleteError"))); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
-                <p className="text-[11px] text-steel line-clamp-3 leading-relaxed">{t.bodyTemplate}</p>
+                <p className="text-[12px] text-steel line-clamp-3 leading-relaxed">{t.bodyTemplate}</p>
               </div>
             ))}
             {templates.length === 0 && <p className="t-sm text-steel">{tr("certificates.noTemplates")}</p>}

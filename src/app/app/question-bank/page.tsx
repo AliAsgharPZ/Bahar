@@ -186,7 +186,7 @@ export default function QuestionBankPage() {
                   </div>
                   <p className="text-[13px] font-bold leading-relaxed">{q.body}</p>
                   {opts.length > 0 && <p className="text-[11.5px] text-steel mt-1">{opts.map((o, j) => `${["۱)", "۲)", "۳)", "۴)"][j] ?? ""} ${o}`).join("   ")}</p>}
-                  {q.answer && <p className="text-[11px] text-spring-deep mt-1">{t("questionBank.answer")} {q.answer}</p>}
+                  {q.answer && <p className="text-[12px] text-spring-deep mt-1">{t("questionBank.answer")} {q.answer}</p>}
                 </div>
                 <button onClick={(e) => { e.preventDefault(); remove(q.id); }} className="b-btn b-btn-ghost text-stone hover:text-destructive shrink-0"><Trash2 className="w-4 h-4" /></button>
               </label>

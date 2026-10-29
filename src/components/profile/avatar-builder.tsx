@@ -63,7 +63,7 @@ export function AvatarBuilder({
             className="w-full h-full object-cover"
           />
         </span>
-        <span className="text-[11px] text-steel">پیش‌نمایش زنده — با هر انتخاب به‌روز می‌شود</span>
+        <span className="text-[12px] text-steel">پیش‌نمایش زنده — با هر انتخاب به‌روز می‌شود</span>
       </div>
 
       {/* تب دسته‌بندی‌ها */}

@@ -95,7 +95,7 @@ export default async function LanguagesPage() {
             <Image src="/logo.svg" alt="بهار" width={30} height={30} />
             <b className="text-[16px]">بهار</b>
           </Link>
-          <span className="text-[11px] text-steel hidden sm:inline">{tx("site.kit.languages.kitLabel", "کیت ساخت زبان")}</span>
+          <span className="text-[12px] text-steel hidden sm:inline">{tx("site.kit.languages.kitLabel", "کیت ساخت زبان")}</span>
           <div className="flex-1" />
           <SiteLangSelect current={siteLang} />
           <Link href="/login" className="b-btn b-btn-soft b-btn-sm">{tx("site.kit.languages.login", "ورود")}</Link>
@@ -132,13 +132,13 @@ export default async function LanguagesPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="b-card !rounded-2xl p-4 text-center">
               <div className="text-2xl mb-1">فارسی</div>
-              <div className="text-[11px] text-steel">{tx("site.kit.languages.baseLang", "زبان پایه · ۱۰۰٪ پوشش")}</div>
+              <div className="text-[12px] text-steel">{tx("site.kit.languages.baseLang", "زبان پایه · ۱۰۰٪ پوشش")}</div>
             </div>
             {activePacks.map((p) => (
               <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
                 <div className="text-lg font-bold truncate">{p.nativeName}</div>
-                <div className="text-[11px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
-                <span className="inline-block rounded-full bg-forest/10 text-spring text-[10px] px-2 py-0.5">
+                <div className="text-[12px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
+                <span className="inline-block rounded-full bg-forest/10 text-spring text-[12px] px-2 py-0.5">
                   {faDigits(p.coverage)}٪ {tx("site.kit.languages.wCoverage", "پوشش")}
                 </span>
               </div>
@@ -165,11 +165,11 @@ export default async function LanguagesPage() {
             {SHIPPED_LANG_PACKS.map((p) => (
               <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
                 <div className="text-lg font-bold truncate">{p.nativeName}</div>
-                <div className="text-[11px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
-                <span className="inline-block rounded-full bg-forest/10 text-spring text-[10px] px-2 py-0.5">
+                <div className="text-[12px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
+                <span className="inline-block rounded-full bg-forest/10 text-spring text-[12px] px-2 py-0.5">
                   {tx("site.kit.languages.wApp", "اپ")} {faDigits(p.coverage)}٪ · {tx("site.kit.languages.wSite", "سایت")} {faDigits(p.siteCoverage)}٪ · {tx("site.kit.languages.wLong", "بلند")} {faDigits(p.longCoverage)}٪
                 </span>
-                <div className="text-[10px] text-stone mt-1">{tx("site.kit.shippedBadge", "همراه سامانه")}</div>
+                <div className="text-[12px] text-stone mt-1">{tx("site.kit.shippedBadge", "همراه سامانه")}</div>
               </div>
             ))}
           </div>
@@ -193,7 +193,7 @@ export default async function LanguagesPage() {
         <section className="mb-14 grid lg:grid-cols-2 gap-4">
           <div className="b-card !rounded-3xl p-6">
             <h3 className="t-h3 mb-3 flex items-center gap-2"><LayoutTemplate className="w-5 h-5 text-spring" /> {tx("site.kit.languages.h.structure", "ساختار فایل بسته")}</h3>
-            <pre dir="ltr" className="text-[11px] leading-5 bg-forest/5 dark:bg-forest/10 rounded-2xl p-4 overflow-x-auto text-start" style={{fontFamily: "monospace"}}>
+            <pre dir="ltr" className="text-[12px] leading-5 bg-forest/5 dark:bg-forest/10 rounded-2xl p-4 overflow-x-auto text-start" style={{fontFamily: "monospace"}}>
 {`{
   "code": "en",              // کد یکتا (۲-۱۵ نویسه)
   "name": "انگلیسی",          // نام فارسی
@@ -258,7 +258,7 @@ export default async function LanguagesPage() {
                 <tbody>
                   {catalogKeys.map(([key, value]) => (
                     <tr key={key} className="border-t border-hairline-soft">
-                      <td dir="ltr" className="px-4 py-2 font-mono text-[10px] text-spring text-start align-top">{key}</td>
+                      <td dir="ltr" className="px-4 py-2 font-mono text-[12px] text-spring text-start align-top">{key}</td>
                       <td className="px-4 py-2 text-steel">{value}</td>
                     </tr>
                   ))}
@@ -279,7 +279,7 @@ export default async function LanguagesPage() {
                 <tbody>
                   {siteKeys.map(([key, value]) => (
                     <tr key={key} className="border-t border-hairline-soft">
-                      <td dir="ltr" className="px-4 py-2 font-mono text-[10px] text-spring text-start align-top">{key}</td>
+                      <td dir="ltr" className="px-4 py-2 font-mono text-[12px] text-spring text-start align-top">{key}</td>
                       <td className="px-4 py-2 text-steel">{value}</td>
                     </tr>
                   ))}
@@ -300,7 +300,7 @@ export default async function LanguagesPage() {
                 <tbody>
                   {longKeys.map(([key, value]) => (
                     <tr key={key} className="border-t border-hairline-soft">
-                      <td dir="ltr" className="px-4 py-2 font-mono text-[10px] text-spring text-start align-top">{key}</td>
+                      <td dir="ltr" className="px-4 py-2 font-mono text-[12px] text-spring text-start align-top">{key}</td>
                       <td className="px-4 py-2 text-steel">{value}</td>
                     </tr>
                   ))}

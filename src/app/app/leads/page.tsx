@@ -74,7 +74,7 @@ export default function LeadsPage() {
               <div className="min-w-0 flex-1">
                 <b className="text-[13.5px] block truncate">
                   {l.name}
-                  {l.parentName ? <span className="text-[11px] text-steel font-normal"> — {t("leads.parentPrefix")} {l.parentName}</span> : null}
+                  {l.parentName ? <span className="text-[12px] text-steel font-normal"> — {t("leads.parentPrefix")} {l.parentName}</span> : null}
                 </b>
                 <span className="text-[11.5px] text-steel flex items-center gap-2 flex-wrap">
                   <a href={`tel:${l.phone}`} dir="ltr" className="font-mono text-spring hover:underline">{l.phone}</a>

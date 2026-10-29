@@ -249,7 +249,7 @@ export default function SchoolsPage() {
                 ].map((x, i) => (
                   <div key={i} className="b-card-sm !rounded-xl !p-2">
                     <b className="text-[14px] block">{faDigits(x.v)}</b>
-                    <span className="text-[10px] text-steel">{x.l}</span>
+                    <span className="text-[12px] text-steel">{x.l}</span>
                   </div>
                 ))}
               </div>
@@ -289,7 +289,7 @@ export default function SchoolsPage() {
                     <Ban className="w-3.5 h-3.5" />
                   </button>
                 ) : (
-                  <span className="b-badge b-badge-neutral !text-[10px]">{t("common.inactive")}</span>
+                  <span className="b-badge b-badge-neutral !text-[12px]">{t("common.inactive")}</span>
                 ))}
                 {canDeleteSchools && (
                   <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={() => hardDelete(s)} title={t("schools.delete.title")}>
@@ -380,13 +380,13 @@ export default function SchoolsPage() {
               {/* مدیر */}
               <div className="b-card-sm !rounded-2xl p-5">
                 <h3 className="font-bold text-[13.5px] mb-1">{t("role.manager")}</h3>
-                <p className="text-[11px] text-stone mb-4">{t("schools.manager.hint")}</p>
+                <p className="text-[12px] text-stone mb-4">{t("schools.manager.hint")}</p>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <label className="flex flex-col gap-1.5">
                     <span className="text-[12.5px] font-bold">{t("schools.field.managerNationalId")}</span>
                     <input className="b-input" dir="ltr" inputMode="numeric" value={form.managerNationalId} onChange={(e) => set("managerNationalId", enDigits(e.target.value))} />
                     {isSuper && (
-                      <label className="flex items-center gap-2 text-[11px] text-steel mt-0.5 cursor-pointer">
+                      <label className="flex items-center gap-2 text-[12px] text-steel mt-0.5 cursor-pointer">
                         <input type="checkbox" className="accent-spring w-4 h-4" checked={form.forceInvalidNationalId} onChange={(e) => set("forceInvalidNationalId", e.target.checked)} />
                         {t("schools.manager.forceInvalid")}
                       </label>
@@ -476,7 +476,7 @@ export default function SchoolsPage() {
               {/* راند ۱۸: ماژول‌های اختیاری — شاد و نقش سرایدار */}
               <div className="b-card-sm !rounded-2xl p-5">
                 <h3 className="font-bold text-[13.5px] flex items-center gap-2 mb-1.5"><Puzzle className="w-4 h-4 text-spring" /> {t("schools.modules.title")}</h3>
-                <p className="text-[11px] text-steel mb-4 leading-relaxed">
+                <p className="text-[12px] text-steel mb-4 leading-relaxed">
                   {t("schools.modules.desc")}
                 </p>
                 <div className="grid sm:grid-cols-2 gap-3">

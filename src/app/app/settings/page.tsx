@@ -285,7 +285,7 @@ export default function SettingsPage() {
               <label className="flex flex-col gap-1.5">
                 <span className="text-[12px] font-bold">{t("settings.field.demoManagerPassword")}</span>
                 <input className="b-input" dir="ltr" value={form.demoManagerPassword} disabled={!data.canEdit} onChange={(e) => set("demoManagerPassword", e.target.value)} />
-                <span className="text-[10px] text-stone">{t("settings.demo.passwordHint")}</span>
+                <span className="text-[12px] text-stone">{t("settings.demo.passwordHint")}</span>
               </label>
               <label className="flex flex-col gap-1.5">
                 <span className="text-[12px] font-bold">{t("settings.field.demoStudentPassword")}</span>
@@ -400,7 +400,7 @@ export default function SettingsPage() {
               <label className="flex flex-col gap-1.5">
                 <span className="text-[12px] font-bold">{t("settings.field.autoBackupDays")}</span>
                 <input className="b-input" dir="ltr" type="number" min={1} max={365} value={form.autoBackupDays} disabled={!data.canEdit} onChange={(e) => set("autoBackupDays", Number(e.target.value))} />
-                <span className="text-[10px] text-stone">{t("settings.field.autoBackupDaysHint")}</span>
+                <span className="text-[12px] text-stone">{t("settings.field.autoBackupDaysHint")}</span>
               </label>
             </div>
             <label className="flex flex-col gap-1.5">
@@ -515,7 +515,7 @@ export default function SettingsPage() {
               <div className="overflow-x-auto b-scroll">
                 <table className="w-full text-[12.5px]">
                   <thead>
-                    <tr className="border-b border-hairline-soft text-steel text-[11px]">
+                    <tr className="border-b border-hairline-soft text-steel text-[12px]">
                       <th className="text-right py-2.5 px-4 font-bold">{t("settings.backup.table.file")}</th>
                       <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.kind")}</th>
                       <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.records")}</th>
@@ -527,13 +527,13 @@ export default function SettingsPage() {
                   <tbody>
                     {data.backups.map((b) => (
                       <tr key={b.id} className="b-row border-b border-hairline-soft/50 last:border-0">
-                        <td className="py-2.5 px-4"><span dir="ltr" className="font-mono text-[11px] block truncate max-w-[220px]">{b.filename}</span></td>
+                        <td className="py-2.5 px-4"><span dir="ltr" className="font-mono text-[12px] block truncate max-w-[220px]">{b.filename}</span></td>
                         <td className="py-2.5 px-4 hidden md:table-cell">
                           <span className={`b-badge ${b.kind === "AUTO" ? "b-badge-neutral" : "b-badge-spring"}`}>{b.kind === "AUTO" ? t("settings.backup.kindAuto") : t("settings.backup.kindManual")}</span>
                         </td>
                         <td className="py-2.5 px-4 hidden md:table-cell">{faNumber(b.recordCount)}</td>
                         <td className="py-2.5 px-4 text-steel">{faNumber(Math.round(b.sizeBytes / 1024))} {t("dashboard.unit.kb")}</td>
-                        <td className="py-2.5 px-4 text-steel text-[11px] hidden sm:table-cell">{formatDateTimeFa(b.createdAt)}</td>
+                        <td className="py-2.5 px-4 text-steel text-[12px] hidden sm:table-cell">{formatDateTimeFa(b.createdAt)}</td>
                         <td className="py-2.5 px-4">
                           <div className="flex items-center gap-1">
                             <a href={`/api/settings/backup/${b.id}`} className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" title={t("common.download")}>

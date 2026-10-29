@@ -231,7 +231,7 @@ export default function WebsiteEditorPage() {
                     <span className="w-4 h-2 rounded-full" style={{ background: t.palettes[0].accent }} />
                   </div>
                   {t.id === "playful" && <span className="absolute top-3 left-3 w-6 h-6 rounded-full opacity-60" style={{ background: t.palettes[0].accent }} />}
-                  {t.id === "academic" && <span className="absolute top-3 right-3 text-white text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: t.palettes[0].primary }}>پایه</span>}
+                  {t.id === "academic" && <span className="absolute top-3 right-3 text-white text-[12px] font-bold px-2 py-0.5 rounded-full" style={{ background: t.palettes[0].primary }}>پایه</span>}
                 </div>
                 <b className="text-[14px] block mb-1">{t.name} {active && <span className="b-badge b-badge-spring !text-[9px] ms-1">فعال</span>}</b>
                 <p className="text-[11.5px] text-steel leading-relaxed mb-3">{t.desc}</p>
@@ -239,7 +239,7 @@ export default function WebsiteEditorPage() {
                   {t.palettes.map((pal, pi) => (
                     <span
                       key={pi}
-                      className={`flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full border ${config?.palette === pi && templateId === t.id && !config?.customPalette ? "border-spring font-bold" : "border-hairline"}`}
+                      className={`flex items-center gap-1.5 text-[12px] px-2.5 py-1 rounded-full border ${config?.palette === pi && templateId === t.id && !config?.customPalette ? "border-spring font-bold" : "border-hairline"}`}
                     >
                       <span className="w-3 h-3 rounded-full" style={{ background: pal.primary }} />
                       <span className="w-2 h-2 rounded-full" style={{ background: pal.accent }} />
@@ -254,7 +254,7 @@ export default function WebsiteEditorPage() {
           <div className="b-card p-5 md:col-span-2 xl:col-span-3 flex flex-col gap-4">
             <div className="flex items-center gap-2 flex-wrap">
               <b className="text-[13.5px]">رنگ‌بندی تمپلیت «{currentTemplate.name}»</b>
-              <span className="text-[11px] text-steel">({currentTemplate.palettes.length} پالت پیشنهادی)</span>
+              <span className="text-[12px] text-steel">({currentTemplate.palettes.length} پالت پیشنهادی)</span>
               <button
                 type="button"
                 className="b-btn b-btn-soft b-btn-sm ms-auto"
@@ -289,7 +289,7 @@ export default function WebsiteEditorPage() {
             <div className="b-card-sm !rounded-xl p-4 flex flex-col gap-3" key={`${templateId}-${resolvedPalette.primary}-${resolvedPalette.accent}-${resolvedPalette.bg}`}>
               <div className="flex items-center gap-2 flex-wrap">
                 <b className="text-[12.5px]">رنگ دلخواه</b>
-                <span className="text-[11px] text-steel">با پیکر رنگ یا کد هگز، سه رنگ اصلی/لهجه/پس‌زمینه را خودتان بسازید</span>
+                <span className="text-[12px] text-steel">با پیکر رنگ یا کد هگز، سه رنگ اصلی/لهجه/پس‌زمینه را خودتان بسازید</span>
                 {config?.customPalette && (
                   <button type="button" className="b-btn b-btn-ghost b-btn-sm ms-auto" onClick={() => patchConfig({ customPalette: null })}>
                     <RotateCcw className="w-3.5 h-3.5" /> بازگشت به پالت پیشنهادی
@@ -345,7 +345,7 @@ export default function WebsiteEditorPage() {
                   <span className="w-6 h-6 rounded-full border border-hairline shrink-0" style={{ background: row.value }} />
                 </div>
               ))}
-              <p className="text-[11px] text-steel leading-relaxed">
+              <p className="text-[12px] text-steel leading-relaxed">
                 پالت فعلی: {resolvedPalette.label} — اصلی {resolvedPalette.primary} · لهجه {resolvedPalette.accent} · پس‌زمینه {resolvedPalette.bg}
                 {config?.customPalette ? " (رنگ دلخواه فعال است)" : ""}
               </p>

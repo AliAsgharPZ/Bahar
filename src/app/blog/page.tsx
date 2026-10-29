@@ -51,7 +51,7 @@ export default async function BlogIndexPage() {
             <Image src="/logo.svg" alt="بهار" width={30} height={30} />
             <b className="text-[16px]">بهار</b>
           </Link>
-          <span className="text-[11px] text-steel">{tx("site.blog.label", "بلاگ")}</span>
+          <span className="text-[12px] text-steel">{tx("site.blog.label", "بلاگ")}</span>
           <div className="ms-auto flex items-center gap-1.5">
             <SiteLangSelect current={siteLang} />
             <ThemeToggle />

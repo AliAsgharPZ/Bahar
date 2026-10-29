@@ -399,7 +399,7 @@ function StatsBlock({ skin, stats }: { skin: Skin; stats: SiteData["stats"] }) {
             <div key={i} className={`py-7 md:py-9 text-center ${i > 0 ? "border-s" : ""}`} style={{ borderColor: skin.border }}>
               <x.icon className="w-5 h-5 mx-auto mb-2" style={{ color: skin.p.accent }} />
               <b className="block text-[26px] md:text-[36px] font-extrabold" style={{ ...headingFont, color: "#fff" }}>{faDigits(x.v)}</b>
-              <span className="text-[11px] md:text-[12px]" style={{ color: skin.faint }}>{x.l}</span>
+              <span className="text-[12px] md:text-[12px]" style={{ color: skin.faint }}>{x.l}</span>
             </div>
           ))}
         </div>
@@ -413,7 +413,7 @@ function StatsBlock({ skin, stats }: { skin: Skin; stats: SiteData["stats"] }) {
           {items.map((x, i) => (
             <div key={i} className={`py-7 text-center ${i > 0 ? "border-s" : ""}`} style={{ borderColor: skin.border }}>
               <b className="block text-[26px] md:text-[34px] font-bold" style={{ ...headingFont, color: skin.p.primary }}>{faDigits(x.v)}</b>
-              <span className="text-[11px]" style={{ color: skin.faint }}>{x.l}</span>
+              <span className="text-[12px]" style={{ color: skin.faint }}>{x.l}</span>
             </div>
           ))}
         </div>
@@ -469,14 +469,14 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
         )}
         <b className={`block ${lead ? "text-[19px] md:text-[23px]" : "text-[15px]"} font-bold leading-snug`} style={{ ...headingFont, color: skin.text }}>{n.title}</b>
         <p className={`mt-2 leading-[1.9] ${lead ? "line-clamp-4 text-[13.5px]" : "line-clamp-2 text-[12.5px]"}`} style={{ color: skin.sub }}>{n.body}</p>
-        <span className="block mt-3 text-[11px]" style={{ color: skin.faint }}>{date}</span>
+        <span className="block mt-3 text-[12px]" style={{ color: skin.faint }}>{date}</span>
       </article>
     );
   }
   if (f === "modern") {
     return (
       <article className={`p-5 ${className}`} style={{ borderRadius: skin.radius, background: skin.card, borderTop: `3px solid ${skin.p.accent}` }}>
-        {n.pinned && <span className="text-[10px] font-bold px-2.5 py-0.5 inline-block mb-2" style={{ background: `${skin.p.accent}22`, color: skin.p.accent }}>مهم</span>}
+        {n.pinned && <span className="text-[12px] font-bold px-2.5 py-0.5 inline-block mb-2" style={{ background: `${skin.p.accent}22`, color: skin.p.accent }}>مهم</span>}
         <b className="block text-[14px] mb-2 leading-snug" style={{ color: skin.text }}>{n.title}</b>
         <p className="text-[12px] leading-relaxed line-clamp-3" style={{ color: skin.sub }}>{n.body}</p>
         <span className="text-[10.5px] block mt-3" style={{ color: skin.faint }}>{date}</span>
@@ -487,7 +487,7 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
     return (
       <article className={`p-5 ${className}`} style={{ borderRadius: skin.radius, background: skin.card, boxShadow: skin.shadow, borderTop: `6px solid ${i % 2 ? skin.p.accent : skin.p.primary}` }}>
         {n.pinned && (
-          <span className="text-[10px] font-bold px-3 py-1 inline-block mb-2" style={{ borderRadius: 999, background: skin.p.accent, color: skin.onAccent, transform: "rotate(-3deg)" }}>مهم!</span>
+          <span className="text-[12px] font-bold px-3 py-1 inline-block mb-2" style={{ borderRadius: 999, background: skin.p.accent, color: skin.onAccent, transform: "rotate(-3deg)" }}>مهم!</span>
         )}
         <b className="block text-[14px] mb-2 leading-snug" style={{ color: skin.text }}>{n.title}</b>
         <p className="text-[12px] leading-relaxed line-clamp-3" style={{ color: skin.sub }}>{n.body}</p>
@@ -503,14 +503,14 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
         )}
         <b className="block text-[15px] font-semibold leading-snug" style={{ ...headingFont, color: skin.text }}>{n.title}</b>
         <p className="mt-2 leading-[1.9] line-clamp-2 text-[12.5px]" style={{ color: skin.sub }}>{n.body}</p>
-        <span className="block mt-3 text-[11px]" style={{ color: skin.faint }}>{date}</span>
+        <span className="block mt-3 text-[12px]" style={{ color: skin.faint }}>{date}</span>
       </article>
     );
   }
   // کلاسیک
   return (
     <article className={`p-5 ${className}`} style={classicCard(skin)}>
-      {n.pinned && <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-2 inline-block" style={{ background: `${skin.p.primary}15`, color: skin.p.primary }}>مهم</span>}
+      {n.pinned && <span className="text-[12px] font-bold px-2.5 py-0.5 rounded-full mb-2 inline-block" style={{ background: `${skin.p.primary}15`, color: skin.p.primary }}>مهم</span>}
       <b className="block text-[14px] mb-2 leading-snug" style={{ color: skin.text }}>{n.title}</b>
       <p className="text-[12px] leading-relaxed line-clamp-3" style={{ color: skin.sub }}>{n.body}</p>
       <span className="text-[10.5px] block mt-3" style={{ color: skin.faint }}>{date}</span>
@@ -527,19 +527,19 @@ function EventItem({ skin, e }: { skin: Skin; e: SiteData["events"][number] }) {
   if (f === "modern") {
     return (
       <div className="flex items-center gap-4 py-4 border-b last:border-b-0" style={{ borderColor: skin.border }}>
-        <span className="text-[11px] font-bold px-2.5 py-1 shrink-0" style={{ border: `1px solid ${skin.p.accent}66`, color: skin.p.accent, borderRadius: 4 }}>{kind}</span>
+        <span className="text-[12px] font-bold px-2.5 py-1 shrink-0" style={{ border: `1px solid ${skin.p.accent}66`, color: skin.p.accent, borderRadius: 4 }}>{kind}</span>
         <div className="min-w-0 flex-1">
           <b className="text-[13.5px] block truncate" style={{ color: skin.text }}>{e.title}</b>
           {e.description && <p className="text-[11.5px] truncate" style={{ color: skin.faint }}>{e.description}</p>}
         </div>
-        <span className="text-[11px] shrink-0" style={{ color: skin.p.accent }}>{date}</span>
+        <span className="text-[12px] shrink-0" style={{ color: skin.p.accent }}>{date}</span>
       </div>
     );
   }
   if (f === "magazine") {
     return (
       <div className="py-5 border-b last:border-b-0 grid md:grid-cols-[110px_1fr] gap-1 md:gap-6 items-start">
-        <span className="text-[11px] md:pt-1" style={{ color: skin.p.primary }}>{date}</span>
+        <span className="text-[12px] md:pt-1" style={{ color: skin.p.primary }}>{date}</span>
         <div>
           <b className="text-[14.5px] font-bold block leading-snug" style={{ ...headingFont, color: skin.text }}>{e.title}</b>
           {e.description && <p className="text-[12px] mt-1.5 leading-relaxed" style={{ color: skin.sub }}>{e.description}</p>}
@@ -552,19 +552,19 @@ function EventItem({ skin, e }: { skin: Skin; e: SiteData["events"][number] }) {
     return (
       <div className="flex items-center gap-3 p-4" style={{ borderRadius: skin.radius, background: skin.card, boxShadow: skin.shadow }}>
         <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ background: skin.p.accent }} aria-hidden="true" />
-        <span className="text-[11px] font-bold px-3 py-1 rounded-full shrink-0" style={{ background: skin.p.primary, color: skin.onPrimary }}>{kind}</span>
+        <span className="text-[12px] font-bold px-3 py-1 rounded-full shrink-0" style={{ background: skin.p.primary, color: skin.onPrimary }}>{kind}</span>
         <div className="min-w-0 flex-1">
           <b className="text-[13.5px] block truncate" style={{ color: skin.text }}>{e.title}</b>
           {e.description && <p className="text-[11.5px] truncate" style={{ color: skin.sub }}>{e.description}</p>}
         </div>
-        <span className="text-[11px] shrink-0" style={{ color: skin.faint }}>{date}</span>
+        <span className="text-[12px] shrink-0" style={{ color: skin.faint }}>{date}</span>
       </div>
     );
   }
   if (f === "claude") {
     return (
       <div className="py-5 border-b last:border-b-0 grid md:grid-cols-[110px_1fr] gap-1 md:gap-6 items-start" style={{ borderColor: skin.border }}>
-        <span className="text-[11px] md:pt-1" style={{ color: skin.p.primary }}>{date}</span>
+        <span className="text-[12px] md:pt-1" style={{ color: skin.p.primary }}>{date}</span>
         <div className="min-w-0">
           <b className="text-[14.5px] font-semibold block leading-snug break-words" style={{ ...headingFont, color: skin.text }}>{e.title}</b>
           {e.description && <p className="text-[12px] mt-1.5 leading-relaxed break-words" style={{ color: skin.sub }}>{e.description}</p>}
@@ -581,7 +581,7 @@ function EventItem({ skin, e }: { skin: Skin; e: SiteData["events"][number] }) {
         <b className="text-[13.5px] block truncate" style={{ color: skin.text }}>{e.title}</b>
         {e.description && <p className="text-[11.5px] truncate" style={{ color: skin.sub }}>{e.description}</p>}
       </div>
-      <span className="text-[11px] shrink-0" style={{ color: skin.faint }}>{date}</span>
+      <span className="text-[12px] shrink-0" style={{ color: skin.faint }}>{date}</span>
     </div>
   );
 }
@@ -596,7 +596,7 @@ function ClassItem({ skin, c }: { skin: Skin; c: SiteData["classes"][number] }) 
     return (
       <div className="p-4 text-center" style={{ background: skin.dark ? "rgba(255,255,255,.04)" : "#fff" }}>
         <b className="block text-[13.5px]" style={{ color: skin.text }}>{c.name}</b>
-        <span className="text-[11px] block mt-1" style={{ color: skin.faint }}>{grade}</span>
+        <span className="text-[12px] block mt-1" style={{ color: skin.faint }}>{grade}</span>
         <span className="text-[10.5px] block mt-2 font-bold" style={{ color: skin.p.accent }}>{cap}</span>
       </div>
     );
@@ -614,7 +614,7 @@ function ClassItem({ skin, c }: { skin: Skin; c: SiteData["classes"][number] }) 
       <div className="flex items-center justify-between gap-2 px-5 py-3" style={{ borderRadius: 999, background: skin.card, border: `2px solid ${skin.p.primary}22`, boxShadow: skin.shadow }}>
         <b className="text-[13px] shrink-0" style={{ color: skin.text }}>{c.name}</b>
         <span className="flex items-center gap-2 min-w-0">
-          <span className="text-[11px] truncate" style={{ color: skin.sub }}>{grade}</span>
+          <span className="text-[12px] truncate" style={{ color: skin.sub }}>{grade}</span>
           <span className="text-[10.5px] font-bold px-2.5 py-1 rounded-full shrink-0" style={{ background: skin.p.primary, color: skin.onPrimary }}>{faDigits(c.capacity)}</span>
         </span>
       </div>
@@ -624,7 +624,7 @@ function ClassItem({ skin, c }: { skin: Skin; c: SiteData["classes"][number] }) 
   return (
     <div className="p-4 text-center" style={classicCard(skin)}>
       <b className="block text-[13.5px] mb-1" style={{ color: skin.text }}>{c.name}</b>
-      <span className="text-[11px]" style={{ color: skin.sub }}>{grade}</span>
+      <span className="text-[12px]" style={{ color: skin.sub }}>{grade}</span>
       <span className="text-[10.5px] block mt-2" style={{ color: skin.p.primary }}>{cap}</span>
     </div>
   );
@@ -642,7 +642,7 @@ function StaffCard({ skin, st, i = 0 }: { skin: Skin; st: SiteData["staff"][numb
         <UserAvatar user={st} size={44} rounded="full" />
         <div className="min-w-0">
           <b className="block text-[13.5px] font-bold truncate" style={{ ...headingFont, color: skin.text }}>{name}</b>
-          <span className="text-[11px]" style={{ color: skin.faint }}>{role}</span>
+          <span className="text-[12px]" style={{ color: skin.faint }}>{role}</span>
         </div>
       </div>
     );
@@ -853,7 +853,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
     return (
       <header style={{ background: skin.dark ? skin.p.bg : "#fff", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-5xl mx-auto px-4 pt-9 pb-6 text-center">
-          <p className="text-[11px] mb-3" style={{ color: skin.faint }}>
+          <p className="text-[12px] mb-3" style={{ color: skin.faint }}>
             {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}{school.establishedYear ? ` · از سال ${faDigits(school.establishedYear)}` : ""}
           </p>
           <b className="block text-[28px] md:text-[38px] font-bold leading-tight break-words break-words" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
@@ -885,7 +885,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
             <span className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center font-bold" style={{ color: skin.onPrimary }}>{school.name[0] ?? "ب"}</span>
           )}
           <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.onPrimary }}>{school.name}</b>
-          <span className="hidden sm:inline text-[11px] opacity-70" style={{ color: skin.onPrimary }}>{school.type}</span>
+          <span className="hidden sm:inline text-[12px] opacity-70" style={{ color: skin.onPrimary }}>{school.type}</span>
           <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold transition-transform hover:scale-105" style={{ borderRadius: 999, background: skin.p.accent, color: skin.onAccent }}>
             {cta}
           </a>
@@ -904,7 +904,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
             <span className="w-10 h-10 flex items-center justify-center font-bold text-white" style={{ background: skin.p.primary, borderRadius: 6 }}>{school.name[0] ?? "ب"}</span>
           )}
           <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
-          <span className="hidden sm:inline text-[11px]" style={{ color: skin.faint }}>{school.type}</span>
+          <span className="hidden sm:inline text-[12px]" style={{ color: skin.faint }}>{school.type}</span>
           <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold transition-transform hover:scale-105" style={{ borderRadius: skin.pill, background: skin.p.accent, color: skin.onAccent }}>
             {cta}
           </a>
@@ -922,7 +922,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
           <span className="w-10 h-10 flex items-center justify-center font-bold text-white" style={{ background: skin.p.primary, borderRadius: 12 }}>{school.name[0] ?? "ب"}</span>
         )}
         <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
-        <span className="hidden sm:inline text-[11px]" style={{ color: skin.faint }}>{school.type}</span>
+        <span className="hidden sm:inline text-[12px]" style={{ color: skin.faint }}>{school.type}</span>
         <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold text-white transition-transform hover:scale-105" style={{ borderRadius: skin.pill, background: skin.p.primary }}>
           {cta}
         </a>
@@ -969,7 +969,7 @@ function AdmissionsSection({ skin, config, subdomain }: { skin: Skin; config: Si
         <span className="absolute -bottom-12 -end-12 w-56 h-56 rounded-full opacity-10" style={{ background: skin.p.primary }} aria-hidden="true" />
         <div className="relative max-w-3xl mx-auto px-4">
           <div className="text-center">
-            <span className="inline-block px-4 py-1.5 text-[11px] font-bold mb-4 -rotate-2" style={{ borderRadius: 999, background: skin.p.accent, color: skin.onAccent }}>پیش‌ثبت‌نام آنلاین</span>
+            <span className="inline-block px-4 py-1.5 text-[12px] font-bold mb-4 -rotate-2" style={{ borderRadius: 999, background: skin.p.accent, color: skin.onAccent }}>پیش‌ثبت‌نام آنلاین</span>
             <h2 className="text-[26px] md:text-[32px] font-extrabold mb-2" style={{ ...headingFont, color: skin.text }}>{config.ctaPrimary}</h2>
             <p className="text-[13px] mb-8" style={{ color: skin.sub }}>{hint}</p>
           </div>
@@ -1090,7 +1090,7 @@ function ClassicFamily({ skin, config, data, subdomain }: FamilyProps) {
                 {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
               </p>
             ) : (
-              <span className="inline-block px-4 py-1.5 mb-4 text-[11px] font-bold" style={{ borderRadius: 999, background: `${p.primary}15`, color: skin.dark ? p.accent : p.primary }}>
+              <span className="inline-block px-4 py-1.5 mb-4 text-[12px] font-bold" style={{ borderRadius: 999, background: `${p.primary}15`, color: skin.dark ? p.accent : p.primary }}>
                 {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
               </span>
             )}
@@ -1140,7 +1140,7 @@ function ClassicFamily({ skin, config, data, subdomain }: FamilyProps) {
               <img src={config.principalPhoto} alt="مدیر مدرسه" className="w-[140px] h-[140px] object-cover mx-auto" style={{ borderRadius: minimal ? skin.radius : 999 }} />
             )}
             <div>
-              <span className="text-[11px] font-bold px-3 py-1 rounded-full inline-block mb-3" style={{ background: `${p.accent}20`, color: skin.dark ? p.accent : "#9C3B62" }}>
+              <span className="text-[12px] font-bold px-3 py-1 rounded-full inline-block mb-3" style={{ background: `${p.accent}20`, color: skin.dark ? p.accent : "#9C3B62" }}>
                 پیام مدیر مدرسه
               </span>
               <p className="text-[13.5px] md:text-[14.5px] leading-[2]" style={{ color: skin.dark ? "rgba(255,255,255,.8)" : "#3d4a45" }}>
@@ -1287,7 +1287,7 @@ function ModernFamily({ skin, config, data, subdomain }: FamilyProps) {
               <img src={config.principalPhoto} alt="مدیر مدرسه" className="w-[140px] h-[140px] object-cover mx-auto" style={{ borderRadius: skin.radius }} />
             )}
             <div>
-              <p className="text-[11px] font-bold mb-3" style={{ color: p.accent }}>پیام مدیر مدرسه</p>
+              <p className="text-[12px] font-bold mb-3" style={{ color: p.accent }}>پیام مدیر مدرسه</p>
               <p className="text-[13.5px] md:text-[14.5px] leading-[2]" style={{ color: "rgba(255,255,255,.82)" }}>
                 «{config.principalMessage}»
               </p>
@@ -1397,7 +1397,7 @@ function MagazineFamily({ skin, config, data, subdomain }: FamilyProps) {
         {config.heroImage && (
           <div className="max-w-6xl mx-auto px-4 mt-12">
             <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[16/9] md:aspect-[21/9] object-cover" />
-            <div className="flex items-center justify-between gap-4 mt-3 mb-2 text-[11px]" style={{ color: skin.faint }}>
+            <div className="flex items-center justify-between gap-4 mt-3 mb-2 text-[12px]" style={{ color: skin.faint }}>
               <span className="truncate">{school.motto ?? school.name}</span>
               {school.establishedYear ? <span className="shrink-0">از سال {faDigits(school.establishedYear)}</span> : null}
             </div>
@@ -1432,7 +1432,7 @@ function MagazineFamily({ skin, config, data, subdomain }: FamilyProps) {
               {config.principalPhoto && (
                 <img src={config.principalPhoto} alt="مدیر مدرسه" className="w-16 h-16 rounded-full object-cover" style={{ border: `2px solid ${skin.border}` }} />
               )}
-              <span className="text-[11px]" style={{ color: skin.faint }}>پیام مدیر مدرسه</span>
+              <span className="text-[12px]" style={{ color: skin.faint }}>پیام مدیر مدرسه</span>
             </figcaption>
           </figure>
         </Section>
@@ -1539,7 +1539,7 @@ function PlayfulFamily({ skin, config, data, subdomain }: FamilyProps) {
         )}
         <div className="relative max-w-6xl mx-auto px-4 py-14 md:py-20 grid md:grid-cols-[1.05fr_.95fr] gap-10 md:gap-12 items-center">
           <div>
-            <span className="inline-block px-4 py-1.5 text-[11px] font-bold mb-5 -rotate-2" style={{ borderRadius: 999, background: sport ? p.primary : p.accent, color: sport ? skin.onPrimary : skin.onAccent }}>
+            <span className="inline-block px-4 py-1.5 text-[12px] font-bold mb-5 -rotate-2" style={{ borderRadius: 999, background: sport ? p.primary : p.accent, color: sport ? skin.onPrimary : skin.onAccent }}>
               {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
             </span>
             <h1 className="text-[36px] md:text-[52px] font-extrabold leading-[1.3] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>
@@ -1585,7 +1585,7 @@ function PlayfulFamily({ skin, config, data, subdomain }: FamilyProps) {
               {config.aboutImage && (
                 <>
                   <img src={config.aboutImage} alt="درباره مدرسه" className="w-full aspect-[4/3] object-cover -rotate-2 transition-transform hover:rotate-0" style={{ borderRadius: skin.radiusLg, border: "5px solid #fff", boxShadow: skin.shadow }} />
-                  <span className="absolute -top-4 -end-3 px-4 py-1.5 text-[11px] font-bold rotate-6" style={{ borderRadius: 999, background: p.accent, color: skin.onAccent }}>درباره ما</span>
+                  <span className="absolute -top-4 -end-3 px-4 py-1.5 text-[12px] font-bold rotate-6" style={{ borderRadius: 999, background: p.accent, color: skin.onAccent }}>درباره ما</span>
                 </>
               )}
             </div>
@@ -1604,7 +1604,7 @@ function PlayfulFamily({ skin, config, data, subdomain }: FamilyProps) {
               {config.principalPhoto && (
                 <img src={config.principalPhoto} alt="مدیر مدرسه" className="w-24 h-24 rounded-full object-cover mx-auto -mt-16 mb-4 rotate-3" style={{ border: "4px solid #fff", boxShadow: skin.shadow }} />
               )}
-              <span className="inline-block px-4 py-1.5 text-[11px] font-bold mb-4 rotate-2" style={{ borderRadius: 999, background: p.primary, color: skin.onPrimary }}>پیام مدیر مدرسه</span>
+              <span className="inline-block px-4 py-1.5 text-[12px] font-bold mb-4 rotate-2" style={{ borderRadius: 999, background: p.primary, color: skin.onPrimary }}>پیام مدیر مدرسه</span>
               <p className="text-[13.5px] md:text-[15px] leading-[2.1]" style={{ color: skin.sub }}>
                 «{config.principalMessage}»
               </p>
@@ -1711,7 +1711,7 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
     return (
       <div className="mb-7">
         {kicker && (
-          <span className="inline-block px-2.5 py-1 text-[11px] font-semibold mb-3" style={{ borderRadius: 6, background: `${skin.p.accent}14`, color: skin.p.accent }}>
+          <span className="inline-block px-2.5 py-1 text-[12px] font-semibold mb-3" style={{ borderRadius: 6, background: `${skin.p.accent}14`, color: skin.p.accent }}>
             {kicker}
           </span>
         )}
@@ -1734,7 +1734,7 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
   if (f === "linear") {
     return (
       <div className="mb-8 pb-4" style={{ borderBottom: `1px solid ${skin.border}` }}>
-        {kicker && <p className="text-[11px] font-semibold mb-1.5 tracking-wide" style={{ color: skin.p.accent }}>{kicker}</p>}
+        {kicker && <p className="text-[12px] font-semibold mb-1.5 tracking-wide" style={{ color: skin.p.accent }}>{kicker}</p>}
         <h2 className="text-[20px] md:text-[24px] font-semibold" style={{ ...headingFont, color: skin.text }}>{title}</h2>
       </div>
     );
@@ -1742,7 +1742,7 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
   if (f === "vercel") {
     return (
       <div className="mb-8">
-        {kicker && <p className="text-[11px] font-medium mb-2 tracking-tight" style={{ color: skin.sub }}>{kicker}</p>}
+        {kicker && <p className="text-[12px] font-medium mb-2 tracking-tight" style={{ color: skin.sub }}>{kicker}</p>}
         <h2 className="text-[24px] md:text-[32px] font-semibold" style={{ ...headingFont, color: skin.text, letterSpacing: "-0.02em" }}>{title}</h2>
       </div>
     );
@@ -1750,7 +1750,7 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
   if (f === "tesla") {
     return (
       <div className="mb-8 text-center">
-        {kicker && <p className="text-[11px] font-medium mb-2 tracking-widest" style={{ color: skin.sub }}>{kicker}</p>}
+        {kicker && <p className="text-[12px] font-medium mb-2 tracking-widest" style={{ color: skin.sub }}>{kicker}</p>}
         <h2 className="text-[28px] md:text-[36px] font-medium" style={{ ...headingFont, color: skin.text }}>{title}</h2>
       </div>
     );
@@ -1766,7 +1766,7 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
   if (f === "miro") {
     return (
       <div className="mb-8">
-        {kicker && <span className="inline-block px-3 py-1 text-[11px] font-bold mb-3" style={{ borderRadius: 999, background: skin.p.accent, color: "#111111" }}>{kicker}</span>}
+        {kicker && <span className="inline-block px-3 py-1 text-[12px] font-bold mb-3" style={{ borderRadius: 999, background: skin.p.accent, color: "#111111" }}>{kicker}</span>}
         <h2 className="text-[24px] md:text-[32px] font-bold" style={{ ...headingFont, color: skin.text }}>{title}</h2>
       </div>
     );
@@ -1864,7 +1864,7 @@ function FamStats({ skin, stats }: { skin: Skin; stats: SiteData["stats"] }) {
           {items.map((x, i) => (
             <div key={i} className={`py-6 px-4 text-center ${i > 0 ? "border-s" : ""}`} style={{ borderColor: skin.border }}>
               <b className="block text-[24px] md:text-[30px] font-semibold" style={{ ...headingFont, color: skin.text }}>{faDigits(x.v)}</b>
-              <span className="text-[11px]" style={{ color: skin.faint }}>{x.l}</span>
+              <span className="text-[12px]" style={{ color: skin.faint }}>{x.l}</span>
             </div>
           ))}
         </div>
@@ -2555,7 +2555,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
         <span className="absolute -top-32 start-1/3 w-[480px] h-[480px] rounded-full pointer-events-none" style={{ background: `radial-gradient(closest-side, ${p.primary}30, transparent)`, filter: "blur(10px)" }} aria-hidden="true" />
         <div className="relative max-w-6xl mx-auto px-4 pt-16 md:pt-24 pb-14 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <span className="inline-flex items-center gap-2 px-3 py-1 text-[11px] font-medium mb-6" style={{ borderRadius: 999, border: `1px solid ${skin.border}`, color: skin.sub }}>
+            <span className="inline-flex items-center gap-2 px-3 py-1 text-[12px] font-medium mb-6" style={{ borderRadius: 999, border: `1px solid ${skin.border}`, color: skin.sub }}>
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: p.accent }} aria-hidden="true" />
               {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
             </span>
@@ -2599,7 +2599,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
               <img src={config.principalPhoto} alt="مدیر مدرسه" className="w-[76px] h-[76px] rounded-full object-cover shrink-0" />
             )}
             <div>
-              <p className="text-[11px] font-semibold mb-2" style={{ color: p.accent }}>پیام مدیر مدرسه</p>
+              <p className="text-[12px] font-semibold mb-2" style={{ color: p.accent }}>پیام مدیر مدرسه</p>
               <p className="text-[13.5px] md:text-[14.5px] leading-[2]" style={{ color: skin.text }}>«{config.principalMessage}»</p>
             </div>
           </div>
@@ -2944,7 +2944,7 @@ function ClaudeFamily({ skin, config, data, subdomain }: FamilyProps) {
                 {schoolName}
               </div>
               {data.school.type ? (
-                <div className="truncate text-[11px] leading-4" style={{ color: skin.sub }}>
+                <div className="truncate text-[12px] leading-4" style={{ color: skin.sub }}>
                   {data.school.type}
                 </div>
               ) : null}
@@ -3248,7 +3248,7 @@ function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
               {data.school.name}
             </div>
             {data.school.type ? (
-              <div className="truncate text-[11px]" style={{ color: skin.onPrimary, opacity: 0.6 }}>
+              <div className="truncate text-[12px]" style={{ color: skin.onPrimary, opacity: 0.6 }}>
                 {data.school.type}
               </div>
             ) : null}
@@ -3651,7 +3651,7 @@ function NewBody({ skin, config, data, subdomain }: FamilyProps) {
           <div className="p-6 md:p-8 flex gap-5 items-start" style={{ borderRadius: skin.radiusLg, background: skin.card, border: `1px solid ${skin.border}` }}>
             {config.principalPhoto && <img src={config.principalPhoto} alt="مدیر مدرسه" className="w-[76px] h-[76px] rounded-full object-cover shrink-0" />}
             <div>
-              <p className="text-[11px] font-semibold mb-2" style={{ color: skin.p.accent }}>پیام مدیر مدرسه</p>
+              <p className="text-[12px] font-semibold mb-2" style={{ color: skin.p.accent }}>پیام مدیر مدرسه</p>
               <p className="text-[14px] leading-[2]" style={{ color: skin.text }}>«{config.principalMessage}»</p>
             </div>
           </div>
@@ -3807,7 +3807,7 @@ function MiroFamily({ skin, config, data, subdomain }: FamilyProps) {
       </header>
       <section className="max-w-6xl mx-auto px-4 py-14 md:py-20">
         <div className="p-6 md:p-10" style={{ borderRadius: 24, background: "#FFFFFF", border: `1px solid ${skin.border}`, boxShadow: "0 8px 32px rgba(0,0,0,.06)" }}>
-          <span className="inline-block px-3 py-1 text-[11px] font-bold mb-4" style={{ borderRadius: 999, background: p.accent, color: "#111111" }}>{school.type ?? "مدرسه"}</span>
+          <span className="inline-block px-3 py-1 text-[12px] font-bold mb-4" style={{ borderRadius: 999, background: p.accent, color: "#111111" }}>{school.type ?? "مدرسه"}</span>
           <h1 className="text-[32px] md:text-[48px] font-bold leading-[1.2] mb-4" style={{ ...headingFont }}>{config.heroTitle}</h1>
           <p className="text-[15px] leading-[2] max-w-2xl mb-6" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
           {config.heroImage && <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[16/9] object-cover" style={{ borderRadius: 16 }} />}

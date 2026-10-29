@@ -252,14 +252,14 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
               </div>
               <div className="flex items-center gap-2 justify-end mt-5">
                 {!state.alert && (
-                  <button type="button" className="b-btn b-btn-ghost !min-h-[38px]" onClick={() => settle(false)}>
+                  <button type="button" className="b-btn b-btn-ghost !min-h-[40px]" onClick={() => settle(false)}>
                     {state.cancelLabel ?? "انصراف"}
                   </button>
                 )}
                 <button
                   type="button"
                   autoFocus
-                  className={`b-btn !min-h-[38px] ${state.danger ? "b-btn-destructive" : "b-btn-spring"}`}
+                  className={`b-btn !min-h-[40px] ${state.danger ? "b-btn-destructive" : "b-btn-spring"}`}
                   onClick={() => settle(true)}
                 >
                   {state.confirmLabel ?? (state.alert ? "متوجه شدم" : "تأیید")}

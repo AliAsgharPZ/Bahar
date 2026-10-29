@@ -20,7 +20,7 @@ export function CommentsList({ comments, firstComment }: { comments: Array<{ nam
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 mb-1">
               <b className="text-[12.5px]">{c.name}</b>
-              <span className="text-[10px] text-stone">{relativeTimeFa(c.createdAt)}</span>
+              <span className="text-[12px] text-stone">{relativeTimeFa(c.createdAt)}</span>
             </div>
             <p className="text-[12.5px] text-ink/80 leading-relaxed whitespace-pre-line">{c.body}</p>
           </div>

@@ -296,7 +296,7 @@ export default function GradesPage() {
                                 </span>
                               );
                             })}
-                            {!all.length && <span className="text-stone text-[11px]">—</span>}
+                            {!all.length && <span className="text-stone text-[12px]">—</span>}
                           </div>
                         </td>
                       </tr>
@@ -416,7 +416,7 @@ export default function GradesPage() {
               <div key={m.key} className="b-card-sm p-4 flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-2">
                   <b className="text-[13.5px]">{m.title}</b>
-                  <span className="b-badge b-badge-spring !text-[10px]">
+                  <span className="b-badge b-badge-spring !text-[12px]">
                     <TrendingUp className="w-3 h-3" />
                     {m.avg !== null ? `${t("grades.monthly.avg")} ${faNumber(m.avg)}` : t("grades.monthly.noGrade")}
                   </span>

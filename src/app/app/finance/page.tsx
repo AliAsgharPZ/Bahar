@@ -265,7 +265,7 @@ export default function FinancePage() {
                       <span className={`b-badge ${f.status === "PAID" ? "b-badge-spring" : f.status === "WAIVED" ? "b-badge-neutral" : "b-badge-warning"}`}>
                         {t(STATUS_TKEY[f.status] ?? f.status)}
                       </span>
-                      {f.paidAt && <span className="text-[10px] text-stone block mt-0.5">{formatDateFa(f.paidAt)}</span>}
+                      {f.paidAt && <span className="text-[12px] text-stone block mt-0.5">{formatDateFa(f.paidAt)}</span>}
                     </td>
                     {canManage && (
                       <td className="py-3 px-4">

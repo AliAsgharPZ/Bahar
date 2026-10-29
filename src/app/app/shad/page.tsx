@@ -345,7 +345,7 @@ export default function ShadPage() {
                       {o.status === "SENT" ? t("shad.arsal-shdh") : o.status === "QUEUED" ? t("dashboard.meeting.pending") : t("dashboard.login.failed")}
                     </span>
                     <b className="text-[13px] truncate">{o.recipientName ?? "—"}</b>
-                    <span dir="ltr" className="font-mono text-[11px] text-steel">{o.recipientShadNumber}</span>
+                    <span dir="ltr" className="font-mono text-[12px] text-steel">{o.recipientShadNumber}</span>
                   </div>
                   <button
                     className="b-btn b-btn-ghost !p-0 w-8 h-8 !min-h-8"

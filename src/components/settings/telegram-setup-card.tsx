@@ -89,33 +89,33 @@ export function TelegramSetupCard({ tokenSaved }: { tokenSaved: boolean }) {
         </b>
         <div className="flex items-center gap-2">
           {status?.bot?.username && (
-            <span className="b-badge b-badge-neutral !text-[10px]" dir="ltr">@{status.bot.username}</span>
+            <span className="b-badge b-badge-neutral !text-[12px]" dir="ltr">@{status.bot.username}</span>
           )}
           {connected ? (
-            <span className="b-badge !bg-spring-tint !text-spring-deep !text-[10px] flex items-center gap-1">
+            <span className="b-badge !bg-spring-tint !text-spring-deep !text-[12px] flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3" /> متصل
             </span>
           ) : status ? (
-            <span className="b-badge b-badge-warning !text-[10px] flex items-center gap-1">
+            <span className="b-badge b-badge-warning !text-[12px] flex items-center gap-1">
               <AlertTriangle className="w-3 h-3" /> قطع
             </span>
           ) : null}
         </div>
       </div>
 
-      <p className="text-[11px] text-steel leading-relaxed">
+      <p className="text-[12px] text-steel leading-relaxed">
         با ثبت وب‌هوک، تلگرام مستقیم همین سایت را صدا می‌زند و نیازی به اجرای پروسهٔ جدا نیست.
         کاربران از پروفایل بهار «کد پیوند تلگرام» می‌گیرند و در تلگرام <b dir="ltr">/start کد</b> می‌فرستند.
       </p>
 
       {status?.botError && (
-        <div className="b-promo !bg-warning/10 !text-warning-deep !text-[11px]">
+        <div className="b-promo !bg-warning/10 !text-warning-deep !text-[12px]">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           <span className="min-w-0">تلگرام پاسخ نداد: {status.botError} — اگر سرور در ایران است، دسترسی به api.telegram.org ممکن است مسدود باشد.</span>
         </div>
       )}
       {status?.webhook?.lastError && (
-        <div className="b-promo !bg-destructive/10 !text-destructive !text-[11px]">
+        <div className="b-promo !bg-destructive/10 !text-destructive !text-[12px]">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           <span className="min-w-0">آخرین خطای وب‌هوک: {status.webhook.lastError}</span>
         </div>
@@ -142,7 +142,7 @@ export function TelegramSetupCard({ tokenSaved }: { tokenSaved: boolean }) {
       </div>
 
       {status?.webhook?.url && (
-        <p className="text-[10px] text-stone break-all" dir="ltr">{status.webhook.url}</p>
+        <p className="text-[12px] text-stone break-all" dir="ltr">{status.webhook.url}</p>
       )}
     </div>
   );

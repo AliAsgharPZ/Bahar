@@ -282,7 +282,7 @@ export default function ImportsPage() {
                 <FileSpreadsheet className="w-8 h-8 mx-auto mb-2 text-spring" />
               )}
               <b className="text-[13px] block">{t("imports.drop.title")}</b>
-              <span className="text-[11px] text-steel block mt-1">{t("imports.drop.hint")}</span>
+              <span className="text-[12px] text-steel block mt-1">{t("imports.drop.hint")}</span>
               <input
                 ref={fileRef}
                 type="file"
@@ -303,8 +303,8 @@ export default function ImportsPage() {
                 dir="rtl"
               />
               <div className="flex items-center gap-2 mt-2">
-                <button className="b-btn b-btn-ghost b-btn-sm !text-[11px]" onClick={() => ingestText(SAMPLE_CSV, t("imports.source.sample"))}>{t("imports.sample.insert")}</button>
-                {csv && <button className="b-btn b-btn-ghost b-btn-sm !text-[11px] !text-destructive" onClick={() => { setCsv(""); setHeaders([]); setMapping({}); setValidation(null); setSourceName(""); }}><RotateCcw className="w-3 h-3" /> {t("imports.clear")}</button>}
+                <button className="b-btn b-btn-ghost b-btn-sm !text-[12px]" onClick={() => ingestText(SAMPLE_CSV, t("imports.source.sample"))}>{t("imports.sample.insert")}</button>
+                {csv && <button className="b-btn b-btn-ghost b-btn-sm !text-[12px] !text-destructive" onClick={() => { setCsv(""); setHeaders([]); setMapping({}); setValidation(null); setSourceName(""); }}><RotateCcw className="w-3 h-3" /> {t("imports.clear")}</button>}
               </div>
             </details>
             {sourceName && (
@@ -321,9 +321,9 @@ export default function ImportsPage() {
             <div className="flex flex-col gap-3">
               <h3 className="font-bold text-[13px] flex items-center gap-2">
                 {t("imports.mapping.title")}
-                <span className="b-badge b-badge-neutral !text-[10px]">{faNumber(mappedCount)}/{faNumber(FIELDS.length)}</span>
+                <span className="b-badge b-badge-neutral !text-[12px]">{faNumber(mappedCount)}/{faNumber(FIELDS.length)}</span>
                 {missingRequired.length > 0 && (
-                  <span className="b-badge b-badge-critical !text-[10px]">{t("imports.mapping.missingRequired")} {missingRequired.map((f) => t(IMPORT_FIELD_TKEY[f.key] ?? f.key)).join("، ")}</span>
+                  <span className="b-badge b-badge-critical !text-[12px]">{t("imports.mapping.missingRequired")} {missingRequired.map((f) => t(IMPORT_FIELD_TKEY[f.key] ?? f.key)).join("، ")}</span>
                 )}
               </h3>
               <div className="grid sm:grid-cols-2 gap-3">

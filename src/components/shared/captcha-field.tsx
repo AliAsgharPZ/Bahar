@@ -66,7 +66,7 @@ export function CaptchaField({
           {image ? (
             <img src={image} alt="کد امنیتی" width={150} height={50} className="block w-[150px] h-[50px] select-none" draggable={false} />
           ) : (
-            <span className="w-[150px] h-[50px] flex items-center justify-center text-[11px] text-stone">
+            <span className="w-[150px] h-[50px] flex items-center justify-center text-[12px] text-stone">
               {loading ? "در حال دریافت…" : failed ? "خطا — دوباره بزنید" : "…"}
             </span>
           )}

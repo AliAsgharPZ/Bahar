@@ -87,7 +87,7 @@ function StudentCheckin() {
           <p className="text-[12px] text-steel">
             {t("wellbeing.recordedMood")}: {MOODS.find((m) => m.v === (data.todayCheckin?.mood ?? mood)) ? t(MOODS.find((m) => m.v === (data.todayCheckin?.mood ?? mood))!.tkey) : "—"}
           </p>
-          <p className="text-[11px] text-stone mt-2">{t("wellbeing.done.note")}</p>
+          <p className="text-[12px] text-stone mt-2">{t("wellbeing.done.note")}</p>
         </div>
       ) : (
         <div className="b-card-sm p-6">
@@ -117,7 +117,7 @@ function StudentCheckin() {
               onChange={(e) => setNote(e.target.value.slice(0, 300))}
               placeholder={t("wellbeing.placeholder.note")}
             />
-            <span className="text-[10px] text-stone text-end">{faDigits(note.length)}/{faDigits(300)}</span>
+            <span className="text-[12px] text-stone text-end">{faDigits(note.length)}/{faDigits(300)}</span>
           </label>
           <button className="b-btn b-btn-spring w-full mt-3" onClick={submit} disabled={!mood || saving}>
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} {t("wellbeing.submitCheckin")}
@@ -229,7 +229,7 @@ function StaffView() {
               </div>
             ))}
           </div>
-          {confirmNote && <p className="text-[11px] text-warning-deep mt-2">{confirmNote}</p>}
+          {confirmNote && <p className="text-[12px] text-warning-deep mt-2">{confirmNote}</p>}
           <p className="text-[10.5px] text-stone mt-3 leading-relaxed">
             {t("wellbeing.flaggedExplainer")}
           </p>

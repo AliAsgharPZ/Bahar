@@ -139,7 +139,7 @@ export default function InsightsPage() {
           <div className="overflow-x-auto b-scroll">
             <table className="w-full text-[12.5px] min-w-[640px]">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[11px]">
+                <tr className="border-b border-hairline-soft text-steel text-[12px]">
                   <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>
                   <th className="text-right py-3 px-4 font-bold">{t("common.class")}</th>
                   <th className="text-right py-3 px-4 font-bold">{t("insights.table.riskScore")}</th>
@@ -168,10 +168,10 @@ export default function InsightsPage() {
                     <td className="py-3 px-4 text-steel text-[11.5px]">{formatDateFa(r.computedAt)}</td>
                     <td className="py-3 px-4">
                       <div className="flex gap-1.5">
-                        <button className="b-btn b-btn-ghost b-btn-sm !min-h-[28px] !text-[11px]" onClick={() => openDetail(r.studentId)}>
+                        <button className="b-btn b-btn-ghost b-btn-sm !min-h-[40px] !text-[12px]" onClick={() => openDetail(r.studentId)}>
                           {t("insights.factors")}
                         </button>
-                        <button className="b-btn b-btn-soft b-btn-sm !min-h-[28px] !text-[11px]" onClick={() => openNarrative(r.studentId, r.name)}>
+                        <button className="b-btn b-btn-soft b-btn-sm !min-h-[40px] !text-[12px]" onClick={() => openNarrative(r.studentId, r.name)}>
                           <FileText className="w-3.5 h-3.5" /> {t("insights.narrative")}
                         </button>
                       </div>
@@ -207,8 +207,8 @@ export default function InsightsPage() {
                     style={{ width: `${Math.min(100, f.score)}%` }}
                   />
                 </div>
-                <p className="text-[11px] text-steel leading-relaxed">{f.detail}</p>
-                <p className="text-[10px] text-stone mt-1">{t("insights.factor.weight")}: {faNumber(Math.round(f.weight * 100))}٪</p>
+                <p className="text-[12px] text-steel leading-relaxed">{f.detail}</p>
+                <p className="text-[12px] text-stone mt-1">{t("insights.factor.weight")}: {faNumber(Math.round(f.weight * 100))}٪</p>
               </div>
             ))}
           </div>
@@ -224,7 +224,7 @@ export default function InsightsPage() {
             <div className="ms-auto flex gap-1.5">
               {narrative && (
                 <button
-                  className="b-btn b-btn-soft b-btn-sm !min-h-[28px] !text-[11px]"
+                  className="b-btn b-btn-soft b-btn-sm !min-h-[40px] !text-[12px]"
                   onClick={() => navigator.clipboard?.writeText(narrative.narrative).then(() => window.dispatchEvent(new Event("bahar-toast-copy"))).catch(() => {})}
                 >
                   {t("insights.copyText")}
@@ -242,7 +242,7 @@ export default function InsightsPage() {
         </div>
       )}
 
-      <p className="text-[11px] text-stone leading-relaxed">
+      <p className="text-[12px] text-stone leading-relaxed">
         {t("insights.footerNote")}
       </p>
     </div>

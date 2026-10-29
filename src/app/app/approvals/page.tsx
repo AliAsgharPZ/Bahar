@@ -85,7 +85,7 @@ export default function ApprovalsPage() {
                 <div className="overflow-x-auto b-scroll">
                   <table className="w-full text-[12.5px]">
                     <thead>
-                      <tr className="border-b border-hairline-soft text-steel text-[11px]">
+                      <tr className="border-b border-hairline-soft text-steel text-[12px]">
                         <th className="text-right py-2 px-3 font-bold">{t("approvals.table.field")}</th>
                         <th className="text-right py-2 px-3 font-bold">{t("approvals.table.current")}</th>
                         <th className="text-right py-2 px-3 font-bold">{t("approvals.table.requested")}</th>

@@ -139,7 +139,7 @@ export default function LibraryPage() {
                     <div className="min-w-0 flex-1">
                       <h3 className="font-bold text-[14.5px] leading-snug truncate">{b.title}</h3>
                       <p className="text-[12px] text-stone mt-0.5 truncate">{b.author ?? t("library.unknownAuthor")}{b.category ? ` · ${b.category}` : ""}</p>
-                      <p className="text-[11px] text-stone mt-0.5">{b.shelf ? `${t("library.shelf")} ${b.shelf} · ` : ""}{b.isbn ? `${t("library.isbn")} ${b.isbn}` : ""}</p>
+                      <p className="text-[12px] text-stone mt-0.5">{b.shelf ? `${t("library.shelf")} ${b.shelf} · ` : ""}{b.isbn ? `${t("library.isbn")} ${b.isbn}` : ""}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mt-3.5">

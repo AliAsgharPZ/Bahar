@@ -158,14 +158,14 @@ export function LanguageBuilder({ onCreated }: { onCreated?: () => void }) {
       <div className="max-h-[420px] overflow-y-auto b-scroll rounded-2xl border border-hairline-soft flex flex-col gap-4 p-3.5">
         {grouped.map(([group, keys]) => (
           <div key={group}>
-            <h4 className="text-[11px] font-bold text-spring-deep mb-2 sticky top-0 bg-card/95 backdrop-blur py-1 z-[1]">
+            <h4 className="text-[12px] font-bold text-spring-deep mb-2 sticky top-0 bg-card/95 backdrop-blur py-1 z-[1]">
               {group} <span className="text-stone font-normal">({new Intl.NumberFormat("fa-IR").format(keys.length)})</span>
             </h4>
             <div className="flex flex-col gap-2">
               {keys.map((k) => (
                 <div key={k} className="grid sm:grid-cols-[1.1fr_1fr] gap-2 items-start">
                   <div className="flex flex-col min-w-0">
-                    <code className="text-[10px] text-stone truncate" dir="ltr">{k}</code>
+                    <code className="text-[12px] text-stone truncate" dir="ltr">{k}</code>
                     <span className="text-[12px] text-steel leading-snug">{CATALOG[k]}</span>
                   </div>
                   <input
@@ -188,7 +188,7 @@ export function LanguageBuilder({ onCreated }: { onCreated?: () => void }) {
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Languages className="w-4 h-4" />}
           ساخت و ذخیرهٔ بستهٔ زبان
         </button>
-        <span className="text-[11px] text-steel">ذخیره به‌صورت پیش‌نویس — فعال‌سازی از فهرست بسته‌ها.</span>
+        <span className="text-[12px] text-steel">ذخیره به‌صورت پیش‌نویس — فعال‌سازی از فهرست بسته‌ها.</span>
       </div>
     </div>
   );
