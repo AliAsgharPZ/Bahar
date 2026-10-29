@@ -87,7 +87,7 @@ const headingFont: React.CSSProperties = { fontFamily: "var(--font-heading)" };
 
 type Family =
   | "classic" | "modern" | "magazine" | "playful"
-  | "apple" | "airbnb" | "notion" | "stripe" | "linear" | "spotify" | "claude";
+  | "apple" | "airbnb" | "notion" | "stripe" | "linear" | "spotify" | "claude" | "figma";
 
 /** نگاشت ۱۶ تمپلیت روی ۱۰ خانواده چیدمان — شش خانوادهٔ تازه (apple/airbnb/
  *  notion/stripe/linear/spotify) هرکدام چیدمان اختصاصی خودشان را دارند و
@@ -104,6 +104,7 @@ export function familyOf(templateId: string): Family {
   if (templateId === "linear") return "linear";
   if (templateId === "spotify") return "spotify";
   if (templateId === "claude") return "claude";
+  if (templateId === "figma") return "figma";
   return "classic"; // classic + minimal
 }
 
@@ -153,6 +154,7 @@ function familyRadius(family: Family, templateId: string) {
     case "linear": return { radius: "8px", radiusLg: "12px", pill: "999px", inputRadius: "8px" };
     case "spotify": return { radius: "16px", radiusLg: "24px", pill: "999px", inputRadius: "999px" };
     case "claude": return { radius: "12px", radiusLg: "16px", pill: "9999px", inputRadius: "8px" };
+    case "figma": return { radius: "24px", radiusLg: "32px", pill: "50px", inputRadius: "8px" };
     default: // classic
       return templateId === "minimal"
         ? { radius: "10px", radiusLg: "12px", pill: "10px", inputRadius: "8px" }
@@ -3141,6 +3143,444 @@ function ClaudeFamily({ skin, config, data, subdomain }: FamilyProps) {
   );
 }
 
+function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const { p } = skin;
+  const ink = p.primary;
+  const S = config.sections;
+  const headingFont: React.CSSProperties = { fontFamily: "var(--font-heading)" };
+  const phone = (config.contactPhone || "").trim() || data.school.phone || "";
+  const address = (config.contactAddress || "").trim() || data.school.address || "";
+
+
+  const EVENT_KINDS: Record<string, string> = {
+    MEETING: "جلسه",
+    CEREMONY: "مراسم",
+    EXAM: "امتحان",
+    HOLIDAY: "تعطیلی",
+    TRIP: "گردش",
+    WORKSHOP: "کارگاه",
+    OTHER: "رویداد",
+  };
+
+
+  const ctaHref = S.admissions ? "#admissions" : S.contact ? "#contact" : "#about";
+  const navItems = [
+    { href: "#about", label: "درباره ما", on: !!S.about },
+    { href: "#news", label: "اخبار", on: !!S.news && data.news.length > 0 },
+    { href: "#classes", label: "کلاس‌ها", on: !!S.classes && data.classes.length > 0 },
+    { href: "#staff", label: "همکاران", on: !!S.staff && data.staff.length > 0 },
+    { href: "#gallery", label: "گالری", on: !!S.gallery && config.gallery.length > 0 },
+    { href: "#contact", label: "تماس", on: !!S.contact },
+  ].filter((x) => x.on);
+
+
+  const statItems = [
+    { icon: Users, label: "دانش‌آموز", value: data.stats.students },
+    { icon: BookOpen, label: "کلاس", value: data.stats.classes },
+    { icon: GraduationCap, label: "دبیر", value: data.stats.teachers },
+  ];
+
+
+  const panelStyle: React.CSSProperties = {
+    border: `1px solid ${skin.border}`,
+    borderRadius: skin.radiusLg,
+  };
+
+
+  return (
+    <div className="overflow-x-clip" style={{ backgroundColor: p.bg, color: skin.text }}>
+      {/* — هدر: نوار جوهری — */}
+      <header style={{ backgroundColor: ink }}>
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
+          <div
+            className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden"
+            style={{ backgroundColor: p.accent, borderRadius: 10 }}
+          >
+            {data.school.logoUrl ? (
+              <img src={data.school.logoUrl} alt={data.school.name} className="h-full w-full object-cover" />
+            ) : (
+              <Sparkles size={17} style={{ color: skin.onAccent }} />
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-sm font-bold md:text-base" style={{ color: skin.onPrimary, ...headingFont }}>
+              {data.school.name}
+            </div>
+            {data.school.type ? (
+              <div className="truncate text-[11px]" style={{ color: skin.onPrimary, opacity: 0.6 }}>
+                {data.school.type}
+              </div>
+            ) : null}
+          </div>
+          {navItems.length > 0 ? (
+            <nav className="hidden items-center gap-5 md:flex">
+              {navItems.map((x) => (
+                <a
+                  key={x.href}
+                  href={x.href}
+                  className="text-sm transition-opacity hover:opacity-100"
+                  style={{ color: skin.onPrimary, opacity: 0.72 }}
+                >
+                  {x.label}
+                </a>
+              ))}
+            </nav>
+          ) : null}
+          <a
+            href={ctaHref}
+            className="shrink-0 rounded-full px-4 py-2 text-xs font-bold transition-transform hover:-translate-y-0.5 md:text-sm"
+            style={{ backgroundColor: p.accent, color: skin.onAccent }}
+          >
+            {S.admissions ? "ثبت‌نام" : "تماس با ما"}
+          </a>
+        </div>
+        <div className="h-1 w-full" style={{ backgroundColor: p.accent }} />
+      </header>
+
+
+      {/* — هیرو: تایپ درشت روی بوم تمیز — */}
+      <section className="relative overflow-hidden" style={{ backgroundColor: p.bg }}>
+        <div
+          aria-hidden
+          className="absolute rounded-full"
+          style={{ backgroundColor: `${p.accent}14`, width: "22rem", height: "22rem", top: "-9rem", insetInlineEnd: "-9rem" }}
+        />
+        <div
+          aria-hidden
+          className="absolute"
+          style={{ backgroundColor: `${ink}0A`, width: "4.5rem", height: "4.5rem", bottom: "14%", insetInlineStart: "4%", borderRadius: skin.radius, transform: "rotate(14deg)" }}
+        />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-12 md:px-6 md:pb-24 md:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+          <div>
+            {data.school.type || data.school.motto ? (
+              <div
+                className="inline-flex max-w-full items-center gap-2 rounded-full border px-4 py-1.5 text-xs"
+                style={{ backgroundColor: `${p.accent}1A`, borderColor: `${p.accent}45`, color: skin.text }}
+              >
+                <Sparkles size={13} style={{ color: p.accent }} />
+                <span className="truncate">{data.school.type || data.school.motto}</span>
+              </div>
+            ) : null}
+            <h1
+              className="mt-5 break-words text-[40px] font-light leading-[1.25] md:text-[64px] md:leading-[1.15]"
+              style={{ ...headingFont, color: skin.text }}
+            >
+              {config.heroTitle || data.school.name}
+            </h1>
+            {config.heroSubtitle ? (
+              <p className="mt-5 max-w-xl text-base leading-8 md:text-lg md:leading-9" style={{ color: skin.sub }}>
+                {config.heroSubtitle}
+              </p>
+            ) : null}
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <a
+                href={ctaHref}
+                className="inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-bold transition-transform hover:-translate-y-0.5"
+                style={{ backgroundColor: ink, color: skin.onPrimary }}
+              >
+                {config.ctaPrimary || "ثبت‌نام"}
+                <ChevronLeft size={16} />
+              </a>
+              {S.about ? (
+                <a
+                  href="#about"
+                  className="inline-flex items-center rounded-full border px-6 py-2.5 text-sm transition-opacity hover:opacity-70"
+                  style={{ borderColor: skin.border, color: skin.text }}
+                >
+                  بیشتر بدانید
+                </a>
+              ) : null}
+            </div>
+            {data.school.province || data.school.establishedYear ? (
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs md:text-sm" style={{ color: skin.faint }}>
+                {data.school.province ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <MapPin size={14} />
+                    {data.school.county ? `${data.school.province}، ${data.school.county}` : data.school.province}
+                  </span>
+                ) : null}
+                {data.school.establishedYear ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Sparkles size={14} />
+                    از سال {faDigits(data.school.establishedYear)}
+                  </span>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute"
+              style={{ backgroundColor: p.accent, width: "5.5rem", height: "5.5rem", bottom: "-1.25rem", insetInlineEnd: "-1rem", borderRadius: skin.radius }}
+            />
+            <div
+              className="relative overflow-hidden border p-2 md:p-3"
+              style={{ backgroundColor: `${p.accent}1F`, borderColor: skin.border, borderRadius: skin.radiusLg, transform: "rotate(-1.25deg)" }}
+            >
+              {config.heroImage ? (
+                <img
+                  src={config.heroImage}
+                  alt={config.heroTitle || data.school.name}
+                  className="aspect-[4/3] w-full object-cover"
+                  style={{ borderRadius: `calc(${skin.radiusLg} - 10px)` }}
+                />
+              ) : (
+                <div
+                  className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2"
+                  style={{ backgroundColor: p.bg, color: skin.faint, borderRadius: `calc(${skin.radiusLg} - 10px)` }}
+                >
+                  <ImageIcon size={30} />
+                  <span className="text-xs">تصویر مدرسه</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* — آمار: سه عدد بولد روی نوار جوهری — */}
+      {S.stats ? (
+        <div
+          style={{
+            backgroundColor: skin.dark ? skin.card : ink,
+            borderTop: skin.dark ? `1px solid ${skin.border}` : undefined,
+            borderBottom: skin.dark ? `1px solid ${skin.border}` : undefined,
+          }}
+        >
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-12 sm:grid-cols-3 sm:gap-6 md:px-6">
+            {statItems.map((s) => (
+              <div key={s.label} className="flex items-center gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: p.accent }}>
+                  <s.icon size={21} style={{ color: skin.onAccent }} />
+                </span>
+                <div className="min-w-0">
+                  <div className="text-3xl font-extrabold leading-none md:text-4xl" style={{ color: skin.dark ? skin.text : skin.onPrimary }}>
+                    {faDigits(s.value)}
+                  </div>
+                  <div className="mt-2 flex items-center gap-1.5 text-xs" style={{ color: skin.dark ? skin.sub : skin.onPrimary, opacity: skin.dark ? 1 : 0.72 }}>
+                    <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: p.accent }} />
+                    {s.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+
+      {/* — درباره: بلوک رنگی — */}
+      {S.about ? (
+        <Section skin={skin} id="about">
+          <div className="relative overflow-hidden p-6 md:p-10" style={{ ...panelStyle, backgroundColor: `${p.accent}14` }}>
+            <div
+              aria-hidden
+              className="absolute rounded-full"
+              style={{ backgroundColor: `${p.accent}2E`, width: "10rem", height: "10rem", bottom: "-4rem", insetInlineStart: "-4rem" }}
+            />
+            <div className="relative grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+              <div>
+                <SectionHead skin={skin} icon={Sparkles} title={config.aboutTitle} kicker="درباره مدرسه" />
+                {config.aboutText ? (
+                  <p className="whitespace-pre-line leading-8" style={{ color: skin.sub }}>
+                    {config.aboutText}
+                  </p>
+                ) : null}
+                {data.school.motto ? (
+                  <div className="mt-6 border-t pt-5 text-xl font-light md:text-2xl" style={{ borderColor: skin.border, ...headingFont }}>
+                    <HighlightedTitle text={data.school.motto} accent={p.accent} />
+                  </div>
+                ) : null}
+              </div>
+              <div className="overflow-hidden border p-2" style={{ backgroundColor: p.bg, borderColor: skin.border, borderRadius: skin.radius }}>
+                {config.aboutImage ? (
+                  <img
+                    src={config.aboutImage}
+                    alt={config.aboutTitle || data.school.name}
+                    className="aspect-[4/3] w-full object-cover"
+                    style={{ borderRadius: `calc(${skin.radius} - 6px)` }}
+                  />
+                ) : (
+                  <div
+                    className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2"
+                    style={{ backgroundColor: `${p.accent}14`, color: skin.faint, borderRadius: `calc(${skin.radius} - 6px)` }}
+                  >
+                    <ImageIcon size={28} />
+                    <span className="text-xs">تصویر مدرسه</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — پیام مدیر: بلوک جوهری ملایم — */}
+      {S.principal ? (
+        <Section skin={skin} id="principal">
+          <div className="relative overflow-hidden p-6 md:p-10" style={{ ...panelStyle, backgroundColor: `${ink}0D` }}>
+            <div className="grid items-center gap-7 md:grid-cols-[auto_1fr] md:gap-9">
+              <div
+                className="w-fit overflow-hidden border p-1.5"
+                style={{ backgroundColor: `${p.accent}1F`, borderColor: skin.border, borderRadius: skin.radius }}
+              >
+                {config.principalPhoto ? (
+                  <img
+                    src={config.principalPhoto}
+                    alt="مدیر مدرسه"
+                    className="h-28 w-28 object-cover md:h-36 md:w-36"
+                    style={{ borderRadius: `calc(${skin.radius} - 6px)` }}
+                  />
+                ) : (
+                  <div
+                    className="flex h-28 w-28 items-center justify-center md:h-36 md:w-36"
+                    style={{ backgroundColor: `${p.accent}2E`, color: skin.text, borderRadius: `calc(${skin.radius} - 6px)` }}
+                  >
+                    <GraduationCap size={38} />
+                  </div>
+                )}
+              </div>
+              <div className="min-w-0">
+                <SectionHead skin={skin} icon={GraduationCap} title="پیام مدیر" kicker="از قلب مدرسه" />
+                {config.principalMessage ? (
+                  <p className="whitespace-pre-line leading-8" style={{ color: skin.sub }}>
+                    {config.principalMessage}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — اخبار — */}
+      {S.news && data.news.length > 0 ? (
+        <Section skin={skin} id="news">
+          <SectionHead skin={skin} icon={Newspaper} title="اخبار مدرسه" kicker="تازه‌ترین‌ها" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {data.news.slice(0, 5).map((n, i) => (
+              <NewsItem key={i} skin={skin} n={n} i={i} lead={i === 0} className={i === 0 ? "sm:col-span-2" : undefined} />
+            ))}
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — رویدادها: بلوک رنگی — */}
+      {S.events && data.events.length > 0 ? (
+        <Section skin={skin} id="events">
+          <div className="relative overflow-hidden p-6 md:p-10" style={{ ...panelStyle, backgroundColor: `${p.accent}0A` }}>
+            <SectionHead skin={skin} icon={CalendarDays} title="رویدادها" kicker="تقویم مدرسه" />
+            <div className="grid gap-4 md:grid-cols-2">
+              {data.events.slice(0, 6).map((e, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <span
+                    className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs"
+                    style={{ backgroundColor: skin.card, borderColor: skin.border, color: skin.text }}
+                  >
+                    <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: p.accent }} />
+                    {EVENT_KINDS[e.kind] || "رویداد"}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <EventItem skin={skin} e={e} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — کلاس‌ها: بلوک جوهری ملایم — */}
+      {S.classes && data.classes.length > 0 ? (
+        <Section skin={skin} id="classes">
+          <div className="relative overflow-hidden p-6 md:p-10" style={{ ...panelStyle, backgroundColor: `${ink}08` }}>
+            <SectionHead skin={skin} icon={BookOpen} title="کلاس‌ها و رشته‌ها" kicker="پایه‌های تحصیلی" />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {data.classes.map((c, i) => (
+                <ClassItem key={i} skin={skin} c={c} />
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — همکاران — */}
+      {S.staff && data.staff.length > 0 ? (
+        <Section skin={skin} id="staff">
+          <SectionHead skin={skin} icon={Users} title="همکاران ما" kicker="کادر آموزشی" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {data.staff.map((st, i) => (
+              <StaffCard key={st.id} skin={skin} st={st} i={i} />
+            ))}
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — گالری: بلوک رنگی — */}
+      {S.gallery && config.gallery.length > 0 ? (
+        <Section skin={skin} id="gallery">
+          <div className="relative overflow-hidden p-6 md:p-10" style={{ ...panelStyle, backgroundColor: `${p.accent}14` }}>
+            <SectionHead skin={skin} icon={ImageIcon} title="گالری تصاویر" kicker="لحظه‌های مدرسه" />
+            <GalleryGrid skin={skin} images={config.gallery} />
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — سوال‌های پرتکرار: بلوک جوهری ملایم — */}
+      {S.faq && config.faq.length > 0 ? (
+        <Section skin={skin} id="faq">
+          <div className="relative overflow-hidden p-6 md:p-10" style={{ ...panelStyle, backgroundColor: `${ink}08` }}>
+            <SectionHead skin={skin} icon={CheckCircle2} title="پرسش‌های پرتکرار" kicker="راهنمای شما" center />
+            <div className="mx-auto max-w-3xl space-y-3">
+              {config.faq.map((f, i) => (
+                <FaqItem key={i} skin={skin} fq={f} />
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+
+      {/* — تماس — */}
+      {S.contact ? (
+        <Section skin={skin} id="contact">
+          <SectionHead skin={skin} icon={Phone} title="اطلاعات تماس" kicker="همیشه در دسترس" center />
+          <ContactBlock skin={skin} phone={phone} address={address} hours={config.contactHours} />
+        </Section>
+      ) : null}
+
+
+      {/* — ثبت‌نام: بلوک رنگی پایانی — */}
+      {S.admissions ? (
+        <Section skin={skin} id="admissions">
+          <div className="relative overflow-hidden p-6 md:p-10" style={{ ...panelStyle, backgroundColor: `${p.accent}14` }}>
+            <div
+              aria-hidden
+              className="absolute rounded-full"
+              style={{ backgroundColor: `${p.accent}2E`, width: "12rem", height: "12rem", top: "-5rem", insetInlineEnd: "-5rem" }}
+            />
+            <div className="relative">
+              <AdmissionsSection skin={skin} config={config} subdomain={subdomain} />
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+
+      <SiteFooter skin={skin} school={data.school} />
+    </div>
+  );
+}
+
 export function SchoolSiteRenderer({
   templateId,
   palette,
@@ -3169,6 +3609,7 @@ export function SchoolSiteRenderer({
     case "linear": return <LinearFamily {...props} />;
     case "spotify": return <SpotifyFamily {...props} />;
     case "claude": return <ClaudeFamily {...props} />;
+    case "figma": return <FigmaFamily {...props} />;
     default: return <ClassicFamily {...props} />;
   }
 }
