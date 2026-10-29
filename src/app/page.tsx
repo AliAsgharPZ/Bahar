@@ -3,6 +3,7 @@ import { Landing } from "@/components/landing/landing";
 import { verifyToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 import { getSettings } from "@/lib/settings";
 import { getActiveCountryPublic } from "@/lib/country/server";
+import { siteStringsFor, SITE_LANGS } from "@/lib/langs/shipped";
 
 export default async function Home() {
   let isLoggedIn = false;
@@ -30,5 +31,11 @@ export default async function Home() {
   } catch {
     /* دیفالت ایران */
   }
-  return <Landing isLoggedIn={isLoggedIn} androidUrl={androidUrl} windowsUrl={windowsUrl} shadEnabled={shadEnabled} />;
+  // زبان سایت عمومی (کوکی بازدیدکننده؛ پیش‌فرض فارسی)
+  let siteLang = "fa";
+  try {
+    siteLang = (await cookies()).get("bahar_site_lang")?.value?.trim() || "fa";
+  } catch { /* دیفالت فارسی */ }
+  const site = siteStringsFor(siteLang);
+  return <Landing isLoggedIn={isLoggedIn} androidUrl={androidUrl} windowsUrl={windowsUrl} shadEnabled={shadEnabled} siteLang={site.code} siteDir={site.direction} siteStrings={site.siteStrings} siteLangs={SITE_LANGS} />;
 }

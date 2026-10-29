@@ -4,8 +4,10 @@ import {
   Languages, Download, FileJson, CheckCircle2, AlertTriangle, BookOpen,
   ArrowRight, Upload, RefreshCw, LayoutTemplate, ShieldCheck, Sparkles,
 } from "lucide-react";
+import { cookies } from "next/headers";
 import { db } from "@/lib/db";
-import { CATALOG } from "@/lib/langs";
+import { CATALOG, SITE_CATALOG } from "@/lib/langs";
+import { siteStringsFor } from "@/lib/langs/shipped";
 import { faDigits } from "@/lib/persian";
 import { getActiveCountryPublic } from "@/lib/country/server";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
@@ -68,6 +70,11 @@ export default async function LanguagesPage() {
   const catalogKeys = Object.entries(CATALOG).filter(
     ([k, v]) => shadEnabled || !/شاد|shad/i.test(`${k} ${v}`)
   );
+  // عنوان گام‌های کیت به زبان سایت بازدیدکننده (شرح گام‌ها مستندات فارسی می‌مانند)
+  let siteLang = "fa";
+  try { siteLang = (await cookies()).get("bahar_site_lang")?.value?.trim() || "fa"; } catch { /* fa */ }
+  const S = siteStringsFor(siteLang).siteStrings;
+  const st = (k: string): string => S[k] ?? SITE_CATALOG[k] ?? k;
 
   return (
     <div dir="rtl" className="min-h-screen bg-background flex flex-col text-foreground">
@@ -144,10 +151,10 @@ export default async function LanguagesPage() {
         <section id="guide" className="mb-14 scroll-mt-24">
           <h2 className="t-h2 mb-6 flex items-center gap-2"><BookOpen className="w-5 h-5 text-spring" /> راهنمای ساخت بسته زبان</h2>
           <div className="grid md:grid-cols-5 gap-3">
-            {STEPS.map((s) => (
+            {STEPS.map((s, i) => (
               <div key={s.title} className="b-card !rounded-2xl p-5">
                 <s.icon className="w-6 h-6 text-spring mb-3" />
-                <h3 className="font-bold text-sm mb-2">{s.title}</h3>
+                <h3 className="font-bold text-sm mb-2">{st(`site.kit.languages.s${i + 1}`)}</h3>
                 <p className="text-xs text-steel leading-6">{s.desc}</p>
               </div>
             ))}

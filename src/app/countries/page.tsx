@@ -4,8 +4,11 @@ import {
   ArrowRight, Upload, RefreshCw, Map as MapIcon, CalendarDays, ShieldCheck,
   IdCard, Phone, Wallet, GraduationCap, Table2, Sparkles,
 } from "lucide-react";
+import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import { faDigits } from "@/lib/persian";
+import { SITE_CATALOG } from "@/lib/langs";
+import { siteStringsFor } from "@/lib/langs/shipped";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { CALENDAR_LABELS, ALGORITHM_LABELS } from "@/lib/country/iran";
 import { getActiveCountryPublic } from "@/lib/country/server";
@@ -145,6 +148,11 @@ export default async function CountriesPage() {
   ]);
   // شاد فقط بسته ایران — در ریجن‌های فعال دیگر هیچ نامی از آن نیست
   const shadEnabled = active?.modules.shad ?? true;
+  // عنوان گام‌های کیت به زبان سایت بازدیدکننده (شرح گام‌ها مستندات فارسی می‌مانند)
+  let siteLang = "fa";
+  try { siteLang = (await cookies()).get("bahar_site_lang")?.value?.trim() || "fa"; } catch { /* fa */ }
+  const S = siteStringsFor(siteLang).siteStrings;
+  const st = (k: string): string => S[k] ?? SITE_CATALOG[k] ?? k;
 
   return (
     <div className="min-h-screen bg-background">
@@ -224,10 +232,10 @@ export default async function CountriesPage() {
         <section id="guide" className="mb-14 scroll-mt-24">
           <h2 className="font-bold text-[16px] mb-5 flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> پنج قدم تا کشور شما</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {STEPS.map((s) => (
+            {STEPS.map((s, i) => (
               <div key={s.title} className="b-card !rounded-2xl p-5">
                 <s.icon className="w-6 h-6 text-spring mb-3" />
-                <b className="block text-[13.5px] mb-2">{s.title}</b>
+                <b className="block text-[13.5px] mb-2">{st(`site.kit.countries.s${i + 1}`)}</b>
                 <p className="t-sm text-steel leading-[1.9]">{s.desc}</p>
               </div>
             ))}
