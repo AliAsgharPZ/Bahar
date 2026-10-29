@@ -118,7 +118,13 @@ school — in one install.
   **GB** (4). On top of
   that, a **world name registry of 249 countries** (Persian + English
   names from ICU/CLDR) is shipped and shown on `/app/countries` — it
-  is names only, never counted as a full pack. New full packs are
+  is names only, never counted as a full pack. The registry is ISO
+  3166 (249 assigned codes, territories included); any additional
+  named entity must come from a real, cited list and be labelled
+  supplementary, never presented as an ISO country. City and village
+  data are frozen: never added, removed or modified; new division
+  work goes at most to county level (second-level divisions under
+  provinces). New full packs are
   imported by super admins via `/api/countries` (`/app/countries`).
 - **Language coverage** — the UI catalogue is 200 keys (UI strings
   only, no guide prose). Shipped packs, all 200/200 (100%):
@@ -129,7 +135,23 @@ school — in one install.
   (Persian + English + native names from ICU/CLDR) is shipped and
   shown on `/app/languages` — it is names only, never counted as a
   translated pack. `/api/languages/coverage` and the `/app/languages`
-  page list every missing key per pack.
+  page list every missing key per pack. A second catalogue covers
+  public-site sentences (133 keys: landing, public chrome, kit step
+  titles); the landing switches language from a header select
+  (`bahar_site_lang` cookie, Persian fallback) and
+  `/api/site-strings` serves a pack's site sentences. FAQ answers and
+  kit documentation prose are content, not UI strings, and stay
+  Persian by design. A complete pack therefore reports two counts
+  (app keys + site keys); check any pack with
+  `bun scripts/validate-pack.ts lang <file.json>`.
+- **Planning tools** — three more read-only tools on real data, no new
+  tables, no writes: homework balance (weekly assignment load per
+  class, overload weeks and same-day pileups, lightest-week
+  suggestion; `/app/homework-balance`), study groups (snake-draft
+  balanced grouping by grade average, per subject or overall;
+  `/app/study-groups`), and exam revision plans (spaced 7/3/1-day
+  sessions before upcoming exams, weakest subjects first;
+  `/app/revision-plan`).
 - **Labs** — read-only differentiator tools on real data: what-if
   simulation, replayable history from the audit log, a permission
   playground (dry-run evaluation, no writes), a data-quality scan,
