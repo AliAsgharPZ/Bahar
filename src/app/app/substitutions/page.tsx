@@ -5,13 +5,14 @@ import { CalendarClock, UserRoundX, Sparkles, Repeat } from "lucide-react";
 import { apiGet } from "@/lib/client";
 import { faNumber, formatDateFa } from "@/lib/persian";
 import { PageHeader, LoadingBlock, EmptyState, ErrorBox } from "@/components/shared/bits";
+import { useLang } from "@/lib/i18n";
 
 type Candidate = { id: string; name: string; sameSubject: boolean };
 type Slot = { slotId: string; period: number; className: string; subjectName: string; candidates: Candidate[] };
 type Absence = { teacherId: string; teacherName: string; slots: Slot[] };
 type SubData = { date: string; dayOfWeek: number; absences: Absence[] };
 
-const DAY_NAMES = ["", "شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"];
+const DAY_TKEY = ["", "substitutions.day.saturday", "substitutions.day.sunday", "substitutions.day.monday", "substitutions.day.tuesday", "substitutions.day.wednesday", "substitutions.day.thursday", "substitutions.day.friday"];
 
 function todayIso(): string {
   const d = new Date();
@@ -20,6 +21,7 @@ function todayIso(): string {
 }
 
 export default function SubstitutionsPage() {
+  const { t } = useLang();
   const [date, setDate] = useState(todayIso());
   const [data, setData] = useState<SubData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -29,7 +31,7 @@ export default function SubstitutionsPage() {
     setLoading(true);
     apiGet<SubData>(`/api/substitutions?date=${d}`)
       .then((res) => { setData(res); setLoadError(""); })
-      .catch((e) => setLoadError(e instanceof Error ? e.message : "خطا در بارگذاری"))
+      .catch((e) => setLoadError(e instanceof Error ? e.message : t("substitutions.khta-dr-bargzary")))
       .finally(() => setLoading(false));
   }, []);
 
@@ -40,8 +42,8 @@ export default function SubstitutionsPage() {
   return (
     <div>
       <PageHeader
-        title="جایگزینی معلم غایب"
-        desc="مرخصی‌های تأییدشدهٔ هر روز، زنگ‌های تحت تأثیر و نامزدهای آزاد برای جایگزینی"
+        title={t("substitutions.jaygzyny-malm-ghayb")}
+        desc={t("substitutions.mrkhsy-hay-t-yydshdh-hr-rvz-zng-hay-tht-t-syr-v-namzdhay-azad-br")}
         action={
           <label className="flex items-center gap-2 text-[12.5px] font-semibold">
             <CalendarClock className="w-4 h-4 text-stone" />
@@ -54,14 +56,14 @@ export default function SubstitutionsPage() {
       {loading && !data ? <LoadingBlock /> : data && (
         <>
           <p className="text-[13px] text-stone mb-5">
-            {DAY_NAMES[data.dayOfWeek] ?? ""} · {formatDateFa(data.date)} —{" "}
+            {DAY_TKEY[data.dayOfWeek] ? t(DAY_TKEY[data.dayOfWeek]) : ""} · {formatDateFa(data.date)} —{" "}
             {data.absences.length === 0
-              ? "هیچ مرخصی تأییدشده‌ای برای این روز نیست."
-              : `${faNumber(data.absences.length)} همکار در مرخصی · ${faNumber(totalSlots)} زنگ نیازمند جایگزین`}
+              ? t("substitutions.hych-mrkhsy-t-yydshdh-ay-bray-ayn-rvz-nyst")
+              : `${faNumber(data.absences.length)} ${t("substitutions.hmkar-dr-mrkhsy")} ${faNumber(totalSlots)} ${t("substitutions.zng-nyazmnd-jaygzyn")}`}
           </p>
 
           {data.absences.length === 0 ? (
-            <EmptyState icon={Sparkles} title="همه سر کلاس‌اند" desc="برای این روز مرخصی تأییدشده‌ای ثبت نشده است." />
+            <EmptyState icon={Sparkles} title={t("substitutions.hmh-sr-klas-and")} desc={t("substitutions.bray-ayn-rvz-mrkhsy-t-yydshdh-ay-sbt-nshdh-ast")} />
           ) : (
             <div className="flex flex-col gap-4 b-auto-stagger">
               {data.absences.map((a) => (
@@ -71,23 +73,23 @@ export default function SubstitutionsPage() {
                       <UserRoundX className="w-4.5 h-4.5" />
                     </span>
                     <h2 className="font-extrabold text-[15px]">{a.teacherName}</h2>
-                    <span className="b-badge b-badge-critical">در مرخصی</span>
-                    {a.slots.length === 0 && <span className="text-[12px] text-stone">این روز زنگی در برنامه ندارد</span>}
+                    <span className="b-badge b-badge-critical">{t("substitutions.dr-mrkhsy")}</span>
+                    {a.slots.length === 0 && <span className="text-[12px] text-stone">{t("substitutions.ayn-rvz-zngy-dr-brnamh-ndard")}</span>}
                   </header>
                   {a.slots.length > 0 && (
                     <div className="flex flex-col gap-3">
                       {a.slots.map((s) => (
                         <div key={s.slotId} className="rounded-xl border border-[--hairline] p-3.5">
                           <p className="font-bold text-[13.5px] mb-2.5">
-                            زنگ {faNumber(s.period)} · {s.className} · {s.subjectName}
+                            {t("substitutions.zng")} {faNumber(s.period)} · {s.className} · {s.subjectName}
                           </p>
                           {s.candidates.length === 0 ? (
-                            <p className="text-[12.5px] text-[--critical]">در این زنگ همهٔ معلم‌ها کلاس دارند — جایگزین آزادی نیست.</p>
+                            <p className="text-[12.5px] text-[--critical]">{t("substitutions.dr-ayn-zng-hmh-malm-ha-klas-darnd-jaygzyn-azady-nyst")}</p>
                           ) : (
                             <div className="flex flex-wrap gap-1.5">
                               {s.candidates.map((c) => (
-                                <span key={c.id} className={`b-badge ${c.sameSubject ? "b-badge-success" : ""}`} title={c.sameSubject ? "معلم همین درس" : "آزاد در این زنگ"}>
-                                  {c.name}{c.sameSubject ? " · هم‌درس" : ""}
+                                <span key={c.id} className={`b-badge ${c.sameSubject ? "b-badge-success" : ""}`} title={c.sameSubject ? t("substitutions.malm-hmyn-drs") : t("substitutions.azad-dr-ayn-zng")}>
+                                  {c.name}{c.sameSubject ? t("substitutions.hm-drs") : ""}
                                 </span>
                               ))}
                             </div>

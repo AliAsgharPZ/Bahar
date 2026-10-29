@@ -7,11 +7,13 @@ import { useApi, apiPost } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select, useConfirm } from "@/components/shared/pickers";
 import { faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type ClassRow = { id: string; name: string; grade: string; academicYear: string; _count: { students: number } };
 type Plan = { toName: string; toGrade: string; graduate: boolean };
 
 export default function RolloverPage() {
+  const { t } = useLang();
   const { data, loading, error, refetch } = useApi<{ classes: ClassRow[]; years: string[] }>("/api/rollover");
   const confirm = useConfirm();
   const [fromYear, setFromYear] = useState("");
@@ -32,56 +34,56 @@ export default function RolloverPage() {
   }
 
   async function execute() {
-    if (!toYear.trim()) { toast.error("سال مقصد را بنویسید."); return; }
+    if (!toYear.trim()) { toast.error(t("rollover.sal-mqsd-ra-bnvysyd")); return; }
     const list = classes.map((c) => ({ fromClassId: c.id, ...planOf(c) }));
     const grads = list.filter((p) => p.graduate).length;
     if (!(await confirm({
-      title: "بستن سال تحصیلی",
-      description: `${faNumber(list.length)} کلاس پردازش می‌شود؛ ${faNumber(grads)} کلاس فارغ‌التحصیل می‌شوند و بقیه به سال ${toYear} منتقل می‌شوند. این کار قابل بازگشت نیست.`,
-      confirmLabel: "اجرا کن", danger: true,
+      title: t("nav.rollover"),
+      description: `${faNumber(list.length)} ${t("rollover.klas-prdazsh-my-shvd")} ${faNumber(grads)} ${t("rollover.klas-fargh-althsyl-my-shvnd-v-bqyh-bh-sal")} ${toYear} ${t("rollover.mntql-my-shvnd-ayn-kar-qabl-bazgsht-nyst")}`,
+      confirmLabel: t("rollover.ajra-kn"), danger: true,
     }))) return;
     setBusy(true);
     try {
       const r = await apiPost<{ moved: number; graduated: number; createdClasses: number }>("/api/rollover", { toYear: toYear.trim(), plans: list });
       setResult(r);
-      toast.success("ارتقای سال انجام شد.");
+      toast.success(t("rollover.artqay-sal-anjam-shd"));
       refetch();
-    } catch (err) { toast.error(err instanceof Error ? err.message : "خطا"); }
+    } catch (err) { toast.error(err instanceof Error ? err.message : t("common.errorShort")); }
     finally { setBusy(false); }
   }
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="بستن سال تحصیلی و ارتقا" desc="برای هر کلاس، نام و پایهٔ سال بعد را مشخص کنید یا کلاس را فارغ‌التحصیل علامت بزنید." />
+      <PageHeader title={t("rollover.bstn-sal-thsyly-v-artqa")} desc={t("rollover.bray-hr-klas-nam-v-payh-sal-bad-ra-mshkhs-knyd-ya-klas-ra-fargh")} />
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
 
       <div className="b-card p-5 flex flex-wrap items-end gap-3">
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">سال مبدأ</span>
-          <Select value={year} onChange={setFromYear} options={years.map((y) => ({ value: y, label: y }))} placeholder="سال" /></label>
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">سال مقصد *</span>
+        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("rollover.sal-mbd")}</span>
+          <Select value={year} onChange={setFromYear} options={years.map((y) => ({ value: y, label: y }))} placeholder={t("rollover.sal")} /></label>
+        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("rollover.sal-mqsd")} *</span>
           <input className="b-input w-32" value={toYear} onChange={(e) => setToYear(e.target.value)} placeholder="1406-1405" /></label>
         <button className="b-btn b-btn-spring" disabled={busy || classes.length === 0} onClick={execute}>
-          {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <CalendarSync className="w-4 h-4" />} اجرای ارتقا
+          {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <CalendarSync className="w-4 h-4" />} {t("rollover.ajray-artqa")}
         </button>
         {result && (
           <span className="text-[12.5px] text-steel">
-            نتیجه: {faNumber(result.moved)} دانش‌آموز منتقل شد · {faNumber(result.graduated)} فارغ‌التحصیل · {faNumber(result.createdClasses)} کلاس جدید ساخته شد
+            {t("rollover.ntyjh")}: {faNumber(result.moved)} {t("rollover.dansh-amvz-mntql-shd")} {faNumber(result.graduated)} {t("rollover.fargh-althsyl")} {faNumber(result.createdClasses)} {t("rollover.klas-jdyd-sakhth-shd")}
           </span>
         )}
       </div>
 
-      {data && classes.length === 0 && <EmptyState icon={CalendarSync} title="برای این سال کلاسی نیست" />}
+      {data && classes.length === 0 && <EmptyState icon={CalendarSync} title={t("rollover.bray-ayn-sal-klasy-nyst")} />}
       <div className="flex flex-col gap-2 b-auto-stagger">
         {classes.map((c) => {
           const p = planOf(c);
           return (
             <div key={c.id} className="b-card-sm p-4 grid md:grid-cols-[1fr_1fr_1fr_auto] gap-3 items-center">
-              <span><b className="text-[13.5px]">{c.name}</b><span className="block text-[11.5px] text-steel">پایهٔ {c.grade} · {faNumber(c._count.students)} دانش‌آموز فعال</span></span>
-              <input className="b-input" value={p.toName} disabled={p.graduate} onChange={(e) => setPlan(c.id, { toName: e.target.value }, c)} placeholder="نام کلاس سال بعد" />
-              <input className="b-input" value={p.toGrade} disabled={p.graduate} onChange={(e) => setPlan(c.id, { toGrade: e.target.value }, c)} placeholder="پایهٔ سال بعد" />
+              <span><b className="text-[13.5px]">{c.name}</b><span className="block text-[11.5px] text-steel">{t("rollover.payh")} {c.grade} · {faNumber(c._count.students)} {t("rollover.dansh-amvz-faal")}</span></span>
+              <input className="b-input" value={p.toName} disabled={p.graduate} onChange={(e) => setPlan(c.id, { toName: e.target.value }, c)} placeholder={t("rollover.nam-klas-sal-bad")} />
+              <input className="b-input" value={p.toGrade} disabled={p.graduate} onChange={(e) => setPlan(c.id, { toGrade: e.target.value }, c)} placeholder={t("rollover.payh-sal-bad")} />
               <button className={`b-badge ${p.graduate ? "b-badge-blossom" : "b-badge-neutral"}`} onClick={() => setPlan(c.id, { graduate: !p.graduate }, c)}>
-                {p.graduate ? <><GraduationCap className="w-3.5 h-3.5" /> فارغ‌التحصیل می‌شود</> : <><ArrowUpCircle className="w-3.5 h-3.5" /> ارتقا به سال بعد</>}
+                {p.graduate ? <><GraduationCap className="w-3.5 h-3.5" /> {t("rollover.fargh-althsyl-my-shvd")}</> : <><ArrowUpCircle className="w-3.5 h-3.5" /> {t("rollover.artqa-bh-sal-bad")}</>}
               </button>
             </div>
           );

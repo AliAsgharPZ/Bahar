@@ -9,6 +9,7 @@ import { PageHeader, LoadingBlock, EmptyState, ErrorBox } from "@/components/sha
 import { Select } from "@/components/shared/pickers";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import type { AvatarUserInput } from "@/lib/avatar";
+import { useLang } from "@/lib/i18n";
 
 type ClassRow = { id: string; name: string; grade: string | null };
 type StudentRow = {
@@ -36,6 +37,7 @@ function Barcode({ seed }: { seed: string }) {
 }
 
 export default function IdCardsPage() {
+  const { t } = useLang();
   const [classes, setClasses] = useState<ClassRow[]>([]);
   const [classId, setClassId] = useState("");
   const [students, setStudents] = useState<StudentRow[]>([]);
@@ -46,7 +48,7 @@ export default function IdCardsPage() {
   useEffect(() => {
     apiGet<{ classes: ClassRow[] }>("/api/classes")
       .then((d) => setClasses(d.classes ?? []))
-      .catch(() => setLoadError("فهرست کلاس‌ها بارگذاری نشد."));
+      .catch(() => setLoadError(t("idCards.fhrst-klas-ha-bargzary-nshd")));
     apiGet<{ user?: { school?: { name?: string } | null; actingSchool?: { name?: string } | null } }>("/api/auth/me")
       .then((d) => setSchoolName(d.user?.school?.name ?? d.user?.actingSchool?.name ?? ""))
       .catch(() => setSchoolName(""));
@@ -57,7 +59,7 @@ export default function IdCardsPage() {
     setLoading(true);
     apiGet<{ students: StudentRow[] }>(`/api/students?classId=${cid}`)
       .then((d) => { setStudents(d.students ?? []); setLoadError(""); })
-      .catch((e) => { setLoadError(e instanceof Error ? e.message : "خطا"); toast.error("فهرست دانش‌آموزان بارگذاری نشد."); })
+      .catch((e) => { setLoadError(e instanceof Error ? e.message : t("common.errorShort")); toast.error(t("idCards.fhrst-dansh-amvzan-bargzary-nshd")); })
       .finally(() => setLoading(false));
   }, []);
 
@@ -72,11 +74,11 @@ export default function IdCardsPage() {
         }
       `}</style>
       <PageHeader
-        title="کارت شناسایی دانش‌آموز"
-        desc="کارت چاپی هر کلاس با عکس/آواتار، شمارهٔ دانش‌آموزی و بارکد — آمادهٔ چاپ روی A4"
+        title={t("idCards.kart-shnasayy-dansh-amvz")}
+        desc={t("idCards.kart-chapy-hr-klas-ba-aks-avatar-shmarh-dansh-amvzy-v-barkd-amad")}
         action={students.length > 0 ? (
           <button className="b-btn b-btn-spring" onClick={() => window.print()}>
-            <Printer className="w-4 h-4" /> چاپ کارت‌ها
+            <Printer className="w-4 h-4" /> {t("idCards.chap-kart-ha")}
           </button>
         ) : undefined}
       />
@@ -85,38 +87,38 @@ export default function IdCardsPage() {
 
       <div className="b-card p-4 mb-6 flex flex-wrap items-end gap-3 no-print">
         <label className="b-field flex-1 min-w-56">
-          <span>کلاس</span>
-          <Select value={classId} onChange={(v) => { setClassId(v); loadStudents(v); }} placeholder="یک کلاس را انتخاب کنید"
+          <span>{t("common.class")}</span>
+          <Select value={classId} onChange={(v) => { setClassId(v); loadStudents(v); }} placeholder={t("idCards.yk-klas-ra-antkhab-knyd")}
             options={classes.map((c) => ({ value: c.id, label: `${c.name}${c.grade ? ` · ${c.grade}` : ""}` }))} />
         </label>
-        <p className="text-[12px] text-stone pb-2">بعد از انتخاب کلاس، کارت همهٔ دانش‌آموزان ساخته می‌شود و با دکمهٔ چاپ، خروجی تمیز A4 می‌گیرید.</p>
+        <p className="text-[12px] text-stone pb-2">{t("idCards.bad-az-antkhab-klas-kart-hmh-dansh-amvzan-sakhth-my-shvd-v-ba-dk")}</p>
       </div>
 
       {loading ? <LoadingBlock /> : students.length === 0 ? (
-        <EmptyState icon={School} title="کلاسی انتخاب نشده" desc="برای ساخت کارت‌ها یک کلاس را انتخاب کنید." />
+        <EmptyState icon={School} title={t("idCards.klasy-antkhab-nshdh")} desc={t("idCards.bray-sakht-kart-ha-yk-klas-ra-antkhab-knyd")} />
       ) : (
         <div id="id-cards-print" className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {students.map((s) => (
             <article key={s.id} className="id-card-print b-card overflow-hidden">
               <header className="px-4 py-2.5 flex items-center gap-2 text-white" style={{ background: "linear-gradient(120deg, var(--spring-deep), var(--spring))" }}>
                 <School className="w-4 h-4 shrink-0" />
-                <b className="text-[12.5px] truncate">{schoolName || "مدرسه"}</b>
-                <span className="ms-auto text-[10.5px] opacity-85">کارت دانش‌آموزی</span>
+                <b className="text-[12.5px] truncate">{schoolName || t("common.school")}</b>
+                <span className="ms-auto text-[10.5px] opacity-85">{t("idCards.kart-dansh-amvzy")}</span>
               </header>
               <div className="p-4 flex gap-3.5">
                 <UserAvatar user={s.user} size={76} rounded="xl" />
                 <div className="min-w-0 flex-1">
                   <h3 className="font-extrabold text-[15.5px] leading-snug truncate">{s.user.firstName} {s.user.lastName}</h3>
                   <dl className="text-[11.5px] text-stone mt-1.5 space-y-1">
-                    <div className="flex gap-1.5"><dt>کلاس:</dt><dd className="font-semibold text-[--ink]">{s.class?.name ?? "—"}{s.class?.grade ? ` · پایه ${s.class.grade}` : ""}</dd></div>
-                    <div className="flex gap-1.5"><dt>شماره دانش‌آموزی:</dt><dd className="font-semibold text-[--ink]">{s.studentNumber ? faDigits(s.studentNumber) : "—"}</dd></div>
-                    <div className="flex gap-1.5"><dt>کد ملی:</dt><dd className="font-semibold text-[--ink]">{faDigits(s.user.nationalId)}</dd></div>
+                    <div className="flex gap-1.5"><dt>{t("common.class")}:</dt><dd className="font-semibold text-[--ink]">{s.class?.name ?? "—"}{s.class?.grade ? ` ${t("idCards.payh")} ${s.class.grade}` : ""}</dd></div>
+                    <div className="flex gap-1.5"><dt>{t("students.field.studentNumber")}:</dt><dd className="font-semibold text-[--ink]">{s.studentNumber ? faDigits(s.studentNumber) : "—"}</dd></div>
+                    <div className="flex gap-1.5"><dt>{t("students.table.nationalId")}:</dt><dd className="font-semibold text-[--ink]">{faDigits(s.user.nationalId)}</dd></div>
                   </dl>
                 </div>
               </div>
               <footer className="px-4 pb-3.5 flex items-end justify-between gap-3">
                 <Barcode seed={s.studentNumber ?? s.id} />
-                <span className="text-[10px] text-stone">این کارت متعلق به مدرسه است</span>
+                <span className="text-[10px] text-stone">{t("idCards.ayn-kart-mtalq-bh-mdrsh-ast")}</span>
               </footer>
             </article>
           ))}

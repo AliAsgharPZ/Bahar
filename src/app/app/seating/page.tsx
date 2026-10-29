@@ -7,6 +7,7 @@ import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
 import { faNumber } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type StudentRow = { id: string; name: string };
 type PlanData = { class: { id: string; name: string }; layout: { cols?: number; seats?: Record<string, string> }; students: StudentRow[] };
@@ -15,6 +16,7 @@ type ClassRow = { id: string; name: string; grade: string; academicYear: string;
 const ROWS = 8;
 
 export default function SeatingPage() {
+  const { t } = useLang();
   const { data: classesData } = useApi<{ classes: ClassRow[] }>("/api/classes");
   const [classId, setClassId] = useState("");
   const { data, loading, error, refetch } = useApi<PlanData>(classId ? `/api/seating?classId=${classId}` : null);
@@ -53,16 +55,16 @@ export default function SeatingPage() {
       if (r < ROWS) next[`${r}-${c}`] = s.id;
     });
     setSeats(next);
-    toast.success("چیدمان خودکار اعمال شد.");
+    toast.success(t("seating.chydman-khvdkar-aamal-shd"));
   }
 
   async function save() {
     setSaving(true);
     try {
       await apiPost("/api/seating", { classId, layout: { cols, seats } });
-      toast.success("چیدمان ذخیره شد.");
+      toast.success(t("seating.chydman-zkhyrh-shd"));
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setSaving(false);
     }
@@ -71,47 +73,47 @@ export default function SeatingPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="چیدمان صندلی کلاس"
-        desc="نقشهٔ نشستن دانش‌آموزان — دانش‌آموز را بکشید و روی صندلی رها کنید؛ جلوی شبکه، تختهٔ کلاس است."
+        title={t("seating.chydman-sndly-klas")}
+        desc={t("seating.nqshh-nshstn-dansh-amvzan-dansh-amvz-ra-bkshyd-v-rvy-sndly-rha-k")}
         action={
           <div className="flex items-center gap-2">
             <Select
               value={classId}
               onChange={setClassId}
-              options={[{ value: "", label: "انتخاب کلاس" }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]}
-              placeholder="انتخاب کلاس"
+              options={[{ value: "", label: t("seating.antkhab-klas") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]}
+              placeholder={t("seating.antkhab-klas")}
             />
             {classId && (
-              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={async () => { if (!window.confirm("طرح چیدمان این کلاس کامل حذف شود؟")) return; try { await apiDelete(`/api/seating?classId=${classId}`); toast.success("طرح حذف شد."); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } }}>
-                <Trash2 className="w-4 h-4" /> حذف طرح
+              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={async () => { if (!window.confirm(t("seating.trh-chydman-ayn-klas-kaml-hzf-shvd"))) return; try { await apiDelete(`/api/seating?classId=${classId}`); toast.success(t("seating.trh-hzf-shd")); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
+                <Trash2 className="w-4 h-4" /> {t("seating.hzf-trh")}
               </button>
             )}
             {classId && (
               <button className="b-btn b-btn-spring b-btn-sm" disabled={saving} onClick={save}>
-                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} ذخیره
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("common.save")}
               </button>
             )}
           </div>
         }
       />
 
-      {!classId && <EmptyState icon={Armchair} title="کلاسی را انتخاب کنید" desc="چیدمان هر کلاس جدا ذخیره می‌شود." />}
+      {!classId && <EmptyState icon={Armchair} title={t("seating.klasy-ra-antkhab-knyd")} desc={t("seating.chydman-hr-klas-jda-zkhyrh-my-shvd")} />}
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
 
       {data && (
         <div className="grid lg:grid-cols-[1fr_260px] gap-4 items-start">
           <div className="b-card p-5 flex flex-col gap-4 print:shadow-none" id="seating-print">
-            <div className="rounded-xl bg-ink text-white text-center py-2 text-[13px] font-bold">تختهٔ کلاس — {data.class.name}</div>
+            <div className="rounded-xl bg-ink text-white text-center py-2 text-[13px] font-bold">{t("seating.tkhth-klas")} {data.class.name}</div>
             <div className="flex items-center gap-2 print:hidden">
-              <span className="text-[12px] font-bold">تعداد ستون:</span>
+              <span className="text-[12px] font-bold">{t("seating.tadad-stvn")}:</span>
               {[3, 4, 5, 6].map((n) => (
                 <button key={n} className={`b-badge ${cols === n ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => setCols(n)}>{faNumber(n)}</button>
               ))}
               <span className="flex-1" />
-              <button className="b-btn b-btn-ghost b-btn-sm" onClick={autoArrange}><Shuffle className="w-4 h-4" /> چیدمان خودکار</button>
-              <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => setSeats({})}><Eraser className="w-4 h-4" /> خالی‌کردن</button>
-              <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => window.print()}><Printer className="w-4 h-4" /> چاپ</button>
+              <button className="b-btn b-btn-ghost b-btn-sm" onClick={autoArrange}><Shuffle className="w-4 h-4" /> {t("seating.chydman-khvdkar")}</button>
+              <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => setSeats({})}><Eraser className="w-4 h-4" /> {t("seating.khaly-krdn")}</button>
+              <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => window.print()}><Printer className="w-4 h-4" /> {t("common.print")}</button>
             </div>
             <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0,1fr))` }}>
               {Array.from({ length: ROWS * cols }, (_, i) => {
@@ -126,12 +128,12 @@ export default function SeatingPage() {
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => { e.preventDefault(); if (dragId) place(pos, dragId); setDragId(null); }}
                     onClick={() => { if (sid) place(pos, null); }}
-                    title={st ? "برای خالی‌کردن کلیک کنید" : ""}
+                    title={st ? t("seating.bray-khaly-krdn-klyk-knyd") : ""}
                     className={`min-h-14 rounded-xl border-2 border-dashed flex items-center justify-center text-center px-1 py-2 text-[12px] font-bold transition-colors ${st ? "border-spring bg-spring-tint/60 border-solid cursor-grab" : "border-hairline text-steel/50"}`}
                     draggable={Boolean(st)}
                     onDragStart={() => st && setDragId(st.id)}
                   >
-                    {st ? st.name : `صندلی ${faNumber(r + 1)}-${faNumber(c + 1)}`}
+                    {st ? st.name : `${t("seating.sndly")} ${faNumber(r + 1)}-${faNumber(c + 1)}`}
                   </div>
                 );
               })}
@@ -139,8 +141,8 @@ export default function SeatingPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-3 print:hidden">
-            <b className="text-[14px]">بدون صندلی ({faNumber(unseated.length)})</b>
-            <p className="text-[11.5px] text-steel">بکشید و روی صندلی خالی رها کنید.</p>
+            <b className="text-[14px]">{t("seating.bdvn-sndly")} ({faNumber(unseated.length)})</b>
+            <p className="text-[11.5px] text-steel">{t("seating.bkshyd-v-rvy-sndly-khaly-rha-knyd")}</p>
             <div className="flex flex-col gap-1.5 max-h-[480px] overflow-y-auto b-scroll">
               {unseated.map((s) => (
                 <div
@@ -152,7 +154,7 @@ export default function SeatingPage() {
                   {s.name}
                 </div>
               ))}
-              {unseated.length === 0 && <p className="text-[12px] text-steel">همه نشسته‌اند.</p>}
+              {unseated.length === 0 && <p className="text-[12px] text-steel">{t("seating.hmh-nshsth-and")}</p>}
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import { ClipboardList, Loader2, Send } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { PageHeader, EmptyState, LoadingBlock } from "@/components/shared/bits";
 import { Select } from "@/components/shared/pickers";
+import { useLang } from "@/lib/i18n";
 
 type Field = { key: string; label: string; type: string; required?: boolean; options?: string[] };
 type Form = { id: string; title: string; description: string | null; status: string; audience: string; fields: Field[] };
@@ -18,6 +19,7 @@ type StaffData = { staff: true; form: Form; submissions: Submission[] };
 type AudienceData = { staff: false; form: Form; mine: Submission[] };
 
 export default function FormDetailPage() {
+  const { t } = useLang();
   const params = useParams<{ id: string }>();
   const [data, setData] = useState<StaffData | AudienceData | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -54,26 +56,26 @@ export default function FormDetailPage() {
     setBusy(true);
     try {
       await apiPost(`/api/forms/${params.id}`, { studentId: studentId || undefined, answers });
-      toast.success("پاسخ شما ثبت شد.");
+      toast.success(t("forms.paskh-shma-sbt-shd"));
       load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "خطا"); } finally { setBusy(false); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } finally { setBusy(false); }
   }
 
-  if (!data) return <LoadingBlock label="فرم…" />;
+  if (!data) return <LoadingBlock label={t("forms.frm-2")} />;
   const form = data.form;
 
   if (data.staff) {
     return (
       <div className="flex flex-col gap-6">
         <PageHeader title={form.title} desc={form.description ?? undefined} />
-        <p className="t-sm text-steel">{data.submissions.length} پاسخ ثبت شده است.</p>
+        <p className="t-sm text-steel">{data.submissions.length} {t("forms.paskh-sbt-shdh-ast")}</p>
         {data.submissions.length === 0
-          ? <EmptyState icon={ClipboardList} title="پاسخی نیست" desc="هنوز کسی این فرم را تکمیل نکرده است." />
+          ? <EmptyState icon={ClipboardList} title={t("forms.paskhy-nyst")} desc={t("forms.hnvz-ksy-ayn-frm-ra-tkmyl-nkrdh-ast")} />
           : <section className="b-card p-5 md:p-6 overflow-x-auto b-scroll">
               <table className="w-full text-[13px]">
                 <thead>
                   <tr className="text-steel">
-                    <th className="p-2 text-start">دانش‌آموز</th>
+                    <th className="p-2 text-start">{t("common.student")}</th>
                     {form.fields.map((f) => <th key={f.key} className="p-2 text-start">{f.label}</th>)}
                   </tr>
                 </thead>
@@ -97,7 +99,7 @@ export default function FormDetailPage() {
       <PageHeader title={form.title} desc={form.description ?? undefined} />
       {children.length > 1 && (
         <div className="w-64">
-          <Select value={studentId} onChange={setStudentId} options={children} ariaLabel="فرزند" />
+          <Select value={studentId} onChange={setStudentId} options={children} ariaLabel={t("forms.frznd")} />
         </div>
       )}
       <section className="b-card p-5 md:p-6 flex flex-col gap-4 max-w-2xl">
@@ -107,11 +109,11 @@ export default function FormDetailPage() {
             {f.type === "textarea" ? (
               <textarea className="b-input !min-h-[90px]" disabled={closed} value={answers[f.key] ?? ""} onChange={(e) => setAnswers({ ...answers, [f.key]: e.target.value })} />
             ) : f.type === "select" ? (
-              <Select value={answers[f.key] ?? ""} onChange={(v) => setAnswers({ ...answers, [f.key]: v })} placeholder="انتخاب کنید…" options={(f.options ?? []).map((o) => ({ value: o, label: o }))} ariaLabel={f.label} />
+              <Select value={answers[f.key] ?? ""} onChange={(v) => setAnswers({ ...answers, [f.key]: v })} placeholder={t("forms.antkhab-knyd")} options={(f.options ?? []).map((o) => ({ value: o, label: o }))} ariaLabel={f.label} />
             ) : f.type === "checkbox" ? (
               <span className="flex items-center gap-2 text-[13px]">
-                <input type="checkbox" disabled={closed} checked={answers[f.key] === "بله"} onChange={(e) => setAnswers({ ...answers, [f.key]: e.target.checked ? "بله" : "خیر" })} />
-                تأیید می‌کنم
+                <input type="checkbox" disabled={closed} checked={answers[f.key] === "بله"} onChange={(e) => setAnswers({ ...answers, [f.key]: e.target.checked ? t("common.yes") : t("common.no") })} />
+                {t("forms.t-yyd-my-knm")}
               </span>
             ) : (
               <input className="b-input" type={f.type === "number" ? "number" : "text"} disabled={closed} value={answers[f.key] ?? ""} onChange={(e) => setAnswers({ ...answers, [f.key]: e.target.value })} />
@@ -119,8 +121,8 @@ export default function FormDetailPage() {
           </label>
         ))}
         {closed
-          ? <p className="t-sm text-destructive">این فرم بسته شده است.</p>
-          : <button className="b-btn b-btn-spring w-fit" disabled={busy} onClick={submit}>{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} ثبت پاسخ</button>}
+          ? <p className="t-sm text-destructive">{t("forms.ayn-frm-bsth-shdh-ast")}</p>
+          : <button className="b-btn b-btn-spring w-fit" disabled={busy} onClick={submit}>{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} {t("forms.sbt-paskh")}</button>}
       </section>
     </div>
   );

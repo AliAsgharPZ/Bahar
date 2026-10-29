@@ -10,6 +10,7 @@ import { useApi, apiPost } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, StatCard, EmptyState } from "@/components/shared/bits";
 import { useConfirm } from "@/components/shared/pickers";
 import { formatDateTimeFa, faNumber, enDigits } from "@/lib/persian";
+import { useLang } from "@/lib/i18n";
 
 type Status = {
   connected: boolean; status: string; mode: "NONE" | "INTERNAL" | "EXTERNAL";
@@ -30,6 +31,7 @@ type Me = {
 };
 
 export default function ShadPage() {
+  const { t } = useLang();
   const { data: me } = useApi<Me>("/api/auth/me");
   /* FIX (راند ۱۹-a): سوپرادمین/ادمین داخل «پنل مدرسه» (actingSchool) باید فرم‌های
      مدیریت شاد را ببینند — قبلاً فقط نقش MANAGER می‌دید و نقش سرویسِ درون پنل
@@ -62,10 +64,10 @@ export default function ShadPage() {
       const res = await apiPost<{ code: string }>("/api/shad/send-code", { phone: enDigits(phone) });
       setSentCode(res.code);
       setStage("code");
-      toast.success("کد تایید ۵ رقمی صادر شد (مهلت ۵ دقیقه).");
+      toast.success(t("shad.kd-tayyd-5-rqmy-sadr-shd-mhlt-5-dqyqh"));
       refetchStatus();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setBusy(false);
     }
@@ -76,14 +78,14 @@ export default function ShadPage() {
     setBusy(true);
     try {
       await apiPost("/api/shad/sign-in", { phone: enDigits(phone), code: enDigits(code) });
-      toast.success("به حساب شاد مدرسه متصل شدید؛ ارسال اعتبارنامه فعال است.");
+      toast.success(t("shad.bh-hsab-shad-mdrsh-mtsl-shdyd-arsal-aatbarnamh-faal-ast"));
       setStage("phone");
       setCode("");
       setSentCode(null);
       refetchStatus();
       refetchOutbox();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setBusy(false);
     }
@@ -94,9 +96,9 @@ export default function ShadPage() {
     try {
       const res = await apiPost<{ code: string }>("/api/shad/send-code", { phone: enDigits(phone) });
       setSentCode(res.code);
-      toast.success("کد تایید جدید صادر شد.");
+      toast.success(t("shad.kd-tayyd-jdyd-sadr-shd"));
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setBusy(false);
     }
@@ -114,32 +116,32 @@ export default function ShadPage() {
       const remaining = res.sweep?.remaining ?? 0;
       if (fail > 0 || remaining > 0) {
         toast.warning(
-          `${faNumber(ok)} پیام ارسال شد` +
-          (fail > 0 ? ` · ${faNumber(fail)} ناموفق` : "") +
-          (remaining > 0 ? ` · ${faNumber(remaining)} همچنان در صف` : "")
+          `${faNumber(ok)} ${t("shad.pyam-arsal-shd")}` +
+          (fail > 0 ? ` · ${faNumber(fail)} ${t("dashboard.login.failed")}` : "") +
+          (remaining > 0 ? ` · ${faNumber(remaining)} ${t("shad.hmchnan-dr-sf")}` : "")
         );
       } else {
-        toast.success(`${faNumber(ok)} اعتبارنامه ارسال شد.`);
+        toast.success(`${faNumber(ok)} ${t("shad.aatbarnamh-arsal-shd")}`);
       }
       refetchOutbox();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setBulkBusy(false);
     }
   }
 
   async function revoke() {
-    if (!(await confirm({ title: "قطع اتصال شاد", description: "اتصال حساب شاد مدرسه قطع شود؟ ارسال رمز و پیام تا اتصال مجدد غیرفعال می‌ماند.", confirmLabel: "قطع اتصال", danger: true }))) return;
+    if (!(await confirm({ title: t("shad.qta-atsal-shad"), description: t("shad.atsal-hsab-shad-mdrsh-qta-shvd-arsal-rmz-v-pyam-ta-atsal-mjdd-gh"), confirmLabel: t("shad.qta-atsal"), danger: true }))) return;
     setBusy(true);
     try {
       await apiPost("/api/shad/revoke", {});
-      toast.success("اتصال شاد قطع شد.");
+      toast.success(t("shad.atsal-shad-qta-shd"));
       setStage("phone");
       setSentCode(null);
       refetchStatus();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setBusy(false);
     }
@@ -156,8 +158,8 @@ export default function ShadPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
-        title="شاد"
-        desc="ارسال نام کاربری و رمز عبور کاربران به شماره شادشان، از طریق حساب شاد مدیر مدرسه."
+        title={t("nav.shad")}
+        desc={t("shad.arsal-nam-karbry-v-rmz-abvr-karbran-bh-shmarh-shadshan-az-tryq-h")}
       />
 
       {loadError && <ErrorBox message={loadError} />}
@@ -170,10 +172,9 @@ export default function ShadPage() {
             <ServerCog className="w-6 h-6" />
           </span>
           <div className="flex flex-col gap-1.5">
-            <b className="text-[16px]">قابلیت شاد در این مدرسه غیرفعال است</b>
+            <b className="text-[16px]">{t("shad.qablyt-shad-dr-ayn-mdrsh-ghyrfaal-ast")}</b>
             <p className="t-sm text-steel leading-7">
-              مدیر می‌تواند آن را از «مدارس ← ویرایش مدرسه» دوباره روشن کند.
-              تا آن زمان، اعتبارنامهٔ کاربران جدید به‌صورت کارت قابل‌کپی در صفحهٔ «کاربران» نمایش داده می‌شود.
+              {t("shad.mdyr-my-tvand-an-ra-az-mdars-vyraysh-mdrsh-dvbarh-rvshn-knd-ta-a")}
             </p>
           </div>
         </div>
@@ -189,18 +190,18 @@ export default function ShadPage() {
             <div className="flex flex-col">
               <div className="flex items-center gap-2 flex-wrap">
                 <b className="text-[16px]">
-                  {status?.connected ? "حساب شاد مدرسه متصل است" : "حساب شاد متصل نیست"}
+                  {status?.connected ? t("shad.hsab-shad-mdrsh-mtsl-ast") : t("shad.hsab-shad-mtsl-nyst")}
                 </b>
                 {status?.connected && (
                   <span className={`b-badge ${isInternal ? "b-badge-warning" : "b-badge-success"}`}>
-                    {isInternal ? "شبیه‌سازی داخلی" : "دروازهٔ واقعی"}
+                    {isInternal ? t("shad.shbyh-sazy-dakhly") : t("shad.drvazh-vaqay")}
                   </span>
                 )}
               </div>
               <span className="t-sm text-steel">
                 {status?.connected
                   ? `${status.accountName ? `${status.accountName} · ` : ""}${status.phone ?? ""}${status.expiresAt ? ` · تا ${formatDateTimeFa(status.expiresAt)}` : ""}`
-                  : "برای ارسال رمز و پیام، مدیر با شماره شاد خود وارد شود (کد تایید ۵ رقمی)."}
+                  : t("shad.bray-arsal-rmz-v-pyam-mdyr-ba-shmarh-shad-khvd-vard-shvd-kd-tayy")}
               </span>
             </div>
           </div>
@@ -210,10 +211,9 @@ export default function ShadPage() {
             <div className="b-card-sm !rounded-2xl !border-spring/25 bg-spring/5 px-4 py-3 flex items-start gap-2.5">
               <Info className="w-5 h-5 text-spring shrink-0 mt-0.5" />
               <p className="t-sm leading-7">
-                شبکهٔ شاد به‌صورت <b>شبیه‌سازی داخلی بهار</b> کار می‌کند: پیام‌ها در صف خروجی همین‌جا تحویل
-                و ثبت می‌شوند و به تلفن واقعی نمی‌روند. برای ارسال واقعی، سرویس{" "}
+                {t("shad.shbkh-shad-bh-svrt")} <b>{t("shad.shbyh-sazy-dakhly-bhar")}</b> {t("shad.kar-my-knd")}: {t("shad.pyam-ha-dr-sf-khrvjy-hmyn-ja-thvyl-v-sbt-my-shvnd-v-bh-tlfn-vaqa")}{" "}
                 <span dir="ltr" className="font-mono">mini-services/shad-gateway</span>{" "}
-                را روی سرور اجرا کنید و با توکن web.shad.ir وصل شوید.
+                {t("shad.ra-rvy-srvr-ajra-knyd-v-ba-tvkn-web-shad-ir-vsl-shvyd")}
               </p>
             </div>
           )}
@@ -224,7 +224,7 @@ export default function ShadPage() {
               <div className="b-divider" />
               <form onSubmit={requestCode} className="flex flex-wrap items-end gap-3">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12.5px] font-bold">شماره شاد مدیر مدرسه</span>
+                  <span className="text-[12.5px] font-bold">{t("shad.shmarh-shad-mdyr-mdrsh")}</span>
                   <input
                     className="b-input !w-44"
                     dir="ltr"
@@ -236,10 +236,10 @@ export default function ShadPage() {
                   />
                 </label>
                 <button type="submit" disabled={busy} className="b-btn b-btn-spring">
-                  {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} دریافت کد تایید
+                  {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} {t("shad.dryaft-kd-tayyd")}
                 </button>
                 <p className="t-sm text-steel basis-full">
-                  کد تایید ۵ رقمی با مهلت ۵ دقیقه صادر می‌شود و همین‌جا به شما نمایش داده می‌شود.
+                  {t("shad.kd-tayyd-5-rqmy-ba-mhlt-5-dqyqh-sadr-my-shvd-v-hmyn-ja-bh-shma-n")}
                 </p>
               </form>
             </>
@@ -253,19 +253,19 @@ export default function ShadPage() {
                   <KeyRound className="w-5 h-5 text-spring shrink-0" />
                   {sentCode ? (
                     <p className="t-sm">
-                      کد تایید (ارسال‌شده به «اپ شاد» شما):{" "}
+                      {t("shad.kd-tayyd")} ({t("shad.arsal-shdh-bh-ap-shad-shma")}):{" "}
                       <b dir="ltr" className="font-mono text-[16px] tracking-[0.3em]">{sentCode}</b>
                     </p>
                   ) : (
-                    <p className="t-sm">کد تایید را که پیش‌تر گرفتید وارد کنید؛ اگر کد را ندارید، دوباره کد بگیرید.</p>
+                    <p className="t-sm">{t("shad.kd-tayyd-ra-kh-pysh-tr-grftyd-vard-knyd-agr-kd-ra-ndaryd-dvbarh")}</p>
                   )}
                   <button type="button" onClick={resendCode} disabled={busy} className="b-btn b-btn-ghost b-btn-sm ms-auto">
-                    <RefreshCw className="w-3.5 h-3.5" /> کد جدید
+                    <RefreshCw className="w-3.5 h-3.5" /> {t("shad.kd-jdyd")}
                   </button>
                 </div>
                 <div className="flex flex-wrap items-end gap-3">
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12.5px] font-bold">کد تایید ۵ رقمی</span>
+                    <span className="text-[12.5px] font-bold">{t("shad.kd-tayyd-5-rqmy")}</span>
                     <input
                       className="b-input !w-36 text-center font-mono tracking-[0.3em]"
                       dir="ltr"
@@ -273,19 +273,19 @@ export default function ShadPage() {
                       maxLength={5}
                       value={code}
                       onChange={(e) => setCode(enDigits(e.target.value).replace(/\D/g, "").slice(0, 5))}
-                      placeholder="—۵ رقم—"
+                      placeholder={t("shad.5-rqm")}
                       required
                     />
                   </label>
                   <button type="submit" disabled={busy || code.length !== 5} className="b-btn b-btn-spring">
-                    {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />} ورود و اتصال
+                    {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />} {t("shad.vrvd-v-atsal")}
                   </button>
                   <button
                     type="button"
                     onClick={() => { setStage("phone"); setSentCode(null); setCode(""); }}
                     className="b-btn b-btn-ghost b-btn-sm"
                   >
-                    تغییر شماره
+                    {t("shad.tghyyr-shmarh")}
                   </button>
                 </div>
               </form>
@@ -295,23 +295,23 @@ export default function ShadPage() {
           {canDeliver && status?.connected && (
             <div className="flex flex-wrap items-center gap-3">
               <button className="b-btn b-btn-soft b-btn-sm" onClick={bulkDeliver} disabled={bulkBusy}>
-                {bulkBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />} ارسال اعتبارنامه‌های در انتظار
+                {bulkBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />} {t("shad.arsal-aatbarnamh-hay-dr-antzar")}
                 {pendingCount > 0 && ` (${faNumber(pendingCount)})`}
               </button>
               {isManager && (
                 <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={revoke} disabled={busy}>
-                  <XCircle className="w-4 h-4" /> قطع اتصال
+                  <XCircle className="w-4 h-4" /> {t("shad.qta-atsal")}
                 </button>
               )}
               <p className="t-sm text-steel basis-full">
-                با ساخت هر کاربر جدیدِ دارای شماره شاد، اعتبارنامه‌اش (کد ملی + رمز تصادفی) به‌طور خودکار ارسال می‌شود.
+                {t("shad.ba-sakht-hr-karbr-jdyd-daray-shmarh-shad-aatbarnamh-ash")} ({t("students.table.nationalId")} + {t("shad.rmz-tsadfy")}) {t("shad.bh-tvr-khvdkar-arsal-my-shvd")}
               </p>
             </div>
           )}
 
           {!canDeliver && (
             <p className="t-sm text-steel">
-              اتصال و مدیریت حساب شاد بر عهده مدیر مدرسه است؛ شما می‌توانید گزارش ارسال‌ها را ببینید.
+              {t("shad.atsal-v-mdyryt-hsab-shad-br-ahdh-mdyr-mdrsh-ast-shma-my-tvanyd-g")}
             </p>
           )}
 
@@ -322,18 +322,18 @@ export default function ShadPage() {
 
       {/* آمار — تک‌ستونه در موبایل (همان الگوی راند ۱۹-b) */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard icon={CheckCircle2} label="ارسال موفق" value={sent.length} tone="spring" />
-        <StatCard icon={XCircle} label="ناموفق / در انتظار" value={failed.length} tone="blossom" />
-        <StatCard icon={Send} label="مجموع پیام‌ها" value={outbox?.outbox.length ?? 0} tone="ink" />
+        <StatCard icon={CheckCircle2} label={t("shad.arsal-mvfq")} value={sent.length} tone="spring" />
+        <StatCard icon={XCircle} label={t("shad.namvfq-dr-antzar")} value={failed.length} tone="blossom" />
+        <StatCard icon={Send} label={t("shad.mjmva-pyam-ha")} value={outbox?.outbox.length ?? 0} tone="ink" />
       </div>
 
       {/* گزارش ارسال */}
       <div>
-        <h3 className="font-bold text-[15px] mb-3">گزارش پیام‌های شاد</h3>
+        <h3 className="font-bold text-[15px] mb-3">{t("shad.gzarsh-pyam-hay-shad")}</h3>
         {loadError && <ErrorBox message={loadError} />}
         {!outbox && !loadError && <LoadingBlock />}
         {outbox && outbox.outbox.length === 0 && (
-          <EmptyState icon={Send} title="پیامی ارسال نشده" desc="پس از اتصال حساب شاد، اعتبارنامه‌ها اینجا ثبت می‌شوند." />
+          <EmptyState icon={Send} title={t("shad.pyamy-arsal-nshdh")} desc={t("shad.ps-az-atsal-hsab-shad-aatbarnamh-ha-aynja-sbt-my-shvnd")} />
         )}
         {outbox && outbox.outbox.length > 0 && (
           <div className="flex flex-col gap-2.5 max-h-[480px] overflow-y-auto b-scroll">
@@ -342,7 +342,7 @@ export default function ShadPage() {
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                   <div className="flex items-center gap-2.5 min-w-0">
                     <span className={`b-badge ${o.status === "SENT" ? "b-badge-success" : o.status === "QUEUED" ? "b-badge-warning" : "b-badge-critical"} shrink-0`}>
-                      {o.status === "SENT" ? "ارسال‌شده" : o.status === "QUEUED" ? "در انتظار" : "ناموفق"}
+                      {o.status === "SENT" ? t("shad.arsal-shdh") : o.status === "QUEUED" ? t("dashboard.meeting.pending") : t("dashboard.login.failed")}
                     </span>
                     <b className="text-[13px] truncate">{o.recipientName ?? "—"}</b>
                     <span dir="ltr" className="font-mono text-[11px] text-steel">{o.recipientShadNumber}</span>
@@ -350,7 +350,7 @@ export default function ShadPage() {
                   <button
                     className="b-btn b-btn-ghost !p-0 w-8 h-8 !min-h-8"
                     onClick={() => setShowBody(showBody === o.id ? null : o.id)}
-                    aria-label="متن پیام"
+                    aria-label={t("shad.mtn-pyam")}
                   >
                     {showBody === o.id ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -362,7 +362,7 @@ export default function ShadPage() {
                 )}
                 <div className="text-[10.5px] text-stone mt-2">
                   {o.sentAt ? formatDateTimeFa(o.sentAt) : formatDateTimeFa(o.createdAt)}
-                  {o.error ? ` · خطا: ${o.error}` : ""}
+                  {o.error ? ` ${t("shad.khta")} ${o.error}` : ""}
                 </div>
               </div>
             ))}
@@ -376,6 +376,7 @@ export default function ShadPage() {
 /* ---------- اتصال واقعی با توکن web.shad.ir (اختیاری — وقتی دروازه اجرا می‌شود) ---------- */
 
 function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
+  const { t } = useLang();
   const [phone, setPhone] = useState("");
   const [token, setToken] = useState("");
   const [showToken, setShowToken] = useState(false);
@@ -391,12 +392,12 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
         phone: enDigits(phone),
         token: token.trim(),
       });
-      toast.success(`به حساب شاد واقعی ${res.account.name || res.account.phone} متصل شدید.`);
+      toast.success(`${t("shad.bh-hsab-shad-vaqay")} ${res.account.name || res.account.phone} ${t("shad.mtsl-shdyd")}`);
       setToken("");
       setPhone("");
       onConnected();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "خطا");
+      toast.error(err instanceof Error ? err.message : t("common.errorShort"));
     } finally {
       setBusy(false);
     }
@@ -411,13 +412,13 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
         className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
       >
         <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
-        اتصال واقعی با توکن شاد (اختیاری — برای ارسال به تلفن‌های واقعی)
+        {t("shad.atsal-vaqay-ba-tvkn-shad")} ({t("shad.akhtyary-bray-arsal-bh-tlfn-hay-vaqay")})
       </button>
       {open && (
         <form onSubmit={connect} className="flex flex-col gap-3">
           <div className="flex flex-wrap items-end gap-3">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12.5px] font-bold">شماره شاد مدیر مدرسه</span>
+              <span className="text-[12.5px] font-bold">{t("shad.shmarh-shad-mdyr-mdrsh")}</span>
               <input
                 className="b-input !w-44"
                 dir="ltr"
@@ -429,7 +430,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
               />
             </label>
             <label className="flex flex-col gap-1.5 flex-1 min-w-[240px]">
-              <span className="text-[12.5px] font-bold">توکن حساب شاد (auth)</span>
+              <span className="text-[12.5px] font-bold">{t("shad.tvkn-hsab-shad")} (auth)</span>
               <div className="relative">
                 <input
                   className="b-input pr-10 pl-10 !font-mono !text-[12.5px]"
@@ -437,7 +438,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
                   type={showToken ? "text" : "password"}
                   value={token}
                   onChange={(e) => setToken(e.target.value)}
-                  placeholder="از web.shad.ir کپی کنید…"
+                  placeholder={t("shad.az-web-shad-ir-kpy-knyd")}
                   autoComplete="off"
                   required
                 />
@@ -445,14 +446,14 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
                   type="button"
                   className="b-btn b-btn-ghost absolute left-3 top-1/2 -translate-y-1/2 text-stone hover:text-steel"
                   onClick={() => setShowToken((s) => !s)}
-                  aria-label="نمایش/مخفی توکن"
+                  aria-label={t("shad.nmaysh-mkhfy-tvkn")}
                 >
                   {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </label>
             <button type="submit" disabled={busy} className="b-btn b-btn-soft">
-              {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />} اتصال واقعی
+              {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />} {t("shad.atsal-vaqay")}
             </button>
           </div>
           <button
@@ -461,22 +462,22 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
             className="b-btn b-btn-ghost flex items-center gap-1.5 text-[12.5px] font-bold text-spring self-start"
           >
             <ChevronDown className={`w-4 h-4 transition-transform ${guideOpen ? "rotate-180" : ""}`} />
-            توکن شاد را چطور بگیرم؟
+            {t("shad.tvkn-shad-ra-chtvr-bgyrm")}
           </button>
           {guideOpen && (
             <ol className="b-card-tint !rounded-2xl p-4 flex flex-col gap-2 t-sm list-decimal list-inside leading-7">
               <li>
-                روی کامپیوتر وارد{" "}
+                {t("shad.rvy-kampyvtr-vard")}{" "}
                 <a href="https://web.shad.ir" target="_blank" rel="noreferrer" className="text-spring underline underline-offset-4 inline-flex items-center gap-1">
                   web.shad.ir <ExternalLink className="w-3 h-3" />
                 </a>{" "}
-                شوید.
+                {t("shad.shvyd")}
               </li>
-              <li>کلید <b>F12</b> (یا Ctrl+Shift+I) را بزنید تا پنجره Developer Tools باز شود.</li>
-              <li>به تب <b>Network</b> بروید.</li>
-              <li>داخل شاد یک چت را باز کنید یا پیامی بفرستید تا درخواست‌ها ثبت شوند.</li>
-              <li>از لیست، درخواستی با دامنه <b>shadmessenger…</b> را انتخاب کنید.</li>
-              <li>در تب <b>Request</b> مقدار فیلد <b>auth</b> را کپی و همین‌جا جای‌گذاری کنید.</li>
+              <li>{t("shad.klyd")} <b>F12</b> ({t("shad.ya-ctrl")}+Shift+I) {t("shad.ra-bznyd-ta-pnjrh-developer-tools-baz-shvd")}</li>
+              <li>{t("shad.bh-tb")} <b>Network</b> {t("shad.brvyd")}</li>
+              <li>{t("shad.dakhl-shad-yk-cht-ra-baz-knyd-ya-pyamy-bfrstyd-ta-drkhvast-ha-sb")}</li>
+              <li>{t("shad.az-lyst-drkhvasty-ba-damnh")} <b>shadmessenger…</b> {t("shad.ra-antkhab-knyd")}</li>
+              <li>{t("shad.dr-tb")} <b>Request</b> {t("shad.mqdar-fyld")} <b>auth</b> {t("shad.ra-kpy-v-hmyn-ja-jay-gzary-knyd")}</li>
             </ol>
           )}
         </form>
