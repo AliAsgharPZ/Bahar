@@ -3152,17 +3152,6 @@ function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
   const address = (config.contactAddress || "").trim() || data.school.address || "";
 
 
-  const EVENT_KINDS: Record<string, string> = {
-    MEETING: "جلسه",
-    CEREMONY: "مراسم",
-    EXAM: "امتحان",
-    HOLIDAY: "تعطیلی",
-    TRIP: "گردش",
-    WORKSHOP: "کارگاه",
-    OTHER: "رویداد",
-  };
-
-
   const ctaHref = S.admissions ? "#admissions" : S.contact ? "#contact" : "#about";
   const navItems = [
     { href: "#about", label: "درباره ما", on: !!S.about },
@@ -3477,18 +3466,7 @@ function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
             <SectionHead skin={skin} icon={CalendarDays} title="رویدادها" kicker="تقویم مدرسه" />
             <div className="grid gap-4 md:grid-cols-2">
               {data.events.slice(0, 6).map((e, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span
-                    className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs"
-                    style={{ backgroundColor: skin.card, borderColor: skin.border, color: skin.text }}
-                  >
-                    <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ backgroundColor: p.accent }} />
-                    {EVENT_KINDS[e.kind] || "رویداد"}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <EventItem skin={skin} e={e} />
-                  </div>
-                </div>
+                <EventItem key={i} skin={skin} e={e} />
               ))}
             </div>
           </div>
