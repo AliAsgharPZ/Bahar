@@ -1131,3 +1131,4 @@ html[data-a11y-motion="reduce"] *, html[data-a11y-motion="reduce"] *::before, ht
 
 /* ── بهار | پاس متا: توکن چک‌باکس هم‌خانوادهٔ b-input ── */
 .b-check { width: 20px; height: 20px; accent-color: var(--spring); cursor: pointer; flex-shrink: 0; }
+

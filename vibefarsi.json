@@ -1,0 +1,13 @@
+{
+  "registry": "https://vibefarsi.ir/r",
+  "theme": "graphite",
+  "font": "vazirmatn",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "lib": "@/lib"
+  },
+  "tailwind": {
+    "css": "src/app/globals.css"
+  }
+}

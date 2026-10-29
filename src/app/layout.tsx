@@ -9,6 +9,8 @@ import { getSettings } from "@/lib/settings";
 import { getActiveCountryPublic } from "@/lib/country/server";
 import { CountryProvider } from "@/lib/country/client";
 import type { CountryProfile } from "@/lib/country/types";
+import { vazirmatn } from "./fonts";
+
 
 export async function generateMetadata(): Promise<Metadata> {
   // فاوآیکون/عنوان سفارشی سوپرادمین (در صورت تنظیم)
@@ -73,8 +75,8 @@ export default async function RootLayout({
       dir={initialProfile?.direction ?? "rtl"}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-    >
-      <body className="antialiased bg-background text-foreground min-h-screen flex flex-col">
+     className={vazirmatn.variable}>
+      <body className="antialiased bg-background text-foreground min-h-screen flex flex-col font-sans bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme={false} disableTransitionOnChange>
           <CountryProvider initialProfile={initialProfile}>{children}</CountryProvider>
         </ThemeProvider>

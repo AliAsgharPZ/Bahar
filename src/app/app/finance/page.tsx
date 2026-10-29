@@ -233,12 +233,12 @@ export default function FinancePage() {
             <table className="w-full text-[14px] b-rows-in">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                  {data?.scope !== "student" && <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>}
-                  <th className="text-right py-3 px-4 font-bold">{t("finance.anvan")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("finance.mblgh")} (${currencyLabel()})</th>
-                  <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("finance.srsyd")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("common.status")}</th>
-                  {canManage && <th className="text-right py-3 px-4 font-bold">{t("common.actions")}</th>}
+                  {data?.scope !== "student" && <th className="text-end py-3 px-4 font-bold">{t("common.student")}</th>}
+                  <th className="text-end py-3 px-4 font-bold">{t("finance.anvan")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("finance.mblgh")} (${currencyLabel()})</th>
+                  <th className="text-end py-3 px-4 font-bold hidden md:table-cell">{t("finance.srsyd")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("common.status")}</th>
+                  {canManage && <th className="text-end py-3 px-4 font-bold">{t("common.actions")}</th>}
                 </tr>
               </thead>
               <tbody>

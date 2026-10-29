@@ -844,7 +844,7 @@ export default function UsersPage() {
 
       {/* ───────── اعتبارنامه — راند ۱۸: کپی سریع جایگزین/مکمل شاد ───────── */}
       {credResult && (
-        <div className="fixed bottom-4 left-4 right-4 lg:start-auto lg:end-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md">
+        <div className="fixed bottom-4 start-4 end-4 lg:start-auto lg:end-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md">
           <h4 className="font-bold text-[14px] flex items-center gap-2 mb-3">
             <Send className="w-4 h-4 text-spring" /> {t("students.cred.title")} {credResult.name}
           </h4>

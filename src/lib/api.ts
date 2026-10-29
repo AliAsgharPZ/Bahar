@@ -166,9 +166,14 @@ export function apiErr(status: number, message: string, code = "ERROR", extra?: 
 export function handleApiError(e: unknown): NextResponse {
   if (e instanceof ApiError) return apiErr(e.status, e.message, e.code);
   if (e instanceof Error) {
-    // خطاهای یکتایی پرایسما
-    if (e.message.includes("Unique constraint")) {
+    // خطاهای پرایسما: به‌جای ۵۰۰، کد درست برگردان
+    const code = (e as { code?: string }).code;
+    if (code === "P2002" || e.message.includes("Unique constraint")) {
       return apiErr(409, "رکورد تکراری است؛ مقدار یکتا (کد ملی/شماره) قبلاً ثبت شده.", "DUPLICATE");
+    }
+    if (code === "P2025") return apiErr(404, "رکورد موردنظر یافت نشد.", "NOT_FOUND");
+    if (code === "P2003" || code === "P2004" || code === "P2011" || code === "P2012" || code === "P2014" || code === "P2016" || code === "P2023" || e.message.includes("Invalid Date") || e.message.includes("Invalid `")) {
+      return apiErr(400, "دادهٔ ورودی نامعتبر است.", "BAD_INPUT");
     }
     console.error("[API]", e.message);
     return apiErr(500, "خطای داخلی سرور رخ داد.", "INTERNAL");

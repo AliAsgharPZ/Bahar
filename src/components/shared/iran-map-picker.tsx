@@ -221,7 +221,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
               })()}
             </svg>
             )}
-            <div className="absolute bottom-3 right-4 text-[12px] text-steel bg-background/80 rounded-full px-3 py-1">
+            <div className="absolute bottom-3 end-4 text-[12px] text-steel bg-background/80 rounded-full px-3 py-1">
               {hovered ? `استان ${hovered} — ${faNumber(countiesOf(hovered).length)} شهرستان` : "روی استان کلیک کنید تا انتخاب شود"}
             </div>
           </div>
@@ -273,7 +273,7 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
                         >
                           {selected ? <Check className="w-4 h-4" /> : faNumber(p.counties.length)}
                         </span>
-                        <span className="flex flex-col min-w-0 text-right">
+                        <span className="flex flex-col min-w-0 text-end">
                           <b className="text-[12px]">{p.name}</b>
                           <span className="text-[12px] text-steel">مرکز: {p.center}</span>
                         </span>
@@ -338,7 +338,7 @@ export function RegionSelectionButton({
   return (
     <button
       type="button"
-      className="b-input flex items-center justify-between gap-2 text-right"
+      className="b-input flex items-center justify-between gap-2 text-end"
       onClick={onOpen}
     >
       <span className="flex items-center gap-2 text-[14px]">

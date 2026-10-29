@@ -165,7 +165,7 @@ function Faq({ q, a }: { q: string; a: string }) {
     <div className="b-card-sm p-5 md:p-6">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between gap-4 text-right cursor-pointer"
+        className="w-full flex items-center justify-between gap-4 text-end cursor-pointer"
         aria-expanded={open}
       >
         <span className="font-bold text-[16px] md:text-base">{q}</span>

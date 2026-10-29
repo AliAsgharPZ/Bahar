@@ -232,9 +232,9 @@ export default function SchedulePage() {
             <table className="w-full text-[12px] min-w-[640px]">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                  <th className="text-right py-3 px-3 font-bold w-16">{t("schedule.table.period")}</th>
+                  <th className="text-end py-3 px-3 font-bold w-16">{t("schedule.table.period")}</th>
                   {daysOf(data?.slots).map((d) => (
-                    <th key={d} className="text-right py-3 px-3 font-bold">{weekdayLabel(d)}</th>
+                    <th key={d} className="text-end py-3 px-3 font-bold">{weekdayLabel(d)}</th>
                   ))}
                 </tr>
               </thead>

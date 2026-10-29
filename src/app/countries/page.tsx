@@ -297,10 +297,10 @@ export default async function CountriesPage() {
                   <table className="w-full text-[12px] min-w-[680px]">
                     <thead>
                       <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                        <th className="text-right py-2.5 px-4 font-bold w-[26%]">{tx("site.kit.countries.th.field", "فیلد")}</th>
-                        <th className="text-right py-2.5 px-4 font-bold w-[22%]">{tx("site.kit.countries.th.type", "نوع")}</th>
-                        <th className="text-right py-2.5 px-4 font-bold w-[20%]">{tx("site.kit.countries.th.iran", "مقدار ایران")}</th>
-                        <th className="text-right py-2.5 px-4 font-bold">{tx("site.kit.countries.th.rule", "قاعده")}</th>
+                        <th className="text-end py-2.5 px-4 font-bold w-[26%]">{tx("site.kit.countries.th.field", "فیلد")}</th>
+                        <th className="text-end py-2.5 px-4 font-bold w-[22%]">{tx("site.kit.countries.th.type", "نوع")}</th>
+                        <th className="text-end py-2.5 px-4 font-bold w-[20%]">{tx("site.kit.countries.th.iran", "مقدار ایران")}</th>
+                        <th className="text-end py-2.5 px-4 font-bold">{tx("site.kit.countries.th.rule", "قاعده")}</th>
                       </tr>
                     </thead>
                     <tbody>

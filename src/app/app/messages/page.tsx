@@ -229,7 +229,7 @@ export default function MessagesPage() {
               <button
                 key={th.partner.id}
                 onClick={() => pickContact(th.partner)}
-                className={`b-btn b-btn-ghost w-full text-right px-4 py-3.5 flex items-center gap-3 border-b border-hairline-soft/50 transition-colors ${
+                className={`b-btn b-btn-ghost w-full text-end px-4 py-3.5 flex items-center gap-3 border-b border-hairline-soft/50 transition-colors ${
                   active?.id === th.partner.id ? "bg-spring-tint" : "hover:bg-cloud"
                 }`}
               >
@@ -420,7 +420,7 @@ export default function MessagesPage() {
                           <button
                             key={c.id}
                             onClick={() => pickContact(c)}
-                            className="b-btn b-btn-ghost b-card-sm !rounded-2xl p-3.5 flex items-center gap-3 text-right hover:border-spring/40 transition-colors"
+                            className="b-btn b-btn-ghost b-card-sm !rounded-2xl p-3.5 flex items-center gap-3 text-end hover:border-spring/40 transition-colors"
                           >
                             <UserAvatar user={c} size={40} />
                             <span className="flex flex-col min-w-0 flex-1">

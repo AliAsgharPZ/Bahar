@@ -169,7 +169,7 @@ export default function AnnouncementsPage() {
                   className={`b-pill-tab !text-[12px] ${form.scope === "PLATFORM" ? "b-pill-tab-active" : ""}`}
                   onClick={() => setForm((f) => ({ ...f, scope: "PLATFORM" }))}
                 >
-                  <Globe2 className="w-3 h-3 inline ml-1" /> {t("announcements.scopePlatform")}
+                  <Globe2 className="w-3 h-3 inline ms-1" /> {t("announcements.scopePlatform")}
                 </button>
               </div>
             )}
@@ -277,7 +277,7 @@ export default function AnnouncementsPage() {
                 {a.pinned && <Pin className="w-3.5 h-3.5 text-spring shrink-0" />}
                 {a.scope === "PLATFORM" && (
                   <span className="b-badge b-badge-soft !text-[12px]">
-                    <Globe2 className="w-3 h-3 inline ml-0.5" /> {t("announcements.platform")}
+                    <Globe2 className="w-3 h-3 inline ms-0.5" /> {t("announcements.platform")}
                   </span>
                 )}
                 {a.audienceRoles.length > 0 ? (
@@ -289,7 +289,7 @@ export default function AnnouncementsPage() {
                 )}
                 {reg && (
                   <span className="b-badge b-badge-soft !text-[12px]">
-                    <MapPin className="w-3 h-3 inline ml-0.5" /> {reg}
+                    <MapPin className="w-3 h-3 inline ms-0.5" /> {reg}
                   </span>
                 )}
                 <span className="text-[12px] text-stone ms-auto">{a.school?.name ?? ""} · {relativeTimeFa(a.createdAt)}</span>

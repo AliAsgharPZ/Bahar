@@ -368,10 +368,10 @@ export default function ImportsPage() {
                 <table className="w-full text-[12px]">
                   <thead className="sticky top-0 bg-cloud/60 dark:bg-forest/30 backdrop-blur">
                     <tr>
-                      <th className="text-right py-2 px-3 font-bold w-10">#</th>
-                      <th className="text-right py-2 px-3 font-bold">{t("imports.preview.fullName")}</th>
-                      <th className="text-right py-2 px-3 font-bold">{t("students.field.nationalId")}</th>
-                      <th className="text-right py-2 px-3 font-bold">{t("common.status")}</th>
+                      <th className="text-end py-2 px-3 font-bold w-10">#</th>
+                      <th className="text-end py-2 px-3 font-bold">{t("imports.preview.fullName")}</th>
+                      <th className="text-end py-2 px-3 font-bold">{t("students.field.nationalId")}</th>
+                      <th className="text-end py-2 px-3 font-bold">{t("common.status")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -518,10 +518,10 @@ export default function ImportsPage() {
                 <table className="w-full text-[12px]">
                   <thead className="sticky top-0 bg-cloud/60 dark:bg-forest/30">
                     <tr>
-                      <th className="text-right py-2 px-3 font-bold">{t("imports.history.file")}</th>
-                      <th className="text-right py-2 px-3 font-bold">{t("imports.history.rows")}</th>
-                      <th className="text-right py-2 px-3 font-bold">{t("imports.history.result")}</th>
-                      <th className="text-right py-2 px-3 font-bold">{t("imports.history.when")}</th>
+                      <th className="text-end py-2 px-3 font-bold">{t("imports.history.file")}</th>
+                      <th className="text-end py-2 px-3 font-bold">{t("imports.history.rows")}</th>
+                      <th className="text-end py-2 px-3 font-bold">{t("imports.history.result")}</th>
+                      <th className="text-end py-2 px-3 font-bold">{t("imports.history.when")}</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -146,7 +146,7 @@ export function TwoFactorCard() {
               <span className="text-[12px] font-bold">کد تأیید *</span>
               <div className="flex gap-2">
                 <input
-                  className="b-input text-left !font-mono !tracking-[0.3em] flex-1"
+                  className="b-input text-start !font-mono !tracking-[0.3em] flex-1"
                   dir="ltr"
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -195,7 +195,7 @@ export function TwoFactorCard() {
             </label>
             <label className="flex flex-col gap-1.5">
               <span className="text-[12px] font-bold">کد فعلی احرازگر *</span>
-              <input className="b-input text-left !font-mono" dir="ltr" inputMode="numeric" value={disableCode} onChange={(e) => setDisableCode(e.target.value)} placeholder="------" />
+              <input className="b-input text-start !font-mono" dir="ltr" inputMode="numeric" value={disableCode} onChange={(e) => setDisableCode(e.target.value)} placeholder="------" />
             </label>
             <button className="b-btn b-btn-ghost !text-destructive" onClick={disable} disabled={busy || !disablePassword || disableCode.length < 6}>
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "غیرفعال‌سازی"}

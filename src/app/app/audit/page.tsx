@@ -143,11 +143,11 @@ export default function AuditPage() {
             <table className="w-full text-[12px]">
               <thead className="sticky top-0 bg-background">
                 <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                  <th className="text-right py-3 px-4 font-bold">{t("audit.table.time")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("users.table.user")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("audit.table.event")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("audit.table.entity")}</th>
-                  <th className="text-right py-3 px-4 font-bold hidden lg:table-cell">{t("common.details")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("audit.table.time")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("users.table.user")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("audit.table.event")}</th>
+                  <th className="text-end py-3 px-4 font-bold hidden md:table-cell">{t("audit.table.entity")}</th>
+                  <th className="text-end py-3 px-4 font-bold hidden lg:table-cell">{t("common.details")}</th>
                 </tr>
               </thead>
               <tbody>

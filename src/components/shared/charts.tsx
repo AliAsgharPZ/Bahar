@@ -184,7 +184,7 @@ export function BarChart({
         const pct = d.value === null ? 0 : Math.min(100, (d.value / max) * 100);
         return (
           <div key={i} className="flex items-center gap-3">
-            <span className="text-[12px] text-steel w-28 truncate text-left shrink-0" title={d.label}>{d.label}</span>
+            <span className="text-[12px] text-steel w-28 truncate text-start shrink-0" title={d.label}>{d.label}</span>
             <div className="flex-1 h-6 bg-cloud rounded-full overflow-hidden relative">
               <div
                 className={`h-full rounded-full ${d.value === null ? "bg-cloud" : pct >= 70 ? "bg-spring" : pct >= 50 ? "bg-spring-soft" : "bg-warning"}`}
@@ -271,7 +271,7 @@ export function VBarChart({
         <line x1="4" x2="316" y1={height - 18} y2={height - 18} stroke="var(--hairline)" strokeWidth="1.2" />
       </svg>
       {hover !== null && data[hover] && (
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none b-badge !rounded-lg elev-2 !px-2.5 !py-1 bg-card border border-hairline-soft !text-[12px]">
+        <div className="absolute top-0 start-1/2 -translate-x-1/2 pointer-events-none b-badge !rounded-lg elev-2 !px-2.5 !py-1 bg-card border border-hairline-soft !text-[12px]">
           <span className="text-steel !text-[12px]">{data[hover].label}: </span>
           <b className="text-ink">{faNumber(data[hover].value)}{suffix ?? ""}</b>
         </div>

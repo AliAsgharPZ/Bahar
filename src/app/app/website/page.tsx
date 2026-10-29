@@ -201,7 +201,7 @@ export default function WebsiteEditorPage() {
       <div className="flex flex-wrap gap-2">
         {tabs.map((t) => (
           <button key={t.id} className={`b-pill-tab ${tab === t.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(t.id)}>
-            <t.icon className="w-3.5 h-3.5 inline ml-1" />
+            <t.icon className="w-3.5 h-3.5 inline ms-1" />
             {t.label}
           </button>
         ))}
@@ -216,7 +216,7 @@ export default function WebsiteEditorPage() {
               <button
                 key={t.id}
                 onClick={() => { setTemplateId(t.id); setConfig((c) => (c ? { ...c, palette: 0, customPalette: null } : c)); }}
-                className={`b-btn b-btn-ghost b-card p-5 text-right transition-all ${active ? "!border-spring ring-2 ring-spring/25" : "hover:border-spring/40"}`}
+                className={`b-btn b-btn-ghost b-card p-5 text-end transition-all ${active ? "!border-spring ring-2 ring-spring/25" : "hover:border-spring/40"}`}
               >
                 <div
                   className="h-28 rounded-2xl mb-4 relative overflow-hidden"
@@ -226,12 +226,12 @@ export default function WebsiteEditorPage() {
                       : t.palettes[0].bg,
                   }}
                 >
-                  <div className="absolute bottom-3 right-3 flex gap-1.5">
+                  <div className="absolute bottom-3 end-3 flex gap-1.5">
                     <span className="w-8 h-2 rounded-full" style={{ background: t.palettes[0].primary }} />
                     <span className="w-4 h-2 rounded-full" style={{ background: t.palettes[0].accent }} />
                   </div>
-                  {t.id === "playful" && <span className="absolute top-3 left-3 w-6 h-6 rounded-full opacity-60" style={{ background: t.palettes[0].accent }} />}
-                  {t.id === "academic" && <span className="absolute top-3 right-3 text-white text-[12px] font-bold px-2 py-0.5 rounded-full" style={{ background: t.palettes[0].primary }}>پایه</span>}
+                  {t.id === "playful" && <span className="absolute top-3 start-3 w-6 h-6 rounded-full opacity-60" style={{ background: t.palettes[0].accent }} />}
+                  {t.id === "academic" && <span className="absolute top-3 end-3 text-white text-[12px] font-bold px-2 py-0.5 rounded-full" style={{ background: t.palettes[0].primary }}>پایه</span>}
                 </div>
                 <b className="text-[14px] block mb-1">{t.name} {active && <span className="b-badge b-badge-spring !text-[12px] ms-1">فعال</span>}</b>
                 <p className="text-[12px] text-steel leading-relaxed mb-3">{t.desc}</p>
@@ -416,7 +416,7 @@ export default function WebsiteEditorPage() {
                   <img src={g} alt={`گالری ${i + 1}`} className="w-full aspect-[4/3] object-cover rounded-2xl border border-hairline" />
                   <button
                     type="button"
-                    className="absolute top-1.5 left-1.5 w-7 h-7 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 max-md:opacity-100 transition-opacity"
+                    className="absolute top-1.5 start-1.5 w-7 h-7 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 max-md:opacity-100 transition-opacity"
                     onClick={() => patchConfig({ gallery: config.gallery.filter((_, x) => x !== i) })}
                     aria-label="حذف تصویر"
                   >

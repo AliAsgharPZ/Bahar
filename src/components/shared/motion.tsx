@@ -342,7 +342,7 @@ export function CelebrationPop({ show, children }: { show: boolean; children: Re
           animate={{ scale: [0.6, 1.12, 1], opacity: 1, y: 0 }}
           exit={{ scale: 0.8, opacity: 0 }}
           transition={{ duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[90]"
+          className="fixed bottom-8 start-1/2 -translate-x-1/2 z-[90]"
         >
           {children}
         </motion.div>

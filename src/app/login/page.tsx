@@ -230,14 +230,14 @@ function LoginForm() {
               <label className="flex flex-col gap-2">
                 <span className="text-[14px] font-bold">{t("auth.login.username")}</span>
                 <div className="relative">
-                  <IdCard className="absolute right-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-stone" />
+                  <IdCard className="absolute end-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-stone" />
                   <input
                     dir="ltr"
                     inputMode="numeric"
                     autoComplete="username"
                     value={nationalId}
                     onChange={(e) => setNationalId(e.target.value)}
-                    className="b-input pr-10 text-left tracking-widest"
+                    className="b-input pe-10 text-start tracking-widest"
                     placeholder="xxxxxxxxxx"
                     maxLength={12}
                   />
@@ -247,14 +247,14 @@ function LoginForm() {
               <label className="flex flex-col gap-2">
                 <span className="text-[14px] font-bold">{t("auth.login.password")}</span>
                 <div className="relative">
-                  <KeyRound className="absolute right-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-stone" />
+                  <KeyRound className="absolute end-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-stone" />
                   <input
                     type="password"
                     dir="ltr"
                     autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="b-input pr-10 text-left"
+                    className="b-input pe-10 text-start"
                     placeholder="••••••••"
                   />
                 </div>
@@ -314,7 +314,7 @@ function LoginForm() {
                     اعتبار کد ۵ دقیقه است.
                   </p>
                   <input
-                    className="b-input text-left !font-mono !tracking-[0.35em]"
+                    className="b-input text-start !font-mono !tracking-[0.35em]"
                     dir="ltr"
                     inputMode="numeric"
                     autoComplete="one-time-code"
@@ -353,7 +353,7 @@ function LoginForm() {
                     اگر به اپ دسترسی ندارید، یکی از «کدهای بازیابی» (XXXX-XXXX) را وارد کنید.
                   </p>
                   <input
-                    className="b-input text-left !font-mono !tracking-[0.3em]"
+                    className="b-input text-start !font-mono !tracking-[0.3em]"
                     dir="ltr"
                     inputMode="numeric"
                     autoComplete="one-time-code"

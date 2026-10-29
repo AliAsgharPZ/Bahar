@@ -140,12 +140,12 @@ export default function InsightsPage() {
             <table className="w-full text-[12px] min-w-[640px]">
               <thead>
                 <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                  <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("common.class")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("insights.table.riskScore")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("insights.table.level")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("insights.table.lastComputed")}</th>
-                  <th className="text-right py-3 px-4 font-bold">{t("common.actions")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("common.student")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("common.class")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("insights.table.riskScore")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("insights.table.level")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("insights.table.lastComputed")}</th>
+                  <th className="text-end py-3 px-4 font-bold">{t("common.actions")}</th>
                 </tr>
               </thead>
               <tbody>

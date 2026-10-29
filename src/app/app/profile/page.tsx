@@ -243,9 +243,9 @@ export default function ProfilePage() {
               <div className="flex flex-col gap-2.5">
                 {reqData.requests.slice(0, 5).map((r) => (
                   <div key={r.id} className="b-card-sm !rounded-2xl p-3.5 flex flex-wrap items-center gap-3">
-                    {r.status === "PENDING" && <span className="b-badge b-badge-warning"><Clock className="w-3 h-3 inline ml-1" /> {t("dashboard.meeting.pending")}</span>}
-                    {r.status === "APPROVED" && <span className="b-badge b-badge-spring"><CheckCircle2 className="w-3 h-3 inline ml-1" /> {t("profile.requests.approved")}</span>}
-                    {r.status === "REJECTED" && <span className="b-badge b-badge-critical"><XCircle className="w-3 h-3 inline ml-1" /> {t("profile.requests.rejected")}</span>}
+                    {r.status === "PENDING" && <span className="b-badge b-badge-warning"><Clock className="w-3 h-3 inline ms-1" /> {t("dashboard.meeting.pending")}</span>}
+                    {r.status === "APPROVED" && <span className="b-badge b-badge-spring"><CheckCircle2 className="w-3 h-3 inline ms-1" /> {t("profile.requests.approved")}</span>}
+                    {r.status === "REJECTED" && <span className="b-badge b-badge-critical"><XCircle className="w-3 h-3 inline ms-1" /> {t("profile.requests.rejected")}</span>}
                     <span className="text-[12px]">
                       {Object.keys(r.changes).map((f) => t(PROFILE_FIELD_TKEY[f] ?? f)).join("، ")}
                     </span>

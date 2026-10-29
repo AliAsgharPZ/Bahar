@@ -154,7 +154,7 @@ export default function TicketsPage() {
           {data.tickets.map((tk) => (
             <button
               key={tk.id}
-              className="b-btn b-btn-ghost b-card-sm p-4 flex flex-wrap items-center gap-3 text-right hover:border-spring/40 transition-colors"
+              className="b-btn b-btn-ghost b-card-sm p-4 flex flex-wrap items-center gap-3 text-end hover:border-spring/40 transition-colors"
               onClick={() => setOpenTicket({ ...tk, messages: tk.messages })}
             >
               <span className="font-mono text-[12px] text-stone shrink-0" dir="ltr">{tk.code}</span>

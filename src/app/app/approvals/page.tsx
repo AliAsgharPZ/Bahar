@@ -86,9 +86,9 @@ export default function ApprovalsPage() {
                   <table className="w-full text-[12px]">
                     <thead>
                       <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                        <th className="text-right py-2 px-3 font-bold">{t("approvals.table.field")}</th>
-                        <th className="text-right py-2 px-3 font-bold">{t("approvals.table.current")}</th>
-                        <th className="text-right py-2 px-3 font-bold">{t("approvals.table.requested")}</th>
+                        <th className="text-end py-2 px-3 font-bold">{t("approvals.table.field")}</th>
+                        <th className="text-end py-2 px-3 font-bold">{t("approvals.table.current")}</th>
+                        <th className="text-end py-2 px-3 font-bold">{t("approvals.table.requested")}</th>
                       </tr>
                     </thead>
                     <tbody>

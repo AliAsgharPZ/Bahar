@@ -252,9 +252,9 @@ export default function GradesPage() {
               <table className="w-full text-[14px]">
                 <thead className="sticky top-0 bg-background">
                   <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                    <th className="text-right py-3 px-4 font-bold">{t("common.student")}</th>
-                    <th className="text-right py-3 px-4 font-bold w-32">{t("grades.table.score")}</th>
-                    <th className="text-right py-3 px-4 font-bold hidden md:table-cell">{t("grades.table.recorded")}</th>
+                    <th className="text-end py-3 px-4 font-bold">{t("common.student")}</th>
+                    <th className="text-end py-3 px-4 font-bold w-32">{t("grades.table.score")}</th>
+                    <th className="text-end py-3 px-4 font-bold hidden md:table-cell">{t("grades.table.recorded")}</th>
                   </tr>
                 </thead>
                 <tbody>

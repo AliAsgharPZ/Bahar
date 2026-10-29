@@ -46,7 +46,9 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
       throw new ApiError(403, "FORBIDDEN", "این درخواست قابل بررسی نیست.");
     }
 
-    const changes = JSON.parse(request.changes) as Record<string, { from: string | null; to: string }>;
+    let changes: Record<string, { from: string | null; to: string }>;
+    try { changes = JSON.parse(request.changes) as Record<string, { from: string | null; to: string }>; } catch { return apiErr(400, "دادهٔ درخواست تغییر خراب است.", "BAD_CHANGES"); }
+    if (!changes || typeof changes !== "object") return apiErr(400, "دادهٔ درخواست تغییر خراب است.", "BAD_CHANGES");
     const fieldLabels: Record<string, string> = {
       firstName: "نام", lastName: "نام خانوادگی", fatherName: "نام پدر", gender: "جنسیت",
       birthPlace: "محل تولد", birthDate: "تاریخ تولد", phone: "موبایل", homePhone: "تلفن خانه",

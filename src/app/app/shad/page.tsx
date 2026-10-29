@@ -433,7 +433,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
               <span className="text-[12px] font-bold">{t("shad.tvkn-hsab-shad")} (auth)</span>
               <div className="relative">
                 <input
-                  className="b-input pr-10 pl-10 !font-mono !text-[12px]"
+                  className="b-input pe-10 ps-10 !font-mono !text-[12px]"
                   dir="ltr"
                   type={showToken ? "text" : "password"}
                   value={token}
@@ -444,7 +444,7 @@ function RealGatewayForm({ onConnected }: { onConnected: () => void }) {
                 />
                 <button
                   type="button"
-                  className="b-btn b-btn-ghost absolute left-3 top-1/2 -translate-y-1/2 text-stone hover:text-steel"
+                  className="b-btn b-btn-ghost absolute start-3 top-1/2 -translate-y-1/2 text-stone hover:text-steel"
                   onClick={() => setShowToken((s) => !s)}
                   aria-label={t("shad.nmaysh-mkhfy-tvkn")}
                 >

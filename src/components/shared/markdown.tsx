@@ -55,7 +55,7 @@ export function Markdown({ source }: { source: string }) {
           <table className="w-full text-[12px]">
             <thead>
               <tr className="border-b border-hairline-soft text-steel">
-                {header.map((h, hi) => <th key={hi} className="text-right py-2.5 px-3 font-bold">{renderInline(h)}</th>)}
+                {header.map((h, hi) => <th key={hi} className="text-end py-2.5 px-3 font-bold">{renderInline(h)}</th>)}
               </tr>
             </thead>
             <tbody>

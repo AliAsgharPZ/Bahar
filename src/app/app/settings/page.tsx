@@ -221,7 +221,7 @@ export default function SettingsPage() {
       <div className="flex flex-wrap gap-2">
         {tabs.map((tb) => (
           <button key={tb.id} className={`b-pill-tab ${tab === tb.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(tb.id)}>
-            <tb.icon className="w-3.5 h-3.5 inline ml-1" />
+            <tb.icon className="w-3.5 h-3.5 inline ms-1" />
             {tb.label}
           </button>
         ))}
@@ -516,12 +516,12 @@ export default function SettingsPage() {
                 <table className="w-full text-[12px]">
                   <thead>
                     <tr className="border-b border-hairline-soft text-steel text-[12px]">
-                      <th className="text-right py-2.5 px-4 font-bold">{t("settings.backup.table.file")}</th>
-                      <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.kind")}</th>
-                      <th className="text-right py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.records")}</th>
-                      <th className="text-right py-2.5 px-4 font-bold">{t("settings.backup.table.size")}</th>
-                      <th className="text-right py-2.5 px-4 font-bold hidden sm:table-cell">{t("settings.backup.table.time")}</th>
-                      <th className="text-right py-2.5 px-4 font-bold">{t("common.actions")}</th>
+                      <th className="text-end py-2.5 px-4 font-bold">{t("settings.backup.table.file")}</th>
+                      <th className="text-end py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.kind")}</th>
+                      <th className="text-end py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.records")}</th>
+                      <th className="text-end py-2.5 px-4 font-bold">{t("settings.backup.table.size")}</th>
+                      <th className="text-end py-2.5 px-4 font-bold hidden sm:table-cell">{t("settings.backup.table.time")}</th>
+                      <th className="text-end py-2.5 px-4 font-bold">{t("common.actions")}</th>
                     </tr>
                   </thead>
                   <tbody>
