@@ -10,6 +10,7 @@ import {
 import { useApi, apiPost } from "@/lib/client";
 import { faNumber } from "@/lib/persian";
 import { CountryBuilder } from "@/components/settings/country-builder";
+import { Collapsible } from "@/components/shared/collapsible";
 
 type PackRow = {
   id: string;
@@ -113,6 +114,45 @@ export function CountryCard() {
       {loading && <p className="t-sm text-steel">در حال بارگذاری…</p>}
       {error && <p className="t-sm text-destructive">بارگذاری ناموفق بود.</p>}
 
+      {/* جدول بسته‌ها */}
+      {data && (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 text-[11px] text-stone">
+            <span className={`b-badge ${data.active === "IR" ? "b-badge-success" : "b-badge-neutral"}`}>ایران — پیش‌فرض داخلی</span>
+            <span>تقویم شمسی · کد ملی mod-11 · ۳۱ استان · تومان</span>
+          </div>
+          {data.packs.map((p) => (
+            <div key={p.id} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
+              <div className="flex flex-col min-w-0">
+                <b className="text-[12.5px]">{p.name} <span className="text-stone font-mono text-[10.5px]">({p.code})</span></b>
+                <span className="text-[10.5px] text-steel">{p.nativeName} · نسخه {p.version}{p.notes ? ` · ${p.notes}` : ""}</span>
+              </div>
+              <span className={`b-badge ms-auto ${p.status === "ACTIVE" ? "b-badge-success" : p.status === "DISABLED" ? "b-badge-neutral" : "b-badge-warning"}`}>
+                {p.status === "ACTIVE" ? "فعال" : p.status === "DISABLED" ? "غیرفعال" : "پیش‌نویس"}
+              </span>
+              <div className="flex gap-1.5">
+                {p.status !== "ACTIVE" && (
+                  <button className="b-btn b-btn-spring b-btn-sm !min-h-[30px]" onClick={() => action(p, "activate")} disabled={busy === p.id}>
+                    {busy === p.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />} فعال‌سازی
+                  </button>
+                )}
+                {p.status === "ACTIVE" && (
+                  <button className="b-btn b-btn-soft b-btn-sm !min-h-[30px]" onClick={() => action(p, "disable")} disabled={busy === p.id}>
+                    <RefreshCcw className="w-3.5 h-3.5" /> بازگشت به ایران
+                  </button>
+                )}
+                <button className="b-btn b-btn-ghost b-btn-sm !min-h-[30px] !text-destructive" onClick={() => action(p, "delete")} disabled={busy === p.id}>
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          ))}
+          {data.packs.length === 0 && (
+            <p className="t-cap text-stone">هنوز بسته کشور کاستومی بارگذاری نشده — دیفالت ایران فعال است.</p>
+          )}
+        </div>
+      )}
+      <Collapsible title="ساخت کشور جدید">
       {/* راند ۱۸: انتخاب روش — فرم یا آپلود JSON */}
       <div className="flex items-center gap-1.5 mb-4">
         <button className={`b-pill-tab ${mode === "builder" ? "b-pill-tab-active" : ""}`} onClick={() => setMode("builder")} aria-pressed={mode === "builder"}>
@@ -178,44 +218,7 @@ export function CountryCard() {
         </div>
       )}
 
-      {/* جدول بسته‌ها */}
-      {data && (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-[11px] text-stone">
-            <span className={`b-badge ${data.active === "IR" ? "b-badge-success" : "b-badge-neutral"}`}>ایران — پیش‌فرض داخلی</span>
-            <span>تقویم شمسی · کد ملی mod-11 · ۳۱ استان · تومان</span>
-          </div>
-          {data.packs.map((p) => (
-            <div key={p.id} className="b-card-sm !rounded-xl p-3.5 flex flex-wrap items-center gap-3">
-              <div className="flex flex-col min-w-0">
-                <b className="text-[12.5px]">{p.name} <span className="text-stone font-mono text-[10.5px]">({p.code})</span></b>
-                <span className="text-[10.5px] text-steel">{p.nativeName} · نسخه {p.version}{p.notes ? ` · ${p.notes}` : ""}</span>
-              </div>
-              <span className={`b-badge ms-auto ${p.status === "ACTIVE" ? "b-badge-success" : p.status === "DISABLED" ? "b-badge-neutral" : "b-badge-warning"}`}>
-                {p.status === "ACTIVE" ? "فعال" : p.status === "DISABLED" ? "غیرفعال" : "پیش‌نویس"}
-              </span>
-              <div className="flex gap-1.5">
-                {p.status !== "ACTIVE" && (
-                  <button className="b-btn b-btn-spring b-btn-sm !min-h-[30px]" onClick={() => action(p, "activate")} disabled={busy === p.id}>
-                    {busy === p.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />} فعال‌سازی
-                  </button>
-                )}
-                {p.status === "ACTIVE" && (
-                  <button className="b-btn b-btn-soft b-btn-sm !min-h-[30px]" onClick={() => action(p, "disable")} disabled={busy === p.id}>
-                    <RefreshCcw className="w-3.5 h-3.5" /> بازگشت به ایران
-                  </button>
-                )}
-                <button className="b-btn b-btn-ghost b-btn-sm !min-h-[30px] !text-destructive" onClick={() => action(p, "delete")} disabled={busy === p.id}>
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          ))}
-          {data.packs.length === 0 && (
-            <p className="t-cap text-stone">هنوز بسته کشور کاستومی بارگذاری نشده — دیفالت ایران فعال است.</p>
-          )}
-        </div>
-      )}
+      </Collapsible>
     </div>
   );
 }

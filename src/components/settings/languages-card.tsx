@@ -9,6 +9,7 @@ import {
 import { useApi, apiPost } from "@/lib/client";
 import { faNumber } from "@/lib/persian";
 import { LanguageBuilder } from "@/components/settings/language-builder";
+import { Collapsible } from "@/components/shared/collapsible";
 import { useConfirm } from "@/components/shared/pickers";
 
 type PackRow = {
@@ -120,47 +121,6 @@ export function LanguagesCard() {
         «کیت ساخت زبان» در سایت سامانه.
       </p>
 
-      {/* راند ۱۸: انتخاب روش — فرم مترجم یا آپلود JSON */}
-      <div className="flex items-center gap-1.5">
-        <button className={`b-pill-tab ${mode === "builder" ? "b-pill-tab-active" : ""}`} onClick={() => setMode("builder")} aria-pressed={mode === "builder"}>
-          ساخت با فرم مترجم
-        </button>
-        <button className={`b-pill-tab ${mode === "upload" ? "b-pill-tab-active" : ""}`} onClick={() => setMode("upload")} aria-pressed={mode === "upload"}>
-          آپلود JSON
-        </button>
-      </div>
-
-      {mode === "builder" && <LanguageBuilder onCreated={refetch} />}
-
-      {/* بارگذاری */}
-      {mode === "upload" && (
-      <div className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap border-dashed">
-        <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0">
-          <FileJson className="w-4 h-4" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <b className="text-[12.5px] block">افزودن / جایگزینی بسته زبان</b>
-          <span className="text-[10.5px] text-stone">فایل .json حداکثر ۴۰۰KB — بسته هم‌کد جایگزین می‌شود</span>
-        </div>
-        <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
-          {busy === "upload" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-          انتخاب فایل
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".json,application/json"
-            className="hidden"
-            disabled={busy !== null}
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) uploadPack(f);
-              e.currentTarget.value = "";
-            }}
-          />
-        </label>
-      </div>
-      )}
-
       {/* فهرست بسته‌ها */}
       {loading && <div className="text-center py-6"><Loader2 className="w-5 h-5 animate-spin inline text-spring" /></div>}
       {error && <div className="b-card-sm !border-destructive/30 bg-destructive/5 text-destructive px-4 py-3 text-[12px]">{error}</div>}
@@ -230,6 +190,50 @@ export function LanguagesCard() {
           ))}
         </div>
       )}
+
+      <Collapsible title="ساخت زبان جدید">
+      {/* راند ۱۸: انتخاب روش — فرم مترجم یا آپلود JSON */}
+      <div className="flex items-center gap-1.5">
+        <button className={`b-pill-tab ${mode === "builder" ? "b-pill-tab-active" : ""}`} onClick={() => setMode("builder")} aria-pressed={mode === "builder"}>
+          ساخت با فرم مترجم
+        </button>
+        <button className={`b-pill-tab ${mode === "upload" ? "b-pill-tab-active" : ""}`} onClick={() => setMode("upload")} aria-pressed={mode === "upload"}>
+          آپلود JSON
+        </button>
+      </div>
+
+      {mode === "builder" && <LanguageBuilder onCreated={refetch} />}
+
+      {/* بارگذاری */}
+      {mode === "upload" && (
+      <div className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3 flex-wrap border-dashed">
+        <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0">
+          <FileJson className="w-4 h-4" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <b className="text-[12.5px] block">افزودن / جایگزینی بسته زبان</b>
+          <span className="text-[10.5px] text-stone">فایل .json حداکثر ۴۰۰KB — بسته هم‌کد جایگزین می‌شود</span>
+        </div>
+        <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
+          {busy === "upload" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+          انتخاب فایل
+          <input
+            ref={fileRef}
+            type="file"
+            accept=".json,application/json"
+            className="hidden"
+            disabled={busy !== null}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) uploadPack(f);
+              e.currentTarget.value = "";
+            }}
+          />
+        </label>
+      </div>
+      )}
+
+      </Collapsible>
 
       <div className="flex items-start gap-2 text-[10.5px] text-steel leading-5 rounded-xl bg-forest/5 dark:bg-forest/10 p-3">
         <AlertTriangle className="w-3.5 h-3.5 text-warning shrink-0 mt-0.5" />
