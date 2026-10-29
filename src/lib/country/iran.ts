@@ -66,17 +66,20 @@ export const IRAN_PROFILE: CountryProfile = {
 export const CALENDAR_LABELS: Record<string, string> = {
   persian: "هجری شمسی (جلالی)",
   gregory: "میلادی",
+  islamic: "هجری قمری (عمومی)",
   "islamic-umalqura": "هجری قمری — ام‌القرا",
   "islamic-civil": "هجری قمری — مدنی",
   "islamic-tbla": "هجری قمری — جدولی",
   hebrew: "عبری",
   ethiopic: "اتیوپیایی",
+  ethioaa: "اتیوپیایی — آمتی عالم",
   coptic: "قبطی",
   indian: "هندی (ساکا)",
   buddhist: "بودیستی (تایلندی)",
   chinese: "چینی",
   dangi: "کره‌ای (دانگی)",
   japanese: "ژاپنی",
+  roc: "مین‌گو (تایوان)",
 };
 
 export const ALGORITHM_LABELS: Record<string, string> = {

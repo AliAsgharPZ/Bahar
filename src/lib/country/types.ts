@@ -9,17 +9,20 @@
 export const CALENDARS = [
   "persian",
   "gregory",
+  "islamic",
   "islamic-umalqura",
   "islamic-civil",
   "islamic-tbla",
   "hebrew",
   "ethiopic",
+  "ethioaa",
   "coptic",
   "indian",
   "buddhist",
   "chinese",
   "dangi",
   "japanese",
+  "roc",
 ] as const;
 export type CalendarKind = (typeof CALENDARS)[number];
 

@@ -34,10 +34,12 @@ export default async function Home() {
   }
   // زبان سایت عمومی: کوکی بازدیدکننده، وگرنه زبان مرورگر (Accept-Language)، وگرنه فارسی
   let siteLang = "fa";
+  let browserLang = "fa";
   try {
     const cookieLang = (await cookies()).get("bahar_site_lang")?.value?.trim();
-    siteLang = cookieLang || acceptLangCode((await headers()).get("accept-language"), SITE_LANGS.map((l) => l.code));
+    browserLang = acceptLangCode((await headers()).get("accept-language"), SITE_LANGS.map((l) => l.code));
+    siteLang = cookieLang || browserLang;
   } catch { /* دیفالت فارسی */ }
   const site = siteStringsFor(siteLang);
-  return <Landing isLoggedIn={isLoggedIn} androidUrl={androidUrl} windowsUrl={windowsUrl} shadEnabled={shadEnabled} siteLang={site.code} siteDir={site.direction} siteStrings={site.siteStrings} longStrings={longStringsFor(siteLang).longStrings} siteLangs={SITE_LANGS} />;
+  return <Landing isLoggedIn={isLoggedIn} androidUrl={androidUrl} windowsUrl={windowsUrl} shadEnabled={shadEnabled} siteLang={site.code} browserLang={browserLang} siteDir={site.direction} siteStrings={site.siteStrings} longStrings={longStringsFor(siteLang).longStrings} siteLangs={SITE_LANGS} />;
 }

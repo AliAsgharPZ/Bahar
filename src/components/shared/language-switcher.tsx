@@ -47,8 +47,11 @@ export function LanguageSwitcher({ compact = false, restricted = false }: { comp
   }
 
   const browserCode = typeof navigator !== "undefined" ? (navigator.language || "").split("-")[0].toLowerCase() : "fa";
+  // هدر داشبورد: فقط فارسی + انگلیسی + زبان مرورگر (اگر بسته‌اش موجود باشد)
   const shownOptions = restricted
-    ? options.filter((o) => o.code === "en" || o.code === browserCode || o.code === current)
+    ? (["fa", "en", browserCode] as const)
+        .map((code) => options.find((o) => o.code === code))
+        .filter((o): o is LangOption => Boolean(o))
     : options;
   const currentOption = options.find((o) => o.code === current) ?? options[0];
 
@@ -96,7 +99,7 @@ export function LanguageSwitcher({ compact = false, restricted = false }: { comp
             </button>
           ))}
           <a
-            href={restricted ? "/app/settings" : "/languages"}
+            href={restricted ? "/app/settings?tab=languages" : "/languages"}
             onClick={() => setOpen(false)}
             className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[11.5px] text-steel hover:text-spring hover:bg-forest/5 transition-colors"
           >

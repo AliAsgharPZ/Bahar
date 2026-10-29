@@ -190,6 +190,7 @@ export function Landing({
   windowsUrl,
   shadEnabled = true,
   siteLang = "fa",
+  browserLang = "fa",
   siteDir = "rtl",
   siteStrings = {},
   longStrings = {},
@@ -202,6 +203,8 @@ export function Landing({
   shadEnabled?: boolean;
   /** زبان سایت عمومی (کوکی bahar_site_lang) + جملات آن + فهرست زبان‌ها */
   siteLang?: string;
+  /** زبان مرورگر از Accept-Language — برای هدر لندینگ: فقط فارسی + انگلیسی + مرورگر */
+  browserLang?: string;
   siteDir?: "rtl" | "ltr";
   siteStrings?: Record<string, string>;
   longStrings?: Record<string, string>;
@@ -269,7 +272,7 @@ export function Landing({
               onChange={(e) => changeSiteLang(e.target.value)}
               className="b-btn b-btn-ghost b-btn-sm !px-2"
             >
-              {siteLangs.filter((l) => l.code === siteLang || l.code === "en").map((l) => (
+              {siteLangs.filter((l) => l.code === "fa" || l.code === "en" || l.code === browserLang || l.code === siteLang).map((l) => (
                 <option key={l.code} value={l.code}>{l.nativeName}</option>
               ))}
             </select>

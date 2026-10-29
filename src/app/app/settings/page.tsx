@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   Settings, HardDriveDownload, Download, Trash2, Upload, Loader2, Palette,
@@ -65,6 +65,11 @@ export default function SettingsPage() {
   const { t } = useLang();
   const { data, loading, error, refetch } = useApi<SettingsResponse>("/api/settings");
   const [tab, setTab] = useState<"general" | "backup" | "design" | "languages" | "country">("general");
+  // لینک هدر: /app/settings?tab=languages باید مستقیم تب زبان را باز کند
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("tab");
+    if (q === "general" || q === "backup" || q === "design" || q === "languages" || q === "country") setTab(q);
+  }, []);
   const [form, setForm] = useState<Settings | null>(null);
   const [saving, setSaving] = useState(false);
   const [backingUp, setBackingUp] = useState(false);
