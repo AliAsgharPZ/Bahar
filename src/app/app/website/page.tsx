@@ -4,12 +4,12 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   Globe, Loader2, Upload, Eye, Rocket, Palette, Type, Layers, MapPin, Trash2, Plus,
-  ExternalLink, Lock,
+  ExternalLink, Lock, Shuffle, RotateCcw,
 } from "lucide-react";
 import { useApi, apiPut } from "@/lib/client";
 import { slugify } from "@/lib/persian";
 import { PageHeader, LoadingBlock, ErrorBox } from "@/components/shared/bits";
-import { SITE_TEMPLATES, SECTION_LABELS, type SiteSectionKey } from "@/lib/school-site";
+import { SITE_TEMPLATES, templateOf, unifiedTemplateId, SECTION_LABELS, type SiteSectionKey } from "@/lib/school-site";
 import type { SiteConfig } from "@/components/school-site/templates";
 
 type SiteResponse = {
@@ -53,7 +53,11 @@ export default function WebsiteEditorPage() {
 
   const site = data.site;
   const templates = SITE_TEMPLATES;
-  const currentTemplate = templates.find((t) => t.id === templateId) ?? templates[0];
+  // تمپلیت فعلی با شناسهٔ قدیمی هم درست حل می‌شود (پالت‌های اصلی همان شناسه)
+  const currentTemplate = templateOf(templateId);
+  // پالت نهایی: رنگ دلخواه بر پالت پیشنهادی اولویت دارد
+  const resolvedPalette = config?.customPalette
+    ?? currentTemplate.palettes[Math.min(config?.palette ?? 0, currentTemplate.palettes.length - 1)];
 
   function patchConfig(patch: Partial<SiteConfig>) {
     setConfig((c) => (c ? { ...c, ...patch } : c));
@@ -66,7 +70,7 @@ export default function WebsiteEditorPage() {
     });
   }
 
-  async function save(publish?: boolean) {
+  async function save(publish?: boolean): Promise<boolean> {
     setSaving(true);
     try {
       // FIX (راند ۱۸): پاسخ شامل subdomain اسلاگ‌شدهٔ سمت سرور است —
@@ -81,8 +85,10 @@ export default function WebsiteEditorPage() {
       if (publish !== undefined) setPublished(publish);
       toast.success(publish === true ? "سایت مدرسه منتشر شد!" : "تغییرات ذخیره شد.");
       refetch();
+      return true;
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "خطا در ذخیره");
+      return false;
     } finally {
       setSaving(false);
     }
@@ -115,10 +121,9 @@ export default function WebsiteEditorPage() {
     fileRef.current?.click();
   }
 
-  // FIX (راند ۱۸): آدرس پیش‌نمایش/مشاهده از اسلاگِ واقعی ساخته می‌شود —
+  // FIX (راند ۱۸): آدرس مشاهده از اسلاگِ واقعی ساخته می‌شود —
   // ورودی فارسی/بزرگ کاربر سمت سرور ترجمیه می‌شود و قبلاً لینک ۴۰۴ می‌داد
   const effectiveSlug = slugify(subdomain) || site.subdomain;
-  const previewUrl = `/s/${effectiveSlug}?preview=1`;
 
   const ImageField = ({ field, label, hint }: { field: string; label: string; hint?: string }) => (
     <div className="b-card-sm !rounded-xl p-3.5 flex items-center gap-3">
@@ -157,9 +162,19 @@ export default function WebsiteEditorPage() {
         desc="تمپلیت آماده را انتخاب کنید، متن‌ها و تصاویر را شخصی‌سازی کنید و سایت اختصاصی مدرسه را منتشر کنید. ساختار قفل است — فقط محتوا تغییر می‌کند."
         action={
           <div className="flex items-center gap-2">
-            <a href={previewUrl} target="_blank" rel="noreferrer" className="b-btn b-btn-soft b-btn-sm">
+            {/* پیش‌نمایش = اول ذخیرهٔ پیش‌نویس، بعد باز کردن؛ وگرنه پیش‌نمایش
+                حالتِ ذخیره‌شدهٔ قبلی را نشان می‌داد نه انتخاب‌های فعلی ویرایشگر */}
+            <button
+              type="button"
+              className="b-btn b-btn-soft b-btn-sm"
+              disabled={saving || !config}
+              onClick={async () => {
+                const ok = await save();
+                if (ok) window.open(`/s/${slugify(subdomain) || site.subdomain}?preview=1`, "_blank");
+              }}
+            >
               <Eye className="w-4 h-4" /> پیش‌نمایش
-            </a>
+            </button>
             {site.published && (
               <a href={`/s/${effectiveSlug}`} target="_blank" rel="noreferrer" className="b-btn b-btn-soft b-btn-sm">
                 <ExternalLink className="w-4 h-4" /> مشاهده سایت
@@ -196,11 +211,11 @@ export default function WebsiteEditorPage() {
       {tab === "template" && (
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
           {templates.map((t) => {
-            const active = templateId === t.id;
+            const active = templateId === t.id || unifiedTemplateId(templateId) === t.id;
             return (
               <button
                 key={t.id}
-                onClick={() => { setTemplateId(t.id); setConfig((c) => (c ? { ...c, palette: 0 } : c)); }}
+                onClick={() => { setTemplateId(t.id); setConfig((c) => (c ? { ...c, palette: 0, customPalette: null } : c)); }}
                 className={`b-btn b-btn-ghost b-card p-5 text-right transition-all ${active ? "!border-spring ring-2 ring-spring/25" : "hover:border-spring/40"}`}
               >
                 <div
@@ -224,7 +239,7 @@ export default function WebsiteEditorPage() {
                   {t.palettes.map((pal, pi) => (
                     <span
                       key={pi}
-                      className={`flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full border ${config?.palette === pi && active ? "border-spring font-bold" : "border-hairline"}`}
+                      className={`flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full border ${config?.palette === pi && templateId === t.id && !config?.customPalette ? "border-spring font-bold" : "border-hairline"}`}
                     >
                       <span className="w-3 h-3 rounded-full" style={{ background: pal.primary }} />
                       <span className="w-2 h-2 rounded-full" style={{ background: pal.accent }} />
@@ -236,20 +251,104 @@ export default function WebsiteEditorPage() {
             );
           })}
 
-          <div className="b-card p-5 md:col-span-2 xl:col-span-3">
-            <b className="text-[13.5px] block mb-3">رنگ‌بندی تمپلیت «{currentTemplate.name}»</b>
+          <div className="b-card p-5 md:col-span-2 xl:col-span-3 flex flex-col gap-4">
+            <div className="flex items-center gap-2 flex-wrap">
+              <b className="text-[13.5px]">رنگ‌بندی تمپلیت «{currentTemplate.name}»</b>
+              <span className="text-[11px] text-steel">({currentTemplate.palettes.length} پالت پیشنهادی)</span>
+              <button
+                type="button"
+                className="b-btn b-btn-soft b-btn-sm ms-auto"
+                disabled={!config || currentTemplate.palettes.length < 2}
+                onClick={() => {
+                  if (!config) return;
+                  const others = currentTemplate.palettes
+                    .map((_, i) => i)
+                    .filter((i) => i !== config.palette || config.customPalette);
+                  const pick = others[Math.floor(Math.random() * others.length)];
+                  patchConfig({ palette: pick, customPalette: null });
+                }}
+              >
+                <Shuffle className="w-3.5 h-3.5" /> پالت تصادفی
+              </button>
+            </div>
             <div className="flex flex-wrap gap-3">
               {currentTemplate.palettes.map((pal, pi) => (
                 <button
                   key={pi}
-                  onClick={() => patchConfig({ palette: pi })}
-                  className={`b-btn b-btn-ghost b-option !py-2.5 !px-4 ${config?.palette === pi ? "b-option-selected" : ""}`}
+                  onClick={() => patchConfig({ palette: pi, customPalette: null })}
+                  className={`b-btn b-btn-ghost b-option !py-2.5 !px-4 ${config?.palette === pi && !config?.customPalette ? "b-option-selected" : ""}`}
                 >
                   <span className="w-5 h-5 rounded-full" style={{ background: pal.primary }} />
                   <span className="w-4 h-4 rounded-full" style={{ background: pal.accent }} />
                   <b className="text-[12px]">{pal.label}</b>
                 </button>
               ))}
+            </div>
+
+            {/* رنگ دلخواه — انتخاب با پیکر رنگ یا ورودی هگز؛ در پیش‌نمایش و سایت ذخیره‌شده یکسان اعمال می‌شود */}
+            <div className="b-card-sm !rounded-xl p-4 flex flex-col gap-3" key={`${templateId}-${resolvedPalette.primary}-${resolvedPalette.accent}-${resolvedPalette.bg}`}>
+              <div className="flex items-center gap-2 flex-wrap">
+                <b className="text-[12.5px]">رنگ دلخواه</b>
+                <span className="text-[11px] text-steel">با پیکر رنگ یا کد هگز، سه رنگ اصلی/لهجه/پس‌زمینه را خودتان بسازید</span>
+                {config?.customPalette && (
+                  <button type="button" className="b-btn b-btn-ghost b-btn-sm ms-auto" onClick={() => patchConfig({ customPalette: null })}>
+                    <RotateCcw className="w-3.5 h-3.5" /> بازگشت به پالت پیشنهادی
+                  </button>
+                )}
+              </div>
+              {([
+                { key: "primary" as const, label: "رنگ اصلی", value: resolvedPalette.primary },
+                { key: "accent" as const, label: "رنگ لهجه", value: resolvedPalette.accent },
+                { key: "bg" as const, label: "پس‌زمینه", value: resolvedPalette.bg },
+              ]).map((row) => (
+                <div key={row.key} className="flex items-center gap-2.5">
+                  <input
+                    type="color"
+                    aria-label={row.label}
+                    value={row.value}
+                    onChange={(e) => patchConfig({
+                      customPalette: {
+                        label: "رنگ دلخواه",
+                        primary: resolvedPalette.primary,
+                        accent: resolvedPalette.accent,
+                        bg: resolvedPalette.bg,
+                        [row.key]: e.target.value,
+                      },
+                    })}
+                    className="w-10 h-10 rounded-xl border border-hairline p-1 shrink-0 cursor-pointer bg-transparent"
+                  />
+                  <span className="text-[12px] font-bold w-20 shrink-0">{row.label}</span>
+                  <input
+                    dir="ltr"
+                    defaultValue={row.value}
+                    placeholder="#00825E"
+                    aria-label={`کد هگز ${row.label}`}
+                    className="b-input !w-32 !h-10 !text-[13px] shrink-0"
+                    onBlur={(e) => {
+                      const v = e.currentTarget.value.trim();
+                      if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+                        patchConfig({
+                          customPalette: {
+                            label: "رنگ دلخواه",
+                            primary: resolvedPalette.primary,
+                            accent: resolvedPalette.accent,
+                            bg: resolvedPalette.bg,
+                            [row.key]: v,
+                          },
+                        });
+                      } else {
+                        e.currentTarget.value = row.value;
+                      }
+                    }}
+                    onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }}
+                  />
+                  <span className="w-6 h-6 rounded-full border border-hairline shrink-0" style={{ background: row.value }} />
+                </div>
+              ))}
+              <p className="text-[11px] text-steel leading-relaxed">
+                پالت فعلی: {resolvedPalette.label} — اصلی {resolvedPalette.primary} · لهجه {resolvedPalette.accent} · پس‌زمینه {resolvedPalette.bg}
+                {config?.customPalette ? " (رنگ دلخواه فعال است)" : ""}
+              </p>
             </div>
           </div>
         </div>
@@ -413,7 +512,7 @@ export default function WebsiteEditorPage() {
               <span className="text-[12px] font-bold">آدرس اختصاصی (حروف لاتین)</span>
               <div className="flex items-center" dir="ltr">
                 <span className="h-11 px-3 rounded-l-full bg-cloud border border-hairline flex items-center text-[11.5px] text-steel">bahar.school/</span>
-                <input className="b-input !rounded-l-none !rounded-r-full" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} />
+                <input className="b-input !rounded-l-none !rounded-r-full min-w-0" value={subdomain} onChange={(e) => setSubdomain(e.target.value)} />
               </div>
               {/* پیش‌نمایش زندهٔ آدرس نهایی (اسلاگ‌شدهٔ سمت سرور) */}
               <span className="text-[10.5px] text-stone font-bold" dir="ltr">→ /s/{effectiveSlug || "…"}</span>

@@ -11,10 +11,11 @@ import { formatDateFa, faDigits } from "@/lib/persian";
 import { UserAvatar } from "@/components/shared/user-avatar";
 
 // ============================================================
-// بهار | رندرکننده سایت عمومی مدرسه — ۱۶ تمپلیت در ۱۰ خانواده چیدمان
+// بهار | رندرکننده سایت عمومی مدرسه — ۱۰ تمپلیت یکپارچه در ۱۰ خانواده چیدمان
 //
 // خانواده‌های چیدمان (ساختار HTML/چیدمان/فوتر کاملاً متفاوت):
-//   classic  (کلاسیک)  → تمپلیت‌ها: classic, minimal
+//   classic  (کلاسیک)  → تمپلیت‌ها: classic (قدیمی: minimal)
+//   magazine (مجله‌ای)  → تمپلیت‌ها: magazine (قدیمی: academic, royal, nature, art)
 //     هیرو دو ستونه + بخش‌های پشته‌ای آرام؛ کارت‌های سفید؛ فوتر تک‌خطی
 //   modern   (مدرن)     → تمپلیت‌ها: modern, stem
 //     هیرو تمام‌صفحه تیره گرادیانی + نوار آمار؛ گوشه‌های تیز؛ سرتیترهای
@@ -35,6 +36,7 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 
 export type SiteConfig = {
   palette: number;
+  customPalette?: { label: string; primary: string; accent: string; bg: string } | null;
   heroTitle: string;
   heroSubtitle: string;
   heroImage: string;
@@ -94,6 +96,7 @@ export function familyOf(templateId: string): Family {
   if (templateId === "modern" || templateId === "stem") return "modern";
   if (templateId === "academic" || templateId === "royal" || templateId === "nature" || templateId === "art") return "magazine";
   if (templateId === "playful" || templateId === "sport") return "playful";
+  if (templateId === "magazine") return "magazine";
   if (templateId === "apple") return "apple";
   if (templateId === "airbnb") return "airbnb";
   if (templateId === "notion") return "notion";
@@ -813,7 +816,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
           <p className="text-[11px] mb-3" style={{ color: skin.faint }}>
             {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}{school.establishedYear ? ` · از سال ${faDigits(school.establishedYear)}` : ""}
           </p>
-          <b className="block text-[28px] md:text-[38px] font-bold leading-tight" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
+          <b className="block text-[28px] md:text-[38px] font-bold leading-tight break-words break-words" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
           {school.motto && <p className="mt-3 text-[12px]" style={{ color: skin.sub }}>{school.motto}</p>}
           <div className="mt-6 border-t" style={{ borderColor: skin.border }} />
         </div>
@@ -841,9 +844,9 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
           ) : (
             <span className="w-10 h-10 rounded-full bg-white/25 flex items-center justify-center font-bold" style={{ color: skin.onPrimary }}>{school.name[0] ?? "ب"}</span>
           )}
-          <b className="text-[15px]" style={{ ...headingFont, color: skin.onPrimary }}>{school.name}</b>
+          <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.onPrimary }}>{school.name}</b>
           <span className="hidden sm:inline text-[11px] opacity-70" style={{ color: skin.onPrimary }}>{school.type}</span>
-          <a href="#admissions" className="ms-auto h-10 px-5 flex items-center text-[12.5px] font-bold transition-transform hover:scale-105" style={{ borderRadius: 999, background: skin.p.accent, color: skin.onAccent }}>
+          <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold transition-transform hover:scale-105" style={{ borderRadius: 999, background: skin.p.accent, color: skin.onAccent }}>
             {cta}
           </a>
         </div>
@@ -860,9 +863,9 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
           ) : (
             <span className="w-10 h-10 flex items-center justify-center font-bold text-white" style={{ background: skin.p.primary, borderRadius: 6 }}>{school.name[0] ?? "ب"}</span>
           )}
-          <b className="text-[15px]" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
+          <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
           <span className="hidden sm:inline text-[11px]" style={{ color: skin.faint }}>{school.type}</span>
-          <a href="#admissions" className="ms-auto h-10 px-5 flex items-center text-[12.5px] font-bold transition-transform hover:scale-105" style={{ borderRadius: skin.pill, background: skin.p.accent, color: skin.onAccent }}>
+          <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold transition-transform hover:scale-105" style={{ borderRadius: skin.pill, background: skin.p.accent, color: skin.onAccent }}>
             {cta}
           </a>
         </div>
@@ -878,9 +881,9 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
         ) : (
           <span className="w-10 h-10 flex items-center justify-center font-bold text-white" style={{ background: skin.p.primary, borderRadius: 12 }}>{school.name[0] ?? "ب"}</span>
         )}
-        <b className="text-[15px]" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
+        <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
         <span className="hidden sm:inline text-[11px]" style={{ color: skin.faint }}>{school.type}</span>
-        <a href="#admissions" className="ms-auto h-10 px-5 flex items-center text-[12.5px] font-bold text-white transition-transform hover:scale-105" style={{ borderRadius: skin.pill, background: skin.p.primary }}>
+        <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold text-white transition-transform hover:scale-105" style={{ borderRadius: skin.pill, background: skin.p.primary }}>
           {cta}
         </a>
       </div>
@@ -958,7 +961,7 @@ function SiteFooter({ skin, school }: { skin: Skin; school: SiteData["school"] }
         <div className="max-w-6xl mx-auto px-4 py-10">
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div>
-              <b className="text-[19px] md:text-[22px] font-extrabold block mb-1" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
+              <b className="text-[19px] md:text-[22px] font-extrabold block mb-1 break-words" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
               <span className="text-[11.5px]" style={{ color: skin.faint }}>{school.type ?? "مدرسه"} — ساخته‌شده با سامانه بهار</span>
             </div>
             <a href="/" className="text-[12px] font-bold flex items-center gap-1.5 hover:underline" style={{ color: skin.p.accent }}>
@@ -973,7 +976,7 @@ function SiteFooter({ skin, school }: { skin: Skin; school: SiteData["school"] }
     return (
       <footer className="mt-14 border-t" style={{ borderColor: skin.border }}>
         <div className="max-w-5xl mx-auto px-4 py-10 text-center">
-          <b className="block text-[18px] md:text-[22px] font-bold mb-2" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
+          <b className="block text-[18px] md:text-[22px] font-bold mb-2 break-words" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
           <span className="block text-[11.5px] mb-4" style={{ color: skin.faint }}>ساخته‌شده با سامانه بهار</span>
           <a href="/" className="text-[12px] font-bold hover:underline" style={{ color: skin.p.primary }}>بهار؛ سامانه جامع مدارس</a>
         </div>
@@ -983,7 +986,7 @@ function SiteFooter({ skin, school }: { skin: Skin; school: SiteData["school"] }
   if (f === "playful") {
     return (
       <footer className="mt-14 pt-12 pb-10 text-center" style={{ background: skin.p.primary, borderRadius: "44px 44px 0 0", color: skin.onPrimary }}>
-        <b className="block text-[18px] md:text-[22px] font-extrabold mb-2" style={{ ...headingFont }}>{school.name}</b>
+        <b className="block text-[18px] md:text-[22px] font-extrabold mb-2 break-words" style={{ ...headingFont }}>{school.name}</b>
         <span className="block text-[11.5px] opacity-70 mb-5">ساخته‌شده با سامانه بهار</span>
         <a href="/" className="inline-flex items-center gap-1.5 text-[12px] font-bold hover:underline" style={{ color: skin.onPrimary }}>
           <Mail className="w-4 h-4" /> بهار؛ سامانه جامع مدارس
@@ -1035,7 +1038,7 @@ function ClassicFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="classic" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="classic" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* هیرو دو ستونه */}
@@ -1051,7 +1054,7 @@ function ClassicFamily({ skin, config, data, subdomain }: FamilyProps) {
                 {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
               </span>
             )}
-            <h1 className="text-[34px] md:text-[48px] font-extrabold leading-[1.25] mb-4" style={{ ...headingFont, color: skin.dark ? "#fff" : "#0A1E17" }}>
+            <h1 className="text-[34px] md:text-[48px] font-extrabold leading-[1.25] mb-4 break-words" style={{ ...headingFont, color: skin.dark ? "#fff" : "#0A1E17" }}>
               {config.heroTitle}
             </h1>
             <p className="text-[14.5px] md:text-[16.5px] leading-relaxed mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
@@ -1187,7 +1190,7 @@ function ModernFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="modern" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="modern" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* هیرو تمام‌صفحه گرادیانی */}
@@ -1199,7 +1202,7 @@ function ModernFamily({ skin, config, data, subdomain }: FamilyProps) {
           <p className="text-[12px] font-bold mb-4" style={{ color: p.accent }}>
             {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}{school.establishedYear ? ` · از سال ${faDigits(school.establishedYear)}` : ""}
           </p>
-          <h1 className="text-[40px] md:text-[60px] font-extrabold leading-[1.12] mb-5" style={{ ...headingFont, color: "#fff" }}>
+          <h1 className="text-[40px] md:text-[60px] font-extrabold leading-[1.12] mb-5 break-words" style={{ ...headingFont, color: "#fff" }}>
             {config.heroTitle}
           </h1>
           <p className="text-[15px] md:text-[17px] max-w-2xl mx-auto leading-relaxed mb-9" style={{ color: "rgba(255,255,255,.72)" }}>
@@ -1332,7 +1335,7 @@ function MagazineFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="magazine" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="magazine" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* تیتر درشت مرکزی + تصویر تمام‌عرض */}
@@ -1341,7 +1344,7 @@ function MagazineFamily({ skin, config, data, subdomain }: FamilyProps) {
           <p className="text-[11.5px] mb-4" style={{ color: p.primary }}>
             {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
           </p>
-          <h1 className="text-[36px] md:text-[56px] font-bold leading-[1.22] mb-5" style={{ ...headingFont, color: skin.text }}>
+          <h1 className="text-[36px] md:text-[56px] font-bold leading-[1.22] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>
             {config.heroTitle}
           </h1>
           <p className="text-[14.5px] md:text-[16.5px] leading-loose max-w-2xl mx-auto mb-8" style={{ color: skin.sub }}>
@@ -1475,7 +1478,7 @@ function PlayfulFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="playful" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="playful" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* هیرو نامتقارن */}
@@ -1499,7 +1502,7 @@ function PlayfulFamily({ skin, config, data, subdomain }: FamilyProps) {
             <span className="inline-block px-4 py-1.5 text-[11px] font-bold mb-5 -rotate-2" style={{ borderRadius: 999, background: sport ? p.primary : p.accent, color: sport ? skin.onPrimary : skin.onAccent }}>
               {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
             </span>
-            <h1 className="text-[36px] md:text-[52px] font-extrabold leading-[1.3] mb-5" style={{ ...headingFont, color: skin.text }}>
+            <h1 className="text-[36px] md:text-[52px] font-extrabold leading-[1.3] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>
               <HighlightedTitle text={config.heroTitle} accent={p.accent} />
             </h1>
             <p className="text-[14.5px] md:text-[16px] leading-relaxed mb-8 max-w-lg" style={{ color: skin.sub }}>
@@ -1814,7 +1817,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
   const soft = skin.dark ? "rgba(255,255,255,.04)" : "#F5F5F7";
 
   return (
-    <div data-family="apple" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="apple" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       {/* هدر باریک نیمه‌شفاف */}
       <header className="sticky top-0 z-30 backdrop-blur-md" style={{ background: skin.dark ? "rgba(0,0,0,.72)" : "rgba(255,255,255,.78)", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center gap-3">
@@ -1823,7 +1826,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
           ) : (
             <span className="w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-bold text-white" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>
           )}
-          <b className="text-[13.5px] font-semibold" style={{ color: skin.text }}>{school.name}</b>
+          <b className="text-[13.5px] font-semibold min-w-0 truncate" style={{ color: skin.text }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-6 ms-8 text-[12.5px]" aria-label="ناوبری سایت مدرسه">
             {[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]].map(([l, h]) => (
               <a key={h} href={h} className="hover:opacity-70 transition-opacity" style={{ color: skin.sub }}>{l}</a>
@@ -1840,7 +1843,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
         <p className="text-[13px] font-semibold mb-4" style={{ color: p.primary }}>
           {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}{school.establishedYear ? ` · از سال ${faDigits(school.establishedYear)}` : ""}
         </p>
-        <h1 className="text-[40px] md:text-[64px] font-extrabold leading-[1.15] mb-5" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
+        <h1 className="text-[40px] md:text-[64px] font-extrabold leading-[1.15] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
         <p className="text-[16px] md:text-[20px] leading-relaxed max-w-2xl mx-auto mb-9" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
         <div className="flex items-center justify-center gap-5 flex-wrap">
           <a href="#admissions" className="h-12 px-8 inline-flex items-center text-[14px] font-semibold text-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, background: p.primary }}>
@@ -1968,7 +1971,7 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="airbnb" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="airbnb" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       {/* هدر سفید با دکمهٔ کپسولی */}
       <header className="sticky top-0 z-30" style={{ background: skin.dark ? p.bg : "#fff", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-3">
@@ -1977,13 +1980,13 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
           ) : (
             <span className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>
           )}
-          <b className="text-[15.5px] font-bold" style={{ ...headingFont, color: p.primary }}>{school.name}</b>
+          <b className="text-[15.5px] font-bold min-w-0 truncate" style={{ ...headingFont, color: p.primary }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-6 ms-6 text-[13px] font-medium" aria-label="ناوبری سایت مدرسه">
             {[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کلاس‌ها", "#classes"], ["گالری", "#gallery"], ["تماس", "#contact"]].map(([l, h]) => (
               <a key={h} href={h} className="hover:underline" style={{ color: skin.sub }}>{l}</a>
             ))}
           </nav>
-          <a href="#admissions" className="ms-auto h-11 px-6 inline-flex items-center text-[13px] font-bold text-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, background: p.primary, boxShadow: "0 4px 14px rgba(0,0,0,.14)" }}>
+          <a href="#admissions" className="ms-auto h-11 px-6 inline-flex items-center shrink-0 text-[13px] font-bold text-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, background: p.primary, boxShadow: "0 4px 14px rgba(0,0,0,.14)" }}>
             {config.ctaPrimary}
           </a>
         </div>
@@ -1995,7 +1998,7 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
           <span className="inline-block px-3.5 py-1.5 mb-5 text-[11.5px] font-bold" style={{ borderRadius: 999, background: `${p.accent}18`, color: skin.dark ? p.accent : skin.text }}>
             {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
           </span>
-          <h1 className="text-[34px] md:text-[46px] font-bold leading-[1.3] mb-4" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
+          <h1 className="text-[34px] md:text-[46px] font-bold leading-[1.3] mb-4 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
           <p className="text-[14.5px] md:text-[16px] leading-relaxed mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
           <div className="flex gap-3 flex-wrap">
             <a href="#admissions" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold text-white transition-transform hover:scale-[1.02]" style={{ borderRadius: 999, background: p.primary }}>
@@ -2129,7 +2132,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="notion" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="notion" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       {/* هدر سادهٔ سندگونه */}
       <header className="sticky top-0 z-30" style={{ background: p.bg, borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-2.5">
@@ -2138,7 +2141,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
           ) : (
             <span className="w-8 h-8 flex items-center justify-center font-bold text-white text-[13px]" style={{ background: p.accent, borderRadius: 8 }}>{school.name[0] ?? "ب"}</span>
           )}
-          <b className="text-[14px] font-semibold" style={{ color: skin.text }}>{school.name}</b>
+          <b className="text-[14px] font-semibold min-w-0 truncate" style={{ color: skin.text }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-5 ms-6 text-[12.5px]" aria-label="ناوبری سایت مدرسه">
             {[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["تماس", "#contact"]].map(([l, h]) => (
               <a key={h} href={h} className="hover:underline" style={{ color: skin.sub }}>{l}</a>
@@ -2155,7 +2158,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
         <p className="text-[12px] font-medium mb-4" style={{ color: skin.faint }}>
           {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}{school.establishedYear ? ` · بنیان‌گذاری ${faDigits(school.establishedYear)}` : ""}
         </p>
-        <h1 className="text-[34px] md:text-[46px] font-semibold leading-[1.3] mb-4" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
+        <h1 className="text-[34px] md:text-[46px] font-semibold leading-[1.3] mb-4 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
         <p className="text-[15px] md:text-[16.5px] leading-[1.9] mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
         <div className="flex gap-2.5 flex-wrap">
           <a href="#admissions" className="h-10 px-5 inline-flex items-center text-[13px] font-semibold text-white transition-opacity hover:opacity-85" style={{ borderRadius: 8, background: p.accent }}>
@@ -2281,7 +2284,7 @@ function StripeFamily({ skin, config, data, subdomain }: FamilyProps) {
   const grad = `linear-gradient(115deg, ${p.primary} 0%, ${p.accent} 100%)`;
 
   return (
-    <div data-family="stripe" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="stripe" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       {/* هدر روی گرادیان */}
       <div style={{ background: grad }}>
         <header>
@@ -2291,13 +2294,13 @@ function StripeFamily({ skin, config, data, subdomain }: FamilyProps) {
             ) : (
               <span className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold text-white">{school.name[0] ?? "ب"}</span>
             )}
-            <b className="text-[15px] font-semibold text-white" style={{ ...headingFont }}>{school.name}</b>
+            <b className="text-[15px] font-semibold text-white min-w-0 truncate" style={{ ...headingFont }}>{school.name}</b>
             <nav className="hidden md:flex items-center gap-6 ms-6 text-[13px] text-white/85" aria-label="ناوبری سایت مدرسه">
               {[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]].map(([l, h]) => (
                 <a key={h} href={h} className="hover:text-white transition-colors">{l}</a>
               ))}
             </nav>
-            <a href="#admissions" className="ms-auto h-10 px-5 inline-flex items-center text-[12.5px] font-bold bg-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, color: p.primary }}>
+            <a href="#admissions" className="ms-auto h-10 px-5 inline-flex items-center shrink-0 text-[12.5px] font-bold bg-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, color: p.primary }}>
               {config.ctaPrimary}
             </a>
           </div>
@@ -2309,7 +2312,7 @@ function StripeFamily({ skin, config, data, subdomain }: FamilyProps) {
             <p className="text-[12px] font-bold text-white/80 mb-4">
               {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
             </p>
-            <h1 className="text-[36px] md:text-[52px] font-semibold leading-[1.25] text-white mb-5" style={{ ...headingFont }}>{config.heroTitle}</h1>
+            <h1 className="text-[36px] md:text-[52px] font-semibold leading-[1.25] text-white mb-5 break-words" style={{ ...headingFont }}>{config.heroTitle}</h1>
             <p className="text-[14.5px] md:text-[16.5px] leading-relaxed text-white/85 mb-8">{config.heroSubtitle}</p>
             <div className="flex gap-3 flex-wrap">
               <a href="#admissions" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold bg-white transition-transform hover:scale-[1.02]" style={{ borderRadius: 999, color: p.primary }}>
@@ -2446,7 +2449,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="linear" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="linear" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       {/* هدر فشرده با محو پس‌زمینه */}
       <header className="sticky top-0 z-30 backdrop-blur-md" style={{ background: skin.dark ? "rgba(8,9,10,.75)" : "rgba(255,255,255,.8)", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center gap-3">
@@ -2455,7 +2458,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
           ) : (
             <span className="w-7 h-7 flex items-center justify-center font-bold text-white text-[12px]" style={{ background: p.primary, borderRadius: 7 }}>{school.name[0] ?? "ب"}</span>
           )}
-          <b className="text-[13.5px] font-semibold" style={{ color: skin.text }}>{school.name}</b>
+          <b className="text-[13.5px] font-semibold min-w-0 truncate" style={{ color: skin.text }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-5 ms-7 text-[12.5px]" aria-label="ناوبری سایت مدرسه">
             {[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کلاس‌ها", "#classes"], ["کادر", "#staff"], ["تماس", "#contact"]].map(([l, h]) => (
               <a key={h} href={h} className="hover:opacity-75 transition-opacity" style={{ color: skin.sub }}>{l}</a>
@@ -2476,7 +2479,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: p.accent }} aria-hidden="true" />
               {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
             </span>
-            <h1 className="text-[34px] md:text-[50px] font-semibold leading-[1.25] mb-5" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
+            <h1 className="text-[34px] md:text-[50px] font-semibold leading-[1.25] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
             <p className="text-[14px] md:text-[15.5px] leading-[1.95] mb-8 max-w-lg" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
             <div className="flex gap-2.5 flex-wrap">
               <a href="#admissions" className="h-10 px-5 inline-flex items-center text-[13px] font-semibold text-white transition-opacity hover:opacity-85" style={{ borderRadius: 8, background: p.primary }}>
@@ -2609,7 +2612,7 @@ function SpotifyFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="spotify" className="min-h-screen font-sans" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="spotify" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       {/* هدر مشکی با دکمهٔ سبز کپسولی */}
       <header className="sticky top-0 z-30" style={{ background: skin.dark ? "rgba(10,10,10,.88)" : "#fff", borderBottom: `1px solid ${skin.border}`, backdropFilter: "blur(8px)" }}>
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-3">
@@ -2618,13 +2621,13 @@ function SpotifyFamily({ skin, config, data, subdomain }: FamilyProps) {
           ) : (
             <span className="w-10 h-10 rounded-full flex items-center justify-center font-extrabold" style={{ background: p.primary, color: skin.onPrimary }}>{school.name[0] ?? "ب"}</span>
           )}
-          <b className="text-[15.5px] font-extrabold" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
+          <b className="text-[15.5px] font-extrabold min-w-0 truncate" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-6 ms-6 text-[13px] font-semibold" aria-label="ناوبری سایت مدرسه">
             {[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["گالری", "#gallery"], ["تماس", "#contact"]].map(([l, h]) => (
               <a key={h} href={h} className="hover:opacity-75 transition-opacity" style={{ color: skin.sub }}>{l}</a>
             ))}
           </nav>
-          <a href="#admissions" className="ms-auto h-11 px-6 inline-flex items-center text-[13px] font-extrabold transition-transform hover:scale-[1.04]" style={{ borderRadius: 999, background: p.primary, color: skin.onPrimary }}>
+          <a href="#admissions" className="ms-auto h-11 px-6 inline-flex items-center shrink-0 text-[13px] font-extrabold transition-transform hover:scale-[1.04]" style={{ borderRadius: 999, background: p.primary, color: skin.onPrimary }}>
             {config.ctaPrimary}
           </a>
         </div>
@@ -2639,7 +2642,7 @@ function SpotifyFamily({ skin, config, data, subdomain }: FamilyProps) {
             <p className="text-[12.5px] font-bold mb-4" style={{ color: p.accent }}>
               {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
             </p>
-            <h1 className="text-[38px] md:text-[58px] font-extrabold leading-[1.2] mb-5" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
+            <h1 className="text-[38px] md:text-[58px] font-extrabold leading-[1.2] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
             <p className="text-[14.5px] md:text-[16.5px] leading-relaxed mb-9 max-w-xl" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
             <div className="flex gap-3 flex-wrap items-center">
               <a href="#admissions" className="h-[52px] px-9 inline-flex items-center text-[14px] font-extrabold transition-transform hover:scale-[1.04]" style={{ borderRadius: 999, background: p.primary, color: skin.onPrimary }}>
@@ -2802,6 +2805,7 @@ export function SchoolSiteRenderer({
 
   switch (skin.family) {
     case "modern": return <ModernFamily {...props} />;
+    case "magazine": return <MagazineFamily {...props} />;
     case "magazine": return <MagazineFamily {...props} />;
     case "playful": return <PlayfulFamily {...props} />;
     case "apple": return <AppleFamily {...props} />;

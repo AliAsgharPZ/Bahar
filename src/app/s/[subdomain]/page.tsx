@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
 import { Sprout as SproutIcon } from "lucide-react";
 import { db } from "@/lib/db";
-import { defaultSiteConfig, parseSiteConfig, templateOf } from "@/lib/school-site";
+import { defaultSiteConfig, parseSiteConfig, templateOf, resolvePalette } from "@/lib/school-site";
 import { SchoolSiteRenderer } from "@/components/school-site/templates";
 import { avatarApiFields } from "@/lib/avatar";
 import { verifyToken, SESSION_COOKIE_NAME } from "@/lib/auth";
@@ -98,7 +98,7 @@ export default async function SchoolSitePage({ params, searchParams }: Props) {
 
   const config = { ...defaultSiteConfig(school), ...parseSiteConfig(site.config) };
   const template = templateOf(site.templateId);
-  const palette = template.palettes[Math.min(config.palette ?? 0, template.palettes.length - 1)];
+  const palette = resolvePalette(template, config);
 
   const data = {
     school: {

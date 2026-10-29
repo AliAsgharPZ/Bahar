@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { apiOk, apiErr, handleApiError, readJson, ApiError } from "@/lib/api";
-import { defaultSiteConfig, parseSiteConfig, templateOf } from "@/lib/school-site";
+import { defaultSiteConfig, parseSiteConfig, templateOf, resolvePalette } from "@/lib/school-site";
 import { enDigits } from "@/lib/persian";
 import { avatarApiFields } from "@/lib/avatar";
 
@@ -64,7 +64,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
         templateId: site.templateId,
         views: site.views + 1,
         config,
-        palette: template.palettes[Math.min(config.palette ?? 0, template.palettes.length - 1)],
+        palette: resolvePalette(template, config),
       },
       school: {
         name: school.name,
