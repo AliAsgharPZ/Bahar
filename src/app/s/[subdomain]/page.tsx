@@ -64,7 +64,7 @@ export default async function SchoolSitePage({ params, searchParams }: Props) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F4F8F6] p-6" dir="rtl">
         <div className="b-card p-8 text-center max-w-md">
-          <span className="w-16 h-16 rounded-full bg-[#E8F0EC] text-[#00825E] flex items-center justify-center mx-auto mb-3">
+          <span className="w-16 h-16 rounded-full bg-[#E8F0EC] text-spring flex items-center justify-center mx-auto mb-3">
             <SproutIcon className="w-8 h-8" />
           </span>
           <h1 className="text-xl font-bold mb-2">سایت این مدرسه هنوز منتشر نشده</h1>
