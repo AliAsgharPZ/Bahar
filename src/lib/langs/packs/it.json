@@ -1146,7 +1146,20 @@
     "engagement.suggestion.category.service": "Servizi",
     "engagement.suggestion.status.accepted": "Accettata",
     "engagement.suggestion.status.new": "Nuova",
-    "engagement.suggestion.status.rejected": "Respinta"
+    "engagement.suggestion.status.rejected": "Respinta",
+    "common.errorShort": "Errore",
+    "shell.signedOut": "Sei uscito; a presto!",
+    "shell.schoolPanel.exited": "Sei uscito dal pannello della scuola.",
+    "shell.exitSchoolPanel": "Esci dal pannello della scuola",
+    "shell.logoutShort": "Esci",
+    "shell.sectionsMenu": "Menu delle sezioni",
+    "shell.backToDashboard": "Torna alla dashboard",
+    "shell.printPage": "Stampa / esporta questa pagina in PDF",
+    "shell.printShort": "Stampa / esporta PDF",
+    "shell.systemSettings": "Impostazioni di sistema",
+    "shell.sidebar.expand": "Espandi la barra laterale",
+    "shell.sidebar.collapse": "Comprimi la barra laterale",
+    "shell.panel": "Pannello"
   },
   "siteStrings": {
     "site.brand.tagline": "Sistema di gestione scolastica",
