@@ -647,7 +647,20 @@
     "users.cred.sentViaShad": "शाद गेटवे से भेज दिया गया।",
     "users.cred.shadOff": "इस विद्यालय का शाद बंद है — क्रेडेंशियल कॉपी करें और स्वयं उपयोगकर्ता तक पहुँचाएँ।",
     "users.cred.noShadNumber": "शाद नंबर दर्ज नहीं है — क्रेडेंशियल कॉपी करें।",
-    "users.cred.sendFailed": "शाद भेजना असफल रहा — क्रेडेंशियल कॉपी करें या शाद गेटवे जुड़ने के बाद दोबारा भेजें।"
+    "users.cred.sendFailed": "शाद भेजना असफल रहा — क्रेडेंशियल कॉपी करें या शाद गेटवे जुड़ने के बाद दोबारा भेजें।",
+    "common.errorShort": "त्रुटि",
+    "shell.signedOut": "आप लॉग आउट हो गए; फिर मिलेंगे!",
+    "shell.schoolPanel.exited": "आपने स्कूल पैनल से बाहर निकल लिया है।",
+    "shell.exitSchoolPanel": "स्कूल पैनल से बाहर निकलें",
+    "shell.logoutShort": "लॉग आउट",
+    "shell.sectionsMenu": "अनुभाग मेनू",
+    "shell.backToDashboard": "डैशबोर्ड पर वापस जाएँ",
+    "shell.printPage": "इस पृष्ठ को प्रिंट / PDF आउटपुट करें",
+    "shell.printShort": "प्रिंट / PDF आउटपुट",
+    "shell.systemSettings": "सिस्टम सेटिंग्स",
+    "shell.sidebar.expand": "साइडबार खोलें",
+    "shell.sidebar.collapse": "साइडबार सिकोड़ें",
+    "shell.panel": "पैनल"
   },
   "siteStrings": {
     "site.brand.tagline": "स्कूल प्रबंधन प्रणाली",
