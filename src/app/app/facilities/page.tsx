@@ -109,7 +109,7 @@ function FacilitiesInner() {
               <Select
                 value={form.roomKind ?? "CLASSROOM"}
                 onChange={(v) => setForm({ ...form, roomKind: v })}
-                options={[{ value: "CLASSROOM", label: t("common.class") }, { value: "LAB", label: t("facilities.azmayshgah") }, { value: "SPORT", label: t("facilities.saln-vrzsh") }, { value: "LIBRARY", label: t("nav.library") }, { value: "OFFICE", label: t("facilities.adary") }]}
+                options={[{ value: "CLASSROOM", label: t("common.class") }, { value: "LAB", label: t("facilities.azmayshgah") }, { value: "SPORT", label: t("facilities.saln-vrzsh") }, { value: "HALL", label: "سالن" }, { value: "CONFERENCE", label: "سالن همایش" }, { value: "FIELD", label: "زمین ورزشی" }, { value: "LIBRARY", label: t("nav.library") }, { value: "OFFICE", label: t("facilities.adary") }]}
                 className="w-full"
                 buttonClassName="!w-full"
               />
@@ -124,7 +124,7 @@ function FacilitiesInner() {
                   <p className="font-bold text-[14px]">{r.name}</p>
                   <button onClick={() => del("room", r.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
-                <p className="text-[12px] text-steel mt-1">{t("facilities.zrfyt")} {faNumber(r.capacity)} {t("dashboard.unit.person")}{r.floor ? ` ${t("facilities.tbqh")} ${faNumber(r.floor)}` : ""}</p>
+                <p className="text-[12px] text-steel mt-1">{{ CLASSROOM: t("common.class"), LAB: t("facilities.azmayshgah"), SPORT: t("facilities.saln-vrzsh"), HALL: "سالن", CONFERENCE: "سالن همایش", FIELD: "زمین ورزشی", LIBRARY: t("nav.library"), OFFICE: t("facilities.adary") }[r.kind] ?? t("facilities.sayr")} · {t("facilities.zrfyt")} {faNumber(r.capacity)} {t("dashboard.unit.person")}{r.floor ? ` ${t("facilities.tbqh")} ${faNumber(r.floor)}` : ""}</p>
               </motion.div>
             ))}
           </div>

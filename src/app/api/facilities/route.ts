@@ -8,7 +8,7 @@ import { notifyUser } from "@/lib/notify";
    rooms | bookings | assets | maintenance | visitors | lostfound
    ============================================================ */
 
-const ROOM_KINDS: Record<string, string> = { CLASSROOM: "کلاس", LAB: "آزمایشگاه", SPORT: "سالن ورزش", LIBRARY: "کتابخانه", OFFICE: "اداری", OTHER: "سایر" };
+const ROOM_KINDS: Record<string, string> = { CLASSROOM: "کلاس", LAB: "آزمایشگاه", SPORT: "سالن ورزش", HALL: "سالن", CONFERENCE: "سالن همایش", FIELD: "زمین ورزشی", LIBRARY: "کتابخانه", OFFICE: "اداری", OTHER: "سایر" };
 const ASSET_CATS: Record<string, string> = { PROJECTOR: "پروژکتور", LAPTOP: "لپ‌تاپ", COMPUTER: "کامپیوتر", SOUND: "صوتی", LAB: "تجهیز آزمایشگاه", FURNITURE: "مبلمان", OTHER: "سایر" };
 const DOC_KINDS: Record<string, string> = {
   BIRTH_CERT: "شناسنامه", NATIONAL_ID: "کارت ملی", PHOTO: "عکس پرسنلی", HEALTH_INSURANCE: "بیمه سلامت",

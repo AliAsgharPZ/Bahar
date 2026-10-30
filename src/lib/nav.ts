@@ -7,7 +7,7 @@ import {
   Zap, Wrench, Vote, ScrollText, FileBarChart, ShieldAlert, HeartPulse,
   Home, MessagesSquare, Coins, SlidersHorizontal, Building2, FileUp,
   IdCard, Repeat,
-  Bus, FileText, Video, Armchair, MessageSquareText,
+  Bus, FileText, Video, Armchair, MessageSquareText, Landmark,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
   Compass, MonitorPlay, Flame, Album, Terminal, Accessibility, FlaskConical, Puzzle,
 } from "lucide-react";
@@ -95,6 +95,7 @@ export const NAV: NavItem[] = [
   { href: "/app/resources", label: "منابع آموزشی", tKey: "nav.resources", short: "منابع", icon: Link2, roles: ["*"], tint: 0, group: "education" },
   { href: "/app/automation", label: "اتوماسیون", tKey: "nav.automation", short: "اتوماسیون", icon: Zap, roles: ["MANAGER", "SUPER_ADMIN"], tint: 1, group: "admin" },
   { href: "/app/facilities", label: "امکانات و اموال", tKey: "nav.facilities", short: "امکانات", icon: Wrench, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER", "CUSTODIAN"], tint: 2, group: "services" },
+  { href: "/app/venues", label: "محل‌ها و سالن‌ها", short: "سالن‌ها", icon: Landmark, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER", "CUSTODIAN"], tint: 3, group: "services" },
   { href: "/app/dormitory", label: "خوابگاه", tKey: "nav.dormitory", short: "خوابگاه", icon: Building2, roles: ["*"], tint: 3, group: "services" },
   { href: "/app/mcp", label: "سرور MCP", tKey: "nav.mcp", short: "MCP", icon: Terminal, roles: ["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN", "TEACHER"], tint: 0, group: "admin" },
   { href: "/app/accessibility", label: "دسترس‌پذیری", tKey: "nav.accessibility", short: "دسترس‌پذیری", icon: Accessibility, roles: ["*"], tint: 1, group: "personal" },
