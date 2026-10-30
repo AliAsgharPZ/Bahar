@@ -2146,7 +2146,20 @@
     "shad.ra-bznyd-ta-pnjrh-developer-tools-baz-shvd": "— púlsalo para que se abra la ventana Developer Tools.",
     "shad.ra-kpy-v-hmyn-ja-jay-gzary-knyd": "— cópialo y pégalo aquí mismo.",
     "shad.ra-rvy-srvr-ajra-knyd-v-ba-tvkn-web-shad-ir-vsl-shvyd": "— ejecútalo en el servidor y conéctate con el token de web.shad.ir.",
-    "shad.rmz-tsadfy": "Contraseña aleatoria"
+    "shad.rmz-tsadfy": "Contraseña aleatoria",
+    "common.errorShort": "Error",
+    "shell.signedOut": "Sesión cerrada. ¡Hasta pronto!",
+    "shell.schoolPanel.exited": "Has salido del panel escolar.",
+    "shell.exitSchoolPanel": "Salir del panel escolar",
+    "shell.logoutShort": "Salir",
+    "shell.sectionsMenu": "Menú de secciones",
+    "shell.backToDashboard": "Volver al panel de control",
+    "shell.printPage": "Imprimir / exportar esta página a PDF",
+    "shell.printShort": "Imprimir / PDF",
+    "shell.systemSettings": "Configuración del sistema",
+    "shell.sidebar.expand": "Expandir barra lateral",
+    "shell.sidebar.collapse": "Contraer barra lateral",
+    "shell.panel": "Panel"
   },
   "siteStrings": {
     "site.brand.tagline": "Sistema de gestión escolar",
