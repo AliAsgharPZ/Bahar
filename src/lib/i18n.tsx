@@ -38,7 +38,11 @@ export function LangProvider({
   useEffect(() => {
     let cancelled = false;
     const browserCode = typeof navigator !== "undefined" ? (navigator.language || "").split("-")[0].toLowerCase() : "";
-    const code = (initialCode || document.cookie.match(/(?:^|;\s*)bahar_lang=([^;]+)/)?.[1] || browserCode || "fa").trim();
+    // کوکی، انتخابِ صریح و تازهٔ کاربر است — بر ترجیحِ ذخیره‌شدهٔ قدیمی
+    // در پایگاه داده ارجحیت دارد، وگرنه «اعمال» زبان پس از بارگذاریِ
+    // دوباره، زیر مقدارِ قدیمیِ سرور دفن می‌شد و پنل فارسی می‌ماند.
+    const cookieCode = document.cookie.match(/(?:^|;\s*)bahar_lang=([^;]+)/)?.[1];
+    const code = (cookieCode || initialCode || browserCode || "fa").trim();
     const apply = (pack: ActiveLang) => {
       if (cancelled) return;
       setLang(pack);

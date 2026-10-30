@@ -25,7 +25,7 @@ export default function LanguagesPage() {
           <div className="b-card p-6 flex flex-col gap-2">
             <b className="text-[14px]">{t("languages.catalogPrefix")} {faNumber(data.catalogSize)} {t("languages.keyUnit")}</b>
             <p className="text-[14px] text-steel">
-              {Object.entries(data.domains).map(([d, n]) => `${d}: ${faNumber(n)}`).join(" · ")}
+              {Object.entries(data.domains ?? {}).map(([d, n]) => `${d}: ${faNumber(n)}`).join(" · ")}
             </p>
             <p className="text-[12px] text-steel">{t("languages.catalogNote")}</p>
           </div>

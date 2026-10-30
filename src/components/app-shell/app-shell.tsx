@@ -248,6 +248,7 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
               exit={{ opacity: 0, x: isRtl ? 8 : -8 }}
               transition={{ duration: 0.14 }}
               className="flex-1 text-start truncate"
+              title={n.tKey ? t(n.tKey) : n.label}
             >
               {n.tKey ? t(n.tKey) : n.label}
             </motion.span>

@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
       /* ── راند ۱۷: داشبورد کامل سوپرادمین — آمار ریز سیستم ── */
       const dayAgo = new Date(Date.now() - 86400000);
       const [usersByRole, loginEvents7d, logins24h, ticketsByStatus, recentSignups, messagesCount, notifsCount, dbSize] = await Promise.all([
-        db.user.groupBy({ by: ["role"], _count: { _all: true } }),
+        db.user.groupBy({ by: ["role"], where: { isActive: true, role: { not: "SUPER_ADMIN" } }, _count: { _all: true } }),
         db.loginEvent.findMany({ where: { createdAt: { gte: weekAgo } }, select: { status: true, createdAt: true } }),
         db.loginEvent.count({ where: { createdAt: { gte: dayAgo }, status: "SUCCESS" } }),
         db.ticket.groupBy({ by: ["status"], _count: { _all: true } }),
@@ -203,7 +203,7 @@ export async function GET(req: NextRequest) {
       const classRows = await db.class.findMany({ where: { schoolId, isActive: true }, select: { id: true, name: true, grade: true } });
       const ids = classRows.map((c) => c.id);
       const studentRows = await db.student.findMany({
-        where: { schoolId, user: { isActive: true } },
+        where: { schoolId },
         select: { id: true, userId: true, classId: true, user: { select: { firstName: true, lastName: true, birthDate: true } }, class: { select: { name: true } } },
       });
 

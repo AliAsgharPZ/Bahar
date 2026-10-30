@@ -27,6 +27,7 @@ export async function GET() {
     });
     return apiOk({
       catalogSize: CATALOG_KEYS.length,
+      domains: catalogDomains(),
       siteCatalogSize: SITE_KEYS.length,
       longCatalogSize: LONG_KEYS.length,
       shipped: SHIPPED_LANG_PACKS.map((p) => ({ code: p.code, name: p.name, nativeName: p.nativeName, direction: p.direction, keyCount: p.keyCount, coverage: p.coverage, missingKeys: p.missingKeys, siteKeyCount: p.siteKeyCount, siteCoverage: p.siteCoverage, siteMissingKeys: p.siteMissingKeys, longKeyCount: p.longKeyCount, longCoverage: p.longCoverage, longMissingKeys: p.longMissingKeys })),

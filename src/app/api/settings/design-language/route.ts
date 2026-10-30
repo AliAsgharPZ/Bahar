@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
-import fs from "fs/promises";
-import path from "path";
 import { requireUser, apiOk, handleApiError, ApiError } from "@/lib/api";
+import { DESIGN_LANGUAGE_DOC } from "@/lib/design-language-doc";
 
 /** GET /api/settings/design-language — فایل زبان طراحی (فقط سوپرادمین، فقط خواندنی) */
 export async function GET(req: NextRequest) {
@@ -10,13 +9,7 @@ export async function GET(req: NextRequest) {
     if (me.role !== "SUPER_ADMIN") {
       throw new ApiError(403, "FORBIDDEN", "این بخش فقط برای مدیر کل سامانه است.");
     }
-    const content = await fs.readFile(
-      path.join(process.cwd(), "docs", "design-language.md"),
-      "utf8"
-    ).catch(() => {
-      throw new ApiError(404, "NOT_FOUND", "فایل زبان طراحی یافت نشد.");
-    });
-    return apiOk({ markdown: content });
+    return apiOk({ markdown: DESIGN_LANGUAGE_DOC });
   } catch (e) {
     return handleApiError(e);
   }

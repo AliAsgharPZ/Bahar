@@ -52,6 +52,7 @@ export function LanguageSwitcher({ compact = false, restricted = false }: { comp
     ? (["fa", "en", browserCode] as const)
         .map((code) => options.find((o) => o.code === code))
         .filter((o): o is LangOption => Boolean(o))
+        .filter((o, i, arr) => arr.findIndex((x) => x.code === o.code) === i)
     : options;
   const currentOption = options.find((o) => o.code === current) ?? options[0];
 
