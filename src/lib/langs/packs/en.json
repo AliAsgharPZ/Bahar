@@ -2147,7 +2147,20 @@
     "questionBank.descUnit": "questions;",
     "questionBank.difficultyPrefix": "Difficulty:",
     "questionBank.empty.createFirst": "Create the bank's first question.",
-    "questionBank.empty.noQuestion": "No questions recorded"
+    "questionBank.empty.noQuestion": "No questions recorded",
+    "common.errorShort": "Error",
+    "shell.signedOut": "You've been signed out. See you soon!",
+    "shell.schoolPanel.exited": "You've exited the school panel.",
+    "shell.exitSchoolPanel": "Exit school panel",
+    "shell.logoutShort": "Sign out",
+    "shell.sectionsMenu": "Sections menu",
+    "shell.backToDashboard": "Back to dashboard",
+    "shell.printPage": "Print / export this page as PDF",
+    "shell.printShort": "Print / export as PDF",
+    "shell.systemSettings": "System settings",
+    "shell.sidebar.expand": "Expand sidebar",
+    "shell.sidebar.collapse": "Collapse sidebar",
+    "shell.panel": "Panel"
   },
   "siteStrings": {
     "site.brand.tagline": "School management system",
