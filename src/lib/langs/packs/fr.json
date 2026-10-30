@@ -646,7 +646,20 @@
     "users.cred.sentViaShad": "Envoyé via la passerelle Shad.",
     "users.cred.shadOff": "Shad est désactivé pour cette école — copiez les identifiants et remettez-les vous-même à l'utilisateur.",
     "users.cred.noShadNumber": "Aucun numéro Shad enregistré — copiez les identifiants.",
-    "users.cred.sendFailed": "L'envoi via Shad a échoué — copiez les identifiants ou renvoyez-les une fois la passerelle Shad connectée."
+    "users.cred.sendFailed": "L'envoi via Shad a échoué — copiez les identifiants ou renvoyez-les une fois la passerelle Shad connectée.",
+    "common.errorShort": "Erreur",
+    "shell.signedOut": "Vous êtes déconnecté. À bientôt !",
+    "shell.schoolPanel.exited": "Vous avez quitté le panneau de l'école.",
+    "shell.exitSchoolPanel": "Quitter le panneau de l'école",
+    "shell.logoutShort": "Déconnexion",
+    "shell.sectionsMenu": "Menu des sections",
+    "shell.backToDashboard": "Retour au tableau de bord",
+    "shell.printPage": "Imprimer / exporter cette page en PDF",
+    "shell.printShort": "Imprimer / exporter en PDF",
+    "shell.systemSettings": "Paramètres du système",
+    "shell.sidebar.expand": "Développer la barre latérale",
+    "shell.sidebar.collapse": "Réduire la barre latérale",
+    "shell.panel": "Panneau"
   },
   "version": "1.0.0",
   "siteStrings": {
