@@ -3146,7 +3146,20 @@
     "users.cred.sentViaShad": "Shad ağ geçidi ile gönderildi.",
     "users.cred.shadOff": "Bu okulun Shad'ı kapalı — giriş bilgilerini kopyalayın ve kullanıcıya kendiniz ulaştırın.",
     "users.cred.noShadNumber": "Shad numarası kayıtlı değil — giriş bilgilerini kopyalayın.",
-    "users.cred.sendFailed": "Shad gönderimi başarısız — giriş bilgilerini kopyalayın veya Shad ağ geçidi bağlandıktan sonra yeniden gönderin."
+    "users.cred.sendFailed": "Shad gönderimi başarısız — giriş bilgilerini kopyalayın veya Shad ağ geçidi bağlandıktan sonra yeniden gönderin.",
+    "common.errorShort": "Hata",
+    "shell.signedOut": "Çıkış yapıldı; tekrar görüşmek üzere!",
+    "shell.schoolPanel.exited": "Okul panelinden çıkış yaptınız.",
+    "shell.exitSchoolPanel": "Okul panelinden çıkış",
+    "shell.logoutShort": "Çıkış",
+    "shell.sectionsMenu": "Bölümler menüsü",
+    "shell.backToDashboard": "Kontrol paneline dön",
+    "shell.printPage": "Bu sayfayı yazdır / PDF olarak al",
+    "shell.printShort": "Yazdır / PDF",
+    "shell.systemSettings": "Sistem ayarları",
+    "shell.sidebar.expand": "Kenar çubuğunu genişlet",
+    "shell.sidebar.collapse": "Kenar çubuğunu daralt",
+    "shell.panel": "Panel"
   },
   "siteStrings": {
     "site.brand.tagline": "Okul Yönetim Sistemi",
