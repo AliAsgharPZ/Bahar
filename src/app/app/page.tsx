@@ -404,9 +404,9 @@ function ServiceDashboard({ data }: { data: Dash }) {
             </div>
           )}
           <h3 className="font-bold mt-5 mb-3">{t("dashboard.quickActions")}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {QUICK.map((q) => (
-              <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-[12px] font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
+              <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-center text-[12px] font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
                 <q.icon className="w-5 h-5" />
                 {q.label}
               </Link>
@@ -685,7 +685,7 @@ function TeacherDashboard({ data }: { data: Dash }) {
       {/* Quick Actions معلم */}
       <div className="b-card-tint p-5">
         <h3 className="font-bold mb-4">{t("dashboard.teacherQuickActions")}</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-3 lg:grid-cols-6 gap-3">
           {[
             { href: "/app/attendance", icon: ClipboardCheck, label: t("dashboard.qa.markAttendance") },
             { href: "/app/grades", icon: BarChart3, label: t("dashboard.qa.enterGrade") },
@@ -696,7 +696,7 @@ function TeacherDashboard({ data }: { data: Dash }) {
           ].map((a) => (
             <Link key={a.href} href={a.href} className="flex flex-col items-center gap-2 p-3.5 rounded-2xl bg-background hover:shadow-md transition-all hover:-translate-y-0.5">
               <span className="w-10 h-10 rounded-2xl bg-spring-tint text-spring-deep flex items-center justify-center"><a.icon className="w-5 h-5" /></span>
-              <span className="text-[12px] font-bold">{a.label}</span>
+              <span className="text-center leading-snug text-[12px] font-bold">{a.label}</span>
             </Link>
           ))}
         </div>
