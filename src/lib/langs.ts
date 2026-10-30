@@ -3385,7 +3385,7 @@ export const SITE_CATALOG: Record<string, string> = {
   "site.mod.backup.t": "بکاپ خودکار ماهانه",
   "site.mod.backup.d": "پشتیبان‌گیری کامل و بازیابی سریع",
   "site.mod.site.t": "سایت مدرسه",
-  "site.mod.site.d": "۱۸ تمپلیت آماده با آدرس اختصاصی",
+  "site.mod.site.d": "۱۹ تمپلیت آماده با آدرس اختصاصی",
   "site.mod.map.t": "نقشه ایران",
   "site.mod.map.d": "انتخاب استان و شهرستان روی نقشه",
   "site.mod.finance.t": "شهریه و مالی",
