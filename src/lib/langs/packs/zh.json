@@ -949,7 +949,20 @@
     "users.cred.sentViaShad": "已通过 Shad 网关发送。",
     "users.cred.shadOff": "该校的 Shad 已关闭 — 请复制凭据并自行转交给用户。",
     "users.cred.noShadNumber": "未登记 Shad 号码 — 请复制凭据。",
-    "users.cred.sendFailed": "Shad 发送失败 — 请复制凭据，或在 Shad 网关连接后重新发送。"
+    "users.cred.sendFailed": "Shad 发送失败 — 请复制凭据，或在 Shad 网关连接后重新发送。",
+    "common.errorShort": "错误",
+    "shell.signedOut": "已退出；期待再会！",
+    "shell.schoolPanel.exited": "已退出学校面板。",
+    "shell.exitSchoolPanel": "退出学校面板",
+    "shell.logoutShort": "退出",
+    "shell.sectionsMenu": "栏目菜单",
+    "shell.backToDashboard": "返回仪表板",
+    "shell.printPage": "打印 / 将本页导出为 PDF",
+    "shell.printShort": "打印 / 导出 PDF",
+    "shell.systemSettings": "系统设置",
+    "shell.sidebar.expand": "展开侧边栏",
+    "shell.sidebar.collapse": "收起侧边栏",
+    "shell.panel": "面板"
   },
   "version": "1.0.0",
   "longStrings": {
