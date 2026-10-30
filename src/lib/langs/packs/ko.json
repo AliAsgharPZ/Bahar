@@ -990,7 +990,20 @@
     "users.cred.sentViaShad": "샤드 게이트웨이로 전송되었습니다.",
     "users.cred.shadOff": "이 학교는 샤드가 꺼져 있습니다. 계정 정보를 복사해 직접 사용자에게 전달해 주세요.",
     "users.cred.noShadNumber": "샤드 번호가 등록되어 있지 않습니다. 계정 정보를 복사해 주세요.",
-    "users.cred.sendFailed": "샤드 전송에 실패했습니다. 계정 정보를 복사하거나, 샤드 게이트웨이 연결 후 다시 전송해 주세요."
+    "users.cred.sendFailed": "샤드 전송에 실패했습니다. 계정 정보를 복사하거나, 샤드 게이트웨이 연결 후 다시 전송해 주세요.",
+    "common.errorShort": "오류",
+    "shell.signedOut": "로그아웃되었습니다. 다음에 또 만나요!",
+    "shell.schoolPanel.exited": "학교 패널에서 나왔습니다.",
+    "shell.exitSchoolPanel": "학교 패널 나가기",
+    "shell.logoutShort": "로그아웃",
+    "shell.sectionsMenu": "섹션 메뉴",
+    "shell.backToDashboard": "대시보드로 돌아가기",
+    "shell.printPage": "이 페이지 인쇄 / PDF 내보내기",
+    "shell.printShort": "인쇄 / PDF 내보내기",
+    "shell.systemSettings": "시스템 설정",
+    "shell.sidebar.expand": "사이드바 펼치기",
+    "shell.sidebar.collapse": "사이드바 접기",
+    "shell.panel": "패널"
   },
   "version": "1.0.0"
 }
