@@ -270,6 +270,17 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
       { label: "فیروزه‌ای تیره", primary: "#FFFFFF", accent: "#06B6D4", bg: "#0A0F0D" },
     ],
   },
+  {
+    id: "meta",
+    name: "متا بهار",
+    desc: "زبان طراحی خود بهار: بوم نرم، کارت‌های سفید با خط مویی، دکمه‌های قرصی و تایپ آرام — الهام از Meta، برای همه مدارس",
+    palettes: [
+      { label: "سبز بهار", primary: "#00825E", accent: "#E5548B", bg: "#F1F4F7" },
+      { label: "آبی متا", primary: "#1876F2", accent: "#31A24C", bg: "#FFFFFF" },
+      { label: "کبالت", primary: "#0064E0", accent: "#E5548B", bg: "#F1F4F7" },
+      { label: "بهار تیره", primary: "#53E3B0", accent: "#7FD6B8", bg: "#0E1512" },
+    ],
+  },
 ];
 
 /** تمپلیت‌های قدیمی که در ویرایشگر نشان داده نمی‌شوند ولی سایت‌های

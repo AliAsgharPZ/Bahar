@@ -88,7 +88,7 @@ const headingFont: React.CSSProperties = { fontFamily: "var(--font-heading)" };
 type Family =
   | "classic" | "modern" | "magazine" | "playful"
   | "apple" | "airbnb" | "notion" | "stripe" | "linear" | "spotify" | "claude" | "figma"
-  | "vercel" | "tesla" | "wise" | "miro" | "framer";
+  | "vercel" | "tesla" | "wise" | "miro" | "framer" | "meta";
 
 /** نگاشت ۱۶ تمپلیت روی ۱۰ خانواده چیدمان — شش خانوادهٔ تازه (apple/airbnb/
  *  notion/stripe/linear/spotify) هرکدام چیدمان اختصاصی خودشان را دارند و
@@ -112,6 +112,7 @@ export function familyOf(templateId: string): Family {
   if (templateId === "wise") return "wise";
   if (templateId === "miro") return "miro";
   if (templateId === "framer") return "framer";
+  if (templateId === "meta") return "meta";
   return "classic"; // classic + minimal
 }
 
@@ -167,6 +168,7 @@ function familyRadius(family: Family, templateId: string) {
     case "wise": return { radius: "24px", radiusLg: "32px", pill: "999px", inputRadius: "14px" };
     case "miro": return { radius: "16px", radiusLg: "20px", pill: "12px", inputRadius: "12px" };
     case "framer": return { radius: "20px", radiusLg: "28px", pill: "999px", inputRadius: "10px" };
+    case "meta": return { radius: "24px", radiusLg: "32px", pill: "999px", inputRadius: "8px" };
     default: // classic
       return templateId === "minimal"
         ? { radius: "10px", radiusLg: "12px", pill: "10px", inputRadius: "8px" }
@@ -1776,6 +1778,14 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
       <div className="mb-10">
         {kicker && <p className="text-[12px] font-bold mb-2" style={{ color: skin.p.accent }}>{kicker}</p>}
         <h2 className="text-[30px] md:text-[44px] font-extrabold leading-[1.1]" style={{ ...headingFont, color: skin.text }}>{title}</h2>
+      </div>
+    );
+  }
+  if (f === "meta") {
+    return (
+      <div className="mb-8">
+        {kicker && <p className="text-[12px] font-semibold mb-2" style={{ color: skin.p.primary }}>{kicker}</p>}
+        <h2 className="text-[24px] md:text-[32px] font-bold leading-[1.25]" style={{ ...headingFont, color: skin.text }}>{title}</h2>
       </div>
     );
   }
@@ -3846,6 +3856,43 @@ function FramerFamily({ skin, config, data, subdomain }: FamilyProps) {
   );
 }
 
+// Meta — زبان طراحی خود بهار: هدر چسبان سفید با خط مویی، هیروی کارتی روی
+// بوم نرم، دکمه قرصی اصلی + دکمه شبحی، کارت‌های ۲۴ پیکسل با سایه سطح ۲
+function MetaFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const p = skin.p; const school = data.school;
+  return (
+    <div data-family="meta" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+      <header className="sticky top-0 z-30" style={{ background: skin.dark ? p.bg : "#FFFFFF", borderBottom: `1px solid ${skin.border}` }}>
+        <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
+          {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-bold text-white text-[16px] rounded-full" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>}
+          <b className="text-[15px] font-bold truncate">{school.name}</b>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold" style={{ borderRadius: skin.pill, background: p.primary, color: skin.onPrimary }}>{config.ctaPrimary}</a>
+        </div>
+        <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} /></div>
+      </header>
+      <section className="max-w-6xl mx-auto px-4 py-10 md:py-14">
+        <div className="p-6 md:p-10 grid md:grid-cols-5 gap-10 items-center" style={{ borderRadius: skin.radiusLg, background: skin.card, border: `1px solid ${skin.border}`, boxShadow: skin.shadow }}>
+          <div className="md:col-span-3">
+            <span className="inline-block px-3 py-1 text-[12px] font-semibold mb-4" style={{ borderRadius: skin.pill, background: `${p.primary}14`, color: p.primary }}>{school.type ?? "مدرسه"}</span>
+            <h1 className="text-[32px] md:text-[48px] font-bold leading-[1.2] mb-4" style={{ ...headingFont }}>{config.heroTitle}</h1>
+            <p className="text-[15px] leading-[2] mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
+            <div className="flex flex-wrap gap-3">
+              <a href="#admissions" className="min-h-[44px] px-7 inline-flex items-center text-[14px] font-bold" style={{ borderRadius: skin.pill, background: p.primary, color: skin.onPrimary }}>{config.ctaPrimary}</a>
+              <a href="#about" className="min-h-[44px] px-7 inline-flex items-center text-[14px] font-bold" style={{ borderRadius: skin.pill, background: skin.card, border: `1px solid ${skin.border}`, color: skin.text }}>درباره مدرسه</a>
+            </div>
+          </div>
+          {config.heroImage && (
+            <div className="md:col-span-2">
+              <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[4/3] object-cover" style={{ borderRadius: skin.radius, border: `1px solid ${skin.border}` }} />
+            </div>
+          )}
+        </div>
+      </section>
+      <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
+    </div>
+  );
+}
+
 export function SchoolSiteRenderer({
   templateId,
   palette,
@@ -3880,6 +3927,7 @@ export function SchoolSiteRenderer({
     case "wise": return <WiseFamily {...props} />;
     case "miro": return <MiroFamily {...props} />;
     case "framer": return <FramerFamily {...props} />;
+    case "meta": return <MetaFamily {...props} />;
     default: return <ClassicFamily {...props} />;
   }
 }
