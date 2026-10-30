@@ -1147,7 +1147,20 @@
     "engagement.suggestion.category.service": "Xidmətlər",
     "engagement.suggestion.status.accepted": "Qəbul edilib",
     "engagement.suggestion.status.new": "Yeni",
-    "engagement.suggestion.status.rejected": "Rədd edilib"
+    "engagement.suggestion.status.rejected": "Rədd edilib",
+    "common.errorShort": "Xəta",
+    "shell.signedOut": "Çıxdınız; görüşədək!",
+    "shell.schoolPanel.exited": "Məktəb panelindən çıxdınız.",
+    "shell.exitSchoolPanel": "Məktəb panelindən çıxış",
+    "shell.logoutShort": "Çıxış",
+    "shell.sectionsMenu": "Bölmələr menyusu",
+    "shell.backToDashboard": "İdarəetmə panelinə qayıt",
+    "shell.printPage": "Bu səhifənin çapı / PDF çıxışı",
+    "shell.printShort": "Çap / PDF çıxışı",
+    "shell.systemSettings": "Sistem tənzimləmələri",
+    "shell.sidebar.expand": "Yan paneli aç",
+    "shell.sidebar.collapse": "Yan paneli yığ",
+    "shell.panel": "Panel"
   },
   "siteStrings": {
     "site.brand.tagline": "Məktəb idarəetmə sistemi",
