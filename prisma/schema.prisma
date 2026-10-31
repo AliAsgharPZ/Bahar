@@ -100,6 +100,7 @@ model User {
   badgesAwarded         StudentBadge[]         @relation("BadgeAwarder")
   leaveRequests         LeaveRequest[]         @relation("LeaveRequester")
   telegramLink          TelegramLink?          @relation("TelegramLinked")
+  botLinks              BotLink[]              @relation("BotLinked")
   tasksAssigned         Task[]                 @relation("TaskAssignee")
   tasksCreated          Task[]                 @relation("TaskCreator")
   bookingsMade          Booking[]              @relation("BookingBy")
@@ -196,6 +197,7 @@ model School {
   absenceExcuses       AbsenceExcuse[]
   parentSummons        ParentSummon[]
   examSeatPlans        ExamSeatPlan[]
+  botConnections       BotConnection[]
 }
 
 model Class {
@@ -2584,6 +2586,47 @@ model VirtualSession {
   createdAt   DateTime @default(now())
 
   @@index([schoolId, startsAt])
+}
+
+/// اتصال ربات/مینی‌اپ یک مدرسه به یک پلتفرم پیام‌رسان یا درگاه عمومی.
+/// توکن فقط سمت سرور نگه داشته می‌شود و هیچ API آن را برنمی‌گرداند.
+model BotConnection {
+  id            String   @id @default(cuid())
+  schoolId      String
+  school        School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  platform      String // TELEGRAM | BALE | RUBIKA | WHATSAPP | WEBHOOK | CUSTOM
+  label         String
+  token         String // توکن ربات / کلید API — فقط سمت سرور
+  apiBase       String? // فقط برای CUSTOM و WEBHOOK
+  botUsername   String?
+  webhookSecret String
+  events        String   @default("ALL") // ALL | IMPORTANT | NONE
+  isActive      Boolean  @default(true)
+  createdById   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  links         BotLink[]
+
+  @@index([schoolId])
+}
+
+/// پیوند چت یک کاربر در یک پلتفرم به حساب بهار او.
+/// ردیفِ در انتظار: userId ست و chatId خالی و linkCode دارد (۱۰ دقیقه اعتبار).
+model BotLink {
+  id           String        @id @default(cuid())
+  connectionId String
+  connection   BotConnection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  userId       String?
+  user         User?         @relation("BotLinked", fields: [userId], references: [id], onDelete: Cascade)
+  chatId       String?
+  username     String?
+  linkCode     String?       @unique
+  codeExpiresAt DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@unique([connectionId, chatId])
+  @@index([userId])
 }
 
 generator clientNode {

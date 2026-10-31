@@ -199,6 +199,8 @@ const INSERT_ORDER = [
   "parentSummon",
   "examSeatPlan",
   "examSeatAssignment",
+  "botConnection",
+  "botLink",
   "studyTask",
   "passkeyCredential",
 ] as const;
@@ -315,6 +317,8 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   parentSummon: ["createdAt", "updatedAt"],
   examSeatPlan: ["createdAt", "updatedAt"],
   examSeatAssignment: [],
+  botConnection: ["createdAt", "updatedAt"],
+  botLink: ["codeExpiresAt", "createdAt", "updatedAt"],
   classObservation: ["date", "createdAt", "updatedAt"],
   studyTask: ["createdAt"],
   passkeyCredential: ["createdAt", "lastUsedAt"],
@@ -348,7 +352,14 @@ export async function createBackup(opts: {
           const u = r as Record<string, unknown>;
           return { ...u, tempPassword: null, twoFactorSecret: null, backupCodes: null };
         })
-      : rows;
+      : table === "botConnection"
+        ? rows.map((r) => {
+            // توکن ربات و راز وب‌هوک اعتبار زنده‌اند: وارد بکاپ نمی‌شوند؛ اتصال
+            // پس از بازیابی غیرفعال می‌ماند تا مدیر توکن را دوباره وارد کند.
+            const c = r as Record<string, unknown>;
+            return { ...c, token: "", webhookSecret: "", isActive: false };
+          })
+        : rows;
     recordCount += rows.length;
   }
 

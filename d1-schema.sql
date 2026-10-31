@@ -2311,3 +2311,36 @@ CREATE TABLE IF NOT EXISTS "ExamSeatAssignment" (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS "ExamSeatAssignment_planId_sessionNo_studentId_key" ON "ExamSeatAssignment"("planId", "sessionNo", "studentId");
 CREATE INDEX IF NOT EXISTS "ExamSeatAssignment_planId_sessionNo_idx" ON "ExamSeatAssignment"("planId", "sessionNo");
+CREATE TABLE IF NOT EXISTS "BotConnection" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "platform" TEXT NOT NULL,
+  "label" TEXT NOT NULL,
+  "token" TEXT NOT NULL,
+  "apiBase" TEXT,
+  "botUsername" TEXT,
+  "webhookSecret" TEXT NOT NULL,
+  "events" TEXT NOT NULL DEFAULT 'ALL',
+  "isActive" BOOLEAN NOT NULL DEFAULT true,
+  "createdById" TEXT,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  CONSTRAINT "BotConnection_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "BotConnection_schoolId_idx" ON "BotConnection"("schoolId");
+CREATE TABLE IF NOT EXISTS "BotLink" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "connectionId" TEXT NOT NULL,
+  "userId" TEXT,
+  "chatId" TEXT,
+  "username" TEXT,
+  "linkCode" TEXT,
+  "codeExpiresAt" DATETIME,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  CONSTRAINT "BotLink_connectionId_fkey" FOREIGN KEY ("connectionId") REFERENCES "BotConnection" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "BotLink_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "BotLink_connectionId_chatId_key" ON "BotLink"("connectionId", "chatId");
+CREATE UNIQUE INDEX IF NOT EXISTS "BotLink_linkCode_key" ON "BotLink"("linkCode");
+CREATE INDEX IF NOT EXISTS "BotLink_userId_idx" ON "BotLink"("userId");
