@@ -395,6 +395,15 @@
 
 @layer components {
 
+/* School-site root guard against horizontal scrolling on phones.
+   overflow-x: hidden is the universal fallback; browsers that support
+   clip upgrade to it (clip does not create a scroll container, so
+   position: sticky headers inside the site keep working). Engines
+   without clip support (older Android WebView / Samsung Internet)
+   used to ignore the lone `overflow-x: clip` utility and let the
+   page scroll sideways. */
+.site-clip-x { overflow-x: hidden; overflow-x: clip; }
+
 /* Pill buttons — NEVER squared (Meta signature) */
 .b-btn {
   @apply inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm leading-tight

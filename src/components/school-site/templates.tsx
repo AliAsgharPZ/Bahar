@@ -1115,7 +1115,7 @@ function ClassicFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="classic" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="classic" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* هیرو دو ستونه */}
@@ -1267,7 +1267,7 @@ function ModernFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="modern" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="modern" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* هیرو تمام‌صفحه گرادیانی */}
@@ -1412,7 +1412,7 @@ function MagazineFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="magazine" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="magazine" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* تیتر درشت مرکزی + تصویر تمام‌عرض */}
@@ -1555,7 +1555,7 @@ function PlayfulFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="playful" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="playful" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <SiteHeader skin={skin} school={school} cta={config.ctaPrimary} />
 
       {/* هیرو نامتقارن */}
@@ -1942,7 +1942,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
   const soft = skin.dark ? "rgba(255,255,255,.04)" : "#F5F5F7";
 
   return (
-    <div data-family="apple" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="apple" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       {/* هدر باریک نیمه‌شفاف */}
       <header className="sticky top-0 z-30 backdrop-blur-md" style={{ background: skin.dark ? "rgba(0,0,0,.72)" : "rgba(255,255,255,.78)", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 h-12 flex items-center gap-3">
@@ -2097,7 +2097,7 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="airbnb" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="airbnb" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       {/* هدر سفید با دکمهٔ کپسولی */}
       <header className="sticky top-0 z-30" style={{ background: skin.dark ? p.bg : "#fff", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-3">
@@ -2259,7 +2259,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="notion" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="notion" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       {/* هدر سادهٔ سندگونه */}
       <header className="sticky top-0 z-30" style={{ background: p.bg, borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center gap-2.5">
@@ -2412,7 +2412,7 @@ function StripeFamily({ skin, config, data, subdomain }: FamilyProps) {
   const grad = `linear-gradient(115deg, ${p.primary} 0%, ${p.accent} 100%)`;
 
   return (
-    <div data-family="stripe" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="stripe" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       {/* هدر روی گرادیان */}
       <div style={{ background: grad }}>
         <header>
@@ -2578,7 +2578,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="linear" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="linear" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       {/* هدر فشرده با محو پس‌زمینه */}
       <header className="sticky top-0 z-30 backdrop-blur-md" style={{ background: skin.dark ? "rgba(8,9,10,.75)" : "rgba(255,255,255,.8)", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center gap-3">
@@ -2742,7 +2742,7 @@ function SpotifyFamily({ skin, config, data, subdomain }: FamilyProps) {
   const contactAddress = config.contactAddress || school.address || "";
 
   return (
-    <div data-family="spotify" className="min-h-screen font-sans overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="spotify" className="min-h-screen font-sans site-clip-x" style={{ background: p.bg, color: skin.text }}>
       {/* هدر مشکی با دکمهٔ سبز کپسولی */}
       <header className="sticky top-0 z-30" style={{ background: skin.dark ? "rgba(10,10,10,.88)" : "#fff", borderBottom: `1px solid ${skin.border}`, backdropFilter: "blur(8px)" }}>
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-3">
@@ -2961,7 +2961,7 @@ function ClaudeFamily({ skin, config, data, subdomain }: FamilyProps) {
           : undefined;
 
   return (
-    <div className="overflow-x-clip" style={{ backgroundColor: p.bg, color: skin.text }}>
+    <div className="site-clip-x" style={{ backgroundColor: p.bg, color: skin.text }}>
       {/* ── سربرگ: ماستهد آرام و وسط‌چین ── */}
       <header className="relative" style={{ borderBottom: hairline, backgroundColor: p.bg }}>
         <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
@@ -3280,7 +3280,7 @@ function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
 
 
   return (
-    <div className="overflow-x-clip" style={{ backgroundColor: p.bg, color: skin.text }}>
+    <div className="site-clip-x" style={{ backgroundColor: p.bg, color: skin.text }}>
       {/* — هدر: نوار جوهری — */}
       <header style={{ backgroundColor: ink }}>
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
@@ -3788,7 +3788,7 @@ const NEW_NAV_ITEMS: [string, string][] = [["درباره", "#about"], ["اخب�
 function VercelFamily({ skin, config, data, subdomain }: FamilyProps) {
   const p = skin.p; const school = data.school;
   return (
-    <div data-family="vercel" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="vercel" className="min-h-screen site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <header className="sticky top-0 z-30" style={{ background: p.bg, borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
           <b className="text-[15px] font-semibold truncate" style={{ letterSpacing: "-0.02em" }}>{school.name}</b>
@@ -3811,7 +3811,7 @@ function VercelFamily({ skin, config, data, subdomain }: FamilyProps) {
 function TeslaFamily({ skin, config, data, subdomain }: FamilyProps) {
   const p = skin.p; const school = data.school;
   return (
-    <div data-family="tesla" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="tesla" className="min-h-screen site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <header className="absolute top-0 inset-x-0 z-30">
         <div className="max-w-6xl mx-auto px-4 pt-4 flex items-center gap-3">
           <b className="text-[15px] font-medium truncate text-white drop-shadow">{school.name}</b>
@@ -3837,7 +3837,7 @@ function TeslaFamily({ skin, config, data, subdomain }: FamilyProps) {
 function WiseFamily({ skin, config, data, subdomain }: FamilyProps) {
   const p = skin.p; const school = data.school;
   return (
-    <div data-family="wise" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="wise" className="min-h-screen site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <header className="sticky top-0 z-30" style={{ background: p.bg }}>
         <div className="max-w-6xl mx-auto px-4 pt-4 flex items-center gap-3">
           {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-black text-[16px] rounded-full" style={{ color: skin.onPrimary, background: p.primary }}>{school.name[0] ?? "ب"}</span>}
@@ -3863,7 +3863,7 @@ function WiseFamily({ skin, config, data, subdomain }: FamilyProps) {
 function MiroFamily({ skin, config, data, subdomain }: FamilyProps) {
   const p = skin.p; const school = data.school;
   return (
-    <div data-family="miro" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="miro" className="min-h-screen site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <header className="sticky top-0 z-30" style={{ background: "#FFFFFF", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
           <span className="w-9 h-9 flex items-center justify-center font-bold rounded-xl" style={{ background: p.accent, color: "#111111" }}>{school.name[0] ?? "ب"}</span>
@@ -3889,7 +3889,7 @@ function MiroFamily({ skin, config, data, subdomain }: FamilyProps) {
 function FramerFamily({ skin, config, data, subdomain }: FamilyProps) {
   const p = skin.p; const school = data.school;
   return (
-    <div data-family="framer" className="min-h-screen overflow-x-clip" style={{ background: "#0A0A0A", color: "#FFFFFF" }}>
+    <div data-family="framer" className="min-h-screen site-clip-x" style={{ background: "#0A0A0A", color: "#FFFFFF" }}>
       <header className="sticky top-0 z-30" style={{ background: "rgba(10,10,10,.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,.12)" }}>
         <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
           <b className="text-[16px] font-extrabold truncate text-white">{school.name}</b>
@@ -3918,7 +3918,7 @@ function FramerFamily({ skin, config, data, subdomain }: FamilyProps) {
 function MetaFamily({ skin, config, data, subdomain }: FamilyProps) {
   const p = skin.p; const school = data.school;
   return (
-    <div data-family="meta" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
+    <div data-family="meta" className="min-h-screen site-clip-x" style={{ background: p.bg, color: skin.text }}>
       <header className="sticky top-0 z-30" style={{ background: skin.dark ? p.bg : "#FFFFFF", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
           {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-bold text-[16px] rounded-full" style={{ color: skin.onPrimary, background: p.primary }}>{school.name[0] ?? "ب"}</span>}
