@@ -2266,3 +2266,48 @@ CREATE TABLE IF NOT EXISTS "AbsenceExcuse" (
 CREATE UNIQUE INDEX IF NOT EXISTS "AbsenceExcuse_studentId_date_parentUserId_key" ON "AbsenceExcuse"("studentId", "date", "parentUserId");
 CREATE INDEX IF NOT EXISTS "AbsenceExcuse_schoolId_status_idx" ON "AbsenceExcuse"("schoolId", "status");
 CREATE INDEX IF NOT EXISTS "AbsenceExcuse_studentId_date_idx" ON "AbsenceExcuse"("studentId", "date");
+CREATE TABLE IF NOT EXISTS "ParentSummon" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "studentId" TEXT NOT NULL,
+  "parentUserId" TEXT NOT NULL,
+  "excuseId" TEXT,
+  "reason" TEXT NOT NULL,
+  "whenText" TEXT NOT NULL,
+  "status" TEXT NOT NULL DEFAULT 'PENDING',
+  "createdById" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "ParentSummon_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "ParentSummon_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "ParentSummon_schoolId_status_idx" ON "ParentSummon"("schoolId", "status");
+CREATE INDEX IF NOT EXISTS "ParentSummon_parentUserId_status_idx" ON "ParentSummon"("parentUserId", "status");
+CREATE INDEX IF NOT EXISTS "ParentSummon_studentId_idx" ON "ParentSummon"("studentId");
+CREATE TABLE IF NOT EXISTS "ExamSeatPlan" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "title" TEXT NOT NULL,
+  "date" TEXT NOT NULL,
+  "sessions" INTEGER NOT NULL DEFAULT 1,
+  "config" TEXT NOT NULL,
+  "createdById" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "ExamSeatPlan_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "ExamSeatPlan_schoolId_createdAt_idx" ON "ExamSeatPlan"("schoolId", "createdAt");
+CREATE TABLE IF NOT EXISTS "ExamSeatAssignment" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "planId" TEXT NOT NULL,
+  "studentId" TEXT NOT NULL,
+  "sessionNo" INTEGER NOT NULL,
+  "roomName" TEXT NOT NULL,
+  "seatNo" INTEGER NOT NULL,
+  "rowNo" INTEGER NOT NULL,
+  "colNo" INTEGER NOT NULL,
+  CONSTRAINT "ExamSeatAssignment_planId_fkey" FOREIGN KEY ("planId") REFERENCES "ExamSeatPlan" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "ExamSeatAssignment_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "ExamSeatAssignment_planId_sessionNo_studentId_key" ON "ExamSeatAssignment"("planId", "sessionNo", "studentId");
+CREATE INDEX IF NOT EXISTS "ExamSeatAssignment_planId_sessionNo_idx" ON "ExamSeatAssignment"("planId", "sessionNo");

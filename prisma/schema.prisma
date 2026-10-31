@@ -194,6 +194,8 @@ model School {
   attendanceSettings   AttendanceSettings?
   integrationKeys      IntegrationKey[]
   absenceExcuses       AbsenceExcuse[]
+  parentSummons        ParentSummon[]
+  examSeatPlans        ExamSeatPlan[]
 }
 
 model Class {
@@ -252,6 +254,8 @@ model Student {
   parents           StudentParent[]
   attendances       Attendance[]
   absenceExcuses    AbsenceExcuse[]
+  parentSummons     ParentSummon[]
+  examSeatAssignments ExamSeatAssignment[]
   gradeRecords      GradeRecord[]
   fees              StudentFee[]
   behaviorRecords   BehaviorRecord[]
@@ -2448,6 +2452,61 @@ model AbsenceExcuse {
   @@unique([studentId, date, parentUserId])
   @@index([schoolId, status])
   @@index([studentId, date])
+}
+
+// ────────────── احضار اولیا (از طرف معاون/مدیر؛ به غیبت یا مستقل) ──────────────
+model ParentSummon {
+  id           String   @id @default(cuid())
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  parentUserId String // ولیِ احضارشده
+  excuseId     String? // در صورت اتصال به یک توجیه غیبت
+  reason       String
+  whenText     String // زمان پیشنهادی حضور (متن آزاد، مثلاً «شنبه ۱۸ آبان، ساعت ۱۰»)
+  status       String   @default("PENDING") // PENDING | ACKED | DONE | CANCELLED
+  createdById  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([schoolId, status])
+  @@index([parentUserId, status])
+  @@index([studentId])
+}
+
+// ────────────── طرح صندلی امتحان و کارت ورود به جلسه ──────────────
+model ExamSeatPlan {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title       String // مثلاً «امتحانات نوبت اول»
+  date        String // تاریخ جلالی شروع، شکل 1405-10-15
+  sessions    Int      @default(1) // تعداد نوبت
+  config      String // JSON: { rooms: [{name, rows, cols, deskType}], classIds: [], strategy, sessionMode }
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  assignments ExamSeatAssignment[]
+
+  @@index([schoolId, createdAt])
+}
+
+model ExamSeatAssignment {
+  id        String       @id @default(cuid())
+  planId    String
+  plan      ExamSeatPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  studentId String
+  student   Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  sessionNo Int
+  roomName  String
+  seatNo    Int
+  rowNo     Int
+  colNo     Int
+
+  @@unique([planId, sessionNo, studentId])
+  @@index([planId, sessionNo])
 }
 
 // ────────────── تنظیمات روش‌های ثبت حضور (همه اختیاری؛ پیش‌فرض فقط دستی) ──────────────
