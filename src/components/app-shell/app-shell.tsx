@@ -866,15 +866,15 @@ function NotificationCenter({
             {t("shell.notif.readAll")}
           </button>
         </div>
-        <div className="flex gap-1.5 px-3 py-2.5 border-b border-hairline-soft overflow-x-auto b-scroll">
-          <button
+        <div role="tablist" className="flex gap-1.5 px-3 py-2.5 border-b border-hairline-soft overflow-x-auto b-scroll">
+          <button role="tab" aria-selected={!filter}
             onClick={() => setFilter(null)}
             className={`b-pill-tab !text-[12px] !py-1 !px-3 ${!filter ? "b-pill-tab-active" : ""}`}
           >
             {t("common.all")}
           </button>
           {CATS.map((c) => (
-            <button
+            <button role="tab" aria-selected={filter === c.key}
               key={c.key}
               onClick={() => setFilter(c.key)}
               className={`b-pill-tab !text-[12px] !py-1 !px-3 ${filter === c.key ? "b-pill-tab-active" : ""}`}

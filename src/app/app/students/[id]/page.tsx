@@ -171,12 +171,12 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
       </div>
 
       {/* تب‌ها */}
-      <div className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
+      <div role="tablist" className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
         {([
           ["overview", t("students.detail.tab.overview")], ["timeline", t("students.detail.tab.timeline")], ["docs", `${t("students.detail.tab.docs")} (${faNumber(student.documents.filter((d) => d.status === "RECEIVED").length)}/${faNumber(DOC_KINDS.length)})`],
           ["goals", `${t("students.detail.goals")} (${faNumber(student.goals.filter((g) => g.status === "ACTIVE").length)})`], ["portfolio", `${t("nav.portfolio")} (${faNumber(student.portfolioItems.length)})`],
         ] as const).map(([k, label]) => (
-          <button key={k} onClick={() => setTab(k)} className={`b-pill-tab ${tab === k ? "b-pill-tab-active" : ""}`}>{label}</button>
+          <button role="tab" aria-selected={tab === k} key={k} onClick={() => setTab(k)} className={`b-pill-tab ${tab === k ? "b-pill-tab-active" : ""}`}>{label}</button>
         ))}
       </div>
 

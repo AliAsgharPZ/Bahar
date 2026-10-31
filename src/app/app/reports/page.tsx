@@ -114,11 +114,11 @@ function ReportsInner() {
     <div>
       <PageHeader title={t("nav.reports")} desc={t("reports.header.desc")} />
       {/* راند ۱۹: اسکرول افقی در موبایل — ۴ تب از عرض ۳۹۰px بیرون می‌زد (۶۲px overflow صفحه) */}
-      <div className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
-        <button onClick={() => setTab("import")} className={`b-pill-tab ${tab === "import" ? "b-pill-tab-active" : ""}`}><Upload className="w-3.5 h-3.5" /> {t("reports.tab.import")}</button>
-        <button onClick={() => setTab("history")} className={`b-pill-tab ${tab === "history" ? "b-pill-tab-active" : ""}`}><History className="w-3.5 h-3.5" /> {t("reports.tab.history")}</button>
-        <button onClick={() => setTab("export")} className={`b-pill-tab ${tab === "export" ? "b-pill-tab-active" : ""}`}><Download className="w-3.5 h-3.5" /> {t("reports.tab.export")}</button>
-        <button onClick={() => setTab("scheduled")} className={`b-pill-tab ${tab === "scheduled" ? "b-pill-tab-active" : ""}`}><CalendarClock className="w-3.5 h-3.5" /> {t("reports.tab.scheduled")}</button>
+      <div role="tablist" className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
+        <button role="tab" aria-selected={tab === "import"} onClick={() => setTab("import")} className={`b-pill-tab ${tab === "import" ? "b-pill-tab-active" : ""}`}><Upload className="w-3.5 h-3.5" /> {t("reports.tab.import")}</button>
+        <button role="tab" aria-selected={tab === "history"} onClick={() => setTab("history")} className={`b-pill-tab ${tab === "history" ? "b-pill-tab-active" : ""}`}><History className="w-3.5 h-3.5" /> {t("reports.tab.history")}</button>
+        <button role="tab" aria-selected={tab === "export"} onClick={() => setTab("export")} className={`b-pill-tab ${tab === "export" ? "b-pill-tab-active" : ""}`}><Download className="w-3.5 h-3.5" /> {t("reports.tab.export")}</button>
+        <button role="tab" aria-selected={tab === "scheduled"} onClick={() => setTab("scheduled")} className={`b-pill-tab ${tab === "scheduled" ? "b-pill-tab-active" : ""}`}><CalendarClock className="w-3.5 h-3.5" /> {t("reports.tab.scheduled")}</button>
       </div>
 
       {tab === "import" && (

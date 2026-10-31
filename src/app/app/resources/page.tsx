@@ -84,10 +84,10 @@ export default function ResourcesPage() {
         </div>
       )}
       {subjects.length > 0 && (
-        <div className="flex gap-1.5 mb-5 overflow-x-auto b-scroll pb-1">
-          <button onClick={() => setFilterSubject("")} className={`b-pill-tab ${!filterSubject ? "b-pill-tab-active" : ""}`}>{t("common.all")}</button>
+        <div role="tablist" className="flex gap-1.5 mb-5 overflow-x-auto b-scroll pb-1">
+          <button role="tab" aria-selected={!filterSubject} onClick={() => setFilterSubject("")} className={`b-pill-tab ${!filterSubject ? "b-pill-tab-active" : ""}`}>{t("common.all")}</button>
           {subjects.map((s) => (
-            <button key={s.id} onClick={() => setFilterSubject(s.id)} className={`b-pill-tab ${filterSubject === s.id ? "b-pill-tab-active" : ""}`}>{s.name}</button>
+            <button role="tab" aria-selected={filterSubject === s.id} key={s.id} onClick={() => setFilterSubject(s.id)} className={`b-pill-tab ${filterSubject === s.id ? "b-pill-tab-active" : ""}`}>{s.name}</button>
           ))}
         </div>
       )}

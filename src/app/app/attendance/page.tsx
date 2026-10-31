@@ -132,9 +132,9 @@ export default function AttendancePage() {
             {t("attendance.filter.date")}
             <input className="b-input !w-36" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder="1404-07-10" />
           </label>
-          <div className="flex items-center gap-1.5 flex-wrap">
+          <div role="tablist" className="flex items-center gap-1.5 flex-wrap">
             {dayChips.map((d, i) => (
-              <button key={d} onClick={() => setDate(d)} className={`b-pill-tab !text-[12px] !px-3 !py-1 ${date === d ? "b-pill-tab-active" : ""}`}>
+              <button role="tab" aria-selected={date === d} key={d} onClick={() => setDate(d)} className={`b-pill-tab !text-[12px] !px-3 !py-1 ${date === d ? "b-pill-tab-active" : ""}`}>
                 {i === 0 ? t("dashboard.today") : d.slice(5)}
               </button>
             ))}
@@ -173,11 +173,11 @@ export default function AttendancePage() {
                     )}
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5 flex-wrap">
+                <div role="tablist" className="flex items-center gap-1.5 flex-wrap">
                   {STATUS_OPTIONS.map((o) => {
                     const active = (sheet[st.studentId]?.status ?? "PRESENT") === o.value;
                     return (
-                      <button
+                      <button role="tab" aria-selected={active}
                         key={o.value}
                         onClick={() => setStatus(st.studentId, o.value)}
                         className={`b-pill-tab !text-[12px] ${active ? "b-pill-tab-active" : ""}`}
@@ -227,9 +227,9 @@ export default function AttendancePage() {
       />
 
       {isParent && (meFull?.user.children?.length ?? 0) > 1 && (
-        <div className="flex flex-wrap gap-2">
+        <div role="tablist" className="flex flex-wrap gap-2">
           {meFull!.user.children.map((c) => (
-            <button
+            <button role="tab" aria-selected={childId === c.student.id}
               key={c.student.id}
               onClick={() => setChildId(c.student.id)}
               className={`b-pill-tab ${childId === c.student.id ? "b-pill-tab-active" : ""}`}

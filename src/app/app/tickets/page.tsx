@@ -112,18 +112,18 @@ export default function TicketsPage() {
         }
       />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <button className={`b-pill-tab ${scope === "mine" ? "b-pill-tab-active" : ""}`} onClick={() => setScope("mine")}>
+      <div role="tablist" className="flex flex-wrap items-center gap-2">
+        <button role="tab" aria-selected={scope === "mine"} className={`b-pill-tab ${scope === "mine" ? "b-pill-tab-active" : ""}`} onClick={() => setScope("mine")}>
           {t("tickets.mine")}
         </button>
         {isStaff && (
-          <button className={`b-pill-tab ${scope === "all" ? "b-pill-tab-active" : ""}`} onClick={() => setScope("all")}>
+          <button role="tab" aria-selected={scope === "all"} className={`b-pill-tab ${scope === "all" ? "b-pill-tab-active" : ""}`} onClick={() => setScope("all")}>
             {t("tickets.queue")}
           </button>
         )}
         <span className="w-px h-6 bg-hairline mx-1" />
         {["", "OPEN", "ANSWERED", "CLOSED"].map((st) => (
-          <button
+          <button role="tab" aria-selected={status === st}
             key={st || "all"}
             className={`b-pill-tab ${status === st ? "b-pill-tab-active" : ""}`}
             onClick={() => setStatus(st)}

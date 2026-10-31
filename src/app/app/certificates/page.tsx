@@ -107,10 +107,10 @@ export default function CertificatesPage() {
     <div>
       <PageHeader title={tr("nav.certificates")} desc={tr("certificates.desc")} />
       {/* راند ۱۹: مهار موبایل — مثل reports، تب‌ها با اسکرول افقی جای overflow صفحه */}
-      <div className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
-        <button onClick={() => setTab("issue")} className={`b-pill-tab ${tab === "issue" ? "b-pill-tab-active" : ""}`}>{tr("certificates.tab.issue")}</button>
-        <button onClick={() => setTab("list")} className={`b-pill-tab ${tab === "list" ? "b-pill-tab-active" : ""}`}>{tr("certificates.tab.issued")} ({faNumber(certs.length)})</button>
-        <button onClick={() => setTab("templates")} className={`b-pill-tab ${tab === "templates" ? "b-pill-tab-active" : ""}`}>{tr("certificates.tab.templates")} ({faNumber(templates.length)})</button>
+      <div role="tablist" className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
+        <button role="tab" aria-selected={tab === "issue"} onClick={() => setTab("issue")} className={`b-pill-tab ${tab === "issue" ? "b-pill-tab-active" : ""}`}>{tr("certificates.tab.issue")}</button>
+        <button role="tab" aria-selected={tab === "list"} onClick={() => setTab("list")} className={`b-pill-tab ${tab === "list" ? "b-pill-tab-active" : ""}`}>{tr("certificates.tab.issued")} ({faNumber(certs.length)})</button>
+        <button role="tab" aria-selected={tab === "templates"} onClick={() => setTab("templates")} className={`b-pill-tab ${tab === "templates" ? "b-pill-tab-active" : ""}`}>{tr("certificates.tab.templates")} ({faNumber(templates.length)})</button>
       </div>
 
       {tab === "issue" && (

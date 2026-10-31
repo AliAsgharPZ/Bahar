@@ -128,14 +128,14 @@ export function IranMapPicker({ open, onClose, selection, onChange, title, desc 
           </button>
         </div>
 
-        <div className="flex items-center gap-2 px-6 pt-3 shrink-0">
-          <button
+        <div role="tablist" className="flex items-center gap-2 px-6 pt-3 shrink-0">
+          <button role="tab" aria-selected={tab === "provinces"}
             className={`b-pill-tab ${tab === "provinces" ? "b-pill-tab-active" : ""}`}
             onClick={() => setTab("provinces")}
           >
             انتخاب استان
           </button>
-          <button
+          <button role="tab" aria-selected={tab === "counties"}
             className={`b-pill-tab ${tab === "counties" ? "b-pill-tab-active" : ""}`}
             onClick={() => setTab("counties")}
           >

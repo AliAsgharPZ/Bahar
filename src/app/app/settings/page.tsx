@@ -218,9 +218,9 @@ export default function SettingsPage() {
         desc={t("settings.header.desc")}
       />
 
-      <div className="flex flex-wrap gap-2">
+      <div role="tablist" className="flex flex-wrap gap-2">
         {tabs.map((tb) => (
-          <button key={tb.id} className={`b-pill-tab ${tab === tb.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(tb.id)}>
+          <button role="tab" aria-selected={tab === tb.id} key={tb.id} className={`b-pill-tab ${tab === tb.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(tb.id)}>
             <tb.icon className="w-3.5 h-3.5 inline ms-1" />
             {tb.label}
           </button>

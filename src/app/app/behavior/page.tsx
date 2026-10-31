@@ -106,9 +106,9 @@ export default function BehaviorPage() {
           </div>
         </div>
       )}
-      <div className="flex gap-1.5 mb-5">
+      <div role="tablist" className="flex gap-1.5 mb-5">
         {["ALL", "POSITIVE", "NEGATIVE"].map((k) => (
-          <button key={k} onClick={() => setKind(k)} className={`b-pill-tab ${kind === k ? "b-pill-tab-active" : ""}`}>
+          <button role="tab" aria-selected={kind === k} key={k} onClick={() => setKind(k)} className={`b-pill-tab ${kind === k ? "b-pill-tab-active" : ""}`}>
             {k === "ALL" ? t("common.all") : k === "POSITIVE" ? t("behavior.positives") : t("behavior.negatives")}
           </button>
         ))}

@@ -246,9 +246,9 @@ export default function ImportsPage() {
           <h2 className="font-bold text-[16px] flex items-center gap-2">
             <Upload className="w-4.5 h-4.5 text-spring" /> {mode === "staff" ? t("imports.bulk.staff") : t("imports.bulk.students")}
           </h2>
-          <div className="flex items-center gap-2" role="group" aria-label={t("imports.mode.aria")}>
+          <div role="tablist" className="flex items-center gap-2" aria-label={t("imports.mode.aria")}>
             {(["students", "staff"] as const).map((md) => (
-              <button
+              <button role="tab" aria-selected={mode === md}
                 key={md}
                 onClick={() => { setMode(md); setValidation(null); setResult(null); setMapping({}); }}
                 className={`b-pill-tab ${mode === md ? "b-pill-tab-active" : ""}`}
@@ -460,10 +460,10 @@ export default function ImportsPage() {
               {t("imports.export.desc")}
               {jobs && ` ${t("imports.export.superAdminNote")}`}
             </p>
-            <div className="flex items-center gap-2" role="group" aria-label={t("imports.export.formatAria")}>
+            <div role="tablist" className="flex items-center gap-2" aria-label={t("imports.export.formatAria")}>
               <span className="t-cap text-steel">{t("imports.export.formatLabel")}</span>
               {(["xlsx", "csv"] as const).map((f) => (
-                <button
+                <button role="tab" aria-selected={exportFormat === f}
                   key={f}
                   onClick={() => setExportFormat(f)}
                   className={`b-pill-tab ${exportFormat === f ? "b-pill-tab-active" : ""}`}

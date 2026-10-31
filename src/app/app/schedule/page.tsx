@@ -166,9 +166,9 @@ export default function SchedulePage() {
   return (
     <div className="flex flex-col gap-6">
       {isParent && (meFull?.user.children?.length ?? 0) > 1 && (
-        <div className="flex flex-wrap items-center gap-2">
+        <div role="tablist" className="flex flex-wrap items-center gap-2">
           {meFull!.user.children.map((c) => (
-            <button
+            <button role="tab" aria-selected={childId === c.student.id}
               key={c.student.id}
               onClick={() => setChildId(c.student.id)}
               className={`b-pill-tab ${childId === c.student.id ? "b-pill-tab-active" : ""}`}

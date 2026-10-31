@@ -176,9 +176,9 @@ function StaffView() {
         <StatCard icon={AlertTriangle} label={t("wellbeing.flagged")} value={faNumber(data.flaggedCount)} tone={data.flaggedCount > 0 ? "warning" : "spring"} />
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
+      <div role="tablist" className="flex flex-wrap items-center gap-2">
         {[7, 14, 30].map((d) => (
-          <button key={d} className={`b-pill-tab ${days === d ? "b-pill-tab-active" : ""}`} onClick={() => setDays(d)}>
+          <button role="tab" aria-selected={days === d} key={d} className={`b-pill-tab ${days === d ? "b-pill-tab-active" : ""}`} onClick={() => setDays(d)}>
             {faDigits(d)} {t("wellbeing.daysRecent")}
           </button>
         ))}

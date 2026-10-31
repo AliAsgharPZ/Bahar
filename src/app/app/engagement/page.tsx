@@ -109,10 +109,10 @@ function EngagementInner() {
   return (
     <div>
       <PageHeader title={t("engagement.title")} desc={t("engagement.desc")} />
-      <div className="flex gap-1.5 mb-6 flex-wrap">
-        <button onClick={() => setTab("polls")} className={`b-pill-tab ${tab === "polls" ? "b-pill-tab-active" : ""}`}><Vote className="w-3.5 h-3.5" /> {t("engagement.tab.polls")}</button>
-        <button onClick={() => setTab("suggestions")} className={`b-pill-tab ${tab === "suggestions" ? "b-pill-tab-active" : ""}`}><Lightbulb className="w-3.5 h-3.5" /> {t("engagement.tab.suggestions")}</button>
-        <button onClick={() => setTab("houses")} className={`b-pill-tab ${tab === "houses" ? "b-pill-tab-active" : ""}`}><Home className="w-3.5 h-3.5" /> {t("engagement.tab.houses")}</button>
+      <div role="tablist" className="flex gap-1.5 mb-6 flex-wrap">
+        <button role="tab" aria-selected={tab === "polls"} onClick={() => setTab("polls")} className={`b-pill-tab ${tab === "polls" ? "b-pill-tab-active" : ""}`}><Vote className="w-3.5 h-3.5" /> {t("engagement.tab.polls")}</button>
+        <button role="tab" aria-selected={tab === "suggestions"} onClick={() => setTab("suggestions")} className={`b-pill-tab ${tab === "suggestions" ? "b-pill-tab-active" : ""}`}><Lightbulb className="w-3.5 h-3.5" /> {t("engagement.tab.suggestions")}</button>
+        <button role="tab" aria-selected={tab === "houses"} onClick={() => setTab("houses")} className={`b-pill-tab ${tab === "houses" ? "b-pill-tab-active" : ""}`}><Home className="w-3.5 h-3.5" /> {t("engagement.tab.houses")}</button>
       </div>
 
       {tab === "polls" && (
@@ -256,7 +256,7 @@ function EngagementInner() {
                   className="!w-36"
                   buttonClassName="!w-36"
                 />
-                <button onClick={() => setSugAnon((v) => !v)} className={`b-pill-tab !text-[12px] ${sugAnon ? "b-pill-tab-active" : ""}`}>{sugAnon ? t("engagement.anonymous") : t("engagement.named")}</button>
+                <button aria-pressed={sugAnon} onClick={() => setSugAnon((v) => !v)} className={`b-pill-tab !text-[12px] ${sugAnon ? "b-pill-tab-active" : ""}`}>{sugAnon ? t("engagement.anonymous") : t("engagement.named")}</button>
               </div>
               <button onClick={suggest} className="b-btn b-btn-spring w-full mt-3">{t("engagement.sendSuggestion")}</button>
             </div>

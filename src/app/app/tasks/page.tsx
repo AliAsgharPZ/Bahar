@@ -77,8 +77,8 @@ export default function TasksPage() {
         title={tr("tasks.title")}
         desc={tr("tasks.desc")}
         action={
-          <div className="flex gap-2">
-            <button onClick={() => setMine((v) => !v)} className={`b-pill-tab ${mine ? "b-pill-tab-active" : ""}`}>{tr("tasks.onlyMine")}</button>
+          <div role="tablist" className="flex gap-2">
+            <button role="tab" aria-selected={mine} onClick={() => setMine((v) => !v)} className={`b-pill-tab ${mine ? "b-pill-tab-active" : ""}`}>{tr("tasks.onlyMine")}</button>
             <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {tr("tasks.new")}</button>
           </div>
         }

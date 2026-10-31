@@ -330,9 +330,9 @@ export default function UsersPage() {
             placeholder={t("users.search.placeholder")}
           />
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div role="tablist" className="flex flex-wrap gap-2">
           {tabs.map((t) => (
-            <button
+            <button role="tab" aria-selected={role === t.value}
               key={t.value}
               onClick={() => setRole(t.value)}
               className={`b-pill-tab ${role === t.value ? "b-pill-tab-active" : ""}`}

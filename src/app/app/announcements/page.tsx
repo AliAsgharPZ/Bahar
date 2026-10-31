@@ -156,15 +156,15 @@ export default function AnnouncementsPage() {
           <div className="flex items-center gap-2 flex-wrap">
             <b className="text-[14px] flex items-center gap-2"><BellRing className="w-4 h-4 text-spring" /> {t("announcements.newTitle")}</b>
             {hasPlatform && (
-              <div className="flex items-center gap-2 ms-auto">
-                <button
+              <div role="tablist" className="flex items-center gap-2 ms-auto">
+                <button role="tab" aria-selected={form.scope === "SCHOOL"}
                   type="button"
                   className={`b-pill-tab !text-[12px] ${form.scope === "SCHOOL" ? "b-pill-tab-active" : ""}`}
                   onClick={() => setForm((f) => ({ ...f, scope: "SCHOOL" }))}
                 >
                   {t("common.school")}
                 </button>
-                <button
+                <button role="tab" aria-selected={form.scope === "PLATFORM"}
                   type="button"
                   className={`b-pill-tab !text-[12px] ${form.scope === "PLATFORM" ? "b-pill-tab-active" : ""}`}
                   onClick={() => setForm((f) => ({ ...f, scope: "PLATFORM" }))}

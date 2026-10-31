@@ -349,9 +349,9 @@ export default function GradesPage() {
       <PageHeader title={t("grades.report.title")} desc={isParent ? t("grades.report.descParent") : t("grades.report.descStudent")} />
 
       {isParent && (meFull?.user.children?.length ?? 0) > 1 && (
-        <div className="flex flex-wrap gap-2">
+        <div role="tablist" className="flex flex-wrap gap-2">
           {meFull!.user.children.map((c) => (
-            <button key={c.student.id} onClick={() => setChildId(c.student.id)} className={`b-pill-tab ${childId === c.student.id ? "b-pill-tab-active" : ""}`}>
+            <button role="tab" aria-selected={childId === c.student.id} key={c.student.id} onClick={() => setChildId(c.student.id)} className={`b-pill-tab ${childId === c.student.id ? "b-pill-tab-active" : ""}`}>
               {c.student.user.firstName} {c.student.user.lastName}
             </button>
           ))}

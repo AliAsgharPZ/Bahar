@@ -211,13 +211,13 @@ export default function FinancePage() {
         </div>
       )}
 
-      <div className="flex flex-wrap items-center gap-2">
+      <div role="tablist" className="flex flex-wrap items-center gap-2">
         <div className="b-search-pill max-w-xs">
           <Search className="w-4 h-4" />
           <input className="b-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("finance.jst-vjvy-anvan-ya-dansh-amvz")} />
         </div>
         {["", "UNPAID", "PAID", "WAIVED"].map((st) => (
-          <button key={st || "all"} className={`b-pill-tab ${status === st ? "b-pill-tab-active" : ""}`} onClick={() => setStatus(st)}>
+          <button role="tab" aria-selected={status === st} key={st || "all"} className={`b-pill-tab ${status === st ? "b-pill-tab-active" : ""}`} onClick={() => setStatus(st)}>
             {st ? t(STATUS_TKEY[st] ?? st) : t("common.all")}
           </button>
         ))}

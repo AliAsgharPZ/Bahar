@@ -87,9 +87,9 @@ function FacilitiesInner() {
   return (
     <div>
       <PageHeader title={t("facilities.mdyryt-amkanat-mdrsh")} desc={t("facilities.ataq-ha-tjhyzat-tamyrat-mhman-ha-v-ashyay-gmshdh-hmh-dr-ykja")} />
-      <div className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
+      <div role="tablist" className="flex gap-1.5 mb-6 overflow-x-auto b-scroll pb-1">
         {TABS.map((tb) => (
-          <button key={tb.key} onClick={() => setTab(tb.key)} className={`b-pill-tab ${tab === tb.key ? "b-pill-tab-active" : ""}`}>
+          <button role="tab" aria-selected={tab === tb.key} key={tb.key} onClick={() => setTab(tb.key)} className={`b-pill-tab ${tab === tb.key ? "b-pill-tab-active" : ""}`}>
             <tb.icon className="w-3.5 h-3.5" /> {t(tb.tkey)}
             {tb.key === "maintenance" && overdueCount > 0 && <span className="b-badge b-badge-critical !text-[12px] !px-1.5">{faNumber(overdueCount)}</span>}
           </button>

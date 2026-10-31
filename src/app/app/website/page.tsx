@@ -198,9 +198,9 @@ export default function WebsiteEditorPage() {
         }}
       />
 
-      <div className="flex flex-wrap gap-2">
+      <div role="tablist" className="flex flex-wrap gap-2">
         {tabs.map((t) => (
-          <button key={t.id} className={`b-pill-tab ${tab === t.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(t.id)}>
+          <button role="tab" aria-selected={tab === t.id} key={t.id} className={`b-pill-tab ${tab === t.id ? "b-pill-tab-active" : ""}`} onClick={() => setTab(t.id)}>
             <t.icon className="w-3.5 h-3.5 inline ms-1" />
             {t.label}
           </button>

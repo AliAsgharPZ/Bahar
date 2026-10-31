@@ -105,9 +105,9 @@ export default function VenuesPage() {
         </div>
       )}
 
-      <div className="flex gap-1.5 overflow-x-auto b-scroll pb-1">
+      <div role="tablist" className="flex gap-1.5 overflow-x-auto b-scroll pb-1">
         {[{ value: "ALL", label: "همه" }, ...VENUE_KINDS.map((k) => ({ value: k, label: KIND_LABEL[k] }))].map((f) => (
-          <button key={f.value} onClick={() => setFilter(f.value)} className={`b-pill-tab ${filter === f.value ? "b-pill-tab-active" : ""}`}>{f.label}</button>
+          <button role="tab" aria-selected={filter === f.value} key={f.value} onClick={() => setFilter(f.value)} className={`b-pill-tab ${filter === f.value ? "b-pill-tab-active" : ""}`}>{f.label}</button>
         ))}
       </div>
 

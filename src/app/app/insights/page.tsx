@@ -107,14 +107,14 @@ export default function InsightsPage() {
       </div>
 
       {/* فیلتر */}
-      <div className="flex flex-wrap items-center gap-2">
+      <div role="tablist" className="flex flex-wrap items-center gap-2">
         {[
           { v: "", label: `${t("common.all")} (${faNumber(total)})` },
           { v: "HIGH", label: `${t("insights.level.high")} (${faNumber(high)})` },
           { v: "MODERATE", label: `${t("insights.filter.attention")} (${faNumber(moderate)})` },
           { v: "LOW", label: `${t("insights.level.low")} (${faNumber(low)})` },
         ].map((f) => (
-          <button
+          <button role="tab" aria-selected={levelFilter === f.v}
             key={f.v}
             className={`b-pill-tab ${levelFilter === f.v ? "b-pill-tab-active" : ""}`}
             onClick={() => setLevelFilter(f.v)}
