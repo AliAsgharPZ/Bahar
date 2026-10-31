@@ -122,7 +122,7 @@ function FacilitiesInner() {
               <motion.div key={r.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} className="b-card-sm p-4 group">
                 <div className="flex items-center justify-between">
                   <p className="font-bold text-[14px]">{r.name}</p>
-                  <button onClick={() => del("room", r.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={() => del("room", r.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
                 <p className="text-[12px] text-steel mt-1">{{ CLASSROOM: t("common.class"), LAB: t("facilities.azmayshgah"), SPORT: t("facilities.saln-vrzsh"), HALL: "سالن", CONFERENCE: "سالن همایش", FIELD: "زمین ورزشی", LIBRARY: t("nav.library"), OFFICE: t("facilities.adary") }[r.kind] ?? t("facilities.sayr")} · {t("facilities.zrfyt")} {faNumber(r.capacity)} {t("dashboard.unit.person")}{r.floor ? ` ${t("facilities.tbqh")} ${faNumber(r.floor)}` : ""}</p>
               </motion.div>
@@ -209,7 +209,7 @@ function FacilitiesInner() {
                     {a.status === "OK" ? t("facilities.sbt-khraby") : t("facilities.salm-shd")}
                   </button>
                   <a href={`/api/qr/asset/${a.id}`} target="_blank" rel="noreferrer" className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0"><QrCode className="w-3 h-3" /> QR</a>
-                  <button onClick={() => del("asset", a.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive ms-auto"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={() => del("asset", a.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 text-stone hover:text-destructive ms-auto"><Trash2 className="w-4 h-4" /></button>
                 </div>
               </motion.div>
             ))}

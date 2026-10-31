@@ -101,7 +101,7 @@ export default function ResourcesPage() {
                   <span className="w-9 h-9 rounded-2xl bg-spring-tint text-spring-deep flex items-center justify-center shrink-0"><k.icon className="w-4.5 h-4.5 w-5 h-5" /></span>
                   <span className="b-badge b-badge-spring">{t(k.label)}</span>
                   {isStaff && (
-                    <button onClick={(e) => { e.preventDefault(); remove(r.id); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive ms-auto">
+                    <button onClick={(e) => { e.preventDefault(); remove(r.id); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 text-stone hover:text-destructive ms-auto">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   )}

@@ -416,7 +416,7 @@ export default function WebsiteEditorPage() {
                   <img src={g} alt={`گالری ${i + 1}`} className="w-full aspect-[4/3] object-cover rounded-2xl border border-hairline" />
                   <button
                     type="button"
-                    className="absolute top-1.5 start-1.5 w-7 h-7 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 max-md:opacity-100 transition-opacity"
+                    className="absolute top-1.5 start-1.5 w-7 h-7 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 transition-opacity"
                     onClick={() => patchConfig({ gallery: config.gallery.filter((_, x) => x !== i) })}
                     aria-label="حذف تصویر"
                   >

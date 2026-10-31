@@ -178,7 +178,7 @@ export default function CertificatesPage() {
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="b-badge b-badge-spring">{tr(KINDS[t.kind])}</span>
                   <span className="text-[14px] font-bold flex-1">{t.title}</span>
-                  <button onClick={async () => { if (!(await confirm({ title: tr("certificates.deleteTemplateTitle"), description: tr("certificates.deleteTemplateDesc"), confirmLabel: tr("common.delete"), danger: true }))) return; apiDelete(`/api/certificates?template=${t.id}`).then(load).catch((e) => toast.error(e instanceof Error ? e.message : tr("certificates.deleteError"))); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
+                  <button onClick={async () => { if (!(await confirm({ title: tr("certificates.deleteTemplateTitle"), description: tr("certificates.deleteTemplateDesc"), confirmLabel: tr("common.delete"), danger: true }))) return; apiDelete(`/api/certificates?template=${t.id}`).then(load).catch((e) => toast.error(e instanceof Error ? e.message : tr("certificates.deleteError"))); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
                 <p className="text-[12px] text-steel line-clamp-3 leading-relaxed">{t.bodyTemplate}</p>
               </div>

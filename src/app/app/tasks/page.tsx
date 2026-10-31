@@ -143,7 +143,7 @@ export default function TasksPage() {
                         <div className="flex items-start gap-2">
                           <span className="flex-1 text-[12px] font-bold leading-snug">{t.title}</span>
                           {canManage && (
-                            <button onClick={() => remove(t.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 text-stone hover:text-destructive transition-all shrink-0">
+                            <button onClick={() => remove(t.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 text-stone hover:text-destructive transition-all shrink-0">
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           )}
@@ -157,7 +157,7 @@ export default function TasksPage() {
                           {t.sourceKind === "AUTOMATION" && <span className="b-badge b-badge-spring !text-[12px] !px-1.5 !py-0">{tr("tasks.auto")}</span>}
                         </div>
                         {t.status !== "DONE" && (
-                          <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                          <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                             {t.status === "TODO" && <button onClick={() => move(t, "IN_PROGRESS")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{tr("tasks.start")}</button>}
                             {t.status === "IN_PROGRESS" && <button onClick={() => move(t, "TODO")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{tr("common.back")}</button>}
                             <button onClick={() => move(t, "DONE")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{tr("tasks.done")}</button>

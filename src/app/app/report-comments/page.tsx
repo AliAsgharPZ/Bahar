@@ -143,7 +143,7 @@ export default function ReportCommentsPage() {
                   <p>{tpl.text}</p>
                   <div className="flex gap-2 mt-2">
                     <button className="b-badge b-badge-spring" onClick={() => setText((x) => (x ? `${x} ${tpl.text}` : tpl.text))}>{t("reportComments.bank.addToText")}</button>
-                    <button className="b-badge b-badge-neutral opacity-0 group-hover:opacity-100 max-md:opacity-100" onClick={() => deleteTemplate(tpl.id)}>
+                    <button className="b-badge b-badge-neutral opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100" onClick={() => deleteTemplate(tpl.id)}>
                       <Trash2 className="w-3 h-3" /> {t("common.delete")}
                     </button>
                   </div>
