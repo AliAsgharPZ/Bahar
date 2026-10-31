@@ -339,7 +339,7 @@ function AdmissionsForm({ skin, subdomain }: { skin: Skin; subdomain: string }) 
           type="submit"
           disabled={sending}
           className="h-12 px-8 text-[14px] font-bold flex items-center gap-2 transition-transform hover:scale-[1.02] disabled:opacity-60"
-          style={{ borderRadius: skin.pill, background: skin.p.primary, color: "#fff" }}
+          style={{ borderRadius: skin.pill, background: skin.p.primary, color: skin.onPrimary }}
         >
           <Send className="w-4 h-4" />
           {sending ? "در حال ارسال…" : "ثبت درخواست پیش‌ثبت‌نام"}
@@ -393,7 +393,7 @@ function SectionHead({ skin, icon: Icon, title, kicker, center }: {
       <div className={`mb-8 ${center ? "text-center" : ""}`}>
         <h2 className="text-[24px] md:text-[30px] font-extrabold inline-flex items-center gap-3" style={{ ...headingFont, color: skin.text }}>
           {Icon && (
-            <span className="w-9 h-9 rounded-full flex items-center justify-center text-white shrink-0" style={{ background: skin.p.primary }}>
+            <span className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ color: skin.onPrimary, background: skin.p.primary }}>
               <Icon className="w-5 h-5" />
             </span>
           )}
@@ -935,7 +935,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
           {school.logoUrl ? (
             <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover" style={{ borderRadius: 6 }} />
           ) : (
-            <span className="w-10 h-10 flex items-center justify-center font-bold text-white" style={{ background: skin.p.primary, borderRadius: 6 }}>{school.name[0] ?? "ب"}</span>
+            <span className="w-10 h-10 flex items-center justify-center font-bold" style={{ color: skin.onPrimary, background: skin.p.primary, borderRadius: 6 }}>{school.name[0] ?? "ب"}</span>
           )}
           <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
           <span className="hidden sm:inline text-[12px]" style={{ color: skin.faint }}>{school.type}</span>
@@ -953,11 +953,11 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
         {school.logoUrl ? (
           <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover" style={{ borderRadius: skin.family === "classic" ? 12 : 8 }} />
         ) : (
-          <span className="w-10 h-10 flex items-center justify-center font-bold text-white" style={{ background: skin.p.primary, borderRadius: 12 }}>{school.name[0] ?? "ب"}</span>
+          <span className="w-10 h-10 flex items-center justify-center font-bold" style={{ color: skin.onPrimary, background: skin.p.primary, borderRadius: 12 }}>{school.name[0] ?? "ب"}</span>
         )}
         <b className="text-[15px] min-w-0 truncate" style={{ ...headingFont, color: skin.text }}>{school.name}</b>
         <span className="hidden sm:inline text-[12px]" style={{ color: skin.faint }}>{school.type}</span>
-        <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold text-white transition-transform hover:scale-105" style={{ borderRadius: skin.pill, background: skin.p.primary }}>
+        <a href="#admissions" className="ms-auto h-10 px-5 flex items-center shrink-0 text-[12.5px] font-bold transition-transform hover:scale-105" style={{ color: skin.onPrimary, borderRadius: skin.pill, background: skin.p.primary }}>
           {cta}
         </a>
       </div>
@@ -1133,7 +1133,7 @@ function ClassicFamily({ skin, config, data, subdomain }: FamilyProps) {
             </h1>
             <p className="text-[14.5px] md:text-[16.5px] leading-relaxed mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
             <div className="flex gap-3 flex-wrap">
-              <a href="#admissions" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold text-white transition-transform hover:scale-[1.02]" style={{ borderRadius: skin.pill, background: p.primary }}>
+              <a href="#admissions" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold transition-transform hover:scale-[1.02]" style={{ color: skin.onPrimary, borderRadius: skin.pill, background: p.primary }}>
                 {config.ctaPrimary}
               </a>
               <a href="#about" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold" style={{ borderRadius: skin.pill, border: `1px solid ${skin.border}`, color: skin.text }}>
@@ -1583,7 +1583,7 @@ function PlayfulFamily({ skin, config, data, subdomain }: FamilyProps) {
               {config.heroSubtitle}
             </p>
             <div className="flex items-center gap-4 flex-wrap">
-              <a href="#admissions" className="h-[52px] px-8 inline-flex items-center gap-2 text-[14px] font-bold text-white transition-transform hover:scale-105 hover:-rotate-1" style={{ borderRadius: 999, background: p.primary, boxShadow: `0 10px 22px ${p.primary}40` }}>
+              <a href="#admissions" className="h-[52px] px-8 inline-flex items-center gap-2 text-[14px] font-bold transition-transform hover:scale-105 hover:-rotate-1" style={{ color: skin.onPrimary, borderRadius: 999, background: p.primary, boxShadow: `0 10px 22px ${p.primary}40` }}>
                 <Sparkles className="w-5 h-5" />
                 {config.ctaPrimary}
               </a>
@@ -1946,7 +1946,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
           {school.logoUrl ? (
             <img src={school.logoUrl} alt={school.name} className="w-7 h-7 rounded-full object-cover" />
           ) : (
-            <span className="w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-bold text-white" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>
+            <span className="w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-bold" style={{ color: skin.onPrimary, background: p.primary }}>{school.name[0] ?? "ب"}</span>
           )}
           <b className="text-[13.5px] font-semibold min-w-0 truncate" style={{ color: skin.text }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-6 ms-8 text-[12.5px]" aria-label="ناوبری سایت مدرسه">
@@ -1954,7 +1954,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
               <a key={h} href={h} className="hover:opacity-70 transition-opacity" style={{ color: skin.sub }}>{l}</a>
             ))}
           </nav>
-          <a href="#admissions" className="ms-auto h-8 px-4 inline-flex items-center text-[12px] font-semibold text-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, background: p.primary }}>
+          <a href="#admissions" className="ms-auto h-8 px-4 inline-flex items-center text-[12px] font-semibold transition-transform hover:scale-[1.03]" style={{ color: skin.onPrimary, borderRadius: 999, background: p.primary }}>
             {config.ctaPrimary}
           </a>
         </div>
@@ -1968,7 +1968,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
         <h1 className="text-[40px] md:text-[64px] font-extrabold leading-[1.15] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
         <p className="text-[16px] md:text-[20px] leading-relaxed max-w-2xl mx-auto mb-9" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
         <div className="flex items-center justify-center gap-5 flex-wrap">
-          <a href="#admissions" className="h-12 px-8 inline-flex items-center text-[14px] font-semibold text-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, background: p.primary }}>
+          <a href="#admissions" className="h-12 px-8 inline-flex items-center text-[14px] font-semibold transition-transform hover:scale-[1.03]" style={{ color: skin.onPrimary, borderRadius: 999, background: p.primary }}>
             {config.ctaPrimary}
           </a>
           <a href="#about" className="text-[14.5px] font-medium hover:underline" style={{ color: p.primary }}>درباره مدرسه ←</a>
@@ -2100,7 +2100,7 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
           {school.logoUrl ? (
             <img src={school.logoUrl} alt={school.name} className="w-10 h-10 rounded-full object-cover" />
           ) : (
-            <span className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>
+            <span className="w-10 h-10 rounded-full flex items-center justify-center font-bold" style={{ color: skin.onPrimary, background: p.primary }}>{school.name[0] ?? "ب"}</span>
           )}
           <b className="text-[15.5px] font-bold min-w-0 truncate" style={{ ...headingFont, color: p.primary }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-6 ms-6 text-[13px] font-medium" aria-label="ناوبری سایت مدرسه">
@@ -2108,7 +2108,7 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
               <a key={h} href={h} className="hover:underline" style={{ color: skin.sub }}>{l}</a>
             ))}
           </nav>
-          <a href="#admissions" className="ms-auto h-11 px-6 inline-flex items-center shrink-0 text-[13px] font-bold text-white transition-transform hover:scale-[1.03]" style={{ borderRadius: 999, background: p.primary, boxShadow: "0 4px 14px rgba(0,0,0,.14)" }}>
+          <a href="#admissions" className="ms-auto h-11 px-6 inline-flex items-center shrink-0 text-[13px] font-bold transition-transform hover:scale-[1.03]" style={{ color: skin.onPrimary, borderRadius: 999, background: p.primary, boxShadow: "0 4px 14px rgba(0,0,0,.14)" }}>
             {config.ctaPrimary}
           </a>
         </div>
@@ -2123,7 +2123,7 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
           <h1 className="text-[34px] md:text-[46px] font-bold leading-[1.3] mb-4 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
           <p className="text-[14.5px] md:text-[16px] leading-relaxed mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
           <div className="flex gap-3 flex-wrap">
-            <a href="#admissions" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold text-white transition-transform hover:scale-[1.02]" style={{ borderRadius: 999, background: p.primary }}>
+            <a href="#admissions" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold transition-transform hover:scale-[1.02]" style={{ color: skin.onPrimary, borderRadius: 999, background: p.primary }}>
               {config.ctaPrimary}
             </a>
             <a href="#gallery" className="h-12 px-7 inline-flex items-center text-[13.5px] font-bold" style={{ borderRadius: 999, border: `1px solid ${skin.border}`, color: skin.text }}>
@@ -2261,7 +2261,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
           {school.logoUrl ? (
             <img src={school.logoUrl} alt={school.name} className="w-8 h-8 object-cover" style={{ borderRadius: 8 }} />
           ) : (
-            <span className="w-8 h-8 flex items-center justify-center font-bold text-white text-[13px]" style={{ background: p.accent, borderRadius: 8 }}>{school.name[0] ?? "ب"}</span>
+            <span className="w-8 h-8 flex items-center justify-center font-bold text-[13px]" style={{ color: skin.onAccent, background: p.accent, borderRadius: 8 }}>{school.name[0] ?? "ب"}</span>
           )}
           <b className="text-[14px] font-semibold min-w-0 truncate" style={{ color: skin.text }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-5 ms-6 text-[12.5px]" aria-label="ناوبری سایت مدرسه">
@@ -2269,7 +2269,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
               <a key={h} href={h} className="hover:underline" style={{ color: skin.sub }}>{l}</a>
             ))}
           </nav>
-          <a href="#admissions" className="ms-auto h-9 px-4 inline-flex items-center text-[12.5px] font-semibold text-white transition-opacity hover:opacity-85" style={{ borderRadius: 8, background: p.accent }}>
+          <a href="#admissions" className="ms-auto h-9 px-4 inline-flex items-center text-[12.5px] font-semibold transition-opacity hover:opacity-85" style={{ color: skin.onAccent, borderRadius: 8, background: p.accent }}>
             {config.ctaPrimary}
           </a>
         </div>
@@ -2283,7 +2283,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
         <h1 className="text-[34px] md:text-[46px] font-semibold leading-[1.3] mb-4 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
         <p className="text-[15px] md:text-[16.5px] leading-[1.9] mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
         <div className="flex gap-2.5 flex-wrap">
-          <a href="#admissions" className="h-10 px-5 inline-flex items-center text-[13px] font-semibold text-white transition-opacity hover:opacity-85" style={{ borderRadius: 8, background: p.accent }}>
+          <a href="#admissions" className="h-10 px-5 inline-flex items-center text-[13px] font-semibold transition-opacity hover:opacity-85" style={{ color: skin.onAccent, borderRadius: 8, background: p.accent }}>
             {config.ctaPrimary}
           </a>
           <a href="#about" className="h-10 px-5 inline-flex items-center text-[13px] font-medium" style={{ borderRadius: 8, border: `1px solid ${skin.border}`, color: skin.text }}>
@@ -2578,7 +2578,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
           {school.logoUrl ? (
             <img src={school.logoUrl} alt={school.name} className="w-7 h-7 object-cover" style={{ borderRadius: 7 }} />
           ) : (
-            <span className="w-7 h-7 flex items-center justify-center font-bold text-white text-[12px]" style={{ background: p.primary, borderRadius: 7 }}>{school.name[0] ?? "ب"}</span>
+            <span className="w-7 h-7 flex items-center justify-center font-bold text-[12px]" style={{ color: skin.onPrimary, background: p.primary, borderRadius: 7 }}>{school.name[0] ?? "ب"}</span>
           )}
           <b className="text-[13.5px] font-semibold min-w-0 truncate" style={{ color: skin.text }}>{school.name}</b>
           <nav className="hidden md:flex items-center gap-5 ms-7 text-[12.5px]" aria-label="ناوبری سایت مدرسه">
@@ -2586,7 +2586,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
               <a key={h} href={h} className="hover:opacity-75 transition-opacity" style={{ color: skin.sub }}>{l}</a>
             ))}
           </nav>
-          <a href="#admissions" className="ms-auto h-8 px-4 inline-flex items-center text-[12px] font-semibold text-white transition-opacity hover:opacity-85" style={{ borderRadius: 999, background: p.primary }}>
+          <a href="#admissions" className="ms-auto h-8 px-4 inline-flex items-center text-[12px] font-semibold transition-opacity hover:opacity-85" style={{ color: skin.onPrimary, borderRadius: 999, background: p.primary }}>
             {config.ctaPrimary}
           </a>
         </div>
@@ -2604,7 +2604,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
             <h1 className="text-[34px] md:text-[50px] font-semibold leading-[1.25] mb-5 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
             <p className="text-[14px] md:text-[15.5px] leading-[1.95] mb-8 max-w-lg" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
             <div className="flex gap-2.5 flex-wrap">
-              <a href="#admissions" className="h-10 px-5 inline-flex items-center text-[13px] font-semibold text-white transition-opacity hover:opacity-85" style={{ borderRadius: 8, background: p.primary }}>
+              <a href="#admissions" className="h-10 px-5 inline-flex items-center text-[13px] font-semibold transition-opacity hover:opacity-85" style={{ color: skin.onPrimary, borderRadius: 8, background: p.primary }}>
                 {config.ctaPrimary}
               </a>
               <a href="#about" className="h-10 px-5 inline-flex items-center text-[13px] font-medium" style={{ borderRadius: 8, border: `1px solid ${skin.border}`, color: skin.text }}>
@@ -3790,7 +3790,7 @@ function TeslaFamily({ skin, config, data, subdomain }: FamilyProps) {
       <header className="absolute top-0 inset-x-0 z-30">
         <div className="max-w-6xl mx-auto px-4 pt-4 flex items-center gap-3">
           <b className="text-[15px] font-medium truncate text-white drop-shadow">{school.name}</b>
-          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-medium text-white" style={{ borderRadius: skin.pill, background: p.accent }}>{config.ctaPrimary}</a>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-medium" style={{ color: skin.onAccent, borderRadius: skin.pill, background: p.accent }}>{config.ctaPrimary}</a>
         </div>
         <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} linkStyle={{ color: "rgba(255,255,255,.85)" }} /></div>
       </header>
@@ -3800,7 +3800,7 @@ function TeslaFamily({ skin, config, data, subdomain }: FamilyProps) {
         <div className="relative max-w-6xl mx-auto px-4 pb-16 pt-40 w-full text-center">
           <h1 className="text-[36px] md:text-[54px] font-medium text-white leading-[1.2] mb-4 drop-shadow">{config.heroTitle}</h1>
           <p className="text-[15px] text-white/90 max-w-lg mx-auto mb-8 leading-[1.9]">{config.heroSubtitle}</p>
-          <a href="#admissions" className="min-h-[44px] px-8 inline-flex items-center text-[14px] font-medium text-white" style={{ borderRadius: skin.pill, background: p.accent }}>{config.ctaPrimary}</a>
+          <a href="#admissions" className="min-h-[44px] px-8 inline-flex items-center text-[14px] font-medium" style={{ color: skin.onAccent, borderRadius: skin.pill, background: p.accent }}>{config.ctaPrimary}</a>
         </div>
       </section>
       <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
@@ -3815,7 +3815,7 @@ function WiseFamily({ skin, config, data, subdomain }: FamilyProps) {
     <div data-family="wise" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       <header className="sticky top-0 z-30" style={{ background: p.bg }}>
         <div className="max-w-6xl mx-auto px-4 pt-4 flex items-center gap-3">
-          {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-black text-white text-[16px] rounded-full" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>}
+          {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-black text-[16px] rounded-full" style={{ color: skin.onPrimary, background: p.primary }}>{school.name[0] ?? "ب"}</span>}
           <b className="text-[17px] font-black truncate">{school.name}</b>
           <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold transition-transform hover:scale-105" style={{ borderRadius: 999, background: p.accent, color: "#111111" }}>{config.ctaPrimary}</a>
         </div>
@@ -3868,7 +3868,7 @@ function FramerFamily({ skin, config, data, subdomain }: FamilyProps) {
       <header className="sticky top-0 z-30" style={{ background: "rgba(10,10,10,.85)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(255,255,255,.12)" }}>
         <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
           <b className="text-[16px] font-extrabold truncate text-white">{school.name}</b>
-          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold text-white" style={{ borderRadius: 999, background: p.accent }}>{config.ctaPrimary}</a>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold" style={{ color: skin.onAccent, borderRadius: 999, background: p.accent }}>{config.ctaPrimary}</a>
         </div>
         <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} linkStyle={{ color: "rgba(255,255,255,.7)" }} /></div>
       </header>
@@ -3877,7 +3877,7 @@ function FramerFamily({ skin, config, data, subdomain }: FamilyProps) {
         <div className="relative max-w-6xl mx-auto px-4 py-20 md:py-28 text-center">
           <h1 className="text-[40px] md:text-[64px] font-extrabold leading-[1.05] mb-6 text-white" style={{ ...headingFont }}>{config.heroTitle}</h1>
           <p className="text-[15.5px] leading-[2] max-w-xl mx-auto mb-8" style={{ color: "rgba(255,255,255,.75)" }}>{config.heroSubtitle}</p>
-          <a href="#admissions" className="min-h-[48px] px-8 inline-flex items-center text-[14px] font-bold text-white" style={{ borderRadius: 999, background: p.accent }}>{config.ctaPrimary}</a>
+          <a href="#admissions" className="min-h-[48px] px-8 inline-flex items-center text-[14px] font-bold" style={{ color: skin.onAccent, borderRadius: 999, background: p.accent }}>{config.ctaPrimary}</a>
           {config.heroImage && <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full max-w-4xl mx-auto mt-14 aspect-[16/9] object-cover" style={{ borderRadius: 28, border: "1px solid rgba(255,255,255,.15)" }} />}
         </div>
       </section>
@@ -3896,7 +3896,7 @@ function MetaFamily({ skin, config, data, subdomain }: FamilyProps) {
     <div data-family="meta" className="min-h-screen overflow-x-clip" style={{ background: p.bg, color: skin.text }}>
       <header className="sticky top-0 z-30" style={{ background: skin.dark ? p.bg : "#FFFFFF", borderBottom: `1px solid ${skin.border}` }}>
         <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
-          {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-bold text-white text-[16px] rounded-full" style={{ background: p.primary }}>{school.name[0] ?? "ب"}</span>}
+          {school.logoUrl ? <img src={school.logoUrl} alt={school.name} className="w-10 h-10 object-cover rounded-full" /> : <span className="w-10 h-10 flex items-center justify-center font-bold text-[16px] rounded-full" style={{ color: skin.onPrimary, background: p.primary }}>{school.name[0] ?? "ب"}</span>}
           <b className="text-[15px] font-bold truncate">{school.name}</b>
           <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-bold" style={{ borderRadius: skin.pill, background: p.primary, color: skin.onPrimary }}>{config.ctaPrimary}</a>
         </div>
