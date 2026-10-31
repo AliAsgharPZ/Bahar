@@ -52,6 +52,8 @@ export async function GET(req: NextRequest) {
       const absentToday = await db.attendance.count({ where: { classId: { in: ids }, date: todayJalali(), status: "ABSENT", note: null } });
 
       if (absentToday > 0) items.push({ key: "absent", title: "غایبان امروز بدون توضیح", description: "ثبت دلیل غیبت یا تماس با خانواده", count: absentToday, href: "/app/attendance", severity: "URGENT", icon: "ClipboardCheck" });
+      const pendingExcuses = await db.absenceExcuse.count({ where: { schoolId, status: "PENDING" } });
+      if (pendingExcuses > 0) items.push({ key: "excuses", title: "توجیه غیبت در انتظار بررسی", description: "دلیل غیبت از طرف والدین رسیده است", count: pendingExcuses, href: "/app/excuses", severity: "IMPORTANT", icon: "FileQuestion" });
       if (pendingLeaves > 0) items.push({ key: "leaves", title: "درخواست‌های مرخصی", description: "در انتظار پاسخ", count: pendingLeaves, href: "/app/leaves", severity: "IMPORTANT", icon: "CalendarOff" });
       if (pendingMeetings > 0) items.push({ key: "meetings", title: "درخواست‌های ملاقات", description: "والدین منتظر تأیید", count: pendingMeetings, href: "/app/meetings", severity: "IMPORTANT", icon: "Handshake" });
       if (pendingChanges > 0) items.push({ key: "changes", title: "تغییرات مشخصات", description: "در انتظار تأیید", count: pendingChanges, href: "/app/approvals", severity: "NORMAL", icon: "ClipboardList" });

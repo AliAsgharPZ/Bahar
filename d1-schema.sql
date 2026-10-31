@@ -2248,3 +2248,21 @@ ALTER TABLE "AttendanceSettings" ADD COLUMN "geoEnabled" BOOLEAN NOT NULL DEFAUL
 ALTER TABLE "AttendanceSettings" ADD COLUMN "geoLat" REAL;
 ALTER TABLE "AttendanceSettings" ADD COLUMN "geoLng" REAL;
 ALTER TABLE "AttendanceSettings" ADD COLUMN "geoRadiusM" INTEGER NOT NULL DEFAULT 200;
+CREATE TABLE IF NOT EXISTS "AbsenceExcuse" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "studentId" TEXT NOT NULL,
+  "parentUserId" TEXT NOT NULL,
+  "date" TEXT NOT NULL,
+  "text" TEXT NOT NULL,
+  "status" TEXT NOT NULL DEFAULT 'PENDING',
+  "decidedById" TEXT,
+  "decidedAt" DATETIME,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "AbsenceExcuse_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "AbsenceExcuse_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "AbsenceExcuse_studentId_date_parentUserId_key" ON "AbsenceExcuse"("studentId", "date", "parentUserId");
+CREATE INDEX IF NOT EXISTS "AbsenceExcuse_schoolId_status_idx" ON "AbsenceExcuse"("schoolId", "status");
+CREATE INDEX IF NOT EXISTS "AbsenceExcuse_studentId_date_idx" ON "AbsenceExcuse"("studentId", "date");

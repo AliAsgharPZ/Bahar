@@ -195,6 +195,7 @@ const INSERT_ORDER = [
   "meetingMinute",
   "attendanceSettings",
   "integrationKey",
+  "absenceExcuse",
   "studyTask",
   "passkeyCredential",
 ] as const;
@@ -307,6 +308,7 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   meetingMinute: ["date", "createdAt", "updatedAt"],
   attendanceSettings: ["createdAt", "updatedAt"],
   integrationKey: ["createdAt", "lastUsedAt"],
+  absenceExcuse: ["decidedAt", "createdAt", "updatedAt"],
   classObservation: ["date", "createdAt", "updatedAt"],
   studyTask: ["createdAt"],
   passkeyCredential: ["createdAt", "lastUsedAt"],

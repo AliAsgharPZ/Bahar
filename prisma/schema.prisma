@@ -193,6 +193,7 @@ model School {
   minutes              MeetingMinute[]
   attendanceSettings   AttendanceSettings?
   integrationKeys      IntegrationKey[]
+  absenceExcuses       AbsenceExcuse[]
 }
 
 model Class {
@@ -250,6 +251,7 @@ model Student {
 
   parents           StudentParent[]
   attendances       Attendance[]
+  absenceExcuses    AbsenceExcuse[]
   gradeRecords      GradeRecord[]
   fees              StudentFee[]
   behaviorRecords   BehaviorRecord[]
@@ -2425,6 +2427,27 @@ model MeetingMinute {
   updatedAt DateTime @updatedAt
 
   @@index([schoolId, date])
+}
+
+// ────────────── توجیه غیبت (ولی دلیل می‌فرستد، مدرسه تأیید/رد می‌کند) ──────────────
+model AbsenceExcuse {
+  id           String   @id @default(cuid())
+  schoolId     String
+  school       School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  parentUserId String // ولیِ ثبت‌کننده
+  date         String // تاریخ جلالی غیبت، شکل 1405-08-09
+  text         String
+  status       String   @default("PENDING") // PENDING | APPROVED | REJECTED
+  decidedById  String?
+  decidedAt    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([studentId, date, parentUserId])
+  @@index([schoolId, status])
+  @@index([studentId, date])
 }
 
 // ────────────── تنظیمات روش‌های ثبت حضور (همه اختیاری؛ پیش‌فرض فقط دستی) ──────────────
