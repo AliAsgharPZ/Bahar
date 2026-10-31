@@ -200,6 +200,8 @@ model School {
   botConnections       BotConnection[]
   consentRequests      ConsentRequest[]
   heldItems            HeldItem[]
+  documentRequests     DocumentRequest[]
+  dutyLogs             DutyLog[]
 }
 
 model Class {
@@ -262,6 +264,7 @@ model Student {
   examSeatAssignments ExamSeatAssignment[]
   consentResponses  ConsentResponse[]
   heldItems         HeldItem[]
+  documentRequests  DocumentRequest[]
   gradeRecords      GradeRecord[]
   fees              StudentFee[]
   behaviorRecords   BehaviorRecord[]
@@ -2647,6 +2650,44 @@ model HeldItem {
 
   @@index([schoolId, status, createdAt])
   @@index([studentId])
+}
+
+/// درخواست مدرک از دفتر مدرسه — دانش‌آموز/ولی گواهی اشتغال به تحصیل، ریزنمرات
+/// یا معرفی‌نامه می‌خواهد؛ دفتر بررسی می‌کند و آماده شدن را اطلاع می‌دهد.
+model DocumentRequest {
+  id          String    @id @default(cuid())
+  schoolId    String
+  school      School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId   String
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  requesterId String
+  kind        String // ENROLLMENT_CERT | TRANSCRIPT | INTRODUCTION | OTHER
+  purpose     String?
+  status      String    @default("PENDING") // PENDING | READY | DELIVERED | REJECTED
+  staffNote   String?
+  handledById String?
+  readyAt     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([schoolId, status, createdAt])
+  @@index([requesterId])
+}
+
+/// دفتر کشیک روزانه — معلم/معاون کشیک، وقایع و نکته‌های روز را ثبت می‌کند تا
+/// مدیر و کشیک روز بعد در جریان باشند؛ جدا از پروندهٔ انضباطی هر دانش‌آموز.
+model DutyLog {
+  id         String   @id @default(cuid())
+  schoolId   String
+  school     School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  authorId   String
+  date       String // تاریخ شمسی روز کشیک
+  category   String   @default("NOTE") // NOTE | INCIDENT | HANDOVER
+  text       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([schoolId, date])
 }
 
 /// اتصال ربات/مینی‌اپ یک مدرسه به یک پلتفرم پیام‌رسان یا درگاه عمومی.

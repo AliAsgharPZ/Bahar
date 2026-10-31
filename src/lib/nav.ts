@@ -10,7 +10,7 @@ import {
   Bus, FileText, Video, Armchair, MessageSquareText, Landmark,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
   Compass, MonitorPlay, Flame, Album, Terminal, Accessibility, FlaskConical, Puzzle,
-  Eye, NotebookText, Bot, FileSignature, Package,
+  Eye, NotebookText, Bot, FileSignature, Package, FileBadge, BookMarked,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -59,6 +59,8 @@ export const NAV: NavItem[] = [
   { href: "/app/excuses", label: "توجیه غیبت", tKey: "nav.excuses", short: "توجیه غیبت", icon: FileQuestion, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/consents", label: "رضایت‌نامه‌ها", tKey: "nav.consents", short: "رضایت‌نامه", icon: FileSignature, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/held-items", label: "امانات و وسایل ضبط‌شده", tKey: "nav.heldItems", short: "امانات", icon: Package, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/document-requests", label: "درخواست مدرک", tKey: "nav.documents", short: "مدرک", icon: FileBadge, roles: ["MANAGER", "DEPUTY", "PARENT", "STUDENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/duty-logs", label: "دفتر کشیک", tKey: "nav.dutyLogs", short: "کشیک", icon: BookMarked, roles: ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"], tint: 2, group: "admin" },
   { href: "/app/grades", label: "نمرات", tKey: "nav.grades", short: "نمرات", icon: BarChart3, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 0, group: "education" },
   { href: "/app/assignments", label: "تکالیف", tKey: "nav.assignments", short: "تکالیف", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 1, group: "education" },
   { href: "/app/homework-balance", label: "تعادل تکالیف", tKey: "nav.homeworkBalance", short: "تعادل تکالیف", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 1, group: "education" },

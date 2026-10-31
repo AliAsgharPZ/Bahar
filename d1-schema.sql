@@ -2390,3 +2390,33 @@ CREATE TABLE IF NOT EXISTS "HeldItem" (
 );
 CREATE INDEX IF NOT EXISTS "HeldItem_schoolId_status_createdAt_idx" ON "HeldItem"("schoolId", "status", "createdAt");
 CREATE INDEX IF NOT EXISTS "HeldItem_studentId_idx" ON "HeldItem"("studentId");
+CREATE TABLE IF NOT EXISTS "DocumentRequest" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "studentId" TEXT NOT NULL,
+  "requesterId" TEXT NOT NULL,
+  "kind" TEXT NOT NULL,
+  "purpose" TEXT,
+  "status" TEXT NOT NULL DEFAULT 'PENDING',
+  "staffNote" TEXT,
+  "handledById" TEXT,
+  "readyAt" DATETIME,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  CONSTRAINT "DocumentRequest_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "DocumentRequest_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "DocumentRequest_schoolId_status_createdAt_idx" ON "DocumentRequest"("schoolId", "status", "createdAt");
+CREATE INDEX IF NOT EXISTS "DocumentRequest_requesterId_idx" ON "DocumentRequest"("requesterId");
+CREATE TABLE IF NOT EXISTS "DutyLog" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "authorId" TEXT NOT NULL,
+  "date" TEXT NOT NULL,
+  "category" TEXT NOT NULL DEFAULT 'NOTE',
+  "text" TEXT NOT NULL,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  CONSTRAINT "DutyLog_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "DutyLog_schoolId_date_idx" ON "DutyLog"("schoolId", "date");

@@ -204,6 +204,8 @@ const INSERT_ORDER = [
   "consentRequest",
   "consentResponse",
   "heldItem",
+  "documentRequest",
+  "dutyLog",
   "studyTask",
   "passkeyCredential",
 ] as const;
@@ -325,6 +327,8 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   consentRequest: ["createdAt", "updatedAt"],
   consentResponse: ["createdAt", "updatedAt"],
   heldItem: ["returnedAt", "createdAt", "updatedAt"],
+  documentRequest: ["readyAt", "createdAt", "updatedAt"],
+  dutyLog: ["createdAt", "updatedAt"],
   classObservation: ["date", "createdAt", "updatedAt"],
   studyTask: ["createdAt"],
   passkeyCredential: ["createdAt", "lastUsedAt"],
