@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { parseActions } from "@/lib/minutes";
 import { db } from "@/lib/db";
 import { requireUser, apiOk, handleApiError , actingSchoolIdFor } from "@/lib/api";
 import { todayJalali, toJalaliKey, jalaliParts } from "@/lib/persian";
@@ -118,6 +119,16 @@ export async function GET(req: NextRequest) {
         if (notVoted > 0) items.push({ key: "polls", title: "نظرسنجی‌های بی‌پاسخ", description: "رأی شما ثبت نشده", count: notVoted, href: "/app/engagement?tab=polls", severity: "NORMAL", icon: "Vote" });
         if (unreadMsgs > 0) items.push({ key: "msgs", title: "پیام‌های جدید", description: "خوانده‌نشده", count: unreadMsgs, href: "/app/messages", severity: "NORMAL", icon: "MessageCircle" });
       }
+    }
+
+    // اقدام‌های بازِ صورتجلسات که مسئولش خودِ کاربر است — اتصال ماژول صورتجلسات
+    if (["MANAGER", "DEPUTY", "TEACHER", "ADMIN"].includes(me.role)) {
+      const recentMinutes = await db.meetingMinute.findMany({ where: { schoolId }, orderBy: { date: "desc" }, take: 100, select: { actions: true } });
+      let myOpenActions = 0;
+      for (const m of recentMinutes) {
+        for (const a of parseActions(m.actions)) if (a.ownerId === me.id && !a.done) myOpenActions++;
+      }
+      if (myOpenActions > 0) items.push({ key: "minuteActions", title: "اقدام‌های صورتجلسات من", description: "پیگیری مصوبات جلسات", count: myOpenActions, href: "/app/minutes", severity: "IMPORTANT", icon: "NotebookText" });
     }
 
     const sevRank = { URGENT: 0, IMPORTANT: 1, NORMAL: 2 } as const;

@@ -8,7 +8,7 @@ import {
   LifeBuoy, ClipboardList, CalendarOff, Handshake, Wrench, Wallet, ListTodo,
   FileCheck, CheckCheck, Sparkles, TrendingUp, TrendingDown, ChevronDown,
   HeartPulse, School as SchoolIcon, Users, MessageCircle, NotebookPen, Vote,
-  Award, Cake, AlertTriangle, CheckCircle2, Info, ArrowLeft, X, Printer,
+  Award, Cake, AlertTriangle, CheckCircle2, Info, ArrowLeft, X, Printer, NotebookText,
   Settings, History,
 } from "lucide-react";
 import { apiGet } from "@/lib/client";
@@ -25,7 +25,7 @@ import { StaggerGroup, StaggerItem, CountUp } from "@/components/shared/motion";
 type Dash = Record<string, unknown> & { scope: string };
 
 const ICONS: Record<string, typeof LifeBuoy> = {
-  LifeBuoy, ClipboardList, CalendarOff, Handshake, Wrench, Wallet, ListTodo, FileCheck, CheckCheck, ClipboardCheck, MessageCircle, Vote,
+  LifeBuoy, ClipboardList, CalendarOff, Handshake, Wrench, Wallet, ListTodo, FileCheck, CheckCheck, ClipboardCheck, MessageCircle, Vote, NotebookText,
 };
 
 const SEV_STYLE: Record<string, string> = {

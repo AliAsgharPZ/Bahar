@@ -2180,6 +2180,23 @@ CREATE TABLE IF NOT EXISTS "ClassObservation" (
 );
 CREATE INDEX IF NOT EXISTS "ClassObservation_schoolId_teacherId_idx" ON "ClassObservation"("schoolId", "teacherId");
 CREATE INDEX IF NOT EXISTS "ClassObservation_schoolId_date_idx" ON "ClassObservation"("schoolId", "date");
+CREATE TABLE IF NOT EXISTS "MeetingMinute" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "kind" TEXT NOT NULL DEFAULT 'STAFF',
+    "date" DATETIME NOT NULL,
+    "attendees" TEXT NOT NULL DEFAULT '[]',
+    "agenda" TEXT,
+    "decisions" TEXT,
+    "actions" TEXT NOT NULL DEFAULT '[]',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "MeetingMinute_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "MeetingMinute_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "MeetingMinute_schoolId_date_idx" ON "MeetingMinute"("schoolId", "date");
 CREATE UNIQUE INDEX IF NOT EXISTS "GuidanceRecord_studentId_key" ON "GuidanceRecord"("studentId");
 CREATE INDEX IF NOT EXISTS "StudyTask_studentId_date_idx" ON "StudyTask"("studentId", "date");
 CREATE UNIQUE INDEX IF NOT EXISTS "PasskeyCredential_credentialId_key" ON "PasskeyCredential"("credentialId");

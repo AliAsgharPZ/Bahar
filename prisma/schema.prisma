@@ -116,6 +116,7 @@ model User {
   gradeChanges          GradeHistory[]         @relation("GradeChanger")
   wellbeingCheckins     WellbeingCheckin[]     @relation("CheckinAuthorizer")
   observationsGiven     ClassObservation[]     @relation("ObservationObserver")
+  minutesAuthored       MeetingMinute[]        @relation("MinuteAuthor")
   observationsReceived  ClassObservation[]     @relation("ObservationTeacher")
 
   @@index([role, schoolId])
@@ -189,6 +190,7 @@ model School {
   schoolForms          SchoolForm[]
   scheduledReports     ScheduledReport[]
   observations         ClassObservation[]
+  minutes              MeetingMinute[]
 }
 
 model Class {
@@ -2399,6 +2401,25 @@ model ClassObservation {
   updatedAt   DateTime @updatedAt
 
   @@index([schoolId, teacherId])
+  @@index([schoolId, date])
+}
+
+model MeetingMinute {
+  id        String   @id @default(cuid())
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation("MinuteAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  title     String
+  kind      String   @default("STAFF") // TEACHERS_COUNCIL | SCHOOL_COUNCIL | PARENTS_ASSOC | STAFF | OTHER
+  date      DateTime
+  attendees String   @default("[]") // JSON: array of userIds
+  agenda    String?
+  decisions String?
+  actions   String   @default("[]") // JSON: [{id, text, ownerId, due, done}]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([schoolId, date])
 }
 
