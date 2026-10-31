@@ -202,6 +202,48 @@ model School {
   heldItems            HeldItem[]
   documentRequests     DocumentRequest[]
   dutyLogs             DutyLog[]
+  lockers Locker[]
+  uniformRecords UniformRecord[]
+  assemblyItems AssemblyItem[]
+  dutyAssignments DutyAssignment[]
+  elections Election[]
+  campaigns Campaign[]
+  classRoleAssigns ClassRoleAssign[]
+  vehiclePermits VehiclePermit[]
+  keyCheckouts KeyCheckout[]
+  cleaningDuties CleaningDuty[]
+  mentorPairs MentorPair[]
+  readingLogs ReadingLog[]
+  journalEntries JournalEntry[]
+  bookListings BookListing[]
+  sportRecords SportRecord[]
+  volunteerEntries VolunteerEntry[]
+  callLogs CallLog[]
+  gradeAppeals GradeAppeal[]
+  supplyRequests SupplyRequest[]
+  printRequests PrintRequest[]
+  transportRequests TransportRequest[]
+  makeupClasses MakeupClass[]
+  classVisits ClassVisit[]
+  installmentRequests InstallmentRequest[]
+  idReissueRequests IdReissueRequest[]
+  bookSuggestions BookSuggestion[]
+  clubProposals ClubProposal[]
+  tutorOffers TutorOffer[]
+  helpPosts HelpPost[]
+  transferRequests TransferRequest[]
+  scienceProjects ScienceProject[]
+  leagueTeams LeagueTeam[]
+  leagueMatches LeagueMatch[]
+  mealOrders MealOrder[]
+  safetyReports SafetyReport[]
+  kindnessNotes KindnessNote[]
+  officeHours OfficeHour[]
+  medicationLogs MedicationLog[]
+  drillLogs DrillLog[]
+  assetLoans AssetLoan[]
+  podcastEpisodes PodcastEpisode[]
+  bikeRegistries BikeRegistry[]
 }
 
 model Class {
@@ -1979,6 +2021,7 @@ model PickupPerson {
   name        String
   relation    String // نسبت: پدر، مادر، مادربزرگ…
   phone       String?
+  carPlate    String?
   isAuthorized Boolean @default(true)
   createdAt   DateTime @default(now())
 
@@ -2694,6 +2737,624 @@ model DutyLog {
   updatedAt  DateTime @updatedAt
 
   @@index([schoolId, date])
+}
+
+// ───────── ماراتن ماژول‌ها (دسته‌های A/B/C) ─────────
+model Locker {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  number String
+  location String?
+  studentId String?
+  status String @default("FREE")
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model UniformRecord {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  item String
+  size String?
+  status String @default("MEASURED")
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, studentId])
+}
+model AssemblyItem {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  date String
+  segment String
+  title String?
+  presenterName String?
+  className String?
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, date])
+}
+model DutyAssignment {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  date String
+  duty String
+  userId String
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, date])
+}
+model Election {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title String
+  status String @default("NOMINATION")
+  startsAt String?
+  endsAt String?
+  createdById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  candidates ElectionCandidate[]
+  votes ElectionVote[]
+  @@index([schoolId, status])
+}
+model ElectionCandidate {
+  id String @id @default(cuid())
+  electionId String
+  election Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  studentId String
+  name String
+  className String?
+  manifesto String?
+  approved Boolean @default(false)
+  createdAt DateTime @default(now())
+  @@index([electionId])
+}
+model ElectionVote {
+  id String @id @default(cuid())
+  electionId String
+  election Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  candidateId String
+  voterUserId String
+  createdAt DateTime @default(now())
+  @@unique([electionId, voterUserId])
+}
+model Campaign {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title String
+  description String?
+  goalText String?
+  startsAt String?
+  endsAt String?
+  isActive Boolean @default(true)
+  createdById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  signups CampaignSignup[]
+  @@index([schoolId, isActive])
+}
+model CampaignSignup {
+  id String @id @default(cuid())
+  campaignId String
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  userId String
+  name String
+  note String?
+  createdAt DateTime @default(now())
+  @@unique([campaignId, userId])
+}
+model ClassRoleAssign {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  classId String
+  role String
+  studentId String
+  termLabel String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, classId])
+}
+model VehiclePermit {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  ownerUserId String?
+  ownerName String
+  plate String
+  kind String @default("PARENT")
+  isActive Boolean @default(true)
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, plate])
+}
+model KeyCheckout {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  keyLabel String
+  holderName String
+  holderUserId String?
+  outAt DateTime @default(now())
+  inAt DateTime?
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, inAt])
+}
+model CleaningDuty {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  classId String
+  date String
+  studentIds String @default("[]")
+  done Boolean @default(false)
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, classId, date])
+}
+model MentorPair {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  mentorStudentId String
+  menteeStudentId String
+  focus String?
+  isActive Boolean @default(true)
+  createdById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, isActive])
+}
+model ReadingLog {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  bookTitle String
+  author String?
+  pages Int @default(0)
+  finished Boolean @default(false)
+  rating Int?
+  createdAt DateTime @default(now())
+  @@index([schoolId, studentId])
+}
+model JournalEntry {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  authorUserId String
+  date String
+  mood String?
+  text String
+  shared Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, authorUserId, date])
+}
+model BookListing {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  ownerStudentId String
+  ownerName String
+  title String
+  grade String?
+  price Int?
+  status String @default("AVAILABLE")
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model SportRecord {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  discipline String
+  value String
+  unit String?
+  date String
+  note String?
+  createdAt DateTime @default(now())
+  @@index([schoolId, studentId])
+}
+model VolunteerEntry {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  userId String
+  name String
+  activity String
+  hours Float @default(1)
+  date String
+  approved Boolean @default(false)
+  createdAt DateTime @default(now())
+  @@index([schoolId, userId])
+}
+model CallLog {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  staffUserId String
+  studentId String?
+  contactName String
+  direction String @default("OUT")
+  summary String
+  followUp String?
+  date String
+  createdAt DateTime @default(now())
+  @@index([schoolId, date])
+}
+model GradeAppeal {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  requesterId String
+  subject String
+  gradeId String?
+  reason String
+  status String @default("PENDING")
+  response String?
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+  @@index([studentId])
+}
+model SupplyRequest {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  requesterId String
+  requesterName String
+  item String
+  qty Int @default(1)
+  reason String?
+  status String @default("PENDING")
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model PrintRequest {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  requesterId String
+  requesterName String
+  title String
+  copies Int @default(1)
+  pages Int @default(1)
+  color Boolean @default(false)
+  status String @default("PENDING")
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model TransportRequest {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  requesterId String
+  kind String @default("CHANGE_STOP")
+  details String
+  status String @default("PENDING")
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model MakeupClass {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  classId String
+  subject String
+  teacherName String?
+  originalDate String
+  newDate String
+  room String?
+  note String?
+  createdById String?
+  createdAt DateTime @default(now())
+  @@index([schoolId, newDate])
+}
+model ClassVisit {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  parentUserId String
+  parentName String
+  studentId String?
+  classId String?
+  date String
+  reason String?
+  status String @default("PENDING")
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model InstallmentRequest {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  requesterId String
+  parts Int @default(3)
+  reason String?
+  status String @default("PENDING")
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model IdReissueRequest {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  requesterId String
+  reason String
+  status String @default("PENDING")
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model BookSuggestion {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  requesterId String
+  requesterName String
+  title String
+  author String?
+  reason String?
+  status String @default("PENDING")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model ClubProposal {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  requesterId String
+  requesterName String
+  title String
+  description String
+  status String @default("PENDING")
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model TutorOffer {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  studentName String
+  subject String
+  level String?
+  note String?
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  @@index([schoolId, subject])
+}
+model HelpPost {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  authorUserId String
+  authorName String
+  subject String?
+  title String
+  text String
+  solved Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  answers HelpAnswer[]
+  @@index([schoolId, createdAt])
+}
+model HelpAnswer {
+  id String @id @default(cuid())
+  postId String
+  post HelpPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorUserId String
+  authorName String
+  text String
+  isBest Boolean @default(false)
+  createdAt DateTime @default(now())
+  @@index([postId])
+}
+model TransferRequest {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  requesterId String
+  toSchool String
+  reason String?
+  status String @default("PENDING")
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model ScienceProject {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title String
+  team String
+  category String?
+  description String?
+  score Int?
+  award String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId])
+}
+model LeagueTeam {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name String
+  sport String @default("فوتسال")
+  className String?
+  createdAt DateTime @default(now())
+  @@index([schoolId])
+}
+model LeagueMatch {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  homeTeam String
+  awayTeam String
+  homeScore Int?
+  awayScore Int?
+  date String
+  note String?
+  createdAt DateTime @default(now())
+  @@index([schoolId, date])
+}
+model MealOrder {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  requesterId String
+  date String
+  item String
+  status String @default("ORDERED")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, date])
+  @@index([studentId])
+}
+model SafetyReport {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  category String @default("BULLYING")
+  text String
+  status String @default("NEW")
+  handledNote String?
+  handledById String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, status])
+}
+model KindnessNote {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  authorUserId String?
+  fromName String?
+  toName String
+  text String
+  approved Boolean @default(false)
+  createdAt DateTime @default(now())
+  @@index([schoolId, approved])
+}
+model OfficeHour {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  teacherUserId String
+  teacherName String
+  weekday String
+  timeText String
+  room String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId])
+}
+model MedicationLog {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  medicine String
+  dose String?
+  givenAt DateTime @default(now())
+  givenById String?
+  note String?
+  createdAt DateTime @default(now())
+  @@index([schoolId, studentId])
+}
+model DrillLog {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  kind String
+  date String
+  durationMin Int?
+  notes String?
+  createdById String?
+  createdAt DateTime @default(now())
+  @@index([schoolId, date])
+}
+model AssetLoan {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  assetName String
+  borrowerName String
+  borrowerUserId String?
+  outAt DateTime @default(now())
+  dueAt String?
+  inAt DateTime?
+  note String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, inAt])
+}
+model PodcastEpisode {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title String
+  description String?
+  url String?
+  hostName String?
+  date String
+  createdAt DateTime @default(now())
+  @@index([schoolId, date])
+}
+model BikeRegistry {
+  id String @id @default(cuid())
+  schoolId String
+  school School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId String
+  kind String @default("دوچرخه")
+  color String?
+  serial String?
+  spot String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([schoolId, studentId])
 }
 
 /// اتصال ربات/مینی‌اپ یک مدرسه به یک پلتفرم پیام‌رسان یا درگاه عمومی.
