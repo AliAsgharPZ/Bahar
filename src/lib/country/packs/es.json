@@ -70,134 +70,163 @@
       "name": "اندلس",
       "center": "سویل",
       "counties": [
-        "اندلس"
+        "Almería",
+        "Cádiz",
+        "Córdoba",
+        "Granada",
+        "Huelva",
+        "Jaén",
+        "Málaga",
+        "Sevilla"
       ]
     },
     {
       "name": "آراگون",
       "center": "ساراگوسا",
       "counties": [
-        "آراگون"
+        "Huesca",
+        "Teruel",
+        "Zaragoza"
       ]
     },
     {
       "name": "آستوریاس",
       "center": "اوویدو",
       "counties": [
-        "آستوریاس"
+        "Asturias"
       ]
     },
     {
       "name": "جزایر بالئاری",
       "center": "پالما",
       "counties": [
-        "جزایر بالئاری"
+        "Illes Balears"
       ]
     },
     {
       "name": "سرزمین باسک",
       "center": "ویتوریا-گاستیز",
       "counties": [
-        "سرزمین باسک"
+        "Araba/Álava",
+        "Bizkaia",
+        "Gipuzkoa"
       ]
     },
     {
       "name": "جزایر قناری",
       "center": "لاس پالماس / سانتا کروز",
       "counties": [
-        "جزایر قناری"
+        "Las Palmas",
+        "Santa Cruz de Tenerife"
       ]
     },
     {
       "name": "کانتابریا",
       "center": "سانتاندر",
       "counties": [
-        "کانتابریا"
+        "Cantabria"
       ]
     },
     {
       "name": "کاستیا و لئون",
       "center": "وایادولید",
       "counties": [
-        "کاستیا و لئون"
+        "Ávila",
+        "Burgos",
+        "León",
+        "Palencia",
+        "Salamanca",
+        "Segovia",
+        "Soria",
+        "Valladolid",
+        "Zamora"
       ]
     },
     {
       "name": "کاستیا-لا مانچا",
       "center": "تولدو",
       "counties": [
-        "کاستیا-لا مانچا"
+        "Albacete",
+        "Ciudad Real",
+        "Cuenca",
+        "Guadalajara",
+        "Toledo"
       ]
     },
     {
       "name": "کاتالونیا",
       "center": "بارسلون",
       "counties": [
-        "کاتالونیا"
+        "Barcelona",
+        "Girona",
+        "Lleida",
+        "Tarragona"
       ]
     },
     {
       "name": "اکسترمادورا",
       "center": "مریدا",
       "counties": [
-        "اکسترمادورا"
+        "Badajoz",
+        "Cáceres"
       ]
     },
     {
       "name": "گالیسیا",
       "center": "سانتیاگو د کامپوستلا",
       "counties": [
-        "گالیسیا"
+        "A Coruña",
+        "Lugo",
+        "Ourense",
+        "Pontevedra"
       ]
     },
     {
       "name": "مادرید",
       "center": "مادرید",
       "counties": [
-        "مادرید"
+        "Madrid"
       ]
     },
     {
       "name": "مورسیا",
       "center": "مورسیا",
       "counties": [
-        "مورسیا"
+        "Murcia"
       ]
     },
     {
       "name": "ناوارا",
       "center": "پامپلونا",
       "counties": [
-        "ناوارا"
+        "Navarra"
       ]
     },
     {
       "name": "لاریوخا",
       "center": "لوگرونیو",
       "counties": [
-        "لاریوخا"
+        "La Rioja"
       ]
     },
     {
       "name": "والنسیا",
       "center": "والنسیا",
       "counties": [
-        "والنسیا"
+        "Alicante/Alacant",
+        "Castellón/Castelló",
+        "Valencia/València"
       ]
     },
     {
       "name": "سئوتا",
       "center": "سئوتا",
-      "counties": [
-        "سئوتا"
-      ]
+      "counties": []
     },
     {
       "name": "ملیلیه",
       "center": "ملیلیه",
-      "counties": [
-        "ملیلیه"
-      ]
+      "counties": []
     }
   ],
   "divisions": [
@@ -292,5 +321,5 @@
     "shad": false
   },
   "version": "1.0.0",
-  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور."
+  "notes": "استان‌های واقعی اسپانیا بر اساس فهرست رسمی INE (فهرست جوامع خودمختار و استان‌ها)؛ ۱۹ واحد و ۵۰ استان، شامل جزایر بالئاری و قناری. سئوتا و ملیلیه شهر خودمختارند و استان ندارند. نام استان‌ها به زبان اصلی اسپانیایی است؛ نام واحدها و مراکز از بستهٔ قبلی حفظ شده است."
 }
