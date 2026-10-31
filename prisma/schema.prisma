@@ -1447,19 +1447,25 @@ model VisitorLog {
 model LostFoundItem {
   id            String    @id @default(cuid())
   schoolId      String
-  school        School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  school      School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  // FOUND: چیزی که پیدا شده و نزد مدرسه است | LOST: گزارش گم‌شدن از طرف صاحبش
+  kind          String    @default("FOUND")
   title         String
   description   String?
   location      String?
   foundAt       DateTime
-  status        String    @default("FOUND") // FOUND | CLAIMED | DISPOSED
+  status        String    @default("FOUND") // FOUND | SEARCHING | CLAIMED | DISPOSED
   claimedByName String?
   claimedAt     DateTime?
+  reporterUserId String?
+  reporterName  String?
+  contact       String?
   note          String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   @@index([schoolId, status])
+  @@index([schoolId, kind, status])
 }
 
 /**

@@ -2420,3 +2420,8 @@ CREATE TABLE IF NOT EXISTS "DutyLog" (
   CONSTRAINT "DutyLog_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "DutyLog_schoolId_date_idx" ON "DutyLog"("schoolId", "date");
+ALTER TABLE "LostFoundItem" ADD COLUMN "kind" TEXT NOT NULL DEFAULT 'FOUND';
+ALTER TABLE "LostFoundItem" ADD COLUMN "reporterUserId" TEXT;
+ALTER TABLE "LostFoundItem" ADD COLUMN "reporterName" TEXT;
+ALTER TABLE "LostFoundItem" ADD COLUMN "contact" TEXT;
+CREATE INDEX IF NOT EXISTS "LostFoundItem_schoolId_kind_status_idx" ON "LostFoundItem"("schoolId", "kind", "status");
