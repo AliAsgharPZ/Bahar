@@ -143,6 +143,7 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
     name: "دفتر آرام",
     desc: "ستون باریکِ سندگونه با خطوط مویی و سطوح گرم؛ آرام، خوانا و بی‌ادا — الهام از زبان طراحی Notion، مناسب مدارس فکری و پژوهشی",
     palettes: [
+      { label: "بنفش و سرمه‌ای", primary: "#5645D4", accent: "#0A1530", bg: "#FFFFFF" },
       { label: "مرکب و آبی", primary: "#37352F", accent: "#0075DE", bg: "#FFFFFF" },
       { label: "یادداشت قرمز", primary: "#37352F", accent: "#E03E3E", bg: "#FFFFFF" },
       { label: "نعنایی آرام", primary: "#1F3D33", accent: "#0F7B6C", bg: "#FBFCFB" },

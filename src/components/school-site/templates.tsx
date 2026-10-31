@@ -2421,24 +2421,37 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
         <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
       </header>
 
-      {/* هیرو سندگونه — آغازچین و آرام */}
-      <section className="max-w-3xl mx-auto px-4 pt-14 md:pt-20 pb-8">
-        <p className="text-[12px] font-medium mb-4" style={{ color: skin.faint }}>
-          {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}{school.establishedYear ? ` · بنیان‌گذاری ${faDigits(school.establishedYear)}` : ""}
-        </p>
-        <h1 className="text-[34px] md:text-[46px] font-semibold leading-[1.3] mb-4 break-words" style={{ ...headingFont, color: skin.text }}>{config.heroTitle}</h1>
-        <p className="text-[15px] md:text-[16.5px] leading-[1.9] mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
-        <div className="flex gap-2.5 flex-wrap">
-          <a href="#admissions" className="h-10 px-5 inline-flex items-center text-[13px] font-semibold transition-opacity hover:opacity-85" style={{ color: skin.onAccent, borderRadius: 8, background: p.accent }}>
-            {config.ctaPrimary}
-          </a>
-          <a href="#about" className="h-10 px-5 inline-flex items-center text-[13px] font-medium" style={{ borderRadius: 8, border: `1px solid ${skin.border}`, color: skin.text }}>
-            خواندن درباره مدرسه
-          </a>
+      {/* هیرو — نوار سرمه‌ای عمیق نوشن با CTA قرصی بنفش و ماک‌آپ پنجرهٔ محیط کار */}
+      <section className="relative overflow-hidden" style={{ background: p.accent }}>
+        <span className="absolute w-40 h-40 rounded-full opacity-25 pointer-events-none" style={{ background: "#FF64C8", top: "-3rem", insetInlineStart: "6%" }} aria-hidden="true" />
+        <span className="absolute w-24 h-24 rounded-full opacity-25 pointer-events-none" style={{ background: "#F5D75E", bottom: "12%", insetInlineEnd: "8%" }} aria-hidden="true" />
+        <span className="absolute w-16 h-16 rounded-full opacity-20 pointer-events-none" style={{ background: "#2A9D99", top: "30%", insetInlineEnd: "22%" }} aria-hidden="true" />
+        <div className="relative max-w-4xl mx-auto px-4 pt-14 md:pt-20 pb-10 text-center">
+          <p className="text-[12px] font-semibold mb-4" style={{ color: "rgba(255,255,255,.65)" }}>
+            {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}{school.establishedYear ? ` · بنیان‌گذاری ${faDigits(school.establishedYear)}` : ""}
+          </p>
+          <h1 className="text-[34px] md:text-[48px] font-semibold leading-[1.3] mb-4 break-words text-white" style={{ ...headingFont }}>{config.heroTitle}</h1>
+          <p className="text-[15px] md:text-[16.5px] leading-[1.9] mb-8 max-w-2xl mx-auto" style={{ color: "rgba(255,255,255,.78)" }}>{config.heroSubtitle}</p>
+          <div className="flex gap-2.5 flex-wrap justify-center">
+            <a href="#admissions" className="h-11 px-6 inline-flex items-center text-[13.5px] font-semibold transition-opacity hover:opacity-90" style={{ color: skin.onPrimary, borderRadius: 999, background: p.primary }}>
+              {config.ctaPrimary}
+            </a>
+            <a href="#about" className="h-11 px-6 inline-flex items-center text-[13.5px] font-semibold" style={{ borderRadius: 999, border: "1px solid rgba(255,255,255,.4)", color: "#FFFFFF" }}>
+              خواندن درباره مدرسه
+            </a>
+          </div>
+          {config.heroImage && (
+            <div className="mt-12 text-start" style={{ borderRadius: 12, background: "#FFFFFF", boxShadow: "0 24px 60px rgba(0,0,0,.35)" }}>
+              <div className="flex items-center gap-1.5 px-4 py-2.5" style={{ borderBottom: "1px solid rgba(10,21,48,.1)" }} aria-hidden="true">
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#FF64C8" }} />
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#F5D75E" }} />
+                <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#1AAE39" }} />
+                <span className="ms-3 text-[11px]" style={{ color: "rgba(10,21,48,.45)" }}>{school.name}</span>
+              </div>
+              <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[16/8] object-cover" style={{ borderRadius: "0 0 12px 12px" }} />
+            </div>
+          )}
         </div>
-        {config.heroImage && (
-          <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[16/9] object-cover mt-10" style={{ borderRadius: skin.radiusLg, border: `1px solid ${skin.border}` }} />
-        )}
       </section>
 
       {s.stats && <FamStats skin={skin} stats={data.stats} />}
