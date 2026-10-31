@@ -70,140 +70,230 @@
       "name": "آبروتزو",
       "center": "لاکویلا",
       "counties": [
-        "آبروتزو"
+        "L'Aquila",
+        "Teramo",
+        "Pescara",
+        "Chieti"
       ]
     },
     {
       "name": "باسیلیکاتا",
       "center": "پوتنزا",
       "counties": [
-        "باسیلیکاتا"
+        "Potenza",
+        "Matera"
       ]
     },
     {
       "name": "کالابریا",
       "center": "کاتانزارو",
       "counties": [
-        "کالابریا"
+        "Cosenza",
+        "Catanzaro",
+        "Crotone",
+        "Vibo Valentia",
+        "Reggio Calabria"
       ]
     },
     {
       "name": "کامپانیا",
       "center": "ناپل",
       "counties": [
-        "کامپانیا"
+        "Caserta",
+        "Benevento",
+        "Avellino",
+        "Salerno",
+        "Napoli"
       ]
     },
     {
       "name": "امیلیا-رومانیا",
       "center": "بولونیا",
       "counties": [
-        "امیلیا-رومانیا"
+        "Piacenza",
+        "Parma",
+        "Reggio nell'Emilia",
+        "Modena",
+        "Ferrara",
+        "Ravenna",
+        "Forlì-Cesena",
+        "Rimini",
+        "Bologna"
       ]
     },
     {
       "name": "فریولی-ونציה جولیا",
       "center": "تریسته",
       "counties": [
-        "فریولی-ونציה جولیا"
+        "Udine",
+        "Gorizia",
+        "Trieste",
+        "Pordenone"
       ]
     },
     {
       "name": "لاتزیو",
       "center": "رم",
       "counties": [
-        "لاتزیو"
+        "Viterbo",
+        "Rieti",
+        "Latina",
+        "Frosinone",
+        "Roma"
       ]
     },
     {
       "name": "لیگوریا",
       "center": "جنوآ",
       "counties": [
-        "لیگوریا"
+        "Imperia",
+        "Savona",
+        "La Spezia",
+        "Genova"
       ]
     },
     {
       "name": "لومباردیا",
       "center": "میلان",
       "counties": [
-        "لومباردیا"
+        "Varese",
+        "Como",
+        "Sondrio",
+        "Bergamo",
+        "Brescia",
+        "Pavia",
+        "Cremona",
+        "Mantova",
+        "Lecco",
+        "Lodi",
+        "Monza e della Brianza",
+        "Milano"
       ]
     },
     {
       "name": "مارکه",
       "center": "آنکونا",
       "counties": [
-        "مارکه"
+        "Pesaro e Urbino",
+        "Ancona",
+        "Macerata",
+        "Ascoli Piceno",
+        "Fermo"
       ]
     },
     {
       "name": "مولیز",
       "center": "کامپوباسو",
       "counties": [
-        "مولیز"
+        "Campobasso",
+        "Isernia"
       ]
     },
     {
       "name": "پیمونت",
       "center": "تورین",
       "counties": [
-        "پیمونت"
+        "Vercelli",
+        "Novara",
+        "Cuneo",
+        "Asti",
+        "Alessandria",
+        "Biella",
+        "Verbano-Cusio-Ossola",
+        "Torino"
       ]
     },
     {
       "name": "پولیا",
       "center": "باری",
       "counties": [
-        "پولیا"
+        "Foggia",
+        "Taranto",
+        "Brindisi",
+        "Lecce",
+        "Barletta-Andria-Trani",
+        "Bari"
       ]
     },
     {
       "name": "ساردینیا",
       "center": "کالیاری",
       "counties": [
-        "ساردینیا"
+        "Gallura Nord-Est Sardegna",
+        "Nuoro",
+        "Oristano",
+        "Ogliastra",
+        "Medio Campidano",
+        "Sulcis Iglesiente",
+        "Sassari",
+        "Cagliari"
       ]
     },
     {
       "name": "سیسیل",
       "center": "پالرمو",
       "counties": [
-        "سیسیل"
+        "Trapani",
+        "Agrigento",
+        "Caltanissetta",
+        "Enna",
+        "Ragusa",
+        "Siracusa",
+        "Palermo",
+        "Messina",
+        "Catania"
       ]
     },
     {
       "name": "توسکانی",
       "center": "فلورانس",
       "counties": [
-        "توسکانی"
+        "Massa-Carrara",
+        "Lucca",
+        "Pistoia",
+        "Livorno",
+        "Pisa",
+        "Arezzo",
+        "Siena",
+        "Grosseto",
+        "Prato",
+        "Firenze"
       ]
     },
     {
       "name": "ترنتینو-آلتو آدیجه",
       "center": "ترنتو",
       "counties": [
-        "ترنتینو-آلتو آدیجه"
+        "Bolzano/Bozen",
+        "Trento"
       ]
     },
     {
       "name": "اومبریا",
       "center": "پروجا",
       "counties": [
-        "اومبریا"
+        "Perugia",
+        "Terni"
       ]
     },
     {
       "name": "واله دآوستا",
       "center": "آئوستا",
       "counties": [
-        "واله دآوستا"
+        "Valle d'Aosta/Vallée d'Aoste"
       ]
     },
     {
       "name": "ونتو",
       "center": "ونیز",
       "counties": [
-        "ونتو"
+        "Verona",
+        "Vicenza",
+        "Belluno",
+        "Treviso",
+        "Padova",
+        "Rovigo",
+        "Venezia"
       ]
     }
   ],
@@ -303,5 +393,5 @@
     "shad": false
   },
   "version": "1.0.0",
-  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور."
+  "notes": "استان‌های واقعی ایتالیا بر اساس فهرست رسمی ISTAT (SITUAS، فهرست استان‌ها/واحدها)؛ ۲۰ منطقه و ۱۱۰ استان، شامل سیسیل (۹) و ساردینیا (۸) به‌عنوان منطقه‌های جزیره‌ای. نام استان‌ها به زبان اصلی ایتالیایی است؛ نام منطقه‌ها و مراکز از بستهٔ قبلی حفظ شده است."
 }
