@@ -9,6 +9,7 @@ import { SiteLangSelect } from "@/components/shared/site-lang-select";
 import { cookies } from "next/headers";
 import { SITE_CATALOG } from "@/lib/langs";
 import { siteStringsFor } from "@/lib/langs/shipped";
+import { ViewPing } from "@/components/view-ping";
 import { ShareBar } from "./share-bar";
 import { CommentForm, CommentsList } from "./comments";
 
@@ -36,7 +37,7 @@ export default async function BlogPostPage({ params }: Props) {
   });
   if (!post || post.status !== "PUBLISHED") notFound();
 
-  await db.blogPost.update({ where: { id: post.id }, data: { viewCount: { increment: 1 } } });
+  // ثبت بازدید سمت کلاینت با ViewPing انجام می‌شود — رندر صفحه شمارنده را تغییر نمی‌دهد
   const comments = await db.blogComment.findMany({
     where: { postId: post.id, approved: true },
     orderBy: { createdAt: "desc" },
@@ -53,6 +54,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <div dir={site.direction} className="min-h-screen bg-background text-foreground flex flex-col">
+      <ViewPing url={`/api/blog/${post.slug}/view`} />
       <header className="sticky top-0 z-30 bg-background border-b border-hairline-soft">
         <div className="max-w-3xl mx-auto px-4 h-16 flex items-center gap-3">
           <Link href="/blog" className="flex items-center gap-2">

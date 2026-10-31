@@ -17,7 +17,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       throw new ApiError(404, "NOT_FOUND", "پست یافت نشد.");
     }
 
-    await db.blogPost.update({ where: { id: post.id }, data: { viewCount: { increment: 1 } } });
+    // شمارندهٔ بازدید اینجا تغییر نمی‌کند — ثبت بازدید فقط از POST /api/blog/[slug]/view
     const comments = await db.blogComment.findMany({
       where: { postId: post.id, approved: true },
       orderBy: { createdAt: "desc" },
@@ -27,7 +27,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     return apiOk({
       post: {
         ...post,
-        viewCount: post.viewCount + 1,
+        viewCount: post.viewCount,
         tags: JSON.parse(post.tags) as string[],
         comments: comments.map((c) => ({ name: c.name, body: c.body, createdAt: c.createdAt })),
       },

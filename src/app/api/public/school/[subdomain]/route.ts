@@ -53,8 +53,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
     // شمارش واقعی معلم‌ها از واگذاری‌ها + کاربران
     const teacherCount = teacherRows.length || (await db.teachingAssignment.count({ where: { schoolId: school.id } }));
 
-    await db.schoolSite.update({ where: { id: site.id }, data: { views: { increment: 1 } } });
-
+    // شمارندهٔ بازدید اینجا تغییر نمی‌کند — ثبت بازدید فقط از POST /api/public/school/[subdomain]/view
     const config = { ...defaultSiteConfig(school), ...parseSiteConfig(site.config) };
     const template = templateOf(site.templateId);
 
@@ -62,7 +61,7 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       site: {
         subdomain: site.subdomain,
         templateId: site.templateId,
-        views: site.views + 1,
+        views: site.views,
         config,
         palette: resolvePalette(template, config),
       },

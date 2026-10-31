@@ -4,6 +4,7 @@ import { Sprout as SproutIcon } from "lucide-react";
 import { db } from "@/lib/db";
 import { defaultSiteConfig, parseSiteConfig, templateOf, resolvePalette } from "@/lib/school-site";
 import { SchoolSiteRenderer } from "@/components/school-site/templates";
+import { ViewPing } from "@/components/view-ping";
 import { avatarApiFields } from "@/lib/avatar";
 import { verifyToken, SESSION_COOKIE_NAME } from "@/lib/auth";
 
@@ -92,9 +93,7 @@ export default async function SchoolSitePage({ params, searchParams }: Props) {
     db.schoolEvent.findMany({ where: { schoolId: school.id, startAt: { gte: new Date() } }, orderBy: { startAt: "asc" }, take: 6 }),
   ]);
 
-  if (!preview) {
-    await db.schoolSite.update({ where: { id: site.id }, data: { views: { increment: 1 } } });
-  }
+  // ثبت بازدید سمت کلاینت با ViewPing انجام می‌شود (فقط حالت واقعی، نه پیش‌نمایش) — رندر صفحه شمارنده را تغییر نمی‌دهد
 
   const config = { ...defaultSiteConfig(school), ...parseSiteConfig(site.config) };
   const template = templateOf(site.templateId);
@@ -121,6 +120,7 @@ export default async function SchoolSitePage({ params, searchParams }: Props) {
 
   return (
     <>
+      {!preview && <ViewPing url={`/api/public/school/${encodeURIComponent(subdomain)}/view`} />}
       {preview && (
         <div className="sticky top-0 z-50 bg-[#B2620F] text-white text-center text-[12px] py-2 font-bold" dir="rtl">
           حالت پیش‌نمایش — این صفحه هنوز منتشر نشده است
