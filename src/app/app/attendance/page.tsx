@@ -7,11 +7,12 @@ import { toast } from "sonner";
 import { Save, Loader2, ClipboardCheck, CheckCircle2, XCircle, Clock, FileText, Trash2, HeartPulse } from "lucide-react";
 import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
+import { AttendanceMethodsPanel, StudentCheckinCard } from "@/components/attendance-methods";
 import { Select } from "@/components/shared/pickers";
 import { todayJalali, toJalaliKey, faNumber } from "@/lib/persian";
 
 type HealthAlert = { sportsStatus: string; sportsNote: string | null; conditions: string | null; mobilityNote: string | null; allergies: string | null; flags: string[] };
-type SheetStudent = { studentId: string; userId: string; fullName: string; nationalId: string; studentNumber: string; status: string | null; note: string | null; healthAlert?: HealthAlert | null };
+type SheetStudent = { studentId: string; userId: string; fullName: string; nationalId: string; studentNumber: string; status: string | null; method?: string | null; note: string | null; healthAlert?: HealthAlert | null };
 type Me = { user: { role: string; permissions: string[]; actingSchool?: { id: string; name: string } | null; children: Array<{ student: { id: string; user: { firstName: string; lastName: string } } }>; studentProfile: unknown } };
 type ClassRow = { id: string; name: string };
 
@@ -164,6 +165,11 @@ export default function AttendancePage() {
                   <span className="flex flex-col min-w-0">
                     <b className="text-[14px] truncate">{st.fullName}</b>
                     <span className="text-[12px] text-steel" dir="ltr">{st.studentNumber}</span>
+                    {st.status && st.method && st.method !== "MANUAL" && (
+                      <span className="b-badge b-badge-neutral mt-1 self-start">
+                        {t("attendance.m.recordedVia")}: {["FACE", "CCTV", "NFC", "GATE", "OTHER"].includes(st.method) ? t(`attendance.m.method.${st.method}`) : t(`attendance.m.short.${st.method}`)}
+                      </span>
+                    )}
                     {st.healthAlert && (
                       <span className="b-badge b-badge-blossom mt-1 self-start" title={[st.healthAlert.sportsNote, st.healthAlert.conditions, st.healthAlert.mobilityNote, st.healthAlert.allergies].filter(Boolean).join(" · ")}>
                         <HeartPulse className="w-3 h-3" />
@@ -197,6 +203,8 @@ export default function AttendancePage() {
             ))}
           </div>
         )}
+
+        <AttendanceMethodsPanel classId={classId} />
       </div>
     );
   }
@@ -225,6 +233,8 @@ export default function AttendancePage() {
         title={t("nav.attendance")}
         desc={isParent ? t("attendance.desc.parent") : t("attendance.desc.student")}
       />
+
+      {isStudent && <StudentCheckinCard />}
 
       {isParent && (meFull?.user.children?.length ?? 0) > 1 && (
         <div role="tablist" className="flex flex-wrap gap-2">
