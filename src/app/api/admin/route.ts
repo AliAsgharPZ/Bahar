@@ -146,6 +146,17 @@ export async function POST(req: NextRequest) {
       return apiOk({ ok: true });
     }
 
+    /* ── ابطال نشست جانشینی یک کاربر: توکن جانشینی tv کاربر هدف را حمل می‌کند، پس افزایش tokenVersion آن را فوراً می‌کشد ── */
+    if (action === "impersonate-revoke") {
+      if (me.role !== "SUPER_ADMIN") return apiErr(403, "فقط سوپرادمین.", "FORBIDDEN");
+      const userId = String(body.userId ?? "");
+      const target = await db.user.findUnique({ where: { id: userId } });
+      if (!target) return apiErr(404, "کاربر یافت نشد.", "NOT_FOUND");
+      await db.user.update({ where: { id: userId }, data: { tokenVersion: { increment: 1 } } });
+      await audit({ user: me, action: "ابطال نشست جانشینی", entityType: "USER", entityId: userId });
+      return apiOk({ ok: true });
+    }
+
     /* ── مشاهده‌جانشینی امن: فقط سوپرادمین، فقط-خواندنی ── */
     if (action === "impersonate") {
       if (me.role !== "SUPER_ADMIN") return apiErr(403, "فقط سوپرادمین.", "FORBIDDEN");
