@@ -10,7 +10,7 @@ import {
   Bus, FileText, Video, Armchair, MessageSquareText, Landmark,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
   Compass, MonitorPlay, Flame, Album, Terminal, Accessibility, FlaskConical, Puzzle,
-  Eye, NotebookText, Bot, FileSignature, Package, FileBadge, BookMarked, PackageSearch, Cake, ShieldCheck, Lock, Shirt, Sunrise, Megaphone, UserCheck, Car, KeyRound, SprayCan,
+  Eye, NotebookText, Bot, FileSignature, Package, FileBadge, BookMarked, PackageSearch, Cake, ShieldCheck, Lock, Shirt, Sunrise, Megaphone, UserCheck, Car, KeyRound, SprayCan, Target, BookCopy, Medal, HandHeart, PhoneCall, Scale, PackagePlus, Printer,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -60,6 +60,18 @@ export const NAV: NavItem[] = [
   { href: "/app/consents", label: "رضایت‌نامه‌ها", tKey: "nav.consents", short: "رضایت‌نامه", icon: FileSignature, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/held-items", label: "امانات و وسایل ضبط‌شده", tKey: "nav.heldItems", short: "امانات", icon: Package, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/document-requests", label: "درخواست مدرک", tKey: "nav.documents", short: "مدرک", icon: FileBadge, roles: ["MANAGER", "DEPUTY", "PARENT", "STUDENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/mentoring", label: "همیار دانش‌آموزی", tKey: "nav.mentoring", short: "همیار", icon: HeartHandshake, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/reading", label: "چالش کتاب‌خوانی", tKey: "nav.reading", short: "کتاب‌خوانی", icon: BookOpen, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/journal", label: "دفتر خاطرات", tKey: "nav.journal", short: "خاطرات", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/student-goals", label: "هدف‌گذاری تحصیلی", tKey: "nav.goals2", short: "هدف‌ها", icon: Target, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/book-exchange", label: "تبادل کتاب", tKey: "nav.books", short: "کتاب دست‌دوم", icon: BookCopy, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/sports-records", label: "رکوردهای ورزشی", tKey: "nav.sports", short: "رکوردها", icon: Medal, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/volunteer", label: "خدمت داوطلبانه", tKey: "nav.volunteer", short: "داوطلبی", icon: HandHeart, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/call-log", label: "دفتر تماس اولیا", tKey: "nav.calls", short: "تماس‌ها", icon: PhoneCall, roles: ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "admin" },
+  { href: "/app/grade-appeals", label: "اعتراض به نمره", tKey: "nav.appeals", short: "اعتراض نمره", icon: Scale, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/supply-requests", label: "درخواست لوازم", tKey: "nav.supply", short: "لوازم", icon: PackagePlus, roles: ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "admin" },
+  { href: "/app/print-requests", label: "چاپ و تکثیر", tKey: "nav.print", short: "چاپ", icon: Printer, roles: ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "admin" },
+  { href: "/app/transport-requests", label: "درخواست سرویس", tKey: "nav.transport2", short: "سرویس", icon: Bus, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/birthdays", label: "تولدها", tKey: "nav.birthdays", short: "تولدها", icon: Cake, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/pickup", label: "تحویل دانش‌آموز", tKey: "nav.pickup", short: "تحویل", icon: ShieldCheck, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/lockers", label: "کمدها", tKey: "nav.lockers", short: "کمدها", icon: Lock, roles: ["MANAGER", "DEPUTY", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "admin" },
