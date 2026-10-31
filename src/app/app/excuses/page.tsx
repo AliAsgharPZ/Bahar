@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { FileQuestion, Loader2, Send, CheckCircle2, XCircle, Clock3, Megaphone } from "lucide-react";
 import { useApi, apiPost, apiPatch } from "@/lib/client";
@@ -27,6 +27,15 @@ export default function ExcusesPage() {
   const [busyKey, setBusyKey] = useState("");
   const [tab, setTab] = useState<"PENDING" | "ALL">("PENDING");
   const [summonPreset, setSummonPreset] = useState<{ studentId: string; n: number } | null>(null);
+
+  // لینک «احضار ولی» از پنل پیگیری غیبت‌های مکرر: ?summon=<studentId>
+  useEffect(() => {
+    const sid = new URLSearchParams(window.location.search).get("summon");
+    if (sid) {
+      setSummonPreset({ studentId: sid, n: Date.now() });
+      document.getElementById("summons")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   const staff = useApi<ExcusesData>(tab === "ALL" ? "/api/absence-excuses?status=ALL" : null);
 
   if (loading) return <LoadingBlock />;

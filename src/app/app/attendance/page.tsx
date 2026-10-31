@@ -8,6 +8,7 @@ import { Save, Loader2, ClipboardCheck, CheckCircle2, XCircle, Clock, FileText, 
 import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { AttendanceMethodsPanel, StudentCheckinCard } from "@/components/attendance-methods";
+import { RepeatAbsencesPanel } from "@/components/repeat-absences";
 import { Select } from "@/components/shared/pickers";
 import { todayJalali, toJalaliKey, faNumber } from "@/lib/persian";
 
@@ -225,6 +226,7 @@ export default function AttendancePage() {
         )}
 
         <AttendanceMethodsPanel classId={classId} />
+        <RepeatAbsencesPanel />
       </div>
     );
   }
