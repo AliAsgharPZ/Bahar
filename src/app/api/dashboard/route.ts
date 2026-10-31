@@ -200,14 +200,13 @@ export async function GET(req: NextRequest) {
 
     /* ─────────── مدیر / معاون ─────────── */
     if (me.role === "MANAGER" || me.role === "DEPUTY" || (me.role === "ADMIN" && actingSchoolId) || (me.role === "SUPER_ADMIN" && actingSchoolId)) {
-      const classRows = await db.class.findMany({ where: { schoolId, isActive: true }, select: { id: true, name: true, grade: true } });
-      const ids = classRows.map((c) => c.id);
-      const studentRows = await db.student.findMany({
-        where: { schoolId },
-        select: { id: true, userId: true, classId: true, user: { select: { firstName: true, lastName: true, birthDate: true } }, class: { select: { name: true } } },
-      });
-
-      const [teachers, parents, subjects, upcomingEvents, announcements, outboxFailed, outboxSent, unread, pendingChanges, fees, shadSession, site, leads, openTickets, pendingLeaves, pendingMeetings] = await Promise.all([
+      /* ردیف ۱ موازی: همهٔ کوئری‌هایی که فقط schoolId/me.id می‌خواهند (کلاس‌ها، دانش‌آموزان و دستهٔ شمارنده‌ها) — قبلاً ترتیبی بودند */
+      const [classRows, studentRows, teachers, parents, subjects, upcomingEvents, announcements, outboxFailed, outboxSent, unread, pendingChanges, fees, shadSession, site, leads, openTickets, pendingLeaves, pendingMeetings] = await Promise.all([
+        db.class.findMany({ where: { schoolId, isActive: true }, select: { id: true, name: true, grade: true } }),
+        db.student.findMany({
+          where: { schoolId },
+          select: { id: true, userId: true, classId: true, user: { select: { firstName: true, lastName: true, birthDate: true } }, class: { select: { name: true } } },
+        }),
         db.user.count({ where: { schoolId, role: "TEACHER", isActive: true } }),
         db.user.count({ where: { schoolId, role: "PARENT", isActive: true } }),
         db.subject.count({ where: { schoolId } }),
@@ -226,39 +225,50 @@ export async function GET(req: NextRequest) {
         db.meeting.count({ where: { schoolId, status: "PENDING" } }),
       ]);
 
+      const ids = classRows.map((c) => c.id);
+
+      /* ردیف ۲ موازی: همهٔ کوئری‌های وابسته به ids (حضور امروز/دیروز/روند ۷روزه، نمرات کلاس‌ها و همهٔ نمرات) — قبلاً ترتیبی و حلقه‌ای بودند */
+      const trendKeys: string[] = [];
+      for (let i = 6; i >= 0; i -= 1) trendKeys.push(toJalaliKey(new Date(Date.now() - i * 86400000)));
+      const [attToday, attYesterday, trendRows, gradeRowsByClass, allGrades] = await Promise.all([
+        db.attendance.findMany({
+          where: { classId: { in: ids }, date: todayKey },
+          include: { student: { include: { user: { select: { firstName: true, lastName: true } }, class: { select: { name: true } } } } },
+        }),
+        db.attendance.findMany({ where: { classId: { in: ids }, date: yesterdayKey }, select: { status: true } }),
+        Promise.all(trendKeys.map((key) => db.attendance.findMany({ where: { classId: { in: ids }, date: key }, select: { status: true } }))),
+        Promise.all(classRows.slice(0, 8).map((c) => db.gradeRecord.findMany({ where: { classId: c.id }, select: { score: true, weight: true } }))),
+        db.gradeRecord.findMany({
+          where: { classId: { in: ids } },
+          select: { studentId: true, subjectId: true, score: true, weight: true, createdAt: true },
+          orderBy: { createdAt: "asc" },
+        }),
+      ]);
+
       /* ── حضور امروز: غایبین و تأخیرها با اسم ── */
-      const attToday = await db.attendance.findMany({
-        where: { classId: { in: ids }, date: todayKey },
-        include: { student: { include: { user: { select: { firstName: true, lastName: true } }, class: { select: { name: true } } } } },
-      });
       const absentToday = attToday.filter((a) => a.status === "ABSENT");
       const lateToday = attToday.filter((a) => a.status === "LATE");
       const presentCount = attToday.filter((a) => a.status === "PRESENT").length;
-
-      const attYesterday = await db.attendance.findMany({ where: { classId: { in: ids }, date: yesterdayKey }, select: { status: true } });
       const attendanceRateToday = attToday.length ? Math.round(((attToday.length - absentToday.length) / attToday.length) * 100) : null;
       const attendanceRateYesterday = attYesterday.length ? Math.round(((attYesterday.length - attYesterday.filter((a) => a.status === "ABSENT").length) / attYesterday.length) * 100) : null;
 
       /* ── روند حضور ۷ روز ── */
-      const attendanceTrend: { date: string; present: number; absent: number; late: number; total: number }[] = [];
-      for (let i = 6; i >= 0; i -= 1) {
-        const d = new Date(Date.now() - i * 86400000);
-        const key = toJalaliKey(d);
-        const rows = await db.attendance.findMany({ where: { classId: { in: ids }, date: key }, select: { status: true } });
-        attendanceTrend.push({
+      const attendanceTrend: { date: string; present: number; absent: number; late: number; total: number }[] = trendKeys.map((key, idx) => {
+        const rows = trendRows[idx];
+        return {
           date: key,
           total: rows.length,
           present: rows.filter((r) => r.status === "PRESENT").length,
           absent: rows.filter((r) => r.status === "ABSENT").length,
           late: rows.filter((r) => r.status === "LATE").length,
-        });
-      }
+        };
+      });
 
       /* ── میانگین نمرات کلاس‌ها + پایه‌ها ── */
       const gradeByClass: { name: string; avg: number | null }[] = [];
       const gradeByGrade = new Map<string, { sum: number; w: number }>();
-      for (const c of classRows.slice(0, 8)) {
-        const grades = await db.gradeRecord.findMany({ where: { classId: c.id }, select: { score: true, weight: true } });
+      classRows.slice(0, 8).forEach((c, idx) => {
+        const grades = gradeRowsByClass[idx];
         const w = grades.reduce((s, g) => s + g.weight, 0);
         const avg = w > 0 ? +(grades.reduce((s, g) => s + g.score * g.weight, 0) / w).toFixed(2) : null;
         gradeByClass.push({ name: c.name, avg });
@@ -266,13 +276,6 @@ export async function GET(req: NextRequest) {
           const cur = gradeByGrade.get(c.grade) ?? { sum: 0, w: 0 };
           gradeByGrade.set(c.grade, { sum: cur.sum + avg * w, w: cur.w + w });
         }
-      }
-
-      /* ── دانش‌آموزان در معرض افت تحصیلی ── */
-      const allGrades = await db.gradeRecord.findMany({
-        where: { classId: { in: ids } },
-        select: { studentId: true, subjectId: true, score: true, weight: true, createdAt: true },
-        orderBy: { createdAt: "asc" },
       });
       const perStudent = new Map<string, { early: { s: number; w: number }; late: { s: number; w: number } }>();
       for (const g of allGrades) {
@@ -306,10 +309,29 @@ export async function GET(req: NextRequest) {
         paidRatio: 0,
       };
       const jNow = jalaliParts();
-        const [unpaidSum, paidFees] = await Promise.all([
+      /* ردیف ۳ موازی: مالی، کلاس‌های در حال برگزاری، ثبت‌کنندگان حضور، فید رفتار و شمارندهٔ دیروز — همه مستقل از هم */
+      const dow = jalaliDayOfWeek();
+      const pNow = periodNow();
+      const [[unpaidSum, paidFees], slotsNow, recordedRows, behaviorFeed, feesUnpaidYesterdayCount] = await Promise.all([
+        Promise.all([
           db.studentFee.aggregate({ where: { schoolId, status: "UNPAID" }, _sum: { amount: true } }),
           db.studentFee.findMany({ where: { schoolId, status: "PAID", paidAt: { not: null } }, select: { amount: true, paidAt: true } }),
-        ]);
+        ]),
+        db.scheduleSlot.findMany({
+          where: { classId: { in: ids }, dayOfWeek: dow, period: pNow },
+          include: { class: { select: { name: true } }, subject: { select: { name: true } }, teacher: { select: { firstName: true, lastName: true } } },
+        }),
+        db.attendance.findMany({ where: { classId: { in: ids }, date: todayKey }, select: { recordedById: true } }),
+        db.behaviorRecord.findMany({
+          where: { schoolId },
+          orderBy: { createdAt: "desc" },
+          take: 8,
+          include: { student: { include: { user: { select: { firstName: true, lastName: true } } } } },
+        }),
+        db.studentFee.count({
+          where: { schoolId, status: "UNPAID", updatedAt: { lt: new Date(Date.now() - 86400000) } },
+        }),
+      ]);
         feeSummary.totalUnpaidAmount = unpaidSum._sum.amount ?? 0;
         // درآمد ماه جاری (شمسی): تقریب — ماه شمسی جاری با تبدیل paidAt
         feeSummary.monthRevenue = paidFees
@@ -322,29 +344,13 @@ export async function GET(req: NextRequest) {
         const total = feeSummary.paid + feeSummary.unpaid;
         feeSummary.paidRatio = total > 0 ? Math.round((feeSummary.paid / total) * 100) : 0;
 
-      /* ── وضعیت کلاس‌ها: در حال برگزاری ── */
-      const dow = jalaliDayOfWeek();
-      const pNow = periodNow();
-      const slotsNow = await db.scheduleSlot.findMany({
-        where: { classId: { in: ids }, dayOfWeek: dow, period: pNow },
-        include: { class: { select: { name: true } }, subject: { select: { name: true } }, teacher: { select: { firstName: true, lastName: true } } },
-      });
-
       /* ── معلمان حاضر (ثبت حضور ثبت کرده‌اند) ── */
       const teacherIdsToday = new Set(slotsNow.map((s) => s.teacherId));
       const teachersWhoRecorded = new Set(
-        (await db.attendance.findMany({ where: { classId: { in: ids }, date: todayKey }, select: { recordedById: true } }))
+        recordedRows
           .map((a) => a.recordedById)
           .filter(Boolean)
       );
-
-      /* ── اخبار رفتار (فید مثبت + منفی) ── */
-      const behaviorFeed = await db.behaviorRecord.findMany({
-        where: { schoolId },
-        orderBy: { createdAt: "desc" },
-        take: 8,
-        include: { student: { include: { user: { select: { firstName: true, lastName: true } } } } },
-      });
 
       /* ── امتیاز سلامت مدرسه ── */
       const gpaSchool = (() => {
@@ -384,11 +390,6 @@ export async function GET(req: NextRequest) {
           return { name: `${s.user.firstName} ${s.user.lastName}`, class: s.class?.name ?? "—", days };
         })
         .filter((s) => s.days >= -7 && s.days <= 7);
-
-      /* ── تغییرات نسبت به دیروز (What changed) ── */
-      const feesUnpaidYesterdayCount = await db.studentFee.count({
-        where: { schoolId, status: "UNPAID", updatedAt: { lt: new Date(Date.now() - 86400000) } },
-      });
 
       return apiOk({
         scope: "school",
