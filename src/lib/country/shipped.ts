@@ -18,6 +18,7 @@ import krPack from "./packs/kr.json";
 import plPack from "./packs/pl.json";
 import nlPack from "./packs/nl.json";
 import bePack from "./packs/be.json";
+import afPack from "./packs/af.json";
 
 /* ============================================================
    بهار | بسته‌های کشورِ همراه سامانه (shipped packs)
@@ -69,7 +70,7 @@ function summarize(pack: CountryProfile): ShippedPackSummary {
   };
 }
 
-export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile, dePack as CountryProfile, usPack as CountryProfile, frPack as CountryProfile, itPack as CountryProfile, caPack as CountryProfile, auPack as CountryProfile, esPack as CountryProfile, brPack as CountryProfile, trPack as CountryProfile, gbPack as CountryProfile, sePack as CountryProfile, krPack as CountryProfile, plPack as CountryProfile, nlPack as CountryProfile, bePack as CountryProfile];
+export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile, dePack as CountryProfile, usPack as CountryProfile, frPack as CountryProfile, itPack as CountryProfile, caPack as CountryProfile, auPack as CountryProfile, esPack as CountryProfile, brPack as CountryProfile, trPack as CountryProfile, gbPack as CountryProfile, sePack as CountryProfile, krPack as CountryProfile, plPack as CountryProfile, nlPack as CountryProfile, bePack as CountryProfile, afPack as CountryProfile];
 export const SHIPPED_SUMMARIES: ShippedPackSummary[] = SHIPPED_PACKS.map(summarize);
 export const SHIPPED_CODES = SHIPPED_PACKS.map((p) => p.code);
 
