@@ -204,10 +204,10 @@ function SchoolQrCard() {
         <p className="text-[12px] text-steel">
           {t("attendance.m.sessionCode")} — {faNumber(data.date)}
         </p>
-        <button type="button" className="b-btn b-btn-ghost !h-10 self-start" onClick={() => window.print()}>
+        <a href="/poster/school-qr" target="_blank" rel="noreferrer" className="b-btn b-btn-ghost !h-10 self-start">
           <Printer className="w-4 h-4" />
           {t("attendance.m.schoolQrPrint")}
-        </button>
+        </a>
       </div>
     </div>
   );
