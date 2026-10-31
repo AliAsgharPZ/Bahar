@@ -172,6 +172,8 @@ export async function PATCH(req: NextRequest) {
     }
     const isEdit = Object.keys(data).length > 0;
     if (isEdit) {
+      // قلم پرداخت‌شده قفل است: مشخصاتش (عنوان/مبلغ/سرسید) بعد از پرداخت قابل ویرایش نیست
+      if (fee.status === "PAID") throw new ApiError(409, "PAID_LOCKED", "قلم پرداخت‌شده قابل ویرایش نیست.");
       await db.studentFee.update({ where: { id: fee.id }, data });
       await audit({ user: me, action: "UPDATE_FEE", entityType: "FEE", entityId: fee.id, schoolId, meta: { edited: Object.keys(data) } });
       return apiOk({ ok: true });
@@ -180,6 +182,8 @@ export async function PATCH(req: NextRequest) {
     // ── تغییر وضعیت ──
     const status = String(body.status ?? "");
     if (!["UNPAID", "PAID", "WAIVED"].includes(status)) throw new ApiError(400, "BAD_STATUS", "وضعیت نامعتبر است.");
+    // خروج از وضعیت پرداخت‌شده سابقهٔ پرداخت را پاک می‌کند — مجاز نیست
+    if (fee.status === "PAID" && status !== "PAID") throw new ApiError(409, "PAID_LOCKED", "قلم پرداخت‌شده قابل ویرایش نیست.");
 
     await db.studentFee.update({
       where: { id: fee.id },
@@ -210,6 +214,8 @@ export async function DELETE(req: NextRequest) {
       (me.role === "ADMIN" && acting) ||
       (me.role === "DEPUTY" && hasPermission(me, "manage_finance"));
     if (!canManage) throw new ApiError(403, "FORBIDDEN", "حذف قلم مالی برای شما مجاز نیست.");
+    // قلم پرداخت‌شده سابقهٔ مالی است و حذف نمی‌شود
+    if (fee.status === "PAID") throw new ApiError(409, "PAID_LOCKED", "قلم پرداخت‌شده قابل حذف نیست.");
 
     await db.studentFee.delete({ where: { id } });
     await audit({ user: me, action: "DELETE_FEE", entityType: "FEE", entityId: id, schoolId });
