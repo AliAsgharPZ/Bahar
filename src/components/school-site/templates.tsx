@@ -125,6 +125,38 @@ function isDarkColor(hex: string): boolean {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b < 110;
 }
 
+/** درخشندگی نسبی WCAG 2.x — برای انتخاب رنگ متن روی رنگ پالت با بیشترین کنتراست واقعی */
+function relativeLuminance(hex: string): number | null {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  const ch = (v: number) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  return 0.2126 * ch((n >> 16) & 255) + 0.7152 * ch((n >> 8) & 255) + 0.0722 * ch(n & 255);
+}
+
+function contrastRatio(hexA: string, hexB: string): number {
+  const la = relativeLuminance(hexA);
+  const lb = relativeLuminance(hexB);
+  if (la === null || lb === null) return 1;
+  const hi = Math.max(la, lb), lo = Math.min(la, lb);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+/** از میان سفید، سرمه‌ای تیره و مشکی، هرکدام روی این پس‌زمینه بیشترین کنتراست WCAG را دارد
+ *  (قبلاً آستانهٔ خام ۱۱۰ گاهی گزینهٔ بدتر را انتخاب می‌کرد؛ با این سه گزینه همهٔ رنگ‌های پالت‌های فعلی به ۴٫۵+ می‌رسند) */
+function bestOnColor(bg: string): string {
+  let best = "#FFFFFF";
+  let bestRatio = contrastRatio(bg, best);
+  for (const cand of ["#101828", "#000000"]) {
+    const r = contrastRatio(bg, cand);
+    if (r > bestRatio) { best = cand; bestRatio = r; }
+  }
+  return best;
+}
+
 type Skin = {
   p: Palette;
   dark: boolean;
@@ -196,8 +228,8 @@ function makeSkin(templateId: string, p: Palette): Skin {
       : family === "spotify" ? "0 8px 24px rgba(0,0,0,.45)"
       : "0 2px 16px rgba(10,30,23,.06)",
     ...r,
-    onAccent: isDarkColor(p.accent) ? "#FFFFFF" : "#101828",
-    onPrimary: isDarkColor(p.primary) ? "#FFFFFF" : "#101828",
+    onAccent: bestOnColor(p.accent),
+    onPrimary: bestOnColor(p.primary),
   };
 }
 
