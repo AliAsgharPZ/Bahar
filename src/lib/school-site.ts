@@ -209,9 +209,9 @@ export const SITE_TEMPLATES: SiteTemplate[] = [
     name: "داشبورد زمردی",
     desc: "تیره و کد‌محور با مرزهای نازک به‌جای سایه، کارت‌های داده‌محور و تب‌های pill — الهام از زبان طراحی Supabase، برای مدارس فناور و داده‌محور",
     palettes: [
+      { label: "زمرد روشن", primary: "#3ECF8E", accent: "#171717", bg: "#FFFFFF" },
       { label: "زمرد تیره", primary: "#00C573", accent: "#34D399", bg: "#171717" },
       { label: "کد شب", primary: "#00C573", accent: "#A7F3D0", bg: "#0F0F0F" },
-      { label: "زمرد روشن", primary: "#009E5E", accent: "#00C573", bg: "#F7F7F7" },
       { label: "دادهٔ سبز", primary: "#059669", accent: "#10B981", bg: "#FFFFFF" },
     ],
   },

@@ -88,7 +88,7 @@ const headingFont: React.CSSProperties = { fontFamily: "var(--font-heading)" };
 type Family =
   | "classic" | "modern" | "magazine" | "playful"
   | "apple" | "airbnb" | "notion" | "stripe" | "linear" | "spotify" | "claude" | "figma"
-  | "vercel" | "tesla" | "wise" | "miro" | "framer" | "meta";
+  | "vercel" | "tesla" | "wise" | "miro" | "framer" | "meta" | "supabase";
 
 /** نگاشت ۱۶ تمپلیت روی ۱۰ خانواده چیدمان — شش خانوادهٔ تازه (apple/airbnb/
  *  notion/stripe/linear/spotify) هرکدام چیدمان اختصاصی خودشان را دارند و
@@ -106,7 +106,7 @@ export function familyOf(templateId: string): Family {
   if (templateId === "spotify") return "spotify";
   if (templateId === "claude") return "claude";
   if (templateId === "figma") return "figma";
-  if (templateId === "supabase") return "linear";
+  if (templateId === "supabase") return "supabase";
   if (templateId === "vercel") return "vercel";
   if (templateId === "tesla") return "tesla";
   if (templateId === "wise") return "wise";
@@ -201,6 +201,7 @@ function familyRadius(family: Family, templateId: string) {
     case "miro": return { radius: "16px", radiusLg: "20px", pill: "12px", inputRadius: "12px" };
     case "framer": return { radius: "20px", radiusLg: "28px", pill: "999px", inputRadius: "10px" };
     case "meta": return { radius: "24px", radiusLg: "32px", pill: "999px", inputRadius: "8px" };
+    case "supabase": return { radius: "6px", radiusLg: "8px", pill: "6px", inputRadius: "6px" };
     default: // classic
       return templateId === "minimal"
         ? { radius: "10px", radiusLg: "12px", pill: "10px", inputRadius: "8px" }
@@ -226,6 +227,11 @@ function makeSkin(templateId: string, p: Palette): Skin {
       : family === "stripe" ? "0 10px 34px rgba(83,58,253,.12)"
       : family === "linear" ? "0 0 0 1px rgba(255,255,255,.04)"
       : family === "spotify" ? "0 8px 24px rgba(0,0,0,.45)"
+      : family === "supabase" ? "0 1px 2px rgba(0,0,0,.06)"
+      : family === "vercel" ? "0 0 0 1px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.05)"
+      : family === "wise" ? "0 6px 20px rgba(22,51,0,.08)"
+      : family === "miro" ? "0 4px 18px rgba(0,0,0,.07)"
+      : family === "framer" ? "0 8px 30px rgba(0,0,0,.45)"
       : "0 2px 16px rgba(10,30,23,.06)",
     ...r,
     onAccent: bestOnColor(p.accent),
@@ -529,6 +535,17 @@ function NewsItem({ skin, n, i = 0, lead = false, className = "" }: {
       </article>
     );
   }
+  if (f === "vercel" || f === "supabase") {
+    return (
+      <article className={`py-4 flex items-baseline gap-4 ${className}`} style={{ borderBottom: `1px solid ${skin.border}` }}>
+        <span className="text-[11.5px] shrink-0" style={{ color: skin.faint, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>{date}</span>
+        <span className="min-w-0">
+          <b className="block text-[14px] font-semibold leading-snug" style={{ color: skin.text }}>{n.pinned && <span className="text-[11px] font-bold px-1.5 py-0.5 me-2 align-middle" style={{ borderRadius: 4, background: `${skin.p.primary}18`, color: skin.p.primary }}>مهم</span>}{n.title}</b>
+          <p className="mt-1 leading-[1.8] line-clamp-2 text-[12.5px]" style={{ color: skin.sub }}>{n.body}</p>
+        </span>
+      </article>
+    );
+  }
   if (f === "claude") {
     return (
       <article className="py-5 border-b last:border-b-0" style={{ borderColor: skin.border }}>
@@ -710,8 +727,22 @@ function StaffCard({ skin, st, i = 0 }: { skin: Skin; st: SiteData["staff"][numb
 }
 
 /** گالری — گرید ساده (کلاسیک/مدرن) / موزاییک سرمقاله‌ای (مجله) / قاب‌های کج (شاد) */
-function GalleryGrid({ skin, images }: { skin: Skin; images: string[] }) {
+function GalleryGrid({ skin, images, fullBleed = false }: { skin: Skin; images: string[]; fullBleed?: boolean }) {
   const f = skin.family;
+
+  if (fullBleed) {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
+        {images.map((g, i) => (
+          <img
+            key={i} src={g} alt={`تصویر ${i + 1} از گالری مدرسه`}
+            className={`w-full object-cover ${i === 0 ? "col-span-2 aspect-[8/3] md:aspect-auto md:h-full" : "aspect-[4/3]"}`}
+            style={{ borderRadius: 0 }}
+          />
+        ))}
+      </div>
+    );
+  }
 
   if (f === "magazine") {
     return (
@@ -1800,6 +1831,18 @@ function FamHead({ skin, title, kicker, center }: { skin: Skin; title: string; k
       </div>
     );
   }
+  if (f === "supabase") {
+    return (
+      <div className="mb-7">
+        {kicker && (
+          <p className="flex items-center gap-2 text-[11.5px] font-semibold mb-2.5" style={{ color: skin.p.primary, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", letterSpacing: "0.08em" }}>
+            <span className="w-2 h-2 shrink-0" style={{ background: skin.p.primary }} aria-hidden="true" />{kicker}
+          </p>
+        )}
+        <h2 className="text-[22px] md:text-[28px] font-semibold leading-snug" style={{ ...headingFont, color: skin.text }}>{title}</h2>
+      </div>
+    );
+  }
   if (f === "miro") {
     return (
       <div className="mb-8">
@@ -1912,6 +1955,103 @@ function FamStats({ skin, stats }: { skin: Skin; stats: SiteData["stats"] }) {
               <span className="text-[12px]" style={{ color: skin.faint }}>{x.l}</span>
             </div>
           ))}
+        </div>
+      </section>
+    );
+  }
+  if (f === "vercel") {
+    return (
+      <section className="max-w-6xl mx-auto px-4 py-10 md:py-12">
+        <div className="grid grid-cols-3 border" style={{ borderColor: skin.border, borderRadius: skin.radiusLg, background: skin.card, boxShadow: skin.shadow }}>
+          {items.map((x, i) => (
+            <div key={i} className={`py-6 px-3 text-center ${i > 0 ? "border-s" : ""}`} style={{ borderColor: skin.border }}>
+              <b className="block text-[26px] md:text-[34px] font-semibold leading-none" style={{ ...headingFont, color: skin.text, letterSpacing: "-0.02em" }}>{faDigits(x.v)}</b>
+              <span className="block mt-2 text-[11.5px] font-medium" style={{ color: skin.sub, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>{x.l}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+  if (f === "tesla") {
+    return (
+      <section className="max-w-5xl mx-auto px-4 py-12 md:py-16 grid grid-cols-3">
+        {items.map((x, i) => (
+          <div key={i} className="text-center px-2">
+            <b className="block text-[36px] md:text-[52px] font-light leading-none" style={{ ...headingFont, color: skin.text }}>{faDigits(x.v)}</b>
+            <span className="block mt-2.5 text-[12px] font-medium tracking-wide" style={{ color: skin.sub }}>{x.l}</span>
+          </div>
+        ))}
+      </section>
+    );
+  }
+  if (f === "wise") {
+    return (
+      <section className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {items.map((x, i) => (
+          <div key={i} className="p-6 text-center" style={{ borderRadius: 32, background: `${skin.p.accent}26`, boxShadow: skin.shadow }}>
+            <b className="block text-[34px] md:text-[44px] font-black leading-none" style={{ ...headingFont, color: skin.text }}>{faDigits(x.v)}</b>
+            <span className="block mt-2 text-[13px] font-bold" style={{ color: skin.sub }}>{x.l}</span>
+          </div>
+        ))}
+      </section>
+    );
+  }
+  if (f === "miro") {
+    const tints = ["#FFF3A3", "#FFD6E0", "#C8F2DC"];
+    return (
+      <section className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid grid-cols-3 gap-3 md:gap-5">
+        {items.map((x, i) => (
+          <div key={i} className="p-5 md:p-6 text-center" style={{ borderRadius: 16, background: tints[i % 3], boxShadow: "0 6px 18px rgba(0,0,0,.10)", transform: `rotate(${i === 1 ? 1.2 : -1.2}deg)` }}>
+            <b className="block text-[26px] md:text-[36px] font-extrabold leading-none" style={{ ...headingFont, color: "#111111" }}>{faDigits(x.v)}</b>
+            <span className="block mt-2 text-[12px] font-bold" style={{ color: "rgba(0,0,0,.6)" }}>{x.l}</span>
+          </div>
+        ))}
+      </section>
+    );
+  }
+  if (f === "framer") {
+    return (
+      <section className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid grid-cols-3 gap-4">
+        {items.map((x, i) => (
+          <div key={i} className="p-5 md:p-7 text-center" style={{ borderRadius: skin.radiusLg, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)" }}>
+            <b className="block text-[30px] md:text-[42px] font-extrabold leading-none text-white" style={{ ...headingFont, letterSpacing: "-0.02em" }}>{faDigits(x.v)}</b>
+            <span className="block mt-2 text-[12px] font-semibold" style={{ color: skin.p.accent }}>{x.l}</span>
+          </div>
+        ))}
+      </section>
+    );
+  }
+  if (f === "meta") {
+    return (
+      <section className="max-w-6xl mx-auto px-4 py-10 md:py-12 grid grid-cols-3 gap-4">
+        {items.map((x, i) => (
+          <div key={i} className="p-5 md:p-7 text-center" style={{ borderRadius: 32, background: skin.card, border: `1px solid ${skin.border}`, boxShadow: skin.shadow }}>
+            <b className="block text-[28px] md:text-[38px] font-bold leading-none" style={{ ...headingFont, color: skin.p.primary }}>{faDigits(x.v)}</b>
+            <span className="block mt-2 text-[12.5px] font-semibold" style={{ color: skin.sub }}>{x.l}</span>
+          </div>
+        ))}
+      </section>
+    );
+  }
+  if (f === "supabase") {
+    return (
+      <section className="max-w-6xl mx-auto px-4 py-10 md:py-12">
+        <div style={{ borderRadius: skin.radiusLg, background: skin.card, border: `1px solid ${skin.border}`, boxShadow: skin.shadow }}>
+          <div className="flex items-center gap-1.5 px-4 py-2.5" style={{ borderBottom: `1px solid ${skin.border}` }} aria-hidden="true">
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: skin.p.primary }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: skin.border }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: skin.border }} />
+            <span className="ms-3 text-[11px]" style={{ color: skin.faint, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>school.stats</span>
+          </div>
+          <div className="grid grid-cols-3">
+            {items.map((x, i) => (
+              <div key={i} className={`py-5 px-3 text-center ${i > 0 ? "border-s" : ""}`} style={{ borderColor: skin.border }}>
+                <b className="block text-[24px] md:text-[30px] font-semibold leading-none" style={{ ...headingFont, color: skin.text }}>{faDigits(x.v)}</b>
+                <span className="block mt-1.5 text-[11.5px]" style={{ color: skin.sub, fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>{x.l}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
@@ -3701,6 +3841,7 @@ function NewBody({ skin, config, data, subdomain }: FamilyProps) {
   const school = data.school;
   const phone = config.contactPhone || school.phone || "";
   const address = config.contactAddress || school.address || "";
+  const f = skin.family;
   return (
     <>
       {s.stats && <FamStats skin={skin} stats={data.stats} />}
@@ -3727,9 +3868,15 @@ function NewBody({ skin, config, data, subdomain }: FamilyProps) {
       {s.news && data.news.length > 0 && (
         <Section skin={skin} id="news">
           <FamHead skin={skin} title="اخبار و اطلاعیه‌ها" kicker="تازه‌ها" />
-          <div className="grid gap-4 sm:grid-cols-2">
-            {data.news.map((n, i) => <NewsItem key={i} skin={skin} n={n} i={i} lead={i === 0} className={i === 0 ? "sm:col-span-2" : undefined} />)}
-          </div>
+          {f === "vercel" || f === "supabase" ? (
+            <div>
+              {data.news.map((n, i) => <NewsItem key={i} skin={skin} n={n} i={i} />)}
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2">
+              {data.news.map((n, i) => <NewsItem key={i} skin={skin} n={n} i={i} lead={i === 0} className={i === 0 ? "sm:col-span-2" : undefined} />)}
+            </div>
+          )}
         </Section>
       )}
       {s.events && data.events.length > 0 && (
@@ -3756,12 +3903,17 @@ function NewBody({ skin, config, data, subdomain }: FamilyProps) {
           </div>
         </Section>
       )}
-      {s.gallery && config.gallery.length > 0 && (
+      {s.gallery && config.gallery.length > 0 && (f === "tesla" ? (
+        <section id="gallery" className="py-10 md:py-12">
+          <div className="max-w-6xl mx-auto px-4"><FamHead skin={skin} title="گالری" kicker="تصاویر" /></div>
+          <GalleryGrid skin={skin} images={config.gallery} fullBleed />
+        </section>
+      ) : (
         <Section skin={skin} id="gallery">
           <FamHead skin={skin} title="گالری" kicker="تصاویر" />
           <GalleryGrid skin={skin} images={config.gallery} />
         </Section>
-      )}
+      ))}
       {s.faq && config.faq.length > 0 && (
         <Section skin={skin} id="faq" narrow>
           <FamHead skin={skin} title="سوالات متداول" center />
@@ -3783,6 +3935,51 @@ function NewBody({ skin, config, data, subdomain }: FamilyProps) {
 }
 
 const NEW_NAV_ITEMS: [string, string][] = [["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کلاس‌ها", "#classes"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]];
+
+// Supabase — بوم سفید و نزدیک‌به‌مشکی، تنها رویداد رنگی CTA زمردی است؛
+// مرز نازک به‌جای سایه، شعاع ۶px، برچسب‌های مونو و پنل داده در هیرو
+// (الهام از DESIGN.md سوپابیس: quietly technical, dense product panel)
+function SupabaseFamily({ skin, config, data, subdomain }: FamilyProps) {
+  const p = skin.p; const school = data.school;
+  const mono: React.CSSProperties = { fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" };
+  return (
+    <div data-family="supabase" className="min-h-screen site-clip-x" style={{ background: p.bg, color: skin.text }}>
+      <header className="sticky top-0 z-30" style={{ background: skin.dark ? p.bg : "#FFFFFF", borderBottom: `1px solid ${skin.border}` }}>
+        <div className="max-w-6xl mx-auto px-4 pt-3 flex items-center gap-3">
+          <span className="w-8 h-8 flex items-center justify-center font-bold text-[14px]" style={{ borderRadius: 6, background: p.primary, color: skin.onPrimary }}>{school.name[0] ?? "ب"}</span>
+          <b className="text-[15px] font-semibold truncate">{school.name}</b>
+          <span className="hidden md:inline-block px-2 py-0.5 text-[11px]" style={{ ...mono, borderRadius: 6, border: `1px solid ${skin.border}`, color: skin.sub }}>{school.type ?? "مدرسه"}</span>
+          <a href="#admissions" className="ms-auto min-h-[44px] px-5 inline-flex items-center text-[13px] font-semibold" style={{ borderRadius: 6, background: p.primary, color: skin.onPrimary }}>{config.ctaPrimary}</a>
+        </div>
+        <div className="max-w-6xl mx-auto px-4"><NewNav skin={skin} items={NEW_NAV_ITEMS} /></div>
+      </header>
+      <section className="max-w-6xl mx-auto px-4 pt-14 md:pt-20 pb-10">
+        <p className="flex items-center gap-2 text-[12px] font-semibold mb-5" style={{ ...mono, color: p.primary, letterSpacing: "0.08em" }}>
+          <span className="w-2 h-2 shrink-0" style={{ background: p.primary }} aria-hidden="true" />
+          {school.type ?? "مدرسه"}{school.county ? ` · ${school.county}` : ""}
+        </p>
+        <h1 className="text-[34px] md:text-[52px] font-semibold leading-[1.2] mb-5 max-w-3xl" style={{ ...headingFont, letterSpacing: "-0.01em" }}>{config.heroTitle}</h1>
+        <p className="text-[15px] leading-[2] max-w-2xl mb-8" style={{ color: skin.sub }}>{config.heroSubtitle}</p>
+        <div className="flex flex-wrap gap-3">
+          <a href="#admissions" className="min-h-[44px] px-6 inline-flex items-center text-[13.5px] font-semibold" style={{ borderRadius: 6, background: p.primary, color: skin.onPrimary }}>{config.ctaPrimary}</a>
+          <a href="#about" className="min-h-[44px] px-6 inline-flex items-center text-[13.5px] font-semibold" style={{ borderRadius: 6, border: `1px solid ${skin.border}`, color: skin.text, background: skin.card }}>درباره مدرسه</a>
+        </div>
+        {config.heroImage && (
+          <div className="mt-12" style={{ borderRadius: skin.radiusLg, border: `1px solid ${skin.border}`, background: skin.card, boxShadow: skin.shadow }}>
+            <div className="flex items-center gap-1.5 px-4 py-2.5" style={{ borderBottom: `1px solid ${skin.border}` }} aria-hidden="true">
+              <span className="w-2.5 h-2.5 rounded-full" style={{ background: p.primary }} />
+              <span className="w-2.5 h-2.5 rounded-full" style={{ background: skin.border }} />
+              <span className="w-2.5 h-2.5 rounded-full" style={{ background: skin.border }} />
+              <span className="ms-3 text-[11px]" style={{ ...mono, color: skin.faint }}>school.gallery — {school.name}</span>
+            </div>
+            <img src={config.heroImage} alt={`تصویر ${school.name}`} className="w-full aspect-[16/8] object-cover" style={{ borderRadius: `0 0 ${skin.radiusLg} ${skin.radiusLg}` }} />
+          </div>
+        )}
+      </section>
+      <NewBody skin={skin} config={config} data={data} subdomain={subdomain} />
+    </div>
+  );
+}
 
 // Vercel — تک‌رنگ سیاه‌وسفید، تایپ فشرده با tracking منفی، سایه به‌جای مرز، کارت‌های لایه‌ای
 function VercelFamily({ skin, config, data, subdomain }: FamilyProps) {
@@ -3979,6 +4176,7 @@ export function SchoolSiteRenderer({
     case "spotify": return <SpotifyFamily {...props} />;
     case "claude": return <ClaudeFamily {...props} />;
     case "figma": return <FigmaFamily {...props} />;
+    case "supabase": return <SupabaseFamily {...props} />;
     case "vercel": return <VercelFamily {...props} />;
     case "tesla": return <TeslaFamily {...props} />;
     case "wise": return <WiseFamily {...props} />;
