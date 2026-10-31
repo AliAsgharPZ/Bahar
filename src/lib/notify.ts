@@ -16,6 +16,10 @@ export async function notifyUser(
   } catch (e) {
     console.error("[NOTIFY]", e);
   }
+  // پخش روی ربات‌های پیوندخوردهٔ کاربر (تلگرام/بله/روبیکا/واتس‌اپ/وب‌هوک) — آتش‌وفراموش
+  void import("@/lib/bots")
+    .then((m) => m.dispatchNotificationToBots({ userId, category, title, body, link, origin: process.env.NEXT_PUBLIC_APP_URL }))
+    .catch(() => undefined);
 }
 
 /** اعلان به چند کاربر */
