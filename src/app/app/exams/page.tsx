@@ -141,7 +141,7 @@ export default function ExamsPage() {
       <div className="grid lg:grid-cols-[340px_1fr] gap-4 items-start">
         <div className="flex flex-col gap-2">
           {sessions.map((s) => (
-            <button key={s.id} onClick={() => setSelId(s.id)} className={`b-btn b-btn-ghost b-card-sm p-4 text-start ${selId === s.id ? "ring-2 ring-spring" : ""}`}>
+            <button key={s.id} onClick={() => setSelId(s.id)} className={`b-card-sm p-4 w-full cursor-pointer text-start whitespace-normal transition-all hover:border-spring/40 ${selId === s.id ? "ring-2 ring-spring" : ""}`}>
               <b className="text-[14px] block">{s.title}</b>
               <span className="text-[12px] text-steel">{s.subjectName ?? ""} · {formatDateFa(s.startsAt)} · {faNumber(s._count?.seats ?? 0)} {t("exams.unit.seat")} · {faNumber(s._count?.invigilators ?? 0)} {t("exams.meta.invigilators")}</span>
             </button>

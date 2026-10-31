@@ -216,7 +216,7 @@ export default function WebsiteEditorPage() {
               <button
                 key={t.id}
                 onClick={() => { setTemplateId(t.id); setConfig((c) => (c ? { ...c, palette: 0, customPalette: null } : c)); }}
-                className={`b-btn b-btn-ghost b-card p-5 text-end transition-all ${active ? "!border-spring ring-2 ring-spring/25" : "hover:border-spring/40"}`}
+                className={`b-card p-5 w-full cursor-pointer text-start whitespace-normal transition-all ${active ? "!border-spring ring-2 ring-spring/25" : "hover:border-spring/40"}`}
               >
                 <div
                   className="h-28 rounded-2xl mb-4 relative overflow-hidden"
