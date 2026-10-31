@@ -10,7 +10,7 @@ import {
   Bus, FileText, Video, Armchair, MessageSquareText, Landmark,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
   Compass, MonitorPlay, Flame, Album, Terminal, Accessibility, FlaskConical, Puzzle,
-  Eye, NotebookText,
+  Eye, NotebookText, Bot,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -91,6 +91,7 @@ export const NAV: NavItem[] = [
   { href: "/app/descriptive-report", label: "کارنامه توصیفی", tKey: "nav.descriptiveReport", short: "توصیفی", icon: FileBarChart, roles: ["*"], tint: 0, group: "education" },
   { href: "/app/payroll", label: "حقوق و فیش", tKey: "nav.payroll", short: "حقوق", icon: Wallet, roles: ["MANAGER", "DEPUTY", "TEACHER", "CUSTODIAN"], tint: 1, group: "finance" },
   { href: "/app/sms", label: "پنل پیامک", tKey: "nav.sms", short: "پیامک", icon: MessageSquare, roles: ["MANAGER", "DEPUTY"], tint: 2, group: "comms" },
+  { href: "/app/bots", label: "ربات‌ها و مینی‌اپ", tKey: "nav.bots", short: "ربات‌ها", icon: Bot, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "STUDENT", "CUSTODIAN", "ADMIN", "SUPER_ADMIN"], tint: 2, group: "comms" },
   { href: "/app/rollover", label: "بستن سال تحصیلی", tKey: "nav.rollover", short: "بستن سال", icon: CalendarSync, roles: ["MANAGER"], tint: 3, group: "admin" },
   { href: "/app/transport", label: "سرویس مدرسه", tKey: "nav.transport", short: "سرویس", icon: Bus, roles: ["*"], tint: 1, group: "services" },
   { href: "/app/gate-passes", label: "مجوز خروج", tKey: "nav.gatePasses", short: "مجوز خروج", icon: DoorOpen, roles: ["*"], tint: 2, group: "students" },

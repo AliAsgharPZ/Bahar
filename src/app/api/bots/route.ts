@@ -52,6 +52,19 @@ export async function GET(req: NextRequest) {
       // مدیر سرویس بدون مدرسهٔ فعال: اتصالی نشان داده نمی‌شود (requireSchoolId در POST خطا می‌دهد)
       connections = [];
     }
+    // برای کاربران عادی: فهرست عمومی اتصال‌های فعال مدرسه تا بتوانند پیوند بسازند
+    let available: { id: string; platform: string; platformName: string; label: string; botUsername: string | null; style: string; inbound: boolean }[] = [];
+    if (!isStaff && me.schoolId) {
+      const rows = await db.botConnection.findMany({
+        where: { schoolId: me.schoolId, isActive: true },
+        select: { id: true, platform: true, label: true, botUsername: true },
+        orderBy: { createdAt: "asc" },
+      });
+      available = rows.map((r) => {
+        const p = botPlatform(r.platform);
+        return { id: r.id, platform: r.platform, platformName: p.nameFa, label: r.label, botUsername: r.botUsername, style: p.style, inbound: p.inbound };
+      });
+    }
     const myLinks = await db.botLink.findMany({
       where: { userId: me.id },
       include: { connection: { select: { id: true, platform: true, label: true, botUsername: true, isActive: true, schoolId: true } } },
@@ -59,6 +72,7 @@ export async function GET(req: NextRequest) {
     });
     return apiOk({
       isStaff,
+      available,
       platforms: BOT_PLATFORMS.map((p) => ({ id: p.id, name: p.nameFa, style: p.style, inbound: p.inbound, miniApp: p.miniApp, hint: p.hintFa, needsApiBase: p.id === "CUSTOM" || p.id === "WEBHOOK" })),
       connections,
       myLinks: myLinks.map((l) => ({
