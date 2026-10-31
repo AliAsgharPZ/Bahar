@@ -191,6 +191,8 @@ model School {
   scheduledReports     ScheduledReport[]
   observations         ClassObservation[]
   minutes              MeetingMinute[]
+  attendanceSettings   AttendanceSettings?
+  integrationKeys      IntegrationKey[]
 }
 
 model Class {
@@ -365,6 +367,8 @@ model Attendance {
   period       Int      @default(0) // زنگ ۱..۸ — ۰ = وضعیت کل روز
   subjectId    String?
   status       String // PRESENT | ABSENT | LATE | EXCUSED | MISSION | HALF_DAY
+  method       String   @default("MANUAL") // MANUAL | QR | CODE | KIOSK | FACE | CCTV | NFC | GATE | OTHER
+  sourceLabel  String? // برچسب منبع خارجی (نام دستگاه/سامانه) — فقط برای روش‌های اتصالی
   note         String?
   recordedById String?
   recordedBy   User?    @relation("AttendanceRecorder", fields: [recordedById], references: [id])
@@ -2421,6 +2425,35 @@ model MeetingMinute {
   updatedAt DateTime @updatedAt
 
   @@index([schoolId, date])
+}
+
+// ────────────── تنظیمات روش‌های ثبت حضور (همه اختیاری؛ پیش‌فرض فقط دستی) ──────────────
+model AttendanceSettings {
+  id              String   @id @default(cuid())
+  schoolId        String   @unique
+  school          School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  qrEnabled       Boolean  @default(false) // کارت QR دانش‌آموز + اسکن با دستگاه معلم
+  codeEnabled     Boolean  @default(false) // کد چرخان کلاس (اعلام حضور توسط خود دانش‌آموز)
+  kioskEnabled    Boolean  @default(false) // حالت کیوسک روی تبلت مشترک مدرسه
+  externalEnabled Boolean  @default(false) // اتصال سامانه‌های بیرونی (چهره/دوربین/NFC/گیت) از راه کلید اتصال
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// ────────────── کلید اتصال سامانه‌های بیرونی حضور (چهره/CCTV/NFC/گیت) ──────────────
+// بهار خودش هیچ پردازش بیومتریکی انجام نمی‌دهد؛ سامانهٔ بیرونی رویداد حضور را با این کلید می‌فرستد.
+model IntegrationKey {
+  id         String    @id @default(cuid())
+  schoolId   String
+  school     School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  name       String // نام نمایشی دستگاه/سامانه، مثلاً «دوربین ورودی اصلی»
+  method     String    @default("OTHER") // FACE | CCTV | NFC | GATE | OTHER
+  keyHash    String // sha256 کلید — خود کلید فقط هنگام ساخت یک بار نمایش داده می‌شود
+  isActive   Boolean   @default(true)
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([schoolId])
 }
 
 model StudyTask {

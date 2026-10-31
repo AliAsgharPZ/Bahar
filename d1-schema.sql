@@ -2218,3 +2218,29 @@ ALTER TABLE "StudentHealth" ADD COLUMN "visionNote" TEXT;
 ALTER TABLE "StudentHealth" ADD COLUMN "hearingNote" TEXT;
 ALTER TABLE "StudentHealth" ADD COLUMN "medications" TEXT;
 ALTER TABLE "StudentHealth" ADD COLUMN "reviewDate" TEXT;
+ALTER TABLE "Attendance" ADD COLUMN "method" TEXT NOT NULL DEFAULT 'MANUAL';
+ALTER TABLE "Attendance" ADD COLUMN "sourceLabel" TEXT;
+CREATE TABLE IF NOT EXISTS "AttendanceSettings" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "qrEnabled" BOOLEAN NOT NULL DEFAULT false,
+    "codeEnabled" BOOLEAN NOT NULL DEFAULT false,
+    "kioskEnabled" BOOLEAN NOT NULL DEFAULT false,
+    "externalEnabled" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "AttendanceSettings_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "AttendanceSettings_schoolId_key" ON "AttendanceSettings"("schoolId");
+CREATE TABLE IF NOT EXISTS "IntegrationKey" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "method" TEXT NOT NULL DEFAULT 'OTHER',
+    "keyHash" TEXT NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "lastUsedAt" DATETIME,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "IntegrationKey_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "IntegrationKey_schoolId_idx" ON "IntegrationKey"("schoolId");

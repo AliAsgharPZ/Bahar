@@ -95,6 +95,7 @@ export async function GET(req: NextRequest) {
           nationalId: s.user.nationalId,
           studentNumber: s.studentNumber,
           status: rec?.status ?? null,
+          method: rec?.method ?? null,
           note: rec?.note ?? null,
           healthAlert: healthOf(s.id),
         };
@@ -114,9 +115,16 @@ export async function POST(req: NextRequest) {
     if (await isDemoUser(me)) return apiErr(403, "این قابلیت در حساب دمو غیرفعال است.", "DEMO_READONLY");
     const schoolId = requireSchoolId(me);
     const body = await readJson<{
-      classId?: string; date?: string;
+      classId?: string; date?: string; method?: string;
       records?: Array<{ studentId?: string; status?: string; note?: string | null; period?: number }>;
     }>(req);
+    // حالت کیوسک: همان برگهٔ دستی است ولی روی رکورد «KIOSK» می‌خورد تا منبع ثبت معلوم باشد
+    let recordMethod = "MANUAL";
+    if (body.method === "KIOSK") {
+      const { getCheckinSettings } = await import("@/lib/checkin");
+      const cs = await getCheckinSettings(schoolId);
+      if (cs.kioskEnabled) recordMethod = "KIOSK";
+    }
 
     const classId = String(body.classId ?? "");
     const date = String(body.date ?? "").trim();
@@ -152,10 +160,10 @@ export async function POST(req: NextRequest) {
         db.attendance.upsert({
           where: { studentId_date_period: { studentId: r.studentId, date, period } },
           create: {
-            studentId: r.studentId, classId, date, period, status,
+            studentId: r.studentId, classId, date, period, status, method: recordMethod,
             note: r.note || null, recordedById: me.id,
           },
-          update: { status, note: r.note || null, recordedById: me.id },
+          update: { status, note: r.note || null, recordedById: me.id, method: recordMethod, sourceLabel: null },
         })
       );
     }
