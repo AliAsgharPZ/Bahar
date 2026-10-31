@@ -87,6 +87,7 @@ export const NAV: NavItem[] = [
   { href: "/app/seating", label: "چیدمان صندلی", tKey: "nav.seating", short: "صندلی", icon: Armchair, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 1, group: "education" },
   { href: "/app/report-comments", label: "کامنت کارنامه", tKey: "nav.reportComments", short: "کامنت", icon: MessageSquareText, roles: ["MANAGER", "DEPUTY", "TEACHER"], tint: 2, group: "education" },
   { href: "/app/exams", label: "امتحانات", tKey: "nav.exams", short: "امتحان", icon: ClipboardList, roles: ["*"], tint: 3, group: "education" },
+  { href: "/app/exam-seats", label: "صندلی امتحان و کارت", tKey: "nav.examSeats", short: "کارت امتحان", icon: Armchair, roles: ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/descriptive-report", label: "کارنامه توصیفی", tKey: "nav.descriptiveReport", short: "توصیفی", icon: FileBarChart, roles: ["*"], tint: 0, group: "education" },
   { href: "/app/payroll", label: "حقوق و فیش", tKey: "nav.payroll", short: "حقوق", icon: Wallet, roles: ["MANAGER", "DEPUTY", "TEACHER", "CUSTODIAN"], tint: 1, group: "finance" },
   { href: "/app/sms", label: "پنل پیامک", tKey: "nav.sms", short: "پیامک", icon: MessageSquare, roles: ["MANAGER", "DEPUTY"], tint: 2, group: "comms" },
