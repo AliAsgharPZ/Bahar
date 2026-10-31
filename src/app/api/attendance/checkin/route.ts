@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import QRCode from "qrcode";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, demoWriteBlock } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, demoWriteBlock, rateLimit } from "@/lib/api";
 import { getCheckinSettings, studentQrPayload, verifyClassCode, recordCheckin } from "@/lib/checkin";
 import { todayJalali } from "@/lib/persian";
 
@@ -38,6 +38,11 @@ export async function POST(req: NextRequest) {
     if (!profile || !profile.classId) return apiErr(404, "پروفایل دانش‌آموزی یافت نشد.", "NOT_FOUND");
     const settings = await getCheckinSettings(profile.schoolId);
     if (!settings.codeEnabled) return apiErr(409, "روش «کد کلاس» برای این مدرسه فعال نیست.", "METHOD_OFF");
+    // کد کلاس فقط ۶ رقم است؛ تلاش‌های هر دانش‌آموز در پنجرهٔ کد محدود می‌شود تا
+    // حدس‌زدن سیستماتیک کد در یک پنجرهٔ ۱۰دقیقه‌ای عملاً ناممکن شود (بازبینی امنیتی GLM-5.3).
+    if (!rateLimit(`class-code:${me.id}`, 10, 10 * 60_000)) {
+      return apiErr(429, "تلاش‌های زیادی برای وارد کردن کد انجام شده است؛ تا پنجرهٔ بعدی صبر کنید.", "RATE_LIMITED");
+    }
     const body = await readJson<{ code?: string }>(req);
     const date = todayJalali();
     if (!verifyClassCode(profile.classId, date, String(body.code ?? ""))) {
