@@ -5,13 +5,18 @@ import { toast } from "sonner";
 import {
   QrCode, Keyboard, MonitorSmartphone, Plug, ScanLine, KeyRound, Copy, Trash2,
   Plus, Loader2, Camera, CameraOff, ClipboardCheck, Fingerprint, Video, Nfc, DoorOpen, Settings2,
+  MapPin, Printer, LocateFixed,
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useApi, apiPost } from "@/lib/client";
 import { Select } from "@/components/shared/pickers";
 import { faNumber, todayJalali } from "@/lib/persian";
 
-type Settings = { qrEnabled: boolean; codeEnabled: boolean; kioskEnabled: boolean; externalEnabled: boolean };
+type Settings = {
+  qrEnabled: boolean; codeEnabled: boolean; kioskEnabled: boolean; externalEnabled: boolean;
+  geoEnabled: boolean; geoLat: number | null; geoLng: number | null; geoRadiusM: number;
+};
+type FlagKey = "qrEnabled" | "codeEnabled" | "kioskEnabled" | "externalEnabled" | "geoEnabled";
 type KeyRow = { id: string; name: string; method: string; isActive: boolean; lastUsedAt: string | null; createdAt: string };
 type SettingsResp = { settings: Settings; keys: KeyRow[]; canManage: boolean };
 
@@ -28,9 +33,23 @@ export function AttendanceMethodsPanel({ classId }: { classId: string }) {
   const settings = draft ?? data?.settings ?? null;
   const canManage = !!data?.canManage;
 
-  const setFlag = (k: keyof Settings, v: boolean) => {
+  const setFlag = (k: FlagKey, v: boolean) => {
     if (!settings) return;
     setDraft({ ...settings, [k]: v });
+  };
+
+  const setGeo = (patch: Partial<Settings>) => {
+    if (!settings) return;
+    setDraft({ ...settings, ...patch });
+  };
+
+  const fillMyLocation = () => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setGeo({ geoLat: Math.round(pos.coords.latitude * 1e6) / 1e6, geoLng: Math.round(pos.coords.longitude * 1e6) / 1e6 }),
+      () => toast.error(t("attendance.m.geoDenied")),
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
   };
 
   const save = async () => {
@@ -55,10 +74,11 @@ export function AttendanceMethodsPanel({ classId }: { classId: string }) {
 
   if (!data || !settings) return null;
 
-  const rows: Array<{ key: keyof Settings; icon: typeof QrCode; title: string; desc: string }> = [
+  const rows: Array<{ key: FlagKey; icon: typeof QrCode; title: string; desc: string }> = [
     { key: "qrEnabled", icon: QrCode, title: t("attendance.m.qr"), desc: t("attendance.m.qrDesc") },
     { key: "codeEnabled", icon: Keyboard, title: t("attendance.m.code"), desc: t("attendance.m.codeDesc") },
     { key: "kioskEnabled", icon: MonitorSmartphone, title: t("attendance.m.kiosk"), desc: t("attendance.m.kioskDesc") },
+    { key: "geoEnabled", icon: MapPin, title: t("attendance.m.geo"), desc: t("attendance.m.geoDesc") },
     { key: "externalEnabled", icon: Plug, title: t("attendance.m.external"), desc: t("attendance.m.externalDesc") },
   ];
 
@@ -105,6 +125,53 @@ export function AttendanceMethodsPanel({ classId }: { classId: string }) {
         ))}
       </div>
 
+      {settings.geoEnabled && (
+        <div className="b-card-sm p-3.5 flex flex-col gap-2.5">
+          <div className="flex items-center gap-2 flex-wrap">
+            <label className="flex items-center gap-1.5 text-[12px] text-steel">
+              {t("attendance.m.geoLat")}
+              <input
+                className="b-input !h-10 w-32"
+                inputMode="decimal"
+                dir="ltr"
+                disabled={!canManage}
+                value={settings.geoLat ?? ""}
+                onChange={(e) => setGeo({ geoLat: e.target.value === "" ? null : Number(e.target.value) })}
+              />
+            </label>
+            <label className="flex items-center gap-1.5 text-[12px] text-steel">
+              {t("attendance.m.geoLng")}
+              <input
+                className="b-input !h-10 w-32"
+                inputMode="decimal"
+                dir="ltr"
+                disabled={!canManage}
+                value={settings.geoLng ?? ""}
+                onChange={(e) => setGeo({ geoLng: e.target.value === "" ? null : Number(e.target.value) })}
+              />
+            </label>
+            <label className="flex items-center gap-1.5 text-[12px] text-steel">
+              {t("attendance.m.geoRadius")}
+              <input
+                className="b-input !h-10 w-20"
+                inputMode="numeric"
+                dir="ltr"
+                disabled={!canManage}
+                value={settings.geoRadiusM}
+                onChange={(e) => setGeo({ geoRadiusM: Number(e.target.value) || 200 })}
+              />
+            </label>
+            {canManage && (
+              <button type="button" className="b-btn b-btn-ghost !h-10" onClick={fillMyLocation}>
+                <LocateFixed className="w-4 h-4" />
+                {t("attendance.m.geoUseMine")}
+              </button>
+            )}
+          </div>
+          <p className="text-[12px] text-steel">{t("attendance.m.geoHint")}</p>
+        </div>
+      )}
+
       {canManage && draft && (
         <button type="button" className="b-btn b-btn-primary self-start" onClick={save} disabled={saving}>
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
@@ -113,11 +180,35 @@ export function AttendanceMethodsPanel({ classId }: { classId: string }) {
       )}
 
       {settings.codeEnabled && classId && <SessionCodeCard classId={classId} />}
+      {settings.qrEnabled && <SchoolQrCard />}
       {settings.qrEnabled && <ScanCard onScanned={() => refetch()} />}
       {settings.kioskEnabled && classId && <KioskBoard classId={classId} />}
       {settings.externalEnabled && canManage && (
         <IntegrationKeys keys={data.keys} onChange={() => refetch()} />
       )}
+    </div>
+  );
+}
+
+/* ═══════════════ QR روزانهٔ مدرسه ═══════════════ */
+function SchoolQrCard() {
+  const { t } = useLang();
+  const { data } = useApi<{ svg: string; url: string; date: string }>("/api/attendance/school-qr");
+  if (!data) return null;
+  return (
+    <div className="b-card-sm p-4 flex items-center gap-4 flex-wrap">
+      <div className="rounded-2xl bg-white p-2 shrink-0" dangerouslySetInnerHTML={{ __html: data.svg }} />
+      <div className="flex-1 min-w-52 flex flex-col gap-1.5">
+        <b className="text-[13px]">{t("attendance.m.schoolQr")}</b>
+        <p className="text-[12px] text-steel leading-5">{t("attendance.m.schoolQrHint")}</p>
+        <p className="text-[12px] text-steel">
+          {t("attendance.m.sessionCode")} — {faNumber(data.date)}
+        </p>
+        <button type="button" className="b-btn b-btn-ghost !h-10 self-start" onClick={() => window.print()}>
+          <Printer className="w-4 h-4" />
+          {t("attendance.m.schoolQrPrint")}
+        </button>
+      </div>
     </div>
   );
 }
@@ -453,11 +544,52 @@ function KioskBoard({ classId }: { classId: string }) {
 /* ═══════════════ کارت دانش‌آموز: QR امروز + اعلام حضور با کد کلاس ═══════════════ */
 export function StudentCheckinCard() {
   const { t } = useLang();
-  const { data, refetch } = useApi<{ qrEnabled: boolean; codeEnabled: boolean; qrSvg: string | null }>("/api/attendance/checkin");
+  const { data, refetch } = useApi<{ qrEnabled: boolean; codeEnabled: boolean; geoEnabled: boolean; qrSvg: string | null }>("/api/attendance/checkin");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
+  const [geoBusy, setGeoBusy] = useState(false);
 
-  if (!data || (!data.qrEnabled && !data.codeEnabled)) return null;
+  // اگر دانش‌آموز QR مدرسه را اسکن کرده ولی هنوز وارد نشده بود، توکن در
+  // sessionStorage مانده؛ حالا که وارد شده خودش ثبت می‌شود.
+  useEffect(() => {
+    const pending = sessionStorage.getItem("bahar-school-token");
+    if (!pending) return;
+    sessionStorage.removeItem("bahar-school-token");
+    apiPost<{ created: boolean }>("/api/attendance/school-scan", { token: pending })
+      .then((res) => toast.success(res.created ? t("attendance.m.checkinOk") : t("attendance.m.checkinAlready")))
+      .catch(() => toast.error(t("attendance.g.invalid")));
+  }, [t]);
+
+  if (!data || (!data.qrEnabled && !data.codeEnabled && !data.geoEnabled)) return null;
+
+  const submitGeo = () => {
+    if (!navigator.geolocation) {
+      toast.error(t("attendance.m.geoDenied"));
+      return;
+    }
+    setGeoBusy(true);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const res = await apiPost<{ created: boolean }>("/api/attendance/geo-checkin", {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          });
+          toast.success(res.created ? t("attendance.m.checkinOk") : t("attendance.m.checkinAlready"));
+          refetch();
+        } catch {
+          toast.error(t("attendance.m.geoFar"));
+        } finally {
+          setGeoBusy(false);
+        }
+      },
+      () => {
+        toast.error(t("attendance.m.geoDenied"));
+        setGeoBusy(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  };
 
   const submitCode = async () => {
     setBusy(true);
@@ -506,6 +638,19 @@ export function StudentCheckinCard() {
               {t("attendance.m.checkinButton")}
             </button>
           </div>
+        </div>
+      )}
+      {data.geoEnabled && (
+        <div className="b-card p-5 flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-spring" />
+            <h3 className="font-bold text-[15px]">{t("attendance.m.geo")}</h3>
+          </div>
+          <p className="text-[13px] text-steel">{t("attendance.m.geoStudentHint")}</p>
+          <button type="button" className="b-btn b-btn-primary !h-11 self-start" disabled={geoBusy} onClick={submitGeo}>
+            {geoBusy ? <Loader2 className="w-4 h-4 animate-spin" /> : <LocateFixed className="w-4 h-4" />}
+            {t("attendance.m.geoButton")}
+          </button>
         </div>
       )}
     </div>
