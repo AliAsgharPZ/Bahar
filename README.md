@@ -51,8 +51,9 @@ school — in one install.
   year or graduate them into alumni records, in one transaction.
 - **Certificates** — designed certificate templates with public QR
   verification.
-- **Public school site** — every school gets a public page with 16 templates
-  across 10 layout families (each with several color palettes) and lead
+- **Public school site** — every school gets a public page with 19 templates
+  (plus 7 legacy template ids that keep rendering), each template family
+  with its own design language and several colour palettes, and lead
   capture; internal announcements stay private unless they are addressed to
   everyone.
 - **Printing** — a global print/PDF framework: every panel page prints
@@ -108,14 +109,18 @@ school — in one install.
   data attributes, plus a skip link to main content (`/app/accessibility`).
 - **Country packs** — the country profile now supports divisions down
   to province → city → village, with a validator that counts cities
-  and villages. Shipped full packs, with honest coverage: **IR** (31
+  and villages. 18 packs are shipped, every figure below taken from a
+  cited official or open source. Full packs: **IR** (31
   provinces, 401 cities, 52,225 province-level villages from GeoNames
   — no county split, because the source has no county data), **AE**
-  (7 emirates, 7 cities), **SA** (13 regions, 13 cities), and
-  division-level packs (first-level divisions with capitals, no cities
-  or villages yet): **DE** (16), **US** (50), **FR** (18), **IT** (20),
-  **CA** (13), **AU** (8), **ES** (19), **BR** (27), **TR** (81),
-  **GB** (4). On top of
+  (7 emirates, 7 cities), **SA** (13 regions, 13 cities). Division-level
+  packs (first-level divisions with capitals; second-level divisions
+  where a sourced list exists): **DE** (16), **US** (50), **FR** (18),
+  **IT** (20), **CA** (13), **AU** (8), **ES** (19), **BR** (27),
+  **TR** (81), **GB** (4), **SE** (21), **KR** (17), **PL** (16),
+  **NL** (12 provinces and 342 municipalities, CBS) and **BE** (10
+  provinces and 42 arrondissements, Statbel — Brussels is not a
+  province and is reported separately). On top of
   that, a **world name registry of 249 countries** (Persian + English
   names from ICU/CLDR) is shipped and shown on `/app/countries` — it
   is names only, never counted as a full pack. The registry is ISO
@@ -126,24 +131,45 @@ school — in one install.
   work goes at most to county level (second-level divisions under
   provinces). New full packs are
   imported by super admins via `/api/countries` (`/app/countries`).
-- **Language coverage** — the UI catalogue is 200 keys (UI strings
-  only, no guide prose). Shipped packs, all 200/200 (100%):
-  **English, Arabic, Turkish, French, Spanish, German, Italian,
-  Portuguese** (reviewed packs), plus hand-written packs (not
-  professionally reviewed): **Urdu, Azerbaijani, Hindi** — untranslated keys in database packs fall back to
-  Persian. On top of that, a **world name registry of 183 languages**
+- **Language coverage** — Persian is the source language. A complete
+  pack today reports three counts: the UI catalogue of **3,407 app
+  keys**, **302 public-site sentences** (landing, public chrome, kit
+  step titles) and **39 long texts** (FAQ answers and kit prose).
+  16 translated packs are shipped: **English, Arabic, Urdu, Turkish,
+  Spanish, French, German, Italian, Portuguese, Russian, Bengali,
+  Hindi, Chinese, Japanese, Korean, Azerbaijani**. Site sentences are
+  302/302 in ten packs and 301/302 in six (a single string,
+  `site.lang.more`, still falls back to Persian), and long texts are
+  39/39 in every pack. App keys: English, Portuguese, Russian,
+  Bengali and Japanese are at 3,332/3,407 and the other eleven at
+  3,306/3,407 — the only gaps are the keys of the newest features
+  (absence excuses, parent summons, exam seats, repeat-absence
+  follow-up), which are being completed pack by pack; untranslated
+  keys fall back to Persian, so no screen is ever blank. On top of
+  that, a **world name registry of 183 languages**
   (Persian + English + native names from ICU/CLDR) is shipped and
   shown on `/app/languages` — it is names only, never counted as a
   translated pack. `/api/languages/coverage` and the `/app/languages`
-  page list every missing key per pack. A second catalogue covers
-  public-site sentences (133 keys: landing, public chrome, kit step
-  titles); the landing switches language from a header select
-  (`bahar_site_lang` cookie, Persian fallback) and
-  `/api/site-strings` serves a pack's site sentences. FAQ answers and
-  kit documentation prose are content, not UI strings, and stay
-  Persian by design. A complete pack therefore reports two counts
-  (app keys + site keys); check any pack with
-  `bun scripts/validate-pack.ts lang <file.json>`.
+  page list every missing key per pack. The landing switches language
+  from a header select (`bahar_site_lang` cookie, Persian fallback)
+  and `/api/site-strings` serves a pack's site sentences. Check any
+  pack with `bun scripts/validate-pack.ts lang <file.json>`.
+- **Attendance, excuses and exams** — attendance can be recorded by
+  staff sheet, per-student daily QR, a school daily QR poster (also
+  writable to an NFC tag), a rotating class code, kiosk mode or a
+  geofence check-in, and external systems (turnstiles, CCTV/face
+  devices) can push events through hashed integration keys; Bahar
+  itself stores no biometrics, automated records are create-only and
+  the staff sheet is the correction path. Parents file absence
+  excuses in-app; approval flips the day to "excused", and deputies
+  can summon a guardian from the same screen, with acknowledgement
+  tracking. A repeat-absence panel lists students with repeated
+  unexcused absences and one-click summon. Exam seat plans define
+  rooms (rows × columns, single/double desks), class sets, sessions
+  and placement strategy (by class, or mixed anti-cheating), then
+  print entry cards at a quarter of A5 — eight per A4 sheet — plus an
+  invigilator roster; students and parents see their own card in the
+  app.
 - **Planning tools** — three more read-only tools on real data, no new
   tables, no writes: homework balance (weekly assignment load per
   class, overload weeks and same-day pileups, lightest-week
