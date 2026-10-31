@@ -10,6 +10,7 @@ import {
   Bus, FileText, Video, Armchair, MessageSquareText, Landmark,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
   Compass, MonitorPlay, Flame, Album, Terminal, Accessibility, FlaskConical, Puzzle,
+  Eye, NotebookText,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -74,6 +75,8 @@ export const NAV: NavItem[] = [
   { href: "/app/portfolio", label: "پورتفولیو", tKey: "nav.portfolio", short: "پورتفولیو", icon: Sparkles, roles: ["STUDENT", "PARENT"], tint: 2, group: "personal" },
   { href: "/app/study", label: "برنامه مطالعه", tKey: "nav.study", short: "مطالعه", icon: Flame, roles: ["STUDENT", "PARENT"], tint: 1, group: "personal" },
   { href: "/app/guidance", label: "هدایت تحصیلی", tKey: "nav.guidance", short: "هدایت", icon: Compass, roles: ["*"], tint: 0, group: "education" },
+  { href: "/app/observations", label: "مشاهدهٔ کلاس", tKey: "nav.observations", short: "مشاهده", icon: Eye, roles: ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"], tint: 1, group: "education" },
+  { href: "/app/minutes", label: "صورتجلسات", tKey: "nav.minutes", short: "جلسات", icon: NotebookText, roles: ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"], tint: 2, group: "admin" },
   { href: "/app/fame", label: "دیوار افتخار", tKey: "nav.fame", short: "افتخار", icon: Trophy, roles: ["*"], tint: 3, group: "services" },
   { href: "/app/tv", label: "تابلوی مدرسه", tKey: "nav.tv", short: "تابلو", icon: MonitorPlay, roles: ["*"], tint: 2, group: "services" },
   { href: "/app/yearbook", label: "کتاب سال", tKey: "nav.yearbook", short: "کتاب سال", icon: Album, roles: ["*"], tint: 1, group: "services" },
