@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, demoWriteBlock, audit } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, demoWriteBlock, audit, toDate } from "@/lib/api";
 import { riskScore, attendancePatterns, subjectAbsencePattern } from "@/lib/insights";
 import { runAutomations } from "@/lib/automation";
 import { calendarToDate } from "@/lib/persian";
@@ -180,10 +180,11 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
       const kind = String(body.kind ?? "");
       const status = ["RECEIVED", "PENDING", "REJECTED", "WAIVED"].includes(String(body.status)) ? String(body.status) : "RECEIVED";
       if (!kind) return apiErr(400, "نوع مدرک لازم است.", "BAD_REQUEST");
+      if (body.expiresAt && !toDate(body.expiresAt)) return apiErr(400, "تاریخ انقضای مدرک نامعتبر است.", "BAD_DATE");
       const doc = await db.studentDocument.upsert({
         where: { studentId_kind: { studentId: id, kind } },
-        create: { studentId: id, kind, status, receivedAt: status === "RECEIVED" ? new Date() : null, expiresAt: body.expiresAt ? new Date(String(body.expiresAt)) : null, note: (body.note as string) ?? null },
-        update: { status, receivedAt: status === "RECEIVED" ? new Date() : null, expiresAt: body.expiresAt ? new Date(String(body.expiresAt)) : null, note: (body.note as string) ?? null },
+        create: { studentId: id, kind, status, receivedAt: status === "RECEIVED" ? new Date() : null, expiresAt: body.expiresAt ? toDate(body.expiresAt) : null, note: (body.note as string) ?? null },
+        update: { status, receivedAt: status === "RECEIVED" ? new Date() : null, expiresAt: body.expiresAt ? toDate(body.expiresAt) : null, note: (body.note as string) ?? null },
       });
       await log360("به‌روزرسانی مدرک", { kind });
       return apiOk({ document: doc });
@@ -191,13 +192,14 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     if (op === "goal") {
       const title = String(body.title ?? "").trim();
       if (!title) return apiErr(400, "عنوان هدف لازم است.", "BAD_REQUEST");
+      if (body.dueDate && !toDate(body.dueDate)) return apiErr(400, "سررسید هدف نامعتبر است.", "BAD_DATE");
       const goal = await db.studentGoal.create({
         data: {
           studentId: id,
           title,
           metric: ["GPA", "ATTENDANCE", "BEHAVIOR", "CUSTOM"].includes(String(body.metric)) ? String(body.metric) : "CUSTOM",
           targetValue: (body.targetValue as string) ?? null,
-          dueDate: body.dueDate ? new Date(String(body.dueDate)) : null,
+          dueDate: body.dueDate ? toDate(body.dueDate) : null,
         },
       });
       await log360("افزودن هدف", { title });
@@ -236,6 +238,7 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
     if (op === "portfolio") {
       const title = String(body.title ?? "").trim();
       if (!title) return apiErr(400, "عنوان مورد لازم است.", "BAD_REQUEST");
+      if (body.date && !toDate(body.date)) return apiErr(400, "تاریخ مورد نامعتبر است.", "BAD_DATE");
       const item = await db.portfolioItem.create({
         data: {
           studentId: id,
@@ -243,7 +246,7 @@ export async function PATCH(req: NextRequest, ctx: Ctx) {
           title,
           description: (body.description as string) ?? null,
           url: (body.url as string) ?? null,
-          date: body.date ? new Date(String(body.date)) : null,
+          date: body.date ? toDate(body.date) : null,
         },
       });
       await log360("افزودن به پرونده‌کار", { title });

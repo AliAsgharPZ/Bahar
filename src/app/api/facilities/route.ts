@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/lib/db";
-import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, demoWriteBlock, requireSchoolId } from "@/lib/api";
+import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, demoWriteBlock, requireSchoolId, toDate } from "@/lib/api";
 import { notifyUser } from "@/lib/notify";
 
 /* ============================================================
@@ -179,6 +179,7 @@ export async function POST(req: NextRequest) {
     if (kind === "asset") {
       if (!["MANAGER", "DEPUTY", "SUPER_ADMIN", "ADMIN"].includes(me.role)) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
       if (!body.name || !body.code) return apiErr(400, "نام و کد دارایی لازم است.", "BAD_REQUEST");
+      if (body.purchaseDate && !toDate(body.purchaseDate)) return apiErr(400, "تاریخ خرید نامعتبر است.", "BAD_DATE");
       if (body.custodianId) {
         const cOk = await db.user.findFirst({ where: { id: String(body.custodianId), schoolId, isActive: true }, select: { id: true } });
         if (!cOk) return apiErr(400, "متصدی انتخاب‌شده در این مدرسه فعال نیست.", "BAD_CUSTODIAN");
@@ -191,7 +192,7 @@ export async function POST(req: NextRequest) {
           category: ASSET_CATS[String(body.category)] ? String(body.category) : "OTHER",
           location: (body.location as string) ?? null,
           custodianId: (body.custodianId as string) || null,
-          purchaseDate: body.purchaseDate ? new Date(String(body.purchaseDate)) : null,
+          purchaseDate: body.purchaseDate ? toDate(body.purchaseDate) : null,
           value: body.value ? Number(body.value) : null,
           note: (body.note as string) ?? null,
         },
@@ -228,6 +229,7 @@ export async function POST(req: NextRequest) {
     if (kind === "visitor") {
       if (!isStaff) return apiErr(403, "ثبت مهمان فقط برای کارکنان مدرسه مجاز است.", "FORBIDDEN");
       if (!body.name || !body.purpose) return apiErr(400, "نام و دلیل مراجعه لازم است.", "BAD_REQUEST");
+      if (body.expectedDate && !toDate(body.expectedDate)) return apiErr(400, "تاریخ مراجعه نامعتبر است.", "BAD_DATE");
       const expected = body.expected === true;
       const v = await db.visitorLog.create({
         data: {
@@ -238,7 +240,7 @@ export async function POST(req: NextRequest) {
           purpose: String(body.purpose),
           hostName: (body.hostName as string) ?? null,
           expected,
-          expectedDate: body.expectedDate ? new Date(String(body.expectedDate)) : null,
+          expectedDate: body.expectedDate ? toDate(body.expectedDate) : null,
           status: expected ? "EXPECTED" : "CHECKED_IN",
           checkInAt: expected ? null : new Date(),
           createdById: me.id,
@@ -251,13 +253,14 @@ export async function POST(req: NextRequest) {
     if (kind === "lostfound") {
       if (!isStaff) return apiErr(403, "ثبت شیء مفقودی فقط برای کارکنان مدرسه مجاز است.", "FORBIDDEN");
       if (!body.title) return apiErr(400, "عنوان شیء لازم است.", "BAD_REQUEST");
+      if (body.foundAt && !toDate(body.foundAt)) return apiErr(400, "تاریخ پیدا شدن نامعتبر است.", "BAD_DATE");
       const item = await db.lostFoundItem.create({
         data: {
           schoolId,
           title: String(body.title),
           description: (body.description as string) ?? null,
           location: (body.location as string) ?? null,
-          foundAt: body.foundAt ? new Date(String(body.foundAt)) : new Date(),
+          foundAt: body.foundAt ? toDate(body.foundAt) : new Date(),
         },
       });
       await audit({ user: me, action: "ثبت شیء مفقودی", entityType: "LostFoundItem", entityId: item.id, schoolId, meta: { title: body.title } });

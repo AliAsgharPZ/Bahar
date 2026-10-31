@@ -4,7 +4,7 @@ import {
   hashPassword, generatePassword, isValidNationalId, isValidShadNumber,
 } from "@/lib/auth";
 import {
-  requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, actingSchoolIdFor, demoWriteBlock} from "@/lib/api";
+  requireUser, apiOk, apiErr, handleApiError, readJson, audit, ApiError, isDemoUser, actingSchoolIdFor, demoWriteBlock, toDate } from "@/lib/api";
 import {
   ROLE_LABELS, DEFAULT_DEPUTY_PERMISSIONS, DEFAULT_TEACHER_PERMISSIONS,
   PERMISSION_CATALOG, DEFAULT_ADMIN_PERMISSIONS, ALL_SERVICE_PERMISSIONS,
@@ -231,6 +231,9 @@ export async function POST(req: NextRequest) {
       permissions = permInput?.filter((p) => PERMISSION_CATALOG.some((c) => c.key === p)) ?? DEFAULT_TEACHER_PERMISSIONS;
     }
 
+    if (body.birthDate && !toDate(body.birthDate)) return apiErr(400, "تاریخ تولد نامعتبر است.", "BAD_DATE");
+    if (body.hireDate && !toDate(body.hireDate)) return apiErr(400, "تاریخ استخدام نامعتبر است.", "BAD_DATE");
+
     // ── رمز تصادفی ──
     const password = generatePassword();
 
@@ -246,7 +249,7 @@ export async function POST(req: NextRequest) {
         lastName,
         fatherName: body.fatherName ? String(body.fatherName).trim() : null,
         gender: body.gender ? String(body.gender) : null,
-        birthDate: body.birthDate ? new Date(String(body.birthDate)) : null,
+        birthDate: body.birthDate ? toDate(body.birthDate) : null,
         birthPlace: body.birthPlace ? String(body.birthPlace) : null,
         phone,
         homePhone: body.homePhone ? enDigits(String(body.homePhone)).trim() : null,
@@ -257,7 +260,7 @@ export async function POST(req: NextRequest) {
         education: body.education ? String(body.education) : null,
         fieldOfStudy: body.fieldOfStudy ? String(body.fieldOfStudy) : null,
         jobTitle: body.jobTitle ? String(body.jobTitle) : null,
-        hireDate: body.hireDate ? new Date(String(body.hireDate)) : null,
+        hireDate: body.hireDate ? toDate(body.hireDate) : null,
         staffCode: body.staffCode ? String(body.staffCode) : null,
         schoolId: role === "ADMIN" ? null : schoolId,
         createdBy: me.id,
