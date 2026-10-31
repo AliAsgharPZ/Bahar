@@ -1,0 +1,1312 @@
+{
+ "code": "AZ",
+ "name": "آذربایجان",
+ "nativeName": "Azərbaycan",
+ "locale": "az-AZ",
+ "direction": "ltr",
+ "timezone": "Asia/Baku",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "کد شناسایی (FIN)",
+  "algorithm": "digits",
+  "pattern": "^[A-Za-z0-9]{7}$",
+  "placeholder": "7ABC123",
+  "example": "7ABC123"
+ },
+ "phone": {
+  "pattern": "^\\+994\\d{9}$",
+  "placeholder": "+994501234567",
+  "example": "+994501234567"
+ },
+ "currency": {
+  "label": "منات",
+  "code": "AZN",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ 1",
+  "پایهٔ 2",
+  "پایهٔ 3",
+  "پایهٔ 4",
+  "پایهٔ 5",
+  "پایهٔ 6",
+  "پایهٔ 7",
+  "پایهٔ 8",
+  "پایهٔ 9",
+  "پایهٔ 10",
+  "پایهٔ 11"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "regions": [
+  {
+   "name": "باکو",
+   "center": "باکو",
+   "counties": [
+    "Binəqədi rayonu",
+    "Xətai rayonu",
+    "Xəzər rayonu",
+    "Qaradağ rayonu",
+    "Nərimanov rayonu",
+    "Nəsimi rayonu",
+    "Nizami rayonu",
+    "Pirallahı rayonu",
+    "Sabunçu rayonu",
+    "Səbail rayonu",
+    "Suraxanı rayonu",
+    "Yasamal rayonu"
+   ]
+  },
+  {
+   "name": "بینه‌قدی",
+   "center": "رسول‌زاده",
+   "counties": [
+    "Biləcəri",
+    "Binəqədi",
+    "Xocəsən",
+    "Sulutəpə",
+    "28 May",
+    "M.Ə.Rəsulzadə"
+   ]
+  },
+  {
+   "name": "خطایی",
+   "center": "باکو",
+   "counties": [
+    "Əhmədli"
+   ]
+  },
+  {
+   "name": "خزر",
+   "center": "شوولان",
+   "counties": [
+    "Binə",
+    "Buzovna",
+    "Qala",
+    "Mərdəkan",
+    "Şağan",
+    "Şüvəlan",
+    "Türkan",
+    "Zirə"
+   ]
+  },
+  {
+   "name": "قره‌داغ",
+   "center": "لوک‌باتان",
+   "counties": [
+    "Çeyildağ",
+    "Ələt",
+    "Baş Ələt",
+    "Kotal",
+    "Qarakosa",
+    "Pirsaat",
+    "Şıxlar",
+    "Yeni Ələt",
+    "Korgöz",
+    "Qızıldaş",
+    "Şonqar",
+    "Qobustan",
+    "Lökbatan",
+    "Heybət",
+    "Şubanı",
+    "Müşviqabad",
+    "Puta",
+    "Sahil",
+    "Qaradağ",
+    "Sanqaçal",
+    "Ümid"
+   ]
+  },
+  {
+   "name": "نریمانوف",
+   "center": "باکو",
+   "counties": []
+  },
+  {
+   "name": "نسیمی",
+   "center": "باکو",
+   "counties": []
+  },
+  {
+   "name": "نظامی",
+   "center": "باکو",
+   "counties": [
+    "Keşlə"
+   ]
+  },
+  {
+   "name": "پیراللهی",
+   "center": "پیراللهی",
+   "counties": [
+    "Çilov",
+    "Gürgən",
+    "Neft Daşları",
+    "Pirallahı"
+   ]
+  },
+  {
+   "name": "صابونچی",
+   "center": "باکیخانوف",
+   "counties": [
+    "Bakıxanov",
+    "Balaxanı",
+    "Bilgəh",
+    "Kürdəxanı",
+    "Maştağa",
+    "Nardaran",
+    "Pirşağı",
+    "Ramana",
+    "Sabunçu",
+    "Zabrat"
+   ]
+  },
+  {
+   "name": "سبایل",
+   "center": "باکو",
+   "counties": [
+    "Badamdar",
+    "Bibiheybət"
+   ]
+  },
+  {
+   "name": "سوراخانی",
+   "center": "امیرجان",
+   "counties": [
+    "Bülbülə",
+    "Əmircan",
+    "Hövsan",
+    "Qaraçuxur",
+    "Yeni Suraxanı",
+    "Zığ"
+   ]
+  },
+  {
+   "name": "یاسامال",
+   "center": "باکو",
+   "counties": []
+  },
+  {
+   "name": "گنجه",
+   "center": "گنجه",
+   "counties": [
+    "Cavadxan",
+    "Hacıkənd",
+    "Göygöl",
+    "Məhsəti",
+    "Natəvan",
+    "Sadıllı",
+    "Şıxzamanlı"
+   ]
+  },
+  {
+   "name": "خان‌کندی",
+   "center": "خان‌کندی",
+   "counties": [
+    "Kərkicahan"
+   ]
+  },
+  {
+   "name": "لنکران",
+   "center": "لنکران",
+   "counties": [
+    "Liman",
+    "Şirinsu",
+    "Aşağı Nüvədi",
+    "Balıqçılar",
+    "Gərmətük",
+    "Haftoni",
+    "Hirkan",
+    "İstisu",
+    "Nərimanabad"
+   ]
+  },
+  {
+   "name": "مینگه‌چویر",
+   "center": "مینگه‌چویر",
+   "counties": []
+  },
+  {
+   "name": "نفتالان",
+   "center": "نفتالان",
+   "counties": []
+  },
+  {
+   "name": "سومقاییت",
+   "center": "سومقاییت",
+   "counties": [
+    "Corat",
+    "Hacı Zeynalabdin"
+   ]
+  },
+  {
+   "name": "شکی",
+   "center": "شکی",
+   "counties": [
+    "Çələbixan",
+    "Turan"
+   ]
+  },
+  {
+   "name": "شیروان",
+   "center": "شیروان",
+   "counties": [
+    "Bayramlı",
+    "Hacıqəhrəmanlı"
+   ]
+  },
+  {
+   "name": "یولاخ",
+   "center": "یولاخ",
+   "counties": [
+    "Aran",
+    "Meyvəli",
+    "Duzdağ"
+   ]
+  },
+  {
+   "name": "آب‌شوران",
+   "center": "خیردالان",
+   "counties": [
+    "Xırdalan",
+    "Aşağı Güzdək",
+    "Ceyranbatan",
+    "Digah",
+    "Güzdək",
+    "Hökməli",
+    "Qobu",
+    "Mehdiabad",
+    "Saray",
+    "Şəfəq"
+   ]
+  },
+  {
+   "name": "آغجابدی",
+   "center": "آغجابدی",
+   "counties": [
+    "Ağcabədi",
+    "Hindarx"
+   ]
+  },
+  {
+   "name": "آغدام",
+   "center": "آغدام",
+   "counties": [
+    "Ağdam",
+    "Bənövşələr",
+    "Birinci Alıbəyli",
+    "Birinci Baharlı",
+    "Birinci Dördyol",
+    "Birinci Quzanlı",
+    "İkinci Alıbəyli",
+    "İkinci Baharlı",
+    "İkinci Dördyol",
+    "İmamqulubəyli",
+    "Qasımbəyli",
+    "Quzanlı",
+    "Acarlı",
+    "Səfərli",
+    "Təzəkənd"
+   ]
+  },
+  {
+   "name": "آغداش",
+   "center": "آغداش",
+   "counties": [
+    "Ağdaş",
+    "Türyançay",
+    "Ləki"
+   ]
+  },
+  {
+   "name": "آغ‌دره",
+   "center": "آغ‌دره",
+   "counties": [
+    "Ağdərə",
+    "Şıxarx"
+   ]
+  },
+  {
+   "name": "آغستفا",
+   "center": "آغستفا",
+   "counties": [
+    "Ağstafa",
+    "Soyuqbulaq",
+    "Qarayazı",
+    "Həzi Aslanov",
+    "Soyuqbulaqlar",
+    "Şəkərli",
+    "Poylu",
+    "Ceyrançöl",
+    "Saloğlu",
+    "Vurğun"
+   ]
+  },
+  {
+   "name": "آغ‌سو",
+   "center": "آغ‌سو",
+   "counties": [
+    "Ağsu"
+   ]
+  },
+  {
+   "name": "آستارا",
+   "center": "آستارا",
+   "counties": [
+    "Astara",
+    "Ərçivan",
+    "Kijəbə"
+   ]
+  },
+  {
+   "name": "بالاکن",
+   "center": "بالاکن",
+   "counties": [
+    "Balakən",
+    "Qabaqçöl"
+   ]
+  },
+  {
+   "name": "بیلقان",
+   "center": "بیلقان",
+   "counties": [
+    "Beyləqan",
+    "Bahar",
+    "Orconikidze",
+    "Qəhrəmanlı",
+    "Mil",
+    "Milabad",
+    "Örənqala",
+    "Baharabad",
+    "Günəş",
+    "Şəfəq",
+    "Şərq",
+    "Sarısu",
+    "Bolsulu",
+    "Türklər",
+    "Yeni Mil",
+    "Yuxarı Aran",
+    "Mayak"
+   ]
+  },
+  {
+   "name": "برده",
+   "center": "برده",
+   "counties": [
+    "Bərdə"
+   ]
+  },
+  {
+   "name": "بیله‌سوار",
+   "center": "بیله‌سوار",
+   "counties": [
+    "Biləsuvar"
+   ]
+  },
+  {
+   "name": "جبراییل",
+   "center": "جبراییل",
+   "counties": [
+    "Cəbrayıl",
+    "Xələfli",
+    "Xudafərin",
+    "Qumlaq",
+    "Mahmudlu"
+   ]
+  },
+  {
+   "name": "جلیل‌آباد",
+   "center": "جلیل‌آباد",
+   "counties": [
+    "Cəlilabad",
+    "Göytəpə",
+    "Novoqolovka"
+   ]
+  },
+  {
+   "name": "داش‌کسن",
+   "center": "داش‌کسن",
+   "counties": [
+    "Daşkəsən",
+    "Alunitdağ",
+    "Daşkəsən",
+    "Quşçu",
+    "Quşçu körpüsü",
+    "Yuxarı Daşkəsən"
+   ]
+  },
+  {
+   "name": "فضولی",
+   "center": "فضولی",
+   "counties": [
+    "Füzuli",
+    "Horadiz",
+    "Beşinci Zobucuq",
+    "Birinci Zobucuq",
+    "Dördüncü Zobucuq",
+    "İkinci Zobucuq",
+    "Üçüncü Zobucuq",
+    "1№-li Qayıdış",
+    "2№-li Qayıdış",
+    "3№-li Qayıdış",
+    "4№-li Qayıdış",
+    "5№-li Qayıdış",
+    "6№-li Qayıdış",
+    "7№-li Qayıdış",
+    "8№-li Qayıdış",
+    "9№-li Qayıdış",
+    "10 №-li Qayıdış",
+    "11 №-li Qayıdış"
+   ]
+  },
+  {
+   "name": "گده‌بی",
+   "center": "گده‌بی",
+   "counties": [
+    "Gədəbəy"
+   ]
+  },
+  {
+   "name": "گورانبوی",
+   "center": "گورانبوی",
+   "counties": [
+    "Goranboy",
+    "Dəliməmmədli",
+    "Aşağı Ağcakənd",
+    "Goran",
+    "Qazanbulaq",
+    "Kürəkçay",
+    "Qızılhacılı",
+    "Yuxarı Ağcakənd"
+   ]
+  },
+  {
+   "name": "گوی‌چای",
+   "center": "گوی‌چای",
+   "counties": [
+    "Göyçay"
+   ]
+  },
+  {
+   "name": "گوی‌گول",
+   "center": "گوی‌گول",
+   "counties": [
+    "Göygöl",
+    "Ağdağ",
+    "Hacıməlik",
+    "Qızılqaya",
+    "Bəhrambağ",
+    "Firuzabad",
+    "Aşağı Zurnabad"
+   ]
+  },
+  {
+   "name": "حاجی‌قبول",
+   "center": "حاجی‌قبول",
+   "counties": [
+    "Hacıqabul",
+    "Balıqçı",
+    "Muğan",
+    "Navahı",
+    "Padar",
+    "Pirsaat"
+   ]
+  },
+  {
+   "name": "خاچماز",
+   "center": "خاچماز",
+   "counties": [
+    "Xaçmaz",
+    "Xudat",
+    "Şollar",
+    "Arzu",
+    "İstisu",
+    "Aşağı Ləgər",
+    "Dalğalı",
+    "Günəşli",
+    "Meşəli",
+    "Samurçay",
+    "Şimal",
+    "Turist",
+    "Sahillər",
+    "Yeni Həyat"
+   ]
+  },
+  {
+   "name": "خیزی",
+   "center": "خیزی",
+   "counties": [
+    "Xızı",
+    "Altıağac",
+    "Giləzi",
+    "Şorabad"
+   ]
+  },
+  {
+   "name": "خوجالی",
+   "center": "خوجالی",
+   "counties": [
+    "Xocalı",
+    "Əsgəran"
+   ]
+  },
+  {
+   "name": "خوجاوند",
+   "center": "خوجاوند",
+   "counties": [
+    "Xocavənd",
+    "Hadrut",
+    "Qırmızı Bazar"
+   ]
+  },
+  {
+   "name": "ایمیشلی",
+   "center": "ایمیشلی",
+   "counties": [
+    "İmişli",
+    "Bəhrəmtəpə",
+    "Vətəgə"
+   ]
+  },
+  {
+   "name": "اسماعیل‌لی",
+   "center": "اسماعیل‌لی",
+   "counties": [
+    "İsmayıllı",
+    "Basqal",
+    "Lahıc"
+   ]
+  },
+  {
+   "name": "کلبجر",
+   "center": "کلبجر",
+   "counties": [
+    "Kəlbəcər",
+    "İstisu"
+   ]
+  },
+  {
+   "name": "کردامیر",
+   "center": "کردامیر",
+   "counties": [
+    "Kürdəmir",
+    "Karrar",
+    "Qarabucaq"
+   ]
+  },
+  {
+   "name": "قاخ",
+   "center": "قاخ",
+   "counties": [
+    "Qax"
+   ]
+  },
+  {
+   "name": "قازاخ",
+   "center": "قازاخ",
+   "counties": [
+    "Qazax"
+   ]
+  },
+  {
+   "name": "قبله",
+   "center": "قبله",
+   "counties": [
+    "Qəbələ",
+    "Bum",
+    "Nic",
+    "Vəndam"
+   ]
+  },
+  {
+   "name": "قوبوستان",
+   "center": "قوبوستان",
+   "counties": [
+    "Qobustan",
+    "Üzümçü"
+   ]
+  },
+  {
+   "name": "قوبا",
+   "center": "قوبا",
+   "counties": [
+    "Quba",
+    "Qaraçay",
+    "Gənclər",
+    "Qırmızı Qəsəbə",
+    "Qonaqkənd",
+    "Zərdabi",
+    "Bağbanlı",
+    "Barlı"
+   ]
+  },
+  {
+   "name": "قبادلی",
+   "center": "قبادلی",
+   "counties": [
+    "Qubadlı"
+   ]
+  },
+  {
+   "name": "قوسار",
+   "center": "قوسار",
+   "counties": [
+    "Qusar",
+    "Samur"
+   ]
+  },
+  {
+   "name": "لاچین",
+   "center": "لاچین",
+   "counties": [
+    "Laçın",
+    "Qayğı"
+   ]
+  },
+  {
+   "name": "لریک",
+   "center": "لریک",
+   "counties": [
+    "Lerik"
+   ]
+  },
+  {
+   "name": "ماساللی",
+   "center": "ماساللی",
+   "counties": [
+    "Masallı",
+    "Boradigah",
+    "Ərkivan"
+   ]
+  },
+  {
+   "name": "نفت‌چاله",
+   "center": "نفت‌چاله",
+   "counties": [
+    "Neftçala",
+    "Bankə",
+    "Həsənabad",
+    "Xıllı"
+   ]
+  },
+  {
+   "name": "اوغوز",
+   "center": "اوغوز",
+   "counties": [
+    "Oğuz"
+   ]
+  },
+  {
+   "name": "ساعتلی",
+   "center": "ساعتلی",
+   "counties": [
+    "Saatlı"
+   ]
+  },
+  {
+   "name": "صابرآباد",
+   "center": "صابرآباد",
+   "counties": [
+    "Sabirabad"
+   ]
+  },
+  {
+   "name": "سالیان",
+   "center": "سالیان",
+   "counties": [
+    "Salyan",
+    "Qırx Çıraq",
+    "Qaraçala"
+   ]
+  },
+  {
+   "name": "ساموخ",
+   "center": "ساموخ",
+   "counties": [
+    "Samux",
+    "Alabaşlı",
+    "İnstitut",
+    "Qaraağaclı",
+    "Qaraarx",
+    "Qarayeri",
+    "Yenibağ"
+   ]
+  },
+  {
+   "name": "سیه‌زن",
+   "center": "سیه‌زن",
+   "counties": [
+    "Siyəzən",
+    "Gilgilçay"
+   ]
+  },
+  {
+   "name": "شابران",
+   "center": "شابران",
+   "counties": [
+    "Şabran"
+   ]
+  },
+  {
+   "name": "شاماخی",
+   "center": "شاماخی",
+   "counties": [
+    "Şamaxı",
+    "Yusif Məmmədəliyev",
+    "Aşkar",
+    "Mədrəsə",
+    "Sabir",
+    "Şəhriyar"
+   ]
+  },
+  {
+   "name": "شمکیر",
+   "center": "شمکیر",
+   "counties": [
+    "Şəmkir",
+    "Çinarlı",
+    "Dəllər",
+    "Kür",
+    "Səməd Vurğun",
+    "Barlıbağ",
+    "Füzuli",
+    "Zəyəm"
+   ]
+  },
+  {
+   "name": "شوشا",
+   "center": "شوشا",
+   "counties": [
+    "Şuşa",
+    "Turşsu"
+   ]
+  },
+  {
+   "name": "ترتر",
+   "center": "ترتر",
+   "counties": [
+    "Tərtər"
+   ]
+  },
+  {
+   "name": "تووز",
+   "center": "تووز",
+   "counties": [
+    "Tovuz",
+    "Qovlar"
+   ]
+  },
+  {
+   "name": "اوجار",
+   "center": "اوجار",
+   "counties": [
+    "Ucar"
+   ]
+  },
+  {
+   "name": "یاردیملی",
+   "center": "یاردیملی",
+   "counties": [
+    "Yardımlı"
+   ]
+  },
+  {
+   "name": "زاقاتالا",
+   "center": "زاقاتالا",
+   "counties": [
+    "Zaqatala",
+    "Əliabad"
+   ]
+  },
+  {
+   "name": "زنگیلان",
+   "center": "زنگیلان",
+   "counties": [
+    "Zəngilan",
+    "Ağ oyuq",
+    "Bartaz",
+    "Həkəri",
+    "Mincivan",
+    "Ağbənd"
+   ]
+  },
+  {
+   "name": "زرداب",
+   "center": "زرداب",
+   "counties": [
+    "Zərdab",
+    "Bəyimli"
+   ]
+  },
+  {
+   "name": "جمهوری خودمختار نخجوان",
+   "center": "نخجوان",
+   "counties": [
+    "Naxçıvan şəhəri",
+    "Babək rayonu",
+    "Culfa rayonu",
+    "Kəngərli rayonu",
+    "Ordubad rayonu",
+    "Sədərək rayonu",
+    "Şahbuz rayonu",
+    "Şərur rayonu"
+   ]
+  },
+  {
+   "name": "نخجوان",
+   "center": "نخجوان",
+   "counties": [
+    "Əliabad"
+   ]
+  },
+  {
+   "name": "بابک",
+   "center": "بابک",
+   "counties": [
+    "Babək",
+    "Cəhri",
+    "Nehrəm"
+   ]
+  },
+  {
+   "name": "جلفا",
+   "center": "جلفا",
+   "counties": [
+    "Culfa"
+   ]
+  },
+  {
+   "name": "کنگرلی",
+   "center": "قیوراق",
+   "counties": [
+    "Qıvraq"
+   ]
+  },
+  {
+   "name": "اردوباد",
+   "center": "اردوباد",
+   "counties": [
+    "Ordubad",
+    "Parağaçay",
+    "Ağdərə",
+    "Şəhriyar"
+   ]
+  },
+  {
+   "name": "سدرک",
+   "center": "حیدرآباد",
+   "counties": [
+    "Heydərabad"
+   ]
+  },
+  {
+   "name": "شاهبوز",
+   "center": "شاهبوز",
+   "counties": [
+    "Şahbuz",
+    "Badamlı"
+   ]
+  },
+  {
+   "name": "شرور",
+   "center": "شرور",
+   "counties": [
+    "Şərur"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "باکو",
+   "cities": []
+  },
+  {
+   "province": "بینه‌قدی",
+   "cities": []
+  },
+  {
+   "province": "خطایی",
+   "cities": []
+  },
+  {
+   "province": "خزر",
+   "cities": []
+  },
+  {
+   "province": "قره‌داغ",
+   "cities": []
+  },
+  {
+   "province": "نریمانوف",
+   "cities": []
+  },
+  {
+   "province": "نسیمی",
+   "cities": []
+  },
+  {
+   "province": "نظامی",
+   "cities": []
+  },
+  {
+   "province": "پیراللهی",
+   "cities": []
+  },
+  {
+   "province": "صابونچی",
+   "cities": []
+  },
+  {
+   "province": "سبایل",
+   "cities": []
+  },
+  {
+   "province": "سوراخانی",
+   "cities": []
+  },
+  {
+   "province": "یاسامال",
+   "cities": []
+  },
+  {
+   "province": "گنجه",
+   "cities": []
+  },
+  {
+   "province": "خان‌کندی",
+   "cities": []
+  },
+  {
+   "province": "لنکران",
+   "cities": []
+  },
+  {
+   "province": "مینگه‌چویر",
+   "cities": []
+  },
+  {
+   "province": "نفتالان",
+   "cities": []
+  },
+  {
+   "province": "سومقاییت",
+   "cities": []
+  },
+  {
+   "province": "شکی",
+   "cities": []
+  },
+  {
+   "province": "شیروان",
+   "cities": []
+  },
+  {
+   "province": "یولاخ",
+   "cities": []
+  },
+  {
+   "province": "آب‌شوران",
+   "cities": []
+  },
+  {
+   "province": "آغجابدی",
+   "cities": []
+  },
+  {
+   "province": "آغدام",
+   "cities": []
+  },
+  {
+   "province": "آغداش",
+   "cities": []
+  },
+  {
+   "province": "آغ‌دره",
+   "cities": []
+  },
+  {
+   "province": "آغستفا",
+   "cities": []
+  },
+  {
+   "province": "آغ‌سو",
+   "cities": []
+  },
+  {
+   "province": "آستارا",
+   "cities": []
+  },
+  {
+   "province": "بالاکن",
+   "cities": []
+  },
+  {
+   "province": "بیلقان",
+   "cities": []
+  },
+  {
+   "province": "برده",
+   "cities": []
+  },
+  {
+   "province": "بیله‌سوار",
+   "cities": []
+  },
+  {
+   "province": "جبراییل",
+   "cities": []
+  },
+  {
+   "province": "جلیل‌آباد",
+   "cities": []
+  },
+  {
+   "province": "داش‌کسن",
+   "cities": []
+  },
+  {
+   "province": "فضولی",
+   "cities": []
+  },
+  {
+   "province": "گده‌بی",
+   "cities": []
+  },
+  {
+   "province": "گورانبوی",
+   "cities": []
+  },
+  {
+   "province": "گوی‌چای",
+   "cities": []
+  },
+  {
+   "province": "گوی‌گول",
+   "cities": []
+  },
+  {
+   "province": "حاجی‌قبول",
+   "cities": []
+  },
+  {
+   "province": "خاچماز",
+   "cities": []
+  },
+  {
+   "province": "خیزی",
+   "cities": []
+  },
+  {
+   "province": "خوجالی",
+   "cities": []
+  },
+  {
+   "province": "خوجاوند",
+   "cities": []
+  },
+  {
+   "province": "ایمیشلی",
+   "cities": []
+  },
+  {
+   "province": "اسماعیل‌لی",
+   "cities": []
+  },
+  {
+   "province": "کلبجر",
+   "cities": []
+  },
+  {
+   "province": "کردامیر",
+   "cities": []
+  },
+  {
+   "province": "قاخ",
+   "cities": []
+  },
+  {
+   "province": "قازاخ",
+   "cities": []
+  },
+  {
+   "province": "قبله",
+   "cities": []
+  },
+  {
+   "province": "قوبوستان",
+   "cities": []
+  },
+  {
+   "province": "قوبا",
+   "cities": []
+  },
+  {
+   "province": "قبادلی",
+   "cities": []
+  },
+  {
+   "province": "قوسار",
+   "cities": []
+  },
+  {
+   "province": "لاچین",
+   "cities": []
+  },
+  {
+   "province": "لریک",
+   "cities": []
+  },
+  {
+   "province": "ماساللی",
+   "cities": []
+  },
+  {
+   "province": "نفت‌چاله",
+   "cities": []
+  },
+  {
+   "province": "اوغوز",
+   "cities": []
+  },
+  {
+   "province": "ساعتلی",
+   "cities": []
+  },
+  {
+   "province": "صابرآباد",
+   "cities": []
+  },
+  {
+   "province": "سالیان",
+   "cities": []
+  },
+  {
+   "province": "ساموخ",
+   "cities": []
+  },
+  {
+   "province": "سیه‌زن",
+   "cities": []
+  },
+  {
+   "province": "شابران",
+   "cities": []
+  },
+  {
+   "province": "شاماخی",
+   "cities": []
+  },
+  {
+   "province": "شمکیر",
+   "cities": []
+  },
+  {
+   "province": "شوشا",
+   "cities": []
+  },
+  {
+   "province": "ترتر",
+   "cities": []
+  },
+  {
+   "province": "تووز",
+   "cities": []
+  },
+  {
+   "province": "اوجار",
+   "cities": []
+  },
+  {
+   "province": "یاردیملی",
+   "cities": []
+  },
+  {
+   "province": "زاقاتالا",
+   "cities": []
+  },
+  {
+   "province": "زنگیلان",
+   "cities": []
+  },
+  {
+   "province": "زرداب",
+   "cities": []
+  },
+  {
+   "province": "جمهوری خودمختار نخجوان",
+   "cities": []
+  },
+  {
+   "province": "نخجوان",
+   "cities": []
+  },
+  {
+   "province": "بابک",
+   "cities": []
+  },
+  {
+   "province": "جلفا",
+   "cities": []
+  },
+  {
+   "province": "کنگرلی",
+   "cities": []
+  },
+  {
+   "province": "اردوباد",
+   "cities": []
+  },
+  {
+   "province": "سدرک",
+   "cities": []
+  },
+  {
+   "province": "شاهبوز",
+   "cities": []
+  },
+  {
+   "province": "شرور",
+   "cities": []
+  }
+ ],
+ "version": "1.0.0",
+ "notes": "تقسیمات واقعی جمهوری آذربایجان: ۸۸ واحد سطح‌یکم و ۳۵۱ واحد سطح دوم (شهرها و قصبه‌ها) از «طبقه‌بندی تقسیمات سرزمینی» رسمی کمیتهٔ آمار دولتی آذربایجان (stat.gov.az، نسخهٔ ۲۰۲۴ با اصلاحات ۲۴٫۰۴٫۲۰۲۴ و ۰۸٫۰۷٫۲۰۲۶، آینه در e-qanun.az) با تصدیق از جدول‌های جمعیتی ۱٫۱۶ و ۱٫۱۹ و president.az. ساختار تختِ خود طبقه‌بندی نگه داشته شده: شهر باکو و جمهوری خودمختار نخجوان هم به‌صورت واحد چتری (با ناحیه‌هایشان) آمده‌اند و هم ناحیه‌هایشان جداگانه واحد سطح‌یکم‌اند. روستاها (۴٬۲۴۴ کند) در این بسته نیستند. مرکز شش ناحیهٔ درون‌شهری باکو (خطایی، نریمانوف، نسیمی، نظامی، سبایل، یاسامال) در طبقه‌بندی نام ندارد چون سرزمینشان فقط حوزه‌های شهری است؛ چون ناحیهٔ شهر باکو هستند مرکزشان خود باکو ثبت شد. طبق طبقه‌بندی، شهرستان جداگانهٔ لنکران یا شکی وجود ندارد و سرزمینشان ذیل شهر هم‌نام است. سه نام تازهٔ قوبا (از مه ۲۰۲۶) اعمال شده است. نام استان‌ها و مرکزها آوانویسی فارسی است؛ نام شهرستان‌ها عین لاتین آذربایجانی منبع. بلوک مشخصات (مدرسه/نمره/تقویم) مقدار عمومی پیش‌فرضِ الگوبرداری‌شده از بسته‌های دیگر است. در فهرست داش‌کسن، نام «Daşkəsən» دو بار آمده (شهر و قصبهٔ هم‌نام در طبقه‌بندی) و عیناً نگه داشته شد."
+}
