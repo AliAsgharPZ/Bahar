@@ -1,0 +1,627 @@
+{
+  "code": "PL",
+  "name": "لهستان",
+  "nativeName": "Polska",
+  "locale": "pl-PL",
+  "direction": "ltr",
+  "timezone": "Europe/Warsaw",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "شمارهٔ ملی (PESEL)",
+    "algorithm": "digits",
+    "pattern": "^\\d{11}$",
+    "placeholder": "90010112345",
+    "example": "90010112345"
+  },
+  "phone": {
+    "pattern": "^\\+48\\d{9}$",
+    "placeholder": "+48601234567",
+    "example": "+48601234567"
+  },
+  "currency": {
+    "label": "زلوتی",
+    "code": "PLN",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ 1",
+    "پایهٔ 2",
+    "پایهٔ 3",
+    "پایهٔ 4",
+    "پایهٔ 5",
+    "پایهٔ 6",
+    "پایهٔ 7",
+    "پایهٔ 8",
+    "پایهٔ 9",
+    "پایهٔ 10",
+    "پایهٔ 11",
+    "پایهٔ 12"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "regions": [
+    {
+      "name": "دولنوشلونسکیه",
+      "center": "وروتسواف",
+      "counties": [
+        "powiat bolesławiecki",
+        "powiat dzierżoniowski",
+        "powiat głogowski",
+        "powiat górowski",
+        "powiat jaworski",
+        "powiat karkonoski",
+        "powiat kamiennogórski",
+        "powiat kłodzki",
+        "powiat legnicki",
+        "powiat lubański",
+        "powiat lubiński",
+        "powiat lwówecki",
+        "powiat milicki",
+        "powiat oleśnicki",
+        "powiat oławski",
+        "powiat polkowicki",
+        "powiat strzeliński",
+        "powiat średzki",
+        "powiat świdnicki",
+        "powiat trzebnicki",
+        "powiat wałbrzyski",
+        "powiat wołowski",
+        "powiat wrocławski",
+        "powiat ząbkowicki",
+        "powiat zgorzelecki",
+        "powiat złotoryjski",
+        "Jelenia Góra",
+        "Legnica",
+        "Wrocław",
+        "Wałbrzych"
+      ]
+    },
+    {
+      "name": "کویاوسکو-پومورسکیه",
+      "center": "تورون",
+      "counties": [
+        "powiat aleksandrowski",
+        "powiat brodnicki",
+        "powiat bydgoski",
+        "powiat chełmiński",
+        "powiat golubsko-dobrzyński",
+        "powiat grudziądzki",
+        "powiat inowrocławski",
+        "powiat lipnowski",
+        "powiat mogileński",
+        "powiat nakielski",
+        "powiat radziejowski",
+        "powiat rypiński",
+        "powiat sępoleński",
+        "powiat świecki",
+        "powiat toruński",
+        "powiat tucholski",
+        "powiat wąbrzeski",
+        "powiat włocławski",
+        "powiat żniński",
+        "Bydgoszcz",
+        "Grudziądz",
+        "Toruń",
+        "Włocławek"
+      ]
+    },
+    {
+      "name": "لوبلسکیه",
+      "center": "لوبلین",
+      "counties": [
+        "powiat bialski",
+        "powiat biłgorajski",
+        "powiat chełmski",
+        "powiat hrubieszowski",
+        "powiat janowski",
+        "powiat krasnostawski",
+        "powiat kraśnicki",
+        "powiat lubartowski",
+        "powiat lubelski",
+        "powiat łęczyński",
+        "powiat łukowski",
+        "powiat opolski",
+        "powiat parczewski",
+        "powiat puławski",
+        "powiat radzyński",
+        "powiat rycki",
+        "powiat świdnicki",
+        "powiat tomaszowski",
+        "powiat włodawski",
+        "powiat zamojski",
+        "Biała Podlaska",
+        "Chełm",
+        "Lublin",
+        "Zamość"
+      ]
+    },
+    {
+      "name": "لوبوسکیه",
+      "center": "ژلونا گورا",
+      "counties": [
+        "powiat gorzowski",
+        "powiat krośnieński",
+        "powiat międzyrzecki",
+        "powiat nowosolski",
+        "powiat słubicki",
+        "powiat strzelecko-drezdenecki",
+        "powiat sulęciński",
+        "powiat świebodziński",
+        "powiat zielonogórski",
+        "powiat żagański",
+        "powiat żarski",
+        "powiat wschowski",
+        "Gorzów Wielkopolski",
+        "Zielona Góra"
+      ]
+    },
+    {
+      "name": "ووتسکیه",
+      "center": "ووچ",
+      "counties": [
+        "powiat bełchatowski",
+        "powiat kutnowski",
+        "powiat łaski",
+        "powiat łęczycki",
+        "powiat łowicki",
+        "powiat łódzki wschodni",
+        "powiat opoczyński",
+        "powiat pabianicki",
+        "powiat pajęczański",
+        "powiat piotrkowski",
+        "powiat poddębicki",
+        "powiat radomszczański",
+        "powiat rawski",
+        "powiat sieradzki",
+        "powiat skierniewicki",
+        "powiat tomaszowski",
+        "powiat wieluński",
+        "powiat wieruszowski",
+        "powiat zduńskowolski",
+        "powiat zgierski",
+        "powiat brzeziński",
+        "Łódź",
+        "Piotrków Trybunalski",
+        "Skierniewice"
+      ]
+    },
+    {
+      "name": "ماووپولسکیه",
+      "center": "کراکوف",
+      "counties": [
+        "powiat bocheński",
+        "powiat brzeski",
+        "powiat chrzanowski",
+        "powiat dąbrowski",
+        "powiat gorlicki",
+        "powiat krakowski",
+        "powiat limanowski",
+        "powiat miechowski",
+        "powiat myślenicki",
+        "powiat nowosądecki",
+        "powiat nowotarski",
+        "powiat olkuski",
+        "powiat oświęcimski",
+        "powiat proszowicki",
+        "powiat suski",
+        "powiat tarnowski",
+        "powiat tatrzański",
+        "powiat wadowicki",
+        "powiat wielicki",
+        "Kraków",
+        "Nowy Sącz",
+        "Tarnów"
+      ]
+    },
+    {
+      "name": "مازوویتسکیه",
+      "center": "ورشو",
+      "counties": [
+        "powiat białobrzeski",
+        "powiat ciechanowski",
+        "powiat garwoliński",
+        "powiat gostyniński",
+        "powiat grodziski",
+        "powiat grójecki",
+        "powiat kozienicki",
+        "powiat legionowski",
+        "powiat lipski",
+        "powiat łosicki",
+        "powiat makowski",
+        "powiat miński",
+        "powiat mławski",
+        "powiat nowodworski",
+        "powiat ostrołęcki",
+        "powiat ostrowski",
+        "powiat otwocki",
+        "powiat piaseczyński",
+        "powiat płocki",
+        "powiat płoński",
+        "powiat pruszkowski",
+        "powiat przasnyski",
+        "powiat przysuski",
+        "powiat pułtuski",
+        "powiat radomski",
+        "powiat siedlecki",
+        "powiat sierpecki",
+        "powiat sochaczewski",
+        "powiat sokołowski",
+        "powiat szydłowiecki",
+        "powiat warszawski zachodni",
+        "powiat węgrowski",
+        "powiat wołomiński",
+        "powiat wyszkowski",
+        "powiat zwoleński",
+        "powiat żuromiński",
+        "powiat żyrardowski",
+        "Ostrołęka",
+        "Płock",
+        "Radom",
+        "Siedlce",
+        "Warszawa"
+      ]
+    },
+    {
+      "name": "اوپولسکیه",
+      "center": "اوپوله",
+      "counties": [
+        "powiat brzeski",
+        "powiat głubczycki",
+        "powiat kędzierzyńsko-kozielski",
+        "powiat kluczborski",
+        "powiat krapkowicki",
+        "powiat namysłowski",
+        "powiat nyski",
+        "powiat oleski",
+        "powiat opolski",
+        "powiat prudnicki",
+        "powiat strzelecki",
+        "Opole"
+      ]
+    },
+    {
+      "name": "پودکارپاتسکیه",
+      "center": "ژشوف",
+      "counties": [
+        "powiat bieszczadzki",
+        "powiat brzozowski",
+        "powiat dębicki",
+        "powiat jarosławski",
+        "powiat jasielski",
+        "powiat kolbuszowski",
+        "powiat krośnieński",
+        "powiat leżajski",
+        "powiat lubaczowski",
+        "powiat łańcucki",
+        "powiat mielecki",
+        "powiat niżański",
+        "powiat przemyski",
+        "powiat przeworski",
+        "powiat ropczycko-sędziszowski",
+        "powiat rzeszowski",
+        "powiat sanocki",
+        "powiat stalowowolski",
+        "powiat strzyżowski",
+        "powiat tarnobrzeski",
+        "powiat leski",
+        "Krosno",
+        "Przemyśl",
+        "Rzeszów",
+        "Tarnobrzeg"
+      ]
+    },
+    {
+      "name": "پودلاسکیه",
+      "center": "بیاویستوک",
+      "counties": [
+        "powiat augustowski",
+        "powiat białostocki",
+        "powiat bielski",
+        "powiat grajewski",
+        "powiat hajnowski",
+        "powiat kolneński",
+        "powiat łomżyński",
+        "powiat moniecki",
+        "powiat sejneński",
+        "powiat siemiatycki",
+        "powiat sokólski",
+        "powiat suwalski",
+        "powiat wysokomazowiecki",
+        "powiat zambrowski",
+        "Białystok",
+        "Łomża",
+        "Suwałki"
+      ]
+    },
+    {
+      "name": "پومورسکیه",
+      "center": "گدانسک",
+      "counties": [
+        "powiat bytowski",
+        "powiat chojnicki",
+        "powiat człuchowski",
+        "powiat gdański",
+        "powiat kartuski",
+        "powiat kościerski",
+        "powiat kwidzyński",
+        "powiat lęborski",
+        "powiat malborski",
+        "powiat nowodworski",
+        "powiat pucki",
+        "powiat słupski",
+        "powiat starogardzki",
+        "powiat tczewski",
+        "powiat wejherowski",
+        "powiat sztumski",
+        "Gdańsk",
+        "Gdynia",
+        "Słupsk",
+        "Sopot"
+      ]
+    },
+    {
+      "name": "شلونسکیه",
+      "center": "کاتوویتسه",
+      "counties": [
+        "powiat będziński",
+        "powiat bielski",
+        "powiat cieszyński",
+        "powiat częstochowski",
+        "powiat gliwicki",
+        "powiat kłobucki",
+        "powiat lubliniecki",
+        "powiat mikołowski",
+        "powiat myszkowski",
+        "powiat pszczyński",
+        "powiat raciborski",
+        "powiat rybnicki",
+        "powiat tarnogórski",
+        "powiat bieruńsko-lędziński",
+        "powiat wodzisławski",
+        "powiat zawierciański",
+        "powiat żywiecki",
+        "Bielsko-Biała",
+        "Bytom",
+        "Chorzów",
+        "Częstochowa",
+        "Dąbrowa Górnicza",
+        "Gliwice",
+        "Jastrzębie-Zdrój",
+        "Jaworzno",
+        "Katowice",
+        "Mysłowice",
+        "Piekary Śląskie",
+        "Ruda Śląska",
+        "Rybnik",
+        "Siemianowice Śląskie",
+        "Sosnowiec",
+        "Świętochłowice",
+        "Tychy",
+        "Zabrze",
+        "Żory"
+      ]
+    },
+    {
+      "name": "اشفینتوکژسکیه",
+      "center": "کیلتسه",
+      "counties": [
+        "powiat buski",
+        "powiat jędrzejowski",
+        "powiat kazimierski",
+        "powiat kielecki",
+        "powiat konecki",
+        "powiat opatowski",
+        "powiat ostrowiecki",
+        "powiat pińczowski",
+        "powiat sandomierski",
+        "powiat skarżyski",
+        "powiat starachowicki",
+        "powiat staszowski",
+        "powiat włoszczowski",
+        "Kielce"
+      ]
+    },
+    {
+      "name": "وارمینسکو-مازورسکیه",
+      "center": "اولشتین",
+      "counties": [
+        "powiat bartoszycki",
+        "powiat braniewski",
+        "powiat działdowski",
+        "powiat elbląski",
+        "powiat ełcki",
+        "powiat giżycki",
+        "powiat iławski",
+        "powiat kętrzyński",
+        "powiat lidzbarski",
+        "powiat mrągowski",
+        "powiat nidzicki",
+        "powiat nowomiejski",
+        "powiat olecki",
+        "powiat olsztyński",
+        "powiat ostródzki",
+        "powiat piski",
+        "powiat szczycieński",
+        "powiat gołdapski",
+        "powiat węgorzewski",
+        "Elbląg",
+        "Olsztyn"
+      ]
+    },
+    {
+      "name": "ویلکوپولسکیه",
+      "center": "پوزنان",
+      "counties": [
+        "powiat chodzieski",
+        "powiat czarnkowsko-trzcianecki",
+        "powiat gnieźnieński",
+        "powiat gostyński",
+        "powiat grodziski",
+        "powiat jarociński",
+        "powiat kaliski",
+        "powiat kępiński",
+        "powiat kolski",
+        "powiat koniński",
+        "powiat kościański",
+        "powiat krotoszyński",
+        "powiat leszczyński",
+        "powiat międzychodzki",
+        "powiat nowotomyski",
+        "powiat obornicki",
+        "powiat ostrowski",
+        "powiat ostrzeszowski",
+        "powiat pilski",
+        "powiat pleszewski",
+        "powiat poznański",
+        "powiat rawicki",
+        "powiat słupecki",
+        "powiat szamotulski",
+        "powiat średzki",
+        "powiat śremski",
+        "powiat turecki",
+        "powiat wągrowiecki",
+        "powiat wolsztyński",
+        "powiat wrzesiński",
+        "powiat złotowski",
+        "Kalisz",
+        "Konin",
+        "Leszno",
+        "Poznań"
+      ]
+    },
+    {
+      "name": "زاخودنیوپومورسکیه",
+      "center": "شچچین",
+      "counties": [
+        "powiat białogardzki",
+        "powiat choszczeński",
+        "powiat drawski",
+        "powiat goleniowski",
+        "powiat gryficki",
+        "powiat gryfiński",
+        "powiat kamieński",
+        "powiat kołobrzeski",
+        "powiat koszaliński",
+        "powiat myśliborski",
+        "powiat policki",
+        "powiat pyrzycki",
+        "powiat sławieński",
+        "powiat stargardzki",
+        "powiat szczecinecki",
+        "powiat świdwiński",
+        "powiat wałecki",
+        "powiat łobeski",
+        "Koszalin",
+        "Szczecin",
+        "Świnoujście"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "دولنوشلونسکیه",
+      "cities": []
+    },
+    {
+      "province": "کویاوسکو-پومورسکیه",
+      "cities": []
+    },
+    {
+      "province": "لوبلسکیه",
+      "cities": []
+    },
+    {
+      "province": "لوبوسکیه",
+      "cities": []
+    },
+    {
+      "province": "ووتسکیه",
+      "cities": []
+    },
+    {
+      "province": "ماووپولسکیه",
+      "cities": []
+    },
+    {
+      "province": "مازوویتسکیه",
+      "cities": []
+    },
+    {
+      "province": "اوپولسکیه",
+      "cities": []
+    },
+    {
+      "province": "پودکارپاتسکیه",
+      "cities": []
+    },
+    {
+      "province": "پودلاسکیه",
+      "cities": []
+    },
+    {
+      "province": "پومورسکیه",
+      "cities": []
+    },
+    {
+      "province": "شلونسکیه",
+      "cities": []
+    },
+    {
+      "province": "اشفینتوکژسکیه",
+      "cities": []
+    },
+    {
+      "province": "وارمینسکو-مازورسکیه",
+      "cities": []
+    },
+    {
+      "province": "ویلکوپولسکیه",
+      "cities": []
+    },
+    {
+      "province": "زاخودنیوپومورسکیه",
+      "cities": []
+    }
+  ],
+  "version": "1.0.0",
+  "notes": "شهرستان‌های واقعی لهستان بر اساس ثبات رسمی TERYT سازمان آمار لهستان GUS (فایل TERC تا ۲۰۲۶-۰۱-۰۱)؛ ۱۶ استان و ۳۸۰ شهرستان (۳۱۴ شهرستان زمینی با پیشوند powiat + ۶۶ شهر با حقوق شهرستان). مراکز استان‌ها، مقر دفتر مارشال (Urząd Marszałkowski) از وبگاه‌های رسمی استان‌هاست؛ در دو استان، ادارهٔ تقسیم شده است (کویاوسکو-پومورسکیه: مارشال در تورون، والی در بیدگوشچ؛ لوبوسکیه: مارشال در ژلونا گورا، والی در گوژوف ویلکوپولسکی). نام‌های فارسی استان‌ها و مراکز، نویسه‌گردانی است، نه نام رسمی فارسی؛ بلوک‌های پروفایل (نمره، پایه‌ها، شناسهٔ ملی، تلفن) عمومی/پیش‌فرض‌اند، نه نظام رسمی کشور."
+}
