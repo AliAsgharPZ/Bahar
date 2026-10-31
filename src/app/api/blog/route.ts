@@ -96,7 +96,12 @@ export async function DELETE(req: NextRequest) {
     if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
-    await db.blogPost.deleteMany({ where: { id } });
+    const post = await db.blogPost.findUnique({ where: { id } });
+    if (!post) throw new ApiError(404, "NOT_FOUND", "پست یافت نشد.");
+    // فقط نویسندهٔ پست یا ادمین سرویس می‌تواند حذف کند
+    if (post.authorId !== me.id && me.role !== "SUPER_ADMIN") throw new ApiError(403, "FORBIDDEN", "فقط نویسندهٔ پست می‌تواند آن را حذف کند.");
+    await db.blogPost.delete({ where: { id } });
+    await audit({ user: me, action: "DELETE_BLOG_POST", entityType: "BLOG_POST", entityId: id, meta: { title: post.title } });
     return apiOk({ ok: true });
   } catch (e) { return handleApiError(e); }
 }
