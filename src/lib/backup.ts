@@ -191,6 +191,7 @@ const INSERT_ORDER = [
   "walletTx",
   "mealPlan",
   "guidanceRecord",
+  "classObservation",
   "studyTask",
   "passkeyCredential",
 ] as const;
@@ -300,6 +301,7 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   walletTx: ["createdAt"],
   mealPlan: [],
   guidanceRecord: ["createdAt", "updatedAt"],
+  classObservation: ["date", "createdAt", "updatedAt"],
   studyTask: ["createdAt"],
   passkeyCredential: ["createdAt", "lastUsedAt"],
 };

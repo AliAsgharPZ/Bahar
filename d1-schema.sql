@@ -2158,6 +2158,28 @@ CREATE TABLE IF NOT EXISTS "StudyTask" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "StudyTask_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE TABLE IF NOT EXISTS "ClassObservation" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "teacherId" TEXT NOT NULL,
+    "observerId" TEXT NOT NULL,
+    "classId" TEXT,
+    "date" DATETIME NOT NULL,
+    "topic" TEXT,
+    "scores" TEXT NOT NULL DEFAULT '{}',
+    "average" REAL NOT NULL DEFAULT 0,
+    "strengths" TEXT,
+    "growthAreas" TEXT,
+    "comment" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "ClassObservation_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ClassObservation_teacherId_fkey" FOREIGN KEY ("teacherId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ClassObservation_observerId_fkey" FOREIGN KEY ("observerId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ClassObservation_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "ClassObservation_schoolId_teacherId_idx" ON "ClassObservation"("schoolId", "teacherId");
+CREATE INDEX IF NOT EXISTS "ClassObservation_schoolId_date_idx" ON "ClassObservation"("schoolId", "date");
 CREATE UNIQUE INDEX IF NOT EXISTS "GuidanceRecord_studentId_key" ON "GuidanceRecord"("studentId");
 CREATE INDEX IF NOT EXISTS "StudyTask_studentId_date_idx" ON "StudyTask"("studentId", "date");
 CREATE UNIQUE INDEX IF NOT EXISTS "PasskeyCredential_credentialId_key" ON "PasskeyCredential"("credentialId");

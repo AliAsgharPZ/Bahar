@@ -115,6 +115,8 @@ model User {
   loginEvents           LoginEvent[]           @relation("LoginEvents")
   gradeChanges          GradeHistory[]         @relation("GradeChanger")
   wellbeingCheckins     WellbeingCheckin[]     @relation("CheckinAuthorizer")
+  observationsGiven     ClassObservation[]     @relation("ObservationObserver")
+  observationsReceived  ClassObservation[]     @relation("ObservationTeacher")
 
   @@index([role, schoolId])
   @@index([schoolId])
@@ -186,6 +188,7 @@ model School {
   transportRoutes      TransportRoute[]
   schoolForms          SchoolForm[]
   scheduledReports     ScheduledReport[]
+  observations         ClassObservation[]
 }
 
 model Class {
@@ -214,6 +217,7 @@ model Class {
   gradeRecords        GradeRecord[]
   behaviorRecords     BehaviorRecord[]
   seatingPlan         SeatingPlan?
+  observations        ClassObservation[]
 
   @@unique([schoolId, name, academicYear])
   @@index([schoolId])
@@ -2372,6 +2376,30 @@ model GuidanceRecord {
   updatedById  String?
   updatedAt    DateTime @updatedAt
   createdAt    DateTime @default(now())
+}
+
+model ClassObservation {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  teacherId   String
+  teacher     User     @relation("ObservationTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
+  observerId  String
+  observer    User     @relation("ObservationObserver", fields: [observerId], references: [id], onDelete: Cascade)
+  classId     String?
+  class       Class?   @relation(fields: [classId], references: [id], onDelete: SetNull)
+  date        DateTime
+  topic       String?
+  scores      String   @default("{}") // JSON: planning, management, teaching, interaction, assessment (۱ تا ۵)
+  average     Float    @default(0)
+  strengths   String?
+  growthAreas String?
+  comment     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([schoolId, teacherId])
+  @@index([schoolId, date])
 }
 
 model StudyTask {
