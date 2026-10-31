@@ -3128,3 +3128,20 @@ CREATE INDEX IF NOT EXISTS "BikeRegistry_schoolId_studentId_idx" ON "BikeRegistr
 CREATE INDEX IF NOT EXISTS "ExamSeatAssignment_planId_sessionNo_idx" ON "ExamSeatAssignment"("planId", "sessionNo");
 -- CreateIndex
 CREATE UNIQUE INDEX IF NOT EXISTS "ExamSeatAssignment_planId_sessionNo_studentId_key" ON "ExamSeatAssignment"("planId", "sessionNo", "studentId");
+;
+-- CreateTable
+CREATE TABLE IF NOT EXISTS "BookSuggestion" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "schoolId" TEXT NOT NULL,
+    "requesterId" TEXT NOT NULL,
+    "requesterName" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "author" TEXT,
+    "reason" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "BookSuggestion_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+-- CreateIndex
+CREATE INDEX IF NOT EXISTS "BookSuggestion_schoolId_status_idx" ON "BookSuggestion"("schoolId", "status");
