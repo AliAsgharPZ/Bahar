@@ -13,14 +13,14 @@ export async function GET(req: NextRequest) {
   try {
     const me = await requireUser(req, ["STUDENT"]);
     const profile = await db.student.findUnique({ where: { userId: me.id }, select: { id: true, schoolId: true } });
-    if (!profile) return apiOk({ qrEnabled: false, codeEnabled: false });
+    if (!profile) return apiOk({ qrEnabled: false, codeEnabled: false, geoEnabled: false });
     const settings = await getCheckinSettings(profile.schoolId);
     let qrSvg: string | null = null;
     if (settings.qrEnabled) {
       const payload = studentQrPayload(profile.id, todayJalali());
       qrSvg = await QRCode.toString(payload, { type: "svg", margin: 1, width: 220 });
     }
-    return apiOk({ qrEnabled: settings.qrEnabled, codeEnabled: settings.codeEnabled, qrSvg });
+    return apiOk({ qrEnabled: settings.qrEnabled, codeEnabled: settings.codeEnabled, geoEnabled: settings.geoEnabled, qrSvg });
   } catch (e) {
     return handleApiError(e);
   }

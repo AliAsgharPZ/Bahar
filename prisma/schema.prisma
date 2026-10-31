@@ -2432,10 +2432,14 @@ model AttendanceSettings {
   id              String   @id @default(cuid())
   schoolId        String   @unique
   school          School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
-  qrEnabled       Boolean  @default(false) // کارت QR دانش‌آموز + اسکن با دستگاه معلم
+  qrEnabled       Boolean  @default(false) // کارت QR دانش‌آموز + اسکن با دستگاه معلم + QR روزانهٔ مدرسه
   codeEnabled     Boolean  @default(false) // کد چرخان کلاس (اعلام حضور توسط خود دانش‌آموز)
   kioskEnabled    Boolean  @default(false) // حالت کیوسک روی تبلت مشترک مدرسه
   externalEnabled Boolean  @default(false) // اتصال سامانه‌های بیرونی (چهره/دوربین/NFC/گیت) از راه کلید اتصال
+  geoEnabled      Boolean  @default(false) // اعلام حضور با موقعیت مکانی (ژئوفنس مدرسه)
+  geoLat          Float? // عرض جغرافیایی مدرسه
+  geoLng          Float? // طول جغرافیایی مدرسه
+  geoRadiusM      Int      @default(200) // شعاع مجاز ژئوفنس به متر
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

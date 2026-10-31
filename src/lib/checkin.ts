@@ -12,7 +12,7 @@ import { db } from "@/lib/db";
  *    را پردازش یا نگه‌داری نمی‌کند — فقط رویداد نهایی حضور را ثبت می‌کند.
  */
 
-export const ATTENDANCE_METHODS = ["MANUAL", "QR", "CODE", "KIOSK", "FACE", "CCTV", "NFC", "GATE", "OTHER"] as const;
+export const ATTENDANCE_METHODS = ["MANUAL", "QR", "CODE", "KIOSK", "GEO", "FACE", "CCTV", "NFC", "GATE", "OTHER"] as const;
 export type AttendanceMethod = (typeof ATTENDANCE_METHODS)[number];
 
 export const EXTERNAL_METHODS = ["FACE", "CCTV", "NFC", "GATE", "OTHER"] as const;
@@ -36,9 +36,16 @@ export type CheckinSettings = {
   codeEnabled: boolean;
   kioskEnabled: boolean;
   externalEnabled: boolean;
+  geoEnabled: boolean;
+  geoLat: number | null;
+  geoLng: number | null;
+  geoRadiusM: number;
 };
 
-const ALL_OFF: CheckinSettings = { qrEnabled: false, codeEnabled: false, kioskEnabled: false, externalEnabled: false };
+const ALL_OFF: CheckinSettings = {
+  qrEnabled: false, codeEnabled: false, kioskEnabled: false, externalEnabled: false,
+  geoEnabled: false, geoLat: null, geoLng: null, geoRadiusM: 200,
+};
 
 export async function getCheckinSettings(schoolId: string): Promise<CheckinSettings> {
   const row = await db.attendanceSettings.findUnique({ where: { schoolId } });
@@ -48,6 +55,10 @@ export async function getCheckinSettings(schoolId: string): Promise<CheckinSetti
     codeEnabled: row.codeEnabled,
     kioskEnabled: row.kioskEnabled,
     externalEnabled: row.externalEnabled,
+    geoEnabled: row.geoEnabled,
+    geoLat: row.geoLat,
+    geoLng: row.geoLng,
+    geoRadiusM: row.geoRadiusM,
   };
 }
 
@@ -68,6 +79,39 @@ export function parseStudentQr(payload: string, todayJalali: string): { studentI
   const expected = hmac(`${studentId}|${date}`).slice(0, 16);
   if (!safeEq(sig, expected)) return null;
   return { studentId };
+}
+
+/* ───────────── توکن QR روزانهٔ مدرسه ─────────────
+ * قالب: SCH1.<schoolId>.<jalaliDate>.<sig16>
+ * مدرسه هر روز یک QR دارد: روی دیوار ورودی چاپ می‌شود یا روی تگ NFC نوشته
+ * می‌شود؛ دانش‌آموز با گوشی خودش اسکن می‌کند، وارد حسابش می‌شود و حضورش
+ * ثبت می‌شود. توکن فقط همان روز و همان مدرسه معتبر است. */
+
+export function schoolDailyToken(schoolId: string, jalaliDate: string): string {
+  const sig = hmac(`school|${schoolId}|${jalaliDate}`).slice(0, 16);
+  return `SCH1.${schoolId}.${jalaliDate}.${sig}`;
+}
+
+export function parseSchoolToken(token: string, todayJalali: string): { schoolId: string } | null {
+  const parts = String(token ?? "").trim().split(".");
+  if (parts.length !== 4 || parts[0] !== "SCH1") return null;
+  const [, schoolId, date, sig] = parts;
+  if (!schoolId || date !== todayJalali) return null;
+  const expected = hmac(`school|${schoolId}|${date}`).slice(0, 16);
+  if (!safeEq(sig, expected)) return null;
+  return { schoolId };
+}
+
+/* ───────────── ژئوفنس ───────────── */
+
+/** فاصلهٔ دو نقطه به متر (هاورساین) */
+export function distanceM(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371000;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
 }
 
 /* ───────────── کد چرخان کلاس ─────────────

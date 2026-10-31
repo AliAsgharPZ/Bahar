@@ -35,12 +35,31 @@ export async function PUT(req: NextRequest) {
     const blocked = await demoWriteBlock(me);
     if (blocked) return blocked;
     const schoolId = requireSchoolId(me);
-    const body = await readJson<{ qrEnabled?: boolean; codeEnabled?: boolean; kioskEnabled?: boolean; externalEnabled?: boolean }>(req);
+    const body = await readJson<{
+      qrEnabled?: boolean; codeEnabled?: boolean; kioskEnabled?: boolean; externalEnabled?: boolean;
+      geoEnabled?: boolean; geoLat?: number | null; geoLng?: number | null; geoRadiusM?: number;
+    }>(req);
+    const geoLat = body.geoLat == null ? null : Number(body.geoLat);
+    const geoLng = body.geoLng == null ? null : Number(body.geoLng);
+    if (geoLat != null && (!Number.isFinite(geoLat) || geoLat < -90 || geoLat > 90)) {
+      return apiErr(400, "عرض جغرافیایی معتبر نیست.", "BAD_GEO");
+    }
+    if (geoLng != null && (!Number.isFinite(geoLng) || geoLng < -180 || geoLng > 180)) {
+      return apiErr(400, "طول جغرافیایی معتبر نیست.", "BAD_GEO");
+    }
+    if (body.geoEnabled && (geoLat == null || geoLng == null)) {
+      return apiErr(400, "برای فعال‌کردن موقعیت مکانی، مختصات مدرسه لازم است.", "BAD_GEO");
+    }
+    const geoRadiusM = Math.min(5000, Math.max(30, Math.round(Number(body.geoRadiusM ?? 200)) || 200));
     const data = {
       qrEnabled: !!body.qrEnabled,
       codeEnabled: !!body.codeEnabled,
       kioskEnabled: !!body.kioskEnabled,
       externalEnabled: !!body.externalEnabled,
+      geoEnabled: !!body.geoEnabled,
+      geoLat,
+      geoLng,
+      geoRadiusM,
     };
     await db.attendanceSettings.upsert({
       where: { schoolId },

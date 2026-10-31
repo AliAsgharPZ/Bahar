@@ -2244,3 +2244,7 @@ CREATE TABLE IF NOT EXISTS "IntegrationKey" (
     CONSTRAINT "IntegrationKey_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE INDEX IF NOT EXISTS "IntegrationKey_schoolId_idx" ON "IntegrationKey"("schoolId");
+ALTER TABLE "AttendanceSettings" ADD COLUMN "geoEnabled" BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE "AttendanceSettings" ADD COLUMN "geoLat" REAL;
+ALTER TABLE "AttendanceSettings" ADD COLUMN "geoLng" REAL;
+ALTER TABLE "AttendanceSettings" ADD COLUMN "geoRadiusM" INTEGER NOT NULL DEFAULT 200;
