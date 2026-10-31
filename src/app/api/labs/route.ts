@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
         db.class.findMany({ where: { schoolId, homeroomTeacherId: null, isActive: true }, take: 5 }),
         db.gradeRecord.findMany({ where: { class: { schoolId }, OR: [{ score: { lt: 0 } }, { score: { gt: 20 } }] }, take: 5 }),
         db.dormRoom.findMany({ where: { building: { schoolId }, capacity: { lte: 0 } }, take: 5 }),
-        db.user.groupBy({ by: ["nationalId"], where: { schoolId }, _count: { _all: true }, having: { nationalId: { _count: { gt: 1 } } }, take: 5 }),
+        db.user.groupBy({ by: ["nationalId"], where: { schoolId }, _count: { _all: true }, having: { nationalId: { _count: { gt: 1 } } }, orderBy: { _count: { nationalId: "desc" } }, take: 5 }),
       ]);
       const checks = [
         { key: "students_without_class", label: "دانش‌آموز فعال بدون کلاس", count: noClass.length, sample: noClass.map((s) => `${s.user.firstName} ${s.user.lastName}`) },
@@ -113,7 +113,7 @@ export async function GET(req: NextRequest) {
         db.dormRoom.findMany({ where: { building: { schoolId }, isActive: true }, select: { id: true, name: true, capacity: true } }),
       ]);
       const classCounts = await db.student.groupBy({ by: ["classId"], where: { classId: { in: classes.map((c) => c.id) }, status: "ACTIVE" }, _count: { _all: true } });
-      const countMap = new Map<string, number>(classCounts.map((c) => [c.classId, c._count._all]));
+      const countMap = new Map<string, number>(classCounts.flatMap((c) => (c.classId ? [[c.classId, c._count._all] as [string, number]] : [])));
       const roomCounts = await db.dormAssignment.groupBy({ by: ["roomId"], where: { roomId: { in: rooms.map((r) => r.id) }, status: "ACTIVE" }, _count: { _all: true } });
       const roomMap = new Map<string, number>(roomCounts.map((c) => [c.roomId, c._count._all]));
       const scenarios = [5, 10, 20];

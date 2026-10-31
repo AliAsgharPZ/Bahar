@@ -253,14 +253,15 @@ export async function POST(req: NextRequest) {
     if (kind === "lostfound") {
       if (!isStaff) return apiErr(403, "ثبت شیء مفقودی فقط برای کارکنان مدرسه مجاز است.", "FORBIDDEN");
       if (!body.title) return apiErr(400, "عنوان شیء لازم است.", "BAD_REQUEST");
-      if (body.foundAt && !toDate(body.foundAt)) return apiErr(400, "تاریخ پیدا شدن نامعتبر است.", "BAD_DATE");
+      const foundAt = body.foundAt ? toDate(body.foundAt) : null;
+      if (body.foundAt && !foundAt) return apiErr(400, "تاریخ پیدا شدن نامعتبر است.", "BAD_DATE");
       const item = await db.lostFoundItem.create({
         data: {
           schoolId,
           title: String(body.title),
           description: (body.description as string) ?? null,
           location: (body.location as string) ?? null,
-          foundAt: body.foundAt ? toDate(body.foundAt) : new Date(),
+          foundAt: foundAt ?? new Date(),
         },
       });
       await audit({ user: me, action: "ثبت شیء مفقودی", entityType: "LostFoundItem", entityId: item.id, schoolId, meta: { title: body.title } });
