@@ -9,7 +9,7 @@ import {
   FileCheck, CheckCheck, Sparkles, TrendingUp, TrendingDown, ChevronDown,
   HeartPulse, School as SchoolIcon, Users, MessageCircle, NotebookPen, Vote,
   Award, Cake, AlertTriangle, CheckCircle2, Info, ArrowLeft, X, Printer, NotebookText,
-  Settings, History, FileQuestion,
+  Settings, History, FileQuestion, Megaphone,
 } from "lucide-react";
 import { apiGet } from "@/lib/client";
 import { useLang } from "@/lib/i18n";
@@ -25,7 +25,7 @@ import { StaggerGroup, StaggerItem, CountUp } from "@/components/shared/motion";
 type Dash = Record<string, unknown> & { scope: string };
 
 const ICONS: Record<string, typeof LifeBuoy> = {
-  LifeBuoy, ClipboardList, CalendarOff, Handshake, Wrench, Wallet, ListTodo, FileCheck, CheckCheck, ClipboardCheck, MessageCircle, Vote, NotebookText, FileQuestion,
+  LifeBuoy, ClipboardList, CalendarOff, Handshake, Wrench, Wallet, ListTodo, FileCheck, CheckCheck, ClipboardCheck, MessageCircle, Vote, NotebookText, FileQuestion, Megaphone,
 };
 
 const SEV_STYLE: Record<string, string> = {

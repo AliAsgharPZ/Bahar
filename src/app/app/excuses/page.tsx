@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { FileQuestion, Loader2, Send, CheckCircle2, XCircle, Clock3 } from "lucide-react";
+import { FileQuestion, Loader2, Send, CheckCircle2, XCircle, Clock3, Megaphone } from "lucide-react";
 import { useApi, apiPost, apiPatch } from "@/lib/client";
+import { SummonsSection } from "@/components/summons-section";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { faNumber } from "@/lib/persian";
 import { useLang } from "@/lib/i18n";
@@ -25,6 +26,7 @@ export default function ExcusesPage() {
   const [texts, setTexts] = useState<Record<string, string>>({});
   const [busyKey, setBusyKey] = useState("");
   const [tab, setTab] = useState<"PENDING" | "ALL">("PENDING");
+  const [summonPreset, setSummonPreset] = useState<{ studentId: string; n: number } | null>(null);
   const staff = useApi<ExcusesData>(tab === "ALL" ? "/api/absence-excuses?status=ALL" : null);
 
   if (loading) return <LoadingBlock />;
@@ -176,10 +178,27 @@ export default function ExcusesPage() {
                   </span>
                 </div>
               )}
+              {!isParent && (
+                <div>
+                  <button
+                    type="button"
+                    className="b-btn b-btn-ghost !h-10"
+                    onClick={() => {
+                      setSummonPreset({ studentId: e.studentId, n: Date.now() });
+                      document.getElementById("summons")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                  >
+                    <Megaphone className="w-4 h-4" />
+                    {t("summons.fromExcuse")}
+                  </button>
+                </div>
+              )}
             </div>
           ))
         )}
       </div>
+
+      <SummonsSection preset={summonPreset} />
     </div>
   );
 }

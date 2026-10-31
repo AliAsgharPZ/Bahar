@@ -100,6 +100,8 @@ export async function GET(req: NextRequest) {
       // نظرسنجی‌هایی که خودِ این کاربر در آن‌ها رأی نداده (نه نظرسنجی‌های بدون رأی)
       const notVoted = activePolls.filter((p) => p.votes.length === 0).length;
       if (absentToday > 0) items.push({ key: "absent", title: "غیبت فرزند شما امروز", description: "بررسی دلیل غیبت", count: absentToday, href: "/app/attendance", severity: "URGENT", icon: "ClipboardCheck" });
+      const pendingSummons = await db.parentSummon.count({ where: { parentUserId: me.id, status: "PENDING" } });
+      if (pendingSummons > 0) items.push({ key: "summons", title: "احضار به مدرسه", description: "مدرسه حضور شما را درخواست کرده است", count: pendingSummons, href: "/app/excuses", severity: "URGENT", icon: "Megaphone" });
       if (unpaidFees > 0) items.push({ key: "fees", title: "شهریه سررسیدگذشته", description: "پرداخت", count: unpaidFees, href: "/app/finance", severity: "URGENT", icon: "Wallet" });
       if (notVoted > 0) items.push({ key: "polls", title: "نظرسنجی‌های بی‌پاسخ", description: "رأی شما ثبت نشده", count: notVoted, href: "/app/engagement?tab=polls", severity: "NORMAL", icon: "Vote" });
       if (pendingMeetings > 0) items.push({ key: "meetings", title: "ملاقات‌های در انتظار تأیید", description: "پیگیری", count: pendingMeetings, href: "/app/meetings", severity: "NORMAL", icon: "Handshake" });
