@@ -227,20 +227,19 @@ export async function GET(req: NextRequest) {
 
       const ids = classRows.map((c) => c.id);
 
-      /* ردیف ۲ موازی: همهٔ کوئری‌های وابسته به ids (حضور امروز/دیروز/روند ۷روزه، نمرات کلاس‌ها و همهٔ نمرات) — قبلاً ترتیبی و حلقه‌ای بودند */
+      /* ردیف ۲ موازی: همهٔ کوئری‌های وابسته به ids (حضور امروز/دیروز/روند ۷روزه و همهٔ نمرات) — روند با یک کوئری بازه‌ای و نمراتِ هر کلاس از همان allGrades مشتق می‌شود (فاز ۲: حذف ۷ کوئری روزانهٔ روند و ۸ کوئری حلقهٔ نمرات کلاس) */
       const trendKeys: string[] = [];
       for (let i = 6; i >= 0; i -= 1) trendKeys.push(toJalaliKey(new Date(Date.now() - i * 86400000)));
-      const [attToday, attYesterday, trendRows, gradeRowsByClass, allGrades] = await Promise.all([
+      const [attToday, attYesterday, trendAll, allGrades] = await Promise.all([
         db.attendance.findMany({
           where: { classId: { in: ids }, date: todayKey },
           include: { student: { include: { user: { select: { firstName: true, lastName: true } }, class: { select: { name: true } } } } },
         }),
         db.attendance.findMany({ where: { classId: { in: ids }, date: yesterdayKey }, select: { status: true } }),
-        Promise.all(trendKeys.map((key) => db.attendance.findMany({ where: { classId: { in: ids }, date: key }, select: { status: true } }))),
-        Promise.all(classRows.slice(0, 8).map((c) => db.gradeRecord.findMany({ where: { classId: c.id }, select: { score: true, weight: true } }))),
+        db.attendance.findMany({ where: { classId: { in: ids }, date: { in: trendKeys } }, select: { date: true, status: true } }),
         db.gradeRecord.findMany({
           where: { classId: { in: ids } },
-          select: { studentId: true, subjectId: true, score: true, weight: true, createdAt: true },
+          select: { classId: true, studentId: true, subjectId: true, score: true, weight: true, createdAt: true },
           orderBy: { createdAt: "asc" },
         }),
       ]);
@@ -252,9 +251,9 @@ export async function GET(req: NextRequest) {
       const attendanceRateToday = attToday.length ? Math.round(((attToday.length - absentToday.length) / attToday.length) * 100) : null;
       const attendanceRateYesterday = attYesterday.length ? Math.round(((attYesterday.length - attYesterday.filter((a) => a.status === "ABSENT").length) / attYesterday.length) * 100) : null;
 
-      /* ── روند حضور ۷ روز ── */
-      const attendanceTrend: { date: string; present: number; absent: number; late: number; total: number }[] = trendKeys.map((key, idx) => {
-        const rows = trendRows[idx];
+      /* ── روند حضور ۷ روز (از همان یک کوئری بازه‌ای، دسته‌بندی بر اساس تاریخ) ── */
+      const attendanceTrend: { date: string; present: number; absent: number; late: number; total: number }[] = trendKeys.map((key) => {
+        const rows = trendAll.filter((r) => r.date === key);
         return {
           date: key,
           total: rows.length,
@@ -264,11 +263,11 @@ export async function GET(req: NextRequest) {
         };
       });
 
-      /* ── میانگین نمرات کلاس‌ها + پایه‌ها ── */
+      /* ── میانگین نمرات کلاس‌ها + پایه‌ها (مشتق از allGrades؛ کوئری جدا ندارد) ── */
       const gradeByClass: { name: string; avg: number | null }[] = [];
       const gradeByGrade = new Map<string, { sum: number; w: number }>();
-      classRows.slice(0, 8).forEach((c, idx) => {
-        const grades = gradeRowsByClass[idx];
+      classRows.slice(0, 8).forEach((c) => {
+        const grades = allGrades.filter((g) => g.classId === c.id);
         const w = grades.reduce((s, g) => s + g.weight, 0);
         const avg = w > 0 ? +(grades.reduce((s, g) => s + g.score * g.weight, 0) / w).toFixed(2) : null;
         gradeByClass.push({ name: c.name, avg });
@@ -312,7 +311,7 @@ export async function GET(req: NextRequest) {
       /* ردیف ۳ موازی: مالی، کلاس‌های در حال برگزاری، ثبت‌کنندگان حضور، فید رفتار و شمارندهٔ دیروز — همه مستقل از هم */
       const dow = jalaliDayOfWeek();
       const pNow = periodNow();
-      const [[unpaidSum, paidFees], slotsNow, recordedRows, behaviorFeed, feesUnpaidYesterdayCount] = await Promise.all([
+      const [[unpaidSum, paidFees], slotsNow, behaviorFeed, feesUnpaidYesterdayCount] = await Promise.all([
         Promise.all([
           db.studentFee.aggregate({ where: { schoolId, status: "UNPAID" }, _sum: { amount: true } }),
           db.studentFee.findMany({ where: { schoolId, status: "PAID", paidAt: { not: null } }, select: { amount: true, paidAt: true } }),
@@ -321,7 +320,6 @@ export async function GET(req: NextRequest) {
           where: { classId: { in: ids }, dayOfWeek: dow, period: pNow },
           include: { class: { select: { name: true } }, subject: { select: { name: true } }, teacher: { select: { firstName: true, lastName: true } } },
         }),
-        db.attendance.findMany({ where: { classId: { in: ids }, date: todayKey }, select: { recordedById: true } }),
         db.behaviorRecord.findMany({
           where: { schoolId },
           orderBy: { createdAt: "desc" },
@@ -344,10 +342,10 @@ export async function GET(req: NextRequest) {
         const total = feeSummary.paid + feeSummary.unpaid;
         feeSummary.paidRatio = total > 0 ? Math.round((feeSummary.paid / total) * 100) : 0;
 
-      /* ── معلمان حاضر (ثبت حضور ثبت کرده‌اند) ── */
+      /* ── معلمان حاضر (ثبت حضور ثبت کرده‌اند) — از همان attToday خوانده می‌شود؛ recordedById فیلد اسکالرِ خودِ حضور است و کوئری تکراری لازم ندارد ── */
       const teacherIdsToday = new Set(slotsNow.map((s) => s.teacherId));
       const teachersWhoRecorded = new Set(
-        recordedRows
+        attToday
           .map((a) => a.recordedById)
           .filter(Boolean)
       );
