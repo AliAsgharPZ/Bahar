@@ -85,7 +85,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
   if (!data) return <LoadingBlock label={t("students.detail.loading360")} />;
 
   const { student, analytics } = data;
-  const riskColor = analytics.risk.level === "CRITICAL" ? "#e5548b" : analytics.risk.level === "RISK" ? "#f2a918" : analytics.risk.level === "WATCH" ? "#1972c4" : "#1b8148";
+  const riskColor = analytics.risk.level === "CRITICAL" ? "var(--blossom)" : analytics.risk.level === "RISK" ? "var(--warning)" : analytics.risk.level === "WATCH" ? "var(--info)" : "var(--success)";
   const riskTKey = RISK_TKEY[analytics.risk.level];
 
   /** اعمال تغییر ۳۶۰ با بازخورد خطا (به‌جای حذف بی‌صدا) */
