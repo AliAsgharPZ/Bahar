@@ -222,10 +222,16 @@ export default function ExamSeatsPage() {
                 {t("examSeats.session")} {faNumber(n)}
               </button>
             ))}
-            <Link className="b-btn b-btn-primary !h-10 ms-auto" href={`/print/exam-cards/${detail.plan.id}?session=${mapSession}`} target="_blank">
-              <Printer className="w-4 h-4" />
-              {t("examSeats.printCards")}
-            </Link>
+            <span className="ms-auto flex gap-2">
+              <Link className="b-btn b-btn-ghost !h-10" href={`/print/exam-roster/${detail.plan.id}?session=${mapSession}`} target="_blank">
+                <Printer className="w-4 h-4" />
+                {t("examSeats.printRoster")}
+              </Link>
+              <Link className="b-btn b-btn-primary !h-10" href={`/print/exam-cards/${detail.plan.id}?session=${mapSession}`} target="_blank">
+                <Printer className="w-4 h-4" />
+                {t("examSeats.printCards")}
+              </Link>
+            </span>
           </div>
           {detailRooms.map((room) => {
             const seats = sessionAssignments.filter((a) => a.roomName === room.name).sort((a, b) => a.seatNo - b.seatNo);
