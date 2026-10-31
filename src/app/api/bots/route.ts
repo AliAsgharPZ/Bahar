@@ -24,6 +24,7 @@ function publicConnection(c: {
     style: p.style,
     inbound: p.inbound,
     miniApp: p.miniApp,
+    externalId: !!p.externalId,
     label: c.platform === "WHATSAPP" ? c.label : c.label,
     tokenMasked: maskToken(c.token),
     apiBase: c.apiBase,
@@ -53,7 +54,7 @@ export async function GET(req: NextRequest) {
       connections = [];
     }
     // برای کاربران عادی: فهرست عمومی اتصال‌های فعال مدرسه تا بتوانند پیوند بسازند
-    let available: { id: string; platform: string; platformName: string; label: string; botUsername: string | null; style: string; inbound: boolean }[] = [];
+    let available: { id: string; platform: string; platformName: string; label: string; botUsername: string | null; style: string; inbound: boolean; externalId: boolean }[] = [];
     if (!isStaff && me.schoolId) {
       const rows = await db.botConnection.findMany({
         where: { schoolId: me.schoolId, isActive: true },
@@ -62,7 +63,7 @@ export async function GET(req: NextRequest) {
       });
       available = rows.map((r) => {
         const p = botPlatform(r.platform);
-        return { id: r.id, platform: r.platform, platformName: p.nameFa, label: r.label, botUsername: r.botUsername, style: p.style, inbound: p.inbound };
+        return { id: r.id, platform: r.platform, platformName: p.nameFa, label: r.label, botUsername: r.botUsername, style: p.style, inbound: p.inbound, externalId: !!p.externalId };
       });
     }
     const myLinks = await db.botLink.findMany({
@@ -73,7 +74,7 @@ export async function GET(req: NextRequest) {
     return apiOk({
       isStaff,
       available,
-      platforms: BOT_PLATFORMS.map((p) => ({ id: p.id, name: p.nameFa, style: p.style, inbound: p.inbound, miniApp: p.miniApp, hint: p.hintFa, needsApiBase: p.id === "CUSTOM" || p.id === "WEBHOOK" })),
+      platforms: BOT_PLATFORMS.map((p) => ({ id: p.id, name: p.nameFa, style: p.style, inbound: p.inbound, miniApp: p.miniApp, externalId: !!p.externalId, hint: p.hintFa, needsApiBase: p.id === "CUSTOM" || p.id === "WEBHOOK" || p.id === "MATRIX" })),
       connections,
       myLinks: myLinks.map((l) => ({
         id: l.id,
@@ -108,7 +109,7 @@ export async function POST(req: NextRequest) {
     if (!token) return apiErr(400, "توکن ربات لازم است.", "NO_TOKEN");
     const label = String(body.label ?? "").trim() || platform.nameFa;
     const apiBase = body.apiBase ? String(body.apiBase).trim() : null;
-    if ((platform.id === "CUSTOM" || platform.id === "WEBHOOK") && !apiBase) {
+    if ((platform.id === "CUSTOM" || platform.id === "WEBHOOK" || platform.id === "MATRIX") && !apiBase) {
       return apiErr(400, "برای این پلتفرم، نشانی پایهٔ API لازم است.", "NO_API_BASE");
     }
     const events = ["ALL", "IMPORTANT", "NONE"].includes(String(body.events)) ? String(body.events) : "ALL";

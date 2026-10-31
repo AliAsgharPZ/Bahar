@@ -11,8 +11,10 @@ import { db } from "@/lib/db";
    لایهٔ چندپلتفرمی روی همان مفهوم «پیوند چت ↔ حساب» است.
    ============================================================ */
 
-export type BotPlatformId = "TELEGRAM" | "BALE" | "RUBIKA" | "WHATSAPP" | "WEBHOOK" | "CUSTOM";
-export type BotApiStyle = "telegram" | "rubika" | "whatsapp" | "webhook";
+export type BotPlatformId =
+  | "TELEGRAM" | "BALE" | "RUBIKA" | "WHATSAPP" | "WEBHOOK" | "CUSTOM"
+  | "DISCORD" | "SLACK" | "MESSENGER" | "LINE" | "VIBER" | "MATRIX";
+export type BotApiStyle = "telegram" | "rubika" | "whatsapp" | "webhook" | "discord" | "slack" | "messenger" | "line" | "viber" | "matrix";
 
 export type BotPlatform = {
   id: BotPlatformId;
@@ -22,6 +24,8 @@ export type BotPlatform = {
   apiBase: string | null;
   /** آیا وب‌هوک ورودی و دستور ‎/start‎ پشتیبانی می‌شود (سبک تلگرام و روبیکا) */
   inbound: boolean;
+  /** پیوند با «شناسهٔ بیرونی» (کاربر شناسهٔ خودش در آن پلتفرم را وارد می‌کند) — دیسکورد/اسلک/لاین/مسنجر/وایبر/ماتریکس */
+  externalId?: boolean;
   /** آیا مینی‌اپ (WebApp) با اعتبارسنجی initData پشتیبانی می‌شود */
   miniApp: boolean;
   hintFa: string;
@@ -63,6 +67,66 @@ export const BOT_PLATFORMS: BotPlatform[] = [
     inbound: false,
     miniApp: false,
     hintFa: "به‌جای توکن ربات، «شناسهٔ شماره تلفن» (Phone Number ID) را در برچسب و توکن دسترسی متا را اینجا وارد کنید. گیرنده با شمارهٔ موبایل پروفایلش شناخته می‌شود؛ پیام فقط در پنجرهٔ ۲۴ساعتهٔ پاسخ یا با قالب تأییدشده می‌رسد.",
+  },
+  {
+    id: "DISCORD",
+    nameFa: "دیسکورد",
+    style: "discord",
+    apiBase: "https://discord.com/api/v10",
+    inbound: false,
+    miniApp: false,
+    externalId: true,
+    hintFa: "در پورتال توسعه‌دهندگان دیسکورد یک اپ بسازید و ربات را به سرور مدرسه اضافه کنید. توکن ربات را اینجا وارد کنید؛ هر کاربر «شناسهٔ کاربری دیسکورد» خودش را (User ID، از حالت Developer Mode) در بخش پیوندهای من ثبت می‌کند تا پیام خصوصی بگیرد.",
+  },
+  {
+    id: "SLACK",
+    nameFa: "اسلک",
+    style: "slack",
+    apiBase: "https://slack.com/api",
+    inbound: false,
+    miniApp: false,
+    externalId: true,
+    hintFa: "اپ اسلک بسازید، آن را در فضای کاری مدرسه نصب کنید و توکن ربات (xoxb-…) را وارد کنید. هر کاربر «شناسهٔ عضویت اسلک» خودش (Member ID) را در بخش پیوندهای من ثبت می‌کند.",
+  },
+  {
+    id: "MESSENGER",
+    nameFa: "مسنجر فیسبوک",
+    style: "messenger",
+    apiBase: "https://graph.facebook.com/v21.0",
+    inbound: false,
+    miniApp: false,
+    externalId: true,
+    hintFa: "برچسب اتصال = شناسهٔ صفحه (Page ID) و توکن = توکن دسترسی همان صفحه. گیرنده با شناسهٔ PSID خودش شناخته می‌شود؛ برای ارسال انبوه، کاربر باید یک بار به صفحه پیام داده باشد (قانون ۲۴ساعتهٔ متا).",
+  },
+  {
+    id: "LINE",
+    nameFa: "لاین (LINE)",
+    style: "line",
+    apiBase: "https://api.line.me/v2/bot",
+    inbound: false,
+    miniApp: false,
+    externalId: true,
+    hintFa: "از کنسول توسعه‌دهندگان لاین یک کانال Messaging API بسازید و «توکن دسترسی کانال» را وارد کنید. گیرنده با شناسهٔ کاربری لاین (userId) شناخته می‌شود. مینی‌اپ لاین (LIFF) هم یک نشانی وب است و می‌تواند به صفحهٔ مینی‌اپ بهار اشاره کند.",
+  },
+  {
+    id: "VIBER",
+    nameFa: "وایبر",
+    style: "viber",
+    apiBase: "https://chatapi.viber.com/pa",
+    inbound: false,
+    miniApp: false,
+    externalId: true,
+    hintFa: "از پنل شرکای وایبر یک چت‌بات بسازید و توکن احرازش را وارد کنید. گیرنده با شناسهٔ عضو وایبر (member id) شناخته می‌شود که هنگام عضویت در ربات به دست می‌آید.",
+  },
+  {
+    id: "MATRIX",
+    nameFa: "ماتریکس (المنت و…)",
+    style: "matrix",
+    apiBase: null,
+    inbound: false,
+    miniApp: false,
+    externalId: true,
+    hintFa: "نشانی پایه = آدرس هوم‌سرور ماتریکس مدرسه (مثل https://matrix.org). توکن دسترسی یک حساب ربات را وارد کنید؛ گیرنده با شناسهٔ ماتریکسی (@user:server) شناخته می‌شود و بهار برایش اتاق خصوصی می‌سازد و پیام می‌فرستد.",
   },
   {
     id: "WEBHOOK",
@@ -169,6 +233,93 @@ export async function sendBotMessage(
     const err = r.json.error as { message?: string } | undefined;
     return { ok: r.ok, description: err?.message };
   }
+  if (p.style === "discord") {
+    // پیام خصوصی: اول کانال DM با گیرنده ساخته/پیدا می‌شود، بعد پیام در آن کانال
+    const ch = await fetchJson(`${p.apiBase}/users/@me/channels`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bot ${conn.token}` },
+      body: JSON.stringify({ recipient_id: chatId }),
+    });
+    const channelId = (ch.json as { id?: string }).id;
+    if (!ch.ok || !channelId) return { ok: false, description: "DM channel failed" };
+    const r = await fetchJson(`${p.apiBase}/channels/${channelId}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bot ${conn.token}` },
+      body: JSON.stringify({ content: text }),
+    });
+    return { ok: r.ok, description: r.ok ? undefined : `HTTP ${r.status}` };
+  }
+  if (p.style === "slack") {
+    const r = await fetchJson(`${p.apiBase}/chat.postMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${conn.token}` },
+      body: JSON.stringify({ channel: chatId, text }),
+    });
+    return { ok: r.ok && r.json.ok === true, description: typeof r.json.error === "string" ? r.json.error : undefined };
+  }
+  if (p.style === "messenger") {
+    const pageId = conn.label.trim();
+    const r = await fetchJson(`${p.apiBase}/${pageId}/messages?access_token=${encodeURIComponent(conn.token)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ recipient: { id: chatId }, messaging_type: "MESSAGE_TAG", tag: "ACCOUNT_UPDATE", message: { text } }),
+    });
+    const err = r.json.error as { message?: string } | undefined;
+    return { ok: r.ok, description: err?.message };
+  }
+  if (p.style === "line") {
+    const r = await fetchJson(`${p.apiBase}/message/push`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${conn.token}` },
+      body: JSON.stringify({ to: chatId, messages: [{ type: "text", text: text.slice(0, 5000) }] }),
+    });
+    return { ok: r.ok, description: r.ok ? undefined : `HTTP ${r.status}` };
+  }
+  if (p.style === "viber") {
+    const r = await fetchJson(`${p.apiBase}/send_message`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Viber-Auth-Token": conn.token },
+      body: JSON.stringify({ receiver: chatId, type: "text", text, sender: { name: conn.botUsername ?? "Bahar" } }),
+    });
+    return { ok: r.ok && r.json.status === 0, description: typeof r.json.status_message === "string" ? r.json.status_message : undefined };
+  }
+  if (p.style === "matrix") {
+    const base = (conn.apiBase || "").replace(/\/$/, "");
+    if (!base) return { ok: false, description: "no homeserver" };
+    const auth = { "Content-Type": "application/json", Authorization: `Bearer ${conn.token}` };
+    // اتاق خصوصیِ قبلی از m.direct خوانده می‌شود تا برای هر اعلان اتاق تازه ساخته نشود
+    const me = await fetchJson(`${base}/_matrix/client/v3/account/whoami`, { method: "GET", headers: auth });
+    const botUserId = (me.json as { user_id?: string }).user_id;
+    let roomId: string | undefined;
+    if (botUserId) {
+      const direct = await fetchJson(`${base}/_matrix/client/v3/user/${encodeURIComponent(botUserId)}/account_data/m.direct`, { method: "GET", headers: auth });
+      const rooms = (direct.json as Record<string, unknown>)[chatId];
+      if (Array.isArray(rooms) && typeof rooms[0] === "string") roomId = rooms[0];
+    }
+    if (!roomId) {
+      const room = await fetchJson(`${base}/_matrix/client/v3/createRoom`, {
+        method: "POST",
+        headers: auth,
+        body: JSON.stringify({ invite: [chatId], is_direct: true, preset: "trusted_private_chat" }),
+      });
+      roomId = (room.json as { room_id?: string }).room_id;
+      if (!room.ok || !roomId) return { ok: false, description: "room create failed" };
+      if (botUserId) {
+        await fetchJson(`${base}/_matrix/client/v3/user/${encodeURIComponent(botUserId)}/account_data/m.direct`, {
+          method: "PUT",
+          headers: auth,
+          body: JSON.stringify({ [chatId]: [roomId] }),
+        }).catch(() => undefined);
+      }
+    }
+    const txn = `bahar${Date.now()}`;
+    const r = await fetchJson(`${base}/_matrix/client/v3/rooms/${encodeURIComponent(roomId)}/send/m.room.message/${txn}`, {
+      method: "PUT",
+      headers: auth,
+      body: JSON.stringify({ msgtype: "m.text", body: text }),
+    });
+    return { ok: r.ok, description: r.ok ? undefined : `HTTP ${r.status}` };
+  }
   // webhook عمومی
   const url = (conn.apiBase || "").trim();
   if (!url) return { ok: false, description: "no webhook url" };
@@ -195,6 +346,25 @@ export async function probeConnection(
     const r = await fetchJson(`${base}/${conn.token}/getMe`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
     const data = r.json.data as { bot?: { username?: string } } | undefined;
     return { ok: r.ok, username: data?.bot?.username, description: r.ok ? undefined : `HTTP ${r.status}` };
+  }
+  if (p.style === "discord") {
+    const r = await fetchJson(`${p.apiBase}/users/@me`, { method: "GET", headers: { Authorization: `Bot ${conn.token}` } });
+    const me = r.json as { username?: string };
+    return { ok: r.ok, username: me.username, description: r.ok ? undefined : `HTTP ${r.status}` };
+  }
+  if (p.style === "slack") {
+    const r = await fetchJson(`${p.apiBase}/auth.test`, { method: "POST", headers: { Authorization: `Bearer ${conn.token}` } });
+    return { ok: r.ok && r.json.ok === true, username: typeof r.json.user === "string" ? r.json.user : undefined, description: typeof r.json.error === "string" ? r.json.error : undefined };
+  }
+  if (p.style === "line") {
+    const r = await fetchJson(`${p.apiBase}/info`, { method: "GET", headers: { Authorization: `Bearer ${conn.token}` } });
+    return { ok: r.ok, username: typeof r.json.basicId === "string" ? r.json.basicId : undefined, description: r.ok ? undefined : `HTTP ${r.status}` };
+  }
+  if (p.style === "matrix") {
+    const base = (conn.apiBase || "").replace(/\/$/, "");
+    if (!base) return { ok: false, description: "no homeserver" };
+    const r = await fetchJson(`${base}/_matrix/client/v3/account/whoami`, { method: "GET", headers: { Authorization: `Bearer ${conn.token}` } });
+    return { ok: r.ok, username: typeof r.json.user_id === "string" ? r.json.user_id : undefined, description: r.ok ? undefined : `HTTP ${r.status}` };
   }
   return { ok: true };
 }

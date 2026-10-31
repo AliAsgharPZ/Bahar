@@ -8,13 +8,13 @@ import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/sha
 import { faNumber } from "@/lib/persian";
 import { useLang } from "@/lib/i18n";
 
-type Platform = { id: string; name: string; style: string; inbound: boolean; miniApp: boolean; hint: string; needsApiBase: boolean };
+type Platform = { id: string; name: string; style: string; inbound: boolean; miniApp: boolean; externalId: boolean; hint: string; needsApiBase: boolean };
 type Conn = {
-  id: string; platform: string; platformName: string; style: string; inbound: boolean; miniApp: boolean;
+  id: string; platform: string; platformName: string; style: string; inbound: boolean; miniApp: boolean; externalId: boolean;
   label: string; tokenMasked: string; apiBase: string | null; botUsername: string | null;
   events: string; isActive: boolean; linksCount: number;
 };
-type Available = { id: string; platform: string; platformName: string; label: string; botUsername: string | null; style: string; inbound: boolean };
+type Available = { id: string; platform: string; platformName: string; label: string; botUsername: string | null; style: string; inbound: boolean; externalId: boolean };
 type MyLink = {
   id: string; connectionId: string; platform: string; label: string; botUsername: string | null;
   chatId: string | null; username: string | null; pending: boolean; linkCode: string | null; isActive: boolean;
@@ -32,14 +32,27 @@ export default function BotsPage() {
   const [busy, setBusy] = useState(false);
   const [codeBusy, setCodeBusy] = useState<string | null>(null);
   const [freshCode, setFreshCode] = useState<{ connectionId: string; code: string; deepLink: string | null } | null>(null);
+  const [externalIds, setExternalIds] = useState<Record<string, string>>({});
 
   if (loading) return <LoadingBlock />;
   if (error || !data) return <ErrorBox message={t("common.error")} />;
 
   const selectedPlatform = data.platforms.find((p) => p.id === platform);
   const linkable: Available[] = data.isStaff
-    ? data.connections.filter((c) => c.isActive).map((c) => ({ id: c.id, platform: c.platform, platformName: c.platformName, label: c.label, botUsername: c.botUsername, style: c.style, inbound: c.inbound }))
+    ? data.connections.filter((c) => c.isActive).map((c) => ({ id: c.id, platform: c.platform, platformName: c.platformName, label: c.label, botUsername: c.botUsername, style: c.style, inbound: c.inbound, externalId: c.externalId }))
     : data.available;
+
+  const saveExternalId = async (connectionId: string) => {
+    const externalId = (externalIds[connectionId] ?? "").trim();
+    if (!externalId) { toast.error(t("bots.externalId")); return; }
+    setCodeBusy(connectionId);
+    try {
+      await apiPost("/api/bots/link", { connectionId, externalId });
+      toast.success(t("bots.idSaved"));
+      refetch();
+    } catch (e) { toast.error(e instanceof Error ? e.message : t("common.error")); }
+    finally { setCodeBusy(null); }
+  };
 
   const create = async () => {
     if (!token.trim()) { toast.error(t("bots.token")); return; }
@@ -169,7 +182,7 @@ export default function BotsPage() {
                   <div className="min-w-0 flex-1">
                     <p className="font-medium">{c.platformName} — {c.label}</p>
                     <p className="text-sm text-muted-foreground">
-                      {!c.inbound && c.style !== "whatsapp"
+                      {!c.inbound && !c.externalId && c.style !== "whatsapp"
                         ? t("bots.sendOnly")
                         : link?.chatId
                           ? `${t("bots.linkedAs")}${link.username ? ` — @${link.username}` : ""}`
@@ -188,6 +201,20 @@ export default function BotsPage() {
                   </div>
                   {link?.chatId ? (
                     <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => unlink(link.id)}><Unlink className="w-4 h-4" /> {t("bots.unlink")}</button>
+                  ) : c.externalId ? (
+                    <span className="flex items-center gap-2">
+                      <input
+                        className="b-input min-h-11"
+                        dir="ltr"
+                        value={externalIds[c.id] ?? ""}
+                        onChange={(e) => setExternalIds((s) => ({ ...s, [c.id]: e.target.value }))}
+                        placeholder={t("bots.externalPh")}
+                        aria-label={t("bots.externalId")}
+                      />
+                      <button className="b-btn b-btn-primary min-h-11" disabled={codeBusy === c.id} onClick={() => saveExternalId(c.id)}>
+                        {codeBusy === c.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />} {t("bots.saveId")}
+                      </button>
+                    </span>
                   ) : (
                     <button className="b-btn b-btn-primary min-h-11" disabled={codeBusy === c.id} onClick={() => getCode(c.id)}>
                       {codeBusy === c.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />} {t("bots.getCode")}

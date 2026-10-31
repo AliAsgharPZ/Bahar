@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const me = await requireUser(req);
     const blocked = await demoWriteBlock(me);
     if (blocked) return blocked;
-    const body = await readJson<{ connectionId?: string }>(req);
+    const body = await readJson<{ connectionId?: string; externalId?: string }>(req);
     const conn = await db.botConnection.findUnique({ where: { id: String(body.connectionId ?? "") } });
     if (!conn || !conn.isActive) return apiErr(404, "اتصال یافت نشد یا فعال نیست.", "NOT_FOUND");
     if (me.schoolId && conn.schoolId !== me.schoolId) return apiErr(403, "این اتصال برای مدرسهٔ شما نیست.", "FORBIDDEN");
@@ -21,6 +21,20 @@ export async function POST(req: NextRequest) {
 
     const existing = await db.botLink.findFirst({ where: { connectionId: conn.id, userId: me.id } });
     if (existing?.chatId) return apiOk({ linked: true, chatId: existing.chatId });
+
+    // پلتفرم‌های شناسه‌بیرونی (دیسکورد/اسلک/لاین/مسنجر/وایبر/ماتریکس):
+    // کاربر شناسهٔ خودش در آن پلتفرم را ثبت می‌کند و همان chatId می‌شود.
+    if (p.externalId) {
+      const externalId = String(body.externalId ?? "").trim();
+      if (!externalId || externalId.length > 80) return apiErr(400, "شناسهٔ خودتان در این پلتفرم را وارد کنید.", "NO_EXTERNAL_ID");
+      if (p.id === "DISCORD" && !/^\d{15,21}$/.test(externalId)) return apiErr(400, "شناسهٔ دیسکورد باید عددی باشد (User ID).", "BAD_EXTERNAL_ID");
+      const clash = await db.botLink.findFirst({ where: { connectionId: conn.id, chatId: externalId, userId: { not: me.id } } });
+      if (clash) return apiErr(409, "این شناسه قبلاً به حساب دیگری وصل شده است.", "TAKEN");
+      const link = existing
+        ? await db.botLink.update({ where: { id: existing.id }, data: { chatId: externalId, linkCode: null, codeExpiresAt: null } })
+        : await db.botLink.create({ data: { connectionId: conn.id, userId: me.id, chatId: externalId } });
+      return apiOk({ linked: true, chatId: link.chatId });
+    }
 
     if (p.style === "whatsapp") {
       const meRow = await db.user.findUnique({ where: { id: me.id }, select: { phone: true } });
