@@ -2372,3 +2372,21 @@ CREATE TABLE IF NOT EXISTS "ConsentResponse" (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS "ConsentResponse_requestId_studentId_key" ON "ConsentResponse"("requestId", "studentId");
 CREATE INDEX IF NOT EXISTS "ConsentResponse_parentUserId_idx" ON "ConsentResponse"("parentUserId");
+CREATE TABLE IF NOT EXISTS "HeldItem" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "studentId" TEXT NOT NULL,
+  "item" TEXT NOT NULL,
+  "reason" TEXT,
+  "takenById" TEXT,
+  "status" TEXT NOT NULL DEFAULT 'HELD',
+  "returnedAt" DATETIME,
+  "returnedTo" TEXT,
+  "note" TEXT,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  CONSTRAINT "HeldItem_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "HeldItem_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "HeldItem_schoolId_status_createdAt_idx" ON "HeldItem"("schoolId", "status", "createdAt");
+CREATE INDEX IF NOT EXISTS "HeldItem_studentId_idx" ON "HeldItem"("studentId");

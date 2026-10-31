@@ -199,6 +199,7 @@ model School {
   examSeatPlans        ExamSeatPlan[]
   botConnections       BotConnection[]
   consentRequests      ConsentRequest[]
+  heldItems            HeldItem[]
 }
 
 model Class {
@@ -260,6 +261,7 @@ model Student {
   parentSummons     ParentSummon[]
   examSeatAssignments ExamSeatAssignment[]
   consentResponses  ConsentResponse[]
+  heldItems         HeldItem[]
   gradeRecords      GradeRecord[]
   fees              StudentFee[]
   behaviorRecords   BehaviorRecord[]
@@ -2623,6 +2625,28 @@ model ConsentResponse {
 
   @@unique([requestId, studentId])
   @@index([parentUserId])
+}
+
+/// امانات و وسایل ضبط‌شده — وسیله‌ای که از دانش‌آموز گرفته می‌شود (مثل گوشی)
+/// با دلیل ثبت می‌شود و تحویلش به ولی/دانش‌آموز هم ثبت و به ولی اطلاع داده می‌شود.
+model HeldItem {
+  id          String    @id @default(cuid())
+  schoolId    String
+  school      School    @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentId   String
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  item        String
+  reason      String?
+  takenById   String?
+  status      String    @default("HELD") // HELD | RETURNED
+  returnedAt  DateTime?
+  returnedTo  String?
+  note        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([schoolId, status, createdAt])
+  @@index([studentId])
 }
 
 /// اتصال ربات/مینی‌اپ یک مدرسه به یک پلتفرم پیام‌رسان یا درگاه عمومی.

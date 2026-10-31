@@ -203,6 +203,7 @@ const INSERT_ORDER = [
   "botLink",
   "consentRequest",
   "consentResponse",
+  "heldItem",
   "studyTask",
   "passkeyCredential",
 ] as const;
@@ -323,6 +324,7 @@ const DATE_FIELDS: Record<string, readonly string[]> = {
   botLink: ["codeExpiresAt", "createdAt", "updatedAt"],
   consentRequest: ["createdAt", "updatedAt"],
   consentResponse: ["createdAt", "updatedAt"],
+  heldItem: ["returnedAt", "createdAt", "updatedAt"],
   classObservation: ["date", "createdAt", "updatedAt"],
   studyTask: ["createdAt"],
   passkeyCredential: ["createdAt", "lastUsedAt"],
