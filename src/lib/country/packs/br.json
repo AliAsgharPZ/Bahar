@@ -70,189 +70,299 @@
       "name": "آکری",
       "center": "ریو برانکو",
       "counties": [
-        "آکری"
+        "Vale do Juruá",
+        "Vale do Acre"
       ]
     },
     {
       "name": "آلاگواس",
       "center": "ماسیو",
       "counties": [
-        "آلاگواس"
+        "Sertão Alagoano",
+        "Agreste Alagoano",
+        "Leste Alagoano"
       ]
     },
     {
       "name": "آمازوناس",
       "center": "مانائوس",
       "counties": [
-        "آمازوناس"
+        "Norte Amazonense",
+        "Sudoeste Amazonense",
+        "Centro Amazonense",
+        "Sul Amazonense"
       ]
     },
     {
       "name": "آماپا",
       "center": "ماکاپا",
       "counties": [
-        "آماپا"
+        "Norte do Amapá",
+        "Sul do Amapá"
       ]
     },
     {
       "name": "باهیا",
       "center": "سالوادور",
       "counties": [
-        "باهیا"
+        "Extremo Oeste Baiano",
+        "Vale São-Franciscano da Bahia",
+        "Centro Norte Baiano",
+        "Nordeste Baiano",
+        "Metropolitana de Salvador",
+        "Centro Sul Baiano",
+        "Sul Baiano"
       ]
     },
     {
       "name": "سئارا",
       "center": "فورتالزا",
       "counties": [
-        "سئارا"
+        "Noroeste Cearense",
+        "Norte Cearense",
+        "Metropolitana de Fortaleza",
+        "Sertões Cearenses",
+        "Jaguaribe",
+        "Centro-Sul Cearense",
+        "Sul Cearense"
       ]
     },
     {
       "name": "ناحیهٔ فدرال",
       "center": "برازیلیا",
       "counties": [
-        "ناحیهٔ فدرال"
+        "Distrito Federal"
       ]
     },
     {
       "name": "اسپریتو سانتو",
       "center": "ویتوریا",
       "counties": [
-        "اسپریتو سانتو"
+        "Noroeste Espírito-santense",
+        "Litoral Norte Espírito-santense",
+        "Central Espírito-santense",
+        "Sul Espírito-santense"
       ]
     },
     {
       "name": "گویاس",
       "center": "گویانیا",
       "counties": [
-        "گویاس"
+        "Noroeste Goiano",
+        "Norte Goiano",
+        "Centro Goiano",
+        "Leste Goiano",
+        "Sul Goiano"
       ]
     },
     {
       "name": "مارانیائو",
       "center": "سائو لوئیس",
       "counties": [
-        "مارانیائو"
+        "Norte Maranhense",
+        "Oeste Maranhense",
+        "Centro Maranhense",
+        "Leste Maranhense",
+        "Sul Maranhense"
       ]
     },
     {
       "name": "میناس گرایس",
       "center": "بلو هوریزونتی",
       "counties": [
-        "میناس گرایس"
+        "Noroeste de Minas",
+        "Norte de Minas",
+        "Jequitinhonha",
+        "Vale do Mucuri",
+        "Triângulo Mineiro/Alto Paranaíba",
+        "Central Mineira",
+        "Metropolitana de Belo Horizonte",
+        "Vale do Rio Doce",
+        "Oeste de Minas",
+        "Sul/Sudoeste de Minas",
+        "Campo das Vertentes",
+        "Zona da Mata"
       ]
     },
     {
       "name": "ماتو گروسو دو سول",
       "center": "کامپو گرانده",
       "counties": [
-        "ماتو گروسو دو سول"
+        "Pantanais Sul Mato-grossense",
+        "Centro Norte de Mato Grosso do Sul",
+        "Leste de Mato Grosso do Sul",
+        "Sudoeste de Mato Grosso do Sul"
       ]
     },
     {
       "name": "ماتو گروسو",
       "center": "کویابا",
       "counties": [
-        "ماتو گروسو"
+        "Norte Mato-grossense",
+        "Nordeste Mato-grossense",
+        "Sudoeste Mato-grossense",
+        "Centro-Sul Mato-grossense",
+        "Sudeste Mato-grossense"
       ]
     },
     {
       "name": "پارا",
       "center": "بلم",
       "counties": [
-        "پارا"
+        "Baixo Amazonas",
+        "Marajó",
+        "Metropolitana de Belém",
+        "Nordeste Paraense",
+        "Sudoeste Paraense",
+        "Sudeste Paraense"
       ]
     },
     {
       "name": "پارائیبا",
       "center": "ژوائو پسوآ",
       "counties": [
-        "پارائیبا"
+        "Sertão Paraibano",
+        "Borborema",
+        "Agreste Paraibano",
+        "Mata Paraibana"
       ]
     },
     {
       "name": "پرنامبوکو",
       "center": "رسیفی",
       "counties": [
-        "پرنامبوکو"
+        "Sertão Pernambucano",
+        "São Francisco Pernambucano",
+        "Agreste Pernambucano",
+        "Mata Pernambucana",
+        "Metropolitana de Recife"
       ]
     },
     {
       "name": "پیاوی",
       "center": "ترزینا",
       "counties": [
-        "پیاوی"
+        "Norte Piauiense",
+        "Centro-Norte Piauiense",
+        "Sudoeste Piauiense",
+        "Sudeste Piauiense"
       ]
     },
     {
       "name": "پارانا",
       "center": "کوریتیبا",
       "counties": [
-        "پارانا"
+        "Noroeste Paranaense",
+        "Centro Ocidental Paranaense",
+        "Norte Central Paranaense",
+        "Norte Pioneiro Paranaense",
+        "Centro Oriental Paranaense",
+        "Oeste Paranaense",
+        "Sudoeste Paranaense",
+        "Centro-Sul Paranaense",
+        "Sudeste Paranaense",
+        "Metropolitana de Curitiba"
       ]
     },
     {
       "name": "ریو دو ژانیرو",
       "center": "ریو دو ژانیرو",
       "counties": [
-        "ریو دو ژانیرو"
+        "Noroeste Fluminense",
+        "Norte Fluminense",
+        "Centro Fluminense",
+        "Baixadas",
+        "Sul Fluminense",
+        "Metropolitana do Rio de Janeiro"
       ]
     },
     {
       "name": "ریو گرانده دو نورته",
       "center": "ناتال",
       "counties": [
-        "ریو گرانده دو نورته"
+        "Oeste Potiguar",
+        "Central Potiguar",
+        "Agreste Potiguar",
+        "Leste Potiguar"
       ]
     },
     {
       "name": "روندونیا",
       "center": "پورتو ولیو",
       "counties": [
-        "روندونیا"
+        "Madeira-Guaporé",
+        "Leste Rondoniense"
       ]
     },
     {
       "name": "رورایما",
       "center": "بوآ ویستا",
       "counties": [
-        "رورایما"
+        "Norte de Roraima",
+        "Sul de Roraima"
       ]
     },
     {
       "name": "ریو گرانده دو سول",
       "center": "پورتو آلگری",
       "counties": [
-        "ریو گرانده دو سول"
+        "Noroeste Rio-grandense",
+        "Nordeste Rio-grandense",
+        "Centro Ocidental Rio-grandense",
+        "Centro Oriental Rio-grandense",
+        "Metropolitana de Porto Alegre",
+        "Sudoeste Rio-grandense",
+        "Sudeste Rio-grandense"
       ]
     },
     {
       "name": "سانتا کاتارینا",
       "center": "فلوریانوپولیس",
       "counties": [
-        "سانتا کاتارینا"
+        "Oeste Catarinense",
+        "Norte Catarinense",
+        "Serrana",
+        "Vale do Itajaí",
+        "Grande Florianópolis",
+        "Sul Catarinense"
       ]
     },
     {
       "name": "سرژیپه",
       "center": "آراکاجو",
       "counties": [
-        "سرژیپه"
+        "Sertão Sergipano",
+        "Agreste Sergipano",
+        "Leste Sergipano"
       ]
     },
     {
       "name": "سائو پائولو",
       "center": "سائو پائولو",
       "counties": [
-        "سائو پائولو"
+        "São José do Rio Preto",
+        "Ribeirão Preto",
+        "Araçatuba",
+        "Bauru",
+        "Araraquara",
+        "Piracicaba",
+        "Campinas",
+        "Presidente Prudente",
+        "Marília",
+        "Assis",
+        "Itapetininga",
+        "Macro Metropolitana Paulista",
+        "Vale do Paraíba Paulista",
+        "Litoral Sul Paulista",
+        "Metropolitana de São Paulo"
       ]
     },
     {
       "name": "توکانتینس",
       "center": "پالماس",
       "counties": [
-        "توکانتینس"
+        "Ocidental do Tocantins",
+        "Oriental do Tocantins"
       ]
     }
   ],
@@ -380,5 +490,5 @@
     "shad": false
   },
   "version": "1.0.0",
-  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور."
+  "notes": "مزورژیون‌های واقعی برزیل بر اساس فهرست رسمی IBGE (API محلات، ۲۰۲۶)؛ ۲۷ واحد و ۱۳۷ مزورژیون با سطح یکتای مزورژیون. نام‌ها عین API رسمی IBGE است و ممکن است در خط‌تیره/واژه‌بندی با چاپ‌های قدیمی تفاوت جزئی داشته باشد. نام ایالت‌ها و مراکز از بستهٔ قبلی حفظ شده است."
 }
