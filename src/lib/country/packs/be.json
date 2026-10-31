@@ -1,0 +1,229 @@
+{
+  "code": "BE",
+  "name": "بلژیک",
+  "nativeName": "België",
+  "locale": "nl-BE",
+  "direction": "ltr",
+  "timezone": "Europe/Brussels",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "شمارهٔ ملی (rijksregisternummer)",
+    "algorithm": "digits",
+    "pattern": "^\\d{11}$",
+    "placeholder": "12345678901",
+    "example": "12345678901"
+  },
+  "phone": {
+    "pattern": "^\\+32\\d{9}$",
+    "placeholder": "+32470123456",
+    "example": "+32470123456"
+  },
+  "currency": {
+    "label": "یورو",
+    "code": "EUR",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ 1",
+    "پایهٔ 2",
+    "پایهٔ 3",
+    "پایهٔ 4",
+    "پایهٔ 5",
+    "پایهٔ 6",
+    "پایهٔ 7",
+    "پایهٔ 8",
+    "پایهٔ 9",
+    "پایهٔ 10",
+    "پایهٔ 11",
+    "پایهٔ 12"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "regions": [
+    {
+      "name": "آنتورپن",
+      "center": "آنتورپن",
+      "counties": [
+        "Antwerpen",
+        "Mechelen",
+        "Turnhout"
+      ]
+    },
+    {
+      "name": "برابانت فلاندرز",
+      "center": "لوون",
+      "counties": [
+        "Halle-Vilvoorde",
+        "Leuven"
+      ]
+    },
+    {
+      "name": "برابانت والون",
+      "center": "واور",
+      "counties": [
+        "Nivelles"
+      ]
+    },
+    {
+      "name": "فلاندرز غربی",
+      "center": "بروژ",
+      "counties": [
+        "Brugge",
+        "Diksmuide",
+        "Ieper",
+        "Kortrijk",
+        "Oostende",
+        "Roeselare",
+        "Tielt",
+        "Veurne"
+      ]
+    },
+    {
+      "name": "فلاندرز شرقی",
+      "center": "خنت",
+      "counties": [
+        "Aalst",
+        "Dendermonde",
+        "Eeklo",
+        "Gent",
+        "Oudenaarde",
+        "Sint-Niklaas"
+      ]
+    },
+    {
+      "name": "انو",
+      "center": "مونس",
+      "counties": [
+        "Ath",
+        "Charleroi",
+        "La Louvière",
+        "Mons",
+        "Soignies",
+        "Thuin",
+        "Tournai-Mouscron"
+      ]
+    },
+    {
+      "name": "لیژ",
+      "center": "لیژ",
+      "counties": [
+        "Huy",
+        "Liège",
+        "Verviers",
+        "Waremme"
+      ]
+    },
+    {
+      "name": "لیمبورخ",
+      "center": "هاسلت",
+      "counties": [
+        "Hasselt",
+        "Maaseik",
+        "Tongeren"
+      ]
+    },
+    {
+      "name": "لوکزامبورگ",
+      "center": "آرلون",
+      "counties": [
+        "Arlon",
+        "Bastogne",
+        "Marche-en-Famenne",
+        "Neufchâteau",
+        "Virton"
+      ]
+    },
+    {
+      "name": "نامور",
+      "center": "نامور",
+      "counties": [
+        "Dinant",
+        "Namur",
+        "Philippeville"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "آنتورپن",
+      "cities": []
+    },
+    {
+      "province": "برابانت فلاندرز",
+      "cities": []
+    },
+    {
+      "province": "برابانت والون",
+      "cities": []
+    },
+    {
+      "province": "فلاندرز غربی",
+      "cities": []
+    },
+    {
+      "province": "فلاندرز شرقی",
+      "cities": []
+    },
+    {
+      "province": "انو",
+      "cities": []
+    },
+    {
+      "province": "لیژ",
+      "cities": []
+    },
+    {
+      "province": "لیمبورخ",
+      "cities": []
+    },
+    {
+      "province": "لوکزامبورگ",
+      "cities": []
+    },
+    {
+      "province": "نامور",
+      "cities": []
+    }
+  ],
+  "version": "1.0.0",
+  "notes": "آروندیسمان‌های واقعی بلژیک بر اساس Statbel: ۱۰ استان و ۴۲ آروندیسمان؛ آروندیسمان بروکسل-پایتخت (۴۳اُم) چون جزو هیچ استانی نیست و بروکسل استان نیست، وارد بسته نشده و جداگانه گزارش شده است. فهرست شهرستان‌ها از متن کامل تحویل چت z.ai پیاده‌سازی (ترنسکرایب) شده، چون دانلود مستقیم فایل ممکن نشد؛ شمارش و ترتیب محلی راستی‌آزمایی شده است. مراکز استان‌ها: چهار مرکز (لوون، بروژ، هاسلت، نامور) از وب‌سایت‌های رسمی خود استان‌ها؛ هر ده مرکز — از جمله شش مرکز باقی‌مانده (آنتورپن، واور، خنت، مونس، لیژ، آرلون) که وب‌سایت‌های استانی‌شان در دسترس نبود — با برگهٔ اطلاعاتی رسمی مجلس نمایندگان بلژیک «De provincies / The Provinces» شمارهٔ 32.00 (lachambre.be) تأیید شده‌اند. نام‌های فارسی استان‌ها و مراکز، نویسه‌گردانی است، نه نام رسمی فارسی؛ بلوک‌های پروفایل (نمره، پایه‌ها، شناسهٔ ملی، تلفن) عمومی/پیش‌فرض‌اند، نه نظام رسمی بلژیک (آموزش در بلژیک در صلاحیت جوامع زبانی است)."
+}
