@@ -1,0 +1,587 @@
+{
+  "code": "SE",
+  "name": "سوئد",
+  "nativeName": "Sverige",
+  "locale": "sv-SE",
+  "direction": "ltr",
+  "timezone": "Europe/Stockholm",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "شمارهٔ ملی (personnummer)",
+    "algorithm": "digits",
+    "pattern": "^\\d{12}$",
+    "placeholder": "199001011234",
+    "example": "199001011234"
+  },
+  "phone": {
+    "pattern": "^\\+46\\d{9}$",
+    "placeholder": "+46701234567",
+    "example": "+46701234567"
+  },
+  "currency": {
+    "label": "کرون سوئد",
+    "code": "SEK",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ 1",
+    "پایهٔ 2",
+    "پایهٔ 3",
+    "پایهٔ 4",
+    "پایهٔ 5",
+    "پایهٔ 6",
+    "پایهٔ 7",
+    "پایهٔ 8",
+    "پایهٔ 9",
+    "پایهٔ 10",
+    "پایهٔ 11",
+    "پایهٔ 12"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "regions": [
+    {
+      "name": "استکهلم",
+      "center": "استکهلم",
+      "counties": [
+        "Upplands Väsby",
+        "Vallentuna",
+        "Österåker",
+        "Värmdö",
+        "Järfälla",
+        "Ekerö",
+        "Huddinge",
+        "Botkyrka",
+        "Salem",
+        "Haninge",
+        "Tyresö",
+        "Upplands-Bro",
+        "Nykvarn",
+        "Täby",
+        "Danderyd",
+        "Sollentuna",
+        "Stockholm",
+        "Södertälje",
+        "Nacka",
+        "Sundbyberg",
+        "Solna",
+        "Lidingö",
+        "Vaxholm",
+        "Norrtälje",
+        "Sigtuna",
+        "Nynäshamn"
+      ]
+    },
+    {
+      "name": "اوپسالا",
+      "center": "اوپسالا",
+      "counties": [
+        "Håbo",
+        "Älvkarleby",
+        "Knivsta",
+        "Heby",
+        "Tierp",
+        "Uppsala",
+        "Enköping",
+        "Östhammar"
+      ]
+    },
+    {
+      "name": "سودرمانلاند",
+      "center": "نی‌شوپینگ",
+      "counties": [
+        "Vingåker",
+        "Gnesta",
+        "Nyköping",
+        "Oxelösund",
+        "Flen",
+        "Katrineholm",
+        "Eskilstuna",
+        "Strängnäs",
+        "Trosa"
+      ]
+    },
+    {
+      "name": "اوسترگوتلاند",
+      "center": "لین‌شوپینگ",
+      "counties": [
+        "Ödeshög",
+        "Ydre",
+        "Kinda",
+        "Boxholm",
+        "Åtvidaberg",
+        "Finspång",
+        "Valdemarsvik",
+        "Linköping",
+        "Norrköping",
+        "Söderköping",
+        "Motala",
+        "Vadstena",
+        "Mjölby"
+      ]
+    },
+    {
+      "name": "یونشوپینگ",
+      "center": "یونشوپینگ",
+      "counties": [
+        "Aneby",
+        "Gnosjö",
+        "Mullsjö",
+        "Habo",
+        "Gislaved",
+        "Vaggeryd",
+        "Jönköping",
+        "Nässjö",
+        "Värnamo",
+        "Sävsjö",
+        "Vetlanda",
+        "Eksjö",
+        "Tranås"
+      ]
+    },
+    {
+      "name": "کرونوبری",
+      "center": "وکخو",
+      "counties": [
+        "Uppvidinge",
+        "Lessebo",
+        "Tingsryd",
+        "Alvesta",
+        "Älmhult",
+        "Markaryd",
+        "Växjö",
+        "Ljungby"
+      ]
+    },
+    {
+      "name": "کالمار",
+      "center": "کالمار",
+      "counties": [
+        "Högsby",
+        "Torsås",
+        "Mörbylånga",
+        "Hultsfred",
+        "Mönsterås",
+        "Emmaboda",
+        "Kalmar",
+        "Nybro",
+        "Oskarshamn",
+        "Västervik",
+        "Vimmerby",
+        "Borgholm"
+      ]
+    },
+    {
+      "name": "گوتلاند",
+      "center": "ویسبی",
+      "counties": [
+        "Gotland"
+      ]
+    },
+    {
+      "name": "بلکینگه",
+      "center": "کارلسکرونا",
+      "counties": [
+        "Olofström",
+        "Karlskrona",
+        "Ronneby",
+        "Karlshamn",
+        "Sölvesborg"
+      ]
+    },
+    {
+      "name": "اسکونه",
+      "center": "مالمو",
+      "counties": [
+        "Svalöv",
+        "Staffanstorp",
+        "Burlöv",
+        "Vellinge",
+        "Östra Göinge",
+        "Örkelljunga",
+        "Bjuv",
+        "Kävlinge",
+        "Lomma",
+        "Svedala",
+        "Skurup",
+        "Sjöbo",
+        "Hörby",
+        "Höör",
+        "Tomelilla",
+        "Bromölla",
+        "Osby",
+        "Perstorp",
+        "Klippan",
+        "Åstorp",
+        "Båstad",
+        "Malmö",
+        "Lund",
+        "Landskrona",
+        "Helsingborg",
+        "Höganäs",
+        "Eslöv",
+        "Ystad",
+        "Trelleborg",
+        "Kristianstad",
+        "Simrishamn",
+        "Ängelholm",
+        "Hässleholm"
+      ]
+    },
+    {
+      "name": "هاللاند",
+      "center": "هالمستاد",
+      "counties": [
+        "Hylte",
+        "Halmstad",
+        "Laholm",
+        "Falkenberg",
+        "Varberg",
+        "Kungsbacka"
+      ]
+    },
+    {
+      "name": "وسترا یوتالاند",
+      "center": "یوتبری",
+      "counties": [
+        "Härryda",
+        "Partille",
+        "Öckerö",
+        "Stenungsund",
+        "Tjörn",
+        "Orust",
+        "Sotenäs",
+        "Munkedal",
+        "Tanum",
+        "Dals-Ed",
+        "Färgelanda",
+        "Ale",
+        "Lerum",
+        "Vårgårda",
+        "Bollebygd",
+        "Grästorp",
+        "Essunga",
+        "Karlsborg",
+        "Gullspång",
+        "Tranemo",
+        "Bengtsfors",
+        "Mellerud",
+        "Lilla Edet",
+        "Mark",
+        "Svenljunga",
+        "Herrljunga",
+        "Vara",
+        "Götene",
+        "Tibro",
+        "Töreboda",
+        "Göteborg",
+        "Mölndal",
+        "Kungälv",
+        "Lysekil",
+        "Uddevalla",
+        "Strömstad",
+        "Vänersborg",
+        "Trollhättan",
+        "Alingsås",
+        "Borås",
+        "Ulricehamn",
+        "Åmål",
+        "Mariestad",
+        "Lidköping",
+        "Skara",
+        "Skövde",
+        "Hjo",
+        "Tidaholm",
+        "Falköping"
+      ]
+    },
+    {
+      "name": "ورملاند",
+      "center": "کارلستاد",
+      "counties": [
+        "Kil",
+        "Eda",
+        "Torsby",
+        "Storfors",
+        "Hammarö",
+        "Munkfors",
+        "Forshaga",
+        "Grums",
+        "Årjäng",
+        "Sunne",
+        "Karlstad",
+        "Kristinehamn",
+        "Filipstad",
+        "Hagfors",
+        "Arvika",
+        "Säffle"
+      ]
+    },
+    {
+      "name": "اوربرو",
+      "center": "اوربرو",
+      "counties": [
+        "Lekeberg",
+        "Laxå",
+        "Hallsberg",
+        "Degerfors",
+        "Hällefors",
+        "Ljusnarsberg",
+        "Örebro",
+        "Kumla",
+        "Askersund",
+        "Karlskoga",
+        "Nora",
+        "Lindesberg"
+      ]
+    },
+    {
+      "name": "وستمانلاند",
+      "center": "وستروس",
+      "counties": [
+        "Skinnskatteberg",
+        "Surahammar",
+        "Kungsör",
+        "Hallstahammar",
+        "Norberg",
+        "Västerås",
+        "Sala",
+        "Fagersta",
+        "Köping",
+        "Arboga"
+      ]
+    },
+    {
+      "name": "دالارنا",
+      "center": "فالون",
+      "counties": [
+        "Vansbro",
+        "Malung-Sälen",
+        "Gagnef",
+        "Leksand",
+        "Rättvik",
+        "Orsa",
+        "Älvdalen",
+        "Smedjebacken",
+        "Mora",
+        "Falun",
+        "Borlänge",
+        "Säter",
+        "Hedemora",
+        "Avesta",
+        "Ludvika"
+      ]
+    },
+    {
+      "name": "یولبورگ",
+      "center": "یوله",
+      "counties": [
+        "Ockelbo",
+        "Hofors",
+        "Ovanåker",
+        "Nordanstig",
+        "Ljusdal",
+        "Gävle",
+        "Sandviken",
+        "Söderhamn",
+        "Bollnäs",
+        "Hudiksvall"
+      ]
+    },
+    {
+      "name": "وسترنورلاند",
+      "center": "هرنوساند",
+      "counties": [
+        "Ånge",
+        "Timrå",
+        "Härnösand",
+        "Sundsvall",
+        "Kramfors",
+        "Sollefteå",
+        "Örnsköldsvik"
+      ]
+    },
+    {
+      "name": "یمتلاند",
+      "center": "اوسترسوند",
+      "counties": [
+        "Ragunda",
+        "Bräcke",
+        "Krokom",
+        "Strömsund",
+        "Åre",
+        "Berg",
+        "Härjedalen",
+        "Östersund"
+      ]
+    },
+    {
+      "name": "وستربوتن",
+      "center": "اومیو",
+      "counties": [
+        "Nordmaling",
+        "Bjurholm",
+        "Vindeln",
+        "Robertsfors",
+        "Norsjö",
+        "Malå",
+        "Storuman",
+        "Sorsele",
+        "Dorotea",
+        "Vännäs",
+        "Vilhelmina",
+        "Åsele",
+        "Umeå",
+        "Lycksele",
+        "Skellefteå"
+      ]
+    },
+    {
+      "name": "نوربوتن",
+      "center": "لولیو",
+      "counties": [
+        "Arvidsjaur",
+        "Arjeplog",
+        "Jokkmokk",
+        "Överkalix",
+        "Kalix",
+        "Övertorneå",
+        "Pajala",
+        "Gällivare",
+        "Älvsbyn",
+        "Luleå",
+        "Piteå",
+        "Boden",
+        "Haparanda",
+        "Kiruna"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "استکهلم",
+      "cities": []
+    },
+    {
+      "province": "اوپسالا",
+      "cities": []
+    },
+    {
+      "province": "سودرمانلاند",
+      "cities": []
+    },
+    {
+      "province": "اوسترگوتلاند",
+      "cities": []
+    },
+    {
+      "province": "یونشوپینگ",
+      "cities": []
+    },
+    {
+      "province": "کرونوبری",
+      "cities": []
+    },
+    {
+      "province": "کالمار",
+      "cities": []
+    },
+    {
+      "province": "گوتلاند",
+      "cities": []
+    },
+    {
+      "province": "بلکینگه",
+      "cities": []
+    },
+    {
+      "province": "اسکونه",
+      "cities": []
+    },
+    {
+      "province": "هاللاند",
+      "cities": []
+    },
+    {
+      "province": "وسترا یوتالاند",
+      "cities": []
+    },
+    {
+      "province": "ورملاند",
+      "cities": []
+    },
+    {
+      "province": "اوربرو",
+      "cities": []
+    },
+    {
+      "province": "وستمانلاند",
+      "cities": []
+    },
+    {
+      "province": "دالارنا",
+      "cities": []
+    },
+    {
+      "province": "یولبورگ",
+      "cities": []
+    },
+    {
+      "province": "وسترنورلاند",
+      "cities": []
+    },
+    {
+      "province": "یمتلاند",
+      "cities": []
+    },
+    {
+      "province": "وستربوتن",
+      "cities": []
+    },
+    {
+      "province": "نوربوتن",
+      "cities": []
+    }
+  ],
+  "version": "1.0.0",
+  "notes": "شهرداری‌های واقعی سوئد بر اساس SCB (فهرست ۲۰۲۶ به ترتیب کد)؛ ۲۱ شهرستان و ۲۹۰ شهرداری. مراکز شهرستان‌ها (residensstad) از صفحات رسمی länsstyrelsen است. نام‌های فارسی شهرستان‌ها و مراکز، نویسه‌گردانی است، نه نام رسمی فارسی؛ بلوک‌های پروفایل (نمره، پایه‌ها، شناسهٔ ملی، تلفن) عمومی/پیش‌فرض‌اند، نه نظام رسمی کشور."
+}
