@@ -314,11 +314,15 @@ export async function DELETE(req: NextRequest) {
     if (blocked) return blocked;
     const id = new URL(req.url).searchParams.get("id") ?? "";
     if (!id) return apiErr(400, "شناسه لازم است.", "NO_ID");
-    const row = await db.student.findUnique({ where: { id }, select: { schoolId: true } });
+    const row = await db.student.findUnique({ where: { id }, select: { schoolId: true, userId: true } });
     if (!row) return apiErr(404, "یافت نشد.", "NOT_FOUND");
     if (me.schoolId && row.schoolId !== me.schoolId) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
-    
-    await db.student.delete({ where: { id } });
+
+    // حذف پروفایل نباید لاگین را یتیم کند: اول کاربر غیرفعال و نشست‌هایش باطل، بعد حذف پروفایل
+    await db.$transaction([
+      db.user.update({ where: { id: row.userId }, data: { isActive: false, tokenVersion: { increment: 1 } } }),
+      db.student.delete({ where: { id } }),
+    ]);
     return apiOk({ ok: true });
   } catch (e) { return handleApiError(e); }
 }
