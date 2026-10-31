@@ -149,6 +149,26 @@ export default function AttendancePage() {
           <StatCard icon={FileText} label={t("enum.attendance.EXCUSED")} value={counts.EXCUSED ?? 0} tone="ink" />
         </div>
 
+        {(() => {
+          const byMethod = (sheetData?.students ?? []).filter((s) => s.status).reduce<Record<string, number>>((acc, s) => {
+            const m = s.method ?? "MANUAL";
+            acc[m] = (acc[m] ?? 0) + 1;
+            return acc;
+          }, {});
+          const methods = Object.entries(byMethod);
+          if (methods.length <= 1) return null;
+          return (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[12px] font-bold text-steel">{t("attendance.m.recordedVia")}:</span>
+              {methods.map(([m, n]) => (
+                <span key={m} className="b-badge b-badge-neutral">
+                  {["FACE", "CCTV", "NFC", "GATE", "OTHER"].includes(m) ? t(`attendance.m.method.${m}`) : t(`attendance.m.short.${m}`)}: {faNumber(n)}
+                </span>
+              ))}
+            </div>
+          );
+        })()}
+
         {sheetError && <ErrorBox message={sheetError} />}
         {sheetLoading && <LoadingBlock />}
         {sheetData && sheetData.students.length === 0 && (
