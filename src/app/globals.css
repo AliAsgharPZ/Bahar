@@ -350,6 +350,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* هیچ صفحه‌ای (پنل یا سایت عمومی) نباید اسکرول افقی بگیرد: hidden
+       fallback همگانی است و clip در موتورهای جدید جای آن را می‌گیرد
+       (clip کانتینر اسکرول نمی‌سازد، پس هدر/سایدبار sticky سالم می‌ماند).
+       وب‌ویو داک‌داک‌گو و موتورهای قدیمی clip تنها را نادیده می‌گرفتند. */
+    overflow-x: hidden;
+    overflow-x: clip;
     font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
     font-size: 16px;
     line-height: 1.55;
