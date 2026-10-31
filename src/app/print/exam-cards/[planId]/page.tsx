@@ -7,7 +7,8 @@ import { Loader2, Printer, ShieldX, Sprout } from "lucide-react";
 import { LangProvider, useLang } from "@/lib/i18n";
 import { faNumber } from "@/lib/persian";
 
-type Assignment = { id: string; sessionNo: number; roomName: string; seatNo: number; studentName: string; studentNumber: string; className: string };
+type Assignment = { id: string; studentId: string; sessionNo: number; roomName: string; seatNo: number; studentName: string; studentNumber: string; className: string };
+type MineCard = Assignment & { planId: string; planTitle: string; planDate: string };
 type Detail = {
   plan: { id: string; title: string; date: string; sessions: number };
   schoolName: string;
@@ -21,13 +22,31 @@ function CardsInner() {
   const [data, setData] = useState<Detail | null>(null);
   const [failed, setFailed] = useState(false);
   const [session, setSession] = useState(1);
+  const [studentFilter, setStudentFilter] = useState("");
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = Number(q.get("session") ?? "1");
     if (s >= 1) setSession(s);
+    setStudentFilter(q.get("student") ?? "");
     (async () => {
       try {
+        const student = new URLSearchParams(window.location.search).get("student") ?? "";
+        if (student) {
+          // نمای دانش‌آموز/ولی: فقط کارت‌های خودشان از مسیر mine
+          const res = await fetch("/api/exam-seats/mine");
+          if (!res.ok) throw new Error();
+          const json = (await res.json()) as { data?: { schoolName: string; cards: MineCard[] } };
+          const mine = (json.data?.cards ?? []).filter((c) => c.planId === params.planId);
+          if (!mine.length) throw new Error();
+          const first = mine[0];
+          setData({
+            plan: { id: params.planId, title: first.planTitle, date: first.planDate, sessions: Math.max(...mine.map((c) => c.sessionNo)) },
+            schoolName: json.data?.schoolName ?? "",
+            assignments: mine,
+          });
+          return;
+        }
         const res = await fetch(`/api/exam-seats?id=${params.planId}`);
         if (!res.ok) throw new Error();
         const json = (await res.json()) as { data?: Detail } & Detail;
@@ -38,7 +57,7 @@ function CardsInner() {
     })();
   }, [params.planId]);
 
-  const cards = (data?.assignments ?? []).filter((a) => a.sessionNo === session);
+  const cards = (data?.assignments ?? []).filter((a) => a.sessionNo === session && (!studentFilter || a.studentId === studentFilter));
 
   return (
     <main className="min-h-dvh bg-white text-ink">

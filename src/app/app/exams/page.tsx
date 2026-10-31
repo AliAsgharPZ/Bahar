@@ -3,11 +3,13 @@
 import { useLang } from "@/lib/i18n";
 
 import { useState } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { ClipboardList, Loader2, Plus, Printer, Users, Armchair, IdCard, Trash2 } from "lucide-react";
 import { useApi, apiPost, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState, StatCard } from "@/components/shared/bits";
 import { Select, useConfirm } from "@/components/shared/pickers";
+import { MyExamCards } from "@/components/my-exam-cards";
 import { formatDateFa, faNumber } from "@/lib/persian";
 
 type Session = { id: string; title: string; subjectName: string | null; startsAt: string; durationMin: number; _count?: { seats: number; invigilators: number } };
@@ -108,6 +110,7 @@ export default function ExamsPage() {
             </div>
           ))}
         </div>
+        <MyExamCards />
       </div>
     );
   }
@@ -153,6 +156,7 @@ export default function ExamsPage() {
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <b className="text-[16px]">{detail.session.title}</b>
               <span className="flex gap-2">
+                <Link className="b-btn b-btn-ghost b-btn-sm" href="/app/exam-seats"><Armchair className="w-4 h-4" /> {t("nav.examSeats")}</Link>
                 <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => window.print()}><Printer className="w-4 h-4" /> {t("exams.printCards")}</button>
                 <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={() => remove(selId)}><Trash2 className="w-4 h-4" /> {t("exams.delete.title")}</button>
               </span>

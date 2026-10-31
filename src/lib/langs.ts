@@ -1057,6 +1057,8 @@ export const CATALOG: Record<string, string> = {
   "examSeats.card.session": "نوبت",
   "examSeats.card.class": "کلاس",
   "examSeats.card.studentNo": "شماره دانش‌آموزی",
+  "examSeats.my.title": "کارت و شماره صندلی من",
+  "examSeats.my.empty": "هنوز برای شما شماره صندلی امتحانی ساخته نشده است.",
   "examSeats.roster": "لیست جلسه برای مراقب",
   "examSeats.printRoster": "چاپ لیست جلسه",
   "examSeats.card.signature": "امضا",
