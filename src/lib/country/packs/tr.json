@@ -70,567 +70,1459 @@
       "name": "آدانا",
       "center": "آدانا",
       "counties": [
-        "آدانا"
+        "Aladağ",
+        "Ceyhan",
+        "Çukurova",
+        "Feke",
+        "İmamoğlu",
+        "Karaisalı",
+        "Karataş",
+        "Kozan",
+        "Pozantı",
+        "Saimbeyli",
+        "Sarıçam",
+        "Seyhan",
+        "Tufanbeyli",
+        "Yumurtalık",
+        "Yüreğir"
       ]
     },
     {
       "name": "آدیامان",
       "center": "آدیامان",
       "counties": [
-        "آدیامان"
+        "Adıyaman",
+        "Besni",
+        "Çelikhan",
+        "Gerger",
+        "Gölbaşı",
+        "Kâhta",
+        "Samsat",
+        "Sincik",
+        "Tut"
       ]
     },
     {
       "name": "افیون قره‌حصار",
       "center": "افیون قره‌حصار",
       "counties": [
-        "افیون قره‌حصار"
+        "Afyonkarahisar",
+        "Başmakçı",
+        "Bayat",
+        "Bolvadin",
+        "Çay",
+        "Çobanlar",
+        "Dazkırı",
+        "Dinar",
+        "Emirdağ",
+        "Evciler",
+        "Hocalar",
+        "İhsaniye",
+        "İscehisar",
+        "Kızılören",
+        "Sandıklı",
+        "Sinanpaşa",
+        "Sultandağı",
+        "Şuhut"
       ]
     },
     {
       "name": "آغری",
       "center": "آغری",
       "counties": [
-        "آغری"
+        "Ağrı",
+        "Diyadin",
+        "Doğubayazıt",
+        "Eleşkirt",
+        "Hamur",
+        "Patnos",
+        "Taşlıçay",
+        "Tutak"
       ]
     },
     {
       "name": "آق‌سرای",
       "center": "آق‌سرای",
       "counties": [
-        "آق‌سرای"
+        "Ağaçören",
+        "Aksaray",
+        "Eskil",
+        "Gülağaç",
+        "Güzelyurt",
+        "Ortaköy",
+        "Sarıyahşi",
+        "Sultanhanı"
       ]
     },
     {
       "name": "آماسیا",
       "center": "آماسیا",
       "counties": [
-        "آماسیا"
+        "Amasya",
+        "Göynücek",
+        "Gümüşhacıköy",
+        "Hamamözü",
+        "Merzifon",
+        "Suluova",
+        "Taşova"
       ]
     },
     {
       "name": "آنکارا",
       "center": "آنکارا",
       "counties": [
-        "آنکارا"
+        "Akyurt",
+        "Altındağ",
+        "Ayaş",
+        "Balâ",
+        "Beypazarı",
+        "Çamlıdere",
+        "Çankaya",
+        "Çubuk",
+        "Elmadağ",
+        "Etimesgut",
+        "Evren",
+        "Gölbaşı",
+        "Güdül",
+        "Haymana",
+        "Kahramankazan",
+        "Kalecik",
+        "Keçiören",
+        "Kızılcahamam",
+        "Mamak",
+        "Nallıhan",
+        "Polatlı",
+        "Pursaklar",
+        "Sincan",
+        "Şereflikoçhisar",
+        "Yenimahalle"
       ]
     },
     {
       "name": "آنتالیا",
       "center": "آنتالیا",
       "counties": [
-        "آنتالیا"
+        "Akseki",
+        "Aksu",
+        "Alanya",
+        "Demre",
+        "Döşemealtı",
+        "Elmalı",
+        "Finike",
+        "Gazipaşa",
+        "Gündoğmuş",
+        "İbradı",
+        "Kaş",
+        "Kemer",
+        "Kepez",
+        "Konyaaltı",
+        "Korkuteli",
+        "Kumluca",
+        "Manavgat",
+        "Muratpaşa",
+        "Serik"
       ]
     },
     {
       "name": "اردهان",
       "center": "اردهان",
       "counties": [
-        "اردهان"
+        "Ardahan",
+        "Çıldır",
+        "Damal",
+        "Göle",
+        "Hanak",
+        "Posof"
       ]
     },
     {
       "name": "آرتوین",
       "center": "آرتوین",
       "counties": [
-        "آرتوین"
+        "Ardanuç",
+        "Arhavi",
+        "Artvin",
+        "Borçka",
+        "Hopa",
+        "Kemalpaşa",
+        "Murgul",
+        "Şavşat",
+        "Yusufeli"
       ]
     },
     {
       "name": "آیدین",
       "center": "آیدین",
       "counties": [
-        "آیدین"
+        "Bozdoğan",
+        "Buharkent",
+        "Çine",
+        "Didim",
+        "Efeler",
+        "Germencik",
+        "İncirliova",
+        "Karacasu",
+        "Karpuzlu",
+        "Koçarlı",
+        "Köşk",
+        "Kuşadası",
+        "Kuyucak",
+        "Nazilli",
+        "Söke",
+        "Sultanhisar",
+        "Yenipazar"
       ]
     },
     {
       "name": "بالیک‌اسیر",
       "center": "بالیک‌اسیر",
       "counties": [
-        "بالیک‌اسیر"
+        "Altıeylül",
+        "Ayvalık",
+        "Balya",
+        "Bandırma",
+        "Bigadiç",
+        "Burhaniye",
+        "Dursunbey",
+        "Edremit",
+        "Erdek",
+        "Gömeç",
+        "Gönen",
+        "Havran",
+        "İvrindi",
+        "Karesi",
+        "Kepsut",
+        "Manyas",
+        "Marmara",
+        "Savaştepe",
+        "Sındırgı",
+        "Susurluk"
       ]
     },
     {
       "name": "بارتین",
       "center": "بارتین",
       "counties": [
-        "بارتین"
+        "Amasra",
+        "Bartın",
+        "Kurucaşile",
+        "Ulus"
       ]
     },
     {
       "name": "باتمان",
       "center": "باتمان",
       "counties": [
-        "باتمان"
+        "Batman",
+        "Beşiri",
+        "Gercüş",
+        "Hasankeyf",
+        "Kozluk",
+        "Sason"
       ]
     },
     {
       "name": "بایبورت",
       "center": "بایبورت",
       "counties": [
-        "بایبورت"
+        "Aydıntepe",
+        "Bayburt",
+        "Demirözü"
       ]
     },
     {
       "name": "بیله‌جک",
       "center": "بیله‌جک",
       "counties": [
-        "بیله‌جک"
+        "Bilecik",
+        "Bozüyük",
+        "Gölpazarı",
+        "İnhisar",
+        "Osmaneli",
+        "Pazaryeri",
+        "Söğüt",
+        "Yenipazar"
       ]
     },
     {
       "name": "بینگل",
       "center": "بینگل",
       "counties": [
-        "بینگل"
+        "Adaklı",
+        "Bingöl",
+        "Genç",
+        "Karlıova",
+        "Kiğı",
+        "Solhan",
+        "Yayladere",
+        "Yedisu"
       ]
     },
     {
       "name": "بیتلیس",
       "center": "بیتلیس",
       "counties": [
-        "بیتلیس"
+        "Adilcevaz",
+        "Ahlat",
+        "Bitlis",
+        "Güroymak",
+        "Hizan",
+        "Mutki",
+        "Tatvan"
       ]
     },
     {
       "name": "بولو",
       "center": "بولو",
       "counties": [
-        "بولو"
+        "Bolu",
+        "Dörtdivan",
+        "Gerede",
+        "Göynük",
+        "Kıbrıscık",
+        "Mengen",
+        "Mudurnu",
+        "Seben",
+        "Yeniçağa"
       ]
     },
     {
       "name": "بوردور",
       "center": "بوردور",
       "counties": [
-        "بوردور"
+        "Ağlasun",
+        "Altınyayla",
+        "Bucak",
+        "Burdur",
+        "Çavdır",
+        "Çeltikçi",
+        "Gölhisar",
+        "Karamanlı",
+        "Kemer",
+        "Tefenni",
+        "Yeşilova"
       ]
     },
     {
       "name": "بورسا",
       "center": "بورسا",
       "counties": [
-        "بورسا"
+        "Büyükorhan",
+        "Gemlik",
+        "Gürsu",
+        "Harmancık",
+        "İnegöl",
+        "İznik",
+        "Karacabey",
+        "Keles",
+        "Kestel",
+        "Mudanya",
+        "Mustafakemalpaşa",
+        "Nilüfer",
+        "Orhaneli",
+        "Orhangazi",
+        "Osmangazi",
+        "Yenişehir",
+        "Yıldırım"
       ]
     },
     {
       "name": "چاناق‌قلعه",
       "center": "چاناق‌قلعه",
       "counties": [
-        "چاناق‌قلعه"
+        "Ayvacık",
+        "Bayramiç",
+        "Biga",
+        "Bozcaada",
+        "Çan",
+        "Çanakkale",
+        "Eceabat",
+        "Ezine",
+        "Gelibolu",
+        "Gökçeada",
+        "Lapseki",
+        "Yenice"
       ]
     },
     {
       "name": "چانکری",
       "center": "چانکری",
       "counties": [
-        "چانکری"
+        "Atkaracalar",
+        "Bayramören",
+        "Çankırı",
+        "Çerkeş",
+        "Eldivan",
+        "Ilgaz",
+        "Kızılırmak",
+        "Korgun",
+        "Kurşunlu",
+        "Orta",
+        "Şabanözü",
+        "Yapraklı"
       ]
     },
     {
       "name": "چوروم",
       "center": "چوروم",
       "counties": [
-        "چوروم"
+        "Alaca",
+        "Bayat",
+        "Boğazkale",
+        "Çorum",
+        "Dodurga",
+        "İskilip",
+        "Kargı",
+        "Laçin",
+        "Mecitözü",
+        "Oğuzlar",
+        "Ortaköy",
+        "Osmancık",
+        "Sungurlu",
+        "Uğurludağ"
       ]
     },
     {
       "name": "دنیزلی",
       "center": "دنیزلی",
       "counties": [
-        "دنیزلی"
+        "Acıpayam",
+        "Babadağ",
+        "Baklan",
+        "Bekilli",
+        "Beyağaç",
+        "Bozkurt",
+        "Buldan",
+        "Çal",
+        "Çameli",
+        "Çardak",
+        "Çivril",
+        "Güney",
+        "Honaz",
+        "Kale",
+        "Merkezefendi",
+        "Pamukkale",
+        "Sarayköy",
+        "Serinhisar",
+        "Tavas"
       ]
     },
     {
       "name": "دیاربکر",
       "center": "دیاربکر",
       "counties": [
-        "دیاربکر"
+        "Bağlar",
+        "Bismil",
+        "Çermik",
+        "Çınar",
+        "Çüngüş",
+        "Dicle",
+        "Eğil",
+        "Ergani",
+        "Hani",
+        "Hazro",
+        "Kayapınar",
+        "Kocaköy",
+        "Kulp",
+        "Lice",
+        "Silvan",
+        "Sur",
+        "Yenişehir"
       ]
     },
     {
       "name": "دوزجه",
       "center": "دوزجه",
       "counties": [
-        "دوزجه"
+        "Akçakoca",
+        "Cumayeri",
+        "Çilimli",
+        "Düzce",
+        "Gölyaka",
+        "Gümüşova",
+        "Kaynaşlı",
+        "Yığılca"
       ]
     },
     {
       "name": "ادیرنه",
       "center": "ادیرنه",
       "counties": [
-        "ادیرنه"
+        "Edirne",
+        "Enez",
+        "Havsa",
+        "İpsala",
+        "Keşan",
+        "Lalapaşa",
+        "Meriç",
+        "Süloğlu",
+        "Uzunköprü"
       ]
     },
     {
       "name": "الازیغ",
       "center": "الازیغ",
       "counties": [
-        "الازیغ"
+        "Ağın",
+        "Alacakaya",
+        "Arıcak",
+        "Baskil",
+        "Elazığ",
+        "Karakoçan",
+        "Keban",
+        "Kovancılar",
+        "Maden",
+        "Palu",
+        "Sivrice"
       ]
     },
     {
       "name": "ارزنجان",
       "center": "ارزنجان",
       "counties": [
-        "ارزنجان"
+        "Çayırlı",
+        "Erzincan",
+        "İliç",
+        "Kemah",
+        "Kemaliye",
+        "Otlukbeli",
+        "Refahiye",
+        "Tercan",
+        "Üzümlü"
       ]
     },
     {
       "name": "ارزروم",
       "center": "ارزروم",
       "counties": [
-        "ارزروم"
+        "Aşkale",
+        "Aziziye",
+        "Çat",
+        "Hınıs",
+        "Horasan",
+        "İspir",
+        "Karaçoban",
+        "Karayazı",
+        "Köprüköy",
+        "Narman",
+        "Oltu",
+        "Olur",
+        "Palandöken",
+        "Pasinler",
+        "Pazaryolu",
+        "Şenkaya",
+        "Tekman",
+        "Tortum",
+        "Uzundere",
+        "Yakutiye"
       ]
     },
     {
       "name": "اسکی‌شهر",
       "center": "اسکی‌شهر",
       "counties": [
-        "اسکی‌شهر"
+        "Alpu",
+        "Beylikova",
+        "Çifteler",
+        "Günyüzü",
+        "Han",
+        "İnönü",
+        "Mahmudiye",
+        "Mihalgazi",
+        "Mihalıççık",
+        "Odunpazarı",
+        "Sarıcakaya",
+        "Seyitgazi",
+        "Sivrihisar",
+        "Tepebaşı"
       ]
     },
     {
       "name": "غازی عینتاب",
       "center": "غازی عینتاب",
       "counties": [
-        "غازی عینتاب"
+        "Araban",
+        "İslahiye",
+        "Karkamış",
+        "Nizip",
+        "Nurdağı",
+        "Oğuzeli",
+        "Şahinbey",
+        "Şehitkamil",
+        "Yavuzeli"
       ]
     },
     {
       "name": "گیرسون",
       "center": "گیرسون",
       "counties": [
-        "گیرسون"
+        "Alucra",
+        "Bulancak",
+        "Çamoluk",
+        "Çanakçı",
+        "Dereli",
+        "Doğankent",
+        "Espiye",
+        "Eynesil",
+        "Giresun",
+        "Görele",
+        "Güce",
+        "Keşap",
+        "Piraziz",
+        "Şebinkarahisar",
+        "Tirebolu",
+        "Yağlıdere"
       ]
     },
     {
       "name": "گوموش‌خانه",
       "center": "گوموش‌خانه",
       "counties": [
-        "گوموش‌خانه"
+        "Gümüşhane",
+        "Kelkit",
+        "Köse",
+        "Kürtün",
+        "Şiran",
+        "Torul"
       ]
     },
     {
       "name": "حکاری",
       "center": "حکاری",
       "counties": [
-        "حکاری"
+        "Çukurca",
+        "Derecik",
+        "Hakkâri",
+        "Şemdinli",
+        "Yüksekova"
       ]
     },
     {
       "name": "ختای",
       "center": "ختای",
       "counties": [
-        "ختای"
+        "Altınözü",
+        "Antakya",
+        "Arsuz",
+        "Belen",
+        "Defne",
+        "Dörtyol",
+        "Erzin",
+        "Hassa",
+        "İskenderun",
+        "Kırıkhan",
+        "Kumlu",
+        "Payas",
+        "Reyhanlı",
+        "Samandağ",
+        "Yayladağı"
       ]
     },
     {
       "name": "ایغدیر",
       "center": "ایغدیر",
       "counties": [
-        "ایغدیر"
+        "Aralık",
+        "Iğdır",
+        "Karakoyunlu",
+        "Tuzluca"
       ]
     },
     {
       "name": "اسپارتا",
       "center": "اسپارتا",
       "counties": [
-        "اسپارتا"
+        "Aksu",
+        "Atabey",
+        "Eğirdir",
+        "Gelendost",
+        "Gönen",
+        "Isparta",
+        "Keçiborlu",
+        "Senirkent",
+        "Sütçüler",
+        "Şarkikaraağaç",
+        "Uluborlu",
+        "Yalvaç",
+        "Yenişarbademli"
       ]
     },
     {
       "name": "استانبول",
       "center": "استانبول",
       "counties": [
-        "استانبول"
+        "Adalar",
+        "Arnavutköy",
+        "Ataşehir",
+        "Avcılar",
+        "Bağcılar",
+        "Bahçelievler",
+        "Bakırköy",
+        "Başakşehir",
+        "Bayrampaşa",
+        "Beşiktaş",
+        "Beykoz",
+        "Beylikdüzü",
+        "Beyoğlu",
+        "Büyükçekmece",
+        "Çatalca",
+        "Çekmeköy",
+        "Esenler",
+        "Esenyurt",
+        "Eyüpsultan",
+        "Fatih",
+        "Gaziosmanpaşa",
+        "Güngören",
+        "Kadıköy",
+        "Kâğıthane",
+        "Kartal",
+        "Küçükçekmece",
+        "Maltepe",
+        "Pendik",
+        "Sancaktepe",
+        "Sarıyer",
+        "Silivri",
+        "Sultanbeyli",
+        "Sultangazi",
+        "Şile",
+        "Şişli",
+        "Tuzla",
+        "Ümraniye",
+        "Üsküdar",
+        "Zeytinburnu"
       ]
     },
     {
       "name": "ازمیر",
       "center": "ازمیر",
       "counties": [
-        "ازمیر"
+        "Aliağa",
+        "Balçova",
+        "Bayındır",
+        "Bayraklı",
+        "Bergama",
+        "Beydağ",
+        "Bornova",
+        "Buca",
+        "Çeşme",
+        "Çiğli",
+        "Dikili",
+        "Foça",
+        "Gaziemir",
+        "Güzelbahçe",
+        "Karabağlar",
+        "Karaburun",
+        "Karşıyaka",
+        "Kemalpaşa",
+        "Kınık",
+        "Kiraz",
+        "Konak",
+        "Menderes",
+        "Menemen",
+        "Narlıdere",
+        "Ödemiş",
+        "Seferihisar",
+        "Selçuk",
+        "Tire",
+        "Torbalı",
+        "Urla"
       ]
     },
     {
       "name": "قهرمان‌مرعش",
       "center": "قهرمان‌مرعش",
       "counties": [
-        "قهرمان‌مرعش"
+        "Afşin",
+        "Andırın",
+        "Çağlayancerit",
+        "Dulkadiroğlu",
+        "Ekinözü",
+        "Elbistan",
+        "Göksun",
+        "Nurhak",
+        "Onikişubat",
+        "Pazarcık",
+        "Türkoğlu"
       ]
     },
     {
       "name": "قرابوک",
       "center": "قرابوک",
       "counties": [
-        "قرابوک"
+        "Eflani",
+        "Eskipazar",
+        "Karabük",
+        "Ovacık",
+        "Safranbolu",
+        "Yenice"
       ]
     },
     {
       "name": "قرامان",
       "center": "قرامان",
       "counties": [
-        "قرامان"
+        "Ayrancı",
+        "Başyayla",
+        "Ermenek",
+        "Karaman",
+        "Kazımkarabekir",
+        "Sarıveliler"
       ]
     },
     {
       "name": "قارص",
       "center": "قارص",
       "counties": [
-        "قارص"
+        "Akyaka",
+        "Arpaçay",
+        "Digor",
+        "Kağızman",
+        "Kars",
+        "Sarıkamış",
+        "Selim",
+        "Susuz"
       ]
     },
     {
       "name": "کاستامونو",
       "center": "کاستامونو",
       "counties": [
-        "کاستامونو"
+        "Abana",
+        "Ağlı",
+        "Araç",
+        "Azdavay",
+        "Bozkurt",
+        "Cide",
+        "Çatalzeytin",
+        "Daday",
+        "Devrekani",
+        "Doğanyurt",
+        "Hanönü",
+        "İhsangazi",
+        "İnebolu",
+        "Kastamonu",
+        "Küre",
+        "Pınarbaşı",
+        "Seydiler",
+        "Şenpazar",
+        "Taşköprü",
+        "Tosya"
       ]
     },
     {
       "name": "قیصریه",
       "center": "قیصریه",
       "counties": [
-        "قیصریه"
+        "Akkışla",
+        "Bünyan",
+        "Develi",
+        "Felahiye",
+        "Hacılar",
+        "İncesu",
+        "Kocasinan",
+        "Melikgazi",
+        "Özvatan",
+        "Pınarbaşı",
+        "Sarıoğlan",
+        "Sarız",
+        "Talas",
+        "Tomarza",
+        "Yahyalı",
+        "Yeşilhisar"
       ]
     },
     {
       "name": "قیریق‌قلعه",
       "center": "قیریق‌قلعه",
       "counties": [
-        "قیریق‌قلعه"
+        "Bahşılı",
+        "Balışeyh",
+        "Çelebi",
+        "Delice",
+        "Karakeçili",
+        "Keskin",
+        "Kırıkkale",
+        "Sulakyurt",
+        "Yahşihan"
       ]
     },
     {
       "name": "قرقلرایلی",
       "center": "قرقلرایلی",
       "counties": [
-        "قرقلرایلی"
+        "Babaeski",
+        "Demirköy",
+        "Kırklareli",
+        "Kofçaz",
+        "Lüleburgaz",
+        "Pehlivanköy",
+        "Pınarhisar",
+        "Vize"
       ]
     },
     {
       "name": "قرشهر",
       "center": "قرشهر",
       "counties": [
-        "قرشهر"
+        "Akçakent",
+        "Akpınar",
+        "Boztepe",
+        "Çiçekdağı",
+        "Kaman",
+        "Kırşehir",
+        "Mucur"
       ]
     },
     {
       "name": "کیلیس",
       "center": "کیلیس",
       "counties": [
-        "کیلیس"
+        "Elbeyli",
+        "Kilis",
+        "Musabeyli",
+        "Polateli"
       ]
     },
     {
       "name": "کوجائلی",
       "center": "کوجائلی",
       "counties": [
-        "کوجائلی"
+        "Başiskele",
+        "Çayırova",
+        "Darıca",
+        "Derince",
+        "Dilovası",
+        "Gebze",
+        "Gölcük",
+        "İzmit",
+        "Kandıra",
+        "Karamürsel",
+        "Kartepe",
+        "Körfez"
       ]
     },
     {
       "name": "قونیه",
       "center": "قونیه",
       "counties": [
-        "قونیه"
+        "Ahırlı",
+        "Akören",
+        "Akşehir",
+        "Altınekin",
+        "Beyşehir",
+        "Bozkır",
+        "Cihanbeyli",
+        "Çeltik",
+        "Çumra",
+        "Derbent",
+        "Derebucak",
+        "Doğanhisar",
+        "Emirgazi",
+        "Ereğli",
+        "Güneysınır",
+        "Hadim",
+        "Halkapınar",
+        "Hüyük",
+        "Ilgın",
+        "Kadınhanı",
+        "Karapınar",
+        "Karatay",
+        "Kulu",
+        "Meram",
+        "Sarayönü",
+        "Selçuklu",
+        "Seydişehir",
+        "Taşkent",
+        "Tuzlukçu",
+        "Yalıhüyük",
+        "Yunak"
       ]
     },
     {
       "name": "کوتاهیه",
       "center": "کوتاهیه",
       "counties": [
-        "کوتاهیه"
+        "Altıntaş",
+        "Aslanapa",
+        "Çavdarhisar",
+        "Domaniç",
+        "Dumlupınar",
+        "Emet",
+        "Gediz",
+        "Hisarcık",
+        "Kütahya",
+        "Pazarlar",
+        "Simav",
+        "Şaphane",
+        "Tavşanlı"
       ]
     },
     {
       "name": "ملطیه",
       "center": "ملطیه",
       "counties": [
-        "ملطیه"
+        "Akçadağ",
+        "Arapgir",
+        "Arguvan",
+        "Battalgazi",
+        "Darende",
+        "Doğanşehir",
+        "Doğanyol",
+        "Hekimhan",
+        "Kale",
+        "Kuluncak",
+        "Pütürge",
+        "Yazıhan",
+        "Yeşilyurt"
       ]
     },
     {
       "name": "مانیسا",
       "center": "مانیسا",
       "counties": [
-        "مانیسا"
+        "Ahmetli",
+        "Akhisar",
+        "Alaşehir",
+        "Demirci",
+        "Gölmarmara",
+        "Gördes",
+        "Kırkağaç",
+        "Köprübaşı",
+        "Kula",
+        "Salihli",
+        "Sarıgöl",
+        "Saruhanlı",
+        "Selendi",
+        "Soma",
+        "Şehzadeler",
+        "Turgutlu",
+        "Yunusemre"
       ]
     },
     {
       "name": "ماردین",
       "center": "ماردین",
       "counties": [
-        "ماردین"
+        "Artuklu",
+        "Dargeçit",
+        "Derik",
+        "Kızıltepe",
+        "Mazıdağı",
+        "Midyat",
+        "Nusaybin",
+        "Ömerli",
+        "Savur",
+        "Yeşilli"
       ]
     },
     {
       "name": "مرسین",
       "center": "مرسین",
       "counties": [
-        "مرسین"
+        "Akdeniz",
+        "Anamur",
+        "Aydıncık",
+        "Bozyazı",
+        "Çamlıyayla",
+        "Erdemli",
+        "Gülnar",
+        "Mezitli",
+        "Mut",
+        "Silifke",
+        "Tarsus",
+        "Toroslar",
+        "Yenişehir"
       ]
     },
     {
       "name": "موغلا",
       "center": "موغلا",
       "counties": [
-        "موغلا"
+        "Bodrum",
+        "Dalaman",
+        "Datça",
+        "Fethiye",
+        "Kavaklıdere",
+        "Köyceğiz",
+        "Marmaris",
+        "Menteşe",
+        "Milas",
+        "Ortaca",
+        "Seydikemer",
+        "Ula",
+        "Yatağan"
       ]
     },
     {
       "name": "موش",
       "center": "موش",
       "counties": [
-        "موش"
+        "Bulanık",
+        "Hasköy",
+        "Korkut",
+        "Malazgirt",
+        "Muş",
+        "Varto"
       ]
     },
     {
       "name": "نوشهر",
       "center": "نوشهر",
       "counties": [
-        "نوشهر"
+        "Acıgöl",
+        "Avanos",
+        "Derinkuyu",
+        "Gülşehir",
+        "Hacıbektaş",
+        "Kozaklı",
+        "Nevşehir",
+        "Ürgüp"
       ]
     },
     {
       "name": "نیغده",
       "center": "نیغده",
       "counties": [
-        "نیغده"
+        "Altunhisar",
+        "Bor",
+        "Çamardı",
+        "Çiftlik",
+        "Niğde",
+        "Ulukışla"
       ]
     },
     {
       "name": "اردو",
       "center": "اردو",
       "counties": [
-        "اردو"
+        "Akkuş",
+        "Altınordu",
+        "Aybastı",
+        "Çamaş",
+        "Çatalpınar",
+        "Çaybaşı",
+        "Fatsa",
+        "Gölköy",
+        "Gülyalı",
+        "Gürgentepe",
+        "İkizce",
+        "Kabadüz",
+        "Kabataş",
+        "Korgan",
+        "Kumru",
+        "Mesudiye",
+        "Perşembe",
+        "Ulubey",
+        "Ünye"
       ]
     },
     {
       "name": "اسمانیه",
       "center": "اسمانیه",
       "counties": [
-        "اسمانیه"
+        "Bahçe",
+        "Düziçi",
+        "Hasanbeyli",
+        "Kadirli",
+        "Osmaniye",
+        "Sumbas",
+        "Toprakkale"
       ]
     },
     {
       "name": "ریزه",
       "center": "ریزه",
       "counties": [
-        "ریزه"
+        "Ardeşen",
+        "Çamlıhemşin",
+        "Çayeli",
+        "Derepazarı",
+        "Fındıklı",
+        "Güneysu",
+        "Hemşin",
+        "İkizdere",
+        "İyidere",
+        "Kalkandere",
+        "Pazar",
+        "Rize"
       ]
     },
     {
       "name": "ساکاریا",
       "center": "ساکاریا",
       "counties": [
-        "ساکاریا"
+        "Adapazarı",
+        "Akyazı",
+        "Arifiye",
+        "Erenler",
+        "Ferizli",
+        "Geyve",
+        "Hendek",
+        "Karapürçek",
+        "Karasu",
+        "Kaynarca",
+        "Kocaali",
+        "Pamukova",
+        "Sapanca",
+        "Serdivan",
+        "Söğütlü",
+        "Taraklı"
       ]
     },
     {
       "name": "سامسون",
       "center": "سامسون",
       "counties": [
-        "سامسون"
+        "19 Mayıs",
+        "Alaçam",
+        "Asarcık",
+        "Atakum",
+        "Ayvacık",
+        "Bafra",
+        "Canik",
+        "Çarşamba",
+        "Havza",
+        "İlkadım",
+        "Kavak",
+        "Ladik",
+        "Salıpazarı",
+        "Tekkeköy",
+        "Terme",
+        "Vezirköprü",
+        "Yakakent"
       ]
     },
     {
       "name": "سیرت",
       "center": "سیرت",
       "counties": [
-        "سیرت"
+        "Baykan",
+        "Eruh",
+        "Kurtalan",
+        "Pervari",
+        "Siirt",
+        "Şirvan",
+        "Tillo"
       ]
     },
     {
       "name": "سینوپ",
       "center": "سینوپ",
       "counties": [
-        "سینوپ"
+        "Ayancık",
+        "Boyabat",
+        "Dikmen",
+        "Durağan",
+        "Erfelek",
+        "Gerze",
+        "Saraydüzü",
+        "Sinop",
+        "Türkeli"
       ]
     },
     {
       "name": "سیواس",
       "center": "سیواس",
       "counties": [
-        "سیواس"
+        "Akıncılar",
+        "Altınyayla",
+        "Divriği",
+        "Doğanşar",
+        "Gemerek",
+        "Gölova",
+        "Gürün",
+        "Hafik",
+        "İmranlı",
+        "Kangal",
+        "Koyulhisar",
+        "Sivas",
+        "Suşehri",
+        "Şarkışla",
+        "Ulaş",
+        "Yıldızeli",
+        "Zara"
       ]
     },
     {
       "name": "شانلی‌اورفا",
       "center": "شانلی‌اورفا",
       "counties": [
-        "شانلی‌اورفا"
+        "Akçakale",
+        "Birecik",
+        "Bozova",
+        "Ceylanpınar",
+        "Eyyübiye",
+        "Halfeti",
+        "Haliliye",
+        "Harran",
+        "Hilvan",
+        "Karaköprü",
+        "Siverek",
+        "Suruç",
+        "Viranşehir"
       ]
     },
     {
       "name": "شرناق",
       "center": "شرناق",
       "counties": [
-        "شرناق"
+        "Beytüşşebap",
+        "Cizre",
+        "Güçlükonak",
+        "İdil",
+        "Silopi",
+        "Şırnak",
+        "Uludere"
       ]
     },
     {
       "name": "تکیرداغ",
       "center": "تکیرداغ",
       "counties": [
-        "تکیرداغ"
+        "Çerkezköy",
+        "Çorlu",
+        "Ergene",
+        "Hayrabolu",
+        "Kapaklı",
+        "Malkara",
+        "Marmaraereğlisi",
+        "Muratlı",
+        "Saray",
+        "Süleymanpaşa",
+        "Şarköy"
       ]
     },
     {
       "name": "توقات",
       "center": "توقات",
       "counties": [
-        "توقات"
+        "Almus",
+        "Artova",
+        "Başçiftlik",
+        "Erbaa",
+        "Niksar",
+        "Pazar",
+        "Reşadiye",
+        "Sulusaray",
+        "Tokat",
+        "Turhal",
+        "Yeşilyurt",
+        "Zile"
       ]
     },
     {
       "name": "ترابزون",
       "center": "ترابزون",
       "counties": [
-        "ترابزون"
+        "Akçaabat",
+        "Araklı",
+        "Arsin",
+        "Beşikdüzü",
+        "Çarşıbaşı",
+        "Çaykara",
+        "Dernekpazarı",
+        "Düzköy",
+        "Hayrat",
+        "Köprübaşı",
+        "Maçka",
+        "Of",
+        "Ortahisar",
+        "Sürmene",
+        "Şalpazarı",
+        "Tonya",
+        "Vakfıkebir",
+        "Yomra"
       ]
     },
     {
       "name": "تونج‌ایلی",
       "center": "تونج‌ایلی",
       "counties": [
-        "تونج‌ایلی"
+        "Çemişgezek",
+        "Hozat",
+        "Mazgirt",
+        "Nazımiye",
+        "Ovacık",
+        "Pertek",
+        "Pülümür",
+        "Tunceli"
       ]
     },
     {
       "name": "عشاق",
       "center": "عشاق",
       "counties": [
-        "عشاق"
+        "Banaz",
+        "Eşme",
+        "Karahallı",
+        "Sivaslı",
+        "Ulubey",
+        "Uşak"
       ]
     },
     {
       "name": "وان",
       "center": "وان",
       "counties": [
-        "وان"
+        "Bahçesaray",
+        "Başkale",
+        "Çaldıran",
+        "Çatak",
+        "Edremit",
+        "Erciş",
+        "Gevaş",
+        "Gürpınar",
+        "İpekyolu",
+        "Muradiye",
+        "Özalp",
+        "Saray",
+        "Tuşba"
       ]
     },
     {
       "name": "یالووا",
       "center": "یالووا",
       "counties": [
-        "یالووا"
+        "Altınova",
+        "Armutlu",
+        "Çınarcık",
+        "Çiftlikköy",
+        "Termal",
+        "Yalova"
       ]
     },
     {
       "name": "یوزگات",
       "center": "یوزگات",
       "counties": [
-        "یوزگات"
+        "Akdağmadeni",
+        "Aydıncık",
+        "Boğazlıyan",
+        "Çandır",
+        "Çayıralan",
+        "Çekerek",
+        "Kadışehri",
+        "Saraykent",
+        "Sarıkaya",
+        "Sorgun",
+        "Şefaatli",
+        "Yenifakılı",
+        "Yerköy",
+        "Yozgat"
       ]
     },
     {
       "name": "زونگولداغ",
       "center": "زونگولداغ",
       "counties": [
-        "زونگولداغ"
+        "Alaplı",
+        "Çaycuma",
+        "Devrek",
+        "Gökçebey",
+        "Karadeniz Ereğli",
+        "Kilimli",
+        "Kozlu",
+        "Zonguldak"
       ]
     }
   ],
@@ -974,7 +1866,7 @@
     "shad": false
   },
   "version": "1.0.0",
-  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور.",
+  "notes": "بخش‌های واقعی ترکیه بر اساس مرزهای اداری رسمی فرماندهی کل نقشه‌برداری ترکیه از طریق HDX (COD-AB) با اعتبارسنجی ۱:۱ در برابر فهرست رسمی وزارت کشور/TÜİK؛ ۸۱ استان و ۹۷۳ بخش. GADM ۴٫۱ استفاده نشد (قدیمی: ۹۲۹ بخش، بدون اعراب). نام بخش‌ها به ترکی است؛ نام استان‌ها و مراکز از بستهٔ قبلی حفظ شده است.",
   "map": {
     "viewBox": {
       "w": 760,
