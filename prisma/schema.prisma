@@ -198,6 +198,7 @@ model School {
   parentSummons        ParentSummon[]
   examSeatPlans        ExamSeatPlan[]
   botConnections       BotConnection[]
+  consentRequests      ConsentRequest[]
 }
 
 model Class {
@@ -258,6 +259,7 @@ model Student {
   absenceExcuses    AbsenceExcuse[]
   parentSummons     ParentSummon[]
   examSeatAssignments ExamSeatAssignment[]
+  consentResponses  ConsentResponse[]
   gradeRecords      GradeRecord[]
   fees              StudentFee[]
   behaviorRecords   BehaviorRecord[]
@@ -2586,6 +2588,41 @@ model VirtualSession {
   createdAt   DateTime @default(now())
 
   @@index([schoolId, startsAt])
+}
+
+/// رضایت‌نامهٔ دیجیتال (اردو، بازدید، فعالیت…) — مدرسه متن را برای یک کلاس یا
+/// کل مدرسه می‌فرستد و هر ولی برای فرزندش تأیید/رد می‌کند؛ پاسخ‌ها قابل چاپ‌اند.
+model ConsentRequest {
+  id          String   @id @default(cuid())
+  schoolId    String
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  title       String
+  body        String
+  eventId     String?
+  classId     String?
+  deadline    String?
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  responses   ConsentResponse[]
+
+  @@index([schoolId, createdAt])
+}
+
+model ConsentResponse {
+  id           String         @id @default(cuid())
+  requestId    String
+  request      ConsentRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  studentId    String
+  student      Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  parentUserId String
+  status       String // APPROVED | DECLINED
+  note         String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([requestId, studentId])
+  @@index([parentUserId])
 }
 
 /// اتصال ربات/مینی‌اپ یک مدرسه به یک پلتفرم پیام‌رسان یا درگاه عمومی.

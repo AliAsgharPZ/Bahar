@@ -2344,3 +2344,31 @@ CREATE TABLE IF NOT EXISTS "BotLink" (
 CREATE UNIQUE INDEX IF NOT EXISTS "BotLink_connectionId_chatId_key" ON "BotLink"("connectionId", "chatId");
 CREATE UNIQUE INDEX IF NOT EXISTS "BotLink_linkCode_key" ON "BotLink"("linkCode");
 CREATE INDEX IF NOT EXISTS "BotLink_userId_idx" ON "BotLink"("userId");
+CREATE TABLE IF NOT EXISTS "ConsentRequest" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "schoolId" TEXT NOT NULL,
+  "title" TEXT NOT NULL,
+  "body" TEXT NOT NULL,
+  "eventId" TEXT,
+  "classId" TEXT,
+  "deadline" TEXT,
+  "createdById" TEXT,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  CONSTRAINT "ConsentRequest_schoolId_fkey" FOREIGN KEY ("schoolId") REFERENCES "School" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "ConsentRequest_schoolId_createdAt_idx" ON "ConsentRequest"("schoolId", "createdAt");
+CREATE TABLE IF NOT EXISTS "ConsentResponse" (
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "requestId" TEXT NOT NULL,
+  "studentId" TEXT NOT NULL,
+  "parentUserId" TEXT NOT NULL,
+  "status" TEXT NOT NULL,
+  "note" TEXT,
+  "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updatedAt" DATETIME NOT NULL,
+  CONSTRAINT "ConsentResponse_requestId_fkey" FOREIGN KEY ("requestId") REFERENCES "ConsentRequest" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "ConsentResponse_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "Student" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "ConsentResponse_requestId_studentId_key" ON "ConsentResponse"("requestId", "studentId");
+CREATE INDEX IF NOT EXISTS "ConsentResponse_parentUserId_idx" ON "ConsentResponse"("parentUserId");

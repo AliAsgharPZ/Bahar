@@ -89,7 +89,7 @@ export async function GET(req: NextRequest) {
     }
 
     if (me.role === "PARENT") {
-      const kids = await db.studentParent.findMany({ where: { parentUserId: me.id }, select: { studentId: true } });
+      const kids = await db.studentParent.findMany({ where: { parentUserId: me.id }, select: { studentId: true, student: { select: { classId: true } } } });
       const kidIds = kids.map((k) => k.studentId);
       const [absentToday, pendingMeetings, unpaidFees, activePolls] = await Promise.all([
         db.attendance.count({ where: { studentId: { in: kidIds }, date: todayJalali(), status: "ABSENT" } }),
@@ -102,6 +102,19 @@ export async function GET(req: NextRequest) {
       if (absentToday > 0) items.push({ key: "absent", title: "غیبت فرزند شما امروز", description: "بررسی دلیل غیبت", count: absentToday, href: "/app/attendance", severity: "URGENT", icon: "ClipboardCheck" });
       const pendingSummons = await db.parentSummon.count({ where: { parentUserId: me.id, status: "PENDING" } });
       if (pendingSummons > 0) items.push({ key: "summons", title: "احضار به مدرسه", description: "مدرسه حضور شما را درخواست کرده است", count: pendingSummons, href: "/app/excuses", severity: "URGENT", icon: "Megaphone" });
+      // رضایت‌نامه‌های بی‌پاسخ: درخواست‌هایی که کلاس فرزند را هدف گرفته‌اند و پاسخی ندارند
+      const consentRequests = await db.consentRequest.findMany({ where: { schoolId }, select: { id: true, classId: true } });
+      const myConsentResponses = await db.consentResponse.findMany({ where: { parentUserId: me.id }, select: { requestId: true, studentId: true } });
+      const answeredKeys = new Set(myConsentResponses.map((r) => `${r.requestId}:${r.studentId}`));
+      const kidClassById = new Map(kids.map((k) => [k.studentId, k.student?.classId ?? null]));
+      let pendingConsents = 0;
+      for (const cr of consentRequests) {
+        for (const kidId of kidIds) {
+          if (cr.classId && cr.classId !== kidClassById.get(kidId)) continue;
+          if (!answeredKeys.has(`${cr.id}:${kidId}`)) pendingConsents++;
+        }
+      }
+      if (pendingConsents > 0) items.push({ key: "consents", title: "رضایت‌نامه در انتظار پاسخ", description: "مدرسه برای فعالیتی اجازهٔ شما را می‌خواهد", count: pendingConsents, href: "/app/consents", severity: "IMPORTANT", icon: "FileCheck" });
       if (unpaidFees > 0) items.push({ key: "fees", title: "شهریه سررسیدگذشته", description: "پرداخت", count: unpaidFees, href: "/app/finance", severity: "URGENT", icon: "Wallet" });
       if (notVoted > 0) items.push({ key: "polls", title: "نظرسنجی‌های بی‌پاسخ", description: "رأی شما ثبت نشده", count: notVoted, href: "/app/engagement?tab=polls", severity: "NORMAL", icon: "Vote" });
       if (pendingMeetings > 0) items.push({ key: "meetings", title: "ملاقات‌های در انتظار تأیید", description: "پیگیری", count: pendingMeetings, href: "/app/meetings", severity: "NORMAL", icon: "Handshake" });
