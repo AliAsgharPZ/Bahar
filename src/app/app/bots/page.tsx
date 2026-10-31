@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Bot, Loader2, Plus, Trash2, RefreshCw, Link2, Unlink, ExternalLink } from "lucide-react";
+import { Bot, Loader2, Plus, Trash2, RefreshCw, Link2, Unlink, ExternalLink, Send } from "lucide-react";
 import { useApi, apiPost, apiPatch, apiDelete } from "@/lib/client";
 import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/shared/bits";
 import { faNumber } from "@/lib/persian";
@@ -82,6 +82,11 @@ export default function BotsPage() {
     catch (e) { toast.error(e instanceof Error ? e.message : t("common.error")); }
   };
 
+  const testSend = async (id: string) => {
+    try { await apiPost("/api/bots/test", { id }); toast.success(t("bots.testSent")); }
+    catch (e) { toast.error(e instanceof Error ? e.message : t("bots.testNoLink")); }
+  };
+
   const getCode = async (connectionId: string) => {
     setCodeBusy(connectionId);
     try {
@@ -159,6 +164,7 @@ export default function BotsPage() {
                     <option value="NONE">{t("bots.events.NONE")}</option>
                   </select>
                   <button className="b-btn b-btn-ghost min-h-11" onClick={() => patch(c.id, { isActive: !c.isActive })}>{c.isActive ? t("bots.inactive") : t("bots.active")}</button>
+                  <button className="b-btn b-btn-ghost min-h-11" onClick={() => testSend(c.id)}><Send className="w-4 h-4" /> {t("bots.testSend")}</button>
                   {c.inbound && <button className="b-btn b-btn-ghost min-h-11" onClick={() => patch(c.id, { rewebhook: true })}><RefreshCw className="w-4 h-4" /> {t("bots.rewebhook")}</button>}
                   <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => remove(c.id)}><Trash2 className="w-4 h-4" /> {t("bots.delete")}</button>
                 </li>

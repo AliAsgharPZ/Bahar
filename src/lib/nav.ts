@@ -10,7 +10,7 @@ import {
   Bus, FileText, Video, Armchair, MessageSquareText, Landmark,
   CalendarSync, MessageSquare, UserPlus, Network, Trophy, UtensilsCrossed,
   Compass, MonitorPlay, Flame, Album, Terminal, Accessibility, FlaskConical, Puzzle,
-  Eye, NotebookText, Bot,
+  Eye, NotebookText, Bot, FileSignature,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -57,6 +57,7 @@ export const NAV: NavItem[] = [
   { href: "/app/schedule", label: "برنامه هفتگی", tKey: "nav.schedule", short: "برنامه", icon: CalendarDays, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 2, group: "education" },
   { href: "/app/attendance", label: "حضور و غیاب", tKey: "nav.attendance", short: "حضور", icon: ClipboardCheck, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 3, group: "education" },
   { href: "/app/excuses", label: "توجیه غیبت", tKey: "nav.excuses", short: "توجیه غیبت", icon: FileQuestion, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
+  { href: "/app/consents", label: "رضایت‌نامه‌ها", tKey: "nav.consents", short: "رضایت‌نامه", icon: FileSignature, roles: ["MANAGER", "DEPUTY", "TEACHER", "PARENT", "ADMIN", "SUPER_ADMIN"], tint: 3, group: "education" },
   { href: "/app/grades", label: "نمرات", tKey: "nav.grades", short: "نمرات", icon: BarChart3, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 0, group: "education" },
   { href: "/app/assignments", label: "تکالیف", tKey: "nav.assignments", short: "تکالیف", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 1, group: "education" },
   { href: "/app/homework-balance", label: "تعادل تکالیف", tKey: "nav.homeworkBalance", short: "تعادل تکالیف", icon: NotebookPen, roles: ["MANAGER", "DEPUTY", "TEACHER", "STUDENT", "PARENT"], tint: 1, group: "education" },
