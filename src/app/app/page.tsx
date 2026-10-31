@@ -30,8 +30,8 @@ const ICONS: Record<string, typeof LifeBuoy> = {
 
 const SEV_STYLE: Record<string, string> = {
   URGENT: "border-s-4 !border-s-destructive",
-  IMPORTANT: "border-s-4 !border-s-[#f2a918]",
-  NORMAL: "border-s-4 !border-s-[#1972c4]",
+  IMPORTANT: "border-s-4 !border-s-warning",
+  NORMAL: "border-s-4 !border-s-info",
 };
 
 const ROLE_TKEY: Record<string, string> = {
@@ -275,7 +275,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
               value: g.count,
             }))}
             height={150}
-            color="#e5548b"
+            color="var(--blossom)"
           />
         </div>
       </div>
@@ -288,7 +288,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
             parts={usersByRole.map((r, i) => ({
               label: ROLE_TKEY[r.role] ? t(ROLE_TKEY[r.role]) : r.role,
               value: r.count,
-              color: ["#00825e", "#e5548b", "#f2a918", "#00b37d", "#5d6f66", "#5d6f66", "#00b37d"][i % 7],
+              color: ["var(--chart-1)", "var(--chart-3)", "var(--chart-4)", "var(--chart-2)", "var(--chart-5)", "var(--chart-5)", "var(--chart-2)"][i % 7],
             }))}
             centerLabel={t("dashboard.unit.user")}
           />
@@ -524,7 +524,7 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
               <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
                 <circle cx="40" cy="40" r="34" fill="none" stroke="var(--hairline-soft)" strokeWidth="8" />
                 {typeof hs.overall === "number" && (
-                  <circle cx="40" cy="40" r="34" fill="none" stroke={hs.overall >= 75 ? "#1b8148" : hs.overall >= 55 ? "#f2a918" : "#e5548b"} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(hs.overall / 100) * 213.6} 213.6`} />
+                  <circle cx="40" cy="40" r="34" fill="none" stroke={hs.overall >= 75 ? "var(--success)" : hs.overall >= 55 ? "var(--warning)" : "var(--blossom)"} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(hs.overall / 100) * 213.6} 213.6`} />
                 )}
               </svg>
               <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">{typeof hs.overall === "number" ? faNumber(hs.overall) : "—"}</span>
