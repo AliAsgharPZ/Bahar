@@ -924,6 +924,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
             {cta}
           </a>
         </div>
+        <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]]} color={skin.onPrimary} border="rgba(255,255,255,.22)" />
       </header>
     );
   }
@@ -943,6 +944,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
             {cta}
           </a>
         </div>
+        <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
       </header>
     );
   }
@@ -961,6 +963,7 @@ function SiteHeader({ skin, school, cta }: { skin: Skin; school: SiteData["schoo
           {cta}
         </a>
       </div>
+      <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
     </header>
   );
 }
@@ -1958,6 +1961,7 @@ function AppleFamily({ skin, config, data, subdomain }: FamilyProps) {
             {config.ctaPrimary}
           </a>
         </div>
+        <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
       </header>
 
       {/* هیرو مرکزی */}
@@ -2112,6 +2116,7 @@ function AirbnbFamily({ skin, config, data, subdomain }: FamilyProps) {
             {config.ctaPrimary}
           </a>
         </div>
+        <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کلاس‌ها", "#classes"], ["گالری", "#gallery"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
       </header>
 
       {/* هیرو دو ستونه با تصویر بزرگِ نرم */}
@@ -2273,6 +2278,7 @@ function NotionFamily({ skin, config, data, subdomain }: FamilyProps) {
             {config.ctaPrimary}
           </a>
         </div>
+        <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
       </header>
 
       {/* هیرو سندگونه — آغازچین و آرام */}
@@ -2426,6 +2432,7 @@ function StripeFamily({ skin, config, data, subdomain }: FamilyProps) {
               {config.ctaPrimary}
             </a>
           </div>
+          <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کادر", "#staff"], ["گالری", "#gallery"], ["تماس", "#contact"]]} color="rgba(255,255,255,.88)" border="rgba(255,255,255,.22)" />
         </header>
 
         {/* هیرو گرادیانی */}
@@ -2590,6 +2597,7 @@ function LinearFamily({ skin, config, data, subdomain }: FamilyProps) {
             {config.ctaPrimary}
           </a>
         </div>
+        <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["کلاس‌ها", "#classes"], ["کادر", "#staff"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
       </header>
 
       {/* هیرو با هالهٔ نور لهجه */}
@@ -2753,6 +2761,7 @@ function SpotifyFamily({ skin, config, data, subdomain }: FamilyProps) {
             {config.ctaPrimary}
           </a>
         </div>
+        <MobileNavRow items={[["درباره", "#about"], ["اخبار", "#news"], ["رویدادها", "#events"], ["گالری", "#gallery"], ["تماس", "#contact"]]} color={skin.sub} border={skin.border} />
       </header>
 
       {/* هیرو جسور با تصویر دایره‌ای */}
@@ -3317,6 +3326,9 @@ function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
             {S.admissions ? "ثبت‌نام" : "تماس با ما"}
           </a>
         </div>
+        {navItems.length > 0 ? (
+          <MobileNavRow items={navItems.map((x) => [x.label, x.href] as [string, string])} color={skin.onPrimary} border="rgba(255,255,255,.14)" />
+        ) : null}
         <div className="h-1 w-full" style={{ backgroundColor: p.accent }} />
       </header>
 
@@ -3661,6 +3673,19 @@ function FigmaFamily({ skin, config, data, subdomain }: FamilyProps) {
 // می‌کنند تا جریان داده و API یکی بماند؛ تفاوت در هدر، هیرو، تایپ،
 // شعاع، سایه/مرز و چیدمان کارت‌هاست.
 // ============================================================
+/** ردیف ناوبری موبایل برای خانواده‌هایی که ناوبری دسکتاپشان hidden md:flex است یا اصلاً ناوبری ندارند:
+ *  فقط زیر md دیده می‌شود، اسکرول افقی، هدف لمسی ۴۴px — همان الگوی NewNav خانواده‌های تازه */
+function MobileNavRow({ items, color, border }: { items: [string, string][]; color: string; border?: string }) {
+  if (items.length === 0) return null;
+  return (
+    <nav className="md:hidden flex gap-1 overflow-x-auto px-3 py-1" aria-label="ناوبری سایت مدرسه" style={{ scrollbarWidth: "none", borderTop: border ? `1px solid ${border}` : undefined }}>
+      {items.map(([l, h]) => (
+        <a key={h} href={h} className="shrink-0 min-h-[44px] px-3 inline-flex items-center text-[12.5px] font-medium whitespace-nowrap" style={{ color }}>{l}</a>
+      ))}
+    </nav>
+  );
+}
+
 function NewNav({ skin, items, linkStyle }: { skin: Skin; items: [string, string][]; linkStyle?: React.CSSProperties }) {
   return (
     <nav className="flex gap-1 overflow-x-auto py-1" aria-label="ناوبری سایت مدرسه" style={{ scrollbarWidth: "none" }}>
