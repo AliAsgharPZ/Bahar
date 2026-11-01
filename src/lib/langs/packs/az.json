@@ -4273,7 +4273,8 @@
   "supply.f.qty": "Say",
   "supply.f.reason": "Nə iş üçün? (istəyə bağlı)",
   "supply.add": "Tələbi qeyd et",
-  "supply.addedToast": "Tələb qeydə alındı"
+  "supply.addedToast": "Tələb qeydə alındı",
+  "examSeats.roomInvigilator": "Otaq nəzarətçisi"
  },
  "siteStrings": {
   "site.brand.tagline": "Məktəb idarəetmə sistemi",
