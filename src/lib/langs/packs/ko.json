@@ -4616,7 +4616,8 @@
   "bikes.searchPh": "검색: 학생 이름 또는 차체 번호",
   "bikes.count": "등록된 이동 수단",
   "bikes.delete": "삭제",
-  "bikes.empty": "아직 등록된 이동 수단이 없습니다."
+  "bikes.empty": "아직 등록된 이동 수단이 없습니다.",
+  "examSeats.roomInvigilator": "고사실 감독관"
  },
  "version": "1.0.0"
 }
