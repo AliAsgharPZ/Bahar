@@ -25,7 +25,7 @@ export default function ExamsPage() {
   const { data: me } = useApi<Me>("/api/auth/me");
   const role = me?.user.role ?? "";
   const isAudience = role === "STUDENT" || role === "PARENT";
-  const { data, loading, error, refetch } = useApi<{ sessions?: Session[]; mine?: MySeat[] }>("/api/exams");
+  const { data, loading, error, refetch } = useApi<{ sessions?: Session[]; mine?: MySeat[]; noSchool?: boolean }>("/api/exams");
   const { data: classesData } = useApi<{ classes: ClassRow[] }>(!isAudience ? "/api/classes" : null);
   const { data: teachersData } = useApi<{ users: Teacher[] }>(!isAudience ? "/api/users?role=TEACHER" : null);
   const confirm = useConfirm();
@@ -139,7 +139,11 @@ export default function ExamsPage() {
 
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
-      {data && sessions.length === 0 && <EmptyState icon={ClipboardList} title={t("exams.empty.noSession")} />}
+      {data && sessions.length === 0 && (data.noSchool ? (
+        <EmptyState icon={ClipboardList} title="هنوز وارد پنل مدرسه‌ای نشده‌اید" desc="برای دیدن و ساخت جلسه‌های امتحان یک مدرسه، نخست از فهرست مدارس وارد پنل آن مدرسه شوید." />
+      ) : (
+        <EmptyState icon={ClipboardList} title={t("exams.empty.noSession")} />
+      ))}
 
       <div className="grid lg:grid-cols-[340px_1fr] gap-4 items-start">
         <div className="flex flex-col gap-2">

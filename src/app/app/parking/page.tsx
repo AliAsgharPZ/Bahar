@@ -21,7 +21,7 @@ export default function ParkingPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (!plate.trim()) { toast.error(t("parking.f.plate")); return; }

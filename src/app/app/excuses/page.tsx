@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { FileQuestion, Loader2, Send, CheckCircle2, XCircle, Clock3, Megaphone } from "lucide-react";
 import { useApi, apiPost, apiPatch } from "@/lib/client";
@@ -18,6 +19,7 @@ type ExcusesData = {
   excuses: ExcuseRow[];
   openAbsences?: OpenAbsence[];
   children?: { id: string; name: string }[];
+  noSchool?: boolean;
 };
 
 export default function ExcusesPage() {
@@ -39,7 +41,17 @@ export default function ExcusesPage() {
   const staff = useApi<ExcusesData>(tab === "ALL" ? "/api/absence-excuses?status=ALL" : null);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
+  if (data.noSchool) return (
+    <div className="flex flex-col gap-4">
+      <PageHeader title={t("excuses.title")} desc={t("excuses.desc")} />
+      <EmptyState
+        title="هنوز وارد پنل مدرسه‌ای نشده‌اید"
+        desc="برای دیدن توجیه‌های یک مدرسه، نخست از فهرست مدارس وارد پنل آن مدرسه شوید."
+        action={<Link className="b-btn b-btn-spring min-h-11" href="/app/schools">رفتن به فهرست مدارس</Link>}
+      />
+    </div>
+  );
 
   const isParent = data.openAbsences !== undefined;
   const rows = isParent ? data.excuses : tab === "ALL" ? (staff.data?.excuses ?? []) : data.excuses;

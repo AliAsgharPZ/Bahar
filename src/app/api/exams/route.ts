@@ -34,7 +34,9 @@ export async function GET(req: NextRequest) {
     }
 
     const schoolId = me.schoolId ?? actingSchoolIdFor(req, me) ?? null;
-    if (!schoolId) return apiErr(400, "کاربر به مدرسه‌ای متصل نیست.", "NO_SCHOOL");
+    // کارکنان سرویس بدون پنل مدرسهٔ فعال: فهرست خالی برگردد، نه ۴۰۰ —
+    // صفحهٔ امتحانات باید فرم و فهرست خالی را نشان بدهد، نه بنر خطا.
+    if (!schoolId) return apiOk({ sessions: [], noSchool: true });
     const sessions = await db.examSession.findMany({
       where: { schoolId },
       include: { _count: { select: { seats: true, invigilators: true } } },

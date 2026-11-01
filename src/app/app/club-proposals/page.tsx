@@ -18,7 +18,7 @@ export default function ClubProposalsPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (!title.trim() || desc.trim().length < 10) { toast.error(t("clubProp.f.desc")); return; }

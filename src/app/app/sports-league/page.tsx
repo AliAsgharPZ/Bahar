@@ -23,7 +23,7 @@ export default function SportsLeaguePage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const act = async (payload: Record<string, unknown>, msg?: string) => {
     try { await apiPost("/api/sports-league", payload); if (msg) toast.success(msg); refetch(); }

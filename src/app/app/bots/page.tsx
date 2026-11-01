@@ -35,7 +35,7 @@ export default function BotsPage() {
   const [externalIds, setExternalIds] = useState<Record<string, string>>({});
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const selectedPlatform = data.platforms.find((p) => p.id === platform);
   const linkable: Available[] = data.isStaff

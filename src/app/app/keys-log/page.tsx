@@ -24,7 +24,7 @@ export default function KeysLogPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const checkout = async () => {
     if (!keyLabel.trim() || !holder.trim()) { toast.error(t("keysLog.f.key")); return; }

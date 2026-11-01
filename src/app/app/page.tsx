@@ -58,7 +58,7 @@ export default function DashboardPage() {
     apiGet<{ items: ACItem[]; needsAttention: ACItem[] }>("/api/action-center").then(setActionCenter).catch(() => setActionCenter({ items: [], needsAttention: [] }));
   }, []);
 
-  if (error) return <ErrorBox message={error} />;
+  if (error) return <ErrorBox message={error} onRetry={() => window.location.reload()} />;
   if (!data || !actionCenter) return <LoadingBlock label={t("dashboard.loading")} />;
 
   return (

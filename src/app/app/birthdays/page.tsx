@@ -13,9 +13,9 @@ type Data = { items: Item[]; todayCount: number };
 
 export default function BirthdaysPage() {
   const { t } = useLang();
-  const { data, loading, error } = useApi<Data>("/api/birthdays");
+  const { data, loading, error, refetch } = useApi<Data>("/api/birthdays");
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const greet = async (userId: string) => {
     try { await apiPost("/api/birthdays", { userId }); toast.success(t("birthdays.sentToast")); }

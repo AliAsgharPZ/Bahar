@@ -19,7 +19,7 @@ export default function ClassVisitsPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { toast.error(t("visits.f.date")); return; }

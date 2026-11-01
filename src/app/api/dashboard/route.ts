@@ -79,9 +79,11 @@ export async function GET(req: NextRequest) {
         db.ticket.count({ where: { createdAt: { gte: twoDaysAgo } } }),
       ]);
 
-      /* ── راند ۱۷: داشبورد کامل سوپرادمین — آمار ریز سیستم ── */
+      /* ── راند ۱۷: داشبورد کامل سوپرادمین — آمار ریز سیستم ──
+         آمار فرعی است: اگر یکی از کوئری‌هایش خطا بدهد، داشبورد با مقدارهای
+         خالی برمی‌گردد، نه با خطای ۵۰۰ و صفحهٔ خالی. */
       const dayAgo = new Date(Date.now() - 86400000);
-      const [usersByRole, loginEvents7d, logins24h, ticketsByStatus, recentSignups, messagesCount, notifsCount, dbSize] = await Promise.all([
+      const secondary = await Promise.all([
         db.user.groupBy({ by: ["role"], where: { isActive: true, role: { not: "SUPER_ADMIN" } }, _count: { _all: true } }),
         db.loginEvent.findMany({ where: { createdAt: { gte: weekAgo } }, select: { status: true, createdAt: true } }),
         db.loginEvent.count({ where: { createdAt: { gte: dayAgo }, status: "SUCCESS" } }),
@@ -101,7 +103,15 @@ export async function GET(req: NextRequest) {
             return null;
           }
         })(),
-      ]);
+      ]).catch(() => null);
+      const usersByRole = secondary?.[0] ?? [];
+      const loginEvents7d = secondary?.[1] ?? [];
+      const logins24h = secondary?.[2] ?? 0;
+      const ticketsByStatus = secondary?.[3] ?? [];
+      const recentSignups = secondary?.[4] ?? [];
+      const messagesCount = secondary?.[5] ?? 0;
+      const notifsCount = secondary?.[6] ?? 0;
+      const dbSize = secondary?.[7] ?? null;
 
       // روند ورودها (۷ روز): موفق/ناموفق در روز
       const loginTrend: Array<{ date: string; success: number; failed: number }> = [];
@@ -118,12 +128,17 @@ export async function GET(req: NextRequest) {
       }
 
       // بزرگ‌ترین مدارس بر پایه شمار دانش‌آموز (Student رابطه FK به School ندارد → groupBy)
-      const [schoolRows, studentCounts, teacherCounts, classCounts] = await Promise.all([
+      // مثل آمار فرعی بالا: خطا در این بلوک هم نباید کل داشبورد را بیندازد.
+      const topBlock = await Promise.all([
         db.school.findMany({ where: { isActive: true }, select: { id: true, name: true } }),
         db.student.groupBy({ by: ["schoolId"], _count: { _all: true } }),
         db.user.groupBy({ by: ["schoolId"], where: { role: "TEACHER", isActive: true }, _count: { _all: true } }),
         db.class.groupBy({ by: ["schoolId"], where: { isActive: true }, _count: { _all: true } }),
-      ]);
+      ]).catch(() => null);
+      const schoolRows = topBlock?.[0] ?? [];
+      const studentCounts = topBlock?.[1] ?? [];
+      const teacherCounts = topBlock?.[2] ?? [];
+      const classCounts = topBlock?.[3] ?? [];
       const topSchools = schoolRows
         .map((r) => ({ id: r.id, name: r.name, students: studentCounts.find((c) => c.schoolId === r.id)?._count._all ?? 0 }))
         .filter((r) => r.students > 0)

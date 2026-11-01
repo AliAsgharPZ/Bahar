@@ -24,7 +24,7 @@ export default function JournalPage() {
   const [tab, setTab] = useState<"mine" | "shared">("mine");
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (text.trim().length < 3) { toast.error(t("journal.f.text")); return; }

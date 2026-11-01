@@ -34,7 +34,7 @@ export default function HeldItemsPage() {
   const [returnTo, setReturnTo] = useState<Record<string, string>>({});
 
   if (loading && !data) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const take = async () => {
     if (!studentId || !item.trim()) { toast.error(t("heldItems.f.item")); return; }

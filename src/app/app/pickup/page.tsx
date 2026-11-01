@@ -24,7 +24,7 @@ export default function PickupPage() {
   const [q, setQ] = useState("");
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     const sid = data.isStaff ? studentId : kidsData?.students?.[0]?.id;

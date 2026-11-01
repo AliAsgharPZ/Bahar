@@ -36,7 +36,7 @@ export default function ExamSeatsPage() {
   const totalCap = useMemo(() => rooms.reduce((s, r) => s + cap(r), 0), [rooms]);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const create = async () => {
     setBusy(true);

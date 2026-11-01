@@ -131,11 +131,18 @@ export function EmptyState({
   );
 }
 
-export function ErrorBox({ message }: { message: string }) {
+export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
     <div className="b-card-sm !border-destructive/30 bg-destructive/5 p-4 flex items-start gap-3 text-destructive">
       <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
-      <span className="text-[14px] font-medium leading-relaxed">{message}</span>
+      <div className="flex-1 min-w-0 space-y-3">
+        <span className="text-[14px] font-medium leading-relaxed block">{message}</span>
+        {onRetry && (
+          <button type="button" className="b-btn b-btn-ghost min-h-11" onClick={onRetry}>
+            تلاش دوباره
+          </button>
+        )}
+      </div>
     </div>
   );
 }

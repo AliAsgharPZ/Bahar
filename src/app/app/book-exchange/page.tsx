@@ -21,7 +21,7 @@ export default function BookExchangePage() {
   const [q, setQ] = useState("");
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (!title.trim()) { toast.error(t("books.f.title")); return; }

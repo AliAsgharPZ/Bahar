@@ -21,7 +21,7 @@ export default function OfficeHoursPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (!timeText.trim()) { toast.error(t("hours.f.time")); return; }

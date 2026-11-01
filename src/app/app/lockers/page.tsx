@@ -20,7 +20,7 @@ export default function LockersPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const create = async () => {
     if (!number.trim()) { toast.error(t("lockers.f.number")); return; }

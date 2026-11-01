@@ -20,7 +20,7 @@ export default function TransportRequestsPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (details.trim().length < 5) { toast.error(t("transport2.f.details")); return; }

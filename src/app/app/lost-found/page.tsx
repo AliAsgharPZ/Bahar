@@ -76,7 +76,7 @@ export default function LostFoundPage() {
   const [showHistory, setShowHistory] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const submit = async (mode: "lost" | "found") => {
     if (title.trim().length < 2) { toast.error(t("lostFound.f.title")); return; }

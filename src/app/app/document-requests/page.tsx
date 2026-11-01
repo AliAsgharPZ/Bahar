@@ -32,7 +32,7 @@ export default function DocumentRequestsPage() {
   const [notes, setNotes] = useState<Record<string, string>>({});
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const chosenStudent = studentId || data.myStudents[0]?.id || "";
 

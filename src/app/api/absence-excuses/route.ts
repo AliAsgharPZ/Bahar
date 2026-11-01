@@ -60,6 +60,9 @@ export async function GET(req: NextRequest) {
     }
 
     if (!STAFF.includes(me.role)) return apiErr(403, "دسترسی ندارید.", "FORBIDDEN");
+    // کارکنان سرویس بدون پنل مدرسهٔ فعال: به‌جای خطای ۴۰۰، حالت خالیِ
+    // «مدرسه‌ای انتخاب نشده» برگردد تا صفحه بنر خطای خالی نشان ندهد.
+    if (!me.schoolId) return apiOk({ excuses: [], noSchool: true });
     const schoolId = requireSchoolId(me);
     const status = searchParams.get("status") ?? "PENDING";
     const excuses = await db.absenceExcuse.findMany({

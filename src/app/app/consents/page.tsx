@@ -36,7 +36,7 @@ export default function ConsentsPage() {
   const [responding, setResponding] = useState<string | null>(null);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const isParentView = Array.isArray(data.items);
 

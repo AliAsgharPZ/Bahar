@@ -22,7 +22,7 @@ export default function ScienceFairPage() {
   const [busy, setBusy] = useState(false);
 
   if (loading) return <LoadingBlock />;
-  if (error || !data) return <ErrorBox message={t("common.error")} />;
+  if (error || !data) return <ErrorBox message={error || t("common.error")} onRetry={refetch} />;
 
   const add = async () => {
     if (!title.trim() || !team.trim()) { toast.error(t("science.f.team")); return; }
