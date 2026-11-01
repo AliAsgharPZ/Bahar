@@ -4273,7 +4273,8 @@
   "supply.f.qty": "تعداد",
   "supply.f.reason": "کس کام کے لیے؟ (اختیاری)",
   "supply.add": "درخواست درج کریں",
-  "supply.addedToast": "درخواست درج ہو گئی"
+  "supply.addedToast": "درخواست درج ہو گئی",
+  "examSeats.roomInvigilator": "کمرے کا ناظر"
  },
  "siteStrings": {
   "site.brand.tagline": "اسکول مینجمنٹ سسٹم",
