@@ -79,10 +79,10 @@ export default function ClubsPage() {
       <PageHeader title={t("clubs.title")} desc={t("clubs.desc")} />
       {isParent && (
         <div className="flex items-end gap-3 flex-wrap">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.childClass")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.childClass")}</span>
             <Select value={classId} onChange={(v) => { setClassId(v); setChildId(""); }}
               options={[{ value: "", label: t("clubs.select.class") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("common.class")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.child")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.child")}</span>
             <Select value={childId} onChange={setChildId}
               options={[{ value: "", label: t("clubs.select.child") }, ...children.map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("clubs.child")} /></label>
         </div>
@@ -90,23 +90,23 @@ export default function ClubsPage() {
 
       {isStaff && (
         <form onSubmit={create} className="b-card p-5 grid md:grid-cols-4 gap-3">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.field.name")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.field.name")}</span>
             <input className="b-input" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={t("clubs.placeholder.name")} required /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.coach")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.coach")}</span>
             <input className="b-input" value={form.coach} onChange={(e) => setForm((f) => ({ ...f, coach: e.target.value }))} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.field.weekday")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.field.weekday")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.weekday} onChange={(v) => setForm((f) => ({ ...f, weekday: v }))}
               options={DAY_TKEY.slice(1).map((key, i) => ({ value: String(i + 1), label: key ? t(key) : "" }))} placeholder={t("dashboard.uptime.day")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.time")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("common.time")}</span>
             <input className="b-input" value={form.timeLabel} onChange={(e) => setForm((f) => ({ ...f, timeLabel: e.target.value }))} placeholder={t("clubs.placeholder.time")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.capacity")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.capacity")}</span>
             <input className="b-input" type="number" min={1} value={form.capacity} onChange={(e) => setForm((f) => ({ ...f, capacity: e.target.value }))} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.field.grades")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.field.grades")}</span>
             <span className="flex gap-1.5">
               <input className="b-input" value={form.minGrade} onChange={(e) => setForm((f) => ({ ...f, minGrade: e.target.value }))} placeholder={t("clubs.grade.first")} />
               <input className="b-input" value={form.maxGrade} onChange={(e) => setForm((f) => ({ ...f, maxGrade: e.target.value }))} placeholder={t("clubs.grade.sixth")} />
             </span></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("clubs.field.fee")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("clubs.field.fee")}</span>
             <input className="b-input" dir="ltr" type="number" min={0} value={form.fee} onChange={(e) => setForm((f) => ({ ...f, fee: e.target.value }))} /></label>
           <span className="flex items-end">
             <button className="b-btn b-btn-spring" disabled={busy === "create"}>
@@ -128,11 +128,11 @@ export default function ClubsPage() {
           return (
             <div key={c.id} className={`b-card-md p-5 flex flex-col gap-2 ${!c.isActive ? "opacity-60" : ""}`}>
               <span className="flex items-center justify-between gap-2">
-                <b className="text-[16px]">{c.name}</b>
+                <b className="text-base">{c.name}</b>
                 <span className={`b-badge ${c.isActive ? "b-badge-spring" : "b-badge-blossom"}`}>{c.isActive ? t("common.active") : t("common.inactive")}</span>
               </span>
-              <span className="text-[12px] text-steel">{DAY_TKEY[c.weekday] ? t(DAY_TKEY[c.weekday]) : ""}{c.timeLabel ? ` · ${c.timeLabel}` : ""}{c.coach ? ` · ${t("clubs.coach")}: ${c.coach}` : ""}</span>
-              <span className="text-[12px] text-steel">
+              <span className="text-xs text-steel">{DAY_TKEY[c.weekday] ? t(DAY_TKEY[c.weekday]) : ""}{c.timeLabel ? ` · ${c.timeLabel}` : ""}{c.coach ? ` · ${t("clubs.coach")}: ${c.coach}` : ""}</span>
+              <span className="text-xs text-steel">
                 {t("clubs.capacity")}: {faNumber(c.enrolledCount)} {t("common.from")} {faNumber(c.capacity)}{full ? ` (${t("clubs.full")})` : ""}
                 {c.minGrade || c.maxGrade ? ` · ${t("clubs.gradePrefix")} ${c.minGrade ?? "…"} ${t("common.to")} ${c.maxGrade ?? "…"}` : ""}
                 {c.fee > 0 ? ` · ${t("clubs.fee")} ${faNumber(c.fee)} ${t("clubs.currency")}` : ` · ${t("clubs.free")}`}
@@ -143,16 +143,16 @@ export default function ClubsPage() {
                 )}
                 {!isStaff && (role === "STUDENT" || childId) && c.isActive && (
                   myStatus
-                    ? <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={busy === c.id} onClick={() => enroll(c, true)}><UserX className="w-3.5 h-3.5" /> {t("clubs.cancelEnroll")}</button>
-                    : <button className="b-btn b-btn-spring b-btn-sm" disabled={busy === c.id} onClick={() => enroll(c, false)}><UserCheck className="w-3.5 h-3.5" /> {full ? t("clubs.waitlisted") : t("clubs.enroll")}</button>
+                    ? <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive" disabled={busy === c.id} onClick={() => enroll(c, true)}><UserX className="w-3.5 h-3.5" /> {t("clubs.cancelEnroll")}</button>
+                    : <button className="b-btn b-btn-spring b-btn-sm min-h-11" disabled={busy === c.id} onClick={() => enroll(c, false)}><UserCheck className="w-3.5 h-3.5" /> {full ? t("clubs.waitlisted") : t("clubs.enroll")}</button>
                 )}
                 {isStaff && (
-                  <button className="b-btn b-btn-ghost b-btn-sm" disabled={busy === c.id} onClick={() => toggle(c)}>
+                  <button className="b-btn b-btn-ghost b-btn-sm min-h-11" disabled={busy === c.id} onClick={() => toggle(c)}>
                     <Power className="w-3.5 h-3.5" /> {c.isActive ? t("common.inactive") : t("common.active")}
                   </button>
                 )}
                 {isStaff && (
-                  <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={busy === c.id}
+                  <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive" disabled={busy === c.id}
                     onClick={async () => { if (!window.confirm(`${t("clubs.deleteConfirm.club")} «${c.name}» ${t("clubs.deleteConfirm.suffix")}`)) return; try { await apiDelete(`/api/clubs?id=${c.id}`); toast.success(t("clubs.toast.deleted")); refetch(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
                     <Trash2 className="w-3.5 h-3.5" /> {t("common.delete")}
                   </button>

@@ -84,7 +84,7 @@ export default function RevisionPlanPage() {
               return (
                 <div key={ex.id} className="b-card p-4 md:p-5 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <b className="text-[14px] min-w-0 truncate">{ex.title} · {ex.startsAt.slice(0, 10)}</b>
+                    <b className="text-sm min-w-0 truncate">{ex.title} · {ex.startsAt.slice(0, 10)}</b>
                     {exSessions.length > 0 && !done && (
                       <button className="b-btn b-btn-sm b-btn-ink shrink-0" onClick={() => save(ex.id)} disabled={savingId === ex.id}>
                         {savingId === ex.id ? t("revisionPlan.saving") : t("revisionPlan.save")}
@@ -94,7 +94,7 @@ export default function RevisionPlanPage() {
                   {exSessions.length === 0 && <p className="t-sm text-steel mt-2">{t("revisionPlan.noSessions")}</p>}
                   {exSessions.length > 0 && (
                     <div className="overflow-x-auto mt-3">
-                    <table className="w-full text-sm min-w-[520px]">
+                    <table className="w-full text-sm min-w-max">
                       <tbody>
                         {exSessions.map((s, i) => (
                           <tr key={i} className="border-t border-hairline-soft">

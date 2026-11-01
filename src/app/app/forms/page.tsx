@@ -93,7 +93,7 @@ export default function FormsPage() {
             {data.forms.map((f) => (
               <div key={f.id} className="b-card b-card-hover p-5 flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-2">
-                  <b className="text-[16px]">{f.title}</b>
+                  <b className="text-base">{f.title}</b>
                   <span className={`b-badge ${f.status === "OPEN" ? "b-badge-spring" : "b-badge-neutral"}`}>{f.status === "OPEN" ? t("dashboard.ticket.open") : t("dashboard.ticket.closed")}</span>
                 </div>
                 {f.description && <p className="t-sm text-steel line-clamp-2">{f.description}</p>}
@@ -123,15 +123,15 @@ export default function FormsPage() {
           <div className="b-card w-full max-w-xl p-6 flex flex-col gap-3 max-h-[92vh] overflow-y-auto b-scroll" onClick={(e) => e.stopPropagation()}>
             <h3 className="font-bold">{t("forms.frm-jdyd")}</h3>
             <input className="b-input" placeholder={t("forms.anvan-msla-rzayt-namh-ardvy-almy")} value={title} onChange={(e) => setTitle(e.target.value)} />
-            <textarea className="b-input !min-h-[70px]" placeholder={t("forms.tvzyh-akhtyary")} value={desc} onChange={(e) => setDesc(e.target.value)} />
-            <div className="grid grid-cols-2 gap-3">
+            <textarea className="b-input min-h-18" placeholder={t("forms.tvzyh-akhtyary")} value={desc} onChange={(e) => setDesc(e.target.value)} />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Select value={audience} onChange={setAudience} options={[{ value: "PARENTS", label: t("students.table.parents") }, { value: "STUDENTS", label: t("nav.students") }, { value: "ALL", label: t("common.all") }]} ariaLabel={t("forms.mkhatb")} />
               <input className="b-input" placeholder={t("forms.mhlt-shmsy-akhtyary")} value={deadline} onChange={(e) => setDeadline(e.target.value)} />
             </div>
             <div className="flex flex-col gap-2">
-              <b className="text-[14px]">{t("forms.fyldha")}</b>
+              <b className="text-sm">{t("forms.fyldha")}</b>
               {fields.map((f, i) => (
-                <div key={i} className="b-card-sm !rounded-2xl p-3 flex flex-col gap-2">
+                <div key={i} className="b-card-sm p-3 flex flex-col gap-2">
                   <div className="flex gap-2">
                     <input className="b-input flex-1" placeholder={t("forms.anvan-fyld-msla-nam-v-nam-khanvadgy-vly")} value={f.label} onChange={(e) => setFields(fields.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} />
                     <button className="b-btn b-btn-ghost text-destructive shrink-0" onClick={() => setFields(fields.filter((_, j) => j !== i))}><X className="w-4 h-4" /></button>
@@ -140,12 +140,12 @@ export default function FormsPage() {
                     <div className="w-44">
                       <Select value={f.type} onChange={(v) => setFields(fields.map((x, j) => j === i ? { ...x, type: v } : x))} options={TYPE_OPTIONS.map((o) => ({ value: o.value, label: t(o.tkey) }))} ariaLabel={t("forms.nva-fyld")} />
                     </div>
-                    <label className="flex items-center gap-1.5 text-[12px]">
+                    <label className="flex items-center gap-1.5 text-xs">
                       <input type="checkbox" checked={f.required} onChange={(e) => setFields(fields.map((x, j) => j === i ? { ...x, required: e.target.checked } : x))} /> {t("forms.alzamy")}
                     </label>
                   </div>
                   {f.type === "select" && (
-                    <textarea className="b-input !min-h-[56px]" placeholder={t("forms.gzynh-ha-hr-gzynh-dr-yk-str")} value={f.options} onChange={(e) => setFields(fields.map((x, j) => j === i ? { ...x, options: e.target.value } : x))} />
+                    <textarea className="b-input min-h-14" placeholder={t("forms.gzynh-ha-hr-gzynh-dr-yk-str")} value={f.options} onChange={(e) => setFields(fields.map((x, j) => j === i ? { ...x, options: e.target.value } : x))} />
                   )}
                 </div>
               ))}

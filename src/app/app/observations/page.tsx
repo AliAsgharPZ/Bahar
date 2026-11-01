@@ -78,35 +78,35 @@ export default function ObservationsPage() {
 
       {data && canWrite && (
         <div className="b-card p-5 flex flex-col gap-4">
-          <b className="text-[14px] flex items-center gap-2"><Eye className="w-4 h-4 text-spring" /> {t("observations.new")}</b>
+          <b className="text-sm flex items-center gap-2"><Eye className="w-4 h-4 text-spring" /> {t("observations.new")}</b>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("observations.teacher")}</span>
+              <span className="text-xs font-bold">{t("observations.teacher")}</span>
               <Select
                 value={teacherId} onChange={setTeacherId} placeholder={t("observations.selectTeacher")}
                 options={data.teachers.map((x) => ({ value: x.id, label: x.name }))}
               />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("observations.class")}</span>
+              <span className="text-xs font-bold">{t("observations.class")}</span>
               <Select
                 value={classId} onChange={setClassId} placeholder={t("observations.noClass")}
                 options={[{ value: "", label: t("observations.noClass") }, ...data.classes.map((x) => ({ value: x.id, label: x.name }))]}
               />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("observations.date")}</span>
+              <span className="text-xs font-bold">{t("observations.date")}</span>
               <input type="date" className="b-input" value={date} onChange={(e) => setDate(e.target.value)} />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("observations.topic")}</span>
+              <span className="text-xs font-bold">{t("observations.topic")}</span>
               <input className="b-input" value={topic} onChange={(e) => setTopic(e.target.value)} placeholder={t("observations.topicPlaceholder")} />
             </label>
           </div>
 
           {teacherPlans.length > 0 && (
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[12px] font-bold text-steel">{t("observations.fromPlan")}</span>
+              <span className="text-xs font-bold text-steel">{t("observations.fromPlan")}</span>
               {teacherPlans.map((p) => (
                 <button
                   key={p.id} type="button"
@@ -120,15 +120,15 @@ export default function ObservationsPage() {
           )}
 
           <div className="flex flex-col gap-2.5">
-            <span className="text-[12px] font-bold">{t("observations.scores")}</span>
+            <span className="text-xs font-bold">{t("observations.scores")}</span>
             {OBSERVATION_CRITERIA.map((c) => (
               <div key={c.key} className="flex items-center gap-3 flex-wrap">
-                <span className="text-[12.5px] w-52 shrink-0">{t(`observations.crit.${c.key}`)}</span>
+                <span className="text-xs w-52 shrink-0">{t(`observations.crit.${c.key}`)}</span>
                 <div className="flex gap-1.5" role="radiogroup" aria-label={t(`observations.crit.${c.key}`)}>
                   {[1, 2, 3, 4, 5].map((v) => (
                     <button
                       key={v} type="button" role="radio" aria-checked={scores[c.key] === v}
-                      className={`w-10 h-10 rounded-full text-[13px] font-bold transition-colors ${scores[c.key] === v ? "bg-spring text-white" : "bg-cloud text-steel hover:bg-spring-tint"}`}
+                      className={`w-11 h-11 rounded-full text-sm font-bold transition-colors ${scores[c.key] === v ? "bg-spring text-white" : "bg-cloud text-steel hover:bg-spring-tint"}`}
                       onClick={() => setScores((s) => ({ ...s, [c.key]: v }))}
                     >
                       {faNumber(v)}
@@ -141,16 +141,16 @@ export default function ObservationsPage() {
 
           <div className="grid md:grid-cols-3 gap-3">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("observations.strengths")}</span>
-              <textarea rows={3} className="b-input !rounded-2xl resize-none" value={strengths} onChange={(e) => setStrengths(e.target.value)} placeholder={t("observations.strengthsPlaceholder")} />
+              <span className="text-xs font-bold">{t("observations.strengths")}</span>
+              <textarea rows={3} className="b-input resize-none" value={strengths} onChange={(e) => setStrengths(e.target.value)} placeholder={t("observations.strengthsPlaceholder")} />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("observations.growthAreas")}</span>
-              <textarea rows={3} className="b-input !rounded-2xl resize-none" value={growthAreas} onChange={(e) => setGrowthAreas(e.target.value)} placeholder={t("observations.growthAreasPlaceholder")} />
+              <span className="text-xs font-bold">{t("observations.growthAreas")}</span>
+              <textarea rows={3} className="b-input resize-none" value={growthAreas} onChange={(e) => setGrowthAreas(e.target.value)} placeholder={t("observations.growthAreasPlaceholder")} />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("observations.comment")}</span>
-              <textarea rows={3} className="b-input !rounded-2xl resize-none" value={comment} onChange={(e) => setComment(e.target.value)} />
+              <span className="text-xs font-bold">{t("observations.comment")}</span>
+              <textarea rows={3} className="b-input resize-none" value={comment} onChange={(e) => setComment(e.target.value)} />
             </label>
           </div>
 
@@ -170,16 +170,16 @@ export default function ObservationsPage() {
           {data.observations.map((o) => (
             <article key={o.id} className="b-card p-5 flex flex-col gap-3">
               <div className="flex items-center gap-3 flex-wrap">
-                <b className="text-[14px]">{o.teacherName}</b>
+                <b className="text-sm">{o.teacherName}</b>
                 {o.className && <span className="b-badge b-badge-neutral">{o.className}</span>}
-                {o.topic && <span className="text-[12.5px] text-steel">{o.topic}</span>}
-                <span className="text-[12px] text-steel">{formatDateFa(o.date)}</span>
+                {o.topic && <span className="text-xs text-steel">{o.topic}</span>}
+                <span className="text-xs text-steel">{formatDateFa(o.date)}</span>
                 <span className="ms-auto flex items-center gap-2">
                   <span className="b-badge b-badge-spring">{t("observations.average")}: {faNumber(o.average)}</span>
                   {canWrite && (
                     <button
                       type="button" aria-label={t("observations.delete")}
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
+                      className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
                       onClick={() => remove(o.id)}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -190,22 +190,22 @@ export default function ObservationsPage() {
               <div className="flex flex-col gap-1.5">
                 {OBSERVATION_CRITERIA.map((c) => (
                   <div key={c.key} className="flex items-center gap-3">
-                    <span className="text-[12px] text-steel w-52 shrink-0">{t(`observations.crit.${c.key}`)}</span>
+                    <span className="text-xs text-steel w-52 shrink-0">{t(`observations.crit.${c.key}`)}</span>
                     <span className="h-2 flex-1 rounded-full bg-cloud overflow-hidden">
                       <span className="block h-full rounded-full bg-spring" style={{ width: `${((o.scores[c.key] ?? 0) / 5) * 100}%` }} />
                     </span>
-                    <span className="text-[12px] font-bold w-6">{o.scores[c.key] ? faNumber(o.scores[c.key]) : "—"}</span>
+                    <span className="text-xs font-bold w-6">{o.scores[c.key] ? faNumber(o.scores[c.key]) : "—"}</span>
                   </div>
                 ))}
               </div>
               {(o.strengths || o.growthAreas || o.comment) && (
-                <div className="grid md:grid-cols-3 gap-3 text-[12.5px] leading-relaxed">
-                  {o.strengths && <p><b className="block text-[12px] mb-1">{t("observations.strengths")}</b>{o.strengths}</p>}
-                  {o.growthAreas && <p><b className="block text-[12px] mb-1">{t("observations.growthAreas")}</b>{o.growthAreas}</p>}
-                  {o.comment && <p><b className="block text-[12px] mb-1">{t("observations.comment")}</b>{o.comment}</p>}
+                <div className="grid md:grid-cols-3 gap-3 text-xs leading-relaxed">
+                  {o.strengths && <p><b className="block text-xs mb-1">{t("observations.strengths")}</b>{o.strengths}</p>}
+                  {o.growthAreas && <p><b className="block text-xs mb-1">{t("observations.growthAreas")}</b>{o.growthAreas}</p>}
+                  {o.comment && <p><b className="block text-xs mb-1">{t("observations.comment")}</b>{o.comment}</p>}
                 </div>
               )}
-              <span className="text-[12px] text-steel">{t("observations.observer")}: {o.observerName}</span>
+              <span className="text-xs text-steel">{t("observations.observer")}: {o.observerName}</span>
             </article>
           ))}
         </div>

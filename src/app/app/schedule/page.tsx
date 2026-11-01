@@ -199,7 +199,7 @@ export default function SchedulePage() {
 
       {canEdit && (
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-[12px] font-bold">
+          <label className="flex items-center gap-2 text-xs font-bold">
             {t("schedule.filter.class")}
             <Select
               value={classId}
@@ -229,9 +229,9 @@ export default function SchedulePage() {
       {(data || isTeacher) && (data?.slots?.length || 0) > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[12px] min-w-[640px]">
+            <table className="w-full text-xs min-w-max">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                <tr className="border-b border-hairline-soft text-steel text-xs">
                   <th className="text-end py-3 px-3 font-bold w-16">{t("schedule.table.period")}</th>
                   {daysOf(data?.slots).map((d) => (
                     <th key={d} className="text-end py-3 px-3 font-bold">{weekdayLabel(d)}</th>
@@ -242,7 +242,7 @@ export default function SchedulePage() {
                 {periodsOf(data?.slots).map((p) => (
                   <tr key={p} className="border-b border-hairline-soft/60 last:border-0">
                     <td className="py-2.5 px-3">
-                      <span className="w-8 h-8 rounded-full bg-spring-tint text-spring flex items-center justify-center font-bold text-[12px]">
+                      <span className="w-8 h-8 rounded-full bg-spring-tint text-spring flex items-center justify-center font-bold text-xs">
                         {faNumber(p)}
                       </span>
                     </td>
@@ -255,8 +255,8 @@ export default function SchedulePage() {
                           <td key={key} className="py-2.5 px-3">
                             {teacherSlot ? (
                               <div className="b-card-sm !rounded-lg p-2.5 bg-spring-tint !border-transparent">
-                                <b className="text-[12px] block truncate">{teacherSlot.subject?.name ?? "—"}</b>
-                                <span className="text-[12px] text-steel truncate block">{teacherSlot.class?.name ?? ""}</span>
+                                <b className="text-xs block truncate">{teacherSlot.subject?.name ?? "—"}</b>
+                                <span className="text-xs text-steel truncate block">{teacherSlot.class?.name ?? ""}</span>
                               </div>
                             ) : (
                               <span className="text-stone">—</span>
@@ -270,7 +270,7 @@ export default function SchedulePage() {
                             <div className="flex flex-col gap-1.5">
                               <Select
                                 className="w-full"
-                                buttonClassName="!w-full !h-9 !text-[12px] !py-0"
+                                buttonClassName="!w-full !h-9 !text-xs !py-0"
                                 value={slot?.subjectId ?? ""}
                                 onChange={(v) => setSlot(d, p, "subjectId", v)}
                                 options={[{ value: "", label: t("schedule.slot.empty") }, ...(subjectsData?.subjects ?? []).map((s) => ({ value: s.id, label: s.name }))]}
@@ -278,7 +278,7 @@ export default function SchedulePage() {
                               />
                               <Select
                                 className="w-full"
-                                buttonClassName="!w-full !h-9 !text-[12px] !py-0"
+                                buttonClassName="!w-full !h-9 !text-xs !py-0"
                                 value={slot?.teacherId ?? ""}
                                 onChange={(v) => setSlot(d, p, "teacherId", v)}
                                 options={[{ value: "", label: t("schedule.slot.teacherPlaceholder") }, ...(teachersData?.users ?? []).map((t) => ({ value: t.id, label: `${t.firstName} ${t.lastName}` }))]}
@@ -293,8 +293,8 @@ export default function SchedulePage() {
                         <td key={key} className="py-2.5 px-3">
                           {view ? (
                             <div className="flex flex-col">
-                              <b className="text-[12px]">{view.subject?.name ?? "—"}</b>
-                              {view.teacher && <span className="text-[12px] text-steel">{view.teacher.firstName} {view.teacher.lastName}</span>}
+                              <b className="text-xs">{view.subject?.name ?? "—"}</b>
+                              {view.teacher && <span className="text-xs text-steel">{view.teacher.firstName} {view.teacher.lastName}</span>}
                             </div>
                           ) : (
                             <span className="text-stone">—</span>
@@ -324,7 +324,7 @@ export default function SchedulePage() {
           <div className="relative b-card p-6 md:p-8 w-full max-w-2xl max-h-[92vh] overflow-y-auto b-scroll b-pop">
             <div className="flex items-center justify-between mb-1">
               <h2 className="font-bold text-lg flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> {t("schedule.generate.title")}</h2>
-              <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint" onClick={() => setGenOpen(false)} aria-label={t("common.close")}><X className="w-4 h-4" /></button>
+              <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint" onClick={() => setGenOpen(false)} aria-label={t("common.close")}><X className="w-4 h-4" /></button>
             </div>
             <p className="t-sm text-steel mb-5">
               {t("schedule.generate.desc")}
@@ -332,10 +332,10 @@ export default function SchedulePage() {
 
             {genLoading && <LoadingBlock label={t("schedule.generate.loading")} />}
             {!genLoading && scenarios.map((sc) => (
-              <div key={sc.id} className="b-card-sm !rounded-2xl p-4 mb-3 flex items-center gap-4">
+              <div key={sc.id} className="b-card-sm p-4 mb-3 flex items-center gap-4">
                 <div className="flex-1">
-                  <b className="text-[14px]">{t("schedule.generate.option")} {sc.label}</b>
-                  <p className="text-[12px] text-steel mt-0.5">
+                  <b className="text-sm">{t("schedule.generate.option")} {sc.label}</b>
+                  <p className="text-xs text-steel mt-0.5">
                     {faNumber(sc.slots.length)} {t("schedule.generate.periodUnit")} · {t("schedule.generate.quality")} {faNumber(sc.scores.total)}٪ · {t("schedule.generate.teacherLoad")} {faNumber(sc.scores.teacher)} · {t("schedule.generate.spread")} {faNumber(sc.scores.spread)}
                     {sc.unscheduled.length > 0 && <span className="text-blossom"> · {faNumber(sc.unscheduled.length)} {t("schedule.generate.unscheduled")}</span>}
                   </p>
@@ -346,7 +346,7 @@ export default function SchedulePage() {
               </div>
             ))}
             {!genLoading && scenarios.every((sc) => sc.unscheduled.length > 0) && scenarios.length > 0 && (
-              <p className="text-[12px] text-warning-deep">
+              <p className="text-xs text-warning-deep">
                 {t("schedule.generate.unscheduledWarning")}
               </p>
             )}

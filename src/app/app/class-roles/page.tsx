@@ -61,7 +61,7 @@ export default function ClassRolesPage() {
               {(studentsData?.students ?? []).map((s) => <option key={s.id} value={s.id}>{s.user.firstName} {s.user.lastName}</option>)}
             </select>
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />} {t("classRoles.add")}
           </button>
         </section>

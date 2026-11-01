@@ -131,7 +131,7 @@ export default function CertificatesPage() {
             className="w-full"
             buttonClassName="!w-full"
           />
-          <textarea value={issueForm.body} onChange={(e) => setIssueForm({ ...issueForm, body: e.target.value })} placeholder={tr("certificates.form.body")} className="b-input !min-h-[120px]" />
+          <textarea value={issueForm.body} onChange={(e) => setIssueForm({ ...issueForm, body: e.target.value })} placeholder={tr("certificates.form.body")} className="b-input !min-h-30" />
           <button onClick={issue} className="b-btn b-btn-spring w-fit"><Award className="w-4 h-4" /> {tr("certificates.issue")}</button>
         </div>
       )}
@@ -142,15 +142,15 @@ export default function CertificatesPage() {
             <motion.div key={c.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
               className={`b-card-sm p-4 flex items-center gap-3 flex-wrap ${c.revokedAt ? "opacity-50" : ""}`}>
               <FileCheck2 className="w-5 h-5 text-spring shrink-0" />
-              <span className="text-[14px] font-bold">{c.title}</span>
-              <span className="text-[12px] text-steel">{c.student.user.firstName} {c.student.user.lastName}</span>
-              <span className="text-[12px] text-stone" dir="ltr">{c.serial}</span>
-              <span className="text-[12px] text-stone">{formatDateFa(c.issuedAt)}</span>
+              <span className="text-sm font-bold">{c.title}</span>
+              <span className="text-xs text-steel">{c.student.user.firstName} {c.student.user.lastName}</span>
+              <span className="text-xs text-stone" dir="ltr">{c.serial}</span>
+              <span className="text-xs text-stone">{formatDateFa(c.issuedAt)}</span>
               {c.revokedAt && <span className="b-badge b-badge-critical">{tr("certificates.revokedBadge")}</span>}
               <span className="flex items-center gap-1.5 ms-auto">
                 <span className="b-badge b-badge-spring" dir="ltr">QR: {c.verifyCode}</span>
-                <button onClick={() => printCert(c)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0"><Printer className="w-3.5 h-3.5" /> {tr("common.print")}</button>
-                {!c.revokedAt && canRevoke && <button onClick={() => revoke(c.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive"><Ban className="w-3.5 h-3.5" /> {tr("certificates.revoke")}</button>}
+                <button onClick={() => printCert(c)} className="b-btn b-btn-sm min-h-11 b-btn-ghost !min-h-10 !text-xs !px-2 !py-0"><Printer className="w-3.5 h-3.5" /> {tr("common.print")}</button>
+                {!c.revokedAt && canRevoke && <button onClick={() => revoke(c.id)} className="b-btn b-btn-sm min-h-11 b-btn-ghost !min-h-10 !text-xs !px-2 !py-0 !text-destructive"><Ban className="w-3.5 h-3.5" /> {tr("certificates.revoke")}</button>}
               </span>
             </motion.div>
           ))}
@@ -169,18 +169,18 @@ export default function CertificatesPage() {
               buttonClassName="!w-full"
             />
             <input value={tplForm.title} onChange={(e) => setTplForm({ ...tplForm, title: e.target.value })} placeholder={tr("certificates.form.templateTitle")} className="b-input" />
-            <textarea value={tplForm.bodyTemplate} onChange={(e) => setTplForm({ ...tplForm, bodyTemplate: e.target.value })} placeholder={tr("certificates.form.templateBody")} className="b-input !min-h-[160px]" />
-            <button onClick={addTemplate} className="b-btn b-btn-sm b-btn-spring w-fit"><Plus className="w-4 h-4" /> {tr("certificates.addTemplate")}</button>
+            <textarea value={tplForm.bodyTemplate} onChange={(e) => setTplForm({ ...tplForm, bodyTemplate: e.target.value })} placeholder={tr("certificates.form.templateBody")} className="b-input !min-h-40" />
+            <button onClick={addTemplate} className="b-btn b-btn-sm min-h-11 b-btn-spring w-fit"><Plus className="w-4 h-4" /> {tr("certificates.addTemplate")}</button>
           </div>
           <div className="flex flex-col gap-2.5">
             {templates.map((t) => (
               <div key={t.id} className="b-card-sm p-4 group">
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="b-badge b-badge-spring">{tr(KINDS[t.kind])}</span>
-                  <span className="text-[14px] font-bold flex-1">{t.title}</span>
+                  <span className="text-sm font-bold flex-1">{t.title}</span>
                   <button onClick={async () => { if (!(await confirm({ title: tr("certificates.deleteTemplateTitle"), description: tr("certificates.deleteTemplateDesc"), confirmLabel: tr("common.delete"), danger: true }))) return; apiDelete(`/api/certificates?template=${t.id}`).then(load).catch((e) => toast.error(e instanceof Error ? e.message : tr("certificates.deleteError"))); }} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
                 </div>
-                <p className="text-[12px] text-steel line-clamp-3 leading-relaxed">{t.bodyTemplate}</p>
+                <p className="text-xs text-steel line-clamp-3 leading-relaxed">{t.bodyTemplate}</p>
               </div>
             ))}
             {templates.length === 0 && <p className="t-sm text-steel">{tr("certificates.noTemplates")}</p>}

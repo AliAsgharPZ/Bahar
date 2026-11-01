@@ -22,7 +22,7 @@ export default function DescriptiveReportPage() {
   const { t } = useLang();
   const LEVELS: Record<string, { label: string; cls: string }> = {
     VERY_GOOD: { label: t("enum.descriptiveLevel.VERY_GOOD"), cls: "b-badge-spring" },
-    GOOD: { label: t("enum.descriptiveLevel.GOOD"), cls: "b-badge-soft" },
+    GOOD: { label: t("enum.descriptiveLevel.GOOD"), cls: "b-badge-neutral" },
     ACCEPTABLE: { label: t("enum.descriptiveLevel.ACCEPTABLE"), cls: "b-badge-neutral" },
     NEEDS_WORK: { label: t("enum.descriptiveLevel.NEEDS_WORK"), cls: "b-badge-blossom" },
   };
@@ -82,11 +82,11 @@ export default function DescriptiveReportPage() {
             )}
             <div className="flex rounded-full bg-cloud p-1">
               {[1, 2].map((tt) => (
-                <button key={tt} onClick={() => setTerm(tt)} className={`px-3 py-1 rounded-full text-[12px] font-bold ${term === tt ? "bg-white shadow-sm" : "text-steel"}`}>{t("descriptiveReport.term.label")} {tt === 1 ? t("descriptiveReport.term.first") : t("descriptiveReport.term.second")}</button>
+                <button key={tt} onClick={() => setTerm(tt)} className={`b-pill-tab min-h-11 ${term === tt ? "b-pill-tab-active" : ""}`}>{t("descriptiveReport.term.label")} {tt === 1 ? t("descriptiveReport.term.first") : t("descriptiveReport.term.second")}</button>
               ))}
             </div>
             {(isAudience || studentId) && rows.length > 0 && (
-              <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => window.print()}><Printer className="w-4 h-4" /> {t("descriptiveReport.print")}</button>
+              <button className="b-btn b-btn-ghost b-btn-sm min-h-11" onClick={() => window.print()}><Printer className="w-4 h-4" /> {t("descriptiveReport.print")}</button>
             )}
           </div>
         }
@@ -98,12 +98,12 @@ export default function DescriptiveReportPage() {
 
       {!isAudience && studentId && (
         <form onSubmit={add} className="b-card p-5 grid md:grid-cols-[1fr_1.4fr_150px_auto] gap-3 items-end">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("descriptiveReport.field.subject")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("descriptiveReport.field.subject")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.subjectId} onChange={(v) => setForm((f) => ({ ...f, subjectId: v }))}
               options={[{ value: "", label: t("settings.general") }, ...(subjectsData?.subjects ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("settings.general")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("descriptiveReport.field.competency")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("descriptiveReport.field.competency")}</span>
             <input className="b-input" value={form.competency} onChange={(e) => setForm((f) => ({ ...f, competency: e.target.value }))} placeholder={t("descriptiveReport.placeholder.competency")} required /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("descriptiveReport.field.level")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("descriptiveReport.field.level")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.level} onChange={(v) => setForm((f) => ({ ...f, level: v }))}
               options={Object.entries(LEVELS).map(([value, l]) => ({ value, label: l.label }))} placeholder={t("descriptiveReport.field.level")} /></label>
           <button className="b-btn b-btn-spring" disabled={saving}>{saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} {t("descriptiveReport.submit")}</button>
@@ -113,11 +113,11 @@ export default function DescriptiveReportPage() {
       {(isAudience || studentId) && data && rows.length === 0 && <EmptyState icon={FileBarChart} title={t("descriptiveReport.empty.noRow")} />}
       {Object.entries(bySubject).map(([subject, list]) => (
         <div key={subject} className="b-card p-5">
-          <b className="text-[14px] block mb-3">{subject} ({faNumber(list.length)} {t("descriptiveReport.competencies")})</b>
+          <b className="text-sm block mb-3">{subject} ({faNumber(list.length)} {t("descriptiveReport.competencies")})</b>
           <div className="flex flex-col">
             {list.map((r) => (
               <div key={r.id} className="flex items-center justify-between gap-3 py-2.5 border-b border-hairline last:border-0">
-                <span className="text-[14px]">{r.competency}{r.note ? <span className="block text-[12px] text-steel mt-0.5">{r.note}</span> : null}</span>
+                <span className="text-sm">{r.competency}{r.note ? <span className="block text-xs text-steel mt-0.5">{r.note}</span> : null}</span>
                 <span className="flex items-center gap-2 shrink-0">
                   <span className={`b-badge ${LEVELS[r.level]?.cls ?? "b-badge-neutral"}`}>{LEVELS[r.level]?.label ?? r.level}</span>
                   {!isAudience && <button className="b-btn b-btn-ghost text-steel hover:text-destructive" onClick={() => del(r.id)} aria-label={t("common.delete")}><Trash2 className="w-4 h-4" /></button>}

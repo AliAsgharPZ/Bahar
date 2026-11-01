@@ -104,9 +104,9 @@ export default function SeatingPage() {
       {data && (
         <div className="grid lg:grid-cols-[1fr_260px] gap-4 items-start">
           <div className="b-card p-5 flex flex-col gap-4 print:shadow-none" id="seating-print">
-            <div className="rounded-2xl bg-ink text-white text-center py-2 text-[14px] font-bold">{t("seating.tkhth-klas")} {data.class.name}</div>
+            <div className="rounded-2xl bg-ink text-white text-center py-2 text-sm font-bold">{t("seating.tkhth-klas")} {data.class.name}</div>
             <div className="flex items-center gap-2 print:hidden">
-              <span className="text-[12px] font-bold">{t("seating.tadad-stvn")}:</span>
+              <span className="text-xs font-bold">{t("seating.tadad-stvn")}:</span>
               {[3, 4, 5, 6].map((n) => (
                 <button key={n} className={`b-badge ${cols === n ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => setCols(n)}>{faNumber(n)}</button>
               ))}
@@ -129,7 +129,7 @@ export default function SeatingPage() {
                     onDrop={(e) => { e.preventDefault(); if (dragId) place(pos, dragId); setDragId(null); }}
                     onClick={() => { if (sid) place(pos, null); }}
                     title={st ? t("seating.bray-khaly-krdn-klyk-knyd") : ""}
-                    className={`min-h-14 rounded-2xl border-2 border-dashed flex items-center justify-center text-center px-1 py-2 text-[12px] font-bold transition-colors ${st ? "border-spring bg-spring-tint/60 border-solid cursor-grab" : "border-hairline text-steel/50"}`}
+                    className={`min-h-14 rounded-2xl border-2 border-dashed flex items-center justify-center text-center px-1 py-2 text-xs font-bold transition-colors ${st ? "border-spring bg-spring-tint/60 border-solid cursor-grab" : "border-hairline text-steel/50"}`}
                     draggable={Boolean(st)}
                     onDragStart={() => st && setDragId(st.id)}
                   >
@@ -141,20 +141,20 @@ export default function SeatingPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-3 print:hidden">
-            <b className="text-[14px]">{t("seating.bdvn-sndly")} ({faNumber(unseated.length)})</b>
-            <p className="text-[12px] text-steel">{t("seating.bkshyd-v-rvy-sndly-khaly-rha-knyd")}</p>
-            <div className="flex flex-col gap-1.5 max-h-[480px] overflow-y-auto b-scroll">
+            <b className="text-sm">{t("seating.bdvn-sndly")} ({faNumber(unseated.length)})</b>
+            <p className="text-xs text-steel">{t("seating.bkshyd-v-rvy-sndly-khaly-rha-knyd")}</p>
+            <div className="flex flex-col gap-1.5 max-h-120 overflow-y-auto b-scroll">
               {unseated.map((s) => (
                 <div
                   key={s.id}
                   draggable
                   onDragStart={() => setDragId(s.id)}
-                  className="rounded-lg bg-cloud px-3 py-2 text-[12px] font-bold cursor-grab hover:bg-spring-tint/60"
+                  className="rounded-lg bg-cloud px-3 py-2 text-xs font-bold cursor-grab hover:bg-spring-tint/60"
                 >
                   {s.name}
                 </div>
               ))}
-              {unseated.length === 0 && <p className="text-[12px] text-steel">{t("seating.hmh-nshsth-and")}</p>}
+              {unseated.length === 0 && <p className="text-xs text-steel">{t("seating.hmh-nshsth-and")}</p>}
             </div>
           </div>
         </div>

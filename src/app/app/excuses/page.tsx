@@ -81,7 +81,7 @@ export default function ExcusesPage() {
     s === "APPROVED" ? (
       <span className="b-badge b-badge-success">{t("excuses.status.APPROVED")}</span>
     ) : s === "REJECTED" ? (
-      <span className="b-badge b-badge-danger">{t("excuses.status.REJECTED")}</span>
+      <span className="b-badge b-badge-critical">{t("excuses.status.REJECTED")}</span>
     ) : (
       <span className="b-badge b-badge-warning">{t("excuses.status.PENDING")}</span>
     );
@@ -92,17 +92,17 @@ export default function ExcusesPage() {
 
       {isParent && (
         <div className="b-card p-5 flex flex-col gap-3">
-          <h3 className="font-bold text-[15px]">{t("excuses.openTitle")}</h3>
+          <h3 className="font-bold text-base">{t("excuses.openTitle")}</h3>
           {(data.openAbsences ?? []).length === 0 ? (
-            <p className="text-[13px] text-steel">{t("excuses.openEmpty")}</p>
+            <p className="text-sm text-steel">{t("excuses.openEmpty")}</p>
           ) : (
             (data.openAbsences ?? []).map((a) => {
               const key = `${a.studentId}|${a.date}`;
               return (
                 <div key={key} className="b-card-sm p-3.5 flex flex-col gap-2.5">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <b className="text-[13px]">{a.studentName}</b>
-                    <span className="b-badge b-badge-danger">{t("excuses.absentOn")} {faNumber(a.date)}</span>
+                    <b className="text-sm">{a.studentName}</b>
+                    <span className="b-badge b-badge-critical">{t("excuses.absentOn")} {faNumber(a.date)}</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <textarea
@@ -114,7 +114,7 @@ export default function ExcusesPage() {
                     />
                     <button
                       type="button"
-                      className="b-btn b-btn-primary !h-11"
+                      className="b-btn b-btn-spring !h-11"
                       disabled={busyKey === key}
                       onClick={() => submit(a)}
                     >
@@ -138,7 +138,7 @@ export default function ExcusesPage() {
               role="tab"
               aria-selected={tab === k}
               onClick={() => setTab(k)}
-              className={`b-btn !h-10 ${tab === k ? "b-btn-primary" : "b-btn-ghost"}`}
+              className={`b-pill-tab min-h-11 ${tab === k ? "b-pill-tab-active" : ""}`}
             >
               {k === "PENDING" ? t("excuses.tab.pending") : t("excuses.tab.all")}
             </button>
@@ -153,19 +153,19 @@ export default function ExcusesPage() {
           rows.map((e) => (
             <div key={e.id} className="b-card p-4 flex flex-col gap-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <b className="text-[13px]">{e.studentName}</b>
-                <span className="text-[12px] text-steel">
+                <b className="text-sm">{e.studentName}</b>
+                <span className="text-xs text-steel">
                   {t("excuses.absentOn")} {faNumber(e.date)}
                 </span>
-                {e.parentName ? <span className="text-[12px] text-steel">— {e.parentName}</span> : null}
+                {e.parentName ? <span className="text-xs text-steel">— {e.parentName}</span> : null}
                 <span className="ms-auto">{statusBadge(e.status)}</span>
               </div>
-              <p className="text-[13px] leading-6">{e.text}</p>
+              <p className="text-sm leading-6">{e.text}</p>
               {!isParent && e.status === "PENDING" && (
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    className="b-btn b-btn-primary !h-10"
+                    className="b-btn b-btn-spring"
                     disabled={busyKey === e.id}
                     onClick={() => decide(e.id, "APPROVE")}
                   >
@@ -174,14 +174,14 @@ export default function ExcusesPage() {
                   </button>
                   <button
                     type="button"
-                    className="b-btn b-btn-ghost !h-10"
+                    className="b-btn b-btn-ghost"
                     disabled={busyKey === e.id}
                     onClick={() => decide(e.id, "REJECT")}
                   >
                     <XCircle className="w-4 h-4" />
                     {t("excuses.reject")}
                   </button>
-                  <span className="text-[12px] text-steel flex items-center gap-1">
+                  <span className="text-xs text-steel flex items-center gap-1">
                     <Clock3 className="w-3.5 h-3.5" />
                     {t("excuses.approveHint")}
                   </span>
@@ -191,7 +191,7 @@ export default function ExcusesPage() {
                 <div>
                   <button
                     type="button"
-                    className="b-btn b-btn-ghost !h-10"
+                    className="b-btn b-btn-ghost"
                     onClick={() => {
                       setSummonPreset({ studentId: e.studentId, n: Date.now() });
                       document.getElementById("summons")?.scrollIntoView({ behavior: "smooth" });

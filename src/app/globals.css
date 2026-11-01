@@ -433,7 +433,7 @@
 .b-btn-sm {
   @apply text-[14px];
   padding: 10px 22px;
-  min-height: 40px;
+  min-height: 44px;
 }
 /* Meta buy-CTA: cobalt pill, only for commerce actions (wallet top-up/sell) */
 .b-btn-buy {
@@ -464,6 +464,8 @@
 .b-btn-spring {
   background: var(--spring);
   color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 .dark .b-btn-spring {
   color: #051610;
@@ -986,7 +988,6 @@ html[dir="rtl"] .flip-rtl { transform: scaleX(-1); }
   .b-float, .b-float-slow { animation: none; }
 }
 /* برقِ عبوری روی دکمهٔ اصلی هنگام هاور */
-.b-btn-spring { position: relative; overflow: hidden; }
 .b-btn-spring::after {
   content: "";
   position: absolute;

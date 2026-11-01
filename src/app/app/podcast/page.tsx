@@ -48,7 +48,7 @@ export default function PodcastPage() {
           </div>
           <input className="b-input w-full" dir="ltr" value={url} onChange={(e) => setUrl(e.target.value)} placeholder={t("podcast.f.url")} />
           <textarea className="b-input w-full min-h-16" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder={t("podcast.f.desc")} />
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Podcast className="w-4 h-4" />} {t("podcast.add")}
           </button>
         </section>
@@ -66,7 +66,7 @@ export default function PodcastPage() {
               <p className="text-sm text-muted-foreground">{faNumber(r.date)}{r.hostName ? ` · ${t("podcast.host")}: ${r.hostName}` : ""}</p>
               {r.description && <p className="text-sm">{r.description}</p>}
               {r.url && (
-                <a className="b-btn b-btn-primary min-h-11 inline-flex" href={r.url} target="_blank" rel="noreferrer">
+                <a className="b-btn b-btn-spring min-h-11 inline-flex" href={r.url} target="_blank" rel="noreferrer">
                   <Play className="w-4 h-4" /> {t("podcast.listen")}
                 </a>
               )}

@@ -176,8 +176,8 @@ export default async function CountriesPage() {
       {/* هدر */}
       <header className="border-b border-hairline-soft">
         <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-black text-[16px] flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg bg-spring text-primary-foreground flex items-center justify-center text-[14px]">ب</span>
+          <Link href="/" className="font-black text-base flex items-center gap-2">
+            <span className="w-7 h-7 rounded-lg bg-spring text-primary-foreground flex items-center justify-center text-sm">ب</span>
             بهار
           </Link>
           <div className="flex items-center gap-3">
@@ -216,18 +216,18 @@ export default async function CountriesPage() {
 
         {/* بسته‌های موجود */}
         <section className="mb-14">
-          <h2 className="font-bold text-[16px] mb-4 flex items-center gap-2"><FileJson className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.packs", "بسته‌های کشور")}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="b-card !rounded-2xl p-4 text-center">
+          <h2 className="font-bold text-base mb-4 flex items-center gap-2"><FileJson className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.packs", "بسته‌های کشور")}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="b-card-sm p-4 text-center">
               <Globe2 className="w-6 h-6 text-spring mx-auto mb-2" />
-              <b className="block text-[14px]">ایران</b>
+              <b className="block text-sm">ایران</b>
               <span className="t-cap text-stone">{tx("site.kit.countries.builtin", "پیش‌فرض داخلی")}</span>
               <span className="b-badge b-badge-success mt-2 inline-flex">{active?.code === "IR" || !active ? tx("site.kit.countries.st.active", "فعال") : tx("site.kit.countries.st.ready", "آماده")}</span>
             </div>
             {packs.map((p) => (
-              <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
+              <div key={p.code} className="b-card-sm p-4 text-center">
                 <Globe2 className="w-6 h-6 text-steel mx-auto mb-2" />
-                <b className="block text-[14px]">{p.name}</b>
+                <b className="block text-sm">{p.name}</b>
                 <span className="t-cap text-stone">{p.nativeName}</span>
                 <span className={`b-badge mt-2 inline-flex ${p.status === "ACTIVE" ? "b-badge-success" : "b-badge-neutral"}`}>
                   {p.status === "ACTIVE" ? tx("site.kit.countries.st.active", "فعال") : p.status === "DISABLED" ? tx("site.kit.countries.st.disabled", "غیرفعال") : tx("site.kit.countries.st.draft", "پیش‌نویس")}
@@ -235,7 +235,7 @@ export default async function CountriesPage() {
               </div>
             ))}
             {packs.length === 0 && (
-              <div className="b-card !rounded-2xl p-4 text-center col-span-2 md:col-span-3 border-dashed">
+              <div className="b-card-sm p-4 text-center sm:col-span-2 lg:col-span-3 border-dashed">
                 <p className="t-sm text-steel">{tx("site.kit.countries.noCustom", "هنوز بسته کشور کاستومی بارگذاری نشده — اولین نفر باشید!")}</p>
               </div>
             )}
@@ -246,15 +246,15 @@ export default async function CountriesPage() {
             فقط ایران + جای خالی کاستوم را می‌دید (باگ دیده‌شدن، راند ۳). سطح پوشش
             صادقانه از خلاصهٔ بسته می‌آید؛ شهر/روستا فریز است و تغییری نکرده. */}
         <section className="mb-14">
-          <h2 className="font-bold text-[16px] mb-4 flex items-center gap-2"><Globe2 className="w-5 h-5 text-spring" /> {tx("site.kit.shippedHeading", "بسته‌های همراه سامانه")}</h2>
+          <h2 className="font-bold text-base mb-4 flex items-center gap-2"><Globe2 className="w-5 h-5 text-spring" /> {tx("site.kit.shippedHeading", "بسته‌های همراه سامانه")}</h2>
           <p className="t-sm text-steel mb-4 leading-[1.9]">
             {tx("site.kit.countries.shippedIntro", "این بسته‌ها با خود سامانه می‌آیند و نیاز به بارگذاری ندارند؛ سطح پوشش هر یک دقیقاً همان چیزی است که در فایل بسته هست.")}
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {SHIPPED_SUMMARIES.map((p) => (
-              <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
+              <div key={p.code} className="b-card-sm p-4 text-center">
                 <Globe2 className="w-6 h-6 text-spring mx-auto mb-2" />
-                <b className="block text-[14px]">{p.name}</b>
+                <b className="block text-sm">{p.name}</b>
                 <span className="t-cap text-stone block">{p.nativeName}</span>
                 <span className="t-cap text-steel block mt-1">{p.level}</span>
                 <span className="t-cap text-stone block mt-1">
@@ -268,12 +268,12 @@ export default async function CountriesPage() {
 
         {/* مراحل */}
         <section id="guide" className="mb-14 scroll-mt-24">
-          <h2 className="font-bold text-[16px] mb-5 flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.steps", "پنج قدم تا کشور شما")}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <h2 className="font-bold text-base mb-5 flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.steps", "پنج قدم تا کشور شما")}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {STEPS.map((s, i) => (
-              <div key={s.title} className="b-card !rounded-2xl p-5">
+              <div key={s.title} className="b-card-sm p-5">
                 <s.icon className="w-6 h-6 text-spring mb-3" />
-                <b className="block text-[14px] mb-2">{st(`site.kit.countries.s${i + 1}`)}</b>
+                <b className="block text-sm mb-2">{st(`site.kit.countries.s${i + 1}`)}</b>
                 <p className="t-sm text-steel leading-[1.9]">{tx(`long.kit.countries.step${i + 1}`, s.desc)}</p>
               </div>
             ))}
@@ -282,21 +282,21 @@ export default async function CountriesPage() {
 
         {/* مستند فیلدها */}
         <section className="mb-14">
-          <h2 className="font-bold text-[16px] mb-2 flex items-center gap-2">
+          <h2 className="font-bold text-base mb-2 flex items-center gap-2">
             <Table2 className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.fields", "مرجع کامل فیلدها — با مقدار ایران")}
           </h2>
           <p className="t-sm text-steel mb-5 leading-[1.9]">{tx("long.kit.countries.fieldIntro", "هر جدول زیر یک بخش از فایل JSON است. ستون «مقدار ایران» همان چیزی است که در قالب می‌بینید — الگوبرداری کنید و ستون «قاعده» را برای کشور خود رعایت کنید.")}</p>
           <div className="flex flex-col gap-4">
             {FIELD_DOCS.map((doc) => (
-              <div key={doc.title} className="b-card !rounded-2xl overflow-hidden">
+              <div key={doc.title} className="b-card-sm overflow-hidden">
                 <div className="flex items-center gap-2 p-4 border-b border-hairline-soft bg-cloud/30">
                   <doc.icon className="w-5 h-5 text-spring" />
-                  <b className="text-[14px]">{tx(`site.kit.countries.sec.${doc.sec}`, doc.title)}</b>
+                  <b className="text-sm">{tx(`site.kit.countries.sec.${doc.sec}`, doc.title)}</b>
                 </div>
                 <div className="overflow-x-auto b-scroll">
-                  <table className="w-full text-[12px] min-w-[680px]">
+                  <table className="w-full text-xs min-w-170">
                     <thead>
-                      <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                      <tr className="border-b border-hairline-soft text-steel text-xs">
                         <th className="text-end py-2.5 px-4 font-bold w-[26%]">{tx("site.kit.countries.th.field", "فیلد")}</th>
                         <th className="text-end py-2.5 px-4 font-bold w-[22%]">{tx("site.kit.countries.th.type", "نوع")}</th>
                         <th className="text-end py-2.5 px-4 font-bold w-[20%]">{tx("site.kit.countries.th.iran", "مقدار ایران")}</th>
@@ -308,9 +308,9 @@ export default async function CountriesPage() {
                         .filter((f) => shadEnabled || f.name !== "modules.shad")
                         .map((f) => (
                         <tr key={f.name} className="border-b border-hairline-soft/50 last:border-0">
-                          <td className="py-2.5 px-4 font-mono text-[12px] font-bold text-spring-deep" dir="ltr">{f.name}</td>
+                          <td className="py-2.5 px-4 font-mono text-xs font-bold text-spring-deep" dir="ltr">{f.name}</td>
                           <td className="py-2.5 px-4 text-steel">{f.type}</td>
-                          <td className="py-2.5 px-4 font-mono text-[12px] text-ink" dir="ltr">{f.iran}</td>
+                          <td className="py-2.5 px-4 font-mono text-xs text-ink" dir="ltr">{f.iran}</td>
                           <td className="py-2.5 px-4 text-steel leading-relaxed">{fieldRule(doc.sec, f)}</td>
                         </tr>
                       ))}
@@ -324,14 +324,14 @@ export default async function CountriesPage() {
 
         {/* تقویم‌ها */}
         <section className="mb-14">
-          <h2 className="font-bold text-[16px] mb-4 flex items-center gap-2"><CalendarDays className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.calendars", "تقویم‌های پشتیبانی‌شده")}</h2>
-          <div className="b-card !rounded-2xl p-5">
+          <h2 className="font-bold text-base mb-4 flex items-center gap-2"><CalendarDays className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.calendars", "تقویم‌های پشتیبانی‌شده")}</h2>
+          <div className="b-card-sm p-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {Object.entries(CALENDAR_LABELS).map(([k, v]) => (
-                <div key={k} className="flex items-center gap-2 text-[12px]">
-                  <code className="font-mono text-[12px] text-spring-deep bg-spring-tint rounded px-1.5 py-0.5" dir="ltr">{k}</code>
+                <div key={k} className="flex items-center gap-2 text-xs">
+                  <code className="font-mono text-xs text-spring-deep bg-spring-tint rounded px-1.5 py-0.5" dir="ltr">{k}</code>
                   <span className="text-steel">{v}</span>
-                  {k === "persian" && <span className="b-badge b-badge-success !text-[12px]">ایران</span>}
+                  {k === "persian" && <span className="b-badge b-badge-success">ایران</span>}
                 </div>
               ))}
             </div>
@@ -341,11 +341,11 @@ export default async function CountriesPage() {
 
         {/* الگوریتم‌های شناسه */}
         <section className="mb-14">
-          <h2 className="font-bold text-[16px] mb-4 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.algos", "الگوریتم‌های اعتبارسنجی شناسه ملی")}</h2>
-          <div className="b-card !rounded-2xl p-5 flex flex-col gap-3">
+          <h2 className="font-bold text-base mb-4 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.algos", "الگوریتم‌های اعتبارسنجی شناسه ملی")}</h2>
+          <div className="b-card-sm p-5 flex flex-col gap-3">
             {Object.entries(ALGORITHM_LABELS).map(([k, v]) => (
-              <div key={k} className="flex items-start gap-2.5 text-[12px]">
-                <code className="font-mono text-[12px] text-spring-deep bg-spring-tint rounded px-1.5 py-0.5 shrink-0" dir="ltr">{k}</code>
+              <div key={k} className="flex items-start gap-2.5 text-xs">
+                <code className="font-mono text-xs text-spring-deep bg-spring-tint rounded px-1.5 py-0.5 shrink-0" dir="ltr">{k}</code>
                 <div className="text-steel leading-relaxed">
                   <b className="text-ink">{v}</b>
                   {k === "iran-mod11" && (" — " + tx("site.kit.countries.algo.iranMod11", "رقم کنترل: مجموع ارقام × وزن نزولی ۱۰ تا ۲، باقیمانده بر ۱۱ (رمز رسمی کد ملی ایران)."))}
@@ -362,8 +362,8 @@ export default async function CountriesPage() {
 
         {/* ساخت نقشه */}
         <section className="mb-14">
-          <h2 className="font-bold text-[16px] mb-4 flex items-center gap-2"><MapIcon className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.map", "ساخت نقشه SVG کشور (اختیاری)")}</h2>
-          <div className="b-card !rounded-2xl p-5">
+          <h2 className="font-bold text-base mb-4 flex items-center gap-2"><MapIcon className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.map", "ساخت نقشه SVG کشور (اختیاری)")}</h2>
+          <div className="b-card-sm p-5">
             <p className="t-sm text-steel leading-[2] mb-3">{tx("long.kit.countries.mapIntro", "نقشه ایرانِ بهار از GADM 4.1 با ساده‌سازی Douglas-Peucker ساخته شده — همین خط تولید را برای کشور خود اجرا کنید:")}</p>
             <ol className="t-sm text-steel leading-[2.2] list-decimal ps-6 mb-3">
               <li>{tx("long.kit.countries.mapStep1", "GeoJSON مرز استان‌های کشورتان را از GADM / Natural Earth / OSM دانلود کنید (سطح ADM1).")}</li>
@@ -378,7 +378,7 @@ export default async function CountriesPage() {
 
         {/* نکات */}
         <section className="mb-6">
-          <h2 className="font-bold text-[16px] mb-4 flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.notes", "قواعد و نکات")}</h2>
+          <h2 className="font-bold text-base mb-4 flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-spring" /> {tx("site.kit.countries.h.notes", "قواعد و نکات")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {[
               { ok: true, k: "site.kit.countries.note1", text: "حجم بسته حداکثر ۶۰۰KB (نقشه سنگین = هشدار؛ ساده‌سازی بیشتر کنید)" },
@@ -391,7 +391,7 @@ export default async function CountriesPage() {
             ]
               .filter((r) => shadEnabled || !r.text.includes("شاد"))
               .map((r, i) => (
-              <div key={i} className="b-card-sm !rounded-2xl p-3.5 flex items-start gap-2.5">
+              <div key={i} className="b-card-sm p-3.5 flex items-start gap-2.5">
                 {r.ok ? <CheckCircle2 className="w-4 h-4 text-spring shrink-0 mt-0.5" /> : <AlertTriangle className="w-4 h-4 text-warning-deep shrink-0 mt-0.5" />}
                 <span className="t-sm text-steel leading-relaxed">{tx(r.k, r.text)}</span>
               </div>
@@ -400,8 +400,8 @@ export default async function CountriesPage() {
         </section>
 
         {/* CTA پایانی */}
-        <section className="b-card !rounded-3xl p-8 text-center bg-spring-tint/30">
-          <h3 className="font-black text-[18px] mb-2">{tx("site.kit.countries.h.cta", "کشورتان را به بهار بیاورید 🌍")}</h3>
+        <section className="b-card p-8 text-center bg-spring-tint/30">
+          <h3 className="font-black text-lg mb-2">{tx("site.kit.countries.h.cta", "کشورتان را به بهار بیاورید 🌍")}</h3>
           <p className="t-sm text-steel leading-[1.9] max-w-xl mx-auto mb-5">{tx("long.kit.countries.cta", "قالب را دانلود کنید، فیلدها را با مقادیر کشور خود پر کنید و در تنظیمات → تب «کشور» بارگذاری کنید. اعتبارسنجی دقیق فارسی راهنمایان است. بازگشت به ایران همیشه یک کلیک فاصله دارد.")}</p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a href="/countries/template.json" download className="b-btn b-btn-spring">

@@ -53,7 +53,7 @@ export default function BikeRegistryPage() {
           <input className="b-input w-full" value={serial} onChange={(e) => setSerial(e.target.value)} placeholder={t("bikes.f.serial")} />
           <input className="b-input w-full" value={spot} onChange={(e) => setSpot(e.target.value)} placeholder={t("bikes.f.spot")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Bike className="w-4 h-4" />} {t("bikes.add")}
         </button>
       </section>

@@ -46,7 +46,7 @@ export default function JournalPage() {
         <h2 className="font-bold flex items-center gap-2"><NotebookPen className="w-5 h-5" /> {t("journal.todayTitle")}</h2>
         <div className="flex flex-wrap gap-2">
           {MOODS.map((m) => (
-            <button key={m} className={`px-3 min-h-11 rounded-full border text-sm ${mood === m ? "bg-primary text-primary-foreground border-primary" : "border-border"}`} onClick={() => setMood(m)} aria-pressed={mood === m}>{m}</button>
+            <button key={m} className={`b-pill-tab ${mood === m ? "b-pill-tab-active" : ""}`} onClick={() => setMood(m)} aria-pressed={mood === m}>{m}</button>
           ))}
         </div>
         <textarea className="b-input w-full min-h-28" value={text} onChange={(e) => setText(e.target.value)} placeholder={t("journal.f.text")} />
@@ -54,14 +54,14 @@ export default function JournalPage() {
           <input type="checkbox" checked={share} onChange={(e) => setShare(e.target.checked)} className="w-5 h-5" />
           <Share2 className="w-4 h-4" /> {t("journal.shareLabel")}
         </label>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <NotebookPen className="w-4 h-4" />} {t("journal.save")}
         </button>
       </section>
       {data.isStaff && (
-        <div className="flex rounded-full border border-border overflow-hidden w-fit" role="tablist" aria-label={t("journal.title")}>
+        <div className="flex flex-wrap gap-2" role="tablist" aria-label={t("journal.title")}>
           {(["mine", "shared"] as const).map((x) => (
-            <button key={x} role="tab" aria-selected={tab === x} className={`px-4 min-h-11 text-sm ${tab === x ? "bg-primary text-primary-foreground" : ""}`} onClick={() => setTab(x)}>
+            <button key={x} role="tab" aria-selected={tab === x} className={`b-pill-tab ${tab === x ? "b-pill-tab-active" : ""}`} onClick={() => setTab(x)}>
               {x === "mine" ? t("journal.mineTab") : `${t("journal.sharedTab")} (${faNumber(data.shared.length)})`}
             </button>
           ))}

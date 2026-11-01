@@ -44,7 +44,7 @@ export default function BookSuggestionsPage() {
           <input className="b-input w-full" value={author} onChange={(e) => setAuthor(e.target.value)} placeholder={t("bookSug.f.author")} />
         </div>
         <input className="b-input w-full" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("bookSug.f.reason")} />
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Library className="w-4 h-4" />} {t("bookSug.add")}
         </button>
       </section>
@@ -58,11 +58,11 @@ export default function BookSuggestionsPage() {
                 <p className="font-bold">{r.title}{r.author ? ` — ${r.author}` : ""}</p>
                 <p className="text-sm text-muted-foreground">{r.requesterName}{r.reason ? ` · ${r.reason}` : ""}</p>
               </div>
-              <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "BOUGHT" ? "bg-success/15 text-success" : r.status === "REJECTED" ? "bg-destructive/15 text-destructive" : "bg-warning/15 text-warning"}`}>
+              <span className={`b-badge ${r.status === "BOUGHT" ? "b-badge-success" : r.status === "REJECTED" ? "b-badge-critical" : "b-badge-warning"}`}>
                 {t(`bookSug.status.${r.status}`)}
               </span>
               {data.canDecide && r.status === "PENDING" && (<>
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "BOUGHT")}>{t("bookSug.bought")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "BOUGHT")}>{t("bookSug.bought")}</button>
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("bookSug.reject")}</button>
               </>)}
             </div>

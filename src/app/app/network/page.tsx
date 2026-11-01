@@ -23,7 +23,7 @@ export default function NetworkPage() {
       {loading && <LoadingBlock />}
       {error && <ErrorBox message={error} />}
       {totals && (
-        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           <StatCard icon={School} label={t("common.school")} value={totals.schools} tone="ink" />
           <StatCard icon={GraduationCap} label={t("network.stat.activeStudents")} value={totals.students} tone="spring" />
           <StatCard icon={Users} label={t("network.stat.staff")} value={totals.staff} tone="soft" />
@@ -35,7 +35,7 @@ export default function NetworkPage() {
       {data && data.schools.length === 0 && <EmptyState icon={Network} title={t("network.empty.title")} />}
       {data && data.schools.length > 0 && (
         <div className="b-card overflow-x-auto b-scroll">
-          <table className="w-full text-[14px] min-w-[820px]">
+          <table className="w-full text-sm min-w-max">
             <thead><tr className="text-steel border-b border-hairline">
               <th className="p-3 text-start font-bold">{t("common.school")}</th>
               <th className="p-3 text-start font-bold">{t("network.table.cityProvince")}</th>
@@ -50,7 +50,7 @@ export default function NetworkPage() {
             <tbody className="b-rows-in">
               {data.schools.map((s) => (
                 <tr key={s.id} className="border-b border-hairline last:border-0">
-                  <td className="p-3"><b>{s.name}</b><span className="block text-[12px] text-steel">{s.code}</span></td>
+                  <td className="p-3"><b>{s.name}</b><span className="block text-xs text-steel">{s.code}</span></td>
                   <td className="p-3">{[s.city, s.province].filter(Boolean).join(" · ") || "—"}</td>
                   <td className="p-3">{faNumber(s.students)}</td>
                   <td className="p-3">{faNumber(s.staff)}</td>

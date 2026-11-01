@@ -40,7 +40,7 @@ export default function BirthdaysPage() {
                 </p>
               </div>
               {i.isToday && (
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => greet(i.userId)}>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => greet(i.userId)}>
                   <PartyPopper className="w-4 h-4" /> {t("birthdays.greet")}
                 </button>
               )}

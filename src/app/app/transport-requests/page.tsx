@@ -45,7 +45,7 @@ export default function TransportRequestsPage() {
             {KINDS.map((k) => <option key={k} value={k}>{t(`transport2.kind.${k}`)}</option>)}
           </select>
           <textarea className="b-input w-full min-h-20" value={details} onChange={(e) => setDetails(e.target.value)} placeholder={t("transport2.f.details")} />
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Bus className="w-4 h-4" />} {t("transport2.add")}
           </button>
         </section>
@@ -58,7 +58,7 @@ export default function TransportRequestsPage() {
             <article key={r.id} className="b-card p-4 space-y-2">
               <div className="flex flex-wrap items-center gap-2">
                 <p className="font-bold flex-1">{t(`transport2.kind.${r.kind}`)}{data.isOffice ? ` — ${r.studentName}` : ""}</p>
-                <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "APPROVED" ? "bg-success/15 text-success" : r.status === "REJECTED" ? "bg-destructive/15 text-destructive" : "bg-warning/15 text-warning"}`}>
+                <span className={`b-badge ${r.status === "APPROVED" ? "b-badge-success" : r.status === "REJECTED" ? "b-badge-critical" : "b-badge-warning"}`}>
                   {t(`transport2.status.${r.status}`)}
                 </span>
               </div>
@@ -66,7 +66,7 @@ export default function TransportRequestsPage() {
               {r.className && <p className="text-sm text-muted-foreground">{r.className}</p>}
               {data.isOffice && r.status === "PENDING" && (
                 <div className="flex gap-2">
-                  <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("transport2.approve")}</button>
+                  <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("transport2.approve")}</button>
                   <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("transport2.reject")}</button>
                 </div>
               )}

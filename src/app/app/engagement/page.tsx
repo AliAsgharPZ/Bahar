@@ -118,12 +118,12 @@ function EngagementInner() {
       {tab === "polls" && (
         <div className="flex flex-col gap-5">
           {canManage && (
-            <button onClick={() => setShowNewPoll((v) => !v)} className="b-btn b-btn-sm b-btn-spring w-fit"><Plus className="w-4 h-4" /> {t("engagement.newPoll")}</button>
+            <button onClick={() => setShowNewPoll((v) => !v)} className="b-btn b-btn-sm min-h-11 b-btn-spring w-fit"><Plus className="w-4 h-4" /> {t("engagement.newPoll")}</button>
           )}
           {showNewPoll && (
             <div className="b-card-md p-5 flex flex-col gap-3">
               <input value={pollForm.question} onChange={(e) => setPollForm({ ...pollForm, question: e.target.value })} placeholder={t("engagement.field.question")} className="b-input" />
-              <textarea value={pollForm.options} onChange={(e) => setPollForm({ ...pollForm, options: e.target.value })} placeholder={t("engagement.field.options")} className="b-input !min-h-[80px]" />
+              <textarea value={pollForm.options} onChange={(e) => setPollForm({ ...pollForm, options: e.target.value })} placeholder={t("engagement.field.options")} className="b-input !min-h-20" />
               <div className="flex gap-2 items-center">
                 <Select
                   value={pollForm.audience}
@@ -132,7 +132,7 @@ function EngagementInner() {
                   className="!w-40"
                   buttonClassName="!w-40"
                 />
-                <button onClick={createPoll} className="b-btn b-btn-sm b-btn-spring">{t("common.create")}</button>
+                <button onClick={createPoll} className="b-btn b-btn-sm min-h-11 b-btn-spring">{t("common.create")}</button>
               </div>
             </div>
           )}
@@ -142,36 +142,36 @@ function EngagementInner() {
             return (
               <motion.div key={p.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className={`b-card-md p-5 ${closed ? "opacity-70" : ""}`}>
                 <div className="flex items-start justify-between gap-3 mb-1">
-                  <h3 className="font-bold text-[16px]">{p.question}</h3>
+                  <h3 className="font-bold text-base">{p.question}</h3>
                   <span className="flex items-center gap-1.5 shrink-0">
                     {closed && <span className="b-badge b-badge-neutral">{t("engagement.closed")}</span>}
                     {canManage && (
-                      <button onClick={() => togglePoll(p.id, closed)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0" title={closed ? t("engagement.reopenPoll") : t("engagement.closePoll")}>
+                      <button onClick={() => togglePoll(p.id, closed)} className="b-btn b-btn-sm min-h-11 b-btn-ghost !min-h-10 !text-xs !px-2 !py-0" title={closed ? t("engagement.reopenPoll") : t("engagement.closePoll")}>
                         {closed ? t("engagement.reopen") : t("common.close")}
                       </button>
                     )}
                     <span className="b-badge b-badge-neutral">{AUDIENCE_TKEY[p.audience] ? t(AUDIENCE_TKEY[p.audience]) : p.audience}</span>
                   </span>
                 </div>
-                {p.description && <p className="text-[12px] text-steel mb-3">{p.description}</p>}
+                {p.description && <p className="text-xs text-steel mb-3">{p.description}</p>}
                 <div className="flex flex-col gap-2">
                   {p.options.map((o) => {
                     const pct = p.totalVotes > 0 ? Math.round((o.votes / p.totalVotes) * 100) : 0;
                     const my = p.myVotes.includes(o.id);
                     return (
                       <button key={o.id} disabled={voted || closed} onClick={() => vote(p.id, o.id)}
-                        className={`b-btn b-btn-ghost relative text-start p-3 rounded-2xl border transition-all overflow-hidden ${my ? "border-spring bg-spring-tint/50" : voted || closed ? "border-transparent bg-cloud" : "border-transparent bg-cloud hover:border-spring/40"}`}>
+                        className={`b-option relative text-start p-3 overflow-hidden ${my ? "b-option-selected bg-spring-tint/50" : voted || closed ? "bg-cloud" : "bg-cloud hover:border-spring/40"}`}>
                         <motion.span initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ duration: 0.6 }}
                           className={`absolute inset-y-0 start-0 ${my ? "bg-spring/20" : "bg-spring-tint"}`} />
                         <span className="relative flex items-center gap-2">
-                          <span className="text-[14px] font-bold flex-1">{o.text}{my && <CheckCircle2 className="w-4 h-4 inline text-spring ms-1.5" />}</span>
-                          <span className="text-[12px] text-steel">{faNumber(pct)}٪ ({faNumber(o.votes)})</span>
+                          <span className="text-sm font-bold flex-1">{o.text}{my && <CheckCircle2 className="w-4 h-4 inline text-spring ms-1.5" />}</span>
+                          <span className="text-xs text-steel">{faNumber(pct)}٪ ({faNumber(o.votes)})</span>
                         </span>
                       </button>
                     );
                   })}
                 </div>
-                <p className="text-[12px] text-stone mt-2.5">{faNumber(p.totalVotes)} {t("engagement.votes")}{voted ? ` · ${t("engagement.yourVoteRecorded")}` : closed ? ` · ${t("engagement.closed")}` : ""}</p>
+                <p className="text-xs text-stone mt-2.5">{faNumber(p.totalVotes)} {t("engagement.votes")}{voted ? ` · ${t("engagement.yourVoteRecorded")}` : closed ? ` · ${t("engagement.closed")}` : ""}</p>
               </motion.div>
             );
           })}
@@ -182,15 +182,15 @@ function EngagementInner() {
         <div className="flex flex-col gap-5">
           {canManage && (
             <div className="flex gap-2">
-              <button onClick={() => setShowNewHouse((v) => !v)} className="b-btn b-btn-sm b-btn-spring w-fit"><Plus className="w-4 h-4" /> {t("engagement.newHouse")}</button>
+              <button onClick={() => setShowNewHouse((v) => !v)} className="b-btn b-btn-sm min-h-11 b-btn-spring w-fit"><Plus className="w-4 h-4" /> {t("engagement.newHouse")}</button>
             </div>
           )}
           {showNewHouse && canManage && (
             <div className="b-card-md p-5 flex flex-wrap gap-2.5 items-end">
               <input value={houseForm.name} onChange={(e) => setHouseForm({ ...houseForm, name: e.target.value })} placeholder={t("engagement.field.houseName")} className="b-input !w-56" maxLength={30} />
-              <input type="color" value={houseForm.color} onChange={(e) => setHouseForm({ ...houseForm, color: e.target.value })} className="b-input !w-14 !h-[44px] !p-1 cursor-pointer" title={t("engagement.field.houseColor")} />
+              <input type="color" value={houseForm.color} onChange={(e) => setHouseForm({ ...houseForm, color: e.target.value })} className="b-input !w-14 !p-1 cursor-pointer" title={t("engagement.field.houseColor")} />
               <input value={houseForm.motto} onChange={(e) => setHouseForm({ ...houseForm, motto: e.target.value })} placeholder={t("engagement.field.motto")} className="b-input !w-64" maxLength={80} />
-              <button onClick={createHouse} className="b-btn b-btn-sm b-btn-spring">{t("common.create")}</button>
+              <button onClick={createHouse} className="b-btn b-btn-sm min-h-11 b-btn-spring">{t("common.create")}</button>
             </div>
           )}
           {housesError ? <ErrorBox message={housesError} /> : !housesLoaded ? <LoadingBlock /> : houses.length === 0 ? (
@@ -202,30 +202,30 @@ function EngagementInner() {
                   className={`b-card-md p-5 flex flex-col gap-3 ${i === 0 ? "ring-2" : ""}`}
                   style={i === 0 ? { boxShadow: `0 0 0 2px ${h.color}55` } : undefined}>
                   <div className="flex items-center gap-3">
-                    <span className="w-11 h-11 rounded-full flex items-center justify-center text-white font-extrabold text-[16px] shrink-0" style={{ background: h.color }}>
+                    <span className="w-11 h-11 rounded-full flex items-center justify-center text-white font-extrabold text-base shrink-0" style={{ background: h.color }}>
                       {i === 0 ? <Trophy className="w-5 h-5" /> : faNumber(i + 1)}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <b className="text-[16px] flex items-center gap-1.5 truncate">{h.name} {i === 0 && <Crown className="w-4 h-4 text-warning shrink-0" />}</b>
-                      <span className="text-[12px] text-steel block">{faNumber(h.members)} {t("engagement.member")}{h.motto ? ` · ${h.motto}` : ""}</span>
+                      <b className="text-base flex items-center gap-1.5 truncate">{h.name} {i === 0 && <Crown className="w-4 h-4 text-warning shrink-0" />}</b>
+                      <span className="text-xs text-steel block">{faNumber(h.members)} {t("engagement.member")}{h.motto ? ` · ${h.motto}` : ""}</span>
                     </div>
-                    <b className="text-[22px] font-extrabold" style={{ color: h.color }}>{faNumber(h.total)}</b>
+                    <b className="text-2xl font-extrabold" style={{ color: h.color }}>{faNumber(h.total)}</b>
                     {canManage && (
-                      <button onClick={() => deleteHouse(h.id)} className="w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors shrink-0" title={t("engagement.deleteHouse")}>
+                      <button onClick={() => deleteHouse(h.id)} className="w-11 h-11 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors shrink-0" title={t("engagement.deleteHouse")}>
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}
                   </div>
-                  <div className="flex items-center gap-3 text-[12px] text-steel">
+                  <div className="flex items-center gap-3 text-xs text-steel">
                     <span>{t("dashboard.mini.behavior")}: <b className="text-ink">{faNumber(h.behaviorPoints)}</b></span>
                     <span>{t("engagement.badges")}: <b className="text-ink">{faNumber(h.badgePoints)}</b></span>
                   </div>
                   {h.topMembers.length > 0 && (
                     <div className="border-t border-hairline-soft pt-3 flex flex-col gap-1.5">
-                      <span className="text-[12px] text-stone">{t("engagement.topScorers")}</span>
+                      <span className="text-xs text-stone">{t("engagement.topScorers")}</span>
                       {h.topMembers.map((m, j) => (
-                        <span key={m.id} className="text-[12px] flex items-center gap-2">
-                          <span className="text-[12px] text-stone w-3">{faNumber(j + 1)}</span>
+                        <span key={m.id} className="text-xs flex items-center gap-2">
+                          <span className="text-xs text-stone w-3">{faNumber(j + 1)}</span>
                           <span className="flex-1 truncate">{m.name}</span>
                           <b style={{ color: h.color }}>{faNumber(m.points)}</b>
                         </span>
@@ -236,18 +236,18 @@ function EngagementInner() {
               ))}
             </div>
           )}
-          <p className="text-[12px] text-stone leading-relaxed">
+          <p className="text-xs text-stone leading-relaxed">
             {t("engagement.housesFootnote")}
           </p>
         </div>
       )}
 
       {tab === "suggestions" && (
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div className="lg:col-span-1">
             <div className="b-card-md p-5 sticky top-4">
               <h3 className="font-bold mb-3">{t("engagement.sendSuggestionTitle")}</h3>
-              <textarea value={sugBody} onChange={(e) => setSugBody(e.target.value)} placeholder={t("engagement.placeholder.suggestion")} className="b-input !min-h-[110px]" />
+              <textarea value={sugBody} onChange={(e) => setSugBody(e.target.value)} placeholder={t("engagement.placeholder.suggestion")} className="b-input !min-h-28" />
               <div className="flex gap-2 mt-2.5">
                 <Select
                   value={sugCat}
@@ -256,7 +256,7 @@ function EngagementInner() {
                   className="!w-36"
                   buttonClassName="!w-36"
                 />
-                <button aria-pressed={sugAnon} onClick={() => setSugAnon((v) => !v)} className={`b-pill-tab !text-[12px] ${sugAnon ? "b-pill-tab-active" : ""}`}>{sugAnon ? t("engagement.anonymous") : t("engagement.named")}</button>
+                <button aria-pressed={sugAnon} onClick={() => setSugAnon((v) => !v)} className={`b-pill-tab !text-xs ${sugAnon ? "b-pill-tab-active" : ""}`}>{sugAnon ? t("engagement.anonymous") : t("engagement.named")}</button>
               </div>
               <button onClick={suggest} className="b-btn b-btn-spring w-full mt-3">{t("engagement.sendSuggestion")}</button>
             </div>
@@ -267,15 +267,15 @@ function EngagementInner() {
                 <div className="flex items-center gap-2 flex-wrap mb-1.5">
                   <span className="b-badge b-badge-neutral">{SUG_CAT_TKEY[s.category] ? t(SUG_CAT_TKEY[s.category]) : s.category}</span>
                   <span className={`b-badge ${s.status === "ACCEPTED" ? "b-badge-success" : s.status === "REJECTED" ? "b-badge-critical" : s.status === "REVIEWING" ? "b-badge-warning" : "b-badge-neutral"}`}>{SUG_STATUS_TKEY[s.status] ? t(SUG_STATUS_TKEY[s.status]) : s.status}</span>
-                  <span className="text-[12px] text-stone ms-auto">{s.authorName ?? t("engagement.anonymous")} · {formatDateFa(s.createdAt)}</span>
+                  <span className="text-xs text-stone ms-auto">{s.authorName ?? t("engagement.anonymous")} · {formatDateFa(s.createdAt)}</span>
                 </div>
-                <p className="text-[14px] leading-relaxed">{s.body}</p>
-                {s.adminNote && <p className="text-[12px] text-spring-deep mt-2">{t("engagement.adminReply")}: {s.adminNote}</p>}
+                <p className="text-sm leading-relaxed">{s.body}</p>
+                {s.adminNote && <p className="text-xs text-spring-deep mt-2">{t("engagement.adminReply")}: {s.adminNote}</p>}
                 {canManage && (s.status === "NEW" || s.status === "REVIEWING") && (
                   <div className="flex gap-1.5 mt-2.5">
-                    {s.status === "NEW" && <button onClick={() => review(s.id, "REVIEWING")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("engagement.suggestion.status.reviewing")}</button>}
-                    <button onClick={() => review(s.id, "ACCEPTED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{t("engagement.accept")}</button>
-                    <button onClick={() => review(s.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive">{t("engagement.reject")}</button>
+                    {s.status === "NEW" && <button onClick={() => review(s.id, "REVIEWING")} className="b-btn b-btn-sm min-h-11 b-btn-ghost !min-h-10 !text-xs !px-2 !py-0">{t("engagement.suggestion.status.reviewing")}</button>}
+                    <button onClick={() => review(s.id, "ACCEPTED")} className="b-btn b-btn-sm min-h-11 b-btn-spring !min-h-10 !text-xs !px-2 !py-0">{t("engagement.accept")}</button>
+                    <button onClick={() => review(s.id, "REJECTED")} className="b-btn b-btn-sm min-h-11 b-btn-ghost !min-h-10 !text-xs !px-2 !py-0 !text-destructive">{t("engagement.reject")}</button>
                   </div>
                 )}
               </motion.div>

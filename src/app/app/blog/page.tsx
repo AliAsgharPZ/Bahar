@@ -156,7 +156,7 @@ export default function BlogAdminPage() {
         title={t("blog.header.title")}
         desc={t("blog.header.desc")}
         action={
-          <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShowCreate(true)}>
+          <button className="b-btn b-btn-spring b-btn-sm min-h-11" onClick={() => setShowCreate(true)}>
             <Plus className="w-4 h-4" /> {t("blog.newPost")}
           </button>
         }
@@ -181,67 +181,67 @@ export default function BlogAdminPage() {
             <div className="flex flex-wrap items-center gap-3 mb-3">
               {p.coverUrl && <img src={p.coverUrl} alt={p.title} className="w-16 h-16 rounded-2xl object-cover border border-hairline" />}
               <div className="min-w-0 flex-1">
-                <b className="text-[14px] block truncate">{p.title}</b>
-                <span className="text-[12px] text-steel">
+                <b className="text-sm block truncate">{p.title}</b>
+                <span className="text-xs text-steel">
                   <span dir="ltr" className="font-mono">/blog/{p.slug}</span> · {p.author ? `${p.author.firstName} ${p.author.lastName}` : "—"} · {faNumber(p.viewCount)} {t("site.blog.viewsSuffix")}
                 </span>
               </div>
               <StatusBadge ok={p.status === "PUBLISHED"} okLabel={t("blog.status.published")} badLabel={t("enum.quizStatus.DRAFT")} />
-              <span className="text-[12px] text-stone">{p.status === "PUBLISHED" && p.publishedAt ? formatDateTimeFa(p.publishedAt) : relativeTimeFa(p.updatedAt)}</span>
+              <span className="text-xs text-stone">{p.status === "PUBLISHED" && p.publishedAt ? formatDateTimeFa(p.publishedAt) : relativeTimeFa(p.updatedAt)}</span>
             </div>
 
             {p.tags.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mb-3">
                 {p.tags.map((tg, i) => (
-                  <span key={i} className="b-badge b-badge-soft !text-[12px]">{tg}</span>
+                  <span key={i} className="b-badge b-badge-neutral !text-xs">{tg}</span>
                 ))}
               </div>
             )}
 
             <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-hairline-soft">
-              <button className="b-btn b-btn-soft b-btn-sm" onClick={() => { setEditing({ ...p }); setEditSlug(p.slug); }}>
+              <button className="b-btn b-btn-soft b-btn-sm min-h-11" onClick={() => { setEditing({ ...p }); setEditSlug(p.slug); }}>
                 {t("common.edit")}
               </button>
-              <button className="b-btn b-btn-soft b-btn-sm" onClick={() => togglePublish(p)}>
+              <button className="b-btn b-btn-soft b-btn-sm min-h-11" onClick={() => togglePublish(p)}>
                 {p.status === "PUBLISHED" ? t("blog.unpublish") : t("quizzes.publish")}
               </button>
               {p.status === "PUBLISHED" && (
-                <a href={`/blog/${p.slug}`} target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm !text-steel">
+                <a href={`/blog/${p.slug}`} target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-steel">
                   <Eye className="w-3.5 h-3.5" /> {t("blog.view")}
                 </a>
               )}
-              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive ms-auto" onClick={() => remove(p)}>
+              <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive ms-auto" onClick={() => remove(p)}>
                 <Trash2 className="w-3.5 h-3.5" /> {t("common.delete")}
               </button>
             </div>
 
             {p.comments.length > 0 && (
-              <div className="mt-4 b-card-sm !rounded-2xl overflow-hidden">
-                <b className="text-[12px] block p-3 border-b border-hairline-soft">{t("site.blog.commentsHeading")} ({faNumber(p.comments.length)})</b>
+              <div className="mt-4 b-card-sm overflow-hidden">
+                <b className="text-xs block p-3 border-b border-hairline-soft">{t("site.blog.commentsHeading")} ({faNumber(p.comments.length)})</b>
                 {p.comments.map((c) => (
                   <div key={c.id} className={`p-3 border-b border-hairline-soft/50 last:border-0 ${!c.approved ? "bg-warning/5" : ""}`}>
                     <div className="flex items-center gap-2 mb-1">
-                      <b className="text-[12px]">{c.name}</b>
-                      <span className="text-[12px] text-stone">{relativeTimeFa(c.createdAt)}</span>
-                      {!c.approved && <span className="b-badge b-badge-warning !text-[12px]">{t("dashboard.meeting.pending")}</span>}
-                      {c.approved && <span className="b-badge b-badge-spring !text-[12px]">{t("blog.comment.approved")}</span>}
+                      <b className="text-xs">{c.name}</b>
+                      <span className="text-xs text-stone">{relativeTimeFa(c.createdAt)}</span>
+                      {!c.approved && <span className="b-badge b-badge-warning !text-xs">{t("dashboard.meeting.pending")}</span>}
+                      {c.approved && <span className="b-badge b-badge-spring !text-xs">{t("blog.comment.approved")}</span>}
                       <span className="ms-auto flex items-center gap-1">
                         {!c.approved && (
                           <>
-                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-spring hover:bg-spring-tint" onClick={() => moderate(c, "approve")} aria-label={t("common.confirm")} title={t("common.confirm")}>
+                            <button className="w-11 h-11 rounded-full flex items-center justify-center text-spring hover:bg-spring-tint" onClick={() => moderate(c, "approve")} aria-label={t("common.confirm")} title={t("common.confirm")}>
                               <Check className="w-3.5 h-3.5" />
                             </button>
-                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => moderate(c, "reject")} aria-label={t("approvals.reject")} title={t("approvals.reject")}>
+                            <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => moderate(c, "reject")} aria-label={t("approvals.reject")} title={t("approvals.reject")}>
                               <X className="w-3.5 h-3.5" />
                             </button>
                           </>
                         )}
-                        <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => moderate(c, "delete")} aria-label={t("common.delete")} title={t("common.delete")}>
+                        <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => moderate(c, "delete")} aria-label={t("common.delete")} title={t("common.delete")}>
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </span>
                     </div>
-                    <p className="text-[12px] text-steel leading-relaxed">{c.body}</p>
+                    <p className="text-xs text-steel leading-relaxed">{c.body}</p>
                   </div>
                 ))}
               </div>
@@ -258,24 +258,24 @@ export default function BlogAdminPage() {
             <h2 className="font-bold text-lg mb-6">{t("blog.newPost")}</h2>
             <form onSubmit={create} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("assignments.field.title")}</span>
+                <span className="text-xs font-bold">{t("assignments.field.title")}</span>
                 <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("blog.summary")}</span>
-                <textarea rows={2} className="b-input !rounded-2xl resize-none" value={form.excerpt} onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))} placeholder={t("blog.excerptPlaceholder")} />
+                <span className="text-xs font-bold">{t("blog.summary")}</span>
+                <textarea rows={2} className="b-input resize-none" value={form.excerpt} onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))} placeholder={t("blog.excerptPlaceholder")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("blog.bodyLabel")}</span>
-                <textarea rows={10} className="b-input !rounded-2xl resize-y" value={form.body} onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))} required />
+                <span className="text-xs font-bold">{t("blog.bodyLabel")}</span>
+                <textarea rows={10} className="b-input resize-y" value={form.body} onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))} required />
               </label>
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("blog.tagsLabel")}</span>
+                  <span className="text-xs font-bold">{t("blog.tagsLabel")}</span>
                   <input className="b-input" value={form.tags} onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))} placeholder={t("blog.tagsPlaceholder")} />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("blog.coverImage")}</span>
+                  <span className="text-xs font-bold">{t("blog.coverImage")}</span>
                   <div className="flex items-center gap-2">
                     {form.coverUrl ? (
                       <img src={form.coverUrl} alt={t("blog.coverAlt")} className="w-11 h-11 rounded-2xl object-cover border border-hairline" />
@@ -284,7 +284,7 @@ export default function BlogAdminPage() {
                         <Upload className="w-4 h-4" />
                       </span>
                     )}
-                    <button type="button" className="b-btn b-btn-soft b-btn-sm" onClick={() => fileRef.current?.click()}>
+                    <button type="button" className="b-btn b-btn-soft b-btn-sm min-h-11" onClick={() => fileRef.current?.click()}>
                       {t("settings.brand.upload")}
                     </button>
                   </div>
@@ -319,28 +319,28 @@ export default function BlogAdminPage() {
             <h2 className="font-bold text-lg mb-6">{t("blog.editPost")}</h2>
             <form onSubmit={saveEdit} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("quizzes.table.title")}</span>
+                <span className="text-xs font-bold">{t("quizzes.table.title")}</span>
                 <input className="b-input" value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("blog.summary")}</span>
-                <textarea rows={2} className="b-input !rounded-2xl resize-none" value={editing.excerpt ?? ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} />
+                <span className="text-xs font-bold">{t("blog.summary")}</span>
+                <textarea rows={2} className="b-input resize-none" value={editing.excerpt ?? ""} onChange={(e) => setEditing({ ...editing, excerpt: e.target.value })} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("sms.mtn")}</span>
-                <textarea rows={10} className="b-input !rounded-2xl resize-y" value={editing.body} onChange={(e) => setEditing({ ...editing, body: e.target.value })} />
+                <span className="text-xs font-bold">{t("sms.mtn")}</span>
+                <textarea rows={10} className="b-input resize-y" value={editing.body} onChange={(e) => setEditing({ ...editing, body: e.target.value })} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("blog.slugLabel")}</span>
+                <span className="text-xs font-bold">{t("blog.slugLabel")}</span>
                 <input className="b-input" dir="ltr" value={editSlug} onChange={(e) => setEditSlug(e.target.value)} placeholder="my-post-slug" />
-                <span className="text-[12px] text-steel" dir="ltr">/blog/{editSlug || editing.slug}</span>
+                <span className="text-xs text-steel" dir="ltr">/blog/{editSlug || editing.slug}</span>
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("blog.tagsLabel")}</span>
+                <span className="text-xs font-bold">{t("blog.tagsLabel")}</span>
                 <input className="b-input" value={editing.tags.join("، ")} onChange={(e) => setEditing({ ...editing, tags: e.target.value.split(/[،,]/).map((tg) => tg.trim()).filter(Boolean) })} />
               </label>
               <div className="flex flex-col gap-2">
-                <span className="text-[12px] font-bold">{t("blog.coverLabel")}</span>
+                <span className="text-xs font-bold">{t("blog.coverLabel")}</span>
                 {editing.coverUrl && (
                   <img src={editing.coverUrl} alt={t("blog.coverCurrentAlt")} className="w-full h-36 object-cover rounded-2xl" />
                 )}
@@ -352,11 +352,11 @@ export default function BlogAdminPage() {
                     className="hidden"
                     onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadEditCover(f); e.target.value = ""; }}
                   />
-                  <button type="button" className="b-btn b-btn-soft b-btn-sm" onClick={() => editFileRef.current?.click()} disabled={coverUploading}>
+                  <button type="button" className="b-btn b-btn-soft b-btn-sm min-h-11" onClick={() => editFileRef.current?.click()} disabled={coverUploading}>
                     {coverUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />} {editing.coverUrl ? t("blog.coverReplace") : t("blog.coverUpload")}
                   </button>
                   {editing.coverUrl && (
-                    <button type="button" className="b-btn b-btn-ghost b-btn-sm" onClick={() => setEditing({ ...editing, coverUrl: null })}>
+                    <button type="button" className="b-btn b-btn-ghost b-btn-sm min-h-11" onClick={() => setEditing({ ...editing, coverUrl: null })}>
                       <X className="w-4 h-4" /> {t("blog.coverRemove")}
                     </button>
                   )}

@@ -41,17 +41,17 @@ export default function TutorOffersPage() {
       {data.myStudentId && (
         <section className="b-card p-4 space-y-3">
           <h2 className="font-bold flex items-center gap-2"><GraduationCap className="w-5 h-5" /> {t("tutor.addTitle")}</h2>
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <input className="b-input w-full" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder={t("tutor.f.subject")} />
             <input className="b-input w-full" value={level} onChange={(e) => setLevel(e.target.value)} placeholder={t("tutor.f.level")} />
             <input className="b-input w-full" value={note} onChange={(e) => setNote(e.target.value)} placeholder={t("tutor.f.note")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <GraduationCap className="w-4 h-4" />} {t("tutor.add")}
           </button>
         </section>
       )}
-      <input className="b-input w-full" value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("tutor.searchPh")} aria-label={t("tutor.searchPh")} />
+      <div className="b-search-pill"><input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("tutor.searchPh")} aria-label={t("tutor.searchPh")} /></div>
       {data.items.length === 0 ? (
         <EmptyState title={t("tutor.empty")} />
       ) : (

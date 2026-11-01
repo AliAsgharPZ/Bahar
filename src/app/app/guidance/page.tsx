@@ -56,10 +56,10 @@ export default function GuidancePage() {
       <PageHeader title={t("nav.guidance")} desc={t("guidance.desc")} />
       {!isAudience && (
         <div className="flex items-end gap-3 flex-wrap">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.class")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("common.class")}</span>
             <Select value={classId} onChange={(v) => { setClassId(v); setStudentId(""); setDraft(null); }}
               options={[{ value: "", label: t("guidance.select.class") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("common.class")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.student")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("common.student")}</span>
             <Select value={studentId} onChange={(v) => { setStudentId(v); setDraft(null); setNote(null); }}
               options={[{ value: "", label: t("guidance.select.student") }, ...(roster?.students ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("common.student")} /></label>
         </div>
@@ -71,15 +71,15 @@ export default function GuidancePage() {
         <div className="grid lg:grid-cols-2 gap-4 items-start">
           {!isAudience ? (
             <div className="b-card p-6 flex flex-col gap-3">
-              <b className="text-[14px]">{t("guidance.scoresTitle")}</b>
+              <b className="text-sm">{t("guidance.scoresTitle")}</b>
               {data.areas.map((a) => (
                 <label key={a.key} className="flex items-center justify-between gap-3">
-                  <span className="text-[14px]">{a.label}</span>
+                  <span className="text-sm">{a.label}</span>
                   <input className="b-input w-24" dir="ltr" inputMode="decimal" value={scores[a.key] ?? ""}
                     onChange={(e) => setDraft({ ...scores, [a.key]: e.target.value })} placeholder={t("guidance.placeholder.score")} />
                 </label>
               ))}
-              <label className="flex flex-col gap-1.5 mt-1"><span className="text-[12px] font-bold">{t("guidance.counselorNote")}</span>
+              <label className="flex flex-col gap-1.5 mt-1"><span className="text-xs font-bold">{t("guidance.counselorNote")}</span>
                 <textarea className="b-input min-h-20" value={noteVal} onChange={(e) => setNote(e.target.value)} placeholder={t("guidance.placeholder.note")} /></label>
               <span className="flex gap-1.5">
                 <button className="b-btn b-btn-spring self-start" disabled={saving} onClick={save}>
@@ -94,23 +94,23 @@ export default function GuidancePage() {
             </div>
           ) : (
             <div className="b-card p-6 flex flex-col gap-2">
-              <b className="text-[14px]">{t("guidance.counselorNote")}</b>
-              <p className="text-[14px] leading-relaxed text-steel">{data.record?.counselorNote || t("guidance.noNote")}</p>
+              <b className="text-sm">{t("guidance.counselorNote")}</b>
+              <p className="text-sm leading-relaxed text-steel">{data.record?.counselorNote || t("guidance.noNote")}</p>
             </div>
           )}
           <div className="b-card p-6 flex flex-col gap-3">
-            <b className="text-[14px]">{t("guidance.ranking")}</b>
-            {!data.ranking && <span className="text-[12px] text-steel">{t("guidance.noScores")}</span>}
+            <b className="text-sm">{t("guidance.ranking")}</b>
+            {!data.ranking && <span className="text-xs text-steel">{t("guidance.noScores")}</span>}
             {(data.ranking ?? []).map((r, i) => (
               <div key={r.key} className="flex flex-col gap-1">
-                <span className="flex items-center justify-between text-[14px]">
+                <span className="flex items-center justify-between text-sm">
                   <b>{faNumber(i + 1)}. {r.label} {i === 0 && <span className="b-badge b-badge-spring ms-1">{t("guidance.firstChoice")}</span>}</b>
                   <span className="text-spring font-bold">{faNumber(r.percent)}٪</span>
                 </span>
                 <span className="h-2.5 rounded-full bg-cloud overflow-hidden">
                   <span className={`block h-full rounded-full ${i === 0 ? "bg-spring" : "bg-spring/40"}`} style={{ width: `${r.percent}%` }} />
                 </span>
-                <span className="text-[12px] text-steel">{r.hint}</span>
+                <span className="text-xs text-steel">{r.hint}</span>
               </div>
             ))}
           </div>

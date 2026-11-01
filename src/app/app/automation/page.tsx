@@ -60,7 +60,7 @@ export default function AutomationPage() {
       <PageHeader
         title={t("automation.title")}
         desc={t("automation.desc")}
-        action={<button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {t("automation.newRule")}</button>}
+        action={<button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm min-h-11 b-btn-spring"><Plus className="w-4 h-4" /> {t("automation.newRule")}</button>}
       />
       {showNew && (
         <div className="b-card-md p-5 mb-6 grid gap-3 sm:grid-cols-2">
@@ -83,7 +83,7 @@ export default function AutomationPage() {
             buttonClassName="!w-full"
           />
           <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder={t("automation.placeholder.title")} className="b-input sm:col-span-2" />
-          <button onClick={create} className="b-btn b-btn-sm b-btn-spring sm:col-span-2 w-fit">{t("automation.create")}</button>
+          <button onClick={create} className="b-btn b-btn-sm min-h-11 b-btn-spring sm:col-span-2 w-fit">{t("automation.create")}</button>
         </div>
       )}
       {rules.length === 0 ? <EmptyState icon={Zap} title={t("automation.empty.title")} desc={t("automation.empty.desc")} /> : (
@@ -97,14 +97,14 @@ export default function AutomationPage() {
                 <span className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 ${r.active ? "bg-spring-tint text-spring-deep" : "bg-cloud text-stone"}`}>
                   <Zap className="w-4.5 h-4.5 w-5 h-5" />
                 </span>
-                <div className="flex-1 min-w-[180px]">
-                  <p className="text-[14px] font-bold">{r.name}</p>
-                  <p className="text-[12px] text-steel">
+                <div className="flex-1 min-w-45">
+                  <p className="text-sm font-bold">{r.name}</p>
+                  <p className="text-xs text-steel">
                     {triggers[r.trigger]}{cfg.threshold ? <> ({t("automation.threshold")} {faNumber(cfg.threshold)})</> : ""} ← {actions[r.action]}
                     {r.runCount > 0 ? <> · {faNumber(r.runCount)} {t("automation.runs")}</> : ""}
                   </p>
                 </div>
-                <button onClick={() => toggle(r)} className={`b-btn b-btn-sm !min-h-[40px] !text-[12px] !px-2.5 !py-0 ${r.active ? "b-btn-ghost" : "b-btn-spring"}`}>
+                <button onClick={() => toggle(r)} className={`b-btn b-btn-sm min-h-11 !min-h-10 !text-xs !px-2.5 !py-0 ${r.active ? "b-btn-ghost" : "b-btn-spring"}`}>
                   <Power className="w-3.5 h-3.5" /> {r.active ? t("automation.off") : t("automation.on")}
                 </button>
                 <button onClick={() => remove(r.id)} className="b-btn b-btn-ghost text-stone hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
@@ -118,11 +118,11 @@ export default function AutomationPage() {
           <h2 className="font-bold mb-3 flex items-center gap-2"><History className="w-4 h-4 text-steel" /> {t("automation.recentRuns")}</h2>
           <div className="b-card-sm divide-y divide-hairline-soft/60">
             {logs.map((l) => (
-              <div key={l.id} className="flex items-center gap-3 p-3 text-[12px] flex-wrap">
+              <div key={l.id} className="flex items-center gap-3 p-3 text-xs flex-wrap">
                 <span className={`b-dot shrink-0 ${l.result === "DONE" ? "bg-success" : l.result === "SKIPPED" ? "bg-warning" : "bg-destructive"}`} />
                 <span className="font-bold">{triggers[l.trigger] ?? l.trigger}</span>
                 <span className="text-steel flex-1 truncate">{l.summary}</span>
-                <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(l.createdAt)}</span>
+                <span className="text-xs text-stone shrink-0">{relativeTimeFa(l.createdAt)}</span>
               </div>
             ))}
           </div>

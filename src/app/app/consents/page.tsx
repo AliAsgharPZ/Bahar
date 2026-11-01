@@ -18,8 +18,8 @@ type Data = StaffData & { items?: ParentItem[] };
 
 function StatusChip({ status, t }: { status: string; t: (k: string) => string }) {
   const label = status === "APPROVED" ? t("consents.status.APPROVED") : status === "DECLINED" ? t("consents.status.DECLINED") : t("consents.status.PENDING");
-  const cls = status === "APPROVED" ? "bg-success/15 text-success" : status === "DECLINED" ? "bg-destructive/15 text-destructive" : "bg-warning/15 text-warning";
-  return <span className={`px-2 py-0.5 rounded-full text-xs ${cls}`}>{label}</span>;
+  const cls = status === "APPROVED" ? "b-badge-success" : status === "DECLINED" ? "b-badge-critical" : "b-badge-warning";
+  return <span className={`b-badge ${cls}`}>{label}</span>;
 }
 
 export default function ConsentsPage() {
@@ -92,7 +92,7 @@ export default function ConsentsPage() {
                 <input className="b-input w-full" dir="ltr" value={deadline} onChange={(e) => setDeadline(e.target.value)} placeholder="1405-09-20" />
               </label>
             </div>
-            <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={create}>
+            <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={create}>
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileSignature className="w-4 h-4" />} {t("consents.create")}
             </button>
           </section>
@@ -161,7 +161,7 @@ export default function ConsentsPage() {
                     placeholder={t("consents.notePh")}
                   />
                   <div className="flex gap-2">
-                    <button className="b-btn b-btn-primary min-h-11 flex-1" disabled={responding === key} onClick={() => respond(item, "APPROVED")}>
+                    <button className="b-btn b-btn-spring min-h-11 flex-1" disabled={responding === key} onClick={() => respond(item, "APPROVED")}>
                       {responding === key ? <Loader2 className="w-4 h-4 animate-spin" /> : null} {t("consents.approve")}
                     </button>
                     <button className="b-btn b-btn-ghost min-h-11 flex-1 text-destructive" disabled={responding === key} onClick={() => respond(item, "DECLINED")}>

@@ -54,7 +54,7 @@ export default function VolunteerPage() {
           <input className="b-input w-full" value={activity} onChange={(e) => setActivity(e.target.value)} placeholder={t("volunteer.f.activity")} />
           <input className="b-input w-full" inputMode="decimal" value={hours} onChange={(e) => setHours(e.target.value)} placeholder={t("volunteer.f.hours")} aria-label={t("volunteer.f.hours")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <HandHeart className="w-4 h-4" />} {t("volunteer.add")}
         </button>
       </section>
@@ -64,7 +64,7 @@ export default function VolunteerPage() {
           {data.pending.map((e) => (
             <div key={e.id} className="flex flex-wrap items-center gap-2 py-1">
               <p className="flex-1 text-sm">{e.name} — {e.activity} · {faNumber(e.hours)} {t("volunteer.hours")}</p>
-              <button className="b-btn b-btn-primary min-h-11" onClick={() => approve(e.id)}><Check className="w-4 h-4" /> {t("volunteer.approve")}</button>
+              <button className="b-btn b-btn-spring min-h-11" onClick={() => approve(e.id)}><Check className="w-4 h-4" /> {t("volunteer.approve")}</button>
             </div>
           ))}
         </section>
@@ -79,7 +79,7 @@ export default function VolunteerPage() {
                 <p className="font-bold">{e.activity}</p>
                 <p className="text-sm text-muted-foreground">{faNumber(e.date)} · {faNumber(e.hours)} {t("volunteer.hours")}</p>
               </div>
-              <span className={`px-2 py-0.5 rounded-full text-xs ${e.approved ? "bg-success/15 text-success" : "bg-warning/15 text-warning"}`}>
+              <span className={`b-badge ${e.approved ? "b-badge-success" : "b-badge-warning"}`}>
                 {e.approved ? t("volunteer.approved") : t("volunteer.pending")}
               </span>
             </div>

@@ -70,13 +70,13 @@ export default function PreschoolPage() {
       <PageHeader title={t("preschool.title")} desc={t("preschool.desc")} />
       {!isAudience && (
         <div className="flex items-end gap-3 flex-wrap">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.class")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("common.class")}</span>
             <Select value={classId} onChange={(v) => { setClassId(v); setStudentId(""); }}
               options={[{ value: "", label: t("preschool.select.class") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("preschool.select.class")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("preschool.select.child")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("preschool.select.child")}</span>
             <Select value={studentId} onChange={setStudentId}
               options={[{ value: "", label: t("preschool.select.allToday") }, ...(roster?.students ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("preschool.select.child")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("preschool.field.day")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("preschool.field.day")}</span>
             <input className="b-input w-36" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder="1405-08-05" /></label>
         </div>
       )}
@@ -86,16 +86,16 @@ export default function PreschoolPage() {
 
       {!isAudience && studentId && (
         <form onSubmit={saveReport} className="b-card p-5 grid md:grid-cols-2 gap-3">
-          <label className="flex flex-col gap-1.5 md:col-span-2"><span className="text-[12px] font-bold">{t("preschool.field.meals")}</span>
+          <label className="flex flex-col gap-1.5 md:col-span-2"><span className="text-xs font-bold">{t("preschool.field.meals")}</span>
             <input className="b-input" value={form.meals} onChange={(e) => setForm((f) => ({ ...f, meals: e.target.value }))} placeholder={t("preschool.placeholder.meals")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("preschool.field.nap")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("preschool.field.nap")}</span>
             <input className="b-input" type="number" min={0} max={600} value={form.napMin} onChange={(e) => setForm((f) => ({ ...f, napMin: e.target.value }))} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("preschool.field.mood")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("preschool.field.mood")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.mood} onChange={(v) => setForm((f) => ({ ...f, mood: v }))}
               options={Object.entries(MOOD_TKEY).map(([value, key]) => ({ value, label: t(key) }))} placeholder={t("preschool.select.mood")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("preschool.field.medication")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("preschool.field.medication")}</span>
             <input className="b-input" value={form.medication} onChange={(e) => setForm((f) => ({ ...f, medication: e.target.value }))} placeholder={t("preschool.placeholder.medication")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("preschool.field.note")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("preschool.field.note")}</span>
             <input className="b-input" value={form.note} onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))} /></label>
           <button className="b-btn b-btn-spring md:col-span-2 justify-self-start" disabled={saving === "report"}>
             {saving === "report" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("preschool.saveReport")}
@@ -105,15 +105,15 @@ export default function PreschoolPage() {
 
       {(isAudience || studentId) && (
         <div className="b-card p-5 flex flex-col gap-3">
-          <b className="text-[14px] flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-spring" /> {t("preschool.pickupTitle")}</b>
+          <b className="text-sm flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-spring" /> {t("preschool.pickupTitle")}</b>
           <div className="flex flex-wrap gap-1.5">
             {pickups.map((p) => (
               <span key={p.id} className="b-badge b-badge-neutral !py-1.5 !px-3 flex items-center gap-2">
                 {p.name} · {p.relation}{p.phone ? ` · ${p.phone}` : ""}
-                <button onClick={() => removePickup(p.id)} aria-label={t("common.delete")}><Trash2 className="w-3.5 h-3.5 text-destructive" /></button>
+                <button onClick={() => removePickup(p.id)} aria-label={t("common.delete")} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-destructive/10 shrink-0"><Trash2 className="w-3.5 h-3.5 text-destructive" /></button>
               </span>
             ))}
-            {pickups.length === 0 && <span className="text-[12px] text-steel">{t("preschool.noPickup")}</span>}
+            {pickups.length === 0 && <span className="text-xs text-steel">{t("preschool.noPickup")}</span>}
           </div>
           <form onSubmit={addPickup} className="flex gap-2 flex-wrap items-end">
             <input className="b-input w-44" value={pickupForm.name} onChange={(e) => setPickupForm((f) => ({ ...f, name: e.target.value }))} placeholder={t("preschool.placeholder.pickupName")} required />
@@ -129,7 +129,7 @@ export default function PreschoolPage() {
       {data && reports.length === 0 && <EmptyState icon={Baby} title={t("preschool.empty.title")} />}
       <div className="flex flex-col gap-3 b-auto-stagger">
         {reports.map((r) => (
-          <div key={r.id} className="b-card-sm p-5 flex flex-col gap-1.5 text-[14px]">
+          <div key={r.id} className="b-card-sm p-5 flex flex-col gap-1.5 text-sm">
             <span className="flex items-center justify-between flex-wrap gap-2">
               <b>{r.studentName ?? ""} <span className="text-steel font-normal">{r.className ?? ""}</span></b>
               <span className="flex gap-1.5 items-center">

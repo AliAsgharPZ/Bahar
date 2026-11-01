@@ -51,7 +51,7 @@ function ItemCard({ r, isStaff, t, onClaim, onDispose, claimNames, setClaimNames
             placeholder={t("lostFound.claimedToPh")}
             aria-label={t("lostFound.claimedToPh")}
           />
-          <button className="b-btn b-btn-primary min-h-11" onClick={() => onClaim(r)}>
+          <button className="b-btn b-btn-spring min-h-11" onClick={() => onClaim(r)}>
             <CheckCheck className="w-4 h-4" /> {r.kind === "FOUND" ? t("lostFound.claimBtn") : t("lostFound.resolveBtn")}
           </button>
           <button className="b-btn b-btn-ghost min-h-11" onClick={() => onDispose(r.id)}>
@@ -126,7 +126,7 @@ export default function LostFoundPage() {
           <input className="b-input w-full" dir="ltr" value={contact} onChange={(e) => setContact(e.target.value)} placeholder={t("lostFound.f.contact")} />
         </div>
         <div className="flex flex-wrap gap-2">
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={() => submit("lost")}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={() => submit("lost")}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <PackageSearch className="w-4 h-4" />} {t("lostFound.reportBtn")}
           </button>
           {data.isStaff && (
@@ -137,9 +137,9 @@ export default function LostFoundPage() {
         </div>
       </section>
 
-      <div className="flex rounded-full border border-border overflow-hidden w-fit" role="tablist" aria-label={t("lostFound.title")}>
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label={t("lostFound.title")}>
         {(["found", "lost"] as const).map((x) => (
-          <button key={x} role="tab" aria-selected={tab === x} className={`px-4 min-h-11 text-sm ${tab === x ? "bg-primary text-primary-foreground" : ""}`} onClick={() => setTab(x)}>
+          <button key={x} role="tab" aria-selected={tab === x} className={`b-pill-tab ${tab === x ? "b-pill-tab-active" : ""}`} onClick={() => setTab(x)}>
             {x === "found" ? `${t("lostFound.foundTab")} (${faNumber(openFound.length)})` : `${t("lostFound.lostTab")} (${faNumber(openLost.length)})`}
           </button>
         ))}

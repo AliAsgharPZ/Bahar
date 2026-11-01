@@ -18,8 +18,8 @@ type Data = { isOffice: boolean; myStudents: { id: string; name: string }[]; pen
 const KINDS = ["ENROLLMENT_CERT", "TRANSCRIPT", "INTRODUCTION", "OTHER"] as const;
 
 function chip(status: string, t: (k: string) => string) {
-  const cls = status === "PENDING" ? "bg-warning/15 text-warning" : status === "READY" ? "bg-info/15 text-info" : status === "DELIVERED" ? "bg-success/15 text-success" : "bg-destructive/15 text-destructive";
-  return <span className={`px-2 py-0.5 rounded-full text-xs ${cls}`}>{t(`documents.status.${status}`)}</span>;
+  const cls = status === "PENDING" ? "b-badge-warning" : status === "READY" ? "b-badge-neutral" : status === "DELIVERED" ? "b-badge-success" : "b-badge-critical";
+  return <span className={`b-badge ${cls}`}>{t(`documents.status.${status}`)}</span>;
 }
 
 export default function DocumentRequestsPage() {
@@ -71,7 +71,7 @@ export default function DocumentRequestsPage() {
             </select>
             <input className="b-input w-full" value={purpose} onChange={(e) => setPurpose(e.target.value)} placeholder={t("documents.f.purpose")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={send}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={send}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileBadge className="w-4 h-4" />} {t("documents.send")}
           </button>
         </section>
@@ -106,10 +106,10 @@ export default function DocumentRequestsPage() {
                     aria-label={t("documents.staffNotePh")}
                   />
                   {r.status === "PENDING" && (
-                    <button className="b-btn b-btn-primary min-h-11" onClick={() => handle(r.id, "READY")}><Check className="w-4 h-4" /> {t("documents.markReady")}</button>
+                    <button className="b-btn b-btn-spring min-h-11" onClick={() => handle(r.id, "READY")}><Check className="w-4 h-4" /> {t("documents.markReady")}</button>
                   )}
                   {r.status === "READY" && (
-                    <button className="b-btn b-btn-primary min-h-11" onClick={() => handle(r.id, "DELIVERED")}><PackageCheck className="w-4 h-4" /> {t("documents.markDelivered")}</button>
+                    <button className="b-btn b-btn-spring min-h-11" onClick={() => handle(r.id, "DELIVERED")}><PackageCheck className="w-4 h-4" /> {t("documents.markDelivered")}</button>
                   )}
                   <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => handle(r.id, "REJECTED")}><X className="w-4 h-4" /> {t("documents.reject")}</button>
                 </div>

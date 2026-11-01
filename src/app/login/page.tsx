@@ -228,7 +228,7 @@ function LoginForm() {
 
             <form onSubmit={submit} className="flex flex-col gap-4">
               <label className="flex flex-col gap-2">
-                <span className="text-[14px] font-bold">{t("auth.login.username")}</span>
+                <span className="text-sm font-bold">{t("auth.login.username")}</span>
                 <div className="relative">
                   <IdCard className="absolute end-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-stone" />
                   <input
@@ -245,7 +245,7 @@ function LoginForm() {
               </label>
 
               <label className="flex flex-col gap-2">
-                <span className="text-[14px] font-bold">{t("auth.login.password")}</span>
+                <span className="text-sm font-bold">{t("auth.login.password")}</span>
                 <div className="relative">
                   <KeyRound className="absolute end-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-stone" />
                   <input
@@ -261,14 +261,14 @@ function LoginForm() {
               </label>
 
               {error && (
-                <div className="b-card-sm !border-destructive/30 bg-destructive/5 text-destructive px-4 py-3 text-[14px] font-medium">
+                <div className="b-card-sm !border-destructive/30 bg-destructive/5 text-destructive px-4 py-3 text-sm font-medium">
                   {error}
                 </div>
               )}
 
               {/* ── کپچای امن — فقط پس از تلاش‌های ناموفق (رفتار مشکوک) ── */}
               {captchaRequired && (
-                <div className="b-card-sm !rounded-2xl p-4 bg-spring-tint/30 !border-spring/25 b-rise">
+                <div className="b-card-sm p-4 bg-spring-tint/30 !border-spring/25 b-rise">
                   <CaptchaField key={captchaEpoch} value={captcha} onChange={setCaptcha} />
                 </div>
               )}
@@ -304,11 +304,11 @@ function LoginForm() {
 
               {/* ── مرحلهٔ کد یکبارمصرف (راند ۱۸) ── */}
               {pendingOtp && (
-                <div className="b-card-sm !rounded-2xl p-4 bg-spring-tint/40 !border-spring/30">
-                  <b className="block text-[14px] mb-1 text-spring-deep">
+                <div className="b-card-sm p-4 bg-spring-tint/40 !border-spring/30">
+                  <b className="block text-sm mb-1 text-spring-deep">
                     کد یکبارمصرف ({pendingOtp.channel === "sms" ? "پیامک" : "ایمیل"})
                   </b>
-                  <p className="text-[12px] text-steel leading-relaxed mb-3">
+                  <p className="text-xs text-steel leading-relaxed mb-3">
                     رمز درست بود — کد ۶ رقمی را که {pendingOtp.channel === "sms" ? "به موبایل" : "به ایمیل"}
                     {pendingOtp.maskedTo ? <> (<b dir="ltr" className="font-mono">{pendingOtp.maskedTo}</b>)</> : null} ارسال شد وارد کنید.
                     اعتبار کد ۵ دقیقه است.
@@ -346,9 +346,9 @@ function LoginForm() {
 
               {/* ── مرحله دوم: کد تأیید 2FA (راند ۱۶) ── */}
               {pending2fa && (
-                <div className="b-card-sm !rounded-2xl p-4 bg-spring-tint/40 !border-spring/30">
-                  <b className="block text-[14px] mb-1 text-spring-deep">تأیید دو مرحله‌ای</b>
-                  <p className="text-[12px] text-steel leading-relaxed mb-3">
+                <div className="b-card-sm p-4 bg-spring-tint/40 !border-spring/30">
+                  <b className="block text-sm mb-1 text-spring-deep">تأیید دو مرحله‌ای</b>
+                  <p className="text-xs text-steel leading-relaxed mb-3">
                     رمز درست بود — حالا کد ۶ رقمی فعلی را از اپ احرازگر (Google Authenticator / Aegis / …) وارد کنید.
                     اگر به اپ دسترسی ندارید، یکی از «کدهای بازیابی» (XXXX-XXXX) را وارد کنید.
                   </p>
@@ -381,13 +381,13 @@ function LoginForm() {
           </p>
 
           {/* حساب ندارید؟ → صفحه معرفی محصول */}
-          <div className="b-card-sm !rounded-2xl mt-4 p-4 flex items-center gap-3">
+          <div className="b-card-sm mt-4 p-4 flex items-center gap-3">
             <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0">
               <Sprout className="w-4 h-4" />
             </span>
             <div className="flex-1 min-w-0">
-              <b className="text-[12px] block">حساب ندارید؟</b>
-              <p className="text-[12px] text-steel leading-relaxed">بهار را از نزدیک ببینید؛ همهٔ قابلیت‌ها در یک صفحه.</p>
+              <b className="text-xs block">حساب ندارید؟</b>
+              <p className="text-xs text-steel leading-relaxed">بهار را از نزدیک ببینید؛ همهٔ قابلیت‌ها در یک صفحه.</p>
             </div>
             
           </div>

@@ -110,11 +110,11 @@ export default function AttendancePage() {
           desc={t("attendance.desc")}
           action={
             <span className="flex gap-1.5">
-              <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" disabled={!sheetData?.students.length}
+              <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive" disabled={!sheetData?.students.length}
                 onClick={async () => { if (!window.confirm(t("attendance.confirmClearDay"))) return; try { const r = await apiDelete<{ deleted: number }>(`/api/attendance?classId=${classId}&date=${date}`); toast.success(`${faNumber(r.deleted)} ${t("attendance.toast.recordsDeleted")}`); setSheet({}); refetchSheet(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
                 <Trash2 className="w-4 h-4" />{t("attendance.clearDay")}
               </button>
-              <button className="b-btn b-btn-spring b-btn-sm" onClick={save} disabled={saving || !sheetData?.students.length}>
+              <button className="b-btn b-btn-spring b-btn-sm min-h-11" onClick={save} disabled={saving || !sheetData?.students.length}>
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("attendance.saveSheet")}
               </button>
             </span>
@@ -122,7 +122,7 @@ export default function AttendancePage() {
         />
 
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-[12px] font-bold">
+          <label className="flex items-center gap-2 text-xs font-bold">
             {t("attendance.filter.class")}
             <Select
               value={classId}
@@ -130,20 +130,20 @@ export default function AttendancePage() {
               options={(classesData?.classes ?? []).map((c) => ({ value: c.id, label: c.name }))}
             />
           </label>
-          <label className="flex items-center gap-2 text-[12px] font-bold">
+          <label className="flex items-center gap-2 text-xs font-bold">
             {t("attendance.filter.date")}
             <input className="b-input !w-36" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder="1404-07-10" />
           </label>
           <div role="tablist" className="flex items-center gap-1.5 flex-wrap">
             {dayChips.map((d, i) => (
-              <button role="tab" aria-selected={date === d} key={d} onClick={() => setDate(d)} className={`b-pill-tab !text-[12px] !px-3 !py-1 ${date === d ? "b-pill-tab-active" : ""}`}>
+              <button role="tab" aria-selected={date === d} key={d} onClick={() => setDate(d)} className={`b-pill-tab !text-xs !px-3 !py-1 ${date === d ? "b-pill-tab-active" : ""}`}>
                 {i === 0 ? t("dashboard.today") : d.slice(5)}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard icon={CheckCircle2} label={t("enum.attendance.PRESENT")} value={counts.PRESENT ?? 0} tone="spring" />
           <StatCard icon={XCircle} label={t("enum.attendance.ABSENT")} value={counts.ABSENT ?? 0} tone="blossom" />
           <StatCard icon={Clock} label={t("enum.attendance.LATE")} value={counts.LATE ?? 0} />
@@ -160,7 +160,7 @@ export default function AttendancePage() {
           if (methods.length <= 1) return null;
           return (
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[12px] font-bold text-steel">{t("attendance.m.recordedVia")}:</span>
+              <span className="text-xs font-bold text-steel">{t("attendance.m.recordedVia")}:</span>
               {methods.map(([m, n]) => (
                 <span key={m} className="b-badge b-badge-neutral">
                   {["FACE", "CCTV", "NFC", "GATE", "OTHER"].includes(m) ? t(`attendance.m.method.${m}`) : t(`attendance.m.short.${m}`)}: {faNumber(n)}
@@ -178,14 +178,14 @@ export default function AttendancePage() {
         {sheetData && sheetData.students.length > 0 && (
           <div className="flex flex-col gap-2.5">
             {sheetData.students.map((st) => (
-              <div key={st.studentId} className="b-card-sm !rounded-2xl p-4 flex flex-col md:flex-row md:items-center gap-3">
+              <div key={st.studentId} className="b-card-sm p-4 flex flex-col md:flex-row md:items-center gap-3">
                 <div className="flex items-center gap-3 min-w-0 md:w-56">
-                  <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center text-[12px] font-bold shrink-0">
+                  <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center text-xs font-bold shrink-0">
                     {st.fullName.split(" ").map((x) => x[0]).slice(0, 2).join("")}
                   </span>
                   <span className="flex flex-col min-w-0">
-                    <b className="text-[14px] truncate">{st.fullName}</b>
-                    <span className="text-[12px] text-steel" dir="ltr">{st.studentNumber}</span>
+                    <b className="text-sm truncate">{st.fullName}</b>
+                    <span className="text-xs text-steel" dir="ltr">{st.studentNumber}</span>
                     {st.status && st.method && st.method !== "MANUAL" && (
                       <span className="b-badge b-badge-neutral mt-1 self-start">
                         {t("attendance.m.recordedVia")}: {["FACE", "CCTV", "NFC", "GATE", "OTHER"].includes(st.method) ? t(`attendance.m.method.${st.method}`) : t(`attendance.m.short.${st.method}`)}
@@ -207,7 +207,7 @@ export default function AttendancePage() {
                       <button role="tab" aria-selected={active}
                         key={o.value}
                         onClick={() => setStatus(st.studentId, o.value)}
-                        className={`b-pill-tab !text-[12px] ${active ? "b-pill-tab-active" : ""}`}
+                        className={`b-pill-tab !text-xs ${active ? "b-pill-tab-active" : ""}`}
                       >
                         {o.label}
                       </button>
@@ -215,7 +215,7 @@ export default function AttendancePage() {
                   })}
                 </div>
                 <input
-                  className="b-input md:flex-1 !h-10 !text-[12px]"
+                  className="b-input md:flex-1 !text-xs"
                   placeholder={t("attendance.placeholder.note")}
                   value={sheet[st.studentId]?.note ?? ""}
                   onChange={(e) => setNote(st.studentId, e.target.value)}
@@ -279,17 +279,17 @@ export default function AttendancePage() {
       )}
       {historyData && historyData.records.length > 0 && (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard icon={CheckCircle2} label={t("enum.attendance.PRESENT")} value={historyData.records.filter((r) => r.status === "PRESENT").length} tone="spring" />
             <StatCard icon={XCircle} label={t("enum.attendance.ABSENT")} value={historyData.records.filter((r) => r.status === "ABSENT").length} tone="blossom" />
             <StatCard icon={Clock} label={t("enum.attendance.LATE")} value={historyData.records.filter((r) => r.status === "LATE").length} />
             <StatCard icon={FileText} label={t("enum.attendance.EXCUSED")} value={historyData.records.filter((r) => r.status === "EXCUSED").length} tone="ink" />
           </div>
           <div className="b-card-sm overflow-hidden">
-            <div className="max-h-[420px] overflow-auto b-scroll">
-              <table className="w-full text-[14px]">
+            <div className="max-h-105 overflow-auto b-scroll">
+              <table className="w-full text-sm">
                 <thead className="sticky top-0 bg-background">
-                  <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                  <tr className="border-b border-hairline-soft text-steel text-xs">
                     <th className="text-end py-3 px-4 font-bold">{t("common.date")}</th>
                     <th className="text-end py-3 px-4 font-bold">{t("common.status")}</th>
                     <th className="text-end py-3 px-4 font-bold">{t("attendance.table.note")}</th>
@@ -300,9 +300,9 @@ export default function AttendancePage() {
                     const o = STATUS_OPTIONS.find((s) => s.value === r.status);
                     return (
                       <tr key={r.id} className="b-row border-b border-hairline-soft/60 last:border-0">
-                        <td className="py-3 px-4 font-mono text-[12px]" dir="ltr">{faNumber(r.date)}</td>
+                        <td className="py-3 px-4 font-mono text-xs" dir="ltr">{faNumber(r.date)}</td>
                         <td className="py-3 px-4"><span className={`b-badge ${o?.cls ?? "b-badge-neutral"}`}>{STATUS_OPTIONS.find((s) => s.value === r.status)?.label ?? r.status}</span></td>
-                        <td className="py-3 px-4 text-steel text-[12px]">{r.note ?? "—"}</td>
+                        <td className="py-3 px-4 text-steel text-xs">{r.note ?? "—"}</td>
                       </tr>
                     );
                   })}

@@ -139,9 +139,9 @@ export default function QuestionBankPage() {
             className="w-full"
             buttonClassName="!w-full"
           />
-          <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} placeholder={t("questionBank.placeholder.body")} className="b-input sm:col-span-2 !min-h-[70px]" />
+          <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} placeholder={t("questionBank.placeholder.body")} className="b-input sm:col-span-2 !min-h-18" />
           {form.kind === "MULTI" && (
-            <div className="sm:col-span-2 grid grid-cols-2 gap-2">
+            <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {form.options.map((o, i) => (
                 <input key={i} value={o} onChange={(e) => { const opts = [...form.options]; opts[i] = e.target.value; setForm({ ...form, options: opts }); }} placeholder={`${t("questionBank.option")} ${toFa(i + 1)}`} className="b-input !h-10" />
               ))}
@@ -182,11 +182,11 @@ export default function QuestionBankPage() {
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     {q.subject && <span className="b-badge b-badge-neutral">{q.subject.name}</span>}
                     <span className={`b-badge ${DIFF[q.difficulty]?.cls ?? "b-badge-neutral"}`}>{DIFF[q.difficulty]?.label}</span>
-                    <span className="text-[12px] text-stone">{q.topic}</span>
+                    <span className="text-xs text-stone">{q.topic}</span>
                   </div>
-                  <p className="text-[14px] font-bold leading-relaxed">{q.body}</p>
-                  {opts.length > 0 && <p className="text-[12px] text-steel mt-1">{opts.map((o, j) => `${["۱)", "۲)", "۳)", "۴)"][j] ?? ""} ${o}`).join("   ")}</p>}
-                  {q.answer && <p className="text-[12px] text-spring-deep mt-1">{t("questionBank.answer")} {q.answer}</p>}
+                  <p className="text-sm font-bold leading-relaxed">{q.body}</p>
+                  {opts.length > 0 && <p className="text-xs text-steel mt-1">{opts.map((o, j) => `${["۱)", "۲)", "۳)", "۴)"][j] ?? ""} ${o}`).join("   ")}</p>}
+                  {q.answer && <p className="text-xs text-spring-deep mt-1">{t("questionBank.answer")} {q.answer}</p>}
                 </div>
                 <button onClick={(e) => { e.preventDefault(); remove(q.id); }} className="b-btn b-btn-ghost text-stone hover:text-destructive shrink-0"><Trash2 className="w-4 h-4" /></button>
               </label>

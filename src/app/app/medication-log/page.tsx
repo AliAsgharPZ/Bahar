@@ -57,7 +57,7 @@ export default function MedicationLogPage() {
           <input className="b-input w-full" value={medicine} onChange={(e) => setMedicine(e.target.value)} placeholder={t("meds.f.medicine")} />
           <input className="b-input w-full" value={dose} onChange={(e) => setDose(e.target.value)} placeholder={t("meds.f.dose")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Pill className="w-4 h-4" />} {t("meds.add")}
         </button>
       </section>

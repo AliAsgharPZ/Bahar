@@ -83,24 +83,24 @@ export default function MinutesPage() {
 
       {data && canWrite && (
         <div className="b-card p-5 flex flex-col gap-4">
-          <b className="text-[14px] flex items-center gap-2"><NotebookText className="w-4 h-4 text-spring" /> {t("minutes.new")}</b>
+          <b className="text-sm flex items-center gap-2"><NotebookText className="w-4 h-4 text-spring" /> {t("minutes.new")}</b>
           <div className="grid sm:grid-cols-3 gap-3">
             <label className="flex flex-col gap-1.5 sm:col-span-1">
-              <span className="text-[12px] font-bold">{t("minutes.meetingTitle")}</span>
+              <span className="text-xs font-bold">{t("minutes.meetingTitle")}</span>
               <input className="b-input" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("minutes.meetingTitlePlaceholder")} />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("minutes.kind")}</span>
+              <span className="text-xs font-bold">{t("minutes.kind")}</span>
               <Select value={kind} onChange={setKind} options={data.kinds.map((k) => ({ value: k.key, label: t(`minutes.kind.${k.key}`) }))} />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("minutes.date")}</span>
+              <span className="text-xs font-bold">{t("minutes.date")}</span>
               <input type="date" className="b-input" value={date} onChange={(e) => setDate(e.target.value)} />
             </label>
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-[12px] font-bold">{t("minutes.attendees")}</span>
+            <span className="text-xs font-bold">{t("minutes.attendees")}</span>
             <div className="flex gap-2 flex-wrap">
               {data.staff.map((u) => (
                 <button
@@ -116,19 +116,19 @@ export default function MinutesPage() {
 
           <div className="grid md:grid-cols-2 gap-3">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("minutes.agenda")}</span>
-              <textarea rows={3} className="b-input !rounded-2xl resize-none" value={agenda} onChange={(e) => setAgenda(e.target.value)} placeholder={t("minutes.agendaPlaceholder")} />
+              <span className="text-xs font-bold">{t("minutes.agenda")}</span>
+              <textarea rows={3} className="b-input resize-none" value={agenda} onChange={(e) => setAgenda(e.target.value)} placeholder={t("minutes.agendaPlaceholder")} />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("minutes.decisions")}</span>
-              <textarea rows={3} className="b-input !rounded-2xl resize-none" value={decisions} onChange={(e) => setDecisions(e.target.value)} placeholder={t("minutes.decisionsPlaceholder")} />
+              <span className="text-xs font-bold">{t("minutes.decisions")}</span>
+              <textarea rows={3} className="b-input resize-none" value={decisions} onChange={(e) => setDecisions(e.target.value)} placeholder={t("minutes.decisionsPlaceholder")} />
             </label>
           </div>
 
           <div className="flex flex-col gap-2.5">
-            <span className="text-[12px] font-bold">{t("minutes.actions")}</span>
+            <span className="text-xs font-bold">{t("minutes.actions")}</span>
             {actions.map((a, i) => (
-              <div key={i} className="grid sm:grid-cols-[1fr_180px_150px_auto] gap-2 items-center">
+              <div key={i} className="grid gap-2 md:grid-cols-2 xl:grid-cols-4 items-center">
                 <input
                   className="b-input" value={a.text} placeholder={t("minutes.actionText")}
                   onChange={(e) => setActions((prev) => prev.map((x, xi) => (xi === i ? { ...x, text: e.target.value } : x)))}
@@ -144,7 +144,7 @@ export default function MinutesPage() {
                 />
                 <button
                   type="button" aria-label={t("minutes.delete")}
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
+                  className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
                   onClick={() => setActions((prev) => prev.filter((_, xi) => xi !== i))}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -170,14 +170,14 @@ export default function MinutesPage() {
           {data.minutes.map((m) => (
             <article key={m.id} className="b-card p-5 flex flex-col gap-3">
               <div className="flex items-center gap-3 flex-wrap">
-                <b className="text-[14px]">{m.title}</b>
+                <b className="text-sm">{m.title}</b>
                 <span className="b-badge b-badge-neutral">{t(`minutes.kind.${m.kind}`)}</span>
-                <span className="text-[12px] text-steel">{formatDateFa(m.date)}</span>
+                <span className="text-xs text-steel">{formatDateFa(m.date)}</span>
                 {m.openActions > 0 && <span className="b-badge b-badge-spring">{faNumber(m.openActions)} {t("minutes.openActions")}</span>}
                 {canWrite && (
                   <button
                     type="button" aria-label={t("minutes.delete")}
-                    className="ms-auto w-9 h-9 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
+                    className="ms-auto w-11 h-11 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
                     onClick={() => remove(m.id)}
                   >
                     <Trash2 className="w-4 h-4" />
@@ -185,22 +185,22 @@ export default function MinutesPage() {
                 )}
               </div>
               {m.attendeeNames.length > 0 && (
-                <p className="text-[12.5px] text-steel">{t("minutes.attendees")}: {m.attendeeNames.join("، ")}</p>
+                <p className="text-xs text-steel">{t("minutes.attendees")}: {m.attendeeNames.join("، ")}</p>
               )}
               {(m.agenda || m.decisions) && (
-                <div className="grid md:grid-cols-2 gap-3 text-[12.5px] leading-relaxed">
-                  {m.agenda && <p><b className="block text-[12px] mb-1">{t("minutes.agenda")}</b>{m.agenda}</p>}
-                  {m.decisions && <p><b className="block text-[12px] mb-1">{t("minutes.decisions")}</b>{m.decisions}</p>}
+                <div className="grid md:grid-cols-2 gap-3 text-xs leading-relaxed">
+                  {m.agenda && <p><b className="block text-xs mb-1">{t("minutes.agenda")}</b>{m.agenda}</p>}
+                  {m.decisions && <p><b className="block text-xs mb-1">{t("minutes.decisions")}</b>{m.decisions}</p>}
                 </div>
               )}
               {m.actions.length > 0 && (
                 <div className="flex flex-col gap-1.5">
-                  <b className="text-[12px]">{t("minutes.actions")}</b>
+                  <b className="text-xs">{t("minutes.actions")}</b>
                   {m.actions.map((a) => {
                     const mine = a.ownerId === myId;
                     const canToggle = canWrite || mine;
                     return (
-                      <div key={a.id} className="flex items-center gap-2.5 text-[12.5px]">
+                      <div key={a.id} className="flex items-center gap-2.5 text-xs">
                         <button
                           type="button" disabled={!canToggle}
                           aria-label={t("minutes.done")} aria-pressed={a.done}
@@ -211,13 +211,13 @@ export default function MinutesPage() {
                         </button>
                         <span className={a.done ? "line-through text-steel" : ""}>{a.text}</span>
                         {a.ownerName && <span className="b-badge b-badge-neutral">{a.ownerName}</span>}
-                        {a.due && <span className="text-[12px] text-steel">{t("minutes.actionDue")}: {a.due}</span>}
+                        {a.due && <span className="text-xs text-steel">{t("minutes.actionDue")}: {a.due}</span>}
                       </div>
                     );
                   })}
                 </div>
               )}
-              <span className="text-[12px] text-steel">{t("minutes.author")}: {m.authorName}</span>
+              <span className="text-xs text-steel">{t("minutes.author")}: {m.authorName}</span>
             </article>
           ))}
         </div>

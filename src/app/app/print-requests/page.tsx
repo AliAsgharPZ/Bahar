@@ -51,7 +51,7 @@ export default function PrintRequestsPage() {
           </label>
         </div>
         <p className="text-sm text-muted-foreground">{t("print.total")}: {faNumber((Number(copies) || 0) * (Number(pages) || 0))} {t("print.sheets")}</p>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Printer className="w-4 h-4" />} {t("print.add")}
         </button>
       </section>
@@ -75,7 +75,7 @@ export default function PrintRequestsPage() {
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("print.reject")}</button>
               </>)}
               {data.isOffice && r.status === "PRINTING" && (
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "READY")}>{t("print.ready")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "READY")}>{t("print.ready")}</button>
               )}
             </div>
           ))}

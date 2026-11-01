@@ -41,7 +41,7 @@ export default function DrillLogPage() {
       <PageHeader title={t("drills.title")} desc={t("drills.desc")} />
       {data.counts.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {data.counts.map((c) => <span key={c.kind} className="px-3 py-1 rounded-full bg-primary/10 text-sm">{c.kind}: {faNumber(c.count)}</span>)}
+          {data.counts.map((c) => <span key={c.kind} className="b-badge b-badge-spring">{c.kind}: {faNumber(c.count)}</span>)}
         </div>
       )}
       {data.isStaff && (
@@ -54,7 +54,7 @@ export default function DrillLogPage() {
             <input className="b-input w-full" inputMode="numeric" value={duration} onChange={(e) => setDuration(e.target.value)} placeholder={t("drills.f.duration")} />
             <input className="b-input w-full" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t("drills.f.notes")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Siren className="w-4 h-4" />} {t("drills.add")}
           </button>
         </section>

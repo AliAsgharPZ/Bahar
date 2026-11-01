@@ -79,7 +79,7 @@ export default function VirtualSessionsPage() {
               return (
                 <div key={s.id} className="b-card b-card-hover p-5 flex flex-col gap-2">
                   <div className="flex items-start justify-between gap-2">
-                    <b className="text-[16px]">{s.title}</b>
+                    <b className="text-base">{s.title}</b>
                     {live && <span className="b-badge b-badge-critical">{t("virtualSessions.live")}</span>}
                   </div>
                   <p className="t-sm text-steel">
@@ -104,11 +104,11 @@ export default function VirtualSessionsPage() {
             <h3 className="font-bold">{t("virtualSessions.modalTitle")}</h3>
             <input className="b-input" placeholder={t("virtualSessions.form.title")} value={title} onChange={(e) => setTitle(e.target.value)} />
             <input className="b-input" placeholder={t("virtualSessions.form.link")} dir="ltr" value={link} onChange={(e) => setLink(e.target.value)} />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-2 gap-3">
               <input className="b-input" type="datetime-local" dir="ltr" value={when} onChange={(e) => setWhen(e.target.value)} />
               <input className="b-input" placeholder={t("virtualSessions.form.duration")} inputMode="numeric" value={duration} onChange={(e) => setDuration(e.target.value)} />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-2 gap-3">
               <Select value={provider} onChange={setProvider} options={Object.entries(PROVIDER_LABEL).map(([value, label]) => ({ value, label: t(label) }))} ariaLabel={t("virtualSessions.form.provider")} />
               <Select value={classId} onChange={setClassId} placeholder={t("virtualSessions.allSchool")} options={[{ value: "", label: t("virtualSessions.allSchool") }, ...classes.map((c) => ({ value: c.id, label: c.name }))]} ariaLabel={t("common.class")} />
             </div>

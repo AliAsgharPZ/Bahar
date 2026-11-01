@@ -93,9 +93,9 @@ export default async function LanguagesPage() {
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.svg" alt="بهار" width={30} height={30} />
-            <b className="text-[16px]">بهار</b>
+            <b className="text-base">بهار</b>
           </Link>
-          <span className="text-[12px] text-steel hidden sm:inline">{tx("site.kit.languages.kitLabel", "کیت ساخت زبان")}</span>
+          <span className="text-xs text-steel hidden sm:inline">{tx("site.kit.languages.kitLabel", "کیت ساخت زبان")}</span>
           <div className="flex-1" />
           <SiteLangSelect current={siteLang} />
           <Link href="/login" className="b-btn b-btn-soft b-btn-sm">{tx("site.kit.languages.login", "ورود")}</Link>
@@ -129,22 +129,22 @@ export default async function LanguagesPage() {
         {/* زبان‌های فعال */}
         <section className="mb-14">
           <h2 className="t-h2 mb-4 flex items-center gap-2"><Sparkles className="w-5 h-5 text-spring" /> {tx("site.kit.languages.h.active", "زبان‌های موجود در این سرویس")}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="b-card !rounded-2xl p-4 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="b-card-sm p-4 text-center">
               <div className="text-2xl mb-1">فارسی</div>
-              <div className="text-[12px] text-steel">{tx("site.kit.languages.baseLang", "زبان پایه · ۱۰۰٪ پوشش")}</div>
+              <div className="text-xs text-steel">{tx("site.kit.languages.baseLang", "زبان پایه · ۱۰۰٪ پوشش")}</div>
             </div>
             {activePacks.map((p) => (
-              <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
+              <div key={p.code} className="b-card-sm p-4 text-center">
                 <div className="text-lg font-bold truncate">{p.nativeName}</div>
-                <div className="text-[12px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
+                <div className="text-xs text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
                 <span className="b-badge b-badge-spring">
                   {faDigits(p.coverage)}٪ {tx("site.kit.languages.wCoverage", "پوشش")}
                 </span>
               </div>
             ))}
             {activePacks.length === 0 && (
-              <div className="b-card !rounded-2xl p-4 text-center col-span-2 md:col-span-3 border-dashed">
+              <div className="b-card-sm p-4 text-center sm:col-span-2 lg:col-span-3 border-dashed">
                 <div className="text-sm text-steel leading-7">
                   {tx("site.kit.languages.noCustom", "هنوز بسته زبان کاستومی فعال نیست — اولین نفر باشید! تمپلیت را دانلود کنید، ترجمه کنید و به مدیر سامانه بدهید.")}
                 </div>
@@ -161,15 +161,15 @@ export default async function LanguagesPage() {
           <p className="text-steel text-sm mb-4 leading-7">
             {tx("site.kit.languages.shippedIntro", "این بسته‌ها با خود سامانه می‌آیند و نیاز به بارگذاری ندارند.")}
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {SHIPPED_LANG_PACKS.map((p) => (
-              <div key={p.code} className="b-card !rounded-2xl p-4 text-center">
+              <div key={p.code} className="b-card-sm p-4 text-center">
                 <div className="text-lg font-bold truncate">{p.nativeName}</div>
-                <div className="text-[12px] text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
+                <div className="text-xs text-steel mb-1">{p.name} · {p.direction === "ltr" ? tx("site.kit.languages.dirLtr", "چپ‌به‌راست") : tx("site.kit.languages.dirRtl", "راست‌به‌چپ")}</div>
                 <span className="b-badge b-badge-spring">
                   {tx("site.kit.languages.wApp", "اپ")} {faDigits(p.coverage)}٪ · {tx("site.kit.languages.wSite", "سایت")} {faDigits(p.siteCoverage)}٪ · {tx("site.kit.languages.wLong", "بلند")} {faDigits(p.longCoverage)}٪
                 </span>
-                <div className="text-[12px] text-stone mt-1">{tx("site.kit.shippedBadge", "همراه سامانه")}</div>
+                <div className="text-xs text-stone mt-1">{tx("site.kit.shippedBadge", "همراه سامانه")}</div>
               </div>
             ))}
           </div>
@@ -178,9 +178,9 @@ export default async function LanguagesPage() {
         {/* راهنمای گام‌به‌گام */}
         <section id="guide" className="mb-14 scroll-mt-24">
           <h2 className="t-h2 mb-6 flex items-center gap-2"><BookOpen className="w-5 h-5 text-spring" /> {tx("site.kit.languages.h.guide", "راهنمای ساخت بسته زبان")}</h2>
-          <div className="grid md:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             {STEPS.map((s, i) => (
-              <div key={s.title} className="b-card !rounded-2xl p-5">
+              <div key={s.title} className="b-card-sm p-5">
                 <s.icon className="w-6 h-6 text-spring mb-3" />
                 <h3 className="font-bold text-sm mb-2">{st(`site.kit.languages.s${i + 1}`)}</h3>
                 <p className="text-xs text-steel leading-6">{tx(`long.kit.languages.step${i + 1}`, s.desc)}</p>
@@ -190,10 +190,10 @@ export default async function LanguagesPage() {
         </section>
 
         {/* ساختار فایل */}
-        <section className="mb-14 grid lg:grid-cols-2 gap-4">
-          <div className="b-card !rounded-3xl p-6">
+        <section className="mb-14 grid md:grid-cols-2 gap-4">
+          <div className="b-card p-6">
             <h3 className="t-h3 mb-3 flex items-center gap-2"><LayoutTemplate className="w-5 h-5 text-spring" /> {tx("site.kit.languages.h.structure", "ساختار فایل بسته")}</h3>
-            <pre dir="ltr" className="text-[12px] leading-5 bg-forest/5 dark:bg-forest/10 rounded-2xl p-4 overflow-x-auto text-start" style={{fontFamily: "monospace"}}>
+            <pre dir="ltr" className="text-xs leading-5 bg-forest/5 dark:bg-forest/10 rounded-2xl p-4 overflow-x-auto text-start" style={{fontFamily: "monospace"}}>
 {`{
   "code": "en",              // کد یکتا (۲-۱۵ نویسه)
   "name": "انگلیسی",          // نام فارسی
@@ -220,7 +220,7 @@ export default async function LanguagesPage() {
 }`}
             </pre>
           </div>
-          <div className="b-card !rounded-3xl p-6">
+          <div className="b-card p-6">
             <h3 className="t-h3 mb-3 flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-spring" /> {tx("site.kit.languages.h.rules", "قواعد و محدودیت‌ها")}</h3>
             <ul className="space-y-2.5">
               {RULES.map((r) => (
@@ -246,19 +246,19 @@ export default async function LanguagesPage() {
             {tx("site.kit.languages.catalogIntro2", "همین فهرست داخل تمپلیت دانلودی هم با متن فارسی پایه موجود است.")}
           </p>
           <h3 className="t-h3 mb-3">{tx("site.kit.languages.catApp", "کلیدهای اپ")}</h3>
-          <div className="b-card !rounded-3xl overflow-hidden">
+          <div className="b-card overflow-hidden">
             <div className="max-h-96 overflow-y-auto">
               <table className="w-full text-xs">
                 <thead className="sticky top-0 bg-forest/10 dark:bg-forest/20 text-foreground">
                   <tr>
-                    <th className="text-start px-4 py-2.5 font-medium w-[220px]">{tx("site.kit.languages.th.key", "کلید")}</th>
+                    <th className="text-start px-4 py-2.5 font-medium w-55">{tx("site.kit.languages.th.key", "کلید")}</th>
                     <th className="text-start px-4 py-2.5 font-medium">{tx("site.kit.languages.th.base", "متن فارسی پایه")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {catalogKeys.map(([key, value]) => (
                     <tr key={key} className="border-t border-hairline-soft">
-                      <td dir="ltr" className="px-4 py-2 font-mono text-[12px] text-spring text-start align-top">{key}</td>
+                      <td dir="ltr" className="px-4 py-2 font-mono text-xs text-spring text-start align-top">{key}</td>
                       <td className="px-4 py-2 text-steel">{value}</td>
                     </tr>
                   ))}
@@ -267,19 +267,19 @@ export default async function LanguagesPage() {
             </div>
           </div>
           <h3 className="t-h3 mt-8 mb-3">{tx("site.kit.languages.catSite", "جملات سایت")}</h3>
-          <div className="b-card !rounded-3xl overflow-hidden">
+          <div className="b-card overflow-hidden">
             <div className="max-h-96 overflow-y-auto">
               <table className="w-full text-xs">
                 <thead className="sticky top-0 bg-forest/10 dark:bg-forest/20 text-foreground">
                   <tr>
-                    <th className="text-start px-4 py-2.5 font-medium w-[220px]">{tx("site.kit.languages.th.key", "کلید")}</th>
+                    <th className="text-start px-4 py-2.5 font-medium w-55">{tx("site.kit.languages.th.key", "کلید")}</th>
                     <th className="text-start px-4 py-2.5 font-medium">{tx("site.kit.languages.th.base", "متن فارسی پایه")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {siteKeys.map(([key, value]) => (
                     <tr key={key} className="border-t border-hairline-soft">
-                      <td dir="ltr" className="px-4 py-2 font-mono text-[12px] text-spring text-start align-top">{key}</td>
+                      <td dir="ltr" className="px-4 py-2 font-mono text-xs text-spring text-start align-top">{key}</td>
                       <td className="px-4 py-2 text-steel">{value}</td>
                     </tr>
                   ))}
@@ -288,19 +288,19 @@ export default async function LanguagesPage() {
             </div>
           </div>
           <h3 className="t-h3 mt-8 mb-3">{tx("site.kit.languages.catLong", "متن‌های بلند")}</h3>
-          <div className="b-card !rounded-3xl overflow-hidden">
+          <div className="b-card overflow-hidden">
             <div className="max-h-96 overflow-y-auto">
               <table className="w-full text-xs">
                 <thead className="sticky top-0 bg-forest/10 dark:bg-forest/20 text-foreground">
                   <tr>
-                    <th className="text-start px-4 py-2.5 font-medium w-[220px]">{tx("site.kit.languages.th.key", "کلید")}</th>
+                    <th className="text-start px-4 py-2.5 font-medium w-55">{tx("site.kit.languages.th.key", "کلید")}</th>
                     <th className="text-start px-4 py-2.5 font-medium">{tx("site.kit.languages.th.base", "متن فارسی پایه")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {longKeys.map(([key, value]) => (
                     <tr key={key} className="border-t border-hairline-soft">
-                      <td dir="ltr" className="px-4 py-2 font-mono text-[12px] text-spring text-start align-top">{key}</td>
+                      <td dir="ltr" className="px-4 py-2 font-mono text-xs text-spring text-start align-top">{key}</td>
                       <td className="px-4 py-2 text-steel">{value}</td>
                     </tr>
                   ))}

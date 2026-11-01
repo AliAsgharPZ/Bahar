@@ -136,8 +136,8 @@ export default function BadgesPage() {
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="b-card-tint p-4 md:p-5">
               <div className="flex items-center gap-2 mb-4">
                 <Sparkles className="w-4 h-4 text-spring-deep shrink-0" />
-                <b className="text-[14px]">{t("badges.defineNew")}</b>
-                <span className="b-badge b-badge-neutral !text-[12px]">
+                <b className="text-sm">{t("badges.defineNew")}</b>
+                <span className="b-badge b-badge-neutral !text-xs">
                   {inSchoolPanel ? (
                     <>{t("badges.schoolBadge")} «{user.schoolName}»</>
                   ) : (
@@ -147,7 +147,7 @@ export default function BadgesPage() {
               </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("badges.field.title")}</span>
+                  <span className="text-xs font-bold">{t("badges.field.title")}</span>
                   <input
                     className="b-input"
                     placeholder={t("badges.placeholder.title")}
@@ -156,7 +156,7 @@ export default function BadgesPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("badges.field.key")}</span>
+                  <span className="text-xs font-bold">{t("badges.field.key")}</span>
                   <input
                     className="b-input"
                     dir="ltr"
@@ -166,7 +166,7 @@ export default function BadgesPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("badges.field.tier")}</span>
+                  <span className="text-xs font-bold">{t("badges.field.tier")}</span>
                   <Select
                     value={draft.tier}
                     onChange={(v) => setDraft({ ...draft, tier: v })}
@@ -176,7 +176,7 @@ export default function BadgesPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("badges.field.points")}</span>
+                  <span className="text-xs font-bold">{t("badges.field.points")}</span>
                   <input
                     className="b-input"
                     dir="ltr"
@@ -186,7 +186,7 @@ export default function BadgesPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("badges.field.effect")}</span>
+                  <span className="text-xs font-bold">{t("badges.field.effect")}</span>
                   <Select
                     value={draft.effectKind}
                     onChange={(v) => setDraft({ ...draft, effectKind: v })}
@@ -196,7 +196,7 @@ export default function BadgesPage() {
                   />
                 </label>
                 <label className="flex flex-col gap-1.5 sm:col-span-2 lg:col-span-1">
-                  <span className="text-[12px] font-bold">{t("badges.field.description")}</span>
+                  <span className="text-xs font-bold">{t("badges.field.description")}</span>
                   <input
                     className="b-input"
                     placeholder={t("badges.placeholder.description")}
@@ -213,7 +213,7 @@ export default function BadgesPage() {
                   {t("common.cancel")}
                 </button>
                 {!inSchoolPanel && (
-                  <span className="text-[12px] text-steel leading-relaxed">
+                  <span className="text-xs text-steel leading-relaxed">
                     {t("badges.schoolHint")}
                   </span>
                 )}
@@ -232,7 +232,7 @@ export default function BadgesPage() {
             placeholder={t("badges.select.badge")}
             searchable
             options={badges.map((b) => ({ value: b.id, label: b.title, hint: `${faNumber(b.points)} ${t("badges.points")}` }))}
-            buttonClassName="!h-10 !w-48"
+            buttonClassName="!h-11 !w-48"
             className="!w-48"
             ariaLabel={t("badges.select.badgeForAward")}
           />
@@ -242,30 +242,30 @@ export default function BadgesPage() {
             placeholder={t("badges.select.student")}
             searchable
             options={students.map((s) => ({ value: s.id, label: `${s.user.firstName} ${s.user.lastName}` }))}
-            buttonClassName="!h-10 !w-48"
+            buttonClassName="!h-11 !w-48"
             className="!w-48"
             ariaLabel={t("badges.select.studentForAward")}
           />
-          <button onClick={give} className="b-btn b-btn-sm b-btn-spring">{t("badges.award")}</button>
+          <button onClick={give} className="b-btn b-btn-sm min-h-11 b-btn-spring">{t("badges.award")}</button>
         </div>
       )}
 
       {earned.length > 0 && (
         <div className="mb-8">
           <h2 className="font-bold mb-3 flex items-center gap-2"><Star className="w-4 h-4 text-blossom" /> {t("badges.myBadges")} ({faNumber(earned.length)}) — {faNumber(earned.reduce((s, e) => s + e.badge.points, 0))} {t("badges.points")}</h2>
-          <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
             {earned.map((e, i) => {
               const tier = TIER_STYLE[e.badge.tier] ?? TIER_STYLE.BRONZE;
               return (
                 <motion.div key={e.id} initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: i * 0.06, type: "spring", stiffness: 500, damping: 28 }}
                   className={`b-card-sm p-4 text-center bg-gradient-to-b ${tier.cls}`}>
                   <Award className="w-8 h-8 mx-auto mb-2" />
-                  <p className="text-[12px] font-bold">{e.badge.title}</p>
-                  <p className="text-[12px] opacity-70">{faNumber(e.badge.points)} {t("badges.points")} · {formatDateFa(e.awardedAt)}</p>
+                  <p className="text-xs font-bold">{e.badge.title}</p>
+                  <p className="text-xs opacity-70">{faNumber(e.badge.points)} {t("badges.points")} · {formatDateFa(e.awardedAt)}</p>
                   {e.isFeatured ? (
                     <span className="b-badge b-badge-blossom mt-1.5"><Star className="w-3 h-3 inline ms-1" />{t("badges.myFeatured")}</span>
                   ) : (
-                    <button onClick={() => feature(e.badge.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 mt-1.5">
+                    <button onClick={() => feature(e.badge.id)} className="b-btn b-btn-sm min-h-11 b-btn-ghost !min-h-10 !text-xs !px-2 !py-0 mt-1.5">
                       <Star className="w-3 h-3" /> {t("badges.setFeatured")}
                     </button>
                   )}
@@ -282,7 +282,7 @@ export default function BadgesPage() {
           <h2 className="font-bold mb-3 flex items-center gap-2">
             <Globe2 className="w-4 h-4 text-spring" /> {t("badges.globalTitle")} ({faNumber(globalBadges.length)})
           </h2>
-          <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
             {globalBadges.map((b, i) => (
               <BadgeCard key={b.id} b={b} i={i} has={earnedIds.has(b.id)} onDelete={isSuperAdmin ? async () => { if (!window.confirm(`${t("badges.deleteConfirm.badge")} «${b.title}» ${t("badges.deleteConfirm.suffix")}`)) return; try { await apiDelete(`/api/badges?id=${b.id}`); toast.success(t("badges.toast.deleted")); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } } : undefined} />
             ))}
@@ -294,7 +294,7 @@ export default function BadgesPage() {
       {schoolBadges.length > 0 && (
         <div className="mb-8">
           <h2 className="font-bold mb-3">{t("badges.schoolTitle")} ({faNumber(schoolBadges.length)})</h2>
-          <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
             {schoolBadges.map((b, i) => (
               <BadgeCard key={b.id} b={b} i={i} has={earnedIds.has(b.id)} />
             ))}
@@ -313,7 +313,7 @@ export default function BadgesPage() {
           }
           action={
             isSuperAdmin && !showDefine ? (
-              <button className="b-btn b-btn-sm b-btn-spring" onClick={() => setShowDefine(true)}>
+              <button className="b-btn b-btn-sm min-h-11 b-btn-spring" onClick={() => setShowDefine(true)}>
                 <Plus className="w-4 h-4" /> {t("badges.defineFirst")}
               </button>
             ) : undefined
@@ -335,12 +335,12 @@ function BadgeCard({ b, i, has, onDelete }: { b: BadgeT; i: number; has: boolean
       className={`b-card-sm p-4 text-center relative ${has ? "" : "opacity-45 grayscale"}`}
     >
       <tier.icon className="w-7 h-7 mx-auto mb-2" />
-      <p className="text-[12px] font-bold">{b.title}</p>
-      <p className="text-[12px] text-steel line-clamp-2 mt-0.5">{b.description}</p>
+      <p className="text-xs font-bold">{b.title}</p>
+      <p className="text-xs text-steel line-clamp-2 mt-0.5">{b.description}</p>
       <span className="b-badge b-badge-neutral mt-2">{t(TIER_TKEY[b.tier] ?? "badges.tier.bronze")} · {faNumber(b.points)}</span>
       {!has && <Lock className="absolute top-2 start-2 w-3.5 h-3.5 text-stone" />}
       {onDelete && (
-        <button onClick={onDelete} aria-label={t("badges.deleteBadge")} className="absolute top-2 end-2 w-6 h-6 rounded-full flex items-center justify-center text-stone hover:text-destructive hover:bg-cloud">
+        <button onClick={onDelete} aria-label={t("badges.deleteBadge")} className="absolute top-2 end-2 w-11 h-11 rounded-full flex items-center justify-center text-stone hover:text-destructive hover:bg-cloud">
           <Trash2 className="w-3.5 h-3.5" />
         </button>
       )}

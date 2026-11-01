@@ -62,7 +62,7 @@ export default function CleaningPage() {
         <input className="b-input" dir="ltr" value={date} onChange={(e) => setDate(faToEn(e.target.value))} placeholder="1404-08-10" aria-label={t("cleaning.f.date")} />
         <span className="text-sm text-muted-foreground">{faNumber(data.date)}</span>
         {data.duty && (
-          <button className={`b-btn min-h-11 ${data.duty.done ? "b-btn-ghost" : "b-btn-primary"}`} onClick={markDone}>
+          <button className={`b-btn min-h-11 ${data.duty.done ? "b-btn-ghost" : "b-btn-spring"}`} onClick={markDone}>
             <CheckCircle2 className="w-4 h-4" /> {data.duty.done ? t("cleaning.doneYes") : t("cleaning.markDone")}
           </button>
         )}
@@ -73,7 +73,7 @@ export default function CleaningPage() {
           {data.students.map((s) => (
             <button
               key={s.id}
-              className={`px-3 min-h-11 rounded-full border text-sm ${selected.includes(s.id) ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}
+              className={`b-pill-tab min-h-11 ${selected.includes(s.id) ? "b-pill-tab-active" : ""}`}
               onClick={() => toggle(s.id)}
               aria-pressed={selected.includes(s.id)}
             >
@@ -81,7 +81,7 @@ export default function CleaningPage() {
             </button>
           ))}
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={save}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={save}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <SprayCan className="w-4 h-4" />} {t("cleaning.save")}
         </button>
       </section>

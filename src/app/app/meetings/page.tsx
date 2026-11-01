@@ -95,7 +95,7 @@ export default function MeetingsPage() {
             <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className="b-input" />
             <input type="time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} className="b-input" />
           </div>
-          <textarea value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} placeholder={t("meetings.field.note")} className="b-input sm:col-span-2 !min-h-[60px]" />
+          <textarea value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} placeholder={t("meetings.field.note")} className="b-input sm:col-span-2 min-h-15" />
           <button onClick={submit} className="b-btn b-btn-sm b-btn-spring sm:col-span-2 w-fit">{t("meetings.submitRequest")}</button>
         </div>
       )}
@@ -104,19 +104,19 @@ export default function MeetingsPage() {
           {meetings.map((m) => (
             <div key={m.id} className="b-card-sm p-4 flex items-center gap-3 flex-wrap">
               <span className={`b-badge ${m.status === "APPROVED" ? "b-badge-success" : m.status === "PENDING" ? "b-badge-warning" : m.status === "REJECTED" ? "b-badge-critical" : "b-badge-neutral"}`}>{STATUS_TKEY[m.status] ? t(STATUS_TKEY[m.status]) : m.status}</span>
-              <span className="text-[14px] font-bold">{m.topic}</span>
-              {m.student && <span className="text-[12px] text-steel">{t("meetings.about")} {m.student.user.firstName} {m.student.user.lastName}</span>}
-              <span className="text-[12px] text-steel flex items-center gap-1"><Clock className="w-3 h-3" />{formatDateFa(m.slotStart)} · {formatTimeFa(m.slotStart)}</span>
-              <span className="text-[12px] text-stone ms-auto">{m.requestedBy.firstName} ↔ {m.staff.firstName} {m.staff.lastName}</span>
+              <span className="text-sm font-bold">{m.topic}</span>
+              {m.student && <span className="text-xs text-steel">{t("meetings.about")} {m.student.user.firstName} {m.student.user.lastName}</span>}
+              <span className="text-xs text-steel flex items-center gap-1"><Clock className="w-3 h-3" />{formatDateFa(m.slotStart)} · {formatTimeFa(m.slotStart)}</span>
+              <span className="text-xs text-stone ms-auto">{m.requestedBy.firstName} ↔ {m.staff.firstName} {m.staff.lastName}</span>
               {m.status === "PENDING" && canRespond(m) && (
                 <span className="flex gap-1.5">
-                  <button onClick={() => respond(m.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{t("meetings.confirm")}</button>
-                  <button onClick={() => respond(m.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive">{t("meetings.reject")}</button>
+                  <button onClick={() => respond(m.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !text-xs !px-2 !py-0">{t("meetings.confirm")}</button>
+                  <button onClick={() => respond(m.id, "REJECTED")} className="b-btn b-btn-sm b-btn-ghost !text-xs !px-2 !py-0 !text-destructive">{t("meetings.reject")}</button>
                 </span>
               )}
-              {m.status === "APPROVED" && canRespond(m) && <button onClick={() => respond(m.id, "DONE")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{t("meetings.done")}</button>}
+              {m.status === "APPROVED" && canRespond(m) && <button onClick={() => respond(m.id, "DONE")} className="b-btn b-btn-sm b-btn-ghost !text-xs !px-2 !py-0">{t("meetings.done")}</button>}
               {canCancel(m) && (
-                <button onClick={() => respond(m.id, "CANCELED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0 !text-destructive">{t("meetings.cancelRequest")}</button>
+                <button onClick={() => respond(m.id, "CANCELED")} className="b-btn b-btn-sm b-btn-ghost !text-xs !px-2 !py-0 !text-destructive">{t("meetings.cancelRequest")}</button>
               )}
             </div>
           ))}

@@ -243,7 +243,7 @@ export default function ImportsPage() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* ═══ ایمپورت ═══ */}
         <section className="b-card p-5 md:p-6 flex flex-col gap-5">
-          <h2 className="font-bold text-[16px] flex items-center gap-2">
+          <h2 className="font-bold text-base flex items-center gap-2">
             <Upload className="w-4.5 h-4.5 text-spring" /> {mode === "staff" ? t("imports.bulk.staff") : t("imports.bulk.students")}
           </h2>
           <div role="tablist" className="flex items-center gap-2" aria-label={t("imports.mode.aria")}>
@@ -270,7 +270,7 @@ export default function ImportsPage() {
                 if (f) onFile(f);
               }}
               onClick={() => fileRef.current?.click()}
-              className={`cursor-pointer rounded-2xl border-2 border-dashed p-6 text-center transition-colors ${
+              className={`cursor-pointer b-card-sm border-dashed p-6 text-center transition-colors ${
                 dragOver ? "border-spring bg-spring-tint" : "border-hairline hover:border-spring/50 hover:bg-spring-tint/40"
               }`}
               role="button"
@@ -281,8 +281,8 @@ export default function ImportsPage() {
               ) : (
                 <FileSpreadsheet className="w-8 h-8 mx-auto mb-2 text-spring" />
               )}
-              <b className="text-[14px] block">{t("imports.drop.title")}</b>
-              <span className="text-[12px] text-steel block mt-1">{t("imports.drop.hint")}</span>
+              <b className="text-sm block">{t("imports.drop.title")}</b>
+              <span className="text-xs text-steel block mt-1">{t("imports.drop.hint")}</span>
               <input
                 ref={fileRef}
                 type="file"
@@ -291,24 +291,24 @@ export default function ImportsPage() {
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); }}
               />
             </div>
-            <details className="b-card-sm !rounded-2xl p-3.5">
-              <summary className="text-[12px] font-bold cursor-pointer flex items-center gap-1.5">
+            <details className="b-card-sm p-3.5">
+              <summary className="text-xs font-bold cursor-pointer flex items-center gap-1.5">
                 <ClipboardPaste className="w-3.5 h-3.5 text-steel" /> {t("imports.paste.title")}
               </summary>
               <textarea
                 value={csv}
                 onChange={(e) => ingestText(e.target.value, t("imports.source.pasted"))}
                 placeholder={t("imports.placeholder.columns")}
-                className="b-input !min-h-[130px] font-mono !text-[12px] mt-3"
+                className="b-input min-h-32 font-mono !text-xs mt-3"
                 dir="rtl"
               />
               <div className="flex items-center gap-2 mt-2">
-                <button className="b-btn b-btn-ghost b-btn-sm !text-[12px]" onClick={() => ingestText(SAMPLE_CSV, t("imports.source.sample"))}>{t("imports.sample.insert")}</button>
-                {csv && <button className="b-btn b-btn-ghost b-btn-sm !text-[12px] !text-destructive" onClick={() => { setCsv(""); setHeaders([]); setMapping({}); setValidation(null); setSourceName(""); }}><RotateCcw className="w-3 h-3" /> {t("imports.clear")}</button>}
+                <button className="b-btn b-btn-ghost b-btn-sm !text-xs" onClick={() => ingestText(SAMPLE_CSV, t("imports.source.sample"))}>{t("imports.sample.insert")}</button>
+                {csv && <button className="b-btn b-btn-ghost b-btn-sm !text-xs !text-destructive" onClick={() => { setCsv(""); setHeaders([]); setMapping({}); setValidation(null); setSourceName(""); }}><RotateCcw className="w-3 h-3" /> {t("imports.clear")}</button>}
               </div>
             </details>
             {sourceName && (
-              <p className="text-[12px] text-steel flex items-center gap-1.5">
+              <p className="text-xs text-steel flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-spring shrink-0" />
                 {t("imports.source.label")} <b className="truncate">{sourceName}</b>
                 {headers.length > 0 && <> — {faNumber(headers.length)} {t("imports.source.columns")} {headers.slice(0, 6).join("، ")}{headers.length > 6 ? "…" : ""}</>}
@@ -319,17 +319,17 @@ export default function ImportsPage() {
           {/* مرحله ۲ — تطبیق ستون‌ها */}
           {headers.length > 0 && (
             <div className="flex flex-col gap-3">
-              <h3 className="font-bold text-[14px] flex items-center gap-2">
+              <h3 className="font-bold text-sm flex items-center gap-2">
                 {t("imports.mapping.title")}
-                <span className="b-badge b-badge-neutral !text-[12px]">{faNumber(mappedCount)}/{faNumber(FIELDS.length)}</span>
+                <span className="b-badge b-badge-neutral !text-xs">{faNumber(mappedCount)}/{faNumber(FIELDS.length)}</span>
                 {missingRequired.length > 0 && (
-                  <span className="b-badge b-badge-critical !text-[12px]">{t("imports.mapping.missingRequired")} {missingRequired.map((f) => t(IMPORT_FIELD_TKEY[f.key] ?? f.key)).join("، ")}</span>
+                  <span className="b-badge b-badge-critical !text-xs">{t("imports.mapping.missingRequired")} {missingRequired.map((f) => t(IMPORT_FIELD_TKEY[f.key] ?? f.key)).join("، ")}</span>
                 )}
               </h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 {FIELDS.map((f) => (
                   <label key={f.key} className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-bold">
+                    <span className="text-xs font-bold">
                       {t(IMPORT_FIELD_TKEY[f.key] ?? f.key)}
                       {f.required && <span className="text-destructive"> *</span>}
                     </span>
@@ -359,13 +359,13 @@ export default function ImportsPage() {
           {validation && (
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-bold text-[14px]">{t("imports.preview.title")}</h3>
+                <h3 className="font-bold text-sm">{t("imports.preview.title")}</h3>
                 <span className="b-badge b-badge-spring">{faNumber(validation.valid)} {t("imports.preview.healthy")}</span>
                 {validation.invalid > 0 && <span className="b-badge b-badge-critical">{faNumber(validation.invalid)} {t("common.errorShort")}</span>}
                 <span className="b-badge b-badge-neutral">{faNumber(validation.total)} {t("imports.preview.rows")}</span>
               </div>
-              <div className="max-h-64 overflow-auto b-scroll rounded-2xl border border-hairline-soft">
-                <table className="w-full text-[12px]">
+              <div className="max-h-64 overflow-auto b-scroll b-card-sm">
+                <table className="w-full text-xs">
                   <thead className="sticky top-0 bg-cloud/60 dark:bg-forest/30 backdrop-blur">
                     <tr>
                       <th className="text-end py-2 px-3 font-bold w-10">#</th>
@@ -402,16 +402,16 @@ export default function ImportsPage() {
                 </table>
               </div>
               {validation.valid === 0 && (
-                <p className="text-[12px] text-destructive">{t("imports.preview.noHealthy")}</p>
+                <p className="text-xs text-destructive">{t("imports.preview.noHealthy")}</p>
               )}
 
               {/* مرحله ۴ — ثبت */}
-              <div className="b-card-sm !rounded-2xl p-4 flex flex-col gap-3">
-                <h4 className="font-bold text-[12px]">{mode === "staff" ? t("imports.commit.staffTitle") : t("imports.commit.studentsTitle")}</h4>
+              <div className="b-card-sm p-4 flex flex-col gap-3">
+                <h4 className="font-bold text-xs">{mode === "staff" ? t("imports.commit.staffTitle") : t("imports.commit.studentsTitle")}</h4>
                 {mode === "students" && (
                   <div className="grid sm:grid-cols-2 gap-3">
                     <label className="flex flex-col gap-1.5">
-                      <span className="text-[12px] font-bold">{t("imports.commit.targetClass")}</span>
+                      <span className="text-xs font-bold">{t("imports.commit.targetClass")}</span>
                       <Select
                         value={classId}
                         onChange={setClassId}
@@ -424,7 +424,7 @@ export default function ImportsPage() {
                       />
                     </label>
                     <label className="flex flex-col gap-1.5">
-                      <span className="text-[12px] font-bold">{t("imports.commit.entryYear")}</span>
+                      <span className="text-xs font-bold">{t("imports.commit.entryYear")}</span>
                       <input className="b-input !h-10" dir="ltr" inputMode="numeric" placeholder="1404" value={entryYear} onChange={(e) => setEntryYear(e.target.value.replace(/[^0-9]/g, ""))} />
                     </label>
                   </div>
@@ -441,7 +441,7 @@ export default function ImportsPage() {
           {result && (
             <div className="b-card-tint p-4 flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-spring shrink-0" />
-              <p className="text-[12px]">
+              <p className="text-xs">
                 <b>{faNumber(result.success)}</b> {t("imports.result.created")}
                 {result.failed > 0 && <> — <b className="text-destructive">{faNumber(result.failed)}</b> {t("imports.result.failedRejected")}</>}
                 . {t("imports.result.passwordNote")}
@@ -453,7 +453,7 @@ export default function ImportsPage() {
         {/* ═══ اکسپورت + تاریخچه ═══ */}
         <div className="flex flex-col gap-6">
           <section className="b-card p-5 md:p-6 flex flex-col gap-4">
-            <h2 className="font-bold text-[16px] flex items-center gap-2">
+            <h2 className="font-bold text-base flex items-center gap-2">
               <Download className="w-4.5 h-4.5 text-spring" /> {t("imports.export.title")}
             </h2>
             <p className="t-sm text-steel">
@@ -485,14 +485,14 @@ export default function ImportsPage() {
                   key={x.type}
                   onClick={() => exportExcel(x.type)}
                   disabled={busy !== null}
-                  className="b-btn b-btn-ghost b-card-sm !rounded-2xl p-3.5 flex items-center gap-3 text-start hover:border-spring/40 transition-colors group"
+                  className="b-btn b-btn-ghost p-3.5 flex items-center gap-3 text-start hover:border-spring/40 transition-colors group"
                 >
                   <span className="w-10 h-10 rounded-2xl bg-spring-tint text-spring-deep flex items-center justify-center shrink-0">
                     <x.icon className="w-5 h-5" />
                   </span>
                   <span className="flex flex-col min-w-0 flex-1">
-                    <b className="text-[12px]">{x.label}</b>
-                    <span className="text-[12px] text-steel">{x.desc}</span>
+                    <b className="text-xs">{x.label}</b>
+                    <span className="text-xs text-steel">{x.desc}</span>
                   </span>
                   {busy === `export-${x.type}` ? (
                     <Loader2 className="w-4 h-4 animate-spin text-spring shrink-0" />
@@ -506,7 +506,7 @@ export default function ImportsPage() {
 
           {/* تاریخچه */}
           <section className="b-card p-5 md:p-6 flex flex-col gap-4">
-            <h2 className="font-bold text-[16px] flex items-center gap-2">
+            <h2 className="font-bold text-base flex items-center gap-2">
               <History className="w-4.5 h-4.5 text-spring" /> {t("imports.history.title")}
             </h2>
             {jobs === null ? (
@@ -514,8 +514,8 @@ export default function ImportsPage() {
             ) : jobs.length === 0 ? (
               <EmptyState icon={History} title={t("imports.history.emptyTitle")} desc={t("imports.history.emptyDesc")} />
             ) : (
-              <div className="max-h-72 overflow-auto b-scroll rounded-2xl border border-hairline-soft">
-                <table className="w-full text-[12px]">
+              <div className="max-h-72 overflow-auto b-scroll b-card-sm">
+                <table className="w-full text-xs">
                   <thead className="sticky top-0 bg-cloud/60 dark:bg-forest/30">
                     <tr>
                       <th className="text-end py-2 px-3 font-bold">{t("imports.history.file")}</th>

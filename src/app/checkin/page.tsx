@@ -61,14 +61,14 @@ function CheckinInner() {
         {state === "checking" && (
           <>
             <Loader2 className="w-10 h-10 animate-spin text-spring" />
-            <p className="text-[13px] text-steel">{t("attendance.g.checking")}</p>
+            <p className="text-sm text-steel">{t("attendance.g.checking")}</p>
           </>
         )}
         {(state === "ok" || state === "already") && (
           <>
             <CheckCircle2 className="w-12 h-12 text-success" />
             <p className="font-bold">{state === "ok" ? t("attendance.g.ok") : t("attendance.g.already")}</p>
-            <Link href="/app/attendance" className="b-btn b-btn-primary !h-11">
+            <Link href="/app/attendance" className="b-btn b-btn-spring">
               {t("attendance.g.goApp")}
             </Link>
           </>
@@ -77,15 +77,15 @@ function CheckinInner() {
           <>
             <ShieldX className="w-12 h-12 text-danger" />
             <p className="font-bold">{t("attendance.g.invalid")}</p>
-            <p className="text-[13px] text-steel">{t("attendance.g.invalidHint")}</p>
+            <p className="text-sm text-steel">{t("attendance.g.invalidHint")}</p>
           </>
         )}
         {state === "login" && (
           <>
             <QrCode className="w-12 h-12 text-spring" />
             <p className="font-bold">{t("attendance.g.loginFirst")}</p>
-            <p className="text-[13px] text-steel">{t("attendance.g.loginHint")}</p>
-            <Link href="/login" className="b-btn b-btn-primary !h-11">
+            <p className="text-sm text-steel">{t("attendance.g.loginHint")}</p>
+            <Link href="/login" className="b-btn b-btn-spring">
               <LogIn className="w-4 h-4" />
               {t("attendance.g.loginButton")}
             </Link>
@@ -95,7 +95,7 @@ function CheckinInner() {
           <>
             <ShieldX className="w-12 h-12 text-warning" />
             <p className="font-bold">{t("attendance.g.notStudent")}</p>
-            <Link href="/app" className="b-btn b-btn-ghost !h-11">
+            <Link href="/app" className="b-btn b-btn-ghost">
               {t("attendance.g.goApp")}
             </Link>
           </>

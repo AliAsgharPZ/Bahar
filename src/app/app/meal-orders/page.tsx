@@ -47,7 +47,7 @@ export default function MealOrdersPage() {
           <h2 className="font-bold mb-2">{t("meals2.summary")}</h2>
           <div className="flex flex-wrap gap-2">
             {data.summary.map((s) => (
-              <span key={s.item} className="px-3 py-1 rounded-full bg-primary/10 text-sm">{s.item}: {faNumber(s.count)}</span>
+              <span key={s.item} className="b-badge b-badge-spring">{s.item}: {faNumber(s.count)}</span>
             ))}
           </div>
         </section>
@@ -57,7 +57,7 @@ export default function MealOrdersPage() {
           <h2 className="font-bold flex items-center gap-2"><UtensilsCrossed className="w-5 h-5" /> {t("meals2.addTitle")}</h2>
           <div className="flex gap-2">
             <input className="b-input flex-1" value={item} onChange={(e) => setItem(e.target.value)} placeholder={t("meals2.f.item")} />
-            <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+            <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <UtensilsCrossed className="w-4 h-4" />} {t("meals2.add")}
             </button>
           </div>
@@ -76,7 +76,7 @@ export default function MealOrdersPage() {
               <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "DELIVERED" ? "bg-success/15 text-success" : r.status === "CANCELLED" ? "bg-muted text-muted-foreground" : "bg-warning/15 text-warning"}`}>
                 {t(`meals2.status.${r.status}`)}
               </span>
-              {data.isKitchen && r.status === "ORDERED" && <button className="b-btn b-btn-primary min-h-11" onClick={() => patch(r.id, "DELIVERED")}>{t("meals2.deliver")}</button>}
+              {data.isKitchen && r.status === "ORDERED" && <button className="b-btn b-btn-spring min-h-11" onClick={() => patch(r.id, "DELIVERED")}>{t("meals2.deliver")}</button>}
               {r.mine && r.status === "ORDERED" && <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => patch(r.id, "CANCELLED")}>{t("meals2.cancel")}</button>}
             </div>
           ))}

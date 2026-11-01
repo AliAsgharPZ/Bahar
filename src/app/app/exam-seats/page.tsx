@@ -75,26 +75,26 @@ export default function ExamSeatsPage() {
 
       <div className="b-card p-5 flex flex-col gap-4">
         <div className="flex flex-wrap gap-3">
-          <label className="flex flex-col gap-1 text-[12px] font-bold flex-1 min-w-52">
+          <label className="flex flex-col gap-1 text-xs font-bold flex-1 min-w-52">
             {t("examSeats.planTitle")}
             <input className="b-input !h-11" placeholder={t("examSeats.planTitlePlaceholder")} value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
-          <label className="flex flex-col gap-1 text-[12px] font-bold">
+          <label className="flex flex-col gap-1 text-xs font-bold">
             {t("examSeats.date")}
             <input className="b-input !h-11 !w-36" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} />
           </label>
-          <label className="flex flex-col gap-1 text-[12px] font-bold">
+          <label className="flex flex-col gap-1 text-xs font-bold">
             {t("examSeats.sessions")}
             <input className="b-input !h-11 !w-24" type="number" min={1} max={12} value={sessions} onChange={(e) => setSessions(Number(e.target.value) || 1)} />
           </label>
-          <label className="flex flex-col gap-1 text-[12px] font-bold flex-1 min-w-52">
+          <label className="flex flex-col gap-1 text-xs font-bold flex-1 min-w-52">
             {t("examSeats.sessionMode")}
             <select className="b-input !h-11" value={sessionMode} onChange={(e) => setSessionMode(e.target.value as "ALL_EACH" | "SPLIT")}>
               <option value="ALL_EACH">{t("examSeats.sessionMode.ALL_EACH")}</option>
               <option value="SPLIT">{t("examSeats.sessionMode.SPLIT")}</option>
             </select>
           </label>
-          <label className="flex flex-col gap-1 text-[12px] font-bold flex-1 min-w-52">
+          <label className="flex flex-col gap-1 text-xs font-bold flex-1 min-w-52">
             {t("examSeats.strategy")}
             <select className="b-input !h-11" value={strategy} onChange={(e) => setStrategy(e.target.value as "BY_CLASS" | "MIXED")}>
               <option value="BY_CLASS">{t("examSeats.strategy.BY_CLASS")}</option>
@@ -104,7 +104,7 @@ export default function ExamSeatsPage() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-[12px] font-bold">{t("examSeats.classes")}</span>
+          <span className="text-xs font-bold">{t("examSeats.classes")}</span>
           <div className="flex flex-wrap gap-2">
             {(classesData?.classes ?? []).map((c) => {
               const on = classIds.includes(c.id);
@@ -124,11 +124,11 @@ export default function ExamSeatsPage() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <span className="text-[12px] font-bold">{t("examSeats.rooms")}</span>
-          <p className="text-[12px] text-steel">{t("examSeats.roomFromVenues")}</p>
+          <span className="text-xs font-bold">{t("examSeats.rooms")}</span>
+          <p className="text-xs text-steel">{t("examSeats.roomFromVenues")}</p>
           {rooms.map((r, i) => (
             <div key={i} className="flex flex-wrap items-end gap-2">
-              <label className="flex flex-col gap-1 text-[12px] font-bold flex-1 min-w-44">
+              <label className="flex flex-col gap-1 text-xs font-bold flex-1 min-w-44">
                 {t("examSeats.roomName")}
                 <input
                   className="b-input !h-11"
@@ -137,22 +137,22 @@ export default function ExamSeatsPage() {
                   onChange={(e) => setRooms(rooms.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))}
                 />
               </label>
-              <label className="flex flex-col gap-1 text-[12px] font-bold">
+              <label className="flex flex-col gap-1 text-xs font-bold">
                 {t("examSeats.rows")}
                 <input className="b-input !h-11 !w-20" type="number" min={1} max={30} value={r.rows} onChange={(e) => setRooms(rooms.map((x, j) => (j === i ? { ...x, rows: Number(e.target.value) || 1 } : x)))} />
               </label>
-              <label className="flex flex-col gap-1 text-[12px] font-bold">
+              <label className="flex flex-col gap-1 text-xs font-bold">
                 {t("examSeats.cols")}
                 <input className="b-input !h-11 !w-20" type="number" min={1} max={30} value={r.cols} onChange={(e) => setRooms(rooms.map((x, j) => (j === i ? { ...x, cols: Number(e.target.value) || 1 } : x)))} />
               </label>
-              <label className="flex flex-col gap-1 text-[12px] font-bold">
+              <label className="flex flex-col gap-1 text-xs font-bold">
                 {t("examSeats.deskType")}
                 <select className="b-input !h-11" value={r.deskType} onChange={(e) => setRooms(rooms.map((x, j) => (j === i ? { ...x, deskType: e.target.value as "SINGLE" | "DOUBLE" } : x)))}>
                   <option value="SINGLE">{t("examSeats.desk.SINGLE")}</option>
                   <option value="DOUBLE">{t("examSeats.desk.DOUBLE")}</option>
                 </select>
               </label>
-              <label className="flex flex-col gap-1 text-[12px] font-bold">
+              <label className="flex flex-col gap-1 text-xs font-bold">
                 {t("examSeats.roomInvigilator")}
                 <select className="b-input !h-11" value={r.invigilatorId ?? ""} onChange={(e) => setRooms(rooms.map((x, j) => (j === i ? { ...x, invigilatorId: e.target.value || undefined } : x)))}>
                   <option value="">{t("common.none")}</option>
@@ -175,14 +175,14 @@ export default function ExamSeatsPage() {
             ))}
           </datalist>
           <div className="flex items-center gap-2 flex-wrap">
-            <button type="button" className="b-btn b-btn-ghost !h-10" onClick={() => setRooms([...rooms, { name: "", rows: 5, cols: 6, deskType: "SINGLE" }])}>
+            <button type="button" className="b-btn b-btn-ghost" onClick={() => setRooms([...rooms, { name: "", rows: 5, cols: 6, deskType: "SINGLE" }])}>
               <Plus className="w-4 h-4" />
               {t("examSeats.addRoom")}
             </button>
-            <span className="text-[12px] font-bold">
+            <span className="text-xs font-bold">
               {t("examSeats.totalCapacity")}: {faNumber(totalCap)}
             </span>
-            <button type="button" className="b-btn b-btn-primary !h-11 ms-auto" disabled={busy || !title.trim() || !classIds.length} onClick={create}>
+            <button type="button" className="b-btn b-btn-spring !h-11 ms-auto" disabled={busy || !title.trim() || !classIds.length} onClick={create}>
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Armchair className="w-4 h-4" />}
               {t("examSeats.create")}
             </button>
@@ -191,22 +191,22 @@ export default function ExamSeatsPage() {
       </div>
 
       <div className="b-card p-5 flex flex-col gap-3">
-        <h3 className="font-bold text-[15px]">{t("examSeats.plans")}</h3>
+        <h3 className="font-bold text-base">{t("examSeats.plans")}</h3>
         {data.plans.length === 0 ? (
           <EmptyState title={t("examSeats.empty")} />
         ) : (
           data.plans.map((p) => (
             <div key={p.id} className="b-card-sm p-3.5 flex items-center gap-2 flex-wrap">
-              <b className="text-[13px]">{p.title}</b>
-              <span className="text-[12px] text-steel">{faNumber(p.date)}</span>
+              <b className="text-sm">{p.title}</b>
+              <span className="text-xs text-steel">{faNumber(p.date)}</span>
               <span className="b-badge b-badge-neutral">{t("examSeats.session")}: {faNumber(p.sessions)}</span>
               <span className="b-badge b-badge-neutral">{faNumber(p.count)}</span>
               <span className="ms-auto flex gap-2">
-                <button type="button" className="b-btn b-btn-ghost !h-10" onClick={() => { setOpenPlanId(openPlanId === p.id ? null : p.id); setMapSession(1); }}>
+                <button type="button" className="b-btn b-btn-ghost" onClick={() => { setOpenPlanId(openPlanId === p.id ? null : p.id); setMapSession(1); }}>
                   <LayoutGrid className="w-4 h-4" />
                   {t("examSeats.seatMap")}
                 </button>
-                <button type="button" className="b-btn b-btn-ghost !h-10 !text-destructive" onClick={() => remove(p.id)}>
+                <button type="button" className="b-btn b-btn-ghost !text-destructive" onClick={() => remove(p.id)}>
                   <Trash2 className="w-4 h-4" />
                   {t("examSeats.delete")}
                 </button>
@@ -232,11 +232,11 @@ export default function ExamSeatsPage() {
               </button>
             ))}
             <span className="ms-auto flex gap-2">
-              <Link className="b-btn b-btn-ghost !h-10" href={`/print/exam-roster/${detail.plan.id}?session=${mapSession}`} target="_blank">
+              <Link className="b-btn b-btn-ghost" href={`/print/exam-roster/${detail.plan.id}?session=${mapSession}`} target="_blank">
                 <Printer className="w-4 h-4" />
                 {t("examSeats.printRoster")}
               </Link>
-              <Link className="b-btn b-btn-primary !h-10" href={`/print/exam-cards/${detail.plan.id}?session=${mapSession}`} target="_blank">
+              <Link className="b-btn b-btn-spring" href={`/print/exam-cards/${detail.plan.id}?session=${mapSession}`} target="_blank">
                 <Printer className="w-4 h-4" />
                 {t("examSeats.printCards")}
               </Link>
@@ -248,12 +248,12 @@ export default function ExamSeatsPage() {
             const effCols = room.cols * (room.deskType === "DOUBLE" ? 2 : 1);
             return (
               <div key={room.name} className="flex flex-col gap-2">
-                <b className="text-[13px]">{room.name} — {faNumber(seats.length)}</b>
+                <b className="text-sm">{room.name} — {faNumber(seats.length)}</b>
                 <div className="grid gap-1.5" style={{ gridTemplateColumns: `repeat(${effCols}, minmax(0, 1fr))` }}>
                   {seats.map((a) => (
                     <div key={a.id} className="b-card-sm p-1.5 text-center" title={`${a.studentName} · ${a.className}`}>
-                      <div className="text-[11px] font-bold">{faNumber(a.seatNo)}</div>
-                      <div className="text-[10px] text-steel truncate">{a.studentName}</div>
+                      <div className="text-xs font-bold">{faNumber(a.seatNo)}</div>
+                      <div className="text-xs text-steel truncate">{a.studentName}</div>
                     </div>
                   ))}
                 </div>

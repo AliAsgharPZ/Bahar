@@ -137,9 +137,9 @@ export default function InsightsPage() {
       ) : (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[12px] min-w-[640px]">
+            <table className="w-full text-xs min-w-160">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                <tr className="border-b border-hairline-soft text-steel text-xs">
                   <th className="text-end py-3 px-4 font-bold">{t("common.student")}</th>
                   <th className="text-end py-3 px-4 font-bold">{t("common.class")}</th>
                   <th className="text-end py-3 px-4 font-bold">{t("insights.table.riskScore")}</th>
@@ -165,13 +165,13 @@ export default function InsightsPage() {
                       </div>
                     </td>
                     <td className="py-3 px-4"><span className={`b-badge ${LEVEL_BADGE[r.level]}`}>{LEVEL_TKEY[r.level] ? t(LEVEL_TKEY[r.level]) : r.level}</span></td>
-                    <td className="py-3 px-4 text-steel text-[12px]">{formatDateFa(r.computedAt)}</td>
+                    <td className="py-3 px-4 text-steel text-xs">{formatDateFa(r.computedAt)}</td>
                     <td className="py-3 px-4">
                       <div className="flex gap-1.5">
-                        <button className="b-btn b-btn-ghost b-btn-sm !min-h-[40px] !text-[12px]" onClick={() => openDetail(r.studentId)}>
+                        <button className="b-btn b-btn-ghost b-btn-sm !text-xs" onClick={() => openDetail(r.studentId)}>
                           {t("insights.factors")}
                         </button>
-                        <button className="b-btn b-btn-soft b-btn-sm !min-h-[40px] !text-[12px]" onClick={() => openNarrative(r.studentId, r.name)}>
+                        <button className="b-btn b-btn-soft b-btn-sm !text-xs" onClick={() => openNarrative(r.studentId, r.name)}>
                           <FileText className="w-3.5 h-3.5" /> {t("insights.narrative")}
                         </button>
                       </div>
@@ -189,16 +189,16 @@ export default function InsightsPage() {
       {detail && (
         <div className="b-card-sm p-4">
           <div className="flex items-center gap-2 mb-3">
-            <b className="text-[14px]">{detail.student.name}</b>
+            <b className="text-sm">{detail.student.name}</b>
             {detail.student.className && <span className="b-badge b-badge-neutral">{detail.student.className}</span>}
             <span className={`b-badge ${LEVEL_BADGE[detail.risk.level]} ms-auto`}>{LEVEL_TKEY[detail.risk.level] ? t(LEVEL_TKEY[detail.risk.level]) : detail.risk.level} — {faNumber(detail.risk.score)}</span>
             <button className="b-btn b-btn-ghost text-steel hover:text-ink" onClick={() => setDetail(null)}>✕</button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {detail.risk.factors.map((f) => (
-              <div key={f.key} className="b-card-sm !rounded-2xl p-3">
+              <div key={f.key} className="b-card-sm p-3">
                 <div className="flex items-center justify-between mb-1.5">
-                  <b className="text-[12px]">{FACTOR_TKEY[f.key] ? t(FACTOR_TKEY[f.key]) : f.key}</b>
+                  <b className="text-xs">{FACTOR_TKEY[f.key] ? t(FACTOR_TKEY[f.key]) : f.key}</b>
                   <span className={`b-badge ${f.score >= 66 ? "b-badge-critical" : f.score >= 33 ? "b-badge-warning" : "b-badge-success"}`}>{faNumber(f.score)}</span>
                 </div>
                 <div className="w-full h-1.5 rounded-full bg-cloud overflow-hidden mb-2">
@@ -207,8 +207,8 @@ export default function InsightsPage() {
                     style={{ width: `${Math.min(100, f.score)}%` }}
                   />
                 </div>
-                <p className="text-[12px] text-steel leading-relaxed">{f.detail}</p>
-                <p className="text-[12px] text-stone mt-1">{t("insights.factor.weight")}: {faNumber(Math.round(f.weight * 100))}٪</p>
+                <p className="text-xs text-steel leading-relaxed">{f.detail}</p>
+                <p className="text-xs text-stone mt-1">{t("insights.factor.weight")}: {faNumber(Math.round(f.weight * 100))}٪</p>
               </div>
             ))}
           </div>
@@ -220,11 +220,11 @@ export default function InsightsPage() {
         <div className="b-card-sm p-4">
           <div className="flex items-center gap-2 mb-3">
             <FileText className="w-4 h-4 text-spring" />
-            <b className="text-[14px]">{t("insights.narrativeTitle")} — {narrFor}</b>
+            <b className="text-sm">{t("insights.narrativeTitle")} — {narrFor}</b>
             <div className="ms-auto flex gap-1.5">
               {narrative && (
                 <button
-                  className="b-btn b-btn-soft b-btn-sm !min-h-[40px] !text-[12px]"
+                  className="b-btn b-btn-soft b-btn-sm !text-xs"
                   onClick={() => navigator.clipboard?.writeText(narrative.narrative).then(() => window.dispatchEvent(new Event("bahar-toast-copy"))).catch(() => {})}
                 >
                   {t("insights.copyText")}
@@ -235,14 +235,14 @@ export default function InsightsPage() {
           </div>
           {narrLoading && <LoadingBlock label={t("insights.loadingNarrative")} />}
           {narrative && (
-            <div className="text-[14px] leading-[2] whitespace-pre-line bg-cloud/40 rounded-2xl p-4">
+            <div className="text-sm leading-[2] whitespace-pre-line b-card-sm bg-cloud/40 p-4">
               {narrative.narrative}
             </div>
           )}
         </div>
       )}
 
-      <p className="text-[12px] text-stone leading-relaxed">
+      <p className="text-xs text-stone leading-relaxed">
         {t("insights.footerNote")}
       </p>
     </div>

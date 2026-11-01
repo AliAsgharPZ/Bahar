@@ -74,15 +74,15 @@ export default function BehaviorPage() {
       <PageHeader
         title={t("nav.behavior")}
         desc={t("behavior.desc")}
-        action={isStaff && <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {t("behavior.newRecord")}</button>}
+        action={isStaff && <button onClick={() => setShowNew((v) => !v)} className="b-btn b-btn-sm min-h-11 b-btn-spring"><Plus className="w-4 h-4" /> {t("behavior.newRecord")}</button>}
       />
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div className="b-card-sm p-4 text-center"><p className="text-[12px] text-steel">{t("behavior.positives")}</p><p className="text-xl font-bold text-success">{faNumber(allPositives.length)}</p></div>
-        <div className="b-card-sm p-4 text-center"><p className="text-[12px] text-steel">{t("behavior.negatives")}</p><p className="text-xl font-bold text-destructive">{faNumber(allNegatives.length)}</p></div>
-        <div className="b-card-sm p-4 text-center"><p className="text-[12px] text-steel">{t("behavior.netPoints")}</p><p className={`text-xl font-bold ${allRecords.reduce((sum, r) => sum + r.points, 0) >= 0 ? "text-spring-deep" : "text-destructive"}`}>{faNumber(allRecords.reduce((sum, r) => sum + r.points, 0))}</p></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+        <div className="b-card-sm p-4 text-center"><p className="text-xs text-steel">{t("behavior.positives")}</p><p className="text-xl font-bold text-success">{faNumber(allPositives.length)}</p></div>
+        <div className="b-card-sm p-4 text-center"><p className="text-xs text-steel">{t("behavior.negatives")}</p><p className="text-xl font-bold text-destructive">{faNumber(allNegatives.length)}</p></div>
+        <div className="b-card-sm p-4 text-center"><p className="text-xs text-steel">{t("behavior.netPoints")}</p><p className={`text-xl font-bold ${allRecords.reduce((sum, r) => sum + r.points, 0) >= 0 ? "text-spring-deep" : "text-destructive"}`}>{faNumber(allRecords.reduce((sum, r) => sum + r.points, 0))}</p></div>
       </div>
       {showNew && (
-        <div className="b-card-md p-5 mb-6 grid gap-3 sm:grid-cols-3">
+        <div className="b-card-md p-5 mb-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           <Select
             value={form.studentId}
             onChange={(v) => setForm({ ...form, studentId: v })}
@@ -101,8 +101,8 @@ export default function BehaviorPage() {
           />
           <input value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} placeholder={t("behavior.placeholder.note")} className="b-input" />
           <div className="flex gap-2 sm:col-span-3">
-            <button onClick={submit} className="b-btn b-btn-spring b-btn-sm">{t("behavior.submit")}</button>
-            <button onClick={() => setShowNew(false)} className="b-btn b-btn-ghost b-btn-sm">{t("common.cancel")}</button>
+            <button onClick={submit} className="b-btn b-btn-spring b-btn-sm min-h-11">{t("behavior.submit")}</button>
+            <button onClick={() => setShowNew(false)} className="b-btn b-btn-ghost b-btn-sm min-h-11">{t("common.cancel")}</button>
           </div>
         </div>
       )}
@@ -122,8 +122,8 @@ export default function BehaviorPage() {
                 {r.kind === "POSITIVE" ? <ThumbsUp className="w-5 h-5" /> : <AlertTriangle className="w-5 h-5" />}
               </span>
               <div className="flex-1 min-w-0">
-                <p className="text-[14px] font-bold truncate">{r.student.user.firstName} {r.student.user.lastName} <span className="text-steel font-normal">— {reasons[r.reason]?.label ?? r.reason}</span></p>
-                <p className="text-[12px] text-steel truncate">
+                <p className="text-sm font-bold truncate">{r.student.user.firstName} {r.student.user.lastName} <span className="text-steel font-normal">— {reasons[r.reason]?.label ?? r.reason}</span></p>
+                <p className="text-xs text-steel truncate">
                   {r.student.class?.name ?? "—"} · {r.recordedBy ? `${r.recordedBy.firstName} ${r.recordedBy.lastName}` : t("dashboard.system")} · {relativeTimeFa(r.createdAt)}
                   {r.note ? ` · ${r.note}` : ""}
                 </p>
@@ -132,7 +132,7 @@ export default function BehaviorPage() {
               {canDeleteRole && canDelete && (
                 <button
                   onClick={() => remove(r.id)}
-                  className="b-btn b-btn-ghost b-btn-sm !text-destructive shrink-0"
+                  className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive shrink-0"
                   title={t("behavior.deleteRecord")}
                 >
                   <Trash2 className="w-4 h-4" />

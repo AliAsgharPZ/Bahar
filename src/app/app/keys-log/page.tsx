@@ -48,7 +48,7 @@ export default function KeysLogPage() {
           <input className="b-input w-full" value={keyLabel} onChange={(e) => setKeyLabel(e.target.value)} placeholder={t("keysLog.f.key")} />
           <input className="b-input w-full" value={holder} onChange={(e) => setHolder(e.target.value)} placeholder={t("keysLog.f.holder")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={checkout}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={checkout}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />} {t("keysLog.checkout")}
         </button>
       </section>
@@ -63,7 +63,7 @@ export default function KeysLogPage() {
                 <p className="font-bold">{r.keyLabel}</p>
                 <p className="text-sm text-muted-foreground">{r.holderName} · {when(r.outAt)}</p>
               </div>
-              <button className="b-btn b-btn-primary min-h-11" onClick={() => checkin(r.id)}><Undo2 className="w-4 h-4" /> {t("keysLog.checkin")}</button>
+              <button className="b-btn b-btn-spring min-h-11" onClick={() => checkin(r.id)}><Undo2 className="w-4 h-4" /> {t("keysLog.checkin")}</button>
             </div>
           ))}
         </section>

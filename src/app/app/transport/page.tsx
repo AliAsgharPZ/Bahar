@@ -55,9 +55,9 @@ export default function TransportPage() {
       if (items.length === 0) return null;
       return (
         <div className="b-card p-5 flex flex-col gap-3">
-          <b className="text-[14px]">{t("transport.vzayt-srvys-amrvz")}</b>
+          <b className="text-sm">{t("transport.vzayt-srvys-amrvz")}</b>
           {items.map((it, i) => (
-            <div key={i} className="flex items-center justify-between gap-3 text-[14px]">
+            <div key={i} className="flex items-center justify-between gap-3 text-sm">
               <span>{it.routeName}</span>
               <span className="flex gap-1.5">
                 <span className={`b-badge ${it.boardedAt ? "b-badge-spring" : "b-badge-neutral"}`}>{it.boardedAt ? t("transport.svar-shd") : t("transport.hnvz-svar-nshdh")}</span>
@@ -73,16 +73,16 @@ export default function TransportPage() {
     for (const it of items) byRoute.set(it.routeName, [...(byRoute.get(it.routeName) ?? []), it]);
     return (
       <div className="b-card p-5 flex flex-col gap-4">
-        <b className="text-[14px]">{t("transport.svar-v-pyadh-shdn-amrvz-chk-lyst-mraqb-srvys")}</b>
+        <b className="text-sm">{t("transport.svar-v-pyadh-shdn-amrvz-chk-lyst-mraqb-srvys")}</b>
         {[...byRoute.entries()].map(([route, list]) => (
           <div key={route} className="flex flex-col gap-1.5">
-            <span className="text-[12px] font-bold text-steel">{route}</span>
+            <span className="text-xs font-bold text-steel">{route}</span>
             {list.map((it) => (
-              <div key={it.assignmentId} className="flex items-center justify-between gap-2 py-1 border-b border-hairline last:border-0 text-[12px]">
+              <div key={it.assignmentId} className="flex items-center justify-between gap-2 py-1 border-b border-hairline last:border-0 text-xs">
                 <span>{it.student?.name} <span className="text-steel">{it.stopName ?? ""}</span></span>
                 <span className="flex gap-1.5">
-                  <button className={`b-badge ${it.boardedAt ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => mark(it.assignmentId!, "board", !it.boardedAt)}>{t("transport.svar")} {it.boardedAt ? "✓" : ""}</button>
-                  <button className={`b-badge ${it.alightedAt ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => mark(it.assignmentId!, "alight", !it.alightedAt)}>{t("transport.pyadh")} {it.alightedAt ? "✓" : ""}</button>
+                  <button className={`b-badge min-h-11 ${it.boardedAt ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => mark(it.assignmentId!, "board", !it.boardedAt)}>{t("transport.svar")} {it.boardedAt ? "✓" : ""}</button>
+                  <button className={`b-badge min-h-11 ${it.alightedAt ? "b-badge-spring" : "b-badge-neutral"}`} onClick={() => mark(it.assignmentId!, "alight", !it.alightedAt)}>{t("transport.pyadh")} {it.alightedAt ? "✓" : ""}</button>
                 </span>
               </div>
             ))}
@@ -181,7 +181,7 @@ export default function TransportPage() {
 
       {data.staff && (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <StatCard icon={Bus} label={t("transport.msyrhay-faal")} value={data.routes.length} tone="spring" />
             <StatCard icon={Users} label={t("transport.dansh-amvzan-srvys")} value={data.assignments.length} tone="soft" />
             <StatCard icon={Phone} label={t("transport.ranndgan")} value={data.routes.filter((r) => r.driverName).length} tone="ink" />
@@ -191,7 +191,7 @@ export default function TransportPage() {
             {data.routes.map((r) => (
               <div key={r.id} className="b-card b-card-hover p-5 flex flex-col gap-2">
                 <div className="flex items-start justify-between gap-2">
-                  <b className="text-[16px]">{r.name}</b>
+                  <b className="text-base">{r.name}</b>
                   <span className="b-badge b-badge-neutral">{faNumber(r._count?.assignments ?? 0)}/{faNumber(r.capacity)} {t("dashboard.unit.person")}</span>
                 </div>
                 <p className="t-sm text-steel">
@@ -211,9 +211,9 @@ export default function TransportPage() {
 
           {data.assignments.length > 0 && (
             <section className="b-card p-5 md:p-6 flex flex-col gap-3">
-              <h2 className="font-bold text-[16px]">{t("transport.fhrst-svaran")}</h2>
+              <h2 className="font-bold text-base">{t("transport.fhrst-svaran")}</h2>
               <div className="overflow-x-auto b-scroll">
-                <table className="w-full text-[14px]">
+                <table className="w-full text-sm">
                   <thead><tr className="text-steel text-start"><th className="p-2 text-start">{t("common.student")}</th><th className="p-2 text-start">{t("common.class")}</th><th className="p-2 text-start">{t("transport.msyr-2")}</th><th className="p-2 text-start">{t("transport.aystgah")}</th><th className="p-2 text-start">{t("transport.hzynh-mahanh")}</th><th className="p-2"></th></tr></thead>
                   <tbody className="b-rows-in">
                     {data.assignments.map((a) => (
@@ -239,14 +239,14 @@ export default function TransportPage() {
           <div className="b-card w-full max-w-lg p-6 flex flex-col gap-3 max-h-[90vh] overflow-y-auto b-scroll" onClick={(e) => e.stopPropagation()}>
             <h3 className="font-bold">{editingId ? t("transport.vyraysh-msyr") : t("transport.msyr-jdyd")}</h3>
             <input className="b-input" placeholder={t("transport.nam-msyr-msla-msyr-1-shhrk-ghrb")} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-2 gap-3">
               <input className="b-input" placeholder={t("transport.nam-ranndh")} value={form.driverName} onChange={(e) => setForm({ ...form, driverName: e.target.value })} />
               <input className="b-input" placeholder={t("transport.mvbayl-ranndh")} value={form.driverPhone} onChange={(e) => setForm({ ...form, driverPhone: e.target.value })} />
               <input className="b-input" placeholder={t("transport.shrh-khvdrv-myny-bvs-sfyd")} value={form.vehicleDesc} onChange={(e) => setForm({ ...form, vehicleDesc: e.target.value })} />
               <input className="b-input" placeholder={t("transport.plak-2")} value={form.vehiclePlate} onChange={(e) => setForm({ ...form, vehiclePlate: e.target.value })} />
               <input className="b-input" placeholder={t("transport.zrfyt")} inputMode="numeric" value={form.capacity} onChange={(e) => setForm({ ...form, capacity: e.target.value })} />
             </div>
-            <textarea className="b-input !min-h-[90px]" placeholder={t("transport.aystgah-ha-hr-aystgah-dr-yk-str-bh-trtyb-hrkt")} value={form.stops} onChange={(e) => setForm({ ...form, stops: e.target.value })} />
+            <textarea className="b-input" placeholder={t("transport.aystgah-ha-hr-aystgah-dr-yk-str-bh-trtyb-hrkt")} value={form.stops} onChange={(e) => setForm({ ...form, stops: e.target.value })} />
             <div className="flex gap-2">
               <button className="b-btn b-btn-spring flex-1" disabled={busy === "route"} onClick={saveRoute}>{busy === "route" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("common.save")}</button>
               <button className="b-btn b-btn-ghost" onClick={() => setForm(null)}>{t("common.cancel")}</button>
@@ -263,14 +263,14 @@ export default function TransportPage() {
             {hits.length > 0 && !picked && (
               <div className="flex flex-col gap-1 max-h-44 overflow-y-auto b-scroll">
                 {hits.map((s) => (
-                  <button key={s.id} className="b-btn b-btn-ghost b-card-sm !rounded-full p-2.5 text-start text-[14px]" onClick={() => setPicked(s)}>
+                  <button key={s.id} className="b-btn b-btn-ghost w-full justify-start text-start" onClick={() => setPicked(s)}>
                     <b>{s.user.firstName} {s.user.lastName}</b> <span className="text-steel">{s.class?.name ?? ""}</span>
                   </button>
                 ))}
               </div>
             )}
             {picked && <p className="t-sm">{t("common.selected")}: <b>{picked.user.firstName} {picked.user.lastName}</b></p>}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-2 gap-3">
               <input className="b-input" placeholder={t("transport.aystgah-svarshdn")} value={stopName} onChange={(e) => setStopName(e.target.value)} />
               <input className="b-input" placeholder={t("transport.hzynh-mahanh-tvman")} inputMode="numeric" value={fee} onChange={(e) => setFee(e.target.value)} />
             </div>

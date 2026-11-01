@@ -49,7 +49,7 @@ export default function CampaignsPage() {
           <input className="b-input w-full" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("campaigns.f.title")} />
           <textarea className="b-input w-full min-h-20" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder={t("campaigns.f.desc")} />
           <input className="b-input w-full" value={goal} onChange={(e) => setGoal(e.target.value)} placeholder={t("campaigns.f.goal")} />
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={create}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={create}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Megaphone className="w-4 h-4" />} {t("campaigns.create")}
           </button>
         </section>
@@ -62,7 +62,7 @@ export default function CampaignsPage() {
             <article key={c.id} className="b-card p-4 space-y-2">
               <div className="flex items-center gap-2">
                 <p className="font-bold flex-1">{c.title}</p>
-                {!c.isActive && <span className="px-2 py-0.5 rounded-full text-xs bg-muted text-muted-foreground">{t("campaigns.finished")}</span>}
+                {!c.isActive && <span className="b-badge b-badge-neutral">{t("campaigns.finished")}</span>}
               </div>
               {c.description && <p className="text-sm text-muted-foreground">{c.description}</p>}
               {c.goalText && <p className="text-sm">🎯 {c.goalText}</p>}
@@ -72,7 +72,7 @@ export default function CampaignsPage() {
               </p>
               <div className="flex gap-2">
                 {c.isActive && !c.joined && (
-                  <button className="b-btn b-btn-primary min-h-11" onClick={() => join(c.id)}>
+                  <button className="b-btn b-btn-spring min-h-11" onClick={() => join(c.id)}>
                     <HandHeart className="w-4 h-4" /> {t("campaigns.join")}
                   </button>
                 )}

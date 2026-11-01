@@ -67,7 +67,7 @@ export default function ReadingPage() {
             <input type="checkbox" checked={finished} onChange={(e) => setFinished(e.target.checked)} className="w-5 h-5" />
             {t("reading.f.finished")}
           </label>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />} {t("reading.add")}
           </button>
         </section>

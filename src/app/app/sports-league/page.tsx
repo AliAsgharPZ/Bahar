@@ -90,7 +90,7 @@ export default function SportsLeaguePage() {
               <option value="">{t("league.away")}</option>{teamOpts}
             </select>
             <input className="b-input w-36" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder="1404-08-15" aria-label={t("league.date")} />
-            <button className="b-btn b-btn-primary min-h-11" onClick={() => act({ action: "match", homeTeam: home, awayTeam: away, date }, t("league.matchAdded"))}>{t("league.addMatch")}</button>
+            <button className="b-btn b-btn-spring min-h-11" onClick={() => act({ action: "match", homeTeam: home, awayTeam: away, date }, t("league.matchAdded"))}>{t("league.addMatch")}</button>
           </div>
         </section>
       )}
@@ -108,7 +108,7 @@ export default function SportsLeaguePage() {
                 <span className="flex gap-1 items-center">
                   <input className="b-input w-16 min-h-11" inputMode="numeric" value={scores[m.id]?.h ?? ""} onChange={(e) => setScores((s) => ({ ...s, [m.id]: { h: e.target.value, a: s[m.id]?.a ?? "" } }))} aria-label={t("league.homeScore")} />
                   <input className="b-input w-16 min-h-11" inputMode="numeric" value={scores[m.id]?.a ?? ""} onChange={(e) => setScores((s) => ({ ...s, [m.id]: { h: s[m.id]?.h ?? "", a: e.target.value } }))} aria-label={t("league.awayScore")} />
-                  <button className="b-btn b-btn-primary min-h-11" onClick={() => act({ action: "result", matchId: m.id, homeScore: Number(scores[m.id]?.h ?? 0), awayScore: Number(scores[m.id]?.a ?? 0) }, t("league.resultSaved"))}>{t("league.saveResult")}</button>
+                  <button className="b-btn b-btn-spring min-h-11" onClick={() => act({ action: "result", matchId: m.id, homeScore: Number(scores[m.id]?.h ?? 0), awayScore: Number(scores[m.id]?.a ?? 0) }, t("league.resultSaved"))}>{t("league.saveResult")}</button>
                 </span>
               )}
             </div>

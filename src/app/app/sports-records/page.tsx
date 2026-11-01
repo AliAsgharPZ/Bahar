@@ -62,7 +62,7 @@ export default function SportsRecordsPage() {
               <input className="b-input w-28" value={unit} onChange={(e) => setUnit(e.target.value)} placeholder={t("sports.f.unit")} />
             </div>
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Medal className="w-4 h-4" />} {t("sports.add")}
           </button>
         </section>

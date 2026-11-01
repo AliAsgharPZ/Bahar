@@ -47,12 +47,12 @@ function RosterInner() {
         @page { size: A4 portrait; margin: 12mm; }
         .roster-room { break-inside: avoid; margin-bottom: 10mm; }
         .roster-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .roster-table th, .roster-table td { border: 0.3mm solid #9aa3ad; padding: 1.6mm 2mm; text-align: start; }
+        .roster-table th, .roster-table td { border: 0.3mm solid var(--hairline); padding: 1.6mm 2mm; text-align: start; }
         @media print { .roster-toolbar { display: none !important; } }
       `}</style>
 
       <div className="roster-toolbar flex items-center gap-2 p-4 flex-wrap">
-        <button type="button" className="b-btn b-btn-primary !h-11" onClick={() => window.print()} disabled={!data}>
+        <button type="button" className="b-btn b-btn-spring" onClick={() => window.print()} disabled={!data}>
           <Printer className="w-4 h-4" />
           {t("examSeats.printRoster")}
         </button>
@@ -65,14 +65,14 @@ function RosterInner() {
                 role="tab"
                 aria-selected={session === n}
                 onClick={() => setSession(n)}
-                className={`b-pill-tab !px-3.5 !py-2 ${session === n ? "b-pill-tab-active" : ""}`}
+                className={`b-pill-tab ${session === n ? "b-pill-tab-active" : ""}`}
               >
                 {t("examSeats.session")} {faNumber(n)}
               </button>
             ))}
           </span>
         )}
-        <Link href="/app/exam-seats" className="b-btn b-btn-ghost !h-11">
+        <Link href="/app/exam-seats" className="b-btn b-btn-ghost">
           {t("attendance.g.goApp")}
         </Link>
       </div>
@@ -93,13 +93,13 @@ function RosterInner() {
               <section key={room} className="roster-room">
                 <header className="flex items-center gap-2 mb-2 flex-wrap">
                   <Sprout className="w-5 h-5 text-spring shrink-0" />
-                  <b className="text-[14px]">{data.schoolName}</b>
-                  <span className="text-[12px] text-steel">
+                  <b className="text-sm">{data.schoolName}</b>
+                  <span className="text-xs text-steel">
                     {data.plan.title} · {t("examSeats.session")} {faNumber(session)} · {faNumber(data.plan.date)}
                   </span>
-                  <b className="ms-auto text-[14px]">{room}</b>
+                  <b className="ms-auto text-sm">{room}</b>
                   {invigilatorName && (
-                    <span className="text-[12px] font-bold">
+                    <span className="text-xs font-bold">
                       {t("examSeats.roomInvigilator")}: {invigilatorName}
                     </span>
                   )}
@@ -126,7 +126,7 @@ function RosterInner() {
                     ))}
                   </tbody>
                 </table>
-                <p className="text-[12px] mt-3">
+                <p className="text-xs mt-3">
                   {t("examSeats.card.inv")}: {invigilatorName ? `${invigilatorName} — ` : ""}………………………………
                 </p>
               </section>

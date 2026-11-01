@@ -113,28 +113,28 @@ export default function QuizDetailPage() {
       {isStaff && (
         <>
           <section className="b-card p-4 md:p-5 mb-5 no-print">
-            <h2 className="font-extrabold text-[16px] mb-3">{t("quizzes.detail.questionsAnswers")}</h2>
+            <h2 className="font-extrabold text-base mb-3">{t("quizzes.detail.questionsAnswers")}</h2>
             <div className="flex flex-col gap-3">
               {data.questions.map((q, i) => (
-                <div key={q.id} className="rounded-2xl border border-[--hairline] p-3.5">
-                  <p className="font-semibold text-[14px] leading-relaxed">{faNumber(i + 1)}. {q.body}</p>
+                <div key={q.id} className="b-card-sm p-3.5">
+                  <p className="font-semibold text-sm leading-relaxed">{faNumber(i + 1)}. {q.body}</p>
                   {q.options.length > 0 && (
-                    <ul className="mt-2 space-y-1 text-[12px] text-stone">
+                    <ul className="mt-2 space-y-1 text-xs text-stone">
                       {q.options.map((o, oi) => <li key={oi}>· {o}</li>)}
                     </ul>
                   )}
-                  <p className="text-[12px] mt-2"><span className="text-spring-deep font-bold">{t("quizzes.detail.answer")} {q.answer ?? "—"}</span>{q.explanation ? <span className="text-stone"> — {q.explanation}</span> : null}</p>
+                  <p className="text-xs mt-2"><span className="text-spring-deep font-bold">{t("quizzes.detail.answer")} {q.answer ?? "—"}</span>{q.explanation ? <span className="text-stone"> — {q.explanation}</span> : null}</p>
                 </div>
               ))}
             </div>
           </section>
           <section className="b-card p-4 md:p-5 no-print">
-            <h2 className="font-extrabold text-[16px] mb-3">{t("quizzes.detail.results")}</h2>
+            <h2 className="font-extrabold text-base mb-3">{t("quizzes.detail.results")}</h2>
             {data.attempts!.length === 0 ? (
-              <p className="text-[14px] text-stone">{t("quizzes.detail.emptyAttempts")}</p>
+              <p className="text-sm text-stone">{t("quizzes.detail.emptyAttempts")}</p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="b-table w-full">
+                <table className="w-full">
                   <thead><tr><th>{t("common.student")}</th><th>{t("common.class")}</th><th>{t("common.status")}</th><th>{t("quizzes.detail.scoreOutOf")}</th></tr></thead>
                   <tbody className="b-rows-in">
                     {data.attempts!.map((a) => (
@@ -204,8 +204,8 @@ export default function QuizDetailPage() {
       {!isStaff && !attempt && (
         <div className="b-card p-6 md:p-8 text-center max-w-xl mx-auto">
           <ClipboardList className="w-10 h-10 mx-auto text-spring mb-3" />
-          <h2 className="font-extrabold text-[18px] mb-2">{data.quiz.title}</h2>
-          <p className="text-[14px] text-stone leading-relaxed mb-6">
+          <h2 className="font-extrabold text-lg mb-2">{data.quiz.title}</h2>
+          <p className="text-sm text-stone leading-relaxed mb-6">
             {t("quizzes.detail.introStart")} {faNumber(data.questions.length)} {t("quizzes.unit.question")} {t("dashboard.uptime.and")} {faNumber(data.quiz.durationMin)} {t("quizzes.unit.minute")} {t("quizzes.detail.introEnd")}
             {" "}{t("quizzes.detail.introNote")}
           </p>
@@ -219,25 +219,25 @@ export default function QuizDetailPage() {
       {!isStaff && attempt && (
         <>
           {inProgress && (
-            <div className={`sticky top-16 z-20 mb-4 rounded-2xl px-4 py-2.5 flex items-center gap-2 font-extrabold text-[14px] ${remain !== null && remain < 60 ? "bg-[--critical-soft] text-[--critical]" : "bg-[--spring-tint] text-spring-deep"}`}>
+            <div className={`sticky top-16 z-20 mb-4 rounded-2xl px-4 py-2.5 flex items-center gap-2 font-extrabold text-sm ${remain !== null && remain < 60 ? "bg-[--critical-soft] text-[--critical]" : "bg-[--spring-tint] text-spring-deep"}`}>
               <Timer className="w-4.5 h-4.5" />
               {t("quizzes.detail.remaining")} <span dir="ltr">{remainText}</span>
-              <span className="ms-auto text-[12px] font-medium opacity-80">{t("quizzes.detail.autoSubmitNote")}</span>
+              <span className="ms-auto text-xs font-medium opacity-80">{t("quizzes.detail.autoSubmitNote")}</span>
             </div>
           )}
           {submitted && (
             <div className="b-card p-5 mb-5 text-center">
               <CircleCheck className="w-9 h-9 mx-auto text-spring mb-2" />
-              <p className="font-extrabold text-[16px]">{t("quizzes.detail.submittedTitle")}</p>
+              <p className="font-extrabold text-base">{t("quizzes.detail.submittedTitle")}</p>
               {attempt.score !== null
-                ? <p className="text-spring-deep font-extrabold text-[22px] mt-1">{t("quizzes.score.label")} {faNumber(attempt.score)} {t("quizzes.score.outOf")}</p>
-                : <p className="text-[12px] text-stone mt-1">{t("quizzes.detail.essayNote")}</p>}
+                ? <p className="text-spring-deep font-extrabold text-2xl mt-1">{t("quizzes.score.label")} {faNumber(attempt.score)} {t("quizzes.score.outOf")}</p>
+                : <p className="text-xs text-stone mt-1">{t("quizzes.detail.essayNote")}</p>}
             </div>
           )}
           <div className="flex flex-col gap-3.5">
             {data.questions.map((q, i) => (
               <section key={q.id} className="b-card p-4 md:p-5">
-                <p className="font-semibold text-[14px] leading-relaxed mb-3">
+                <p className="font-semibold text-sm leading-relaxed mb-3">
                   {faNumber(i + 1)}. {q.body}
                   <span className="b-badge ms-2">{KIND[q.kind] ?? q.kind}</span>
                   {submitted && q.correct === true && <span className="b-badge b-badge-success ms-1"><CircleCheck className="w-3 h-3" /> {t("quizzes.detail.correct")}</span>}
@@ -250,24 +250,24 @@ export default function QuizDetailPage() {
                       const chosen = submitted ? q.myAnswer === o : answers[q.id] === o;
                       const isAnswer = submitted && q.correctAnswer === o;
                       return (
-                        <label key={oi} className={`flex items-center gap-2.5 p-2.5 rounded-lg border transition-colors ${isAnswer ? "border-[--spring] bg-[--spring-tint]" : chosen ? "border-[--spring]" : "border-[--hairline]"} ${inProgress ? "cursor-pointer hover:border-[--spring]" : ""}`}>
+                        <label key={oi} className={`b-option flex items-center gap-2.5 !p-2.5 ${isAnswer || chosen ? "b-option-selected" : ""}`}>
                           <input type="radio" name={`q-${q.id}`} disabled={!inProgress} checked={chosen}
                             onChange={() => setAnswers({ ...answers, [q.id]: o })} />
-                          <span className="text-[14px]">{o}</span>
+                          <span className="text-sm">{o}</span>
                         </label>
                       );
                     })}
                   </div>
                 ) : q.kind === "FILL" || q.kind === "SHORT" ? (
                   submitted
-                    ? <p className="text-[14px]">{t("quizzes.detail.yourAnswer")} <b>{q.myAnswer || "—"}</b>{q.correctAnswer ? <span className="text-spring-deep"> · {t("quizzes.detail.correctAnswer")} <b>{q.correctAnswer}</b></span> : null}</p>
+                    ? <p className="text-sm">{t("quizzes.detail.yourAnswer")} <b>{q.myAnswer || "—"}</b>{q.correctAnswer ? <span className="text-spring-deep"> · {t("quizzes.detail.correctAnswer")} <b>{q.correctAnswer}</b></span> : null}</p>
                     : <input value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} className="b-input w-full" placeholder={t("quizzes.detail.placeholder.answer")} />
                 ) : (
                   submitted
-                    ? <p className="text-[14px]">{t("quizzes.detail.yourAnswer")} <b>{q.myAnswer || "—"}</b></p>
+                    ? <p className="text-sm">{t("quizzes.detail.yourAnswer")} <b>{q.myAnswer || "—"}</b></p>
                     : <textarea value={answers[q.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })} className="b-input w-full min-h-24" placeholder={t("quizzes.detail.placeholder.essay")} />
                 )}
-                {submitted && q.explanation && <p className="text-[12px] text-stone mt-2.5">{t("quizzes.detail.explanation")} {q.explanation}</p>}
+                {submitted && q.explanation && <p className="text-xs text-stone mt-2.5">{t("quizzes.detail.explanation")} {q.explanation}</p>}
               </section>
             ))}
           </div>

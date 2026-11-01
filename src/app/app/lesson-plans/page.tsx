@@ -64,7 +64,7 @@ export default function LessonPlansPage() {
         }
       />
       {data && (
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <StatCard icon={NotebookPen} label={t("lessonPlans.stat.total")} value={plans.length} tone="ink" />
           <StatCard icon={CheckCheck} label={t("lessonPlans.stat.taught")} value={taught} tone="spring" />
           <StatCard icon={NotebookPen} label={t("lessonPlans.stat.coverage")} value={plans.length ? `${faNumber(Math.round((taught / plans.length) * 100))}٪` : "—"} tone="soft" />
@@ -73,17 +73,17 @@ export default function LessonPlansPage() {
 
       {!isManager && (
         <form onSubmit={add} className="b-card p-5 grid md:grid-cols-2 gap-3">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.class")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("common.class")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.classId} onChange={(v) => setForm((f) => ({ ...f, classId: v }))}
               options={[{ value: "", label: t("lessonPlans.noClass") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("common.class")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("lessonPlans.field.subject")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("lessonPlans.field.subject")}</span>
             <Select className="w-full" buttonClassName="!w-full" value={form.subjectId} onChange={(v) => setForm((f) => ({ ...f, subjectId: v }))}
               options={[{ value: "", label: "—" }, ...(subjectsData?.subjects ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("lessonPlans.field.subject")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("lessonPlans.field.topic")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("lessonPlans.field.topic")}</span>
             <input className="b-input" value={form.topic} onChange={(e) => setForm((f) => ({ ...f, topic: e.target.value }))} placeholder={t("lessonPlans.placeholder.topic")} required /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("lessonPlans.field.date")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("lessonPlans.field.date")}</span>
             <input className="b-input" dir="ltr" value={form.date} onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))} required /></label>
-          <label className="flex flex-col gap-1.5 md:col-span-2"><span className="text-[12px] font-bold">{t("lessonPlans.field.objectives")}</span>
+          <label className="flex flex-col gap-1.5 md:col-span-2"><span className="text-xs font-bold">{t("lessonPlans.field.objectives")}</span>
             <textarea className="b-input min-h-20" value={form.objectives} onChange={(e) => setForm((f) => ({ ...f, objectives: e.target.value }))} /></label>
           <button className="b-btn b-btn-spring justify-self-start" disabled={saving}>
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} {t("lessonPlans.submit")}
@@ -93,10 +93,10 @@ export default function LessonPlansPage() {
 
       {isManager && coverage.length > 0 && (
         <div className="b-card p-5">
-          <b className="text-[14px] block mb-3">{t("lessonPlans.coverage.title")}</b>
+          <b className="text-sm block mb-3">{t("lessonPlans.coverage.title")}</b>
           <div className="flex flex-col gap-2">
             {coverage.map((c) => (
-              <div key={c.teacherId} className="flex items-center gap-3 text-[14px]">
+              <div key={c.teacherId} className="flex items-center gap-3 text-sm">
                 <span className="w-36 shrink-0 font-bold">{c.teacherName}</span>
                 <span className="flex-1 h-2.5 rounded-full bg-cloud overflow-hidden">
                   <span className="block h-full bg-spring rounded-full" style={{ width: `${c.planned ? (c.taught / c.planned) * 100 : 0}%` }} />
@@ -115,9 +115,9 @@ export default function LessonPlansPage() {
         {plans.map((p) => (
           <div key={p.id} className="b-card-sm p-4 flex items-center justify-between gap-3 flex-wrap">
             <span className="flex flex-col gap-0.5 min-w-0">
-              <b className="text-[14px]">{p.topic}</b>
-              <span className="text-[12px] text-steel">{p.teacherName} · {p.className || "—"} · {p.subjectName || "—"} · {p.date}</span>
-              {p.objectives && <span className="text-[12px] text-steel line-clamp-1">{p.objectives}</span>}
+              <b className="text-sm">{p.topic}</b>
+              <span className="text-xs text-steel">{p.teacherName} · {p.className || "—"} · {p.subjectName || "—"} · {p.date}</span>
+              {p.objectives && <span className="text-xs text-steel line-clamp-1">{p.objectives}</span>}
             </span>
             <span className="flex items-center gap-1.5 shrink-0">
               <span className={`b-badge ${p.status === "TAUGHT" ? "b-badge-spring" : "b-badge-neutral"}`}>{p.status === "TAUGHT" ? t("lessonPlans.stat.taught") : t("lessonPlans.status.planned")}</span>

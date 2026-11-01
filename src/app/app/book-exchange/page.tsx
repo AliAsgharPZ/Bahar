@@ -54,7 +54,7 @@ export default function BookExchangePage() {
             <input className="b-input w-full" value={grade} onChange={(e) => setGrade(e.target.value)} placeholder={t("books.f.grade")} />
             <input className="b-input w-full" inputMode="numeric" value={price} onChange={(e) => setPrice(e.target.value)} placeholder={t("books.f.price")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <BookCopy className="w-4 h-4" />} {t("books.add")}
           </button>
         </section>
@@ -68,7 +68,7 @@ export default function BookExchangePage() {
             <article key={r.id} className="b-card p-4 space-y-1">
               <div className="flex items-center gap-2">
                 <p className="font-bold flex-1">{r.title}</p>
-                <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "AVAILABLE" ? "bg-success/15 text-success" : "bg-muted text-muted-foreground"}`}>
+                <span className={`b-badge ${r.status === "AVAILABLE" ? "b-badge-success" : "b-badge-neutral"}`}>
                   {r.status === "AVAILABLE" ? t("books.available") : t("books.sold")}
                 </span>
               </div>

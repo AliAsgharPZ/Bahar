@@ -44,7 +44,7 @@ export default function ClassVisitsPage() {
             <input className="b-input w-full" dir="ltr" value={date} onChange={(e) => setDate(e.target.value)} placeholder={t("visits.f.date")} />
             <input className="b-input w-full" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("visits.f.reason")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <DoorOpen className="w-4 h-4" />} {t("visits.add")}
           </button>
         </section>
@@ -59,11 +59,11 @@ export default function ClassVisitsPage() {
                 <p className="font-bold">{faNumber(r.date)}{data.isOffice ? ` — ${r.parentName}` : ""}</p>
                 {r.reason && <p className="text-sm text-muted-foreground">{r.reason}</p>}
               </div>
-              <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "APPROVED" ? "bg-success/15 text-success" : r.status === "REJECTED" ? "bg-destructive/15 text-destructive" : "bg-warning/15 text-warning"}`}>
+              <span className={`b-badge ${r.status === "APPROVED" ? "b-badge-success" : r.status === "REJECTED" ? "b-badge-critical" : "b-badge-warning"}`}>
                 {t(`visits.status.${r.status}`)}
               </span>
               {data.isOffice && r.status === "PENDING" && (<>
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("visits.approve")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("visits.approve")}</button>
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("visits.reject")}</button>
               </>)}
             </div>

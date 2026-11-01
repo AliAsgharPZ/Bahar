@@ -47,7 +47,7 @@ export default function GradeAppealsPage() {
           <h2 className="font-bold flex items-center gap-2"><Scale className="w-5 h-5" /> {t("appeals.addTitle")}</h2>
           <input className="b-input w-full" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder={t("appeals.f.subject")} />
           <textarea className="b-input w-full min-h-20" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("appeals.f.reason")} />
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Scale className="w-4 h-4" />} {t("appeals.add")}
           </button>
         </section>

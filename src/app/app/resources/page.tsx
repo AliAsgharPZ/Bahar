@@ -106,9 +106,9 @@ export default function ResourcesPage() {
                     </button>
                   )}
                 </div>
-                <p className="text-[14px] font-bold group-hover:text-spring-deep transition-colors">{r.title}</p>
-                {r.description && <p className="text-[12px] text-steel line-clamp-2 mt-1">{r.description}</p>}
-                <p className="text-[12px] text-stone mt-2">{r.subject?.name ?? t("resources.general")}{r.topic ? ` · ${r.topic}` : ""}</p>
+                <p className="text-sm font-bold group-hover:text-spring-deep transition-colors">{r.title}</p>
+                {r.description && <p className="text-xs text-steel line-clamp-2 mt-1">{r.description}</p>}
+                <p className="text-xs text-stone mt-2">{r.subject?.name ?? t("resources.general")}{r.topic ? ` · ${r.topic}` : ""}</p>
               </a>
             );
           })}

@@ -58,7 +58,7 @@ export default function DutyRosterPage() {
             {data.teachers.map((u) => <option key={u.id} value={u.id}>{u.firstName} {u.lastName}</option>)}
           </select>
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ClipboardList className="w-4 h-4" />} {t("roster.add")}
         </button>
       </section>

@@ -59,7 +59,7 @@ export default function UniformsPage() {
             <input className="b-input w-full" value={item} onChange={(e) => setItem(e.target.value)} placeholder={t("uniforms.f.item")} />
             <input className="b-input w-full" value={size} onChange={(e) => setSize(e.target.value)} placeholder={t("uniforms.f.size")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shirt className="w-4 h-4" />} {t("uniforms.add")}
           </button>
         </section>
@@ -74,7 +74,7 @@ export default function UniformsPage() {
                 <p className="font-bold">{r.item}{r.size ? ` · ${t("uniforms.f.size")}: ${r.size}` : ""}</p>
                 <p className="text-sm text-muted-foreground">{r.studentName}{r.className ? ` · ${r.className}` : ""}</p>
               </div>
-              <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "DELIVERED" ? "bg-success/15 text-success" : r.status === "ORDERED" ? "bg-info/15 text-info" : "bg-warning/15 text-warning"}`}>
+              <span className={`b-badge ${r.status === "DELIVERED" ? "b-badge-success" : r.status === "ORDERED" ? "b-badge-neutral" : "b-badge-warning"}`}>
                 {t(`uniforms.status.${r.status}`)}
               </span>
               {data.isStaff && NEXT[r.status] && (

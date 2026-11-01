@@ -47,7 +47,7 @@ export default function HelpBoardPage() {
           <input className="b-input w-full" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder={t("help.f.subject")} />
         </div>
         <textarea className="b-input w-full min-h-20" value={text} onChange={(e) => setText(e.target.value)} placeholder={t("help.f.text")} />
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={ask}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={ask}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <MessagesSquare className="w-4 h-4" />} {t("help.ask")}
         </button>
       </section>
@@ -67,7 +67,7 @@ export default function HelpBoardPage() {
             <p className="text-sm text-muted-foreground">{p.authorName} · {faNumber(p.answers.length)} {t("help.answers")}</p>
             <div className="space-y-2">
               {p.answers.map((a) => (
-                <div key={a.id} className={`rounded-2xl border p-3 ${a.isBest ? "border-success" : "border-border"}`}>
+                <div key={a.id} className={`b-card-sm p-3 ${a.isBest ? "border-success" : "border-border"}`}>
                   <p className="text-sm font-bold flex items-center gap-1">
                     {a.authorName}
                     {a.isBest && <span className="text-success flex items-center gap-1 text-xs"><BadgeCheck className="w-4 h-4" /> {t("help.best")}</span>}
@@ -88,7 +88,7 @@ export default function HelpBoardPage() {
                   placeholder={t("help.f.answer")}
                   aria-label={t("help.f.answer")}
                 />
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => act({ action: "answer", postId: p.id, text: answers[p.id] ?? "" }, t("help.answeredToast"))}>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => act({ action: "answer", postId: p.id, text: answers[p.id] ?? "" }, t("help.answeredToast"))}>
                   <Send className="w-4 h-4" /> {t("help.answerBtn")}
                 </button>
                 {p.mine && <button className="b-btn b-btn-ghost min-h-11" onClick={() => act({ action: "solve", postId: p.id })}>{t("help.solveBtn")}</button>}

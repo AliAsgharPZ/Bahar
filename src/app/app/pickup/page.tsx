@@ -65,7 +65,7 @@ export default function PickupPage() {
           <input className="b-input w-full" dir="ltr" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t("pickup.f.phone")} />
           <input className="b-input w-full" value={plate} onChange={(e) => setPlate(e.target.value)} placeholder={t("pickup.f.plate")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />} {t("pickup.add")}
         </button>
       </section>

@@ -80,11 +80,11 @@ export default function ChildrenPage() {
       {children.length > 0 && (
         <>
           {dashError && (
-            <p className="b-card-sm p-3 text-[12px] text-warning-deep">
+            <p className="b-card-sm p-3 text-xs text-warning-deep">
               {t("children.statsUnavailable")} ({dashError}) — {t("children.statsNote")}
             </p>
           )}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard icon={Baby} label={t("children.child")} value={children.length} tone="spring" />
             <StatCard icon={BarChart3} label={t("children.avgAll")} value={avgGpa !== null ? faNumber(avgGpa) : "—"} tone="ink" hint={t("children.from20")} />
             <StatCard icon={ClipboardCheck} label={t("children.totalAbsences")} value={faNumber(totalAbsences)} />
@@ -100,8 +100,8 @@ export default function ChildrenPage() {
                     <div className="flex items-center gap-3 min-w-0">
                       <UserAvatar user={c.student.user} size={48} />
                       <div className="flex flex-col min-w-0">
-                        <b className="text-[16px] truncate">{c.student.user.firstName} {c.student.user.lastName}</b>
-                        <span className="text-[12px] text-steel">
+                        <b className="text-base truncate">{c.student.user.firstName} {c.student.user.lastName}</b>
+                        <span className="text-xs text-steel">
                           {PARENT_TKEY[c.relation] ? t(PARENT_TKEY[c.relation]) : c.relation} · {t("common.class")} {c.student.class?.name ?? "—"}
                         </span>
                       </div>
@@ -109,29 +109,29 @@ export default function ChildrenPage() {
                     <span className="b-badge b-badge-spring shrink-0" dir="ltr">{c.student.studentNumber}</span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
-                    <div className="b-card-sm !rounded-2xl p-3">
-                      <div className="text-[18px] font-bold">{st?.student.gpa !== null && st?.student.gpa !== undefined ? faNumber(st.student.gpa) : "—"}</div>
-                      <div className="text-[12px] text-steel">{t("children.avgFrom20")}</div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-center">
+                    <div className="b-card-sm p-3">
+                      <div className="text-lg font-bold">{st?.student.gpa !== null && st?.student.gpa !== undefined ? faNumber(st.student.gpa) : "—"}</div>
+                      <div className="text-xs text-steel">{t("children.avgFrom20")}</div>
                     </div>
-                    <div className="b-card-sm !rounded-2xl p-3">
-                      <div className="text-[18px] font-bold">{faNumber(st?.student.absences ?? 0)}</div>
-                      <div className="text-[12px] text-steel">{t("dashboard.mini.absence")}</div>
+                    <div className="b-card-sm p-3">
+                      <div className="text-lg font-bold">{faNumber(st?.student.absences ?? 0)}</div>
+                      <div className="text-xs text-steel">{t("dashboard.mini.absence")}</div>
                     </div>
-                    <div className="b-card-sm !rounded-2xl p-3">
-                      <div className="text-[18px] font-bold">{st?.student.attendanceRate !== null && st?.student.attendanceRate !== undefined ? faNumber(st.student.attendanceRate) + "٪" : "—"}</div>
-                      <div className="text-[12px] text-steel">{t("dashboard.attendancePct")}</div>
+                    <div className="b-card-sm p-3">
+                      <div className="text-lg font-bold">{st?.student.attendanceRate !== null && st?.student.attendanceRate !== undefined ? faNumber(st.student.attendanceRate) + "٪" : "—"}</div>
+                      <div className="text-xs text-steel">{t("dashboard.attendancePct")}</div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap">
-                    <Link href={`/app/grades`} className="b-btn b-btn-soft b-btn-sm flex-1 justify-center">
+                    <Link href={`/app/grades`} className="b-btn b-btn-soft b-btn-sm min-h-11 flex-1 justify-center">
                       <BarChart3 className="w-3.5 h-3.5" /> {t("children.reportCard")}
                     </Link>
-                    <Link href="/app/attendance" className="b-btn b-btn-soft b-btn-sm flex-1 justify-center">
+                    <Link href="/app/attendance" className="b-btn b-btn-soft b-btn-sm min-h-11 flex-1 justify-center">
                       <ClipboardCheck className="w-3.5 h-3.5" /> {t("nav.attendance")}
                     </Link>
-                    <Link href="/app/messages" className="b-btn b-btn-ghost b-btn-sm flex-1 justify-center">
+                    <Link href="/app/messages" className="b-btn b-btn-ghost b-btn-sm min-h-11 flex-1 justify-center">
                       <MessageCircle className="w-3.5 h-3.5" /> {t("children.teacherMessage")}
                     </Link>
                   </div>

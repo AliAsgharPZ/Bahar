@@ -60,7 +60,7 @@ export default function ScienceFairPage() {
           <input className="b-input w-full" value={category} onChange={(e) => setCategory(e.target.value)} placeholder={t("science.f.category")} />
         </div>
         <textarea className="b-input w-full min-h-16" value={desc} onChange={(e) => setDesc(e.target.value)} placeholder={t("science.f.desc")} />
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <FlaskConical className="w-4 h-4" />} {t("science.add")}
         </button>
       </section>

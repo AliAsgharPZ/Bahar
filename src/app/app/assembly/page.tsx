@@ -63,7 +63,7 @@ export default function AssemblyPage() {
             <input className="b-input w-full" value={presenter} onChange={(e) => setPresenter(e.target.value)} placeholder={t("assembly.f.presenter")} />
             <input className="b-input w-full" value={className} onChange={(e) => setClassName(e.target.value)} placeholder={t("assembly.f.class")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sunrise className="w-4 h-4" />} {t("assembly.add")}
           </button>
         </section>

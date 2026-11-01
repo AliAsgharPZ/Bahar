@@ -48,7 +48,7 @@ export default function StudentGoalsPage() {
           <input className="b-input w-full" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("goals2.f.title")} />
           <input className="b-input w-full" value={target} onChange={(e) => setTarget(e.target.value)} placeholder={t("goals2.f.target")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Target className="w-4 h-4" />} {t("goals2.add")}
         </button>
       </section>
@@ -78,7 +78,7 @@ export default function StudentGoalsPage() {
                     aria-label={t("goals2.f.current")}
                   />
                   <button className="b-btn b-btn-ghost min-h-11" onClick={() => saveProgress(r)}>{t("goals2.saveProgress")}</button>
-                  <button className="b-btn b-btn-primary min-h-11" onClick={() => setStatus(r, "ACHIEVED")}>{t("goals2.achieve")}</button>
+                  <button className="b-btn b-btn-spring min-h-11" onClick={() => setStatus(r, "ACHIEVED")}>{t("goals2.achieve")}</button>
                 </div>
               )}
             </article>

@@ -231,25 +231,25 @@ export default function SettingsPage() {
       {tab === "general" && form && (
         <div className="grid lg:grid-cols-2 gap-4">
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[14px] flex items-center gap-2"><Settings className="w-4 h-4 text-spring" /> {t("settings.card.identity")}</b>
+            <b className="text-sm flex items-center gap-2"><Settings className="w-4 h-4 text-spring" /> {t("settings.card.identity")}</b>
             {[
               { k: "siteTitle", l: t("settings.field.siteTitle") },
               { k: "siteTagline", l: t("settings.field.siteTagline") },
             ].map((f) => (
               <label key={f.k} className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{f.l}</span>
+                <span className="text-xs font-bold">{f.l}</span>
                 <input className="b-input" value={form[f.k as keyof Settings] as string} disabled={!data.canEdit} onChange={(e) => set(f.k as keyof Settings, e.target.value)} />
               </label>
             ))}
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("settings.field.mainHost")}</span>
+              <span className="text-xs font-bold">{t("settings.field.mainHost")}</span>
               <input className="b-input" dir="ltr" placeholder="bahar.school" value={form.mainHost} disabled={!data.canEdit} onChange={(e) => set("mainHost", e.target.value)} />
-              <span className="text-[12px] text-stone">{t("settings.field.mainHostHint")}</span>
+              <span className="text-xs text-stone">{t("settings.field.mainHostHint")}</span>
             </label>
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[14px] flex items-center gap-2"><Shield className="w-4 h-4 text-spring" /> {t("settings.card.contact")}</b>
+            <b className="text-sm flex items-center gap-2"><Shield className="w-4 h-4 text-spring" /> {t("settings.card.contact")}</b>
             {[
               { k: "supportPhone", l: t("settings.field.supportPhone") },
               { k: "supportEmail", l: t("settings.field.supportEmail") },
@@ -258,45 +258,45 @@ export default function SettingsPage() {
               { k: "salesInstagram", l: t("settings.field.salesInstagram") },
             ].map((f) => (
               <label key={f.k} className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{f.l}</span>
+                <span className="text-xs font-bold">{f.l}</span>
                 <input className="b-input" dir={["supportEmail", "salesTelegram", "salesInstagram"].includes(f.k) ? "ltr" : "rtl"} value={form[f.k as keyof Settings] as string} disabled={!data.canEdit} onChange={(e) => set(f.k as keyof Settings, e.target.value)} />
               </label>
             ))}
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[14px]">{t("settings.card.demo")}</b>
+            <b className="text-sm">{t("settings.card.demo")}</b>
             <label className="b-option !py-3 items-center gap-3">
               <input type="checkbox" className="accent-spring w-4 h-4" checked={form.demoEnabled} onChange={(e) => set("demoEnabled", e.target.checked)} />
               <span className="flex flex-col">
-                <b className="text-[12px]">{t("settings.demo.show")}</b>
-                <span className="text-[12px] text-steel">{t("settings.demo.hint")}</span>
+                <b className="text-xs">{t("settings.demo.show")}</b>
+                <span className="text-xs text-steel">{t("settings.demo.hint")}</span>
               </span>
             </label>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("settings.field.demoManagerNationalId")}</span>
+                <span className="text-xs font-bold">{t("settings.field.demoManagerNationalId")}</span>
                 <input className="b-input" dir="ltr" value={form.demoManagerNationalId} disabled={!data.canEdit} onChange={(e) => set("demoManagerNationalId", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("settings.field.demoStudentNationalId")}</span>
+                <span className="text-xs font-bold">{t("settings.field.demoStudentNationalId")}</span>
                 <input className="b-input" dir="ltr" value={form.demoStudentNationalId} disabled={!data.canEdit} onChange={(e) => set("demoStudentNationalId", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("settings.field.demoManagerPassword")}</span>
+                <span className="text-xs font-bold">{t("settings.field.demoManagerPassword")}</span>
                 <input className="b-input" dir="ltr" value={form.demoManagerPassword} disabled={!data.canEdit} onChange={(e) => set("demoManagerPassword", e.target.value)} />
-                <span className="text-[12px] text-stone">{t("settings.demo.passwordHint")}</span>
+                <span className="text-xs text-stone">{t("settings.demo.passwordHint")}</span>
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("settings.field.demoStudentPassword")}</span>
+                <span className="text-xs font-bold">{t("settings.field.demoStudentPassword")}</span>
                 <input className="b-input" dir="ltr" value={form.demoStudentPassword} disabled={!data.canEdit} onChange={(e) => set("demoStudentPassword", e.target.value)} />
               </label>
             </div>
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[14px] flex items-center gap-2"><Palette className="w-4 h-4 text-spring" /> {t("settings.card.branding")}</b>
-            <p className="text-[12px] text-steel leading-relaxed">
+            <b className="text-sm flex items-center gap-2"><Palette className="w-4 h-4 text-spring" /> {t("settings.card.branding")}</b>
+            <p className="text-xs text-steel leading-relaxed">
               {t("settings.branding.desc")}
             </p>
             {([
@@ -304,7 +304,7 @@ export default function SettingsPage() {
               { field: "logotypeUrl" as const, label: t("settings.brand.logotype"), hint: t("settings.brand.logotypeHint"), accept: "image/png,image/svg+xml,image/webp" },
               { field: "faviconUrl" as const, label: t("settings.brand.favicon"), hint: t("settings.brand.faviconHint"), accept: "image/png,image/svg+xml,image/webp" },
             ]).map((b) => (
-              <div key={b.field} className="b-card-sm !rounded-2xl p-3.5 flex items-center gap-3 flex-wrap">
+              <div key={b.field} className="b-card-sm p-3.5 flex items-center gap-3 flex-wrap">
                 <span className="w-11 h-11 rounded-2xl bg-spring-tint flex items-center justify-center shrink-0 overflow-hidden">
                   {form[b.field] ? (
                     <img src={form[b.field]} alt={b.label} className="w-full h-full object-contain" />
@@ -313,8 +313,8 @@ export default function SettingsPage() {
                   )}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <b className="text-[12px] block">{b.label}</b>
-                  <span className="text-[12px] text-stone">{b.hint}</span>
+                  <b className="text-xs block">{b.label}</b>
+                  <span className="text-xs text-stone">{b.hint}</span>
                 </div>
                 <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
                   {uploadingBrand === b.field ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
@@ -345,26 +345,26 @@ export default function SettingsPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[14px] flex items-center gap-2"><Smartphone className="w-4 h-4 text-spring" /> {t("settings.card.apps")}</b>
-            <p className="text-[12px] text-steel leading-relaxed">
+            <b className="text-sm flex items-center gap-2"><Smartphone className="w-4 h-4 text-spring" /> {t("settings.card.apps")}</b>
+            <p className="text-xs text-steel leading-relaxed">
               {t("settings.apps.desc")}
             </p>
             {([
               { kind: "android" as const, icon: Smartphone, label: t("settings.apps.android"), field: "androidAppUrl", accept: ".apk" },
               { kind: "windows" as const, icon: Monitor, label: t("settings.apps.windows"), field: "windowsAppUrl", accept: ".exe,.msi,.zip" },
             ]).map((a) => (
-              <div key={a.kind} className="b-card-sm !rounded-2xl p-3.5 flex items-center gap-3 flex-wrap">
+              <div key={a.kind} className="b-card-sm p-3.5 flex items-center gap-3 flex-wrap">
                 <span className="w-9 h-9 rounded-full bg-spring-tint text-spring flex items-center justify-center shrink-0">
                   <a.icon className="w-4 h-4" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <b className="text-[12px] block">{a.label}</b>
+                  <b className="text-xs block">{a.label}</b>
                   {form[a.field] ? (
-                    <a href={form[a.field]} target="_blank" rel="noreferrer" className="text-[12px] text-spring font-bold hover:underline flex items-center gap-1">
+                    <a href={form[a.field]} target="_blank" rel="noreferrer" className="text-xs text-spring font-bold hover:underline flex items-center gap-1">
                       <Download className="w-3 h-3" /> {t("settings.apps.downloadActive")}
                     </a>
                   ) : (
-                    <span className="text-[12px] text-stone">{t("settings.apps.noFile")}</span>
+                    <span className="text-xs text-stone">{t("settings.apps.noFile")}</span>
                   )}
                 </div>
                 <label className="b-btn b-btn-soft b-btn-sm cursor-pointer">
@@ -387,29 +387,29 @@ export default function SettingsPage() {
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[14px]">{t("settings.card.security")}</b>
+            <b className="text-sm">{t("settings.card.security")}</b>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("settings.field.sessionDays")}</span>
+                <span className="text-xs font-bold">{t("settings.field.sessionDays")}</span>
                 <input className="b-input" dir="ltr" type="number" min={1} max={90} value={form.sessionDays} disabled={!data.canEdit} onChange={(e) => set("sessionDays", Number(e.target.value))} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("settings.field.loginMaxAttempts")}</span>
+                <span className="text-xs font-bold">{t("settings.field.loginMaxAttempts")}</span>
                 <input className="b-input" dir="ltr" type="number" min={3} max={20} value={form.loginMaxAttempts} disabled={!data.canEdit} onChange={(e) => set("loginMaxAttempts", Number(e.target.value))} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("settings.field.autoBackupDays")}</span>
+                <span className="text-xs font-bold">{t("settings.field.autoBackupDays")}</span>
                 <input className="b-input" dir="ltr" type="number" min={1} max={365} value={form.autoBackupDays} disabled={!data.canEdit} onChange={(e) => set("autoBackupDays", Number(e.target.value))} />
-                <span className="text-[12px] text-stone">{t("settings.field.autoBackupDaysHint")}</span>
+                <span className="text-xs text-stone">{t("settings.field.autoBackupDaysHint")}</span>
               </label>
             </div>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("settings.field.shadGateway")}</span>
+              <span className="text-xs font-bold">{t("settings.field.shadGateway")}</span>
               <input className="b-input" dir="ltr" value={form.shadGatewayUrl} disabled={!data.canEdit} onChange={(e) => set("shadGatewayUrl", e.target.value)} />
-              <span className="text-[12px] text-stone">{t("settings.field.shadGatewayHint")}</span>
+              <span className="text-xs text-stone">{t("settings.field.shadGatewayHint")}</span>
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[12px] font-bold">{t("settings.field.telegramToken")}</span>
+              <span className="text-xs font-bold">{t("settings.field.telegramToken")}</span>
               <input
                 className="b-input"
                 dir="ltr"
@@ -420,7 +420,7 @@ export default function SettingsPage() {
                 value={botTokenInput}
                 onChange={(e) => setBotTokenInput(e.target.value)}
               />
-              <span className="text-[12px] text-stone">{t("settings.field.telegramTokenHint")}</span>
+              <span className="text-xs text-stone">{t("settings.field.telegramTokenHint")}</span>
             </label>
             <label className="flex items-center gap-2.5 select-none cursor-pointer w-fit">
               <input
@@ -430,8 +430,8 @@ export default function SettingsPage() {
                 disabled={!data.canEdit || !form.telegramBotToken}
                 onChange={(e) => set("telegramBotEnabled", e.target.checked)}
               />
-              <span className="text-[12px] font-bold">{t("settings.telegram.enable")}</span>
-              {!form.telegramBotToken && <span className="text-[12px] text-stone">{t("settings.telegram.tokenFirst")}</span>}
+              <span className="text-xs font-bold">{t("settings.telegram.enable")}</span>
+              {!form.telegramBotToken && <span className="text-xs text-stone">{t("settings.telegram.tokenFirst")}</span>}
             </label>
             {/* راند ۱۹: اتصال وب‌هوک مستقیم از پنل — بدون پروسهٔ جدا */}
             <TelegramSetupCard tokenSaved={!!form.telegramBotToken} />
@@ -446,7 +446,7 @@ export default function SettingsPage() {
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />} {t("settings.save.action")}
             </button>
             {!data.canEdit && (
-              <span className="text-[12px] text-warning-deep">{t("settings.save.readOnly")}</span>
+              <span className="text-xs text-warning-deep">{t("settings.save.readOnly")}</span>
             )}
             <button className="b-btn b-btn-ghost" onClick={() => setForm(data.settings)} disabled={!data.canEdit}>{t("settings.save.reset")}</button>
           </div>
@@ -462,8 +462,8 @@ export default function SettingsPage() {
         <div className="flex flex-col gap-4">
           <div className="b-card p-5 flex flex-wrap items-center gap-4">
             <div className="min-w-0 flex-1">
-              <b className="text-[14px] flex items-center gap-2 block mb-1"><HardDriveDownload className="w-4 h-4 text-spring" /> {t("settings.backup.title")}</b>
-              <p className="text-[12px] text-steel leading-relaxed">
+              <b className="text-sm flex items-center gap-2 block mb-1"><HardDriveDownload className="w-4 h-4 text-spring" /> {t("settings.backup.title")}</b>
+              <p className="text-xs text-steel leading-relaxed">
                 {t("settings.backup.desc")}
                 {t("settings.backup.autoBefore")} {faDigits(data.settings.autoBackupDays)} {t("settings.backup.autoAfter")}
                 {data.autoCreated && <b className="text-spring"> {t("settings.backup.autoJustCreated")}</b>}
@@ -475,10 +475,10 @@ export default function SettingsPage() {
           </div>
 
           <div className="b-card p-5">
-            <b className="text-[14px] flex items-center gap-2 block mb-4"><Upload className="w-4 h-4 text-spring" /> {t("settings.restore.title")}</b>
+            <b className="text-sm flex items-center gap-2 block mb-4"><Upload className="w-4 h-4 text-spring" /> {t("settings.restore.title")}</b>
             {confirmRestore ? (
-              <div className="b-card-sm !rounded-2xl p-4 !border-destructive/30 !bg-destructive/5">
-                <p className="text-[12px] text-destructive font-bold mb-2">
+              <div className="b-card-sm p-4 !border-destructive/30 !bg-destructive/5">
+                <p className="text-xs text-destructive font-bold mb-2">
                   {t("settings.restore.warning")}
                 </p>
                 <div className="flex items-center gap-3">
@@ -486,7 +486,7 @@ export default function SettingsPage() {
                     ref={fileRef}
                     type="file"
                     accept="application/json"
-                    className="text-[12px]"
+                    className="text-xs"
                     onChange={(e) => {
                       const f = e.target.files?.[0];
                       if (f) restoreFile(f);
@@ -504,7 +504,7 @@ export default function SettingsPage() {
 
           <div className="b-card-sm overflow-hidden">
             <div className="p-4 border-b border-hairline-soft flex items-center justify-between">
-              <b className="text-[14px]">{t("settings.backup.existing")} ({faNumber(data.backups.length)})</b>
+              <b className="text-sm">{t("settings.backup.existing")} ({faNumber(data.backups.length)})</b>
               <button className="b-btn b-btn-ghost b-btn-sm !text-steel" onClick={() => refetch()}>
                 <RefreshCcw className="w-3.5 h-3.5" /> {t("settings.backup.refresh")}
               </button>
@@ -513,9 +513,9 @@ export default function SettingsPage() {
               <p className="t-sm text-steel text-center py-8">{t("settings.backup.empty")}</p>
             ) : (
               <div className="overflow-x-auto b-scroll">
-                <table className="w-full text-[12px]">
+                <table className="w-full text-xs">
                   <thead>
-                    <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                    <tr className="border-b border-hairline-soft text-steel text-xs">
                       <th className="text-end py-2.5 px-4 font-bold">{t("settings.backup.table.file")}</th>
                       <th className="text-end py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.kind")}</th>
                       <th className="text-end py-2.5 px-4 font-bold hidden md:table-cell">{t("settings.backup.table.records")}</th>
@@ -527,19 +527,19 @@ export default function SettingsPage() {
                   <tbody>
                     {data.backups.map((b) => (
                       <tr key={b.id} className="b-row border-b border-hairline-soft/50 last:border-0">
-                        <td className="py-2.5 px-4"><span dir="ltr" className="font-mono text-[12px] block truncate max-w-[220px]">{b.filename}</span></td>
+                        <td className="py-2.5 px-4"><span dir="ltr" className="font-mono text-xs block truncate max-w-55">{b.filename}</span></td>
                         <td className="py-2.5 px-4 hidden md:table-cell">
                           <span className={`b-badge ${b.kind === "AUTO" ? "b-badge-neutral" : "b-badge-spring"}`}>{b.kind === "AUTO" ? t("settings.backup.kindAuto") : t("settings.backup.kindManual")}</span>
                         </td>
                         <td className="py-2.5 px-4 hidden md:table-cell">{faNumber(b.recordCount)}</td>
                         <td className="py-2.5 px-4 text-steel">{faNumber(Math.round(b.sizeBytes / 1024))} {t("dashboard.unit.kb")}</td>
-                        <td className="py-2.5 px-4 text-steel text-[12px] hidden sm:table-cell">{formatDateTimeFa(b.createdAt)}</td>
+                        <td className="py-2.5 px-4 text-steel text-xs hidden sm:table-cell">{formatDateTimeFa(b.createdAt)}</td>
                         <td className="py-2.5 px-4">
                           <div className="flex items-center gap-1">
-                            <a href={`/api/settings/backup/${b.id}`} className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" title={t("common.download")}>
+                            <a href={`/api/settings/backup/${b.id}`} className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" title={t("common.download")}>
                               <Download className="w-4 h-4" />
                             </a>
-                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteBackup(b)} title={t("common.delete")}>
+                            <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => deleteBackup(b)} title={t("common.delete")}>
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
@@ -562,8 +562,8 @@ export default function SettingsPage() {
               <FileJson className="w-5 h-5" />
             </span>
             <div>
-              <b className="text-[14px] block">{t("settings.design.title")}</b>
-              <span className="text-[12px] text-steel">{t("settings.design.subtitle")}</span>
+              <b className="text-sm block">{t("settings.design.title")}</b>
+              <span className="text-xs text-steel">{t("settings.design.subtitle")}</span>
             </div>
             <span className="ms-auto b-badge b-badge-neutral">Read-only</span>
           </div>

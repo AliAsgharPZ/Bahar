@@ -94,24 +94,24 @@ export default function EventsPage() {
       <div className={`b-card-md p-6 flex flex-col gap-3 ${dim ? "opacity-70" : ""}`}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-col gap-1.5 min-w-0">
-            <b className="text-[16px]">{ev.title}</b>
-            <span className="text-[12px] text-steel flex items-center gap-2 flex-wrap">
+            <b className="text-base">{ev.title}</b>
+            <span className="text-xs text-steel flex items-center gap-2 flex-wrap">
               <span className={`b-badge ${KIND_COLORS[ev.kind] ?? "b-badge-neutral"}`}>{EVENT_TKEY[ev.kind] ? t(EVENT_TKEY[ev.kind]) : ev.kind}</span>
               <span className="b-badge b-badge-neutral">{ev.audience === "CLASS" ? `${t("common.class")} ${ev.class?.name ?? ""}` : (AUDIENCE_TKEY[ev.audience] ? t(AUDIENCE_TKEY[ev.audience]) : ev.audience)}</span>
             </span>
           </div>
           {canCreate && (
-            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={() => remove(ev.id)} aria-label={t("common.delete")}>
+            <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10 shrink-0" onClick={() => remove(ev.id)} aria-label={t("common.delete")}>
               <Trash2 className="w-4 h-4" />
             </button>
           )}
         </div>
         {ev.description && <p className="t-sm text-steel leading-relaxed">{ev.description}</p>}
-        <div className="flex items-center gap-4 text-[12px] text-steel flex-wrap">
+        <div className="flex items-center gap-4 text-xs text-steel flex-wrap">
           <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" /> {formatDateFa(ev.startAt)} · {formatTimeFa(ev.startAt)}</span>
           {ev.endAt && <span>{t("common.to")} {formatDateFa(ev.endAt)}</span>}
           {ev.createdBy && <span>· {t("events.recordedBy")}: {ev.createdBy.firstName} {ev.createdBy.lastName}</span>}
-          <a href={googleCalendarUrl(ev)} target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm !min-h-[40px]">
+          <a href={googleCalendarUrl(ev)} target="_blank" rel="noreferrer" className="b-btn b-btn-ghost b-btn-sm min-h-11 !min-h-10">
             <CalendarDays className="w-3.5 h-3.5" /> افزودن به گوگل‌کالندر
           </a>
         </div>
@@ -150,12 +150,12 @@ export default function EventsPage() {
         action={
           <span className="flex gap-2">
             {data && data.events.length > 0 && (
-              <button className="b-btn b-btn-soft b-btn-sm" onClick={downloadIcs}>
+              <button className="b-btn b-btn-soft b-btn-sm min-h-11" onClick={downloadIcs}>
                 <CalendarDays className="w-4 h-4" /> {t("events.exportIcal")}
               </button>
             )}
             {canCreate && (
-              <button className="b-btn b-btn-spring b-btn-sm" onClick={() => setShow(true)}>
+              <button className="b-btn b-btn-spring b-btn-sm min-h-11" onClick={() => setShow(true)}>
                 <Plus className="w-4 h-4" /> {t("events.newEvent")}
               </button>
             )}
@@ -169,13 +169,13 @@ export default function EventsPage() {
 
       {upcoming.length > 0 && (
         <div>
-          <h3 className="font-bold text-[14px] mb-3">{t("events.upcoming")} ({faNumber(upcoming.length)})</h3>
+          <h3 className="font-bold text-sm mb-3">{t("events.upcoming")} ({faNumber(upcoming.length)})</h3>
           <div className="grid md:grid-cols-2 gap-4">{upcoming.map((e) => <EventCard key={e.id} ev={e} />)}</div>
         </div>
       )}
       {past.length > 0 && (
         <div>
-          <h3 className="font-bold text-[14px] mb-3 text-steel">{t("events.past")} ({faNumber(past.length)})</h3>
+          <h3 className="font-bold text-sm mb-3 text-steel">{t("events.past")} ({faNumber(past.length)})</h3>
           <div className="grid md:grid-cols-2 gap-4">{past.map((e) => <EventCard key={e.id} ev={e} dim />)}</div>
         </div>
       )}
@@ -187,11 +187,11 @@ export default function EventsPage() {
             <h2 className="font-bold text-lg mb-6">{t("events.newEvent")}</h2>
             <form onSubmit={create} className="grid sm:grid-cols-2 gap-4">
               <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[12px] font-bold">{t("events.field.title")}</span>
+                <span className="text-xs font-bold">{t("events.field.title")}</span>
                 <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required placeholder={t("events.placeholder.title")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("events.field.kind")}</span>
+                <span className="text-xs font-bold">{t("events.field.kind")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -201,7 +201,7 @@ export default function EventsPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("events.field.audience")}</span>
+                <span className="text-xs font-bold">{t("events.field.audience")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -212,7 +212,7 @@ export default function EventsPage() {
               </label>
               {form.audience === "CLASS" && (
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("events.field.class")}</span>
+                  <span className="text-xs font-bold">{t("events.field.class")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -224,15 +224,15 @@ export default function EventsPage() {
                 </label>
               )}
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("events.field.start")}</span>
+                <span className="text-xs font-bold">{t("events.field.start")}</span>
                 <input className="b-input" dir="ltr" type="datetime-local" value={form.startAt} onChange={(e) => setForm((f) => ({ ...f, startAt: e.target.value }))} required />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("events.field.end")}</span>
+                <span className="text-xs font-bold">{t("events.field.end")}</span>
                 <input className="b-input" dir="ltr" type="datetime-local" value={form.endAt} onChange={(e) => setForm((f) => ({ ...f, endAt: e.target.value }))} />
               </label>
               <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[12px] font-bold">{t("common.description")}</span>
+                <span className="text-xs font-bold">{t("common.description")}</span>
                 <textarea className="b-input" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={3} />
               </label>
               <div className="sm:col-span-2 flex items-center gap-3 mt-2">

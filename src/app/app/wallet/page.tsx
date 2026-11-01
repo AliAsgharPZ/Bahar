@@ -87,10 +87,10 @@ export default function WalletPage() {
       <PageHeader title={t("wallet.bvfh-v-kyf-pvl-dansh-amvzy")} desc={t("wallet.bdvn-pvl-nqd-vly-sharzh-my-knd-v-sqf-my-gzard-bvfh-az-mvjvdy-brm")} />
       {!isAudience && (
         <div className="flex items-end gap-3 flex-wrap">
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.class")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("common.class")}</span>
             <Select value={classId} onChange={(v) => { setClassId(v); setStudentId(""); }}
               options={[{ value: "", label: t("wallet.antkhab-klas") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("common.class")} /></label>
-          <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("common.student")}</span>
+          <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("common.student")}</span>
             <Select value={studentId} onChange={setStudentId}
               options={[{ value: "", label: t("wallet.antkhab-dansh-amvz") }, ...(roster?.students ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("common.student")} /></label>
         </div>
@@ -101,17 +101,17 @@ export default function WalletPage() {
 
       {(isAudience || studentId) && data && (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <StatCard icon={WalletIcon} label={t("wallet.mvjvdy-tvman")} value={w?.balance ?? 0} tone="spring" />
             <StatCard icon={ShoppingBasket} label={t("wallet.sqf-khrj-rvzanh")} value={w?.dailyLimit != null ? `${faNumber(w.dailyLimit)} ${t("wallet.tvman")}` : t("wallet.bdvn-sqf")} tone="soft" />
             <StatCard icon={PlusCircle} label={t("wallet.traknsh-ha")} value={data.txs.length} tone="ink" />
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-4 items-start">
+          <div className="grid md:grid-cols-2 gap-4 items-start">
             <div className="b-card p-6 flex flex-col gap-3">
               {(isParent || isStaff) && (
                 <>
-                  <b className="text-[14px]">{t("wallet.sharzh-kyf-pvl")}</b>
+                  <b className="text-sm">{t("wallet.sharzh-kyf-pvl")}</b>
                   <span className="flex gap-2 flex-wrap">
                     <input className="b-input w-40" dir="ltr" inputMode="numeric" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder={t("wallet.mblgh-tvman")} />
                     <input className="b-input flex-1 min-w-36" value={note} onChange={(e) => setNote(e.target.value)} placeholder={t("wallet.tvzyh-akhtyary")} />
@@ -123,7 +123,7 @@ export default function WalletPage() {
               )}
               {isParent && (
                 <>
-                  <b className="text-[14px] mt-2">{t("wallet.sqf-khrj-rvzanh")}</b>
+                  <b className="text-sm mt-2">{t("wallet.sqf-khrj-rvzanh")}</b>
                   <span className="flex gap-2 flex-wrap">
                     <input className="b-input w-40" dir="ltr" inputMode="numeric" value={limit} onChange={(e) => setLimit(e.target.value)} placeholder={t("wallet.msla-50000")} />
                     <button className="b-btn b-btn-soft" disabled={busy === "setLimit"} onClick={() => doAction("setLimit", { dailyLimit: limit ? Number(limit) : null })}>{t("wallet.sbt-sqf")}</button>
@@ -133,7 +133,7 @@ export default function WalletPage() {
               )}
               {isStaff && (
                 <>
-                  <b className="text-[14px] mt-2">{t("wallet.sbt-khryd-bvfh")}</b>
+                  <b className="text-sm mt-2">{t("wallet.sbt-khryd-bvfh")}</b>
                   <span className="flex gap-2 flex-wrap">
                     <input className="b-input w-40" dir="ltr" inputMode="numeric" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder={t("wallet.mblgh-khryd")} />
                     <input className="b-input flex-1 min-w-36" value={note} onChange={(e) => setNote(e.target.value)} placeholder={t("wallet.chy-khryd-sandvych-abmyvh")} />
@@ -143,29 +143,29 @@ export default function WalletPage() {
                   </span>
                 </>
               )}
-              {role === "STUDENT" && <p className="text-[12px] text-steel">{t("wallet.sharzh-kyf-pvl-v-tayyn-sqf-rvzanh-ba-vly-shmast")}</p>}
+              {role === "STUDENT" && <p className="text-xs text-steel">{t("wallet.sharzh-kyf-pvl-v-tayyn-sqf-rvzanh-ba-vly-shmast")}</p>}
             </div>
 
             <div className="b-card p-6 flex flex-col gap-1">
-              <b className="text-[14px] mb-2">{t("wallet.ryz-traknsh-ha")}</b>
-              {data.txs.length === 0 && <span className="text-[12px] text-steel">{t("wallet.traknshy-sbt-nshdh-ast")}</span>}
+              <b className="text-sm mb-2">{t("wallet.ryz-traknsh-ha")}</b>
+              {data.txs.length === 0 && <span className="text-xs text-steel">{t("wallet.traknshy-sbt-nshdh-ast")}</span>}
               {data.txs.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
-                  <span>{t(KIND_TKEY[tx.kind] ?? tx.kind)}{tx.note ? <span className="text-steel"> · {tx.note}</span> : ""}<span className="block text-[12px] text-steel">{formatDateFa(tx.createdAt)}</span></span>
+                <div key={tx.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-sm">
+                  <span>{t(KIND_TKEY[tx.kind] ?? tx.kind)}{tx.note ? <span className="text-steel"> · {tx.note}</span> : ""}<span className="block text-xs text-steel">{formatDateFa(tx.createdAt)}</span></span>
                   <b className={tx.amount >= 0 ? "text-spring" : "text-blossom"} dir="ltr">{tx.amount >= 0 ? "+" : ""}{faNumber(tx.amount)}</b>
                 </div>
               ))}
             </div>
           </div>
         <div className="b-card p-6 flex flex-col gap-4">
-          <b className="text-[14px]">{t("wallet.frvshgah-bvfh")}</b>
-          {!shop && <span className="text-[12px] text-steel">{t("wallet.dr-hal-bargzary-kalaha")}</span>}
-          {shop && shop.products.length === 0 && <span className="text-[12px] text-steel">{t("wallet.hnvz-kalayy-sbt-nshdh-ast")}</span>}
+          <b className="text-sm">{t("wallet.frvshgah-bvfh")}</b>
+          {!shop && <span className="text-xs text-steel">{t("wallet.dr-hal-bargzary-kalaha")}</span>}
+          {shop && shop.products.length === 0 && <span className="text-xs text-steel">{t("wallet.hnvz-kalayy-sbt-nshdh-ast")}</span>}
           {shop && shop.products.length > 0 && (
             <div className="flex flex-col gap-1">
               {shop.products.map((pr) => (
-                <div key={pr.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-[14px]">
-                  <span><b>{pr.name}</b>{pr.category ? <span className="text-steel"> · {pr.category}</span> : ""}{pr.allergens ? <span className="block text-[12px] text-blossom">{t("wallet.hsasyt")}: {pr.allergens}</span> : ""}{!pr.isActive && <span className="text-stone"> ({t("common.inactive")})</span>}</span>
+                <div key={pr.id} className="flex items-center justify-between py-2 border-b border-hairline last:border-0 text-sm">
+                  <span><b>{pr.name}</b>{pr.category ? <span className="text-steel"> · {pr.category}</span> : ""}{pr.allergens ? <span className="block text-xs text-blossom">{t("wallet.hsasyt")}: {pr.allergens}</span> : ""}{!pr.isActive && <span className="text-stone"> ({t("common.inactive")})</span>}</span>
                   <span className="flex items-center gap-3"><span className={pr.stock <= 5 ? "text-blossom font-bold" : ""}>{t("wallet.mvjvdy")}: {faNumber(pr.stock)}</span><b dir="ltr">{faNumber(pr.price)} {t("wallet.tvman")}</b></span>
                 </div>
               ))}
@@ -173,7 +173,7 @@ export default function WalletPage() {
           )}
           {isStaff && (
             <>
-              <b className="text-[14px] mt-1">{t("wallet.sbt-kalay-jdyd")}</b>
+              <b className="text-sm mt-1">{t("wallet.sbt-kalay-jdyd")}</b>
               <span className="flex gap-2 flex-wrap">
                 <input className="b-input flex-1 min-w-36" value={prodName} onChange={(e) => setProdName(e.target.value)} placeholder={t("wallet.nam-kala")} />
                 <input className="b-input w-32" value={prodCat} onChange={(e) => setProdCat(e.target.value)} placeholder={t("wallet.dsth-akhtyary")} />
@@ -181,8 +181,8 @@ export default function WalletPage() {
                 <input className="b-input w-28" dir="ltr" inputMode="numeric" value={prodStock} onChange={(e) => setProdStock(e.target.value)} placeholder={t("wallet.mvjvdy")} />
                 <button className="b-btn b-btn-spring" disabled={busy === "product" || !prodName || !prodPrice} onClick={createProduct}>{t("wallet.afzvdn-kala")}</button>
               </span>
-              <b className="text-[14px] mt-1">{t("wallet.frvsh-bh-dansh-amvz-antkhab-shdh")}</b>
-              {!studentId && <span className="text-[12px] text-steel">{t("wallet.avl-az-balay-sfhh-dansh-amvz-ra-antkhab-knyd")}</span>}
+              <b className="text-sm mt-1">{t("wallet.frvsh-bh-dansh-amvz-antkhab-shdh")}</b>
+              {!studentId && <span className="text-xs text-steel">{t("wallet.avl-az-balay-sfhh-dansh-amvz-ra-antkhab-knyd")}</span>}
               <span className="flex gap-2 flex-wrap">
                 <Select value={sellProductId} onChange={setSellProductId}
                   options={[{ value: "", label: t("wallet.antkhab-kala") }, ...(shop?.products ?? []).filter((pr) => pr.isActive).map((pr) => ({ value: pr.id, label: `${pr.name} — ${faNumber(pr.price)} ${t("wallet.tvman-mvjvdy")} ${faNumber(pr.stock)})` }))]} placeholder={t("wallet.kala")} />
@@ -193,9 +193,9 @@ export default function WalletPage() {
               </span>
               {shop && shop.sales.length > 0 && (
                 <div className="flex flex-col gap-1 mt-1">
-                  <b className="text-[14px]">{t("wallet.frvsh-hay-akhyr")}</b>
+                  <b className="text-sm">{t("wallet.frvsh-hay-akhyr")}</b>
                   {shop.sales.slice(0, 10).map((sa) => (
-                    <div key={sa.id} className="text-[12px] text-steel py-1 border-b border-hairline last:border-0">
+                    <div key={sa.id} className="text-xs text-steel py-1 border-b border-hairline last:border-0">
                       {sa.items.map((it) => `${it.name} ×${it.qty}`).join("، ")} — <b className="text-ink">{faNumber(sa.total)} {t("wallet.tvman")}</b> · {formatDateFa(sa.createdAt)}
                     </div>
                   ))}

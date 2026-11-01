@@ -55,13 +55,13 @@ export default function DutyLogsPage() {
         <h2 className="font-bold flex items-center gap-2"><BookMarked className="w-5 h-5" /> {t("dutyLogs.writeTitle")}</h2>
         <div className="flex flex-wrap gap-2" role="tablist" aria-label={t("dutyLogs.title")}>
           {CATS.map((c) => (
-            <button key={c} role="tab" aria-selected={category === c} className={`px-3 min-h-11 rounded-full border text-sm ${category === c ? "bg-primary text-primary-foreground border-primary" : "border-border"}`} onClick={() => setCategory(c)}>
+            <button key={c} role="tab" aria-selected={category === c} className={`b-pill-tab min-h-11 ${category === c ? "b-pill-tab-active" : ""}`} onClick={() => setCategory(c)}>
               {t(`dutyLogs.cat.${c}`)}
             </button>
           ))}
         </div>
         <textarea className="b-input w-full min-h-24" value={text} onChange={(e) => setText(e.target.value)} placeholder={t("dutyLogs.f.text")} aria-label={t("dutyLogs.f.text")} />
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <BookMarked className="w-4 h-4" />} {t("dutyLogs.add")}
         </button>
       </section>
@@ -79,7 +79,7 @@ export default function DutyLogsPage() {
           {data.items.map((r) => (
             <div key={r.id} className="p-4 space-y-1">
               <div className="flex flex-wrap items-center gap-2 text-sm">
-                <span className={`px-2 py-0.5 rounded-full text-xs ${r.category === "INCIDENT" ? "bg-destructive/15 text-destructive" : r.category === "HANDOVER" ? "bg-info/15 text-info" : "bg-muted"}`}>
+                <span className={`b-badge ${r.category === "INCIDENT" ? "b-badge-critical" : r.category === "HANDOVER" ? "b-badge-neutral" : "b-badge-neutral"}`}>
                   {t(`dutyLogs.cat.${r.category}`)}
                 </span>
                 <span className="font-medium">{r.author ? `${r.author.firstName} ${r.author.lastName}` : ""}</span>

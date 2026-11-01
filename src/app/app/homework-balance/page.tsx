@@ -85,14 +85,14 @@ export default function HomeworkBalancePage() {
             {result.weeks.map((w) => (
               <div key={w.label} className="b-card p-4 md:p-5 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <b className="text-[14px]">{w.label}</b>
+                  <b className="text-sm">{w.label}</b>
                   <span className={`b-badge ${w.overload ? "b-badge-blossom" : "b-badge-spring"}`}>
                     {w.count} {t("homeworkBalance.assignmentUnit")}{w.overload ? ` · ${t("homeworkBalance.overloadTag")}` : ""}
                   </span>
                 </div>
                 {w.bySubject.length > 0 && (
                   <div className="overflow-x-auto mt-3">
-                    <table className="w-full text-sm min-w-[240px]">
+                    <table className="w-full text-sm min-w-60">
                       <tbody>
                         {w.bySubject.map((s) => (
                           <tr key={s.name} className="border-t border-hairline-soft">

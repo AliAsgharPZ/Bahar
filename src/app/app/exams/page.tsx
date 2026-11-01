@@ -96,17 +96,17 @@ export default function ExamsPage() {
           {mine.map((m, i) => (
             <div key={i} className="b-card-md p-6 flex flex-col gap-3 border-dashed">
               <div className="flex items-center justify-between">
-                <b className="text-[16px]">{m.session.title}</b>
+                <b className="text-base">{m.session.title}</b>
                 <span className="b-badge b-badge-spring">{m.session.subjectName ?? t("exams.examFallback")}</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 text-[14px]">
+              <div className="grid grid-cols-2 gap-2 text-sm">
                 <span className="text-steel">{t("common.student")}</span><b>{m.studentName}</b>
                 <span className="text-steel">{t("common.class")}</span><b>{m.className}</b>
                 <span className="text-steel">{t("common.time")}</span><b>{formatDateFa(m.session.startsAt)} · {faNumber(m.session.durationMin)} {t("exams.unit.minute")}</b>
                 <span className="text-steel">{t("exams.card.hall")}</span><b>{m.room}</b>
                 <span className="text-steel">{t("exams.card.seatNo")}</span><b className="text-lg">{faNumber(m.seatNo)}</b>
               </div>
-              <p className="text-[12px] text-steel">{t("exams.card.note")}</p>
+              <p className="text-xs text-steel">{t("exams.card.note")}</p>
             </div>
           ))}
         </div>
@@ -126,13 +126,13 @@ export default function ExamsPage() {
       <PageHeader title={t("exams.title")} desc={t("exams.desc")} />
 
       <form onSubmit={create} className="b-card p-5 grid md:grid-cols-[1fr_1fr_1fr_120px_auto] gap-3 items-end">
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("exams.field.title")}</span>
+        <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("exams.field.title")}</span>
           <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder={t("exams.placeholder.title")} required /></label>
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("exams.field.subject")}</span>
+        <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("exams.field.subject")}</span>
           <input className="b-input" value={form.subjectName} onChange={(e) => setForm((f) => ({ ...f, subjectName: e.target.value }))} placeholder={t("exams.placeholder.subject")} /></label>
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("exams.field.start")}</span>
+        <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("exams.field.start")}</span>
           <input className="b-input" dir="ltr" type="datetime-local" value={form.startsAt} onChange={(e) => setForm((f) => ({ ...f, startsAt: e.target.value }))} required /></label>
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("exams.field.duration")}</span>
+        <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("exams.field.duration")}</span>
           <input className="b-input" type="number" min={15} max={480} value={form.durationMin} onChange={(e) => setForm((f) => ({ ...f, durationMin: e.target.value }))} /></label>
         <button className="b-btn b-btn-spring" disabled={creating}>{creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} {t("exams.create")}</button>
       </form>
@@ -145,8 +145,8 @@ export default function ExamsPage() {
         <div className="flex flex-col gap-2">
           {sessions.map((s) => (
             <button key={s.id} onClick={() => setSelId(s.id)} className={`b-card-sm p-4 w-full cursor-pointer text-start whitespace-normal transition-all hover:border-spring/40 ${selId === s.id ? "ring-2 ring-spring" : ""}`}>
-              <b className="text-[14px] block">{s.title}</b>
-              <span className="text-[12px] text-steel">{s.subjectName ?? ""} · {formatDateFa(s.startsAt)} · {faNumber(s._count?.seats ?? 0)} {t("exams.unit.seat")} · {faNumber(s._count?.invigilators ?? 0)} {t("exams.meta.invigilators")}</span>
+              <b className="text-sm block">{s.title}</b>
+              <span className="text-xs text-steel">{s.subjectName ?? ""} · {formatDateFa(s.startsAt)} · {faNumber(s._count?.seats ?? 0)} {t("exams.unit.seat")} · {faNumber(s._count?.invigilators ?? 0)} {t("exams.meta.invigilators")}</span>
             </button>
           ))}
         </div>
@@ -154,27 +154,27 @@ export default function ExamsPage() {
         {selId && detail && (
           <div className="b-card p-6 flex flex-col gap-5">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <b className="text-[16px]">{detail.session.title}</b>
+              <b className="text-base">{detail.session.title}</b>
               <span className="flex gap-2">
-                <Link className="b-btn b-btn-ghost b-btn-sm" href="/app/exam-seats"><Armchair className="w-4 h-4" /> {t("nav.examSeats")}</Link>
-                <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => window.print()}><Printer className="w-4 h-4" /> {t("exams.printCards")}</button>
-                <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={() => remove(selId)}><Trash2 className="w-4 h-4" /> {t("exams.delete.title")}</button>
+                <Link className="b-btn b-btn-ghost b-btn-sm min-h-11" href="/app/exam-seats"><Armchair className="w-4 h-4" /> {t("nav.examSeats")}</Link>
+                <button className="b-btn b-btn-ghost b-btn-sm min-h-11" onClick={() => window.print()}><Printer className="w-4 h-4" /> {t("exams.printCards")}</button>
+                <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive" onClick={() => remove(selId)}><Trash2 className="w-4 h-4" /> {t("exams.delete.title")}</button>
               </span>
             </div>
 
-            <div className="grid md:grid-cols-[1fr_1fr_auto] gap-3 items-end rounded-2xl bg-cloud p-4">
-              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("exams.arrange.class")}</span>
+            <div className="grid md:grid-cols-[1fr_1fr_auto] gap-3 items-end b-card-sm p-4">
+              <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("exams.arrange.class")}</span>
                 <Select className="w-full" buttonClassName="!w-full" value={arrClass} onChange={setArrClass}
                   options={[{ value: "", label: t("exams.select.class") }, ...(classesData?.classes ?? []).map((c) => ({ value: c.id, label: `${c.name} · ${c.academicYear}` }))]} placeholder={t("exams.select.class")} /></label>
-              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("exams.arrange.rooms")}</span>
+              <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("exams.arrange.rooms")}</span>
                 <input className="b-input" value={rooms} onChange={(e) => setRooms(e.target.value)} /></label>
               <button className="b-btn b-btn-spring" disabled={busy === "arrange" || !arrClass} onClick={arrange}>
                 {busy === "arrange" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Armchair className="w-4 h-4" />} {t("exams.arrange.submit")}
               </button>
             </div>
 
-            <div className="rounded-2xl bg-cloud p-4 flex flex-col gap-3">
-              <b className="text-[14px] flex items-center gap-2"><Users className="w-4 h-4" /> {t("exams.invigilators.title")}</b>
+            <div className="b-card-sm p-4 flex flex-col gap-3">
+              <b className="text-sm flex items-center gap-2"><Users className="w-4 h-4" /> {t("exams.invigilators.title")}</b>
               <div className="flex flex-wrap gap-1.5">
                 {(teachersData?.users ?? []).map((t) => {
                   const picked = invPicks.some((p) => p.userId === t.id && p.room === invRoom) || detail.invigilators.some((i) => i.userId === t.id && i.room === invRoom);
@@ -193,20 +193,20 @@ export default function ExamsPage() {
               </div>
               <div className="flex items-center gap-2">
                 <input className="b-input max-w-48" value={invRoom} onChange={(e) => setInvRoom(e.target.value)} placeholder={t("exams.placeholder.hall")} />
-                <button className="b-btn b-btn-spring b-btn-sm" disabled={busy === "inv"} onClick={saveInvigilators}>
+                <button className="b-btn b-btn-spring b-btn-sm min-h-11" disabled={busy === "inv"} onClick={saveInvigilators}>
                   {busy === "inv" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("exams.invigilators.save")}
                 </button>
-                <span className="text-[12px] text-steel">{detail.invigilators.length ? `${t("exams.invigilators.current")} ${detail.invigilators.map((i) => `${i.name} (${i.room})`).join("، ")}` : ""}</span>
+                <span className="text-xs text-steel">{detail.invigilators.length ? `${t("exams.invigilators.current")} ${detail.invigilators.map((i) => `${i.name} (${i.room})`).join("، ")}` : ""}</span>
               </div>
             </div>
 
             <div id="admit-print" className="flex flex-col gap-4">
               {Object.entries(roomsOf).map(([room, seats]) => (
                 <div key={room}>
-                  <b className="text-[14px] block mb-2">{room} — {faNumber(seats.length)} {t("exams.room.people")}</b>
+                  <b className="text-sm block mb-2">{room} — {faNumber(seats.length)} {t("exams.room.people")}</b>
                   <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2">
                     {seats.map((s, i) => (
-                      <div key={i} className="rounded-2xl border border-hairline p-3 text-[12px] flex flex-col gap-1">
+                      <div key={i} className="b-card-sm p-3 text-xs flex flex-col gap-1">
                         <span className="flex justify-between"><b>{s.studentName}</b><span className="b-badge b-badge-spring">{t("exams.unit.seat")} {faNumber(s.seatNo)}</span></span>
                         <span className="text-steel">{s.className} · {room}</span>
                         <span className="text-steel">{detail.session.title} · {formatDateFa(detail.session.startsAt)}</span>
@@ -215,7 +215,7 @@ export default function ExamsPage() {
                   </div>
                 </div>
               ))}
-              {detail.seats.length === 0 && <p className="text-[12px] text-steel">{t("exams.empty.noSeats")}</p>}
+              {detail.seats.length === 0 && <p className="text-xs text-steel">{t("exams.empty.noSeats")}</p>}
             </div>
           </div>
         )}

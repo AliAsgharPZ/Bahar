@@ -364,7 +364,7 @@ export default function StudentsPage() {
 
       {/* نمایه‌های ذخیره‌شده */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[12px] text-steel flex items-center gap-1.5 shrink-0">
+        <span className="text-xs text-steel flex items-center gap-1.5 shrink-0">
           <Bookmark className="w-3.5 h-3.5" /> {t("students.views.label")}
         </span>
         {savedViews.map((v) => (
@@ -375,10 +375,10 @@ export default function StudentsPage() {
             </button>
           </span>
         ))}
-        {savedViews.length === 0 && <span className="text-[12px] text-stone">{t("students.views.hint")}</span>}
+        {savedViews.length === 0 && <span className="text-xs text-stone">{t("students.views.hint")}</span>}
         <span className="flex items-center gap-1.5 ms-auto">
           <input
-            className="b-input !w-36 !h-9 !text-[12px]"
+            className="b-input !w-36 !h-9 !text-xs"
             value={viewName}
             onChange={(e) => setViewName(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && saveView()}
@@ -393,8 +393,8 @@ export default function StudentsPage() {
 
       {/* نوار عملیات گروهی */}
       {sel.size > 0 && (
-        <div className="b-card-sm !rounded-2xl border-spring/40 bg-spring-tint/60 flex flex-wrap items-center gap-2.5 sticky top-16 z-20">
-          <span className="text-[12px] font-bold flex items-center gap-1.5 text-spring-deep">
+        <div className="b-card-sm border-spring/40 bg-spring-tint/60 flex flex-wrap items-center gap-2.5 sticky top-16 z-20">
+          <span className="text-xs font-bold flex items-center gap-1.5 text-spring-deep">
             <ListChecks className="w-4 h-4" /> {faNumber(sel.size)} {t("students.bulk.selected")}
           </span>
           <Select
@@ -403,7 +403,7 @@ export default function StudentsPage() {
             onChange={(v) => { if (v) runBulk("moveClass", { classId: v === "none" ? null : v }); }}
             options={[{ value: "", label: t("students.bulk.moveToClass") }, { value: "none", label: t("students.noClassDash") }, ...classOptions.map((c) => ({ value: c.id, label: c.name }))]}
             placeholder={t("students.bulk.moveToClass")}
-            buttonClassName="!h-9 !text-[12px]"
+            buttonClassName="!h-9 !text-xs"
           />
           <Select
             value=""
@@ -411,7 +411,7 @@ export default function StudentsPage() {
             onChange={(v) => { if (v) runBulk("setStatus", { status: v }); }}
             options={[{ value: "", label: t("students.bulk.changeStatus") }, ...Object.entries(STUDENT_STATUS_LABELS).map(([k]) => ({ value: k, label: k === "ACTIVE" ? t("common.active") : k === "GRADUATED" ? t("enum.studentStatus.GRADUATED") : k === "TRANSFERRED" ? t("enum.studentStatus.TRANSFERRED") : k === "SUSPENDED" ? t("enum.studentStatus.SUSPENDED") : k }))]}
             placeholder={t("students.bulk.changeStatus")}
-            buttonClassName="!h-9 !text-[12px]"
+            buttonClassName="!h-9 !text-xs"
           />
           {houseOptions.length > 0 && (
             <Select
@@ -420,7 +420,7 @@ export default function StudentsPage() {
               onChange={(v) => setBulkHouse(v)}
               options={[{ value: "", label: t("students.bulk.house") }, { value: "none", label: t("students.noHouseDash") }, ...houseOptions.map((h) => ({ value: h.id, label: h.name }))]}
               placeholder={t("students.bulk.house")}
-              buttonClassName="!h-9 !text-[12px]"
+              buttonClassName="!h-9 !text-xs"
             />
           )}
           {bulkHouse && (
@@ -430,7 +430,7 @@ export default function StudentsPage() {
           )}
           <span className="flex items-center gap-1.5">
             <input
-              className="b-input !w-28 !h-9 !text-[12px]"
+              className="b-input !w-28 !h-9 !text-xs"
               value={bulkTag}
               onChange={(e) => setBulkTag(e.target.value)}
               placeholder={t("students.bulk.tagPlaceholder")}
@@ -455,9 +455,9 @@ export default function StudentsPage() {
       {data && data.students.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[14px] b-rows-in">
+            <table className="w-full text-sm b-rows-in">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                <tr className="border-b border-hairline-soft text-steel text-xs">
                   <th className="py-3 px-3 w-10">
                     <input
                       type="checkbox"
@@ -493,42 +493,42 @@ export default function StudentsPage() {
                         <UserAvatar user={s.user} size={36} />
                         <span className="flex flex-col min-w-0">
                           <b className="truncate">{s.user.firstName} {s.user.lastName}</b>
-                          <span className="text-[12px] text-steel" dir="ltr">{s.studentNumber}</span>
+                          <span className="text-xs text-steel" dir="ltr">{s.studentNumber}</span>
                         </span>
                       </div>
                     </td>
                     <td className="py-3 px-4 hidden md:table-cell">
                       <span className="b-badge b-badge-spring">{s.class?.name ?? t("students.noClass")}</span>
                     </td>
-                    <td className="py-3 px-4 hidden lg:table-cell"><span dir="ltr" className="font-mono text-[12px]">{s.user.nationalId}</span></td>
+                    <td className="py-3 px-4 hidden lg:table-cell"><span dir="ltr" className="font-mono text-xs">{s.user.nationalId}</span></td>
                     <td className="py-3 px-4 hidden lg:table-cell">
                       <div className="flex flex-col gap-0.5">
                         {s.parents.map((p) => (
-                          <span key={p.parentUserId} className="text-[12px] text-steel truncate">
+                          <span key={p.parentUserId} className="text-xs text-steel truncate">
                             {p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}: {p.parentUser.firstName} {p.parentUser.lastName}
                           </span>
                         ))}
-                        {!s.parents.length && <span className="text-[12px] text-blossom">{t("students.noParent")}</span>}
+                        {!s.parents.length && <span className="text-xs text-blossom">{t("students.noParent")}</span>}
                       </div>
                     </td>
                     {shadVisible && (
                       <td className="py-3 px-4 hidden md:table-cell">
-                        {s.user.shadNumber ? <span dir="ltr" className="font-mono text-[12px]">{s.user.shadNumber}</span> : <span className="text-stone text-[12px]">—</span>}
+                        {s.user.shadNumber ? <span dir="ltr" className="font-mono text-xs">{s.user.shadNumber}</span> : <span className="text-stone text-xs">—</span>}
                       </td>
                     )}
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-1">
-                        <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openDetail(s)} title={t("students.row.viewFile")}>
+                        <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openDetail(s)} title={t("students.row.viewFile")}>
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => resetPassword(s)} title={t("students.row.resetPassword")}>
+                        <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => resetPassword(s)} title={t("students.row.resetPassword")}>
                           <KeyRound className="w-4 h-4" />
                         </button>
-                        <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openEdit(s)} title={t("students.row.edit")}>
+                        <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring transition-colors" onClick={() => openEdit(s)} title={t("students.row.edit")}>
                           <Pencil className="w-4 h-4" />
                         </button>
                         {s.user.isActive && (
-                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive transition-colors" onClick={() => deactivateStudent(s)} title={t("students.row.deactivate")}>
+                          <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive transition-colors" onClick={() => deactivateStudent(s)} title={t("students.row.deactivate")}>
                             <Trash2 className="w-4 h-4" />
                           </button>
                         )}
@@ -552,7 +552,7 @@ export default function StudentsPage() {
 
             <div className="grid sm:grid-cols-3 gap-4 mb-6">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("students.field.nationalId")}</span>
+                <span className="text-xs font-bold">{t("students.field.nationalId")}</span>
                 <input className="b-input opacity-70" dir="ltr" value={editForm.nationalId} readOnly />
               </label>
               {[
@@ -567,7 +567,7 @@ export default function StudentsPage() {
                 { k: "previousSchool", l: t("students.field.previousSchool"), dir: "rtl" },
               ].map((f) => (
                 <label key={f.k} className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{f.l}</span>
+                  <span className="text-xs font-bold">{f.l}</span>
                   <input
                     className="b-input"
                     dir={f.dir}
@@ -578,7 +578,7 @@ export default function StudentsPage() {
                 </label>
               ))}
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("students.field.gender")}</span>
+                <span className="text-xs font-bold">{t("students.field.gender")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -589,7 +589,7 @@ export default function StudentsPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("students.field.class")}</span>
+                <span className="text-xs font-bold">{t("students.field.class")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -600,34 +600,34 @@ export default function StudentsPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("students.field.birthDate")}</span>
+                <span className="text-xs font-bold">{t("students.field.birthDate")}</span>
                 <input className="b-input" dir="ltr" type="date" value={editForm.birthDate} onChange={(e) => setEditForm((ef) => ({ ...ef, birthDate: e.target.value }))} />
               </label>
               <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[12px] font-bold">{t("students.field.address")}</span>
+                <span className="text-xs font-bold">{t("students.field.address")}</span>
                 <input className="b-input" value={editForm.address} onChange={(e) => setEditForm((ef) => ({ ...ef, address: e.target.value }))} />
               </label>
               <label className="flex flex-col gap-1.5 sm:col-span-3">
-                <span className="text-[12px] font-bold">{t("students.field.healthNotes")}</span>
+                <span className="text-xs font-bold">{t("students.field.healthNotes")}</span>
                 <input className="b-input" value={editForm.healthNotes} onChange={(e) => setEditForm((ef) => ({ ...ef, healthNotes: e.target.value }))} />
               </label>
             </div>
 
             {/* اولیای فعلی */}
             <div className="mb-6">
-              <h3 className="font-bold text-[14px] mb-3">{t("students.parents.title")}</h3>
+              <h3 className="font-bold text-sm mb-3">{t("students.parents.title")}</h3>
               <div className="flex flex-col gap-2">
                 {editParents.map((p) => {
                   const removed = removedParents.includes(p.parentUserId);
                   return (
-                    <div key={p.parentUserId} className={`b-card-sm !rounded-2xl p-3 flex items-center gap-3 ${removed ? "opacity-45 line-through" : ""}`}>
-                      <span className="text-[12px] font-bold flex-1 truncate">
+                    <div key={p.parentUserId} className={`b-card-sm p-3 flex items-center gap-3 ${removed ? "opacity-45 line-through" : ""}`}>
+                      <span className="text-xs font-bold flex-1 truncate">
                         {p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}: {p.parentUser.firstName} {p.parentUser.lastName}
                       </span>
-                      <span className="font-mono text-[12px] text-steel" dir="ltr">{p.parentUser.nationalId}</span>
+                      <span className="font-mono text-xs text-steel" dir="ltr">{p.parentUser.nationalId}</span>
                       <button
                         type="button"
-                        className="b-btn b-btn-ghost text-[12px] font-bold text-destructive hover:underline"
+                        className="b-btn b-btn-ghost text-xs font-bold text-destructive hover:underline"
                         onClick={() => setRemovedParents((rs) => (removed ? rs.filter((x) => x !== p.parentUserId) : [...rs, p.parentUserId]))}
                       >
                         {removed ? t("students.parent.restore") : t("students.parent.unlink")}
@@ -635,12 +635,12 @@ export default function StudentsPage() {
                     </div>
                   );
                 })}
-                {editParents.length === 0 && <p className="text-[12px] text-steel">{t("students.parent.noneYet")}</p>}
+                {editParents.length === 0 && <p className="text-xs text-steel">{t("students.parent.noneYet")}</p>}
               </div>
 
               {/* افزودن ولی جدید */}
-              <div className="b-card-sm !rounded-2xl p-4 mt-3 grid sm:grid-cols-3 gap-3">
-                <p className="text-[12px] font-bold text-steel sm:col-span-3">{t("students.parent.addNewHint")}</p>
+              <div className="b-card-sm p-4 mt-3 grid sm:grid-cols-3 gap-3">
+                <p className="text-xs font-bold text-steel sm:col-span-3">{t("students.parent.addNewHint")}</p>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -676,7 +676,7 @@ export default function StudentsPage() {
 
             <form onSubmit={createStudent} className="flex flex-col gap-5">
               <div>
-                <h3 className="font-bold text-[14px] mb-3">{t("students.create.step1")}</h3>
+                <h3 className="font-bold text-sm mb-3">{t("students.create.step1")}</h3>
                 <div className="grid sm:grid-cols-3 gap-4">
                   {[
                     { k: "nationalId", l: t("students.field.nationalIdUser"), dir: "ltr", ph: t("students.ph.nationalId") },
@@ -690,7 +690,7 @@ export default function StudentsPage() {
                     { k: "entryYear", l: t("students.field.entryYear"), dir: "ltr", ph: "1404" },
                   ].map((f) => (
                     <label key={f.k} className="flex flex-col gap-1.5">
-                      <span className="text-[12px] font-bold">{f.l}</span>
+                      <span className="text-xs font-bold">{f.l}</span>
                       <input
                         className="b-input"
                         dir={f.dir}
@@ -703,7 +703,7 @@ export default function StudentsPage() {
                     </label>
                   ))}
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-bold">{t("students.field.gender")}</span>
+                    <span className="text-xs font-bold">{t("students.field.gender")}</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -714,7 +714,7 @@ export default function StudentsPage() {
                     />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-bold">{t("students.field.class")}</span>
+                    <span className="text-xs font-bold">{t("students.field.class")}</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -725,19 +725,19 @@ export default function StudentsPage() {
                     />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-bold">{t("students.field.birthDate")}</span>
+                    <span className="text-xs font-bold">{t("students.field.birthDate")}</span>
                     <input className="b-input" dir="ltr" type="date" value={form.birthDate} onChange={(e) => set("birthDate", e.target.value)} />
                   </label>
                   <label className="flex flex-col gap-1.5 sm:col-span-2">
-                    <span className="text-[12px] font-bold">{t("students.field.address")}</span>
+                    <span className="text-xs font-bold">{t("students.field.address")}</span>
                     <input className="b-input" value={form.address} onChange={(e) => set("address", e.target.value)} />
                   </label>
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-bold">{t("students.field.previousSchool")}</span>
+                    <span className="text-xs font-bold">{t("students.field.previousSchool")}</span>
                     <input className="b-input" value={form.previousSchool} onChange={(e) => set("previousSchool", e.target.value)} />
                   </label>
                   <label className="flex flex-col gap-1.5 sm:col-span-2">
-                    <span className="text-[12px] font-bold">{t("students.field.healthNotesFull")}</span>
+                    <span className="text-xs font-bold">{t("students.field.healthNotesFull")}</span>
                     <input className="b-input" value={form.healthNotes} onChange={(e) => set("healthNotes", e.target.value)} />
                   </label>
                 </div>
@@ -745,10 +745,10 @@ export default function StudentsPage() {
 
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-bold text-[14px]">{t("students.create.step2")}</h3>
+                  <h3 className="font-bold text-sm">{t("students.create.step2")}</h3>
                   <button
                     type="button"
-                    className="b-btn b-btn-ghost !py-1.5 !px-3 !text-[12px] !min-h-8"
+                    className="b-btn b-btn-ghost !py-1.5 !px-3 !text-xs !min-h-8"
                     onClick={() => setParents((ps) => [...ps, { ...emptyParent, relation: "MOTHER" }])}
                   >
                     <Plus className="w-3.5 h-3.5" /> {t("students.addParent")}
@@ -756,7 +756,7 @@ export default function StudentsPage() {
                 </div>
                 <div className="flex flex-col gap-4">
                   {parents.map((p, i) => (
-                    <div key={i} className="b-card-sm !rounded-2xl p-4 relative">
+                    <div key={i} className="b-card-sm p-4 relative">
                       {parents.length > 1 && (
                         <button
                           type="button"
@@ -769,7 +769,7 @@ export default function StudentsPage() {
                       )}
                       <div className="grid sm:grid-cols-3 gap-3">
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[12px] font-bold">{t("students.parent.relation")}</span>
+                          <span className="text-xs font-bold">{t("students.parent.relation")}</span>
                           <Select
                             className="w-full"
                             buttonClassName="!w-full"
@@ -779,37 +779,37 @@ export default function StudentsPage() {
                           />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[12px] font-bold">{t("students.parent.nationalIdRequired")}</span>
+                          <span className="text-xs font-bold">{t("students.parent.nationalIdRequired")}</span>
                           <input className="b-input" dir="ltr" inputMode="numeric" value={p.nationalId} onChange={(e) => setParent(i, "nationalId", e.target.value)} placeholder={t("students.ph.nationalId")} />
                         </label>
                         {shadVisible && (
                           <label className="flex flex-col gap-1.5">
-                            <span className="text-[12px] font-bold">{t("students.parent.shadNumber")}</span>
+                            <span className="text-xs font-bold">{t("students.parent.shadNumber")}</span>
                             <input className="b-input" dir="ltr" inputMode="numeric" value={p.shadNumber} onChange={(e) => setParent(i, "shadNumber", e.target.value)} placeholder="09…" />
                           </label>
                         )}
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[12px] font-bold">{t("students.parent.firstNameRequired")}</span>
+                          <span className="text-xs font-bold">{t("students.parent.firstNameRequired")}</span>
                           <input className="b-input" value={p.firstName} onChange={(e) => setParent(i, "firstName", e.target.value)} />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[12px] font-bold">{t("students.parent.lastNameRequired")}</span>
+                          <span className="text-xs font-bold">{t("students.parent.lastNameRequired")}</span>
                           <input className="b-input" value={p.lastName} onChange={(e) => setParent(i, "lastName", e.target.value)} />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[12px] font-bold">{t("students.field.mobile")}</span>
+                          <span className="text-xs font-bold">{t("students.field.mobile")}</span>
                           <input className="b-input" dir="ltr" inputMode="numeric" value={p.phone} onChange={(e) => setParent(i, "phone", e.target.value)} placeholder="09…" />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[12px] font-bold">{t("students.parent.job")}</span>
+                          <span className="text-xs font-bold">{t("students.parent.job")}</span>
                           <input className="b-input" value={p.jobTitle} onChange={(e) => setParent(i, "jobTitle", e.target.value)} />
                         </label>
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[12px] font-bold">{t("students.parent.education")}</span>
+                          <span className="text-xs font-bold">{t("students.parent.education")}</span>
                           <input className="b-input" value={p.education} onChange={(e) => setParent(i, "education", e.target.value)} />
                         </label>
                       </div>
-                      <p className="text-[12px] text-stone mt-2">{t("students.parent.existingHint")}</p>
+                      <p className="text-xs text-stone mt-2">{t("students.parent.existingHint")}</p>
                     </div>
                   ))}
                 </div>
@@ -855,26 +855,26 @@ export default function StudentsPage() {
                     { l: t("students.detail.status"), v: detail.status === "ACTIVE" ? t("common.active") : detail.status === "GRADUATED" ? t("enum.studentStatus.GRADUATED") : detail.status === "TRANSFERRED" ? t("enum.studentStatus.TRANSFERRED") : detail.status === "SUSPENDED" ? t("enum.studentStatus.SUSPENDED") : detail.status },
                     { l: t("students.field.healthNotes"), v: detail.healthNotes ?? "—" },
                   ].map((r) => (
-                    <div key={r.l} className="b-card-sm !rounded-2xl p-3.5">
-                      <div className="text-[12px] text-steel mb-0.5">{r.l}</div>
-                      <div className={`text-[14px] font-bold ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.v}</div>
+                    <div key={r.l} className="b-card-sm p-3.5">
+                      <div className="text-xs text-steel mb-0.5">{r.l}</div>
+                      <div className={`text-sm font-bold ${r.mono ? "font-mono" : ""}`} dir={r.mono ? "ltr" : "rtl"}>{r.v}</div>
                     </div>
                   ))}
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-[14px] mb-3 flex items-center gap-2"><Users className="w-4 h-4 text-spring" /> {t("students.parents.title")}</h3>
+                  <h3 className="font-bold text-sm mb-3 flex items-center gap-2"><Users className="w-4 h-4 text-spring" /> {t("students.parents.title")}</h3>
                   <div className="flex flex-col gap-2.5">
                     {detailData.student.parents.map((p) => (
-                      <div key={p.parentUserId} className="b-card-sm !rounded-2xl p-4 flex items-center justify-between gap-3">
+                      <div key={p.parentUserId} className="b-card-sm p-4 flex items-center justify-between gap-3">
                         <span className="flex flex-col min-w-0">
-                          <b className="text-[14px] truncate">{p.parentUser.firstName} {p.parentUser.lastName}</b>
-                          <span className="text-[12px] text-steel">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")} · {p.parentUser.jobTitle ?? "—"}</span>
+                          <b className="text-sm truncate">{p.parentUser.firstName} {p.parentUser.lastName}</b>
+                          <span className="text-xs text-steel">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")} · {p.parentUser.jobTitle ?? "—"}</span>
                         </span>
                         <span className="flex flex-col items-end gap-0.5 shrink-0">
-                          <span dir="ltr" className="font-mono text-[12px] text-steel">{p.parentUser.nationalId}</span>
+                          <span dir="ltr" className="font-mono text-xs text-steel">{p.parentUser.nationalId}</span>
                           {p.parentUser.shadNumber && (
-                            <span className="flex items-center gap-1 text-[12px] text-spring">
+                            <span className="flex items-center gap-1 text-xs text-spring">
                               <Phone className="w-3 h-3" /> {t("students.detail.shadRegistered")}
                             </span>
                           )}
@@ -886,7 +886,7 @@ export default function StudentsPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-[14px] mb-3">{t("students.detail.gradesSummary")}</h3>
+                  <h3 className="font-bold text-sm mb-3">{t("students.detail.gradesSummary")}</h3>
                   {detailData.student.gradeRecords.length ? (
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {Object.entries(
@@ -897,10 +897,10 @@ export default function StudentsPage() {
                           return acc;
                         }, {})
                       ).map(([name, v]) => (
-                        <div key={name} className="b-card-sm !rounded-2xl p-3 text-center">
-                          <div className="text-[12px] text-steel truncate">{name}</div>
-                          <div className="text-[16px] font-bold">{faNumber(+(v.sum / v.w).toFixed(2))}</div>
-                          <div className="text-[12px] text-stone">{t("students.detail.avgFrom")} {faNumber(v.count)} {t("students.detail.gradesUnit")}</div>
+                        <div key={name} className="b-card-sm p-3 text-center">
+                          <div className="text-xs text-steel truncate">{name}</div>
+                          <div className="text-base font-bold">{faNumber(+(v.sum / v.w).toFixed(2))}</div>
+                          <div className="text-xs text-stone">{t("students.detail.avgFrom")} {faNumber(v.count)} {t("students.detail.gradesUnit")}</div>
                         </div>
                       ))}
                     </div>
@@ -910,7 +910,7 @@ export default function StudentsPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-[14px] mb-3">{t("students.detail.recentAttendance")}</h3>
+                  <h3 className="font-bold text-sm mb-3">{t("students.detail.recentAttendance")}</h3>
                   <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto b-scroll">
                     {detailData.student.attendances.slice(0, 30).map((a) => (
                       <span
@@ -933,12 +933,12 @@ export default function StudentsPage() {
       {/* اعتبارنامه‌ها — راند ۱۸: کپی سریع جایگزین/مکمل شاد */}
       {result && (
         <div className="fixed bottom-4 start-4 end-4 lg:start-auto lg:end-6 z-50 b-card-md !rounded-2xl b-shadow-rail p-5 b-pop max-w-md max-h-[70vh] overflow-y-auto b-scroll">
-          <h4 className="font-bold text-[14px] flex items-center gap-2 mb-3">
+          <h4 className="font-bold text-sm flex items-center gap-2 mb-3">
             <Send className="w-4 h-4 text-spring" /> {t("students.cred.heading")}
           </h4>
-          <div className="b-card-sm !rounded-2xl p-3.5 mb-2.5">
+          <div className="b-card-sm p-3.5 mb-2.5">
             <div className="flex items-center justify-between gap-2">
-              <b className="text-[12px]">{result.name} ({t("common.student")})</b>
+              <b className="text-xs">{result.name} ({t("common.student")})</b>
               <button
                 onClick={() => copyCred(result.name, result.nationalId, result.password)}
                 className="b-btn b-btn-ghost !min-h-0 !p-1.5 shrink-0"
@@ -948,16 +948,16 @@ export default function StudentsPage() {
                 <Copy className="w-3.5 h-3.5" />
               </button>
             </div>
-            <div className="grid grid-cols-[auto_1fr] gap-x-3 text-[12px] mt-1.5">
+            <div className="grid grid-cols-[auto_1fr] gap-x-3 text-xs mt-1.5">
               <span className="text-steel">{t("students.cred.usernameShort")}</span><b dir="ltr" className="font-mono">{result.nationalId}</b>
               <span className="text-steel">{t("students.cred.passwordShort")}</span><b dir="ltr" className="font-mono">{result.password}</b>
             </div>
             {result.shadDelivery.ok && <span className="b-badge b-badge-success mt-2"><Check className="w-3 h-3" /> {t("students.cred.sentViaShad")}</span>}
           </div>
           {result.parents.filter((p) => p.isNew).map((p) => (
-            <div key={p.nationalId} className="b-card-sm !rounded-2xl p-3.5 mb-2.5">
+            <div key={p.nationalId} className="b-card-sm p-3.5 mb-2.5">
               <div className="flex items-center justify-between gap-2">
-                <b className="text-[12px]">{p.firstName} {p.lastName} ({t("role.parent")})</b>
+                <b className="text-xs">{p.firstName} {p.lastName} ({t("role.parent")})</b>
                 <button
                   onClick={() => copyCred(`${p.firstName} ${p.lastName}`, p.nationalId, p.password)}
                   className="b-btn b-btn-ghost !min-h-0 !p-1.5 shrink-0"
@@ -967,7 +967,7 @@ export default function StudentsPage() {
                   <Copy className="w-3.5 h-3.5" />
                 </button>
               </div>
-              <div className="grid grid-cols-[auto_1fr] gap-x-3 text-[12px] mt-1.5">
+              <div className="grid grid-cols-[auto_1fr] gap-x-3 text-xs mt-1.5">
                 <span className="text-steel">{t("students.cred.usernameShort")}</span><b dir="ltr" className="font-mono">{p.nationalId}</b>
                 <span className="text-steel">{t("students.cred.passwordShort")}</span><b dir="ltr" className="font-mono">{p.password}</b>
               </div>

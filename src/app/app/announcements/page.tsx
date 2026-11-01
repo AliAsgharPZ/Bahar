@@ -154,19 +154,19 @@ export default function AnnouncementsPage() {
       {canSend && (
         <form onSubmit={send} className="b-card p-5 md:p-6 flex flex-col gap-4">
           <div className="flex items-center gap-2 flex-wrap">
-            <b className="text-[14px] flex items-center gap-2"><BellRing className="w-4 h-4 text-spring" /> {t("announcements.newTitle")}</b>
+            <b className="text-sm flex items-center gap-2"><BellRing className="w-4 h-4 text-spring" /> {t("announcements.newTitle")}</b>
             {hasPlatform && (
               <div role="tablist" className="flex items-center gap-2 ms-auto">
                 <button role="tab" aria-selected={form.scope === "SCHOOL"}
                   type="button"
-                  className={`b-pill-tab !text-[12px] ${form.scope === "SCHOOL" ? "b-pill-tab-active" : ""}`}
+                  className={`b-pill-tab !text-xs ${form.scope === "SCHOOL" ? "b-pill-tab-active" : ""}`}
                   onClick={() => setForm((f) => ({ ...f, scope: "SCHOOL" }))}
                 >
                   {t("common.school")}
                 </button>
                 <button role="tab" aria-selected={form.scope === "PLATFORM"}
                   type="button"
-                  className={`b-pill-tab !text-[12px] ${form.scope === "PLATFORM" ? "b-pill-tab-active" : ""}`}
+                  className={`b-pill-tab !text-xs ${form.scope === "PLATFORM" ? "b-pill-tab-active" : ""}`}
                   onClick={() => setForm((f) => ({ ...f, scope: "PLATFORM" }))}
                 >
                   <Globe2 className="w-3 h-3 inline ms-1" /> {t("announcements.scopePlatform")}
@@ -184,7 +184,7 @@ export default function AnnouncementsPage() {
           />
           <textarea
             rows={3}
-            className="b-input !rounded-2xl resize-none"
+            className="b-input resize-none"
             placeholder={t("announcements.placeholder.body")}
             value={form.body}
             onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
@@ -195,7 +195,7 @@ export default function AnnouncementsPage() {
           <div className="grid md:grid-cols-2 gap-4">
             {/* هدف‌گیری نوع کاربر */}
             <div>
-              <b className="text-[12px] flex items-center gap-1.5 mb-2">
+              <b className="text-xs flex items-center gap-1.5 mb-2">
                 <Users className="w-3.5 h-3.5 text-spring" /> {t("announcements.audienceTitle")}
               </b>
               <div className="grid grid-cols-2 gap-2">
@@ -214,17 +214,17 @@ export default function AnnouncementsPage() {
                           }))
                         }
                       />
-                      <b className="text-[12px]">{t(r.tkey)}</b>
+                      <b className="text-xs">{t(r.tkey)}</b>
                     </label>
                   );
                 })}
               </div>
-              <p className="text-[12px] text-stone mt-1.5">{t("announcements.audienceHint")}</p>
+              <p className="text-xs text-stone mt-1.5">{t("announcements.audienceHint")}</p>
             </div>
 
             {/* هدف‌گیری نقشه */}
             <div>
-              <b className="text-[12px] flex items-center gap-1.5 mb-2">
+              <b className="text-xs flex items-center gap-1.5 mb-2">
                 <MapPin className="w-3.5 h-3.5 text-spring" /> {t("announcements.geoLabel")}
               </b>
               <button
@@ -232,14 +232,14 @@ export default function AnnouncementsPage() {
                 className="b-btn b-btn-ghost b-input flex items-center justify-between gap-2"
                 onClick={() => setMapOpen(true)}
               >
-                <span className="text-[14px]">
+                <span className="text-sm">
                   {region.provinces.length || region.counties.length
                     ? `${region.provinces.length ? `${faDigits(region.provinces.length)} ${t("announcements.province")}` : ""}${region.provinces.length && region.counties.length ? " + " : ""}${region.counties.length ? `${faDigits(region.counties.length)} ${t("announcements.county")}` : ""}`
                     : t("announcements.allIran")}
                 </span>
                 <MapPin className="w-4 h-4 text-spring shrink-0" />
               </button>
-              <p className="text-[12px] text-stone mt-1.5">
+              <p className="text-xs text-stone mt-1.5">
                 {t("announcements.geoHint")}
               </p>
             </div>
@@ -253,7 +253,7 @@ export default function AnnouncementsPage() {
                 checked={form.pinned}
                 onChange={(e) => setForm((f) => ({ ...f, pinned: e.target.checked }))}
               />
-              <b className="text-[12px] flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> {t("announcements.pinTop")}</b>
+              <b className="text-xs flex items-center gap-1"><Pin className="w-3.5 h-3.5" /> {t("announcements.pinTop")}</b>
             </label>
             <button type="submit" disabled={saving} className="b-btn b-btn-spring ms-auto">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} {t("messages.send")}
@@ -276,52 +276,52 @@ export default function AnnouncementsPage() {
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 {a.pinned && <Pin className="w-3.5 h-3.5 text-spring shrink-0" />}
                 {a.scope === "PLATFORM" && (
-                  <span className="b-badge b-badge-soft !text-[12px]">
+                  <span className="b-badge b-badge-neutral !text-xs">
                     <Globe2 className="w-3 h-3 inline ms-0.5" /> {t("announcements.platform")}
                   </span>
                 )}
                 {a.audienceRoles.length > 0 ? (
                   a.audienceRoles.map((r) => (
-                    <span key={r} className="b-badge b-badge-neutral !text-[12px]">{ROLE_TARGET_TKEY[r] ? t(ROLE_TARGET_TKEY[r]) : r}</span>
+                    <span key={r} className="b-badge b-badge-neutral !text-xs">{ROLE_TARGET_TKEY[r] ? t(ROLE_TARGET_TKEY[r]) : r}</span>
                   ))
                 ) : (
-                  <span className="b-badge b-badge-neutral !text-[12px]">{t("common.all")}</span>
+                  <span className="b-badge b-badge-neutral !text-xs">{t("common.all")}</span>
                 )}
                 {reg && (
-                  <span className="b-badge b-badge-soft !text-[12px]">
+                  <span className="b-badge b-badge-neutral !text-xs">
                     <MapPin className="w-3 h-3 inline ms-0.5" /> {reg}
                   </span>
                 )}
-                <span className="text-[12px] text-stone ms-auto">{a.school?.name ?? ""} · {relativeTimeFa(a.createdAt)}</span>
+                <span className="text-xs text-stone ms-auto">{a.school?.name ?? ""} · {relativeTimeFa(a.createdAt)}</span>
               </div>
-              <b className="text-[14px] block mb-1.5">{a.title}</b>
-              <p className="text-[14px] text-steel leading-relaxed whitespace-pre-line">{a.body}</p>
+              <b className="text-sm block mb-1.5">{a.title}</b>
+              <p className="text-sm text-steel leading-relaxed whitespace-pre-line">{a.body}</p>
               <div className="flex items-center gap-3 mt-3 pt-2 border-t border-hairline-soft/60">
-                <span className="text-[12px] text-stone">
+                <span className="text-xs text-stone">
                   {a.createdBy ? `${a.createdBy.firstName} ${a.createdBy.lastName}` : t("dashboard.system")} · {formatDateTimeFa(a.createdAt)}
                 </span>
                 {canSend && (
                   <div className="ms-auto flex items-center gap-1">
-                    <button className="b-btn b-btn-ghost b-btn-sm !text-steel !p-0 !w-8 !min-w-8" onClick={() => toggleReaders(a)} title={t("announcements.readers")}>
+                    <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-steel !p-0 !w-11 !min-w-11" onClick={() => toggleReaders(a)} title={t("announcements.readers")}>
                       <Eye className="w-3.5 h-3.5" />
                     </button>
-                    <button className="b-btn b-btn-ghost b-btn-sm !text-steel !p-0 !w-8 !min-w-8" onClick={() => togglePin(a)} title={a.pinned ? t("announcements.unpin") : t("announcements.pin")}>
+                    <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-steel !p-0 !w-11 !min-w-11" onClick={() => togglePin(a)} title={a.pinned ? t("announcements.unpin") : t("announcements.pin")}>
                       <Pin className={`w-3.5 h-3.5 ${a.pinned ? "text-spring" : ""}`} />
                     </button>
-                    <button className="b-btn b-btn-ghost b-btn-sm !text-destructive !p-0 !w-8 !min-w-8" onClick={() => remove(a)} title={t("common.delete")}>
+                    <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive !p-0 !w-11 !min-w-11" onClick={() => remove(a)} title={t("common.delete")}>
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 )}
               </div>
               {canSend && readOpen === a.id && (
-                <div className="mt-3 rounded-2xl bg-cloud p-3 text-[12px]">
+                <div className="mt-3 b-card-sm p-3 text-xs">
                   {readStats[a.id] ? (
                     <>
                       <b>{faDigits(readStats[a.id].count)} {t("announcements.readCount")}</b>
                       <div className="flex flex-wrap gap-1.5 mt-2">
                         {readStats[a.id].readers.slice(0, 40).map((r, i) => (
-                          <span key={i} className="b-badge b-badge-neutral !text-[12px]">{r.name}</span>
+                          <span key={i} className="b-badge b-badge-neutral !text-xs">{r.name}</span>
                         ))}
                         {readStats[a.id].readers.length === 0 && <span className="text-steel">{t("announcements.noReaders")}</span>}
                       </div>

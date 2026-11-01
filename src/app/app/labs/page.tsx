@@ -85,12 +85,12 @@ export default function LabsPage() {
           )}
           <button className="b-btn b-btn-spring" disabled={busy} onClick={run}>{busy ? t("labs.running") : t("labs.run")}</button>
         </span>
-        <p className="text-[12px] text-steel">{t("labs.outputNote")}</p>
+        <p className="text-xs text-steel">{t("labs.outputNote")}</p>
       </div>
       {Boolean(result) && (
         <div className="b-card p-6">
-          <b className="text-[14px] mb-2 block">{t("labs.result")}</b>
-          <pre className="text-[12px] overflow-x-auto whitespace-pre-wrap" dir="ltr">{JSON.stringify(result, null, 2)}</pre>
+          <b className="text-sm mb-2 block">{t("labs.result")}</b>
+          <pre className="text-xs overflow-x-auto whitespace-pre-wrap" dir="ltr">{JSON.stringify(result, null, 2)}</pre>
         </div>
       )}
     </div>

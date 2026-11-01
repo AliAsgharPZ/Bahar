@@ -39,7 +39,7 @@ export default function IdReissuePage() {
         <section className="b-card p-4 space-y-3">
           <h2 className="font-bold flex items-center gap-2"><IdCard className="w-5 h-5" /> {t("idcard.addTitle")}</h2>
           <input className="b-input w-full" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("idcard.f.reason")} />
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <IdCard className="w-4 h-4" />} {t("idcard.add")}
           </button>
         </section>
@@ -58,7 +58,7 @@ export default function IdReissuePage() {
                 {t(`idcard.status.${r.status}`)}
               </span>
               {data.isOffice && r.status === "PENDING" && (<>
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "READY")}>{t("idcard.ready")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "READY")}>{t("idcard.ready")}</button>
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("idcard.reject")}</button>
               </>)}
             </div>

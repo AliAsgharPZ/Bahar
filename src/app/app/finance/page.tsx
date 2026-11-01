@@ -202,7 +202,7 @@ export default function FinancePage() {
       {error && <ErrorBox message={error} />}
 
       {data?.summary && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           <StatCard icon={Wallet} label={t("finance.prdakht-nshdh")} value={data.summary.unpaid} tone="blossom" />
           <StatCard icon={CheckCircle2} label={`${t("finance.mblgh-mavq")}${currencyLabel()})`} value={faNumber(data.summary.unpaidAmount.toLocaleString("en-US"))} tone="ink" />
           <StatCard icon={CheckCircle2} label={t("finance.prdakht-shdh")} value={data.summary.paid} tone="spring" />
@@ -230,9 +230,9 @@ export default function FinancePage() {
       {fees.length > 0 && (
         <div className="b-card-sm overflow-hidden">
           <div className="overflow-x-auto b-scroll">
-            <table className="w-full text-[14px] b-rows-in">
+            <table className="w-full text-sm b-rows-in">
               <thead>
-                <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                <tr className="border-b border-hairline-soft text-steel text-xs">
                   {data?.scope !== "student" && <th className="text-end py-3 px-4 font-bold">{t("common.student")}</th>}
                   <th className="text-end py-3 px-4 font-bold">{t("finance.anvan")}</th>
                   <th className="text-end py-3 px-4 font-bold">{t("finance.mblgh")} (${currencyLabel()})</th>
@@ -249,44 +249,44 @@ export default function FinancePage() {
                         {f.student ? (
                           <>
                             <b className="block truncate">{f.student.user.firstName} {f.student.user.lastName}</b>
-                            <span className="text-[12px] text-steel">{f.student.class?.name ?? t("students.noClass")}</span>
+                            <span className="text-xs text-steel">{f.student.class?.name ?? t("students.noClass")}</span>
                           </>
                         ) : (
                           "—"
                         )}
                       </td>
                     )}
-                    <td className="py-3 px-4"><b className="truncate block max-w-[180px]">{f.title}</b></td>
+                    <td className="py-3 px-4"><b className="truncate block max-w-45">{f.title}</b></td>
                     <td className="py-3 px-4 font-bold">{faNumber(f.amount.toLocaleString("en-US"))}</td>
-                    <td className="py-3 px-4 text-steel hidden md:table-cell text-[12px]">
+                    <td className="py-3 px-4 text-steel hidden md:table-cell text-xs">
                       {f.dueDate ? formatDateFa(f.dueDate) : "—"}
                     </td>
                     <td className="py-3 px-4">
                       <span className={`b-badge ${f.status === "PAID" ? "b-badge-spring" : f.status === "WAIVED" ? "b-badge-neutral" : "b-badge-warning"}`}>
                         {t(STATUS_TKEY[f.status] ?? f.status)}
                       </span>
-                      {f.paidAt && <span className="text-[12px] text-stone block mt-0.5">{formatDateFa(f.paidAt)}</span>}
+                      {f.paidAt && <span className="text-xs text-stone block mt-0.5">{formatDateFa(f.paidAt)}</span>}
                     </td>
                     {canManage && (
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-1">
-                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => printReceipt(f)} title={t("finance.rsyd-chapy")}>
+                          <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => printReceipt(f)} title={t("finance.rsyd-chapy")}>
                             <Printer className="w-4 h-4" />
                           </button>
-                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => openEditFee(f)} title={t("finance.vyraysh-qlm")}>
+                          <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => openEditFee(f)} title={t("finance.vyraysh-qlm")}>
                             <Pencil className="w-4 h-4" />
                           </button>
                           {f.status !== "PAID" && (
-                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => changeStatus(f, "PAID")} title={t("finance.sbt-prdakht")}>
+                            <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-spring-tint hover:text-spring" onClick={() => changeStatus(f, "PAID")} title={t("finance.sbt-prdakht")}>
                               <CheckCircle2 className="w-4 h-4" />
                             </button>
                           )}
                           {f.status === "UNPAID" && (
-                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => changeStatus(f, "WAIVED")} title={t("finance.maaf")}>
+                            <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-cloud" onClick={() => changeStatus(f, "WAIVED")} title={t("finance.maaf")}>
                               <Ban className="w-4 h-4" />
                             </button>
                           )}
-                          <button className="w-10 h-10 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => remove(f)} title={t("common.delete")}>
+                          <button className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:bg-destructive/10 hover:text-destructive" onClick={() => remove(f)} title={t("common.delete")}>
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -309,15 +309,15 @@ export default function FinancePage() {
             <h2 className="font-bold text-lg mb-4">{t("finance.vyraysh-qlm-maly")}</h2>
             <div className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("finance.anvan")} *</span>
+                <span className="text-xs font-bold">{t("finance.anvan")} *</span>
                 <input className="b-input" value={editForm.title} onChange={(e) => setEditForm((f) => ({ ...f, title: e.target.value }))} required minLength={2} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("finance.mblgh")} (${currencyLabel()}) *</span>
+                <span className="text-xs font-bold">{t("finance.mblgh")} (${currencyLabel()}) *</span>
                 <input className="b-input" dir="ltr" inputMode="numeric" value={editForm.amount} onChange={(e) => setEditForm((f) => ({ ...f, amount: e.target.value }))} required />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("finance.srsyd")}</span>
+                <span className="text-xs font-bold">{t("finance.srsyd")}</span>
                 {/* FIX (راند ۱۶): ویرایش هم مثل ایجاد از تقویم فعال — قبلاً میلادی بود */}
                 <JalaliDateInput value={editForm.dueDate || null} onChange={(d) => setEditForm((f) => ({ ...f, dueDate: d ? d.toISOString() : "" }))} />
               </label>
@@ -340,20 +340,20 @@ export default function FinancePage() {
             <p className="t-sm text-steel mb-6">{t("finance.my-tvanyd-bray-yk-dansh-amvz-ya-hmh-dansh-amvzan-yk-klas-sbt-kny")}</p>
             <form onSubmit={createFee} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("finance.anvan")} *</span>
+                <span className="text-xs font-bold">{t("finance.anvan")} *</span>
                 <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required placeholder={t("finance.shhryh-mhr-1405")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("finance.mblgh")} (${currencyLabel()}) *</span>
+                <span className="text-xs font-bold">{t("finance.mblgh")} (${currencyLabel()}) *</span>
                 <input className="b-input" dir="ltr" inputMode="numeric" value={form.amount} onChange={(e) => setForm((f) => ({ ...f, amount: e.target.value }))} required placeholder="2500000" />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("finance.srsyd")} ({t("finance.shmsy")})</span>
+                <span className="text-xs font-bold">{t("finance.srsyd")} ({t("finance.shmsy")})</span>
                 <JalaliDateInput value={dueDate} onChange={setDueDate} />
               </label>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label className="flex flex-col gap-1.5">
-                  <span className="text-[12px] font-bold">{t("finance.hdf")}</span>
+                  <span className="text-xs font-bold">{t("finance.hdf")}</span>
                   <Select
                     className="w-full"
                     buttonClassName="!w-full"
@@ -364,7 +364,7 @@ export default function FinancePage() {
                 </label>
                 {form.target === "class" ? (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-bold">{t("common.class")} *</span>
+                    <span className="text-xs font-bold">{t("common.class")} *</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -376,7 +376,7 @@ export default function FinancePage() {
                   </label>
                 ) : (
                   <label className="flex flex-col gap-1.5">
-                    <span className="text-[12px] font-bold">{t("common.student")} *</span>
+                    <span className="text-xs font-bold">{t("common.student")} *</span>
                     <Select
                       className="w-full"
                       buttonClassName="!w-full"
@@ -389,7 +389,7 @@ export default function FinancePage() {
                 )}
               </div>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("finance.yaddasht")}</span>
+                <span className="text-xs font-bold">{t("finance.yaddasht")}</span>
                 <input className="b-input" value={form.note} onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))} />
               </label>
               <div className="flex items-center gap-3">

@@ -49,7 +49,7 @@ export default function LockersPage() {
           <input className="b-input w-full" value={number} onChange={(e) => setNumber(e.target.value)} placeholder={t("lockers.f.number")} />
           <input className="b-input w-full" value={location} onChange={(e) => setLocation(e.target.value)} placeholder={t("lockers.f.location")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={create}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={create}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />} {t("lockers.add")}
         </button>
         <p className="text-sm text-muted-foreground">{faNumber(data.freeCount)} {t("lockers.free")}</p>
@@ -80,7 +80,7 @@ export default function LockersPage() {
                   placeholder={t("lockers.studentIdPh")}
                   aria-label={t("lockers.studentIdPh")}
                 />
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => setStudent(r.id, (assign[r.id] ?? "").trim() || null)}>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => setStudent(r.id, (assign[r.id] ?? "").trim() || null)}>
                   {t("lockers.assign")}
                 </button>
                 {r.studentId && <button className="b-btn b-btn-ghost min-h-11" onClick={() => setStudent(r.id, null)}>{t("lockers.release")}</button>}

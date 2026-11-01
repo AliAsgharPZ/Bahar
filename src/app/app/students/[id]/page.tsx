@@ -120,7 +120,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
         <Link href="/app/students" className="w-9 h-9 rounded-full flex items-center justify-center bg-cloud hover:bg-spring-tint transition-colors" aria-label={t("common.back")}>
           <ArrowRight className="w-5 h-5 flip-rtl" />
         </Link>
-        <span className="text-[12px] text-steel">{t("nav.students")}</span>
+        <span className="text-xs text-steel">{t("nav.students")}</span>
       </div>
 
       <PageHeader
@@ -138,7 +138,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
       {/* کارت هویت */}
       <div className="b-card-md p-5 mb-6 flex flex-wrap items-center gap-5">
         <UserAvatar user={student.user} size={80} rounded="xl" />
-        <div className="flex-1 min-w-[220px] grid grid-cols-2 sm:grid-cols-4 gap-3 text-[12px]">
+        <div className="flex-1 min-w-55 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <InfoRow icon={Users2} label={t("students.field.fatherName")} value={student.user.fatherName ?? "—"} />
           <InfoRow icon={Tag} label={t("students.field.nationalId")} value={faNumber(student.user.nationalId)} />
           <InfoRow icon={Cake} label={t("profile.field.birthDate")} value={student.user.birthDate ? formatDateFa(student.user.birthDate) : "—"} />
@@ -160,7 +160,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
             showTagInput ? (
               <span className="flex items-center gap-1">
                 <input value={newTag} onChange={(e) => setNewTag(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTag()}
-                  placeholder={t("students.detail.tagPlaceholder")} className="b-input !h-8 !text-[12px] !w-24 !px-2" autoFocus />
+                  placeholder={t("students.detail.tagPlaceholder")} className="b-input !h-8 !text-xs !w-24 !px-2" autoFocus />
                 <button onClick={addTag} className="b-btn b-btn-ghost text-spring-deep"><CheckCircle2 className="w-4 h-4" /></button>
               </span>
             ) : (
@@ -196,21 +196,21 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                     <span className="absolute inset-0 flex items-center justify-center text-lg font-bold" style={{ color: riskColor }}>{faNumber(analytics.risk.score)}</span>
                   </div>
                   <div>
-                    <p className="font-bold text-[14px]" style={{ color: riskColor }}>{riskTKey ? t(riskTKey) : ""}</p>
-                    <p className="text-[12px] text-steel">{t("students.detail.trackingIndex")}</p>
+                    <p className="font-bold text-sm" style={{ color: riskColor }}>{riskTKey ? t(riskTKey) : ""}</p>
+                    <p className="text-xs text-steel">{t("students.detail.trackingIndex")}</p>
                   </div>
                 </div>
                 {analytics.risk.reasons.length > 0 && (
                   <ul className="flex flex-col gap-1.5">
                     {analytics.risk.reasons.map((r, i) => (
-                      <li key={i} className="flex items-center gap-2 text-[12px] text-steel"><AlertTriangle className="w-3.5 h-3.5 text-warning shrink-0" />{r}</li>
+                      <li key={i} className="flex items-center gap-2 text-xs text-steel"><AlertTriangle className="w-3.5 h-3.5 text-warning shrink-0" />{r}</li>
                     ))}
                   </ul>
                 )}
                 {analytics.patterns.length > 0 && (
                   <div className="mt-4 pt-3 border-t border-hairline-soft">
-                    <p className="text-[12px] font-bold mb-1.5">{t("students.detail.absencePattern")}</p>
-                    {analytics.patterns.map((p, i) => <p key={i} className="text-[12px] text-steel">• {p}</p>)}
+                    <p className="text-xs font-bold mb-1.5">{t("students.detail.absencePattern")}</p>
+                    {analytics.patterns.map((p, i) => <p key={i} className="text-xs text-steel">• {p}</p>)}
                   </div>
                 )}
               </div>
@@ -230,13 +230,13 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                 <h3 className="font-bold mb-4">{t("students.parents.title")}</h3>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {student.parents.map((p, i) => (
-                    <div key={i} className="p-3.5 rounded-2xl bg-cloud flex items-center gap-3">
+                    <div key={i} className="b-card-sm p-3.5 flex items-center gap-3">
                       <UserAvatar user={{ ...p.parentUser, avatar: p.parentUser.avatar ?? null }} size={40} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-[12px] font-bold truncate">{p.parentUser.firstName} {p.parentUser.lastName}</p>
-                        <p className="text-[12px] text-steel truncate">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}{p.parentUser.jobTitle ? ` · ${p.parentUser.jobTitle}` : ""}</p>
+                        <p className="text-xs font-bold truncate">{p.parentUser.firstName} {p.parentUser.lastName}</p>
+                        <p className="text-xs text-steel truncate">{p.relation === "FATHER" ? t("dashboard.relation.father") : p.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}{p.parentUser.jobTitle ? ` · ${p.parentUser.jobTitle}` : ""}</p>
                       </div>
-                      {p.parentUser.phone && <span className="text-[12px] text-steel shrink-0">{faNumber(p.parentUser.phone)}</span>}
+                      {p.parentUser.phone && <span className="text-xs text-steel shrink-0">{faNumber(p.parentUser.phone)}</span>}
                     </div>
                   ))}
                   {student.parents.length === 0 && <p className="t-sm text-steel">{t("students.detail.noParents")}</p>}
@@ -250,7 +250,7 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
               <h3 className="font-bold mb-5">{t("students.detail.timelineTitle")}</h3>
               {data.timeline.length === 0 ? <p className="t-sm text-steel text-center py-8">{t("students.detail.timelineEmpty")}</p> : (
                 <div className="relative ps-4">
-                  <span className="absolute top-0 bottom-0 start-[7px] w-0.5 bg-hairline-soft" />
+                  <span className="absolute top-0 bottom-0 start-2 w-0.5 bg-hairline-soft" />
                   <StaggerGroup step={30} className="flex flex-col gap-4">
                     {data.timeline.map((ev, i) => {
                       const Icon = TONE_ICON[ev.tone] ?? Clock;
@@ -260,9 +260,9 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                             <span className={`absolute -start-4 top-1 w-4 h-4 rounded-full border-2 border-background ${ev.tone === "POSITIVE" ? "bg-success" : ev.tone === "NEGATIVE" ? "bg-destructive" : "bg-stone"}`} />
                             <div className="flex-1 flex items-center gap-3 flex-wrap">
                               <Icon className={`w-4 h-4 shrink-0 ${ev.tone === "POSITIVE" ? "text-success" : ev.tone === "NEGATIVE" ? "text-destructive" : "text-stone"}`} />
-                              <span className="text-[12px] font-bold">{ev.title}</span>
-                              {ev.detail && <span className="text-[12px] text-steel">{ev.detail}</span>}
-                              <span className="text-[12px] text-stone ms-auto">{relativeTimeFa(ev.at)}</span>
+                              <span className="text-xs font-bold">{ev.title}</span>
+                              {ev.detail && <span className="text-xs text-steel">{ev.detail}</span>}
+                              <span className="text-xs text-stone ms-auto">{relativeTimeFa(ev.at)}</span>
                             </div>
                           </div>
                         </StaggerItem>
@@ -287,8 +287,8 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                     <div key={kind} className={`p-3.5 rounded-2xl border flex items-center gap-3 ${status === "RECEIVED" ? "bg-spring-tint/40 border-spring/20" : status === "REJECTED" ? "bg-destructive/5 border-destructive/20" : "bg-cloud border-transparent"}`}>
                       <FileCheck className={`w-5 h-5 shrink-0 ${status === "RECEIVED" ? "text-spring-deep" : "text-stone"}`} />
                       <div className="flex-1 min-w-0">
-                        <p className="text-[12px] font-bold">{t(tkey)}</p>
-                        <p className="text-[12px] text-steel">
+                        <p className="text-xs font-bold">{t(tkey)}</p>
+                        <p className="text-xs text-steel">
                           {status === "RECEIVED" ? `${t("students.detail.doc.received")}${doc?.receivedAt ? " — " + formatDateFa(doc.receivedAt) : ""}` : status === "REJECTED" ? t("profile.requests.rejected") : t("students.detail.doc.pending")}
                           {expiring && <span className="text-destructive font-bold"> · {t("students.detail.doc.expiring")}</span>}
                         </p>
@@ -296,10 +296,10 @@ export default function Student360Page({ params }: { params: Promise<{ id: strin
                       {data.canEdit && (
                         <div className="flex gap-1 shrink-0">
                           {status !== "RECEIVED" && (
-                            <button onClick={() => setDoc(kind, "RECEIVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2.5 !py-0.5">{t("students.detail.doc.received")}</button>
+                            <button onClick={() => setDoc(kind, "RECEIVED")} className="b-btn b-btn-sm b-btn-spring !min-h-10 !text-xs !px-2.5 !py-0.5">{t("students.detail.doc.received")}</button>
                           )}
                           {status === "RECEIVED" && (
-                            <button onClick={() => setDoc(kind, "PENDING")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2.5 !py-0.5">{t("enum.kindFa.REFUND")}</button>
+                            <button onClick={() => setDoc(kind, "PENDING")} className="b-btn b-btn-sm b-btn-ghost !min-h-10 !text-xs !px-2.5 !py-0.5">{t("enum.kindFa.REFUND")}</button>
                           )}
                         </div>
                       )}
@@ -335,11 +335,11 @@ function InfoRow({ icon: Icon, label, value }: { icon: typeof Tag; label: string
 
 function MiniCard({ label, value, delta }: { label: string; value: string; delta?: number }) {
   return (
-    <div className="p-3 rounded-2xl bg-cloud text-center">
-      <p className="text-[12px] text-steel">{label}</p>
-      <p className="text-[16px] font-bold">{value}</p>
+    <div className="b-card-sm p-3 text-center">
+      <p className="text-xs text-steel">{label}</p>
+      <p className="text-base font-bold">{value}</p>
       {delta !== undefined && delta !== 0 && (
-        <p className={`text-[12px] font-bold flex items-center justify-center gap-0.5 ${delta > 0 ? "text-success" : "text-destructive"}`}>
+        <p className={`text-xs font-bold flex items-center justify-center gap-0.5 ${delta > 0 ? "text-success" : "text-destructive"}`}>
           {delta > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
           {faNumber(Math.abs(delta))}
         </p>
@@ -403,17 +403,17 @@ function GoalsTab({ studentId, canEdit, goals, interventions, analytics, reload 
           {goals.map((g) => (
             <div key={g.id} className={`p-3.5 rounded-2xl border ${g.status === "ACHIEVED" ? "bg-spring-tint/40 border-spring/20" : g.status === "ACTIVE" ? "bg-cloud border-transparent" : "opacity-50 bg-cloud border-transparent"}`}>
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-[14px] font-bold flex-1">{g.title}</span>
+                <span className="text-sm font-bold flex-1">{g.title}</span>
                 {g.targetValue && <span className="b-badge b-badge-neutral">{t("students.detail.goalTargetPrefix")} {faNumber(g.targetValue)}</span>}
                 {g.currentValue && <span className="b-badge b-badge-spring">{t("exams.invigilators.current")} {faNumber(g.currentValue)}</span>}
                 {g.status === "ACTIVE" && canEdit && (
                   <>
-                    <button onClick={() => goalStatus(g.id, "ACHIEVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2.5 !py-0.5">{t("students.detail.goalAchieved")}</button>
-                    <button onClick={() => goalStatus(g.id, "DROPPED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2.5 !py-0.5">{t("students.detail.goalDropped")}</button>
+                    <button onClick={() => goalStatus(g.id, "ACHIEVED")} className="b-btn b-btn-sm b-btn-spring !min-h-10 !text-xs !px-2.5 !py-0.5">{t("students.detail.goalAchieved")}</button>
+                    <button onClick={() => goalStatus(g.id, "DROPPED")} className="b-btn b-btn-sm b-btn-ghost !min-h-10 !text-xs !px-2.5 !py-0.5">{t("students.detail.goalDropped")}</button>
                   </>
                 )}
               </div>
-              {g.dueDate && <p className="text-[12px] text-steel mt-1">{t("common.to")} {formatDateFa(g.dueDate)}</p>}
+              {g.dueDate && <p className="text-xs text-steel mt-1">{t("common.to")} {formatDateFa(g.dueDate)}</p>}
             </div>
           ))}
           {goals.length === 0 && <p className="t-sm text-steel text-center py-4">{t("students.detail.goalsEmpty")}</p>}
@@ -422,7 +422,7 @@ function GoalsTab({ studentId, canEdit, goals, interventions, analytics, reload 
       <div className="b-card-md p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold flex items-center gap-2"><HeartHandshake className="w-4 h-4 text-blossom" /> {t("students.detail.interventionsTitle")}</h3>
-          {canEdit && !showIv && <button onClick={() => setShowIv(true)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px]"><Plus className="w-3.5 h-3.5" /> {t("students.detail.interventionAdd")}</button>}
+          {canEdit && !showIv && <button onClick={() => setShowIv(true)} className="b-btn b-btn-sm b-btn-ghost !min-h-10 !text-xs"><Plus className="w-3.5 h-3.5" /> {t("students.detail.interventionAdd")}</button>}
         </div>
         {showIv && (
           <div className="mb-4 flex gap-2">
@@ -435,13 +435,13 @@ function GoalsTab({ studentId, canEdit, goals, interventions, analytics, reload 
             <div key={iv.id} className={`p-3.5 rounded-2xl ${iv.status === "ACTIVE" ? "bg-blossom-tint/60" : "bg-cloud"}`}>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className={`b-badge ${iv.status === "ACTIVE" ? "b-badge-blossom" : "b-badge-neutral"}`}>{iv.status === "ACTIVE" ? t("tasks.status.inProgress") : t("students.detail.interventionClosed")}</span>
-                <span className="text-[12px] text-steel">{iv.startedBy.firstName} {iv.startedBy.lastName}</span>
+                <span className="text-xs text-steel">{iv.startedBy.firstName} {iv.startedBy.lastName}</span>
                 {iv.status === "ACTIVE" && canEdit && (
-                  <button onClick={() => resolveIv(iv.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] ms-auto !px-2.5 !py-0.5">{t("students.detail.interventionResolve")}</button>
+                  <button onClick={() => resolveIv(iv.id)} className="b-btn b-btn-sm b-btn-ghost !min-h-10 !text-xs ms-auto !px-2.5 !py-0.5">{t("students.detail.interventionResolve")}</button>
                 )}
               </div>
-              <p className="text-[12px] mt-1.5 leading-relaxed">{iv.description}</p>
-              {iv.outcome && <p className="text-[12px] text-steel mt-1">{t("students.detail.interventionOutcome")} {iv.outcome}</p>}
+              <p className="text-xs mt-1.5 leading-relaxed">{iv.description}</p>
+              {iv.outcome && <p className="text-xs text-steel mt-1">{t("students.detail.interventionOutcome")} {iv.outcome}</p>}
             </div>
           ))}
           {interventions.length === 0 && <p className="t-sm text-steel text-center py-4">{t("students.detail.interventionsEmpty")}</p>}
@@ -480,19 +480,19 @@ function PortfolioTab({ studentId, canEdit, items, reload }: {
             className="!w-32"
             buttonClassName="!h-10 !w-32"
           />
-          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("students.detail.portfolioTitlePlaceholder")} className="b-input !h-10 flex-1 min-w-[180px]" onKeyDown={(e) => e.key === "Enter" && addItem()} />
+          <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("students.detail.portfolioTitlePlaceholder")} className="b-input !h-10 flex-1 min-w-45" onKeyDown={(e) => e.key === "Enter" && addItem()} />
           <button onClick={addItem} className="b-btn b-btn-sm b-btn-spring"><Plus className="w-4 h-4" /> {t("common.add")}</button>
         </div>
       )}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((it, i) => (
           <motion.div key={it.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-            className="p-4 rounded-2xl bg-cloud flex flex-col gap-1.5">
+            className="b-card-sm p-4 flex flex-col gap-1.5">
             <span className="b-badge b-badge-spring w-fit">{kindLabel(it.kind)}</span>
-            <p className="text-[14px] font-bold">{it.title}</p>
-            {it.description && <p className="text-[12px] text-steel line-clamp-2">{it.description}</p>}
-            {it.url && <a href={it.url} target="_blank" rel="noreferrer" className="text-[12px] text-spring-deep hover:underline">{t("students.detail.portfolioViewLink")}</a>}
-            {it.date && <p className="text-[12px] text-stone">{formatDateFa(it.date)}</p>}
+            <p className="text-sm font-bold">{it.title}</p>
+            {it.description && <p className="text-xs text-steel line-clamp-2">{it.description}</p>}
+            {it.url && <a href={it.url} target="_blank" rel="noreferrer" className="text-xs text-spring-deep hover:underline">{t("students.detail.portfolioViewLink")}</a>}
+            {it.date && <p className="text-xs text-stone">{formatDateFa(it.date)}</p>}
           </motion.div>
         ))}
         {items.length === 0 && <p className="t-sm text-steel col-span-full text-center py-8">{t("students.detail.portfolioEmpty")}</p>}

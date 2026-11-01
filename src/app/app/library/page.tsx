@@ -109,7 +109,7 @@ export default function LibraryPage() {
       {loadError && <ErrorBox message={loadError} />}
       {loading && !data ? <LoadingBlock /> : data && (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 b-auto-stagger">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-6 b-auto-stagger">
             <StatCard label={t("library.stat.titles")} value={faNumber(data.stats.titles)} icon={BookOpen} />
             <StatCard label={t("library.stat.copies")} value={faNumber(data.stats.copies)} icon={LibraryBig} tone="soft" />
             <StatCard label={t("library.onLoan")} value={faNumber(data.stats.activeLoans)} icon={HandHeart} tone="blossom" />
@@ -137,9 +137,9 @@ export default function LibraryPage() {
                       {b.title[0] ?? "ک"}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-bold text-[14px] leading-snug truncate">{b.title}</h3>
-                      <p className="text-[12px] text-stone mt-0.5 truncate">{b.author ?? t("library.unknownAuthor")}{b.category ? ` · ${b.category}` : ""}</p>
-                      <p className="text-[12px] text-stone mt-0.5">{b.shelf ? `${t("library.shelf")} ${b.shelf} · ` : ""}{b.isbn ? `${t("library.isbn")} ${b.isbn}` : ""}</p>
+                      <h3 className="font-bold text-sm leading-snug truncate">{b.title}</h3>
+                      <p className="text-xs text-stone mt-0.5 truncate">{b.author ?? t("library.unknownAuthor")}{b.category ? ` · ${b.category}` : ""}</p>
+                      <p className="text-xs text-stone mt-0.5">{b.shelf ? `${t("library.shelf")} ${b.shelf} · ` : ""}{b.isbn ? `${t("library.isbn")} ${b.isbn}` : ""}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mt-3.5">
@@ -151,10 +151,10 @@ export default function LibraryPage() {
                         <button className="b-btn b-btn-soft b-btn-sm" disabled={b.available === 0 || busy} onClick={() => { setLoanFor(b); setStudents([]); setStudentQ(""); }}>
                           <HandHeart className="w-3.5 h-3.5" /> {t("library.loan")}
                         </button>
-                        <button className="b-btn b-btn-ghost b-icon-btn" aria-label={t("common.edit")} title={t("common.edit")} onClick={() => { setEditing(b); setForm({ title: b.title, author: b.author ?? "", isbn: b.isbn ?? "", category: b.category ?? "", shelf: b.shelf ?? "", totalCopies: b.totalCopies }); setShowForm(true); }}>
+                        <button className="b-btn b-btn-ghost" aria-label={t("common.edit")} title={t("common.edit")} onClick={() => { setEditing(b); setForm({ title: b.title, author: b.author ?? "", isbn: b.isbn ?? "", category: b.category ?? "", shelf: b.shelf ?? "", totalCopies: b.totalCopies }); setShowForm(true); }}>
                           <Pencil className="w-4 h-4" />
                         </button>
-                        <button className="b-btn b-btn-ghost b-icon-btn" aria-label={t("common.delete")} title={t("common.delete")} onClick={() => deleteBook(b)}>
+                        <button className="b-btn b-btn-ghost" aria-label={t("common.delete")} title={t("common.delete")} onClick={() => deleteBook(b)}>
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </span>
@@ -168,12 +168,12 @@ export default function LibraryPage() {
           {/* امانت‌های فعال (کادر) */}
           {data.canManage && (
             <section className="b-card p-4 md:p-5 mb-8">
-              <h2 className="font-extrabold text-[16px] mb-3">{t("library.activeLoans")} {overdueLoans.length > 0 && <span className="b-badge b-badge-critical ms-2">{faNumber(overdueLoans.length)} {t("library.overdue")}</span>}</h2>
+              <h2 className="font-extrabold text-base mb-3">{t("library.activeLoans")} {overdueLoans.length > 0 && <span className="b-badge b-badge-critical ms-2">{faNumber(overdueLoans.length)} {t("library.overdue")}</span>}</h2>
               {data.activeLoans.length === 0 ? (
-                <p className="text-[14px] text-stone">{t("library.noActiveLoans")}</p>
+                <p className="text-sm text-stone">{t("library.noActiveLoans")}</p>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="b-table w-full">
+                  <table className="w-full">
                     <thead><tr><th>{t("library.book")}</th><th>{t("common.student")}</th><th>{t("common.class")}</th><th>{t("library.loan")}</th><th>{t("library.table.due")}</th><th></th></tr></thead>
                     <tbody className="b-rows-in">
                       {data.activeLoans.map((l) => (
@@ -196,14 +196,14 @@ export default function LibraryPage() {
           {/* امانت‌های من (دانش‌آموز/ولی) */}
           {!data.canManage && data.myLoans.length > 0 && (
             <section className="b-card p-4 md:p-5">
-              <h2 className="font-extrabold text-[16px] mb-3">{t("library.myLoans")}</h2>
+              <h2 className="font-extrabold text-base mb-3">{t("library.myLoans")}</h2>
               <div className="flex flex-col gap-2.5">
                 {data.myLoans.map((l) => (
-                  <div key={l.id} className="flex items-center gap-3 p-3 rounded-2xl border border-[--hairline]">
+                  <div key={l.id} className="b-card-sm flex items-center gap-3 p-3">
                     <BookOpen className="w-5 h-5 text-spring shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-[14px] truncate">{l.bookTitle}</p>
-                      <p className="text-[12px] text-stone">{l.studentName} · {t("library.due")}: {formatDateFa(l.dueAt)}</p>
+                      <p className="font-semibold text-sm truncate">{l.bookTitle}</p>
+                      <p className="text-xs text-stone">{l.studentName} · {t("library.due")}: {formatDateFa(l.dueAt)}</p>
                     </div>
                     {l.returnedAt
                       ? <span className="b-badge b-badge-success">{t("library.returned")}</span>
@@ -220,17 +220,17 @@ export default function LibraryPage() {
 
       {/* فرم کتاب */}
       {showForm && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
           <div className="b-card w-full max-w-md p-5 b-pop">
-            <h3 className="font-extrabold text-[16px] mb-4">{editing ? t("library.editBook") : t("library.newBook")}</h3>
+            <h3 className="font-extrabold text-base mb-4">{editing ? t("library.editBook") : t("library.newBook")}</h3>
             <div className="flex flex-col gap-3">
-              <label className="b-field"><span>{t("library.field.title")}</span><input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="b-input" placeholder={t("library.placeholder.title")} /></label>
-              <label className="b-field"><span>{t("library.field.author")}</span><input value={form.author} onChange={(e) => setForm({ ...form, author: e.target.value })} className="b-input" /></label>
-              <div className="grid grid-cols-2 gap-3">
-                <label className="b-field"><span>{t("library.field.category")}</span><input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="b-input" placeholder={t("library.placeholder.category")} /></label>
-                <label className="b-field"><span>{t("library.shelf")}</span><input value={form.shelf} onChange={(e) => setForm({ ...form, shelf: e.target.value })} className="b-input" placeholder="A-3" /></label>
-                <label className="b-field"><span>{t("library.isbn")}</span><input value={form.isbn} onChange={(e) => setForm({ ...form, isbn: e.target.value })} className="b-input" dir="ltr" /></label>
-                <label className="b-field"><span>{t("library.field.copies")}</span><input type="number" min={1} max={500} value={form.totalCopies} onChange={(e) => setForm({ ...form, totalCopies: Number(e.target.value) || 1 })} className="b-input" /></label>
+              <label><span>{t("library.field.title")}</span><input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="b-input" placeholder={t("library.placeholder.title")} /></label>
+              <label><span>{t("library.field.author")}</span><input value={form.author} onChange={(e) => setForm({ ...form, author: e.target.value })} className="b-input" /></label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label><span>{t("library.field.category")}</span><input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="b-input" placeholder={t("library.placeholder.category")} /></label>
+                <label><span>{t("library.shelf")}</span><input value={form.shelf} onChange={(e) => setForm({ ...form, shelf: e.target.value })} className="b-input" placeholder="A-3" /></label>
+                <label><span>{t("library.isbn")}</span><input value={form.isbn} onChange={(e) => setForm({ ...form, isbn: e.target.value })} className="b-input" dir="ltr" /></label>
+                <label><span>{t("library.field.copies")}</span><input type="number" min={1} max={500} value={form.totalCopies} onChange={(e) => setForm({ ...form, totalCopies: Number(e.target.value) || 1 })} className="b-input" /></label>
               </div>
             </div>
             <div className="flex gap-2 mt-5">
@@ -243,24 +243,24 @@ export default function LibraryPage() {
 
       {/* پنجره امانت */}
       {loanFor && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px] flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-end sm:items-center justify-center p-3" role="dialog" aria-modal="true">
           <div className="b-card w-full max-w-md p-5 b-pop">
-            <h3 className="font-extrabold text-[16px] mb-1">{t("library.loan")} «{loanFor.title}»</h3>
-            <p className="text-[12px] text-stone mb-4">{t("library.loanHint")}</p>
+            <h3 className="font-extrabold text-base mb-1">{t("library.loan")} «{loanFor.title}»</h3>
+            <p className="text-xs text-stone mb-4">{t("library.loanHint")}</p>
             <div className="flex gap-2 mb-3">
               <input value={studentQ} onChange={(e) => { setStudentQ(e.target.value); searchStudents(e.target.value); }} placeholder={t("library.searchStudent")} className="b-input flex-1" autoFocus />
-              <label className="flex items-center gap-1.5 text-[12px] shrink-0">{t("library.dueDays")}
+              <label className="flex items-center gap-1.5 text-xs shrink-0">{t("library.dueDays")}
                 <input type="number" min={1} max={60} value={dueDays} onChange={(e) => setDueDays(Number(e.target.value) || 14)} className="b-input w-16" />
               </label>
             </div>
             <div className="flex flex-col gap-1.5 max-h-64 overflow-y-auto">
               {students.map((s) => (
                 <button key={s.id} disabled={busy} onClick={() => loanTo(s.id)} className="b-btn b-btn-ghost text-start p-2.5 rounded-full border border-[--hairline] hover:border-[--spring] transition-colors">
-                  <span className="font-semibold text-[14px]">{s.user.firstName} {s.user.lastName}</span>
-                  <span className="text-[12px] text-stone ms-2">{s.class?.name ?? t("students.noClass")}{s.studentNumber ? ` · ${s.studentNumber}` : ""}</span>
+                  <span className="font-semibold text-sm">{s.user.firstName} {s.user.lastName}</span>
+                  <span className="text-xs text-stone ms-2">{s.class?.name ?? t("students.noClass")}{s.studentNumber ? ` · ${s.studentNumber}` : ""}</span>
                 </button>
               ))}
-              {studentQ.trim().length >= 2 && students.length === 0 && <p className="text-[12px] text-stone p-2">{t("library.noStudent")}</p>}
+              {studentQ.trim().length >= 2 && students.length === 0 && <p className="text-xs text-stone p-2">{t("library.noStudent")}</p>}
             </div>
             <button className="b-btn b-btn-ghost w-full mt-4" onClick={() => setLoanFor(null)}>{t("common.close")}</button>
           </div>

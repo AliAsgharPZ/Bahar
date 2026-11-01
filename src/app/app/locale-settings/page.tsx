@@ -42,35 +42,35 @@ export default function LocaleSettingsPage() {
       {data && val && (
         <div className="grid lg:grid-cols-2 gap-4 items-start">
           <div className="b-card p-6 flex flex-col gap-4">
-            <b className="text-[14px] flex items-center gap-2"><Globe2 className="w-4 h-4 text-spring" /> {data.locale.name}</b>
-            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.calendar")}</span>
+            <b className="text-sm flex items-center gap-2"><Globe2 className="w-4 h-4 text-spring" /> {data.locale.name}</b>
+            <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("localeSettings.calendar")}</span>
               <Select className="w-full" buttonClassName="!w-full" value={val.calendarSystem} onChange={(v) => set({ calendarSystem: v })}
                 options={data.calendars} placeholder={t("localeSettings.calendarPlaceholder")} /></label>
-            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.scale")}</span>
+            <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("localeSettings.scale")}</span>
               <Select className="w-full" buttonClassName="!w-full" value={val.gradingScale} onChange={(v) => set({ gradingScale: v })}
                 options={data.scales} placeholder={t("localeSettings.scalePlaceholder")} /></label>
-            <div className="grid grid-cols-2 gap-3">
-              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.currency")}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("localeSettings.currency")}</span>
                 <input className="b-input" value={val.currencyLabel} onChange={(e) => set({ currencyLabel: e.target.value })} placeholder={t("localeSettings.currencyPlaceholder")} /></label>
-              <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.weekStart")}</span>
+              <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("localeSettings.weekStart")}</span>
                 <Select className="w-full" buttonClassName="!w-full" value={val.weekStart} onChange={(v) => set({ weekStart: v })}
                   options={[{ value: "SATURDAY", label: t("localeSettings.weekday.saturday") }, { value: "SUNDAY", label: t("localeSettings.weekday.sunday") }, { value: "MONDAY", label: t("localeSettings.weekday.monday") }]} placeholder={t("localeSettings.weekStart")} /></label>
             </div>
             <button className="b-btn b-btn-spring self-start" disabled={saving} onClick={save}>
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("common.save")}
             </button>
-            <p className="text-[12px] text-steel">{t("localeSettings.scaleNote")}</p>
+            <p className="text-xs text-steel">{t("localeSettings.scaleNote")}</p>
           </div>
 
           <div className="b-card p-6 flex flex-col gap-3">
-            <b className="text-[14px]">{t("localeSettings.converter")}</b>
-            <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("localeSettings.score20")}</span>
+            <b className="text-sm">{t("localeSettings.converter")}</b>
+            <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("localeSettings.score20")}</span>
               <input className="b-input w-36" dir="ltr" inputMode="decimal" value={sample} onChange={(e) => setSample(e.target.value)} /></label>
-            <div className="grid grid-cols-2 gap-2 text-[14px]">
-              <span className="rounded-2xl bg-cloud p-3">{t("localeSettings.outOf100")} <b>{convertScore(Number(sample) || 0, "SCORE100")}</b></span>
-              <span className="rounded-2xl bg-cloud p-3">GPA: <b>{convertScore(Number(sample) || 0, "GPA4")}</b></span>
-              <span className="rounded-2xl bg-cloud p-3">{t("localeSettings.letter")} <b>{convertScore(Number(sample) || 0, "LETTER")}</b></span>
-              <span className="rounded-2xl bg-cloud p-3">{t("localeSettings.currentScale")} <b>{convertScore(Number(sample) || 0, val.gradingScale)}</b></span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <span className="rounded-full bg-cloud p-3">{t("localeSettings.outOf100")} <b>{convertScore(Number(sample) || 0, "SCORE100")}</b></span>
+              <span className="rounded-full bg-cloud p-3">GPA: <b>{convertScore(Number(sample) || 0, "GPA4")}</b></span>
+              <span className="rounded-full bg-cloud p-3">{t("localeSettings.letter")} <b>{convertScore(Number(sample) || 0, "LETTER")}</b></span>
+              <span className="rounded-full bg-cloud p-3">{t("localeSettings.currentScale")} <b>{convertScore(Number(sample) || 0, val.gradingScale)}</b></span>
             </div>
           </div>
         </div>

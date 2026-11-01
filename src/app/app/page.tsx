@@ -70,7 +70,7 @@ export default function DashboardPage() {
         <section className="mb-8">
           <div className="flex items-center gap-2 mb-3">
             <span className="w-2 h-2 rounded-full bg-destructive b-pulse-dot" />
-            <h2 className="text-[16px] font-bold">{t("dashboard.attentionNeeded")}</h2>
+            <h2 className="text-base font-bold">{t("dashboard.attentionNeeded")}</h2>
             <span className="b-badge b-badge-critical">{faNumber(actionCenter.needsAttention.length)} {t("dashboard.urgent")}</span>
           </div>
           <StaggerGroup className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -87,10 +87,10 @@ export default function DashboardPage() {
                     </span>
                     <span className="flex-1 min-w-0">
                       <span className="flex items-center gap-2">
-                        <span className="text-[14px] font-bold truncate">{it.title}</span>
-                        {it.count > 0 && <span className="b-badge b-badge-neutral !text-[12px]">{faNumber(it.count)}</span>}
+                        <span className="text-sm font-bold truncate">{it.title}</span>
+                        {it.count > 0 && <span className="b-badge b-badge-neutral !text-xs">{faNumber(it.count)}</span>}
                       </span>
-                      <span className="block text-[12px] text-steel truncate">{it.description}</span>
+                      <span className="block text-xs text-steel truncate">{it.description}</span>
                     </span>
                     <ArrowLeft className="w-4 h-4 text-stone group-hover:-translate-x-1 group-hover:text-spring transition-all flip-rtl" />
                   </Link>
@@ -240,7 +240,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
         <div className="b-card-md p-5 flex flex-col items-center justify-center gap-3">
           <h3 className="font-bold self-start">{t("dashboard.serviceHealth")}</h3>
           <RadialGauge value={health} size={116} label={t("dashboard.outOf100")} />
-          <div className="w-full flex flex-col gap-1.5 text-[12px]">
+          <div className="w-full flex flex-col gap-1.5 text-xs">
             <HealthMiniRow label={t("dashboard.health.backup")} ok={backupAgeHrs !== null && backupAgeHrs <= 48} okText={t("dashboard.health.upToDate")} badText={backupAgeHrs === null ? t("dashboard.health.noBackup") : t("dashboard.health.stale")} />
             <HealthMiniRow label={t("dashboard.health.failedLogins")} ok={failRatio < 10} okText={`${faNumber(failRatio)}٪`} badText={`${faNumber(failRatio)}٪ ${t("dashboard.health.ofTotal")}`} />
             <HealthMiniRow label={t("dashboard.openTickets")} ok={Number(s.openTickets ?? 0) < 5} okText={`${faNumber(Number(s.openTickets ?? 0))} ${t("dashboard.unit.case")}`} badText={`${faNumber(Number(s.openTickets ?? 0))} ${t("dashboard.unit.case")}`} />
@@ -303,11 +303,11 @@ function ServiceDashboard({ data }: { data: Dash }) {
           </div>
           <div className="flex flex-col gap-3">
             <div>
-              <span className="text-[12px] text-steel block mb-1.5">{t("dashboard.logins.successDaily")}</span>
+              <span className="text-xs text-steel block mb-1.5">{t("dashboard.logins.successDaily")}</span>
               <VBarChart data={loginTrend.map((t) => ({ label: t.date.slice(5), value: t.success }))} height={110} color="var(--spring)" />
             </div>
             <div>
-              <span className="text-[12px] text-steel block mb-1.5">{t("dashboard.logins.failedDaily")}</span>
+              <span className="text-xs text-steel block mb-1.5">{t("dashboard.logins.failedDaily")}</span>
               <VBarChart data={loginTrend.map((t) => ({ label: t.date.slice(5), value: t.failed }))} height={90} color="var(--destructive)" idSuffix="-f" />
             </div>
           </div>
@@ -327,13 +327,13 @@ function ServiceDashboard({ data }: { data: Dash }) {
       <div className="b-card-md p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold">{t("dashboard.allActiveSchools")}</h3>
-          <Link href="/app/schools" className="text-[12px] font-bold text-spring-deep hover:underline">{t("dashboard.manageSchools")}</Link>
+          <Link href="/app/schools" className="text-xs font-bold text-spring-deep hover:underline">{t("dashboard.manageSchools")}</Link>
         </div>
         {allSchools.length === 0 ? (
           <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noSchool")}</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-[12px]">
+            <table className="w-full text-xs">
               <thead>
                 <tr className="text-steel text-start border-b border-hairline-soft">
                   <th className="text-start font-bold py-2 pe-3">{t("common.school")}</th>
@@ -364,7 +364,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
         <div className="b-card-md p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold">{t("dashboard.recentSignups")}</h3>
-            <Link href="/app/users" className="text-[12px] font-bold text-spring-deep hover:underline">{t("dashboard.allUsers")}</Link>
+            <Link href="/app/users" className="text-xs font-bold text-spring-deep hover:underline">{t("dashboard.allUsers")}</Link>
           </div>
           {recentSignups.length === 0 ? (
             <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noUser")}</p>
@@ -373,14 +373,14 @@ function ServiceDashboard({ data }: { data: Dash }) {
               {recentSignups.map((u, i) => (
                 <motion.div key={u.id} initial={{ opacity: 0, x: isRtl ? 10 : -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
                   className="flex items-center gap-3 px-2 py-2 rounded-2xl hover:bg-spring-tint/40 transition-colors">
-                  <span className="w-8 h-8 rounded-full bg-spring-tint text-spring-deep text-[12px] font-bold flex items-center justify-center shrink-0">
+                  <span className="w-8 h-8 rounded-full bg-spring-tint text-spring-deep text-xs font-bold flex items-center justify-center shrink-0">
                     {u.firstName?.[0] ?? "؟"}
                   </span>
                   <span className="flex-1 min-w-0">
-                    <span className="text-[12px] font-bold truncate block">{u.firstName} {u.lastName}</span>
-                    <span className="text-[12px] text-steel truncate block">{ROLE_TKEY[u.role] ? t(ROLE_TKEY[u.role]) : u.role}{u.school?.name ? ` · ${u.school.name}` : ""}</span>
+                    <span className="text-xs font-bold truncate block">{u.firstName} {u.lastName}</span>
+                    <span className="text-xs text-steel truncate block">{ROLE_TKEY[u.role] ? t(ROLE_TKEY[u.role]) : u.role}{u.school?.name ? ` · ${u.school.name}` : ""}</span>
                   </span>
-                  <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(u.createdAt)}</span>
+                  <span className="text-xs text-stone shrink-0">{relativeTimeFa(u.createdAt)}</span>
                 </motion.div>
               ))}
             </div>
@@ -393,7 +393,7 @@ function ServiceDashboard({ data }: { data: Dash }) {
           ) : (
             <div className="flex flex-col gap-2.5">
               {ticketsByStatus.map((tk) => (
-                <div key={tk.status} className="flex items-center justify-between text-[12px] px-3 py-2 rounded-2xl bg-cloud/60">
+                <div key={tk.status} className="flex items-center justify-between text-xs px-3 py-2 rounded-2xl bg-cloud/60">
                   <span className="flex items-center gap-2">
                     <span className={`b-dot ${tk.status === "OPEN" ? "bg-destructive" : tk.status === "CLOSED" ? "bg-success" : "bg-warning"}`} />
                     <span className="font-bold">{tk.status === "OPEN" ? t("dashboard.ticket.open") : tk.status === "ANSWERED" ? t("dashboard.ticket.answered") : tk.status === "CLOSED" ? t("dashboard.ticket.closed") : tk.status}</span>
@@ -404,9 +404,9 @@ function ServiceDashboard({ data }: { data: Dash }) {
             </div>
           )}
           <h3 className="font-bold mt-5 mb-3">{t("dashboard.quickActions")}</h3>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {QUICK.map((q) => (
-              <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-center text-[12px] font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
+              <Link key={q.href} href={q.href} className="flex flex-col items-center gap-1.5 rounded-2xl p-3 text-center text-xs font-bold text-steel hover:bg-spring-tint hover:text-spring-deep transition-colors">
                 <q.icon className="w-5 h-5" />
                 {q.label}
               </Link>
@@ -419,19 +419,19 @@ function ServiceDashboard({ data }: { data: Dash }) {
       <div className="b-card-md p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-bold flex items-center gap-2"><History className="w-4 h-4 text-steel" /> {t("dashboard.recentAudit")}</h3>
-          <Link href="/app/audit" className="text-[12px] font-bold text-spring-deep hover:underline">{t("dashboard.fullReport")}</Link>
+          <Link href="/app/audit" className="text-xs font-bold text-spring-deep hover:underline">{t("dashboard.fullReport")}</Link>
         </div>
         {auditRows.length === 0 ? (
           <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noAudit")}</p>
         ) : (
           <div className="flex flex-col gap-1">
             {auditRows.slice(0, 6).map((a) => (
-              <div key={a.id} className="flex items-center gap-3 px-2 py-1.5 rounded-2xl text-[12px] hover:bg-spring-tint/40 transition-colors">
-                <span className="b-badge b-badge-neutral !text-[12px] !px-2 !py-0.5 shrink-0">{a.action}</span>
+              <div key={a.id} className="flex items-center gap-3 px-2 py-1.5 rounded-2xl text-xs hover:bg-spring-tint/40 transition-colors">
+                <span className="b-badge b-badge-neutral !text-xs !px-2 !py-0.5 shrink-0">{a.action}</span>
                 <span className="text-steel truncate flex-1">
                   {a.user?.firstName ? `${a.user.firstName} ${a.user.lastName ?? ""}` : t("dashboard.system")} · {a.entityType}
                 </span>
-                <span className="text-stone text-[12px] shrink-0">{relativeTimeFa(a.createdAt)}</span>
+                <span className="text-stone text-xs shrink-0">{relativeTimeFa(a.createdAt)}</span>
               </div>
             ))}
           </div>
@@ -444,8 +444,8 @@ function ServiceDashboard({ data }: { data: Dash }) {
 function SysChip({ label, value, tone = "spring" }: { label: string; value: string; tone?: "spring" | "warning" }) {
   return (
     <div className={`rounded-2xl px-3 py-2.5 border ${tone === "warning" ? "bg-warning/10 border-warning/20" : "bg-spring-tint/40 border-spring/15"}`}>
-      <span className="block text-[12px] text-steel mb-0.5">{label}</span>
-      <span className={`text-[12px] font-bold ${tone === "warning" ? "text-warning-deep" : "text-spring-deep"} truncate block`} title={value}>{value}</span>
+      <span className="block text-xs text-steel mb-0.5">{label}</span>
+      <span className={`text-xs font-bold ${tone === "warning" ? "text-warning-deep" : "text-spring-deep"} truncate block`} title={value}>{value}</span>
     </div>
   );
 }
@@ -508,8 +508,8 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
           </div>
           {todayDetail && todayDetail.absent.length > 0 && (
             <div className="mt-4 p-3 rounded-2xl bg-destructive/5 border border-destructive/15">
-              <p className="text-[12px] font-bold text-destructive mb-1.5">{t("dashboard.todayAbsents")}:</p>
-              <p className="text-[12px] text-steel leading-relaxed">{todayDetail.absent.slice(0, 8).map((a) => `${a.name} (${a.class})`).join("، ")}{todayDetail.absent.length > 8 ? " و…" : ""}</p>
+              <p className="text-xs font-bold text-destructive mb-1.5">{t("dashboard.todayAbsents")}:</p>
+              <p className="text-xs text-steel leading-relaxed">{todayDetail.absent.slice(0, 8).map((a) => `${a.name} (${a.class})`).join("، ")}{todayDetail.absent.length > 8 ? " و…" : ""}</p>
             </div>
           )}
         </div>
@@ -529,7 +529,7 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
               </svg>
               <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">{typeof hs.overall === "number" ? faNumber(hs.overall) : "—"}</span>
             </div>
-            <div className="text-[12px] text-steel leading-relaxed">{t("dashboard.scoreOutOf100")}</div>
+            <div className="text-xs text-steel leading-relaxed">{t("dashboard.scoreOutOf100")}</div>
           </div>
           <div className="flex flex-col gap-2">
             <HealthRow label={t("dashboard.health.academics")} v={hs.academics} />
@@ -562,7 +562,7 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
         <div className="b-card-md p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-destructive" /> {t("dashboard.atRiskDecline")}</h3>
-            <Link href="/app/students" className="text-[12px] font-bold text-spring-deep hover:underline">{t("dashboard.allStudents")}</Link>
+            <Link href="/app/students" className="text-xs font-bold text-spring-deep hover:underline">{t("dashboard.allStudents")}</Link>
           </div>
           {risk.length === 0 ? <p className="t-sm text-steel py-6 text-center">{t("dashboard.empty.noConcern")}</p> : (
             <div className="flex flex-col gap-2">
@@ -570,9 +570,9 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
                 <motion.div key={i} initial={{ opacity: 0, x: isRtl ? 10 : -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
                   className="flex items-center gap-3 p-3 rounded-2xl bg-destructive/5">
                   <span className="b-badge b-badge-critical shrink-0">-{faNumber(r.drop)}</span>
-                  <span className="flex-1 min-w-0 text-[12px] font-bold truncate">{r.name}</span>
-                  <span className="text-[12px] text-steel shrink-0">{r.class}</span>
-                  <span className="text-[12px] text-steel shrink-0">{faNumber(r.early)} ← {faNumber(r.late)}</span>
+                  <span className="flex-1 min-w-0 text-xs font-bold truncate">{r.name}</span>
+                  <span className="text-xs text-steel shrink-0">{r.class}</span>
+                  <span className="text-xs text-steel shrink-0">{faNumber(r.early)} ← {faNumber(r.late)}</span>
                 </motion.div>
               ))}
             </div>
@@ -583,7 +583,7 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
           {bdays.length === 0 ? <p className="t-sm text-steel py-4 text-center">{t("dashboard.empty.noBirthdayThisWeek")}</p> : (
             <div className="flex flex-col gap-2">
               {bdays.slice(0, 5).map((b, i) => (
-                <div key={i} className="flex items-center justify-between text-[12px]">
+                <div key={i} className="flex items-center justify-between text-xs">
                   <span className="font-bold truncate">{b.name}</span>
                   <span className="text-steel shrink-0">{b.days === 0 ? t("dashboard.birthday.today") : b.days > 0 ? `${faNumber(b.days)} ${t("dashboard.birthday.daysLater")}` : `${faNumber(-b.days)} ${t("dashboard.birthday.daysAgo")}`}</span>
                 </div>
@@ -595,7 +595,7 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
               <h3 className="font-bold mt-5 mb-3">{t("dashboard.recentBehavior")}</h3>
               <div className="flex flex-col gap-1.5">
                 {behavior.slice(0, 4).map((b, i) => (
-                  <div key={i} className="flex items-center gap-2 text-[12px]">
+                  <div key={i} className="flex items-center gap-2 text-xs">
                     <span className={`b-dot shrink-0 ${b.kind === "POSITIVE" ? "bg-success" : "bg-destructive"}`} />
                     <span className="truncate">{b.student} — {b.reason}</span>
                   </div>
@@ -612,16 +612,16 @@ function ManagerDashboard({ data, why, setWhy }: { data: Dash; why: string | nul
 function DeltaCard({ label, delta, suffix, invert }: { label: string; delta: number | null | undefined; suffix?: string; invert?: boolean }) {
   const { t } = useLang();
   if (delta === null || delta === undefined) {
-    return <div className="p-3 rounded-2xl bg-cloud"><p className="text-[12px] text-steel">{label}</p><p className="text-[14px] font-bold text-stone mt-1">—</p></div>;
+    return <div className="b-card-sm p-3"><p className="text-xs text-steel">{label}</p><p className="text-sm font-bold text-stone mt-1">—</p></div>;
   }
   if (delta === 0) {
-    return <div className="p-3 rounded-2xl bg-cloud"><p className="text-[12px] text-steel">{label}</p><p className="text-[14px] font-bold text-steel mt-1">{t("dashboard.delta.noChange")}</p></div>;
+    return <div className="b-card-sm p-3"><p className="text-xs text-steel">{label}</p><p className="text-sm font-bold text-steel mt-1">{t("dashboard.delta.noChange")}</p></div>;
   }
   const good = invert ? delta < 0 : delta > 0;
   return (
-    <div className="p-3 rounded-2xl bg-cloud">
-      <p className="text-[12px] text-steel">{label}</p>
-      <p className={`text-[14px] font-bold mt-1 flex items-center gap-1 ${good ? "text-success" : "text-destructive"}`}>
+    <div className="b-card-sm p-3">
+      <p className="text-xs text-steel">{label}</p>
+      <p className={`text-sm font-bold mt-1 flex items-center gap-1 ${good ? "text-success" : "text-destructive"}`}>
         {delta > 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
         {delta > 0 ? "+" : "−"}{faNumber(Math.abs(delta))}{suffix}
       </p>
@@ -633,7 +633,7 @@ function HealthRow({ label, v }: { label: string; v: number | null | undefined }
   const has = typeof v === "number";
   return (
     <div className="flex items-center gap-2.5">
-      <span className="text-[12px] text-steel w-16 shrink-0">{label}</span>
+      <span className="text-xs text-steel w-16 shrink-0">{label}</span>
       <div className="flex-1 h-2 rounded-full bg-cloud overflow-hidden">
         {has ? (
           <motion.div
@@ -644,7 +644,7 @@ function HealthRow({ label, v }: { label: string; v: number | null | undefined }
           />
         ) : null}
       </div>
-      <span className="text-[12px] font-bold w-7 text-end">{has ? faNumber(v!) : "—"}</span>
+      <span className="text-xs font-bold w-7 text-end">{has ? faNumber(v!) : "—"}</span>
     </div>
   );
 }
@@ -653,7 +653,7 @@ function WhyBtn({ id, open, setOpen, content }: { id: string; open: string | nul
   const { t } = useLang();
   return (
     <div className="relative">
-      <button onClick={() => setOpen(open === id ? null : id)} className="b-btn b-btn-ghost !min-h-[40px] !text-[12px] !px-3 !py-1">
+      <button onClick={() => setOpen(open === id ? null : id)} className="b-btn b-btn-ghost !min-h-10 !text-xs !px-3 !py-1">
         {t("dashboard.why")} <ChevronDown className={`w-3 h-3 transition-transform ${open === id ? "rotate-180" : ""}`} />
       </button>
       <AnimatePresence>
@@ -662,7 +662,7 @@ function WhyBtn({ id, open, setOpen, content }: { id: string; open: string | nul
             initial={{ opacity: 0, y: -4, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.97 }}
-            className="absolute top-full end-0 mt-2 z-20 b-card-sm p-3 text-[12px] text-steel leading-relaxed w-56 text-start b-shadow-rail"
+            className="absolute top-full end-0 mt-2 z-20 b-card-sm p-3 text-xs text-steel leading-relaxed w-56 text-start b-shadow-rail"
           >
             {content}
           </motion.div>
@@ -696,7 +696,7 @@ function TeacherDashboard({ data }: { data: Dash }) {
           ].map((a) => (
             <Link key={a.href} href={a.href} className="flex flex-col items-center gap-2 p-3.5 rounded-2xl bg-background hover:shadow-md transition-all hover:-translate-y-0.5">
               <span className="w-10 h-10 rounded-2xl bg-spring-tint text-spring-deep flex items-center justify-center"><a.icon className="w-5 h-5" /></span>
-              <span className="text-center leading-snug text-[12px] font-bold">{a.label}</span>
+              <span className="text-center leading-snug text-xs font-bold">{a.label}</span>
             </Link>
           ))}
         </div>
@@ -717,9 +717,9 @@ function TeacherDashboard({ data }: { data: Dash }) {
               {slots.map((sl, i) => (
                 <motion.div key={sl.id} initial={{ opacity: 0, x: isRtl ? 8 : -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}
                   className="flex items-center gap-3 p-3 rounded-2xl bg-cloud">
-                  <span className="w-9 h-9 rounded-2xl bg-spring text-primary-foreground flex items-center justify-center text-[14px] font-bold shrink-0">{faNumber(sl.period)}</span>
-                  <span className="flex-1 text-[14px] font-bold">{sl.subject?.name}</span>
-                  <span className="text-[12px] text-steel">{sl.class?.name}</span>
+                  <span className="w-9 h-9 rounded-2xl bg-spring text-primary-foreground flex items-center justify-center text-sm font-bold shrink-0">{faNumber(sl.period)}</span>
+                  <span className="flex-1 text-sm font-bold">{sl.subject?.name}</span>
+                  <span className="text-xs text-steel">{sl.class?.name}</span>
                 </motion.div>
               ))}
             </div>
@@ -732,9 +732,9 @@ function TeacherDashboard({ data }: { data: Dash }) {
               {assignments.slice(0, 5).map((a) => (
                 <div key={a.id} className="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-cloud transition-colors">
                   <span className="b-dot bg-spring shrink-0" />
-                  <span className="flex-1 text-[12px] font-bold truncate">{a.title}</span>
-                  <span className="text-[12px] text-steel shrink-0">{a.class?.name}</span>
-                  <span className="text-[12px] text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
+                  <span className="flex-1 text-xs font-bold truncate">{a.title}</span>
+                  <span className="text-xs text-steel shrink-0">{a.class?.name}</span>
+                  <span className="text-xs text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
                 </div>
               ))}
             </div>
@@ -767,10 +767,10 @@ function StudentDashboard({ data }: { data: Dash }) {
         <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="b-card-tint p-4 flex items-center gap-3">
           <span className="w-12 h-12 rounded-2xl bg-spring/15 text-spring-deep flex items-center justify-center"><Award className="w-6 h-6" /></span>
           <div className="flex-1">
-            <p className="text-[12px] font-bold">{t("dashboard.featuredBadge")} {featured.title}</p>
-            <p className="text-[12px] text-steel">{t("dashboard.seeAllBadges")}</p>
+            <p className="text-xs font-bold">{t("dashboard.featuredBadge")} {featured.title}</p>
+            <p className="text-xs text-steel">{t("dashboard.seeAllBadges")}</p>
           </div>
-          <Link href="/app/badges" className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px]">{t("dashboard.myBadges")}</Link>
+          <Link href="/app/badges" className="b-btn b-btn-sm b-btn-spring !min-h-10 !text-xs">{t("dashboard.myBadges")}</Link>
         </motion.div>
       )}
 
@@ -781,12 +781,12 @@ function StudentDashboard({ data }: { data: Dash }) {
             <div className="flex flex-col gap-2.5">
               {st.slice(0, 5).map((t) => (
                 <div key={t.subject} className="flex items-center gap-2">
-                  <span className="text-[12px] w-16 truncate">{t.subject}</span>
+                  <span className="text-xs w-16 truncate">{t.subject}</span>
                   <div className="flex-1 h-2 rounded-full bg-cloud overflow-hidden">
                     <motion.div initial={{ width: 0 }} animate={{ width: `${(t.avg / 20) * 100}%` }} transition={{ duration: 0.7 }} className="h-full bg-spring rounded-full" />
                   </div>
-                  <span className="text-[12px] font-bold w-7">{faNumber(t.avg)}</span>
-                  <span className={`text-[12px] font-bold w-9 text-end ${t.delta > 0 ? "text-success" : t.delta < 0 ? "text-destructive" : "text-stone"}`}>
+                  <span className="text-xs font-bold w-7">{faNumber(t.avg)}</span>
+                  <span className={`text-xs font-bold w-9 text-end ${t.delta > 0 ? "text-success" : t.delta < 0 ? "text-destructive" : "text-stone"}`}>
                     {t.delta > 0 ? "↑" : t.delta < 0 ? "↓" : "—"}{Math.abs(t.delta) ? faNumber(Math.abs(t.delta)) : ""}
                   </span>
                 </div>
@@ -799,10 +799,10 @@ function StudentDashboard({ data }: { data: Dash }) {
           {slots.length === 0 ? <p className="t-sm text-steel py-4 text-center">{t("dashboard.empty.noPeriodStudent")}</p> : (
             <div className="flex flex-col gap-1.5">
               {slots.map((sl) => (
-                <div key={sl.id} className="flex items-center gap-2.5 text-[12px] p-2 rounded-2xl hover:bg-cloud">
-                  <span className="w-6 h-6 rounded-lg bg-spring-tint text-spring-deep flex items-center justify-center text-[12px] font-bold shrink-0">{faNumber(sl.period)}</span>
+                <div key={sl.id} className="flex items-center gap-2.5 text-xs p-2 rounded-2xl hover:bg-cloud">
+                  <span className="w-6 h-6 rounded-lg bg-spring-tint text-spring-deep flex items-center justify-center text-xs font-bold shrink-0">{faNumber(sl.period)}</span>
                   <span className="flex-1 font-bold truncate">{sl.subject?.name}</span>
-                  <span className="text-[12px] text-steel shrink-0">{sl.teacher ? `${sl.teacher.firstName} ${sl.teacher.lastName}` : ""}</span>
+                  <span className="text-xs text-steel shrink-0">{sl.teacher ? `${sl.teacher.firstName} ${sl.teacher.lastName}` : ""}</span>
                 </div>
               ))}
             </div>
@@ -813,10 +813,10 @@ function StudentDashboard({ data }: { data: Dash }) {
           {assignments.length === 0 ? <p className="t-sm text-steel py-4 text-center">{t("dashboard.empty.noHomework")}</p> : (
             <div className="flex flex-col gap-1.5">
               {assignments.slice(0, 5).map((a) => (
-                <div key={a.id} className="flex items-center gap-2 text-[12px] p-2 rounded-2xl hover:bg-cloud">
+                <div key={a.id} className="flex items-center gap-2 text-xs p-2 rounded-2xl hover:bg-cloud">
                   <span className="b-dot bg-blossom shrink-0" />
                   <span className="flex-1 font-bold truncate">{a.title}</span>
-                  <span className="text-[12px] text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
+                  <span className="text-xs text-stone shrink-0">{formatDateFa(a.dueDate)}</span>
                 </div>
               ))}
             </div>
@@ -844,12 +844,12 @@ function ParentDashboard({ data }: { data: Dash }) {
           <motion.div key={ch.studentId} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} className="b-card-md p-5">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="font-bold text-[16px]">{ch.student.name}</p>
-                <p className="text-[12px] text-steel">{ch.student.class} · {ch.relation === "FATHER" ? t("dashboard.relation.father") : ch.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}</p>
+                <p className="font-bold text-base">{ch.student.name}</p>
+                <p className="text-xs text-steel">{ch.student.class} · {ch.relation === "FATHER" ? t("dashboard.relation.father") : ch.relation === "MOTHER" ? t("dashboard.relation.mother") : t("dashboard.relation.guardian")}</p>
               </div>
-              <Link href={`/app/students/${ch.studentId}`} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px]">{t("dashboard.childFile")}</Link>
+              <Link href={`/app/students/${ch.studentId}`} className="b-btn b-btn-sm b-btn-ghost !min-h-10 !text-xs">{t("dashboard.childFile")}</Link>
             </div>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <MiniStat label={t("dashboard.gpa")} value={ch.student.gpa ? faNumber(ch.student.gpa) : "—"} />
               <MiniStat label={t("dashboard.mini.attendance")} value={ch.student.attendanceRate ? `${faNumber(ch.student.attendanceRate)}٪` : "—"} good={(ch.student.attendanceRate ?? 0) >= 90} />
               <MiniStat label={t("dashboard.mini.absence")} value={faNumber(ch.student.absences)} good={ch.student.absences < 3} />
@@ -858,10 +858,10 @@ function ParentDashboard({ data }: { data: Dash }) {
               <MiniStat label={t("dashboard.mini.behavior")} value={faNumber(ch.student.behaviorPoints)} good={ch.student.behaviorPoints >= 0} />
             </div>
             {ch.student.nextClass && (
-              <p className="mt-3 text-[12px] text-steel"><CheckCircle2 className="w-3.5 h-3.5 inline text-spring" /> {t("dashboard.nextPeriod")} {ch.student.nextClass}</p>
+              <p className="mt-3 text-xs text-steel"><CheckCircle2 className="w-3.5 h-3.5 inline text-spring" /> {t("dashboard.nextPeriod")} {ch.student.nextClass}</p>
             )}
             {ch.student.unpaidFees > 0 && (
-              <p className="mt-2 text-[12px] text-destructive font-bold"><AlertTriangle className="w-3.5 h-3.5 inline" /> {faNumber(ch.student.unpaidFees)} {t("dashboard.unpaidInstallments")} ({faNumber(ch.student.unpaidAmount)} {currencyLabel()})</p>
+              <p className="mt-2 text-xs text-destructive font-bold"><AlertTriangle className="w-3.5 h-3.5 inline" /> {faNumber(ch.student.unpaidFees)} {t("dashboard.unpaidInstallments")} ({faNumber(ch.student.unpaidAmount)} {currencyLabel()})</p>
             )}
           </motion.div>
         ))}
@@ -871,9 +871,9 @@ function ParentDashboard({ data }: { data: Dash }) {
           <h3 className="font-bold mb-4">{t("dashboard.schoolNotices")}</h3>
           <div className="flex flex-col gap-2">
             {announcements.map((a) => (
-              <div key={a.id} className="flex items-center gap-3 p-2.5 rounded-2xl bg-cloud text-[12px]">
+              <div key={a.id} className="flex items-center gap-3 p-2.5 rounded-2xl bg-cloud text-xs">
                 <span className="flex-1 font-bold truncate">{a.title}</span>
-                <span className="text-[12px] text-stone shrink-0">{formatDateFa(a.createdAt)}</span>
+                <span className="text-xs text-stone shrink-0">{formatDateFa(a.createdAt)}</span>
               </div>
             ))}
           </div>
@@ -884,11 +884,11 @@ function ParentDashboard({ data }: { data: Dash }) {
           <h3 className="font-bold mb-4">{t("dashboard.pendingMeetings")}</h3>
           <div className="flex flex-col gap-2">
             {meetings.map((m) => (
-              <div key={m.id} className="flex items-center gap-3 p-2.5 rounded-2xl bg-cloud text-[12px]">
+              <div key={m.id} className="flex items-center gap-3 p-2.5 rounded-2xl bg-cloud text-xs">
                 <span className={`b-badge ${m.status === "APPROVED" ? "b-badge-success" : "b-badge-warning"}`}>{m.status === "APPROVED" ? t("dashboard.meeting.approved") : t("dashboard.meeting.pending")}</span>
                 <span className="flex-1 font-bold truncate">{m.topic}</span>
-                <span className="text-[12px] text-steel">{m.staff.firstName} {m.staff.lastName}</span>
-                <span className="text-[12px] text-stone">{formatDateFa(m.slotStart)}</span>
+                <span className="text-xs text-steel">{m.staff.firstName} {m.staff.lastName}</span>
+                <span className="text-xs text-stone">{formatDateFa(m.slotStart)}</span>
               </div>
             ))}
           </div>
@@ -901,8 +901,8 @@ function ParentDashboard({ data }: { data: Dash }) {
 function MiniStat({ label, value, good }: { label: string; value: string; good?: boolean }) {
   return (
     <div className="p-2.5 rounded-2xl bg-cloud text-center">
-      <p className="text-[12px] text-steel">{label}</p>
-      <p className={`text-[14px] font-bold ${good === false ? "text-destructive" : ""}`}>{value}</p>
+      <p className="text-xs text-steel">{label}</p>
+      <p className={`text-sm font-bold ${good === false ? "text-destructive" : ""}`}>{value}</p>
     </div>
   );
 }

@@ -49,7 +49,7 @@ export default function OfficeHoursPage() {
             <input className="b-input w-full" value={timeText} onChange={(e) => setTimeText(e.target.value)} placeholder={t("hours.f.time")} />
             <input className="b-input w-full" value={room} onChange={(e) => setRoom(e.target.value)} placeholder={t("hours.f.room")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Clock className="w-4 h-4" />} {t("hours.add")}
           </button>
         </section>

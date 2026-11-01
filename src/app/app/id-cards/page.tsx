@@ -86,12 +86,12 @@ export default function IdCardsPage() {
       {loadError && <ErrorBox message={loadError} />}
 
       <div className="b-card p-4 mb-6 flex flex-wrap items-end gap-3 no-print">
-        <label className="b-field flex-1 min-w-56">
+        <label className="flex-1 min-w-56">
           <span>{t("common.class")}</span>
           <Select value={classId} onChange={(v) => { setClassId(v); loadStudents(v); }} placeholder={t("idCards.yk-klas-ra-antkhab-knyd")}
             options={classes.map((c) => ({ value: c.id, label: `${c.name}${c.grade ? ` · ${c.grade}` : ""}` }))} />
         </label>
-        <p className="text-[12px] text-stone pb-2">{t("idCards.bad-az-antkhab-klas-kart-hmh-dansh-amvzan-sakhth-my-shvd-v-ba-dk")}</p>
+        <p className="text-xs text-stone pb-2">{t("idCards.bad-az-antkhab-klas-kart-hmh-dansh-amvzan-sakhth-my-shvd-v-ba-dk")}</p>
       </div>
 
       {loading ? <LoadingBlock /> : students.length === 0 ? (
@@ -102,14 +102,14 @@ export default function IdCardsPage() {
             <article key={s.id} className="id-card-print b-card overflow-hidden">
               <header className="px-4 py-2.5 flex items-center gap-2 text-white" style={{ background: "linear-gradient(120deg, var(--spring-deep), var(--spring))" }}>
                 <School className="w-4 h-4 shrink-0" />
-                <b className="text-[12px] truncate">{schoolName || t("common.school")}</b>
-                <span className="ms-auto text-[12px] opacity-85">{t("idCards.kart-dansh-amvzy")}</span>
+                <b className="text-xs truncate">{schoolName || t("common.school")}</b>
+                <span className="ms-auto text-xs opacity-85">{t("idCards.kart-dansh-amvzy")}</span>
               </header>
               <div className="p-4 flex gap-3.5">
                 <UserAvatar user={s.user} size={76} rounded="xl" />
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-extrabold text-[16px] leading-snug truncate">{s.user.firstName} {s.user.lastName}</h3>
-                  <dl className="text-[12px] text-stone mt-1.5 space-y-1">
+                  <h3 className="font-extrabold text-base leading-snug truncate">{s.user.firstName} {s.user.lastName}</h3>
+                  <dl className="text-xs text-stone mt-1.5 space-y-1">
                     <div className="flex gap-1.5"><dt>{t("common.class")}:</dt><dd className="font-semibold text-[--ink]">{s.class?.name ?? "—"}{s.class?.grade ? ` ${t("idCards.payh")} ${s.class.grade}` : ""}</dd></div>
                     <div className="flex gap-1.5"><dt>{t("students.field.studentNumber")}:</dt><dd className="font-semibold text-[--ink]">{s.studentNumber ? faDigits(s.studentNumber) : "—"}</dd></div>
                     <div className="flex gap-1.5"><dt>{t("students.table.nationalId")}:</dt><dd className="font-semibold text-[--ink]">{faDigits(s.user.nationalId)}</dd></div>
@@ -118,7 +118,7 @@ export default function IdCardsPage() {
               </div>
               <footer className="px-4 pb-3.5 flex items-end justify-between gap-3">
                 <Barcode seed={s.studentNumber ?? s.id} />
-                <span className="text-[12px] text-stone">{t("idCards.ayn-kart-mtalq-bh-mdrsh-ast")}</span>
+                <span className="text-xs text-stone">{t("idCards.ayn-kart-mtalq-bh-mdrsh-ast")}</span>
               </footer>
             </article>
           ))}

@@ -50,7 +50,7 @@ export default function AssetLoansPage() {
           <input className="b-input w-full" value={borrower} onChange={(e) => setBorrower(e.target.value)} placeholder={t("loans.f.borrower")} />
           <input className="b-input w-full" dir="ltr" value={due} onChange={(e) => setDue(e.target.value)} placeholder={t("loans.f.due")} />
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wrench className="w-4 h-4" />} {t("loans.add")}
         </button>
       </section>
@@ -65,7 +65,7 @@ export default function AssetLoansPage() {
                 <p className="font-bold">{r.assetName}</p>
                 <p className="text-sm text-muted-foreground">{r.borrowerName} · {when(r.outAt)}{r.dueAt ? ` · ${t("loans.due")}: ${faNumber(r.dueAt)}` : ""}</p>
               </div>
-              <button className="b-btn b-btn-primary min-h-11" onClick={() => back(r.id)}><Undo2 className="w-4 h-4" /> {t("loans.back")}</button>
+              <button className="b-btn b-btn-spring min-h-11" onClick={() => back(r.id)}><Undo2 className="w-4 h-4" /> {t("loans.back")}</button>
             </div>
           ))}
         </section>

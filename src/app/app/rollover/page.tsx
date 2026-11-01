@@ -59,15 +59,15 @@ export default function RolloverPage() {
       {error && <ErrorBox message={error} />}
 
       <div className="b-card p-5 flex flex-wrap items-end gap-3">
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("rollover.sal-mbd")}</span>
+        <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("rollover.sal-mbd")}</span>
           <Select value={year} onChange={setFromYear} options={years.map((y) => ({ value: y, label: y }))} placeholder={t("rollover.sal")} /></label>
-        <label className="flex flex-col gap-1.5"><span className="text-[12px] font-bold">{t("rollover.sal-mqsd")} *</span>
+        <label className="flex flex-col gap-1.5"><span className="text-xs font-bold">{t("rollover.sal-mqsd")} *</span>
           <input className="b-input w-32" value={toYear} onChange={(e) => setToYear(e.target.value)} placeholder="1406-1405" /></label>
         <button className="b-btn b-btn-spring" disabled={busy || classes.length === 0} onClick={execute}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <CalendarSync className="w-4 h-4" />} {t("rollover.ajray-artqa")}
         </button>
         {result && (
-          <span className="text-[12px] text-steel">
+          <span className="text-xs text-steel">
             {t("rollover.ntyjh")}: {faNumber(result.moved)} {t("rollover.dansh-amvz-mntql-shd")} {faNumber(result.graduated)} {t("rollover.fargh-althsyl")} {faNumber(result.createdClasses)} {t("rollover.klas-jdyd-sakhth-shd")}
           </span>
         )}
@@ -79,7 +79,7 @@ export default function RolloverPage() {
           const p = planOf(c);
           return (
             <div key={c.id} className="b-card-sm p-4 grid md:grid-cols-[1fr_1fr_1fr_auto] gap-3 items-center">
-              <span><b className="text-[14px]">{c.name}</b><span className="block text-[12px] text-steel">{t("rollover.payh")} {c.grade} · {faNumber(c._count.students)} {t("rollover.dansh-amvz-faal")}</span></span>
+              <span><b className="text-sm">{c.name}</b><span className="block text-xs text-steel">{t("rollover.payh")} {c.grade} · {faNumber(c._count.students)} {t("rollover.dansh-amvz-faal")}</span></span>
               <input className="b-input" value={p.toName} disabled={p.graduate} onChange={(e) => setPlan(c.id, { toName: e.target.value }, c)} placeholder={t("rollover.nam-klas-sal-bad")} />
               <input className="b-input" value={p.toGrade} disabled={p.graduate} onChange={(e) => setPlan(c.id, { toGrade: e.target.value }, c)} placeholder={t("rollover.payh-sal-bad")} />
               <button className={`b-badge ${p.graduate ? "b-badge-blossom" : "b-badge-neutral"}`} onClick={() => setPlan(c.id, { graduate: !p.graduate }, c)}>

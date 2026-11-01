@@ -50,7 +50,7 @@ export default function CallLogPage() {
         </div>
         <textarea className="b-input w-full min-h-20" value={summary} onChange={(e) => setSummary(e.target.value)} placeholder={t("calls.f.summary")} />
         <input className="b-input w-full" value={followUp} onChange={(e) => setFollowUp(e.target.value)} placeholder={t("calls.f.followUp")} />
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <PhoneCall className="w-4 h-4" />} {t("calls.add")}
         </button>
       </section>
@@ -62,7 +62,7 @@ export default function CallLogPage() {
             <article key={r.id} className="b-card p-4 space-y-1">
               <div className="flex items-center gap-2">
                 <p className="font-bold flex-1">{r.contactName}</p>
-                <span className="px-2 py-0.5 rounded-full text-xs bg-info/15 text-info">{t(`calls.dir.${r.direction}`)}</span>
+                <span className="b-badge b-badge-neutral">{t(`calls.dir.${r.direction}`)}</span>
                 <span className="text-sm text-muted-foreground">{faNumber(r.date)}</span>
                 {r.mine && <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => remove(r.id)} aria-label={t("calls.delete")}><Trash2 className="w-4 h-4" /></button>}
               </div>

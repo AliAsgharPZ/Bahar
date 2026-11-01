@@ -86,7 +86,7 @@ export default function TasksPage() {
       {showNew && (
         <div className="b-card-md p-5 mb-6 grid gap-3 sm:grid-cols-2">
           <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder={tr("tasks.form.title")} className="b-input sm:col-span-2" autoFocus />
-          <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder={tr("tasks.form.description")} className="b-input sm:col-span-2 !min-h-[70px]" />
+          <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder={tr("tasks.form.description")} className="b-input sm:col-span-2" />
           <Select
             value={form.priority}
             onChange={(v) => setForm({ ...form, priority: v })}
@@ -114,11 +114,11 @@ export default function TasksPage() {
       {tasks.length === 0 ? (
         <EmptyState icon={ListTodo} title={tr("tasks.empty.title")} desc={tr("tasks.empty.desc")} />
       ) : (
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {COLS.map((col) => {
             const items = tasks.filter((t) => t.status === col.key);
             return (
-              <div key={col.key} className="b-card-md p-4 min-h-[200px]"
+              <div key={col.key} className="b-card-md p-4 min-h-50"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
                   e.preventDefault();
@@ -129,7 +129,7 @@ export default function TasksPage() {
                 }}>
                 <div className="flex items-center gap-2 mb-3 px-1">
                   <col.icon className={`w-4 h-4 ${col.color}`} />
-                  <span className="font-bold text-[14px]">{tr(col.label)}</span>
+                  <span className="font-bold text-sm">{tr(col.label)}</span>
                   <span className="b-badge b-badge-neutral ms-auto">{faNumber(items.length)}</span>
                 </div>
                 <div className="flex flex-col gap-2.5">
@@ -139,28 +139,28 @@ export default function TasksPage() {
                       <motion.div key={t.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
                         draggable
                         onDragStart={(e) => { const ev = e as unknown as { dataTransfer?: { setData(k: string, v: string): void } }; ev.dataTransfer?.setData("task", t.id); }}
-                        className={`p-3.5 rounded-2xl bg-cloud cursor-grab active:cursor-grabbing group ${overdue ? "border border-destructive/30" : ""}`}>
+                        className="b-card-sm p-3.5 cursor-grab active:cursor-grabbing group">
                         <div className="flex items-start gap-2">
-                          <span className="flex-1 text-[12px] font-bold leading-snug">{t.title}</span>
+                          <span className="flex-1 text-xs font-bold leading-snug">{t.title}</span>
                           {canManage && (
-                            <button onClick={() => remove(t.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 text-stone hover:text-destructive transition-all shrink-0">
+                            <button onClick={() => remove(t.id)} className="b-btn b-btn-ghost opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 text-stone hover:text-destructive transition-all shrink-0">
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           )}
                         </div>
-                        {t.description && <p className="text-[12px] text-steel mt-1 line-clamp-2">{t.description}</p>}
+                        {t.description && <p className="text-xs text-steel mt-1 line-clamp-2">{t.description}</p>}
                         <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-                          <span className={`b-badge !text-[12px] !px-1.5 !py-0.5 ${PRIO[t.priority]?.cls ?? "b-badge-neutral"}`}>{tr(PRIO[t.priority]?.label ?? "")}</span>
-                          {t.dueDate && <span className={`text-[12px] flex items-center gap-0.5 ${overdue ? "text-destructive font-bold" : "text-stone"}`}><Calendar className="w-3 h-3" />{formatDateFa(t.dueDate)}</span>}
-                          {t.student && <span className="text-[12px] text-steel truncate">🎓 {t.student.user.firstName} {t.student.user.lastName}</span>}
-                          {t.assignee && <span className="text-[12px] text-steel ms-auto">{t.assignee.firstName} {t.assignee.lastName}</span>}
-                          {t.sourceKind === "AUTOMATION" && <span className="b-badge b-badge-spring !text-[12px] !px-1.5 !py-0">{tr("tasks.auto")}</span>}
+                          <span className={`b-badge ${PRIO[t.priority]?.cls ?? "b-badge-neutral"}`}>{tr(PRIO[t.priority]?.label ?? "")}</span>
+                          {t.dueDate && <span className={`text-xs flex items-center gap-0.5 ${overdue ? "text-destructive font-bold" : "text-stone"}`}><Calendar className="w-3 h-3" />{formatDateFa(t.dueDate)}</span>}
+                          {t.student && <span className="text-xs text-steel truncate">🎓 {t.student.user.firstName} {t.student.user.lastName}</span>}
+                          {t.assignee && <span className="text-xs text-steel ms-auto">{t.assignee.firstName} {t.assignee.lastName}</span>}
+                          {t.sourceKind === "AUTOMATION" && <span className="b-badge b-badge-spring">{tr("tasks.auto")}</span>}
                         </div>
                         {t.status !== "DONE" && (
-                          <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            {t.status === "TODO" && <button onClick={() => move(t, "IN_PROGRESS")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{tr("tasks.start")}</button>}
-                            {t.status === "IN_PROGRESS" && <button onClick={() => move(t, "TODO")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">{tr("common.back")}</button>}
-                            <button onClick={() => move(t, "DONE")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{tr("tasks.done")}</button>
+                          <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 max-md:opacity-100 transition-opacity">
+                            {t.status === "TODO" && <button onClick={() => move(t, "IN_PROGRESS")} className="b-btn b-btn-ghost">{tr("tasks.start")}</button>}
+                            {t.status === "IN_PROGRESS" && <button onClick={() => move(t, "TODO")} className="b-btn b-btn-ghost">{tr("common.back")}</button>}
+                            <button onClick={() => move(t, "DONE")} className="b-btn b-btn-spring">{tr("tasks.done")}</button>
                           </div>
                         )}
                       </motion.div>

@@ -79,15 +79,15 @@ export default function HeldItemsPage() {
             <input className="b-input w-full" value={item} onChange={(e) => setItem(e.target.value)} placeholder={t("heldItems.f.item")} />
             <input className="b-input w-full" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("heldItems.f.reason")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={take}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={take}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Package className="w-4 h-4" />} {t("heldItems.take")}
           </button>
         </section>
       )}
 
-      <div className="flex rounded-full border border-border overflow-hidden w-fit" role="tablist" aria-label={t("heldItems.title")}>
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label={t("heldItems.title")}>
         {(["HELD", "RETURNED"] as const).map((s) => (
-          <button key={s} role="tab" aria-selected={tab === s} className={`px-4 min-h-11 text-sm ${tab === s ? "bg-primary text-primary-foreground" : ""}`} onClick={() => setTab(s)}>
+          <button key={s} role="tab" aria-selected={tab === s} className={`b-pill-tab ${tab === s ? "b-pill-tab-active" : ""}`} onClick={() => setTab(s)}>
             {s === "HELD" ? t("heldItems.heldTab") : t("heldItems.returnedTab")}
           </button>
         ))}
@@ -116,7 +116,7 @@ export default function HeldItemsPage() {
                     placeholder={t("heldItems.returnedToPh")}
                     aria-label={t("heldItems.returnedToPh")}
                   />
-                  <button className="b-btn b-btn-primary min-h-11" onClick={() => giveBack(r.id)}><Undo2 className="w-4 h-4" /> {t("heldItems.returnBtn")}</button>
+                  <button className="b-btn b-btn-spring min-h-11" onClick={() => giveBack(r.id)}><Undo2 className="w-4 h-4" /> {t("heldItems.returnBtn")}</button>
                 </span>
               ) : (
                 <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "HELD" ? "bg-warning/15 text-warning" : "bg-success/15 text-success"}`}>

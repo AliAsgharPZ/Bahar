@@ -92,7 +92,7 @@ export default function ReportCommentsPage() {
               options={[{ value: "", label: t("reportComments.select.student") }, ...(roster?.students ?? []).map((s) => ({ value: s.id, label: s.name }))]} placeholder={t("reportComments.select.student")} />
             <div className="flex rounded-full bg-cloud p-1">
               {[1, 2].map((tt) => (
-                <button key={tt} onClick={() => { setTerm(tt); setText(""); }} className={`px-3 py-1 rounded-full text-[12px] font-bold ${term === tt ? "bg-white shadow-sm" : "text-steel"}`}>{t("reportComments.term.label")} {tt === 1 ? t("reportComments.term.first") : t("reportComments.term.second")}</button>
+                <button key={tt} onClick={() => { setTerm(tt); setText(""); }} className={`b-pill-tab ${term === tt ? "b-pill-tab-active" : ""}`}>{t("reportComments.term.label")} {tt === 1 ? t("reportComments.term.first") : t("reportComments.term.second")}</button>
               ))}
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function ReportCommentsPage() {
         <div className="grid lg:grid-cols-[1fr_340px] gap-4 items-start">
           <div className="b-card p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <b className="text-[16px]">{t("reportComments.textTitle")} {term === 1 ? t("reportComments.term.first") : t("reportComments.term.second")}</b>
+              <b className="text-base">{t("reportComments.textTitle")} {term === 1 ? t("reportComments.term.first") : t("reportComments.term.second")}</b>
               <div className="flex gap-2">
                 <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => setText(data.draft ?? "")}>
                   <Sparkles className="w-4 h-4" /> {t("reportComments.autoDraft")}
@@ -120,8 +120,8 @@ export default function ReportCommentsPage() {
               </div>
             </div>
             {data.draft && !text && (
-              <div className="rounded-2xl bg-spring-tint/50 p-4 text-[14px] leading-relaxed">
-                <b className="block mb-1 text-[12px]">{t("reportComments.draftHint")}</b>
+              <div className="b-card-tint p-4 text-sm leading-relaxed">
+                <b className="block mb-1 text-xs">{t("reportComments.draftHint")}</b>
                 {data.draft}
               </div>
             )}
@@ -131,15 +131,15 @@ export default function ReportCommentsPage() {
               <button className="b-btn b-btn-spring" disabled={saving || text.trim().length < 5} onClick={saveComment}>
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} {t("reportComments.saveComment")}
               </button>
-              {saved && <span className="text-[12px] text-steel">{t("reportComments.savedNote")}</span>}
+              {saved && <span className="text-xs text-steel">{t("reportComments.savedNote")}</span>}
             </div>
           </div>
 
           <div className="b-card p-5 flex flex-col gap-4">
-            <b className="text-[14px]">{t("reportComments.bank.title")}</b>
+            <b className="text-sm">{t("reportComments.bank.title")}</b>
             <div className="flex flex-col gap-1.5 max-h-72 overflow-y-auto b-scroll">
               {templates.map((tpl) => (
-                <div key={tpl.id} className="group rounded-lg bg-cloud p-3 text-[12px] leading-relaxed">
+                <div key={tpl.id} className="group b-card-sm p-3 text-xs leading-relaxed">
                   <p>{tpl.text}</p>
                   <div className="flex gap-2 mt-2">
                     <button className="b-badge b-badge-spring" onClick={() => setText((x) => (x ? `${x} ${tpl.text}` : tpl.text))}>{t("reportComments.bank.addToText")}</button>
@@ -149,7 +149,7 @@ export default function ReportCommentsPage() {
                   </div>
                 </div>
               ))}
-              {templates.length === 0 && <p className="text-[12px] text-steel">{t("reportComments.bank.empty")}</p>}
+              {templates.length === 0 && <p className="text-xs text-steel">{t("reportComments.bank.empty")}</p>}
             </div>
             <div className="flex flex-col gap-2">
               <Select className="w-full" buttonClassName="!w-full" value={tplCat} onChange={setTplCat} options={CATS} placeholder={t("reportComments.bank.category")} />

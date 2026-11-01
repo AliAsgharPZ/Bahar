@@ -125,8 +125,8 @@ function ReportsInner() {
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="b-card-md p-5 flex flex-col gap-3">
             <h3 className="font-bold">{t("reports.import.step1")}</h3>
-            <textarea value={csv} onChange={(e) => setCsv(e.target.value)} placeholder={t("reports.placeholder.columns")} className="b-input !min-h-[180px] font-mono !text-[12px]" dir="rtl" />
-            <button onClick={() => setCsv(SAMPLE_CSV)} className="b-btn b-btn-sm b-btn-ghost w-fit !text-[12px]">{t("reports.sample.insert")}</button>
+            <textarea value={csv} onChange={(e) => setCsv(e.target.value)} placeholder={t("reports.placeholder.columns")} className="b-input !min-h-45 font-mono !text-xs" dir="rtl" />
+            <button onClick={() => setCsv(SAMPLE_CSV)} className="b-btn b-btn-sm b-btn-ghost w-fit !text-xs">{t("reports.sample.insert")}</button>
             <button onClick={validate} disabled={busy} className="b-btn b-btn-spring b-btn-sm w-fit">{t("reports.validate.action")}</button>
           </div>
           <div className="b-card-md p-5 flex flex-col gap-3">
@@ -134,13 +134,13 @@ function ReportsInner() {
             {validation ? (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <div className="p-3 rounded-2xl bg-cloud text-center"><p className="text-[12px] text-steel">{t("reports.stats.total")}</p><p className="text-lg font-bold">{faNumber(validation.total)}</p></div>
-                  <div className="p-3 rounded-2xl bg-spring-tint/50 text-center"><p className="text-[12px] text-steel">{t("reports.stats.healthy")}</p><p className="text-lg font-bold text-spring-deep">{faNumber(validation.valid)}</p></div>
-                  <div className="p-3 rounded-2xl bg-destructive/10 text-center"><p className="text-[12px] text-steel">{t("reports.stats.invalid")}</p><p className="text-lg font-bold text-destructive">{faNumber(validation.invalid)}</p></div>
+                  <div className="b-card-sm p-3 text-center"><p className="text-xs text-steel">{t("reports.stats.total")}</p><p className="text-lg font-bold">{faNumber(validation.total)}</p></div>
+                  <div className="b-card-sm p-3 text-center"><p className="text-xs text-steel">{t("reports.stats.healthy")}</p><p className="text-lg font-bold text-spring-deep">{faNumber(validation.valid)}</p></div>
+                  <div className="b-card-sm p-3 text-center"><p className="text-xs text-steel">{t("reports.stats.invalid")}</p><p className="text-lg font-bold text-destructive">{faNumber(validation.invalid)}</p></div>
                 </div>
                 <div className="max-h-52 overflow-y-auto b-scroll flex flex-col gap-1.5">
                   {validation.preview.map((v) => (
-                    <div key={v.row} className={`p-2.5 rounded-2xl text-[12px] flex items-start gap-2 ${v.errors.length ? "bg-destructive/10" : "bg-cloud"}`}>
+                    <div key={v.row} className={`p-2.5 rounded-2xl text-xs flex items-start gap-2 ${v.errors.length ? "bg-destructive/10" : "bg-cloud"}`}>
                       <span className="font-bold shrink-0">{t("reports.row.label")} {faNumber(v.row)}:</span>
                       {v.errors.length > 0 ? <span className="text-destructive">{v.errors.join("؛ ")}</span> : v.warnings.length > 0 ? <span className="text-warning-deep">{v.warnings.join("؛ ")}</span> : <span className="text-spring-deep">{t("reports.row.healthy")}</span>}
                     </div>
@@ -168,11 +168,11 @@ function ReportsInner() {
           {jobs.map((j) => (
             <div key={j.id} className="b-card-sm p-4 flex items-center gap-3 flex-wrap">
               {j.status === "DONE" ? <CheckCircle2 className="w-5 h-5 text-spring shrink-0" /> : <AlertTriangle className="w-5 h-5 text-warning shrink-0" />}
-              <span className="text-[14px] font-bold">{j.user.firstName} {j.user.lastName}</span>
-              <span className="text-[12px] text-steel">{formatDateFa(j.createdAt)}</span>
+              <span className="text-sm font-bold">{j.user.firstName} {j.user.lastName}</span>
+              <span className="text-xs text-steel">{formatDateFa(j.createdAt)}</span>
               <span className="b-badge b-badge-success">{faNumber(j.successRows)} {t("shell.notif.cat.success")}</span>
               {j.failedRows > 0 && <span className="b-badge b-badge-critical">{faNumber(j.failedRows)} {t("dashboard.login.failed")}</span>}
-              <span className="text-[12px] text-stone ms-auto">{faNumber(j.totalRows)} {t("reports.job.rows")}</span>
+              <span className="text-xs text-stone ms-auto">{faNumber(j.totalRows)} {t("reports.job.rows")}</span>
             </div>
           ))}
         </div>
@@ -217,7 +217,7 @@ function ReportsInner() {
                 )}
               </div>
               <div className="flex gap-2 items-center">
-                <span className="text-[12px] text-steel shrink-0">{t("common.time")}</span>
+                <span className="text-xs text-steel shrink-0">{t("common.time")}</span>
                 <input type="number" min={5} max={22} value={schedForm.hour} onChange={(e) => setSchedForm({ ...schedForm, hour: Number(e.target.value) })} className="b-input !w-20" dir="ltr" />
                 <Select
                   value={schedForm.audience}
@@ -228,7 +228,7 @@ function ReportsInner() {
                 />
               </div>
               <button onClick={createSchedule} disabled={schedBusy} className="b-btn b-btn-spring"><CalendarClock className="w-4 h-4" /> {t("reports.schedule.activate")}</button>
-              <p className="text-[12px] text-stone leading-relaxed">{t("reports.schedule.note")}</p>
+              <p className="text-xs text-stone leading-relaxed">{t("reports.schedule.note")}</p>
             </div>
           </div>
           <div className="lg:col-span-2 flex flex-col gap-2.5">
@@ -236,15 +236,15 @@ function ReportsInner() {
               <div key={r.id} className={`b-card-sm p-4 flex items-center gap-3 flex-wrap ${!r.active ? "opacity-60" : ""}`}>
                 <CalendarClock className={`w-5 h-5 shrink-0 ${r.active ? "text-spring" : "text-stone"}`} />
                 <div className="min-w-0 flex-1">
-                  <b className="text-[14px] block">{r.kindLabel}</b>
-                  <span className="text-[12px] text-steel">
+                  <b className="text-sm block">{r.kindLabel}</b>
+                  <span className="text-xs text-steel">
                     {r.schedule === "DAILY" ? t("reports.schedule.daily") : `${t("reports.schedule.every")} ${DAYS_FA[r.dayOfWeek ?? 0]}`} · {t("common.time")} {faNumber(r.hour)} · {r.audience === "TEACHERS" ? t("dashboard.teachers") : t("reports.schedule.audienceManagers")}
                     {r.lastRunAt ? <> · {t("reports.schedule.lastRun")} {formatDateFa(r.lastRunAt)}</> : <> · {t("reports.schedule.neverRun")}</>}
                   </span>
                 </div>
                 <button onClick={() => runSchedule(r.id)} className="b-btn b-btn-ghost b-btn-sm" title={t("reports.schedule.runNow")}><Play className="w-3.5 h-3.5" /> {t("reports.schedule.run")}</button>
                 <button onClick={() => toggleSchedule(r.id, !r.active)} className={`b-btn b-btn-sm ${r.active ? "b-btn-soft" : "b-btn-spring"}`}>{r.active ? t("common.inactive") : t("common.active")}</button>
-                <button onClick={() => deleteSchedule(r.id)} className="w-10 h-10 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors" title={t("common.delete")}><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => deleteSchedule(r.id)} className="w-11 h-11 rounded-full flex items-center justify-center text-stone hover:text-blossom hover:bg-blossom/10 transition-colors" title={t("common.delete")}><Trash2 className="w-4 h-4" /></button>
               </div>
             ))}
           </div>

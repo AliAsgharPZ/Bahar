@@ -56,7 +56,7 @@ function ConsentPrintInner() {
     <main className="mx-auto max-w-3xl p-4 print:p-0">
       <div className="flex items-center justify-between print:hidden mb-4">
         <p className="font-bold flex items-center gap-2"><Sprout className="w-5 h-5" /> {t("consents.print")}</p>
-        <button className="b-btn b-btn-primary min-h-11" onClick={() => window.print()}><Printer className="w-4 h-4" /> چاپ</button>
+        <button className="b-btn b-btn-spring min-h-11" onClick={() => window.print()}><Printer className="w-4 h-4" /> چاپ</button>
       </div>
       <header className="text-center space-y-1 border-b border-border pb-3 mb-4">
         <p className="text-sm text-muted-foreground">{data.schoolName}</p>

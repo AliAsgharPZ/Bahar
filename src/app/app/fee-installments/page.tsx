@@ -45,7 +45,7 @@ export default function FeeInstallmentsPage() {
             </select>
             <input className="b-input w-full" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("fees.f.reason")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wallet className="w-4 h-4" />} {t("fees.add")}
           </button>
         </section>
@@ -64,7 +64,7 @@ export default function FeeInstallmentsPage() {
                 {t(`fees.status.${r.status}`)}
               </span>
               {data.isOffice && r.status === "PENDING" && (<>
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("fees.approve")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("fees.approve")}</button>
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("fees.reject")}</button>
               </>)}
             </div>

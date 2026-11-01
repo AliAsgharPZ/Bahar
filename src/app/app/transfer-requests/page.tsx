@@ -43,7 +43,7 @@ export default function TransferRequestsPage() {
             <input className="b-input w-full" value={toSchool} onChange={(e) => setToSchool(e.target.value)} placeholder={t("transfer.f.toSchool")} />
             <input className="b-input w-full" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("transfer.f.reason")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowLeftRight className="w-4 h-4" />} {t("transfer.add")}
           </button>
         </section>
@@ -58,11 +58,11 @@ export default function TransferRequestsPage() {
                 <p className="font-bold">{t("transfer.to")} {r.toSchool}{data.isOffice ? ` — ${r.studentName}` : ""}</p>
                 <p className="text-sm text-muted-foreground">{r.className ?? ""}{r.reason ? ` · ${r.reason}` : ""}</p>
               </div>
-              <span className={`px-2 py-0.5 rounded-full text-xs ${r.status === "APPROVED" ? "bg-success/15 text-success" : r.status === "REJECTED" ? "bg-destructive/15 text-destructive" : "bg-warning/15 text-warning"}`}>
+              <span className={`b-badge ${r.status === "APPROVED" ? "b-badge-success" : r.status === "REJECTED" ? "b-badge-critical" : "b-badge-warning"}`}>
                 {t(`transfer.status.${r.status}`)}
               </span>
               {data.isOffice && r.status === "PENDING" && (<>
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("transfer.approve")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "APPROVED")}>{t("transfer.approve")}</button>
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("transfer.reject")}</button>
               </>)}
             </div>

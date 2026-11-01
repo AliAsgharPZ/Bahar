@@ -53,7 +53,7 @@ export default function MentoringPage() {
             </select>
             <input className="b-input w-full" value={focus} onChange={(e) => setFocus(e.target.value)} placeholder={t("mentoring.f.focus")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <HeartHandshake className="w-4 h-4" />} {t("mentoring.add")}
           </button>
         </section>

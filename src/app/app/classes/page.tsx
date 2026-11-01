@@ -126,7 +126,7 @@ export default function ClassesPage() {
         desc={t("classes.desc")}
         action={
           canManage && (
-            <button className="b-btn b-btn-spring b-btn-sm" onClick={() => { setShowCreate(true); setEditing(null); setForm(empty); }}>
+            <button className="b-btn b-btn-spring b-btn-sm min-h-11" onClick={() => { setShowCreate(true); setEditing(null); setForm(empty); }}>
               <Plus className="w-4 h-4" /> {t("classes.new")}
             </button>
           )
@@ -134,7 +134,7 @@ export default function ClassesPage() {
       />
 
       {/* راند ۱۹: در موبایل تک‌ستونه — قبلاً ۳ ستونِ ۱۱۹px برچسب‌ها را نامرئی می‌کرد */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <StatCard icon={School} label={t("common.class")} value={data?.classes.length ?? 0} tone="spring" />
         <StatCard icon={Users} label={t("common.student")} value={totalStudents} tone="ink" />
         <StatCard icon={BookOpen} label={t("classes.stat.teacherSubjectAssignments")} value={data?.classes.reduce((s, c) => s + c._count.teachingAssignments, 0) ?? 0} />
@@ -151,29 +151,29 @@ export default function ClassesPage() {
           <div key={c.id} className="b-card-md p-6 flex flex-col gap-4">
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-center gap-3 min-w-0">
-                <span className="w-11 h-11 rounded-full bg-spring text-primary-foreground flex items-center justify-center font-bold text-[14px] shrink-0">
+                <span className="w-11 h-11 rounded-full bg-spring text-primary-foreground flex items-center justify-center font-bold text-sm shrink-0">
                   {c.grade}
                 </span>
                 <div className="min-w-0">
-                  <b className="text-[16px] block truncate">{c.name}</b>
-                  <span className="text-[12px] text-steel">{c.field ?? t("settings.general")} · {c.academicYear}</span>
+                  <b className="text-base block truncate">{c.name}</b>
+                  <span className="text-xs text-steel">{c.field ?? t("settings.general")} · {c.academicYear}</span>
                 </div>
               </div>
               {c.roomNumber && <span className="b-badge b-badge-neutral">{t("classes.room")} {faNumber(c.roomNumber)}</span>}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
-              <div className="b-card-sm !rounded-2xl p-2.5">
-                <div className="font-bold text-[16px]">{faNumber(c._count.students)}</div>
-                <div className="text-[12px] text-steel">{t("common.student")} / {faNumber(c.capacity)}</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-center">
+              <div className="b-card-sm p-2.5">
+                <div className="font-bold text-base">{faNumber(c._count.students)}</div>
+                <div className="text-xs text-steel">{t("common.student")} / {faNumber(c.capacity)}</div>
               </div>
-              <div className="b-card-sm !rounded-2xl p-2.5">
-                <div className="font-bold text-[16px]">{faNumber(c._count.teachingAssignments)}</div>
-                <div className="text-[12px] text-steel">{t("classes.activeSubjects")}</div>
+              <div className="b-card-sm p-2.5">
+                <div className="font-bold text-base">{faNumber(c._count.teachingAssignments)}</div>
+                <div className="text-xs text-steel">{t("classes.activeSubjects")}</div>
               </div>
-              <div className="b-card-sm !rounded-2xl p-2.5">
-                <div className="font-bold text-[16px]">{faNumber(c._count.scheduleSlots)}</div>
-                <div className="text-[12px] text-steel">{t("classes.weeklyPeriods")}</div>
+              <div className="b-card-sm p-2.5">
+                <div className="font-bold text-base">{faNumber(c._count.scheduleSlots)}</div>
+                <div className="text-xs text-steel">{t("classes.weeklyPeriods")}</div>
               </div>
             </div>
 
@@ -184,15 +184,15 @@ export default function ClassesPage() {
             {canManage && (
               <div className="flex items-center gap-2">
                 <button
-                  className="b-btn b-btn-soft b-btn-sm flex-1"
+                  className="b-btn b-btn-soft b-btn-sm min-h-11 flex-1"
                   onClick={() => { setEditing(c); setForm({ name: c.name, grade: c.grade, field: c.field ?? "", academicYear: c.academicYear, capacity: String(c.capacity), roomNumber: c.roomNumber ?? "", homeroomTeacherId: c.homeroomTeacherId ?? "" }); }}
                 >
                   <Pencil className="w-3.5 h-3.5" /> {t("common.edit")}
                 </button>
-                <button className="b-btn b-btn-ghost b-btn-sm flex-1" onClick={() => setManage(c)}>
+                <button className="b-btn b-btn-ghost b-btn-sm min-h-11 flex-1" onClick={() => setManage(c)}>
                   <BookOpen className="w-3.5 h-3.5" /> {t("classes.teachers")}
                 </button>
-                <button className="b-btn b-btn-ghost !p-0 w-9 h-9 !min-h-9" onClick={() => archive(c)} aria-label={t("classes.archive.confirm")}>
+                <button className="b-btn b-btn-ghost !p-0 w-11 h-11 !min-h-11" onClick={() => archive(c)} aria-label={t("classes.archive.confirm")}>
                   <Trash2 className="w-4 h-4 text-destructive" />
                 </button>
               </div>
@@ -208,11 +208,11 @@ export default function ClassesPage() {
             <h2 className="font-bold text-lg mb-6">{editing ? `${t("common.edit")} ${editing.name}` : t("classes.new")}</h2>
             <form onSubmit={save} className="grid sm:grid-cols-2 gap-4">
               <label className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-[12px] font-bold">{t("classes.field.className")}</span>
+                <span className="text-xs font-bold">{t("classes.field.className")}</span>
                 <input className="b-input" value={form.name} onChange={(e) => set("name", e.target.value)} required placeholder={t("classes.placeholder.className")} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("classes.field.grade")}</span>
+                <span className="text-xs font-bold">{t("classes.field.grade")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -222,7 +222,7 @@ export default function ClassesPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("classes.field.field")}</span>
+                <span className="text-xs font-bold">{t("classes.field.field")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -232,19 +232,19 @@ export default function ClassesPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("classes.field.academicYear")}</span>
+                <span className="text-xs font-bold">{t("classes.field.academicYear")}</span>
                 <input className="b-input" dir="ltr" value={form.academicYear} onChange={(e) => set("academicYear", e.target.value)} required />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("classes.field.capacity")}</span>
+                <span className="text-xs font-bold">{t("classes.field.capacity")}</span>
                 <input className="b-input" dir="ltr" inputMode="numeric" value={form.capacity} onChange={(e) => set("capacity", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("classes.field.roomNumber")}</span>
+                <span className="text-xs font-bold">{t("classes.field.roomNumber")}</span>
                 <input className="b-input" value={form.roomNumber} onChange={(e) => set("roomNumber", e.target.value)} />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("classes.field.homeroomTeacher")}</span>
+                <span className="text-xs font-bold">{t("classes.field.homeroomTeacher")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -274,7 +274,7 @@ export default function ClassesPage() {
 
             <form onSubmit={assignTeacher} className="grid grid-cols-[1fr_1fr_auto] gap-3 items-end">
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("classes.assign.subject")}</span>
+                <span className="text-xs font-bold">{t("classes.assign.subject")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -285,7 +285,7 @@ export default function ClassesPage() {
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-[12px] font-bold">{t("common.teacher")}</span>
+                <span className="text-xs font-bold">{t("common.teacher")}</span>
                 <Select
                   className="w-full"
                   buttonClassName="!w-full"
@@ -295,18 +295,18 @@ export default function ClassesPage() {
                   placeholder="—"
                 />
               </label>
-              <button type="submit" className="b-btn b-btn-spring b-btn-sm">{t("classes.assign.submit")}</button>
+              <button type="submit" className="b-btn b-btn-spring b-btn-sm min-h-11">{t("classes.assign.submit")}</button>
             </form>
 
             <div className="mt-6 flex flex-col gap-2.5">
               {(teachingData?.assignments ?? []).map((a) => (
-                <div key={a.id} className="b-card-sm !rounded-2xl p-3.5 flex items-center justify-between gap-3">
+                <div key={a.id} className="b-card-sm p-3.5 flex items-center justify-between gap-3">
                   <span className="flex flex-col">
-                    <b className="text-[14px]">{a.subject.name}</b>
-                    <span className="text-[12px] text-steel">{a.teacher.firstName} {a.teacher.lastName}</span>
+                    <b className="text-sm">{a.subject.name}</b>
+                    <span className="text-xs text-steel">{a.teacher.firstName} {a.teacher.lastName}</span>
                   </span>
                   <button
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
+                    className="w-11 h-11 rounded-full flex items-center justify-center text-steel hover:text-destructive hover:bg-destructive/10"
                     onClick={() => removeAssignment(a.id)}
                     aria-label={t("common.delete")}
                   >

@@ -192,7 +192,7 @@ export default function GradesPage() {
         />
 
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-[12px] font-bold">
+          <label className="flex items-center gap-2 text-xs font-bold">
             {t("grades.filter.class")}
             <Select
               value={classId}
@@ -204,7 +204,7 @@ export default function GradesPage() {
               }
             />
           </label>
-          <label className="flex items-center gap-2 text-[12px] font-bold">
+          <label className="flex items-center gap-2 text-xs font-bold">
             {t("grades.filter.subject")}
             <Select
               value={subjectId}
@@ -213,7 +213,7 @@ export default function GradesPage() {
               placeholder={t("grades.select.subject")}
             />
           </label>
-          <label className="flex items-center gap-2 text-[12px] font-bold">
+          <label className="flex items-center gap-2 text-xs font-bold">
             {t("grades.filter.term")}
             <Select
               value={String(term)}
@@ -221,7 +221,7 @@ export default function GradesPage() {
               options={[{ value: "1", label: t("grades.term.1") }, { value: "2", label: t("grades.term.2") }]}
             />
           </label>
-          <label className="flex items-center gap-2 text-[12px] font-bold">
+          <label className="flex items-center gap-2 text-xs font-bold">
             {t("grades.filter.kind")}
             <Select
               value={kind}
@@ -248,10 +248,10 @@ export default function GradesPage() {
         )}
         {bookData && classId && subjectId && bookData.students.length > 0 && (
           <div className="b-card-sm overflow-hidden">
-            <div className="max-h-[520px] overflow-auto b-scroll">
-              <table className="w-full text-[14px]">
+            <div className="max-h-130 overflow-auto b-scroll">
+              <table className="w-full text-sm">
                 <thead className="sticky top-0 bg-background">
-                  <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                  <tr className="border-b border-hairline-soft text-steel text-xs">
                     <th className="text-end py-3 px-4 font-bold">{t("common.student")}</th>
                     <th className="text-end py-3 px-4 font-bold w-32">{t("grades.table.score")}</th>
                     <th className="text-end py-3 px-4 font-bold hidden md:table-cell">{t("grades.table.recorded")}</th>
@@ -296,7 +296,7 @@ export default function GradesPage() {
                                 </span>
                               );
                             })}
-                            {!all.length && <span className="text-stone text-[12px]">—</span>}
+                            {!all.length && <span className="text-stone text-xs">—</span>}
                           </div>
                         </td>
                       </tr>
@@ -363,7 +363,7 @@ export default function GradesPage() {
       {reportData && records.length === 0 && <EmptyState icon={BarChart3} title={t("grades.empty.noGrades")} />}
       {reportData && records.length > 0 && (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard icon={BarChart3} label={t("grades.stat.gpa")} value={gpa !== null ? faNumber(gpa) : "—"} tone="spring" hint={t("grades.stat.outOf20")} />
             <StatCard icon={BarChart3} label={t("grades.stat.subject")} value={bySubject.size} tone="ink" />
             <StatCard icon={BarChart3} label={t("grades.stat.recorded")} value={records.length} />
@@ -374,8 +374,8 @@ export default function GradesPage() {
             {[...bySubject.entries()].map(([id, v]) => (
               <div key={id} className="b-card-md p-6">
                 <div className="flex items-center justify-between gap-3 mb-4">
-                  <b className="text-[16px]">{v.name}</b>
-                  <span className={`text-[20px] font-bold ${scoreColor(v.avg, 20)}`}>{faNumber(v.avg)}</span>
+                  <b className="text-base">{v.name}</b>
+                  <span className={`text-xl font-bold ${scoreColor(v.avg, 20)}`}>{faNumber(v.avg)}</span>
                 </div>
                 <div className="h-2.5 rounded-full bg-cloud overflow-hidden mb-4">
                   <div className="h-full rounded-full" style={{ width: `${Math.min(100, (v.avg / 20) * 100)}%`, background: "var(--spring)" }} />
@@ -400,8 +400,8 @@ export default function GradesPage() {
             <CalendarClock className="w-5 h-5" />
           </span>
           <div>
-            <b className="text-[16px] block">{t("grades.monthly.title")}</b>
-            <span className="text-[12px] text-steel">{t("grades.monthly.desc")}</span>
+            <b className="text-base block">{t("grades.monthly.title")}</b>
+            <span className="text-xs text-steel">{t("grades.monthly.desc")}</span>
           </div>
         </div>
 
@@ -415,8 +415,8 @@ export default function GradesPage() {
             {monthlyData.months.map((m) => (
               <div key={m.key} className="b-card-sm p-4 flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-2">
-                  <b className="text-[14px]">{m.title}</b>
-                  <span className="b-badge b-badge-spring !text-[12px]">
+                  <b className="text-sm">{m.title}</b>
+                  <span className="b-badge b-badge-spring !text-xs">
                     <TrendingUp className="w-3 h-3" />
                     {m.avg !== null ? `${t("grades.monthly.avg")} ${faNumber(m.avg)}` : t("grades.monthly.noGrade")}
                   </span>
@@ -433,20 +433,20 @@ export default function GradesPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 text-center">
                   <div className="rounded-lg bg-cloud/70 py-1.5">
-                    <b className="text-[12px] block text-spring">{faNumber(m.present)}</b>
-                    <span className="text-[12px] text-steel flex items-center justify-center gap-0.5"><Users className="w-2.5 h-2.5" /> {t("dashboard.mini.attendance")}</span>
+                    <b className="text-xs block text-spring">{faNumber(m.present)}</b>
+                    <span className="text-xs text-steel flex items-center justify-center gap-0.5"><Users className="w-2.5 h-2.5" /> {t("dashboard.mini.attendance")}</span>
                   </div>
                   <div className="rounded-lg bg-cloud/70 py-1.5">
-                    <b className="text-[12px] block text-destructive">{faNumber(m.absent)}</b>
-                    <span className="text-[12px] text-steel">{t("dashboard.mini.absence")}</span>
+                    <b className="text-xs block text-destructive">{faNumber(m.absent)}</b>
+                    <span className="text-xs text-steel">{t("dashboard.mini.absence")}</span>
                   </div>
                   <div className="rounded-lg bg-cloud/70 py-1.5">
-                    <b className="text-[12px] block text-warning-deep">{faNumber(m.late)}</b>
-                    <span className="text-[12px] text-steel">{t("grades.monthly.late")}</span>
+                    <b className="text-xs block text-warning-deep">{faNumber(m.late)}</b>
+                    <span className="text-xs text-steel">{t("grades.monthly.late")}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-[12px] text-steel pt-1 border-t border-hairline-soft">
+                <div className="flex items-center justify-between text-xs text-steel pt-1 border-t border-hairline-soft">
                   <span className="flex items-center gap-1"><NotebookPen className="w-3 h-3" /> {faNumber(m.assignmentCount)} {t("grades.monthly.assignments")}</span>
                   {m.attendanceRate !== null && <span>{t("grades.monthly.attendanceRate")} {faNumber(m.attendanceRate)}٪</span>}
                 </div>

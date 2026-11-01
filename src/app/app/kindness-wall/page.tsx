@@ -46,7 +46,7 @@ export default function KindnessWallPage() {
           <input type="checkbox" checked={anonymous} onChange={(e) => setAnonymous(e.target.checked)} className="w-5 h-5" />
           {t("kindness.anon")}
         </label>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Heart className="w-4 h-4" />} {t("kindness.add")}
         </button>
       </section>
@@ -58,7 +58,7 @@ export default function KindnessWallPage() {
               <p className="text-sm"><b>{t("kindness.to")} {n.toName}</b> — {n.text}</p>
               <p className="text-sm text-muted-foreground">{t("kindness.from")} {n.fromName ?? t("kindness.anonName")}</p>
               <div className="flex gap-2">
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => mod(n.id, true)}><Check className="w-4 h-4" /> {t("kindness.approve")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => mod(n.id, true)}><Check className="w-4 h-4" /> {t("kindness.approve")}</button>
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => mod(n.id, false)}><X className="w-4 h-4" /> {t("kindness.remove")}</button>
               </div>
             </article>

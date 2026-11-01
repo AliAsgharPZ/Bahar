@@ -73,19 +73,19 @@ export default function ApprovalsPage() {
                   <UserRound className="w-5 h-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <b className="text-[14px] block truncate">{r.user.firstName} {r.user.lastName}</b>
-                  <span className="text-[12px] text-steel">
+                  <b className="text-sm block truncate">{r.user.firstName} {r.user.lastName}</b>
+                  <span className="text-xs text-steel">
                     <RoleBadge role={r.user.role} /> {r.user.school?.name ?? ""} — <span dir="ltr" className="font-mono">{r.user.nationalId}</span>
                   </span>
                 </div>
-                <span className="text-[12px] text-stone shrink-0">{relativeTimeFa(r.createdAt)}</span>
+                <span className="text-xs text-stone shrink-0">{relativeTimeFa(r.createdAt)}</span>
               </div>
 
-              <div className="b-card-sm !rounded-2xl overflow-hidden mb-4">
+              <div className="b-card-sm overflow-hidden mb-4">
                 <div className="overflow-x-auto b-scroll">
-                  <table className="w-full text-[12px]">
+                  <table className="w-full text-xs">
                     <thead>
-                      <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                      <tr className="border-b border-hairline-soft text-steel text-xs">
                         <th className="text-end py-2 px-3 font-bold">{t("approvals.table.field")}</th>
                         <th className="text-end py-2 px-3 font-bold">{t("approvals.table.current")}</th>
                         <th className="text-end py-2 px-3 font-bold">{t("approvals.table.requested")}</th>
@@ -105,21 +105,21 @@ export default function ApprovalsPage() {
               </div>
 
               {r.reason && (
-                <p className="text-[12px] text-steel mb-4">{t("approvals.userReason")}: «{r.reason}»</p>
+                <p className="text-xs text-steel mb-4">{t("approvals.userReason")}: «{r.reason}»</p>
               )}
 
               <div className="flex flex-wrap items-center gap-3">
                 <input
-                  className="b-input flex-1 min-w-[200px] !h-10"
+                  className="b-input flex-1 min-w-50"
                   placeholder={t("approvals.placeholder.note")}
                   value={notes[r.id] ?? ""}
                   onChange={(e) => setNotes((ns) => ({ ...ns, [r.id]: e.target.value }))}
                 />
-                <button className="b-btn b-btn-spring b-btn-sm" onClick={() => review(r.id, true)} disabled={busy === r.id}>
+                <button className="b-btn b-btn-spring b-btn-sm min-h-11" onClick={() => review(r.id, true)} disabled={busy === r.id}>
                   {busy === r.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
                   {t("approvals.confirmApply")}
                 </button>
-                <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={() => review(r.id, false)} disabled={busy === r.id}>
+                <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive" onClick={() => review(r.id, false)} disabled={busy === r.id}>
                   <XCircle className="w-3.5 h-3.5" /> {t("approvals.reject")}
                 </button>
               </div>

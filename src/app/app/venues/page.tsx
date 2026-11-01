@@ -77,15 +77,15 @@ export default function VenuesPage() {
         ) : undefined}
       />
 
-      <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-        <div className="b-card-sm p-4"><p className="text-[12px] text-steel">همهٔ محل‌ها</p><p className="text-[20px] font-bold">{faNumber(rooms.length)}</p></div>
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="b-card-sm p-4"><p className="text-xs text-steel">همهٔ محل‌ها</p><p className="text-xl font-bold">{faNumber(rooms.length)}</p></div>
         {VENUE_KINDS.map((k) => (
-          <div key={k} className="b-card-sm p-4"><p className="text-[12px] text-steel">{KIND_LABEL[k]}</p><p className="text-[20px] font-bold">{faNumber(rooms.filter((r) => r.kind === k).length)}</p></div>
+          <div key={k} className="b-card-sm p-4"><p className="text-xs text-steel">{KIND_LABEL[k]}</p><p className="text-xl font-bold">{faNumber(rooms.filter((r) => r.kind === k).length)}</p></div>
         ))}
       </div>
       <div className="b-card-sm p-4 flex items-center gap-3">
-        <span className="text-[12px] text-steel">رزروهای پیش رو:</span>
-        <b className="text-[14px]">{faNumber(upcoming.length)}</b>
+        <span className="text-xs text-steel">رزروهای پیش رو:</span>
+        <b className="text-sm">{faNumber(upcoming.length)}</b>
       </div>
 
       {showNew && isManager && (
@@ -123,20 +123,20 @@ export default function VenuesPage() {
                 <div className="flex items-center justify-between gap-2">
                   <span className="flex items-center gap-2 min-w-0">
                     <span className="w-10 h-10 rounded-2xl bg-spring-tint text-spring-deep flex items-center justify-center shrink-0"><Icon className="w-5 h-5" /></span>
-                    <b className="text-[14px] truncate">{r.name}</b>
+                    <b className="text-sm truncate">{r.name}</b>
                   </span>
                   {isManager && (
                     <button onClick={() => deleteVenue(r.id)} className="b-btn b-btn-ghost text-stone hover:text-destructive shrink-0" aria-label="حذف محل"><Trash2 className="w-4 h-4" /></button>
                   )}
                 </div>
-                <p className="text-[12px] text-steel">
+                <p className="text-xs text-steel">
                   <span className="b-badge b-badge-neutral">{KIND_LABEL[r.kind] ?? r.kind}</span>
                   <span className="ms-2">{t("facilities.zrfyt")} {faNumber(r.capacity)} {t("dashboard.unit.person")}</span>
                   {r.floor !== null && <span className="ms-2">{t("facilities.tbqh")} {faNumber(r.floor)}</span>}
                 </p>
-                {r.note && <p className="text-[12px] text-steel">{r.note}</p>}
+                {r.note && <p className="text-xs text-steel">{r.note}</p>}
                 {venueBookings.length > 0 && (
-                  <p className="text-[12px] text-steel">{faNumber(venueBookings.length)} رزرو پیش رو</p>
+                  <p className="text-xs text-steel">{faNumber(venueBookings.length)} رزرو پیش رو</p>
                 )}
                 <button onClick={() => setShowBooking(showBooking === r.id ? null : r.id)} className="b-btn b-btn-sm b-btn-ghost w-fit">{t("facilities.rzrv-jdyd")}</button>
                 {showBooking === r.id && (
@@ -162,12 +162,12 @@ export default function VenuesPage() {
                 <span className={`b-badge ${b.status === "APPROVED" ? "b-badge-success" : b.status === "PENDING" ? "b-badge-warning" : "b-badge-neutral"}`}>
                   {b.status === "APPROVED" ? t("dashboard.meeting.approved") : b.status === "PENDING" ? t("dashboard.meeting.pending") : b.status}
                 </span>
-                <span className="text-[12px] font-bold">{b.room?.name ?? ""}</span>
-                <span className="text-[12px] text-steel flex-1">{b.purpose}</span>
-                <span className="text-[12px] text-steel">{formatDateFa(b.startAt)} · {formatTimeFa(b.startAt)}</span>
-                <span className="text-[12px] text-stone">{b.by.firstName} {b.by.lastName}</span>
-                {b.status === "PENDING" && isManager && <button onClick={() => setBookingStatus(b.id, "APPROVED")} className="b-btn b-btn-sm b-btn-spring !min-h-[40px] !text-[12px] !px-2 !py-0">{t("facilities.t-yyd")}</button>}
-                {b.status !== "CANCELED" && <button onClick={() => setBookingStatus(b.id, "CANCELED")} className="b-btn b-btn-sm b-btn-ghost !min-h-[40px] !text-[12px] !px-2 !py-0">لغو</button>}
+                <span className="text-xs font-bold">{b.room?.name ?? ""}</span>
+                <span className="text-xs text-steel flex-1">{b.purpose}</span>
+                <span className="text-xs text-steel">{formatDateFa(b.startAt)} · {formatTimeFa(b.startAt)}</span>
+                <span className="text-xs text-stone">{b.by.firstName} {b.by.lastName}</span>
+                {b.status === "PENDING" && isManager && <button onClick={() => setBookingStatus(b.id, "APPROVED")} className="b-btn b-btn-spring">{t("facilities.t-yyd")}</button>}
+                {b.status !== "CANCELED" && <button onClick={() => setBookingStatus(b.id, "CANCELED")} className="b-btn b-btn-ghost">لغو</button>}
               </div>
             ))}
           </div>

@@ -23,31 +23,31 @@ export default function LanguagesPage() {
       {data && (
         <>
           <div className="b-card p-6 flex flex-col gap-2">
-            <b className="text-[14px]">{t("languages.catalogPrefix")} {faNumber(data.catalogSize)} {t("languages.keyUnit")}</b>
-            <p className="text-[14px] text-steel">
+            <b className="text-sm">{t("languages.catalogPrefix")} {faNumber(data.catalogSize)} {t("languages.keyUnit")}</b>
+            <p className="text-sm text-steel">
               {Object.entries(data.domains ?? {}).map(([d, n]) => `${d}: ${faNumber(n)}`).join(" · ")}
             </p>
-            <p className="text-[12px] text-steel">{t("languages.catalogNote")}</p>
+            <p className="text-xs text-steel">{t("languages.catalogNote")}</p>
           </div>
           <div className="b-card p-6 flex flex-col gap-1">
-            <b className="text-[14px] mb-2">{t("languages.shippedTitle")}</b>
+            <b className="text-sm mb-2">{t("languages.shippedTitle")}</b>
             {data.shipped.map((p) => (
-              <div key={p.code} className="py-2 border-b border-hairline last:border-0 text-[14px]">
+              <div key={p.code} className="py-2 border-b border-hairline last:border-0 text-sm">
                 <span><b>{p.name} ({p.code})</b><span className="text-steel"> — {p.nativeName} · {faNumber(p.keyCount)} {t("common.from")} {faNumber(data.catalogSize)} {t("languages.keyUnit")} · {t("languages.coverage")} {faNumber(p.coverage)}٪</span></span>
                 {p.missingKeys.length > 0 && (
                   <button className="b-btn b-btn-ghost mt-1" onClick={() => setShowMissing(showMissing === p.code ? null : p.code)}>
                     {showMissing === p.code ? t("languages.hideMissing") : `${t("languages.showMissingPrefix")} ${faNumber(p.missingKeys.length)} ${t("languages.missingUnit")}`}
                   </button>
                 )}
-                {showMissing === p.code && <p className="text-[12px] text-steel mt-1" dir="ltr">{p.missingKeys.join(", ")}</p>}
+                {showMissing === p.code && <p className="text-xs text-steel mt-1" dir="ltr">{p.missingKeys.join(", ")}</p>}
               </div>
             ))}
           </div>
           {data.dbPacks.length > 0 && (
             <div className="b-card p-6 flex flex-col gap-1">
-              <b className="text-[14px] mb-2">{t("languages.dbTitle")}</b>
+              <b className="text-sm mb-2">{t("languages.dbTitle")}</b>
               {data.dbPacks.map((p) => (
-                <div key={p.code} className="py-2 border-b border-hairline last:border-0 text-[14px]">
+                <div key={p.code} className="py-2 border-b border-hairline last:border-0 text-sm">
                   <b>{p.name} ({p.code})</b><span className="text-steel"> — {t("languages.coverage")} {faNumber(p.coverage)}٪ · {faNumber(p.missingKeys.length)} {t("languages.missingUnit")}</span>
                 </div>
               ))}
@@ -55,12 +55,12 @@ export default function LanguagesPage() {
           )}
           {data.worldLanguages && (
             <div className="b-card p-6 flex flex-col gap-2">
-              <b className="text-[14px]">{t("languages.worldTitle")} — {faNumber(data.worldLanguages.length)} {t("languages.worldUnit")}</b>
-              <p className="text-[12px] text-steel">{t("languages.worldNoteBefore")} {faNumber(data.shipped.length)} {t("languages.worldNoteAfter")}</p>
-              <p className="text-[12px] text-steel leading-7">{data.worldLanguages.map((l) => `${l.nameFa} (${l.nativeName})`).join(" · ")}</p>
+              <b className="text-sm">{t("languages.worldTitle")} — {faNumber(data.worldLanguages.length)} {t("languages.worldUnit")}</b>
+              <p className="text-xs text-steel">{t("languages.worldNoteBefore")} {faNumber(data.shipped.length)} {t("languages.worldNoteAfter")}</p>
+              <p className="text-xs text-steel leading-7">{data.worldLanguages.map((l) => `${l.nameFa} (${l.nativeName})`).join(" · ")}</p>
             </div>
           )}
-          <p className="text-[12px] text-steel">{t("languages.uploadNote")}</p>
+          <p className="text-xs text-steel">{t("languages.uploadNote")}</p>
         </>
       )}
     </div>

@@ -44,7 +44,7 @@ export default function AlumniPage() {
   return (
     <div className="flex flex-col gap-6">
       <PageHeader title={t("nav.alumni")} desc={t("alumni.desc")} />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <StatCard icon={GraduationCap} label={t("alumni.total")} value={data.stats.total} tone="spring" />
         <StatCard icon={GraduationCap} label={t("alumni.withOutcome")} value={data.stats.withOutcome} tone="soft" />
       </div>
@@ -52,7 +52,7 @@ export default function AlumniPage() {
       {rows.length === 0
         ? <EmptyState icon={GraduationCap} title={t("alumni.empty.title")} desc={t("alumni.empty.desc")} />
         : <section className="b-card p-5 md:p-6 overflow-x-auto b-scroll">
-            <table className="w-full text-[14px]">
+            <table className="w-full text-sm">
               <thead><tr className="text-steel"><th className="p-2 text-start">{t("common.name")}</th><th className="p-2 text-start">{t("alumni.table.graduationYear")}</th><th className="p-2 text-start">{t("alumni.table.university")}</th><th className="p-2 text-start">{t("alumni.table.field")}</th><th className="p-2 text-start">{t("alumni.table.outcome")}</th><th className="p-2"></th></tr></thead>
               <tbody className="b-rows-in">
                 {rows.map((g) => (
@@ -63,13 +63,13 @@ export default function AlumniPage() {
                     <td className="p-2">{g.alumniProfile?.field ?? "—"}</td>
                     <td className="p-2">{g.alumniProfile?.outcome ?? "—"}</td>
                     <td className="p-2">
-                      <button className="b-btn b-btn-ghost b-btn-sm" onClick={() => {
+                      <button className="b-btn b-btn-ghost b-btn-sm min-h-11" onClick={() => {
                         setEditing(g);
                         const p = g.alumniProfile;
                         setForm({ graduationYear: p?.graduationYear ?? "", university: p?.university ?? "", field: p?.field ?? "", outcome: p?.outcome ?? "", phone: p?.phone ?? g.user.phone ?? "", note: p?.note ?? "" });
                       }}><Pencil className="w-3.5 h-3.5" /> {t("common.edit")}</button>
                       {g.alumniProfile && (
-                        <button className="b-btn b-btn-ghost b-btn-sm !text-destructive" onClick={async () => { if (!window.confirm(`${t("alumni.deletePrefix")} ${g.user.firstName} ${g.user.lastName} ${t("alumni.deleteSuffix")}`)) return; try { await apiDelete(`/api/alumni?id=${g.alumniProfile!.id}`); toast.success(t("alumni.deleted")); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
+                        <button className="b-btn b-btn-ghost b-btn-sm min-h-11 !text-destructive" onClick={async () => { if (!window.confirm(`${t("alumni.deletePrefix")} ${g.user.firstName} ${g.user.lastName} ${t("alumni.deleteSuffix")}`)) return; try { await apiDelete(`/api/alumni?id=${g.alumniProfile!.id}`); toast.success(t("alumni.deleted")); load(); } catch (e) { toast.error(e instanceof Error ? e.message : t("common.errorShort")); } }}>
                           <Trash2 className="w-3.5 h-3.5" /> {t("common.delete")}
                         </button>
                       )}
@@ -91,7 +91,7 @@ export default function AlumniPage() {
             <input className="b-input" placeholder={t("alumni.form.university")} value={form.university} onChange={(e) => setForm({ ...form, university: e.target.value })} />
             <input className="b-input" placeholder={t("alumni.form.field")} value={form.field} onChange={(e) => setForm({ ...form, field: e.target.value })} />
             <input className="b-input" placeholder={t("alumni.form.outcome")} value={form.outcome} onChange={(e) => setForm({ ...form, outcome: e.target.value })} />
-            <textarea className="b-input !min-h-[70px]" placeholder={t("alumni.form.note")} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
+            <textarea className="b-input !min-h-18" placeholder={t("alumni.form.note")} value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
             <div className="flex gap-2">
               <button className="b-btn b-btn-spring flex-1" disabled={busy === "save"} onClick={save}>{busy === "save" ? <Loader2 className="w-4 h-4 animate-spin" /> : t("common.save")}</button>
               <button className="b-btn b-btn-ghost" onClick={() => setEditing(null)}>{t("common.cancel")}</button>

@@ -42,7 +42,7 @@ export default function ElectionsPage() {
         <section className="b-card p-4 space-y-3">
           <div className="flex flex-wrap gap-2">
             <input className="b-input flex-1 min-w-52" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("elections.f.title")} />
-            <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={create}>
+            <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={create}>
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Vote className="w-4 h-4" />} {t("elections.create")}
             </button>
           </div>
@@ -55,14 +55,14 @@ export default function ElectionsPage() {
           <section key={e.id} className="b-card p-4 space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="font-bold flex-1">{e.title}</h2>
-              <span className="px-2 py-0.5 rounded-full text-xs bg-info/15 text-info">{t(`elections.status.${e.status}`)}</span>
+              <span className="b-badge b-badge-neutral">{t(`elections.status.${e.status}`)}</span>
               {e.totalVotes !== null && <span className="text-sm text-muted-foreground">{faNumber(e.totalVotes)} {t("elections.votes")}</span>}
-              {data.isOffice && e.status === "NOMINATION" && <button className="b-btn b-btn-primary min-h-11" onClick={() => act({ action: "status", electionId: e.id, status: "VOTING" }, t("elections.startedToast"))}>{t("elections.startVoting")}</button>}
+              {data.isOffice && e.status === "NOMINATION" && <button className="b-btn b-btn-spring min-h-11" onClick={() => act({ action: "status", electionId: e.id, status: "VOTING" }, t("elections.startedToast"))}>{t("elections.startVoting")}</button>}
               {data.isOffice && e.status === "VOTING" && <button className="b-btn b-btn-ghost min-h-11" onClick={() => act({ action: "status", electionId: e.id, status: "CLOSED" }, t("elections.closedToast"))}>{t("elections.close")}</button>}
             </div>
             <div className="grid gap-3 md:grid-cols-2">
               {e.candidates.map((c) => (
-                <article key={c.id} className={`rounded-2xl border p-3 space-y-1 ${e.myCandidateId === c.id ? "border-primary" : "border-border"}`}>
+                <article key={c.id} className={`b-card-sm p-3 space-y-1 ${e.myCandidateId === c.id ? "border-primary" : "border-border"}`}>
                   <p className="font-bold flex items-center gap-2">
                     {c.name}
                     {e.myCandidateId === c.id && <CheckCircle2 className="w-4 h-4 text-primary" />}
@@ -72,7 +72,7 @@ export default function ElectionsPage() {
                   <div className="flex items-center gap-2 pt-1">
                     {c.votes !== null && <span className="text-sm font-bold">{faNumber(c.votes)} {t("elections.votes")}</span>}
                     {e.status === "VOTING" && !e.myCandidateId && (
-                      <button className="b-btn b-btn-primary min-h-11" onClick={() => act({ action: "vote", electionId: e.id, candidateId: c.id }, t("elections.votedToast"))}>{t("elections.voteBtn")}</button>
+                      <button className="b-btn b-btn-spring min-h-11" onClick={() => act({ action: "vote", electionId: e.id, candidateId: c.id }, t("elections.votedToast"))}>{t("elections.voteBtn")}</button>
                     )}
                     {data.isOffice && !c.approved && (
                       <button className="b-btn b-btn-ghost min-h-11" onClick={() => act({ action: "approve", electionId: e.id, candidateId: c.id }, t("elections.approvedToast"))}>{t("elections.approve")}</button>

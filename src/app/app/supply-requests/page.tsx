@@ -45,7 +45,7 @@ export default function SupplyRequestsPage() {
           <input className="b-input w-full" inputMode="numeric" value={qty} onChange={(e) => setQty(e.target.value)} placeholder={t("supply.f.qty")} aria-label={t("supply.f.qty")} />
         </div>
         <input className="b-input w-full" value={reason} onChange={(e) => setReason(e.target.value)} placeholder={t("supply.f.reason")} />
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <PackagePlus className="w-4 h-4" />} {t("supply.add")}
         </button>
       </section>
@@ -67,7 +67,7 @@ export default function SupplyRequestsPage() {
                 <button className="b-btn b-btn-ghost min-h-11 text-destructive" onClick={() => decide(r.id, "REJECTED")}>{t("supply.reject")}</button>
               </>)}
               {data.isOffice && r.status === "APPROVED" && (
-                <button className="b-btn b-btn-primary min-h-11" onClick={() => decide(r.id, "DELIVERED")}>{t("supply.deliver")}</button>
+                <button className="b-btn b-btn-spring min-h-11" onClick={() => decide(r.id, "DELIVERED")}>{t("supply.deliver")}</button>
               )}
             </div>
           ))}

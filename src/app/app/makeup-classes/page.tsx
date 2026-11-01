@@ -57,7 +57,7 @@ export default function MakeupClassesPage() {
             <input className="b-input w-full" dir="ltr" value={newDate} onChange={(e) => setNewDate(e.target.value)} placeholder={t("makeup.f.newDate")} />
             <input className="b-input w-full" value={room} onChange={(e) => setRoom(e.target.value)} placeholder={t("makeup.f.room")} />
           </div>
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <CalendarPlus className="w-4 h-4" />} {t("makeup.add")}
           </button>
         </section>

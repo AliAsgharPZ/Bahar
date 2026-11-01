@@ -142,7 +142,7 @@ export default function BotsPage() {
             )}
           </div>
           {selectedPlatform && <p className="text-sm text-muted-foreground">{selectedPlatform.hint}</p>}
-          <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={create}>
+          <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={create}>
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} {t("bots.create")}
           </button>
 
@@ -217,12 +217,12 @@ export default function BotsPage() {
                         placeholder={t("bots.externalPh")}
                         aria-label={t("bots.externalId")}
                       />
-                      <button className="b-btn b-btn-primary min-h-11" disabled={codeBusy === c.id} onClick={() => saveExternalId(c.id)}>
+                      <button className="b-btn b-btn-spring min-h-11" disabled={codeBusy === c.id} onClick={() => saveExternalId(c.id)}>
                         {codeBusy === c.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />} {t("bots.saveId")}
                       </button>
                     </span>
                   ) : (
-                    <button className="b-btn b-btn-primary min-h-11" disabled={codeBusy === c.id} onClick={() => getCode(c.id)}>
+                    <button className="b-btn b-btn-spring min-h-11" disabled={codeBusy === c.id} onClick={() => getCode(c.id)}>
                       {codeBusy === c.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Link2 className="w-4 h-4" />} {t("bots.getCode")}
                     </button>
                   )}

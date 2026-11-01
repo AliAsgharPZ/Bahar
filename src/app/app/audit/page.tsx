@@ -139,10 +139,10 @@ export default function AuditPage() {
 
       {data && data.logs.length > 0 && (
         <div className="b-card-sm overflow-hidden">
-          <div className="max-h-[560px] overflow-auto b-scroll">
-            <table className="w-full text-[12px]">
+          <div className="max-h-140 overflow-auto b-scroll">
+            <table className="w-full text-xs">
               <thead className="sticky top-0 bg-background">
-                <tr className="border-b border-hairline-soft text-steel text-[12px]">
+                <tr className="border-b border-hairline-soft text-steel text-xs">
                   <th className="text-end py-3 px-4 font-bold">{t("audit.table.time")}</th>
                   <th className="text-end py-3 px-4 font-bold">{t("users.table.user")}</th>
                   <th className="text-end py-3 px-4 font-bold">{t("audit.table.event")}</th>
@@ -178,7 +178,7 @@ export default function AuditPage() {
                           {ENTITY_LABELS[l.entityType ?? ""] ?? l.entityType ?? "—"}
                         </span>
                       </td>
-                      <td className="py-2.5 px-4 text-steel text-[12px] hidden lg:table-cell max-w-[260px] truncate" title={metaStr}>
+                      <td className="py-2.5 px-4 text-steel text-xs hidden lg:table-cell max-w-65 truncate" title={metaStr}>
                         {metaStr || "—"}
                       </td>
                     </tr>

@@ -54,7 +54,7 @@ export default function ParkingPage() {
             <option value="STAFF">{t("parking.kind.STAFF")}</option>
           </select>
         </div>
-        <button className="b-btn b-btn-primary min-h-11" disabled={busy} onClick={add}>
+        <button className="b-btn b-btn-spring min-h-11" disabled={busy} onClick={add}>
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Car className="w-4 h-4" />} {t("parking.add")}
         </button>
       </section>
