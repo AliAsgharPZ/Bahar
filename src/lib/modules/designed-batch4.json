@@ -1,0 +1,1203 @@
+[
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "معلم فهرست واژه‌های املا را با تاریخ تمرین ثبت می‌کند؛ دانش‌آموز پس از تمرین، واژه‌های اشتباه را دوباره می‌نویسد و معلم پیشرفت را می‌بیند.",
+  "fields": [
+   "wordList",
+   "errorWords",
+   "retryDate"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-edu-spelling-drill",
+  "statuses": [
+   "ASSIGNED",
+   "COMPLETED",
+   "REVIEWED"
+  ],
+  "title": "تمرین املا"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "هر دانش‌آموز موضوع ارائه، تاریخ و فایل کمکی را ثبت می‌کند؛ پس از ارائه، معلم و هم‌کلاسی‌ها بازخورد کوتاه می‌نویسند.",
+  "fields": [
+   "topic",
+   "presentDate",
+   "feedback"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-edu-class-presentation",
+  "statuses": [
+   "SCHEDULED",
+   "PRESENTED",
+   "REVIEWED"
+  ],
+  "title": "ارائهٔ کلاسی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز پیش‌نویس انشا را می‌نویسد، معلم نظر می‌دهد و نسخهٔ بازنویسی‌شده با تغییرات ثبت می‌شود.",
+  "fields": [
+   "draftText",
+   "teacherComment",
+   "revision"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-edu-writing-workshop",
+  "statuses": [
+   "DRAFT",
+   "REVIEWED",
+   "REVISED"
+  ],
+  "title": "کارگاه نویسندگی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "تمرین‌های نقشه‌خوانی جغرافیا با مکان‌های مشخص و مقیاس نقشه ثبت می‌شود؛ پاسخ دانش‌آموز نمره می‌گیرد.",
+  "fields": [
+   "mapTopic",
+   "locations",
+   "scaleExercise"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-edu-map-skills",
+  "statuses": [
+   "ASSIGNED",
+   "COMPLETED",
+   "GRADED"
+  ],
+  "title": "مهارت نقشه‌خوانی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "تمرین‌های محاسبات ذهنی با سطح و محدودیت زمانی برگزار می‌شود و دقت پاسخ‌ها برای هر دانش‌آموز ثبت می‌شود.",
+  "fields": [
+   "level",
+   "timeLimit",
+   "accuracy"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-edu-mental-math",
+  "statuses": [
+   "PRACTICING",
+   "COMPLETED"
+  ],
+  "title": "محاسبات ذهنی"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "والدین مرخصی استعلاجی را با گواهی پزشک و تعداد روز ثبت می‌کنند؛ مدیر تأیید می‌کند و تاریخ بازگشت به کلاس مشخص می‌شود.",
+  "fields": [
+   "doctorNote",
+   "leaveDays",
+   "returnDate"
+  ],
+  "roles": [
+   "PARENT",
+   "MANAGER",
+   "TEACHER"
+  ],
+  "slug": "d4p-att-sick-leave",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "RETURNED"
+  ],
+  "title": "مرخصی استعلاجی"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "برای دانش‌آموزان با تأخیرهای مکرر، مشاور با خانواده برنامه‌ای با هدف مشخص می‌گذارد و روند کاهش تأخیرها پیگیری می‌شود.",
+  "fields": [
+   "tardyCount",
+   "targetDate",
+   "counselorNote"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "PARENT",
+   "STUDENT"
+  ],
+  "slug": "d4p-att-tardiness-plan",
+  "statuses": [
+   "PLANNED",
+   "IN_PROGRESS",
+   "COMPLETED"
+  ],
+  "title": "برنامهٔ اصلاح تأخیر"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "در اردو، حضور دانش‌آموزان هنگام حرکت، در ایستگاه‌های میانی و هنگام بازگشت ثبت می‌شود تا هیچ‌کس جا نماند.",
+  "fields": [
+   "tripName",
+   "checkpoint",
+   "missingStudents"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d4p-att-trip-roll",
+  "statuses": [
+   "DEPARTED",
+   "CHECKED",
+   "RETURNED"
+  ],
+  "title": "حضور در اردو"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "حضور کلاس‌ها در مراسم صبحگاهی با تعداد حاضران و اطلاعیه‌های خوانده‌شده ثبت می‌شود.",
+  "fields": [
+   "assemblyDate",
+   "presentCount",
+   "announcements"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d4p-att-morning-assembly",
+  "statuses": [
+   "SCHEDULED",
+   "HELD",
+   "RECORDED"
+  ],
+  "title": "حضور مراسم صبحگاهی"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "والدین اعتبار بوفهٔ فرزندشان را شارژ می‌کنند؛ خریدها از اعتبار کم می‌شود و هنگام کم‌شدن موجودی هشدار می‌آید.",
+  "fields": [
+   "studentId",
+   "balance",
+   "topUpAmount"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d4p-fin-canteen-balance",
+  "statuses": [
+   "ACTIVE",
+   "LOW",
+   "TOPPED_UP"
+  ],
+  "title": "اعتبار بوفه"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "هزینهٔ ثبت‌نام آزمون‌های خارجی برای هر دانش‌آموز صادر می‌شود و پس از پرداخت، شمارهٔ رسید و تأییدیه ثبت می‌گردد.",
+  "fields": [
+   "examName",
+   "feeAmount",
+   "receiptNumber"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d4p-fin-exam-fee",
+  "statuses": [
+   "BILLED",
+   "PAID",
+   "CONFIRMED"
+  ],
+  "title": "هزینهٔ آزمون خارجی"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "شهریهٔ ماهانهٔ سرویس بر اساس مسیر محاسبه می‌شود؛ والدین پرداخت می‌کنند و وضعیت هر ماه جداگانه دیده می‌شود.",
+  "fields": [
+   "routeName",
+   "monthlyFee",
+   "paymentStatus"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "DRIVER"
+  ],
+  "slug": "d4p-fin-transport-fee",
+  "statuses": [
+   "BILLED",
+   "PAID",
+   "UNPAID"
+  ],
+  "title": "شهریهٔ سرویس"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "معلم برای فعالیت کلاسی بودجه درخواست می‌کند؛ مدیر تأیید می‌کند و پس از هزینه‌کرد، گزارش مصرف ثبت می‌شود.",
+  "fields": [
+   "activityName",
+   "requestedAmount",
+   "spendingReport"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d4p-fin-budget-request",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "SETTLED"
+  ],
+  "title": "درخواست بودجهٔ فعالیت"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "خیرین مدرسه مبلغ تعهدشده و محل مصرف آن را ثبت می‌کنند؛ پس از دریافت، قدردانی به شکل توافق‌شده انجام می‌شود.",
+  "fields": [
+   "sponsorName",
+   "pledgeAmount",
+   "recognition"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d4p-fin-sponsor",
+  "statuses": [
+   "PLEDGED",
+   "RECEIVED",
+   "RECOGNIZED"
+  ],
+  "title": "حمایت مالی خیرین"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "بازدید معلم از خانهٔ دانش‌آموز با تاریخ و یادداشت آموزشی برنامه‌ریزی می‌شود و نظر خانواده برای پیگیری ثبت می‌گردد.",
+  "fields": [
+   "visitDate",
+   "teacherNote",
+   "familyFeedback"
+  ],
+  "roles": [
+   "TEACHER",
+   "PARENT",
+   "COUNSELOR"
+  ],
+  "slug": "d4p-par-home-visit",
+  "statuses": [
+   "SCHEDULED",
+   "DONE",
+   "FOLLOWED_UP"
+  ],
+  "title": "بازدید خانگی"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "کارنامهٔ ترم منتشر می‌شود؛ والدین آن را امضا می‌کنند و اگر اعتراضی دارند در همان‌جا ثبت می‌کنند تا بررسی شود.",
+  "fields": [
+   "term",
+   "grades",
+   "parentSignature"
+  ],
+  "roles": [
+   "TEACHER",
+   "PARENT",
+   "MANAGER"
+  ],
+  "slug": "d4p-par-report-card",
+  "statuses": [
+   "PUBLISHED",
+   "SIGNED",
+   "OBJECTED"
+  ],
+  "title": "کارنامه و امضای والدین"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "والدین مهارت و زمان در دسترس خود را برای کمک در فعالیت‌های مدرسه ثبت می‌کنند و مدیر آن‌ها را به فعالیت مناسب می‌سپارد.",
+  "fields": [
+   "skill",
+   "availability",
+   "assignment"
+  ],
+  "roles": [
+   "PARENT",
+   "MANAGER",
+   "TEACHER"
+  ],
+  "slug": "d4p-par-volunteer",
+  "statuses": [
+   "REGISTERED",
+   "ASSIGNED",
+   "COMPLETED"
+  ],
+  "title": "داوطلبی والدین"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "والدین شمارهٔ تماس، تماس اضطراری و افراد مجاز تحویل را به‌روز می‌کنند و مدرسه صحت آن را تأیید می‌کند.",
+  "fields": [
+   "phone",
+   "emergencyContact",
+   "pickupPersons"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d4p-par-contact-update",
+  "statuses": [
+   "SUBMITTED",
+   "VERIFIED"
+  ],
+  "title": "به‌روزرسانی اطلاعات تماس"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "خانه و مدرسه برای یک هدف رفتاری مشخص، اقدام‌های خانگی را توافق می‌کنند و در تاریخ بازبینی، نتیجه را با هم بررسی می‌کنند.",
+  "fields": [
+   "goal",
+   "homeAction",
+   "reviewDate"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "PARENT",
+   "TEACHER"
+  ],
+  "slug": "d4p-par-behavior-plan",
+  "statuses": [
+   "PLANNED",
+   "IN_PROGRESS",
+   "REVIEWED"
+  ],
+  "title": "برنامهٔ رفتاری مشترک"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "غربالگری بینایی دانش‌آموزان با تاریخ و نتیجه ثبت می‌شود؛ موارد نیازمند بررسی به چشم‌پزشک ارجاع داده می‌شوند.",
+  "fields": [
+   "screeningDate",
+   "result",
+   "referral"
+  ],
+  "roles": [
+   "NURSE",
+   "PARENT",
+   "MANAGER"
+  ],
+  "slug": "d4p-health-vision-screening",
+  "statuses": [
+   "SCHEDULED",
+   "DONE",
+   "REFERRED"
+  ],
+  "title": "غربالگری بینایی"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "معاینهٔ دوره‌ای دندانپزشکی در مدرسه با یافته‌ها و نیاز به پیگیری ثبت می‌شود و والدین نتیجه را می‌بینند.",
+  "fields": [
+   "dentistVisit",
+   "findings",
+   "followUp"
+  ],
+  "roles": [
+   "NURSE",
+   "PARENT"
+  ],
+  "slug": "d4p-health-dental-check",
+  "statuses": [
+   "SCHEDULED",
+   "DONE",
+   "FOLLOWED_UP"
+  ],
+  "title": "معاینهٔ دندانپزشکی"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "در روزهای گرم، دما و تدبیرهای مدرسه مانند آب‌رسانی و سایه‌بان و محدودیت فعالیت بدنی ثبت و به کلاس‌ها ابلاغ می‌شود.",
+  "fields": [
+   "temperature",
+   "measures",
+   "activityLimit"
+  ],
+  "roles": [
+   "NURSE",
+   "MANAGER",
+   "TEACHER"
+  ],
+  "slug": "d4p-health-heat-plan",
+  "statuses": [
+   "ACTIVE",
+   "ADJUSTED",
+   "ENDED"
+  ],
+  "title": "برنامهٔ روزهای گرم"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "موارد بیماری واگیر با کلاس درگیر و روزهای قرنطینه ثبت می‌شود تا مدرسه روند شیوع را زیر نظر بگیرد.",
+  "fields": [
+   "illness",
+   "affectedClass",
+   "isolationDays"
+  ],
+  "roles": [
+   "NURSE",
+   "MANAGER",
+   "PARENT"
+  ],
+  "slug": "d4p-health-outbreak-log",
+  "statuses": [
+   "REPORTED",
+   "MONITORING",
+   "RESOLVED"
+  ],
+  "title": "ثبت بیماری واگیر"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پس از آسیب ورزشی، درمان و نظر پزشک مدرسه ثبت می‌شود و دانش‌آموز فقط با تأیید سلامت به ورزش بازمی‌گردد.",
+  "fields": [
+   "injuryDate",
+   "treatment",
+   "clearanceNote"
+  ],
+  "roles": [
+   "NURSE",
+   "TEACHER",
+   "PARENT"
+  ],
+  "slug": "d4p-health-sports-clearance",
+  "statuses": [
+   "INJURED",
+   "TREATED",
+   "CLEARED"
+  ],
+  "title": "بازگشت به ورزش پس از آسیب"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "دوره‌های آموزشی رانندگان و تاریخ انقضای گواهینامه ثبت می‌شود تا تمدیدها پیش از سررسید پیگیری شوند.",
+  "fields": [
+   "trainingTopic",
+   "licenseExpiry",
+   "renewalDate"
+  ],
+  "roles": [
+   "DRIVER",
+   "MANAGER"
+  ],
+  "slug": "d4p-trans-driver-training",
+  "statuses": [
+   "SCHEDULED",
+   "COMPLETED",
+   "RENEWED"
+  ],
+  "title": "آموزش رانندگان سرویس"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "هر بار سوخت‌گیری سرویس با لیتر، کیلومتر و هزینه ثبت می‌شود تا مصرف و هزینهٔ ماهانهٔ هر خودرو دیده شود.",
+  "fields": [
+   "fuelLiters",
+   "mileage",
+   "fuelCost"
+  ],
+  "roles": [
+   "DRIVER",
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d4p-trans-fuel-log",
+  "statuses": [
+   "LOGGED",
+   "REVIEWED"
+  ],
+  "title": "ثبت سوخت سرویس"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "در هر ایستگاه، سوارشدن دانش‌آموزان ثبت می‌شود و اگر کسی سوار نشد، هشدار برای مدرسه و خانواده فرستاده می‌شود.",
+  "fields": [
+   "stopName",
+   "boardedStudents",
+   "missingAlert"
+  ],
+  "roles": [
+   "DRIVER",
+   "TEACHER",
+   "PARENT"
+  ],
+  "slug": "d4p-trans-boarding-log",
+  "statuses": [
+   "BOARDING",
+   "COMPLETED",
+   "ALERTED"
+  ],
+  "title": "ثبت سوار و پیاده‌شدن"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "در روزهای بارانی یا برفی، تغییر مسیر و زمان سرویس از پیش مشخص می‌شود و اطلاعیه برای والدین فرستاده می‌شود.",
+  "fields": [
+   "weatherCondition",
+   "routeChange",
+   "parentNotice"
+  ],
+  "roles": [
+   "DRIVER",
+   "MANAGER",
+   "PARENT"
+  ],
+  "slug": "d4p-trans-weather-plan",
+  "statuses": [
+   "PLANNED",
+   "ACTIVE",
+   "ENDED"
+  ],
+  "title": "برنامهٔ سرویس در هوای بد"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "سطح خواندن هر دانش‌آموز ارزیابی می‌شود و کتاب‌های مناسب همان سطح به او پیشنهاد می‌گردد تا در ارزیابی بعدی پیشرفت دیده شود.",
+  "fields": [
+   "assessedLevel",
+   "recommendedBooks",
+   "nextAssessment"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-lib-reading-level",
+  "statuses": [
+   "ASSESSED",
+   "ASSIGNED",
+   "REASSESSED"
+  ],
+  "title": "سطح خواندن"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "کتاب‌های تازه‌رسیدهٔ کتابخانه معرفی می‌شوند و دانش‌آموزان می‌توانند پیش از قفسه‌نشینی، آن‌ها را رزرو کنند.",
+  "fields": [
+   "newTitle",
+   "arrivalDate",
+   "reserveQueue"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d4p-lib-new-arrivals",
+  "statuses": [
+   "ARRIVED",
+   "RESERVED",
+   "AVAILABLE"
+  ],
+  "title": "کتاب‌های تازه‌رسیده"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "برای هر موضوع درسی، راهنمای مطالعه با سرفصل‌ها و یادداشت معلم گردآوری می‌شود و نسخه‌های تازه جایگزین قدیمی می‌گردد.",
+  "fields": [
+   "subject",
+   "guideTopics",
+   "teacherNotes"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-lib-study-guide",
+  "statuses": [
+   "DRAFT",
+   "PUBLISHED",
+   "UPDATED"
+  ],
+  "title": "راهنمای موضوعی مطالعه"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "منابع قدیمی و نشریات مدرسه اسکن و فهرست‌نویسی می‌شوند تا نسخهٔ دیجیتال آن‌ها در کتابخانه در دسترس باشد.",
+  "fields": [
+   "sourceTitle",
+   "scanPages",
+   "metadata"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "TECH"
+  ],
+  "slug": "d4p-lib-digitization",
+  "statuses": [
+   "QUEUED",
+   "SCANNING",
+   "PUBLISHED"
+  ],
+  "title": "دیجیتالی‌کردن منابع"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "گروه تئاتر با نمایشنامه، تاریخ تمرین‌ها و نقش هر دانش‌آموز شکل می‌گیرد و اجرا در پایان ترم برگزار می‌شود.",
+  "fields": [
+   "playTitle",
+   "rehearsalDates",
+   "castRoles"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "PARENT"
+  ],
+  "slug": "d4p-extra-drama-club",
+  "statuses": [
+   "FORMED",
+   "REHEARSING",
+   "PERFORMED"
+  ],
+  "title": "گروه تئاتر"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "باشگاه برنامه‌نویسی پروژه‌های کوچک با زبان مشخص می‌سازد و در روز نمایش، کارها به مدرسه ارائه می‌شود.",
+  "fields": [
+   "projectName",
+   "language",
+   "showcaseDate"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "TECH"
+  ],
+  "slug": "d4p-extra-coding-club",
+  "statuses": [
+   "FORMED",
+   "BUILDING",
+   "SHOWCASED"
+  ],
+  "title": "باشگاه برنامه‌نویسی"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "کارگاه خوشنویسی با سبک خط و برگه‌های تمرین برگزار می‌شود و آثار برگزیده در نمایشگاه مدرسه به نمایش درمی‌آید.",
+  "fields": [
+   "scriptStyle",
+   "practiceSheets",
+   "exhibition"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-extra-calligraphy",
+  "statuses": [
+   "ENROLLED",
+   "PRACTICING",
+   "EXHIBITED"
+  ],
+  "title": "کارگاه خوشنویسی"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "باشگاه بازی‌های فکری با بازی‌های گوناگون و جدول امتیاز برگزار می‌شود و برندگان دوره‌ای معرفی می‌گردند.",
+  "fields": [
+   "gameName",
+   "players",
+   "tournamentScore"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-extra-board-games",
+  "statuses": [
+   "FORMED",
+   "PLAYING",
+   "RANKED"
+  ],
+  "title": "باشگاه بازی‌های فکری"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "باشگاه مناظره با موضوع، تیم‌های موافق و مخالف و امتیاز داور برگزار می‌شود و نتیجهٔ هر مناظره ثبت می‌گردد.",
+  "fields": [
+   "debateTopic",
+   "teams",
+   "judgeScore"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-extra-debate",
+  "statuses": [
+   "FORMED",
+   "DEBATING",
+   "JUDGED"
+  ],
+  "title": "باشگاه مناظره"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "ورود و خروج روزانهٔ کارکنان ثبت می‌شود و مدیر، غیبت و تأخیر هر روز را در یک نما می‌بیند.",
+  "fields": [
+   "staffName",
+   "checkIn",
+   "checkOut"
+  ],
+  "roles": [
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d4p-admin-staff-attendance",
+  "statuses": [
+   "PRESENT",
+   "ABSENT",
+   "LATE"
+  ],
+  "title": "حضور روزانهٔ کارکنان"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "تحویل کلید اتاق‌ها با نام تحویل‌گیرنده و تاریخ بازگشت ثبت می‌شود تا کلیدی نزد کسی بی‌خبر نماند.",
+  "fields": [
+   "roomName",
+   "keyHolder",
+   "returnDate"
+  ],
+  "roles": [
+   "CUSTODIAN",
+   "ADMIN",
+   "TEACHER"
+  ],
+  "slug": "d4p-admin-key-register",
+  "statuses": [
+   "ISSUED",
+   "IN_USE",
+   "RETURNED"
+  ],
+  "title": "تحویل کلید و اتاق"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "سهمیهٔ چاپ هر کارمند با میزان مصرف ثبت می‌شود و با پایان سهمیه، تمدید آن درخواست می‌گردد.",
+  "fields": [
+   "staffName",
+   "quotaPages",
+   "usedPages"
+  ],
+  "roles": [
+   "ADMIN",
+   "TEACHER",
+   "TECH"
+  ],
+  "slug": "d4p-admin-print-quota",
+  "statuses": [
+   "ACTIVE",
+   "EXHAUSTED",
+   "RENEWED"
+  ],
+  "title": "سهمیهٔ چاپ"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "اموال مدرسه با برچسب، محل نگهداری و وضعیت ثبت می‌شود تا جابه‌جایی و فرسودگی هر قلم پیگیری شود.",
+  "fields": [
+   "assetTag",
+   "location",
+   "condition"
+  ],
+  "roles": [
+   "ADMIN",
+   "CUSTODIAN"
+  ],
+  "slug": "d4p-admin-asset-register",
+  "statuses": [
+   "REGISTERED",
+   "IN_USE",
+   "RETIRED"
+  ],
+  "title": "اموال مدرسه"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "صورت‌جلسهٔ جلسات اداری با دستور، تصمیم‌ها و کارهای محول‌شده ثبت و پس از تأیید مدیر بایگانی می‌شود.",
+  "fields": [
+   "agenda",
+   "decisions",
+   "actionItems"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN",
+   "TEACHER"
+  ],
+  "slug": "d4p-admin-meeting-minutes",
+  "statuses": [
+   "DRAFT",
+   "APPROVED",
+   "ARCHIVED"
+  ],
+  "title": "صورت‌جلسه"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "تولدهای هر ماه روی تابلو اعلام می‌شود و جشن کوچک ماهانه با تاریخ مشخص برگزار می‌گردد.",
+  "fields": [
+   "birthMonth",
+   "studentNames",
+   "celebrationDate"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "MANAGER"
+  ],
+  "slug": "d4p-welfare-birthday-board",
+  "statuses": [
+   "PLANNED",
+   "HELD"
+  ],
+  "title": "تابلوی تولد ماه"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "اتاق آرامش برای استراحت کوتاه و گفت‌وگوی آرام رزرو می‌شود و استفاده از آن برای برنامه‌ریزی بهتر ثبت می‌گردد.",
+  "fields": [
+   "bookingTime",
+   "purpose",
+   "useLog"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d4p-welfare-quiet-room",
+  "statuses": [
+   "BOOKED",
+   "IN_USE",
+   "COMPLETED"
+  ],
+  "title": "اتاق آرامش"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "دانش‌آموزان همیار آموزش می‌بینند و به هم‌کلاسی‌های نیازمند حمایت وصل می‌شوند؛ مشاور روند را پیگیری می‌کند.",
+  "fields": [
+   "supporterName",
+   "referralReason",
+   "followUp"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "STUDENT"
+  ],
+  "slug": "d4p-welfare-peer-support",
+  "statuses": [
+   "TRAINED",
+   "ASSIGNED",
+   "FOLLOWED_UP"
+  ],
+  "title": "همیار دانش‌آموزی"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "در ایام امتحان، بسته‌های مراقبتی با خوراکی و نکته‌های آرامش آماده و میان دانش‌آموزان توزیع می‌شود.",
+  "fields": [
+   "packageItems",
+   "distributionDate",
+   "recipients"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "MANAGER",
+   "PARENT"
+  ],
+  "slug": "d4p-welfare-exam-care",
+  "statuses": [
+   "PREPARED",
+   "DISTRIBUTED"
+  ],
+  "title": "بستهٔ مراقبتی ایام امتحان"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "هر دانش‌آموز تازه‌وارد یک همراه از هم‌کلاسی‌ها می‌گیرد و در هفته‌های نخست، وضعیت سازگاری او چند بار بررسی می‌شود.",
+  "fields": [
+   "buddyName",
+   "newStudent",
+   "checkInDates"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "COUNSELOR"
+  ],
+  "slug": "d4p-welfare-new-student-buddy",
+  "statuses": [
+   "PAIRED",
+   "CHECKING_IN",
+   "SETTLED"
+  ],
+  "title": "همراه دانش‌آموز تازه‌وارد"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "پروژکتور کلاس‌ها به‌صورت دوره‌ای با ساعت کارکرد لامپ بازرسی می‌شود و خرابی‌ها برای تعمیر ثبت می‌گردد.",
+  "fields": [
+   "classroom",
+   "lampHours",
+   "faultNote"
+  ],
+  "roles": [
+   "TECH",
+   "TEACHER"
+  ],
+  "slug": "d4p-tech-projector-check",
+  "statuses": [
+   "CHECKED",
+   "FAULTY",
+   "FIXED"
+  ],
+  "title": "بازرسی پروژکتور"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "مجوز نرم‌افزارهای مدرسه با تعداد جایگاه و تاریخ انقضا ثبت می‌شود تا تمدید پیش از پایان اعتبار انجام شود.",
+  "fields": [
+   "softwareName",
+   "seats",
+   "expiryDate"
+  ],
+  "roles": [
+   "TECH",
+   "ADMIN"
+  ],
+  "slug": "d4p-tech-software-license",
+  "statuses": [
+   "ACTIVE",
+   "EXPIRING",
+   "RENEWED"
+  ],
+  "title": "مجوز نرم‌افزار"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "سیستم صوتی مدرسه به تفکیک ناحیه ثبت می‌شود؛ اطلاعیه‌ها از آن پخش و خرابی بلندگوها گزارش می‌گردد.",
+  "fields": [
+   "zone",
+   "announcementText",
+   "faultReport"
+  ],
+  "roles": [
+   "TECH",
+   "MANAGER"
+  ],
+  "slug": "d4p-tech-audio-system",
+  "statuses": [
+   "WORKING",
+   "FAULTY",
+   "REPAIRED"
+  ],
+  "title": "سیستم صوتی مدرسه"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "اخبار مدرسه با عنوان و متن و تاریخ انتشار آماده و روی سایت منتشر می‌شود و خبرهای قدیمی بایگانی می‌گردند.",
+  "fields": [
+   "newsTitle",
+   "newsBody",
+   "publishDate"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN",
+   "TEACHER"
+  ],
+  "slug": "d4p-tech-school-news",
+  "statuses": [
+   "DRAFT",
+   "PUBLISHED",
+   "ARCHIVED"
+  ],
+  "title": "اخبار سایت مدرسه"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "نمایشگاه هنر با آثار دانش‌آموزان و نام هنرمند برگزار می‌شود و بازدیدکنندگان به اثرهای برگزیده رأی می‌دهند.",
+  "fields": [
+   "artworkTitle",
+   "artistName",
+   "visitorVotes"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "PARENT"
+  ],
+  "slug": "d4p-events-art-exhibition",
+  "statuses": [
+   "SUBMITTED",
+   "EXHIBITED",
+   "AWARDED"
+  ],
+  "title": "نمایشگاه هنر دانش‌آموزی"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "در روز آشنایی با شغل‌ها، مهمانانی از حرفه‌های گوناگون تجربهٔ کاری خود را در نشست‌های جداگانه برای دانش‌آموزان می‌گویند.",
+  "fields": [
+   "profession",
+   "guestSpeaker",
+   "sessionTime"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "PARENT"
+  ],
+  "slug": "d4p-events-career-day",
+  "statuses": [
+   "PLANNED",
+   "HELD"
+  ],
+  "title": "روز آشنایی با شغل‌ها"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "شب شعر با شعرهای دانش‌آموزان و معلمان برگزار می‌شود و نام شاعر و شعر هر اجرا ثبت می‌گردد.",
+  "fields": [
+   "poemTitle",
+   "readerName",
+   "audienceCount"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "PARENT"
+  ],
+  "slug": "d4p-events-poetry-night",
+  "statuses": [
+   "PLANNED",
+   "HELD"
+  ],
+  "title": "شب شعر"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "دو خیریه با مسیر مشخص و مبلغ جمع‌آوری‌شده برای هدف اعلام‌شده برگزار می‌شود و کمک‌ها پس از رویداد تسویه می‌گردد.",
+  "fields": [
+   "routeLength",
+   "participants",
+   "raisedAmount"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "PARENT",
+   "MANAGER"
+  ],
+  "slug": "d4p-events-charity-run",
+  "statuses": [
+   "REGISTERED",
+   "HELD",
+   "SETTLED"
+  ],
+  "title": "دو خیریه"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "روز زبان‌ها با غرفه‌ها و اجراهایی به زبان‌های گوناگون برگزار می‌شود تا دانش‌آموزان با زبان و فرهنگ دیگر کشورها آشنا شوند.",
+  "fields": [
+   "language",
+   "boothActivity",
+   "performance"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d4p-events-language-day",
+  "statuses": [
+   "PLANNED",
+   "HELD"
+  ],
+  "title": "روز زبان‌ها"
+ }
+]
