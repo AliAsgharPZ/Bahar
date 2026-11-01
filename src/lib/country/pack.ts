@@ -206,7 +206,7 @@ export function validateCountryPack(raw: unknown): { profile: CountryProfile | n
         errors.push(`regions[${i}].counties باید آرایه باشد.`);
         return;
       }
-      if (counties.length > 150) errors.push(`regions[${i}].counties حداکثر ۱۵۰ شهرستان.`);
+      if (counties.length > 300) errors.push(`regions[${i}].counties حداکثر ۳۰۰ شهرستان.`);
       const cNames = new Set<string>();
       counties.forEach((c) => {
         if (typeof c !== "string" || !c.trim() || c.length > 60) {
