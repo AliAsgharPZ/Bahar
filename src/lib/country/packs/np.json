@@ -1,0 +1,235 @@
+{
+ "code": "NP",
+ "name": "نپال",
+ "nativeName": "नेपाल",
+ "locale": "ne-NP",
+ "direction": "ltr",
+ "timezone": "Asia/Kathmandu",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "کارت هویت ملی",
+  "algorithm": "none",
+  "pattern": "^\\d{10}$",
+  "placeholder": "1234567890",
+  "example": "1234567890"
+ },
+ "phone": {
+  "pattern": "^\\+977\\d{10}$",
+  "placeholder": "+9779812345678",
+  "example": "+9779812345678"
+ },
+ "currency": {
+  "label": "روپیهٔ نپال",
+  "code": "NPR",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ 1",
+  "پایهٔ 2",
+  "پایهٔ 3",
+  "پایهٔ 4",
+  "پایهٔ 5",
+  "پایهٔ 6",
+  "پایهٔ 7",
+  "پایهٔ 8",
+  "پایهٔ 9",
+  "پایهٔ 10",
+  "پایهٔ 11",
+  "پایهٔ 12"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "نپال: ۷ استان سطح اول و ۷۷ بخش سطح دوم (۱۴+۸+۱۳+۱۱+۱۲+۱۰+۹ = ۷۷، مطابق شمارش رسمی)؛ هیچ استانی ناقص نیست. مبنای فهرست‌ها: سرشماری ملی ۲۰۲۱ ادارهٔ ملی آمار نپال (NSO/CBS) و مصوبات مجالس استانی برای نام و مرکز هر استان (کوشی ۱ مارس ۲۰۲۳؛ مادیش ۱۷ ژانویهٔ ۲۰۲۲؛ باگماتی ۱۲ ژانویهٔ ۲۰۲۰؛ گندکی ۶ ژوئیهٔ ۲۰۱۸؛ لومبینی ۶ اکتبر ۲۰۲۰؛ کارنالی ۲۴ فوریهٔ ۲۰۱۸؛ سودورپاشچیم ۲۸ سپتامبر ۲۰۱۸) و قانون اساسی نپال ۲۰۱۵ (ضمیمهٔ ۴). افشای مهم (مانند مغولستان): نپال فهرست رسمی فارسی‌زبان منتشر نمی‌کند، پس نام‌ها و مرکزهای فارسی از ویکی‌پدیای فارسی‌اند، نه انتشار رسمی نپال؛ نام‌های لاتین، رومانیزهٔ نام‌های رسمی نپالی‌اند. شفاف‌سازی دربارهٔ راستی‌آزمایی: در زمان تهیهٔ پاسخ، سایت‌های رسمی دولت نپال (nbs.gov.np، mofaga.gov.np، censusresults.nsonepal.gov.np، nepal.gov.np) در دسترس نبودند/خطا دادند، پس تطبیق تک‌به‌تک املاها با سند رسمیِ بازشده انجام نشد؛ فهرست‌ها از صفحه‌های «Provinces of Nepal» و «Districts of Nepal» (که خود به گزارش رسمی NSO 2021 ارجاع می‌دهند) گردآوری و میان چند صفحهٔ مستقل تطبیق شدند. نسخهٔ برخط GADM برای نپال (v3.6) همچنان ساختار پیشافدرال را نشان می‌دهد (۵ منطقهٔ توسعه / ۱۴ زون / ۷۵ بخش قدیمی)، پس چهار بخش حاصل از تجزیه‌های پس از ۲۰۱۵ — Parasi و Nawalpur (از Nawalparasi سابق) و Rukum East و Rukum West (از Rukum سابق) — با GADM برخط قابل تطبیق نبودند. پرچم‌ها: مرکز دائم لومبینی دِوکهوری (Dang) است به مصوبهٔ ۶ اکتبر ۲۰۲۰؛ ویکی‌پدیای فارسی هنوز بوتوال (مرکز موقت پیشین) را نشان می‌دهد. مرکز کارنالی بیرندراناگار در بخش Surkhet است؛ مرکز سودورپاشچیم گوداواری در بخش Kanchanpur است. املاهای متغیر: Sindhupalchok/Sindhupalchowk؛ Makwanpur/Makawanpur؛ Tehrathum/Terhathum؛ Rukum East/Eastern Rukum؛ Rukum West/Western Rukum؛ Parasi = Nawalparasi (Bardaghat Susta West)؛ Nawalpur = Nawalparasi (Bardaghat Susta East). تقویم: تقویم رسمی نپال بیکرام سمبت در Intl نیست و به‌همین دلیل انتخابی نیست (مستند در calendars.ts)، پس تقویم پک gregory گذاشته شده است.",
+ "regions": [
+  {
+   "name": "کوشی",
+   "center": "بیرات‌نگر",
+   "counties": [
+    "Bhojpur",
+    "Dhankuta",
+    "Ilam",
+    "Jhapa",
+    "Khotang",
+    "Morang",
+    "Okhaldhunga",
+    "Panchthar",
+    "Sankhuwasabha",
+    "Solukhumbu",
+    "Sunsari",
+    "Taplejung",
+    "Tehrathum",
+    "Udayapur"
+   ]
+  },
+  {
+   "name": "مادیش",
+   "center": "جاناکپور",
+   "counties": [
+    "Bara",
+    "Dhanusha",
+    "Mahottari",
+    "Parsa",
+    "Rautahat",
+    "Saptari",
+    "Sarlahi",
+    "Siraha"
+   ]
+  },
+  {
+   "name": "باگماتی",
+   "center": "هتاوندا",
+   "counties": [
+    "Bhaktapur",
+    "Chitwan",
+    "Dhading",
+    "Dolakha",
+    "Kathmandu",
+    "Kavrepalanchok",
+    "Lalitpur",
+    "Makwanpur",
+    "Nuwakot",
+    "Rasuwa",
+    "Ramechhap",
+    "Sindhuli",
+    "Sindhupalchok"
+   ]
+  },
+  {
+   "name": "گندکی",
+   "center": "پوکارا",
+   "counties": [
+    "Baglung",
+    "Gorkha",
+    "Kaski",
+    "Lamjung",
+    "Manang",
+    "Mustang",
+    "Myagdi",
+    "Nawalpur",
+    "Parbat",
+    "Syangja",
+    "Tanahun"
+   ]
+  },
+  {
+   "name": "لومبینی",
+   "center": "دِوکهوری",
+   "counties": [
+    "Arghakhanchi",
+    "Banke",
+    "Bardiya",
+    "Dang",
+    "Gulmi",
+    "Kapilvastu",
+    "Palpa",
+    "Parasi",
+    "Pyuthan",
+    "Rolpa",
+    "Rukum East",
+    "Rupandehi"
+   ]
+  },
+  {
+   "name": "کارنالی",
+   "center": "بیرندراناگار",
+   "counties": [
+    "Dailekh",
+    "Dolpa",
+    "Humla",
+    "Jajarkot",
+    "Jumla",
+    "Kalikot",
+    "Mugu",
+    "Rukum West",
+    "Salyan",
+    "Surkhet"
+   ]
+  },
+  {
+   "name": "سودورپاشچیم",
+   "center": "گوداواری",
+   "counties": [
+    "Achham",
+    "Baitadi",
+    "Bajhang",
+    "Bajura",
+    "Dadeldhura",
+    "Darchula",
+    "Doti",
+    "Kailali",
+    "Kanchanpur"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "کوشی",
+   "cities": []
+  },
+  {
+   "province": "مادیش",
+   "cities": []
+  },
+  {
+   "province": "باگماتی",
+   "cities": []
+  },
+  {
+   "province": "گندکی",
+   "cities": []
+  },
+  {
+   "province": "لومبینی",
+   "cities": []
+  },
+  {
+   "province": "کارنالی",
+   "cities": []
+  },
+  {
+   "province": "سودورپاشچیم",
+   "cities": []
+  }
+ ]
+}
