@@ -1,0 +1,1119 @@
+[
+  {
+    "category": "آموزشی",
+    "categoryCode": "edu",
+    "description": "پیش از ورود به آزمایشگاه، دانش‌آموز آزمون کوتاه ایمنی شامل خطرات مواد و مسیر خروج اضطراری را می‌گذراند؛ تنها با نمرهٔ قبولی، اجازهٔ ورود به جلسهٔ آزمایش صادر می‌شود و مردودی به تمرین دوباره می‌رود.",
+    "fields": [
+      "labTopic",
+      "quizScore",
+      "passMark",
+      "retakeDate"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT"
+    ],
+    "slug": "d9p-edu-lab-safety-quiz",
+    "statuses": [
+      "TAKEN",
+      "PASSED",
+      "FAILED"
+    ],
+    "title": "آزمون ایمنی آزمایشگاه"
+  },
+  {
+    "category": "آموزشی",
+    "categoryCode": "edu",
+    "description": "معلم متن املا را با صدای خود می‌خواند و دانش‌آموزان هم‌زمان می‌نویسند؛ پس از تصحیح، واژه‌های اشتباه هر دانش‌آموز جداگانه ثبت می‌شود تا در سنجش بعدی همان واژه‌ها دوباره سنجیده شوند.",
+    "fields": [
+      "passageTitle",
+      "dictatedDate",
+      "errorWords",
+      "dictationScore"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT"
+    ],
+    "slug": "d9p-edu-dictation-test",
+    "statuses": [
+      "HELD",
+      "GRADED",
+      "REVIEWED"
+    ],
+    "title": "آزمون املای شنیداری"
+  },
+  {
+    "category": "آموزشی",
+    "categoryCode": "edu",
+    "description": "دانش‌آموز مفهومی از درس را در ویدیویی کوتاه توضیح می‌دهد و برای هم‌کلاسی‌ها منتشر می‌کند؛ معلم ویدیو را از نظر درستی علمی تأیید می‌کند و ویدیوهای تأییدشده در کتابخانهٔ توضیحات کلاس می‌مانند.",
+    "fields": [
+      "conceptTitle",
+      "videoFile",
+      "teacherApproval",
+      "viewCount"
+    ],
+    "roles": [
+      "STUDENT",
+      "TEACHER"
+    ],
+    "slug": "d9p-edu-peer-explanation-video",
+    "statuses": [
+      "RECORDED",
+      "APPROVED",
+      "PUBLISHED"
+    ],
+    "title": "ویدیوی توضیحی همتا"
+  },
+  {
+    "category": "آموزشی",
+    "categoryCode": "edu",
+    "description": "معلم پیش از طراحی سؤال‌ها، بودجه‌بندی امتحان را با وزن هر فصل، تعداد سؤال و سطح دشواری ثبت می‌کند؛ مدیر بودجه‌بندی را تأیید می‌کند تا سؤال‌ها دقیقاً بر همان اساس طراحی شوند.",
+    "fields": [
+      "examName",
+      "topicWeights",
+      "questionCount",
+      "difficultyMix"
+    ],
+    "roles": [
+      "TEACHER",
+      "MANAGER"
+    ],
+    "slug": "d9p-edu-exam-blueprint",
+    "statuses": [
+      "DRAFT",
+      "APPROVED",
+      "IN_USE"
+    ],
+    "title": "طرح سؤال امتحان"
+  },
+  {
+    "category": "آموزشی",
+    "categoryCode": "edu",
+    "description": "معلم در نوبت‌های دوره‌ای، دفتر مشق هر دانش‌آموز را از نظر کامل‌بودن تمرین‌ها و مرتب‌بودن بررسی می‌کند و مهر بازبینی می‌زند؛ دفتر ناقص با مهلت مشخص برای تکمیل بازگردانده می‌شود.",
+    "fields": [
+      "checkDate",
+      "completeness",
+      "neatness",
+      "resubmitDate"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT"
+    ],
+    "slug": "d9p-edu-notebook-check",
+    "statuses": [
+      "CHECKED",
+      "INCOMPLETE",
+      "COMPLETED"
+    ],
+    "title": "بازبینی دفتر مشق"
+  },
+  {
+    "category": "حضوروغیاب",
+    "categoryCode": "att",
+    "description": "دانش‌آموزی که برای کاری کوتاه باید موقتاً از مدرسه خارج شود و بازگردد، برگهٔ خروج موقت با مقصد و ساعت بازگشت می‌گیرد؛ نگهبان هنگام خروج و بازگشت، برگه را امضا می‌کند تا خروج او در پروندهٔ حضور همان روز ثبت شود.",
+    "fields": [
+      "destination",
+      "exitTime",
+      "returnTime",
+      "guardSignature"
+    ],
+    "roles": [
+      "MANAGER",
+      "STUDENT",
+      "CUSTODIAN"
+    ],
+    "slug": "d9p-att-gate-pass",
+    "statuses": [
+      "ISSUED",
+      "OUT",
+      "RETURNED"
+    ],
+    "title": "مجوز خروج موقت از مدرسه"
+  },
+  {
+    "category": "حضوروغیاب",
+    "categoryCode": "att",
+    "description": "معلم جایگزین پس از پایان کلاس، گزارش کوتاهی از موضوع‌های تدریس‌شده، تکلیف داده‌شده و رفتار کلاس می‌نویسد؛ معلم اصلی با خواندن گزارش، جلسهٔ بعد را بدون گسست ادامه می‌دهد.",
+    "fields": [
+      "substituteName",
+      "coveredTopics",
+      "assignedHomework",
+      "classBehavior"
+    ],
+    "roles": [
+      "TEACHER",
+      "MANAGER"
+    ],
+    "slug": "d9p-att-substitute-feedback",
+    "statuses": [
+      "SUBMITTED",
+      "READ",
+      "FOLLOWED_UP"
+    ],
+    "title": "گزارش کلاس جایگزین"
+  },
+  {
+    "category": "حضوروغیاب",
+    "categoryCode": "att",
+    "description": "برای دانش‌آموزانی که فقط در نوبت صبح یا عصر حاضرند، حضور هر نیم‌روز جداگانه ثبت می‌شود؛ غیبت در یک نیم‌روز، حضور نیم‌روز دیگر را باطل نمی‌کند و گزارش حضور به تفکیک نیم‌روز داده می‌شود.",
+    "fields": [
+      "shiftPart",
+      "attendanceDate",
+      "presentStatus",
+      "parentNotified"
+    ],
+    "roles": [
+      "TEACHER",
+      "MANAGER"
+    ],
+    "slug": "d9p-att-half-day-attendance",
+    "statuses": [
+      "RECORDED",
+      "NOTIFIED",
+      "REVIEWED"
+    ],
+    "title": "حضور نیم‌روز"
+  },
+  {
+    "category": "حضوروغیاب",
+    "categoryCode": "att",
+    "description": "سهمیهٔ روزهای غیبت موجه هر دانش‌آموز در ترم مشخص است و با هر غیبت موجه کم می‌شود؛ نزدیک‌شدن به سقف سهمیه، هشدار خودکار به والدین می‌فرستد و عبور از سقف نیازمند تأیید مدیر است.",
+    "fields": [
+      "termName",
+      "allowedDays",
+      "usedDays",
+      "warningSent"
+    ],
+    "roles": [
+      "MANAGER",
+      "PARENT"
+    ],
+    "slug": "d9p-att-excused-absence-quota",
+    "statuses": [
+      "ACTIVE",
+      "WARNING",
+      "EXCEEDED"
+    ],
+    "title": "سهمیه غیبت موجه"
+  },
+  {
+    "category": "مالی",
+    "categoryCode": "fin",
+    "description": "پرداخت به فروشنده با صورتحساب، تأیید تحویل کالا یا خدمت و امضای مدیر ثبت می‌شود؛ پرداخت فقط پس از تطابق صورتحساب با سفارش انجام می‌گیرد و رسید آن در پروندهٔ مالی بایگانی می‌شود.",
+    "fields": [
+      "vendorName",
+      "invoiceNumber",
+      "deliveryConfirmed",
+      "paidAmount"
+    ],
+    "roles": [
+      "MANAGER",
+      "ADMIN"
+    ],
+    "slug": "d9p-fin-vendor-payment",
+    "statuses": [
+      "INVOICED",
+      "VERIFIED",
+      "PAID"
+    ],
+    "title": "پرداخت به فروشنده"
+  },
+  {
+    "category": "مالی",
+    "categoryCode": "fin",
+    "description": "والدینی که پرداخت شهریه‌شان دیر شده، درخواست بخشش جریمهٔ دیرکرد را با دلیل ثبت می‌کنند؛ مدیر دلیل را بررسی می‌کند و در صورت پذیرش، جریمه از حساب حذف و نتیجه به والدین اعلام می‌شود.",
+    "fields": [
+      "feeMonth",
+      "lateFeeAmount",
+      "waiverReason",
+      "decision"
+    ],
+    "roles": [
+      "PARENT",
+      "MANAGER"
+    ],
+    "slug": "d9p-fin-late-fee-waiver",
+    "statuses": [
+      "REQUESTED",
+      "APPROVED",
+      "REJECTED"
+    ],
+    "title": "بخشش جریمه دیرکرد پرداخت"
+  },
+  {
+    "category": "مالی",
+    "categoryCode": "fin",
+    "description": "تنخواه دفتر با مبلغ پایه، هزینه‌های کوچک روزانه و رسید هر هزینه ثبت می‌شود؛ با رسیدن موجودی به کف مشخص، تنخواه با تأیید مدیر شارژ می‌شود و مغایرت در پایان ماه گزارش می‌گردد.",
+    "fields": [
+      "fundAmount",
+      "expenseNote",
+      "receiptAttached",
+      "balanceAmount"
+    ],
+    "roles": [
+      "ADMIN",
+      "MANAGER"
+    ],
+    "slug": "d9p-fin-petty-cash",
+    "statuses": [
+      "ACTIVE",
+      "REPLENISHED",
+      "RECONCILED"
+    ],
+    "title": "تنخواه دفتر مدرسه"
+  },
+  {
+    "category": "مالی",
+    "categoryCode": "fin",
+    "description": "والدی که مبلغی اضافه پرداخت کرده، درخواست استرداد با شمارهٔ پرداخت و مبلغ ثبت می‌کند؛ دفتر مالی پس از بررسی حساب، مبلغ را بازمی‌گرداند و رسید استرداد برای متقاضی صادر می‌شود.",
+    "fields": [
+      "paymentRef",
+      "refundAmount",
+      "reviewNote",
+      "refundReceipt"
+    ],
+    "roles": [
+      "PARENT",
+      "ADMIN"
+    ],
+    "slug": "d9p-fin-refund-request",
+    "statuses": [
+      "REQUESTED",
+      "VERIFIED",
+      "REFUNDED"
+    ],
+    "title": "درخواست استرداد وجه"
+  },
+  {
+    "category": "ارتباط با والدین",
+    "categoryCode": "par",
+    "description": "معلم یادداشت رفتاری کوتاهی دربارهٔ رفتار مثبت یا نیازمند اصلاح دانش‌آموز برای والدین می‌فرستد؛ والدین دریافت یادداشت را تأیید می‌کنند و یادداشت در پروندهٔ رفتاری دانش‌آموز ثبت می‌شود.",
+    "fields": [
+      "noteType",
+      "noteDate",
+      "noteText",
+      "parentAck"
+    ],
+    "roles": [
+      "TEACHER",
+      "PARENT"
+    ],
+    "slug": "d9p-par-behavior-note",
+    "statuses": [
+      "SENT",
+      "ACKNOWLEDGED",
+      "FILED"
+    ],
+    "title": "یادداشت رفتاری به والدین"
+  },
+  {
+    "category": "ارتباط با والدین",
+    "categoryCode": "par",
+    "description": "در آغاز سال تحصیلی، نسخهٔ آیین‌نامهٔ مدرسه برای والدین فرستاده می‌شود و والدین امضای آگاهی از آن را ثبت می‌کنند؛ خانواده‌های امضانکرده پیام یادآوری می‌گیرند تا همهٔ امضاها پیش از شروع کلاس‌ها کامل شود.",
+    "fields": [
+      "rulesVersion",
+      "parentSignature",
+      "signedDate",
+      "reminderSent"
+    ],
+    "roles": [
+      "PARENT",
+      "MANAGER"
+    ],
+    "slug": "d9p-par-rule-acknowledgment",
+    "statuses": [
+      "SENT",
+      "SIGNED",
+      "REMINDED"
+    ],
+    "title": "امضای آیین‌نامه مدرسه"
+  },
+  {
+    "category": "ارتباط با والدین",
+    "categoryCode": "par",
+    "description": "والدین پیشنهادهای خود برای بهبود مدرسه را بدون نیاز به شکایت رسمی در صندوق پیشنهاد ثبت می‌کنند؛ دفتر پیشنهادها را ماهانه جمع‌بندی می‌کند و پاسخ یا اقدام انجام‌شده را به پیشنهاددهنده اعلام می‌کند.",
+    "fields": [
+      "suggestionText",
+      "suggestionTopic",
+      "reviewNote",
+      "responseSent"
+    ],
+    "roles": [
+      "PARENT",
+      "MANAGER"
+    ],
+    "slug": "d9p-par-feedback-box",
+    "statuses": [
+      "SUBMITTED",
+      "REVIEWED",
+      "ANSWERED"
+    ],
+    "title": "صندوق پیشنهاد والدین"
+  },
+  {
+    "category": "ارتباط با والدین",
+    "categoryCode": "par",
+    "description": "کارگاه‌های آموزشی والدین در موضوع‌هایی مانند روش مطالعه و ایمنی فضای مجازی در چند جلسه برگزار می‌شود؛ والدین ثبت‌نام می‌کنند، در جلسه‌ها حاضر می‌شوند و جزوهٔ جلسه را دریافت می‌کنند.",
+    "fields": [
+      "workshopTopic",
+      "sessionDates",
+      "attendees",
+      "handoutFile"
+    ],
+    "roles": [
+      "TEACHER",
+      "PARENT",
+      "MANAGER"
+    ],
+    "slug": "d9p-par-parent-workshop",
+    "statuses": [
+      "ANNOUNCED",
+      "IN_PROGRESS",
+      "COMPLETED"
+    ],
+    "title": "کارگاه آموزشی والدین"
+  },
+  {
+    "category": "سلامت و ایمنی",
+    "categoryCode": "health",
+    "description": "غربالگری قامت دانش‌آموزان با بررسی شانه‌ها و ستون فقرات در آغاز سال انجام می‌شود؛ موارد مشکوک با نامهٔ محرمانه به والدین اعلام می‌گردد تا برای معاینهٔ تخصصی اقدام کنند.",
+    "fields": [
+      "screeningDate",
+      "postureResult",
+      "referralLetter",
+      "followUpDone"
+    ],
+    "roles": [
+      "NURSE",
+      "PARENT"
+    ],
+    "slug": "d9p-health-posture-screening",
+    "statuses": [
+      "SCREENED",
+      "REFERRED",
+      "FOLLOWED_UP"
+    ],
+    "title": "غربالگری قامت"
+  },
+  {
+    "category": "سلامت و ایمنی",
+    "categoryCode": "health",
+    "description": "غربالگری شنوایی با آزمون سادهٔ شنیدن صداها در اتاق آرام مدرسه انجام می‌شود؛ دانش‌آموزی که در آزمون ناموفق باشد، برای شنوایی‌سنجی تخصصی به مرکز شنوایی ارجاع داده می‌شود.",
+    "fields": [
+      "screeningDate",
+      "hearingResult",
+      "referralCenter",
+      "parentNotified"
+    ],
+    "roles": [
+      "NURSE",
+      "PARENT"
+    ],
+    "slug": "d9p-health-hearing-screening",
+    "statuses": [
+      "SCREENED",
+      "REFERRED",
+      "COMPLETED"
+    ],
+    "title": "غربالگری شنوایی"
+  },
+  {
+    "category": "سلامت و ایمنی",
+    "categoryCode": "health",
+    "description": "پرستار پایان شیفت، پرونده‌های در دست اقدام، داروهای در انتظار دوز بعدی و موارد نیازمند پیگیری را به پرستار شیفت بعد تحویل می‌دهد؛ تحویل با امضای هر دو پرستار ثبت می‌شود تا هیچ موردی در تعویض شیفت گم نشود.",
+    "fields": [
+      "handoverDate",
+      "pendingCases",
+      "nextDoseInfo",
+      "receiverSignature"
+    ],
+    "roles": [
+      "NURSE",
+      "MANAGER"
+    ],
+    "slug": "d9p-health-nurse-shift-handover",
+    "statuses": [
+      "DRAFTED",
+      "HANDED_OVER",
+      "CONFIRMED"
+    ],
+    "title": "تحویل شیفت پرستار"
+  },
+  {
+    "category": "سلامت و ایمنی",
+    "categoryCode": "health",
+    "description": "وقتی معلم دانش‌آموزی را به اتاق بهداشت می‌فرستد، برگهٔ ارجاع با علت و ساعت خروج از کلاس همراه اوست؛ پرستار اقدام انجام‌شده و ساعت بازگشت به کلاس را روی همان برگه ثبت می‌کند و برگه به معلم بازمی‌گردد.",
+    "fields": [
+      "referralReason",
+      "sentTime",
+      "nurseAction",
+      "returnTime"
+    ],
+    "roles": [
+      "TEACHER",
+      "NURSE"
+    ],
+    "slug": "d9p-health-nurse-visit-slip",
+    "statuses": [
+      "SENT",
+      "TREATED",
+      "RETURNED"
+    ],
+    "title": "برگه ارجاع به اتاق بهداشت"
+  },
+  {
+    "category": "حمل‌ونقل",
+    "categoryCode": "trans",
+    "description": "خانواده‌ای که نشانی‌اش عوض شده، درخواست تغییر مسیر سرویس را با مسیر تازه ثبت می‌کند؛ مسئول حمل‌ونقل ظرفیت مسیر مقصد را بررسی می‌کند و پس از تأیید، دانش‌آموز از تاریخ مشخص در مسیر تازه سوار می‌شود.",
+    "fields": [
+      "currentRoute",
+      "requestedRoute",
+      "capacityChecked",
+      "effectiveDate"
+    ],
+    "roles": [
+      "PARENT",
+      "MANAGER",
+      "DRIVER"
+    ],
+    "slug": "d9p-trans-route-change-request",
+    "statuses": [
+      "REQUESTED",
+      "APPROVED",
+      "REJECTED",
+      "ACTIVE"
+    ],
+    "title": "درخواست تغییر مسیر سرویس"
+  },
+  {
+    "category": "حمل‌ونقل",
+    "categoryCode": "trans",
+    "description": "ممیزی ایمنی مسیر سرویس با سوارشدن بازرس در مسیر و ثبت نقاط خطر مانند پیچ بدون دید و محل توقف ناامن انجام می‌شود؛ هر نقطهٔ خطر با اقدام اصلاحی و مهلت رفع پیگیری می‌گردد.",
+    "fields": [
+      "auditDate",
+      "hazardPoints",
+      "correctiveAction",
+      "fixDeadline"
+    ],
+    "roles": [
+      "MANAGER",
+      "DRIVER"
+    ],
+    "slug": "d9p-trans-route-safety-audit",
+    "statuses": [
+      "AUDITED",
+      "ACTIONING",
+      "CLOSED"
+    ],
+    "title": "ممیزی ایمنی مسیر سرویس"
+  },
+  {
+    "category": "حمل‌ونقل",
+    "categoryCode": "trans",
+    "description": "وقتی رانندهٔ سرویس غایب است، مدیر رانندهٔ جایگزین را از فهرست ذخیره انتخاب می‌کند و مسیر و فهرست سوارشوندگان را به او تحویل می‌دهد؛ والدین مسیر از تغییر راننده پیش از حرکت مطلع می‌شوند.",
+    "fields": [
+      "absentDriver",
+      "coverDriver",
+      "routeHandover",
+      "parentsNotified"
+    ],
+    "roles": [
+      "MANAGER",
+      "DRIVER"
+    ],
+    "slug": "d9p-trans-driver-absence-cover",
+    "statuses": [
+      "OPEN",
+      "ASSIGNED",
+      "COVERED"
+    ],
+    "title": "پوشش غیبت راننده"
+  },
+  {
+    "category": "حمل‌ونقل",
+    "categoryCode": "trans",
+    "description": "احراز شرایط استفاده از سرویس بر اساس فاصلهٔ خانه تا مدرسه و وضعیت جسمی دانش‌آموز انجام می‌شود؛ خانواده درخواست می‌دهد، دفتر فاصله را می‌سنجد و نتیجهٔ واجد یا فاقد شرایط با دلیل اعلام می‌گردد.",
+    "fields": [
+      "homeDistance",
+      "eligibilityReason",
+      "decisionNote",
+      "appealDate"
+    ],
+    "roles": [
+      "PARENT",
+      "MANAGER"
+    ],
+    "slug": "d9p-trans-service-eligibility",
+    "statuses": [
+      "APPLIED",
+      "ELIGIBLE",
+      "INELIGIBLE",
+      "APPEALED"
+    ],
+    "title": "احراز شرایط استفاده از سرویس"
+  },
+  {
+    "category": "کتابخانه و منابع",
+    "categoryCode": "lib",
+    "description": "پویش اهدای کتاب با فراخوان، دریافت کتاب‌های اهدایی، بررسی وضعیت ظاهری و افزودن کتاب‌های سالم به قفسه‌ها برگزار می‌شود؛ اهداکننده رسید اهدا می‌گیرد و کتاب‌های نامناسب با اطلاع او کنار گذاشته می‌شوند.",
+    "fields": [
+      "driveTitle",
+      "donatedBooks",
+      "conditionCheck",
+      "donorReceipt"
+    ],
+    "roles": [
+      "LIBRARIAN",
+      "STUDENT",
+      "PARENT"
+    ],
+    "slug": "d9p-lib-book-donation-drive",
+    "statuses": [
+      "ANNOUNCED",
+      "COLLECTING",
+      "SHELVED"
+    ],
+    "title": "پویش اهدای کتاب"
+  },
+  {
+    "category": "کتابخانه و منابع",
+    "categoryCode": "lib",
+    "description": "اشتراک نشریات کتابخانه با عنوان نشریه، دورهٔ اشتراک و شماره‌های دریافتی پیگیری می‌شود؛ شمارهٔ نرسیده با پیگیری از ناشر مطالبه می‌گردد و پایان اشتراک پیش از سررسید یادآوری می‌شود.",
+    "fields": [
+      "periodicalTitle",
+      "subscriptionPeriod",
+      "issuesReceived",
+      "missingIssueClaim"
+    ],
+    "roles": [
+      "LIBRARIAN",
+      "ADMIN"
+    ],
+    "slug": "d9p-lib-periodical-subscription",
+    "statuses": [
+      "ACTIVE",
+      "CLAIMED",
+      "RENEWED",
+      "EXPIRED"
+    ],
+    "title": "اشتراک نشریات"
+  },
+  {
+    "category": "کتابخانه و منابع",
+    "categoryCode": "lib",
+    "description": "در برنامهٔ همیار مطالعه، دانش‌آموز بزرگ‌تر با دانش‌آموز کوچک‌تر در جلسه‌های خواندن همراه می‌شود؛ هر جلسه با کتاب خوانده‌شده و پیشرفت ثبت می‌گردد و کتابدار روند زوج‌ها را پیگیری می‌کند.",
+    "fields": [
+      "buddyPair",
+      "sessionBook",
+      "sessionDate",
+      "progressNote"
+    ],
+    "roles": [
+      "STUDENT",
+      "LIBRARIAN"
+    ],
+    "slug": "d9p-lib-reading-buddy",
+    "statuses": [
+      "PAIRED",
+      "ACTIVE",
+      "COMPLETED"
+    ],
+    "title": "همیار مطالعه"
+  },
+  {
+    "category": "کتابخانه و منابع",
+    "categoryCode": "lib",
+    "description": "نشریات مدرسه مانند روزنامه‌ها و سالنامه‌ها با شماره، تاریخ انتشار و نسخهٔ دیجیتال بایگانی می‌شوند؛ دانش‌آموزان می‌توانند نسخه‌های قدیمی را برای پژوهش بخوانند ولی نسخهٔ اصلی از کتابخانه خارج نمی‌شود.",
+    "fields": [
+      "publicationTitle",
+      "issueNumber",
+      "publishDate",
+      "digitalCopy"
+    ],
+    "roles": [
+      "LIBRARIAN",
+      "STUDENT"
+    ],
+    "slug": "d9p-lib-publications-archive",
+    "statuses": [
+      "ARCHIVED",
+      "DIGITIZED",
+      "AVAILABLE"
+    ],
+    "title": "بایگانی نشریات مدرسه"
+  },
+  {
+    "category": "فوق‌برنامه",
+    "categoryCode": "extra",
+    "description": "نشریهٔ دانش‌آموزی در چند شماره در سال منتشر می‌شود؛ دانش‌آموزان مطلب می‌نویسند، سردبیر دانش‌آموزی مطالب را ویرایش می‌کند و شمارهٔ نهایی پس از تأیید معلم راهنما چاپ و توزیع می‌گردد.",
+    "fields": [
+      "issueNumber",
+      "articles",
+      "editorReview",
+      "printCount"
+    ],
+    "roles": [
+      "STUDENT",
+      "TEACHER"
+    ],
+    "slug": "d9p-extra-school-newspaper",
+    "statuses": [
+      "DRAFTING",
+      "EDITED",
+      "APPROVED",
+      "PUBLISHED"
+    ],
+    "title": "نشریه دانش‌آموزی"
+  },
+  {
+    "category": "فوق‌برنامه",
+    "categoryCode": "extra",
+    "description": "بازی‌های بومی و محلی در زنگ‌های فوق‌برنامه با آموزش قواعد، تشکیل گروه‌ها و برگزاری دوره‌ای مسابقات دوستانه برگزار می‌شود؛ مربی بازی، قواعد هر بازی را ثبت می‌کند تا بازی‌ها در مدرسه بمانند.",
+    "fields": [
+      "gameName",
+      "gameRules",
+      "playSessions",
+      "friendlyMatches"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT"
+    ],
+    "slug": "d9p-extra-traditional-games",
+    "statuses": [
+      "INTRODUCED",
+      "PLAYING",
+      "TOURNAMENT"
+    ],
+    "title": "بازی‌های بومی و محلی"
+  },
+  {
+    "category": "فوق‌برنامه",
+    "categoryCode": "extra",
+    "description": "ارکستر مدرسه با سازها، نوازندگان و قطعه‌های تمرینی اداره می‌شود؛ نوازندهٔ تازه با آزمون نوازندگی پذیرفته می‌شود و ارکستر در مراسم‌های مدرسه کنسرت اجرا می‌کند.",
+    "fields": [
+      "instrumentList",
+      "members",
+      "rehearsalDay",
+      "concertDate"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT"
+    ],
+    "slug": "d9p-extra-school-orchestra",
+    "statuses": [
+      "FORMED",
+      "REHEARSING",
+      "PERFORMED"
+    ],
+    "title": "ارکستر مدرسه"
+  },
+  {
+    "category": "فوق‌برنامه",
+    "categoryCode": "extra",
+    "description": "باشگاه فیلم با نمایش فیلم‌های مناسب سن، گفت‌وگوی پس از نمایش و ساخت فیلم کوتاه دانش‌آموزی برگزار می‌شود؛ هر فیلم با موضوع گفت‌وگو و برداشت اعضا ثبت می‌گردد.",
+    "fields": [
+      "filmTitle",
+      "screeningDate",
+      "discussionNotes",
+      "shortFilmProject"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT"
+    ],
+    "slug": "d9p-extra-film-club",
+    "statuses": [
+      "SCREENED",
+      "DISCUSSED",
+      "PRODUCED"
+    ],
+    "title": "باشگاه فیلم"
+  },
+  {
+    "category": "اداری و دفتری",
+    "categoryCode": "admin",
+    "description": "اسناد بایگانی که دورهٔ نگهداری‌شان تمام شده، با فهرست، تأیید مدیر و گواهی امحا از بین می‌روند؛ امحای اسناد محرمانه فقط با حضور ناظر انجام می‌شود و گواهی آن در دفتر بایگانی می‌ماند.",
+    "fields": [
+      "documentList",
+      "retentionEnd",
+      "witnessName",
+      "destructionCertificate"
+    ],
+    "roles": [
+      "ADMIN",
+      "MANAGER"
+    ],
+    "slug": "d9p-admin-document-destruction",
+    "statuses": [
+      "LISTED",
+      "APPROVED",
+      "DESTROYED"
+    ],
+    "title": "امحای اسناد بایگانی"
+  },
+  {
+    "category": "اداری و دفتری",
+    "categoryCode": "admin",
+    "description": "در آغاز سال، بستهٔ کتاب‌های درسی هر دانش‌آموز با فهرست و امضای تحویل ثبت می‌شود؛ کتاب آسیب‌دیده یا گم‌شده در پایان سال با همان فهرست تطبیق داده می‌شود تا کسری مشخص گردد.",
+    "fields": [
+      "bookSetList",
+      "deliverySignature",
+      "returnCondition",
+      "shortageNote"
+    ],
+    "roles": [
+      "ADMIN",
+      "STUDENT",
+      "PARENT"
+    ],
+    "slug": "d9p-admin-textbook-distribution",
+    "statuses": [
+      "DISTRIBUTED",
+      "IN_USE",
+      "RETURNED",
+      "SHORTAGE"
+    ],
+    "title": "توزیع کتاب درسی"
+  },
+  {
+    "category": "اداری و دفتری",
+    "categoryCode": "admin",
+    "description": "درخواست تکثیر اوراق امتحانی با تعداد نسخه، مهر محرمانه و تحویل در پاکت دربسته ثبت می‌شود؛ مسئول تکثیر فقط با دستور کتبی مدیر، نسخه‌ها را چاپ می‌کند و شمارش نسخه‌ها پیش از تحویل انجام می‌گردد.",
+    "fields": [
+      "examTitle",
+      "copyCount",
+      "sealedEnvelope",
+      "deliveredBy"
+    ],
+    "roles": [
+      "TEACHER",
+      "ADMIN"
+    ],
+    "slug": "d9p-admin-photocopy-request",
+    "statuses": [
+      "REQUESTED",
+      "PRINTED",
+      "DELIVERED"
+    ],
+    "title": "درخواست تکثیر اوراق امتحانی"
+  },
+  {
+    "category": "اداری و دفتری",
+    "categoryCode": "admin",
+    "description": "برگه‌های امتحان پس از تصحیح، در محل امن با برچسب درس و تاریخ نگهداری می‌شوند؛ هر بار خروج برگه از محل امن با نام بردارنده و دلیل ثبت می‌گردد تا زنجیرهٔ نگهداری برگه‌ها کامل بماند.",
+    "fields": [
+      "examTitle",
+      "storageLabel",
+      "accessLog",
+      "retrievalReason"
+    ],
+    "roles": [
+      "ADMIN",
+      "TEACHER"
+    ],
+    "slug": "d9p-admin-exam-paper-storage",
+    "statuses": [
+      "STORED",
+      "ACCESSED",
+      "RETURNED"
+    ],
+    "title": "نگهداری امن برگه‌های امتحان"
+  },
+  {
+    "category": "رفاه و انگیزش",
+    "categoryCode": "welfare",
+    "description": "کمک پوشاک برای دانش‌آموزان نیازمند با بررسی محرمانهٔ نیاز، تهیهٔ اقلام مناسب اندازه و تحویل بی‌نام انجام می‌شود؛ فقط مسئول رفاه فهرست دریافت‌کنندگان را می‌بیند و کمکی در کلاس علنی نمی‌شود.",
+    "fields": [
+      "needAssessment",
+      "clothingItems",
+      "deliveryDate",
+      "confidentialFlag"
+    ],
+    "roles": [
+      "MANAGER",
+      "PARENT"
+    ],
+    "slug": "d9p-welfare-clothing-aid",
+    "statuses": [
+      "ASSESSED",
+      "PREPARED",
+      "DELIVERED"
+    ],
+    "title": "کمک پوشاک دانش‌آموزی"
+  },
+  {
+    "category": "رفاه و انگیزش",
+    "categoryCode": "welfare",
+    "description": "حلقهٔ حمایت همتا گروه کوچکی از دانش‌آموزان با تجربهٔ مشترک است که با راهنمایی مشاور، در جلسه‌های منظم گفت‌وگو می‌کنند؛ محتوای جلسه‌ها محرمانه می‌ماند و تنها پیگیری‌های توافق‌شده ثبت می‌شود.",
+    "fields": [
+      "circleTopic",
+      "sessionDates",
+      "facilitator",
+      "agreedFollowUps"
+    ],
+    "roles": [
+      "COUNSELOR",
+      "STUDENT"
+    ],
+    "slug": "d9p-welfare-peer-support-circle",
+    "statuses": [
+      "FORMED",
+      "MEETING",
+      "CLOSED"
+    ],
+    "title": "حلقه حمایت همتا"
+  },
+  {
+    "category": "رفاه و انگیزش",
+    "categoryCode": "welfare",
+    "description": "پایش دوره‌ای بهزیستی با گفت‌وگوی کوتاه مشاور با هر دانش‌آموز و ثبت مقیاس حال عمومی او انجام می‌شود؛ افت محسوس حال، ارجاع به جلسهٔ مشاوره را فعال می‌کند و روند حال در طول ترم دیده می‌شود.",
+    "fields": [
+      "checkinDate",
+      "wellbeingScale",
+      "checkinNote",
+      "referralTriggered"
+    ],
+    "roles": [
+      "COUNSELOR",
+      "STUDENT"
+    ],
+    "slug": "d9p-welfare-wellbeing-checkin",
+    "statuses": [
+      "SCHEDULED",
+      "DONE",
+      "REFERRED"
+    ],
+    "title": "پایش دوره‌ای بهزیستی دانش‌آموز"
+  },
+  {
+    "category": "رفاه و انگیزش",
+    "categoryCode": "welfare",
+    "description": "دانش‌آموز نمونهٔ ماه با نامزدی از سوی معلمان، بررسی ملاک‌هایی مانند تلاش، همکاری و پیشرفت و انتخاب در کمیتهٔ مدرسه مشخص می‌شود؛ نام برگزیده در مراسم ماه اعلام و لوح تقدیر به او اهدا می‌گردد.",
+    "fields": [
+      "nomineeName",
+      "nominationReason",
+      "selectionMonth",
+      "awardGiven"
+    ],
+    "roles": [
+      "TEACHER",
+      "MANAGER",
+      "STUDENT"
+    ],
+    "slug": "d9p-welfare-student-of-month",
+    "statuses": [
+      "NOMINATED",
+      "SELECTED",
+      "AWARDED"
+    ],
+    "title": "دانش‌آموز نمونه ماه"
+  },
+  {
+    "category": "فناوری و تجهیزات",
+    "categoryCode": "tech",
+    "description": "نگهداری چاپگرها با ثبت تونر، گیر کاغذ و بازدیدهای دوره‌ای سرویسکار انجام می‌شود؛ چاپگر خراب تا تعمیر از چرخه خارج می‌ماند و هزینهٔ تعمیر در پروندهٔ دستگاه ثبت می‌گردد.",
+    "fields": [
+      "printerName",
+      "tonerLevel",
+      "serviceVisit",
+      "repairCost"
+    ],
+    "roles": [
+      "TECH",
+      "ADMIN"
+    ],
+    "slug": "d9p-tech-printer-maintenance",
+    "statuses": [
+      "WORKING",
+      "OUT_OF_SERVICE",
+      "SERVICED"
+    ],
+    "title": "نگهداری چاپگرها"
+  },
+  {
+    "category": "فناوری و تجهیزات",
+    "categoryCode": "tech",
+    "description": "درخواست بازنشانی رمز عبور با بررسی هویت متقاضی و صدور رمز موقت ثبت می‌شود؛ کاربر پس از نخستین ورود، رمز تازه تعیین می‌کند و رمز موقت خودکار باطل می‌گردد.",
+    "fields": [
+      "accountName",
+      "identityCheck",
+      "tempPasswordIssued",
+      "firstLoginDone"
+    ],
+    "roles": [
+      "TECH",
+      "STUDENT",
+      "TEACHER"
+    ],
+    "slug": "d9p-tech-password-reset-request",
+    "statuses": [
+      "REQUESTED",
+      "ISSUED",
+      "CHANGED"
+    ],
+    "title": "درخواست بازنشانی رمز عبور"
+  },
+  {
+    "category": "فناوری و تجهیزات",
+    "categoryCode": "tech",
+    "description": "جلسهٔ آموزش نرم‌افزار برای معلمان با موضوع، مدرس و جزوهٔ آموزشی برگزار می‌شود؛ حاضران در پایان جلسه، کار عملی با نرم‌افزار را انجام می‌دهند و نیاز به جلسهٔ تکمیلی ثبت می‌گردد.",
+    "fields": [
+      "softwareName",
+      "trainerName",
+      "sessionDate",
+      "practiceDone"
+    ],
+    "roles": [
+      "TECH",
+      "TEACHER"
+    ],
+    "slug": "d9p-tech-software-training-session",
+    "statuses": [
+      "SCHEDULED",
+      "HELD",
+      "FOLLOW_UP_NEEDED"
+    ],
+    "title": "جلسه آموزش نرم‌افزار"
+  },
+  {
+    "category": "فناوری و تجهیزات",
+    "categoryCode": "tech",
+    "description": "ممیزی تجهیزات فناوری هر کلاس با فهرست وسایل، وضعیت سالم‌بودن و اقلام گم‌شده در پایان هر ترم انجام می‌شود؛ کسری‌ها با گزارش یکجا به مدیر اعلام می‌گردد تا خرید یا تعمیر آن‌ها برنامه‌ریزی شود.",
+    "fields": [
+      "classroomName",
+      "equipmentList",
+      "missingItems",
+      "auditReport"
+    ],
+    "roles": [
+      "TECH",
+      "MANAGER"
+    ],
+    "slug": "d9p-tech-classroom-tech-audit",
+    "statuses": [
+      "SCHEDULED",
+      "AUDITED",
+      "REPORTED"
+    ],
+    "title": "ممیزی تجهیزات فناوری کلاس"
+  },
+  {
+    "category": "رویدادها",
+    "categoryCode": "events",
+    "description": "نمایشگاه آثار هنری با دریافت اثرهای دانش‌آموزان، انتخاب آثار برای نمایش، چیدمان در سالن و بازدید خانواده‌ها برگزار می‌شود؛ هر اثر با نام پدیدآورنده و توضیح کوتاه به نمایش درمی‌آید.",
+    "fields": [
+      "artworkTitle",
+      "artistName",
+      "displaySpot",
+      "visitorCount"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT",
+      "PARENT"
+    ],
+    "slug": "d9p-events-art-exhibition",
+    "statuses": [
+      "SUBMITTED",
+      "SELECTED",
+      "EXHIBITED"
+    ],
+    "title": "نمایشگاه آثار هنری"
+  },
+  {
+    "category": "رویدادها",
+    "categoryCode": "events",
+    "description": "روز شغلی با دعوت از صاحبان حرفه‌ها، غرفه‌های معرفی شغل و ثبت‌نام دانش‌آموزان برای گفت‌وگو برگزار می‌شود؛ هر دانش‌آموز پس از گفت‌وگو، برداشت خود از آن شغل را ثبت می‌کند.",
+    "fields": [
+      "professionList",
+      "boothSchedule",
+      "studentSignups",
+      "studentReflection"
+    ],
+    "roles": [
+      "MANAGER",
+      "STUDENT",
+      "PARENT"
+    ],
+    "slug": "d9p-events-career-day",
+    "statuses": [
+      "PLANNED",
+      "HELD",
+      "REFLECTED"
+    ],
+    "title": "روز شغلی"
+  },
+  {
+    "category": "رویدادها",
+    "categoryCode": "events",
+    "description": "سالگرد تأسیس مدرسه با برنامهٔ مراسم، نمایش تاریخچهٔ مدرسه و دعوت از پیشکسوتان برگزار می‌شود؛ خاطره‌های گردآوری‌شده در کتابچهٔ سالگرد چاپ می‌گردد و نسخه‌ای در بایگانی مدرسه می‌ماند.",
+    "fields": [
+      "anniversaryYear",
+      "programItems",
+      "historyDisplay",
+      "memoirBooklet"
+    ],
+    "roles": [
+      "MANAGER",
+      "TEACHER",
+      "STUDENT"
+    ],
+    "slug": "d9p-events-school-anniversary",
+    "statuses": [
+      "PLANNED",
+      "HELD",
+      "PUBLISHED"
+    ],
+    "title": "سالگرد تأسیس مدرسه"
+  },
+  {
+    "category": "رویدادها",
+    "categoryCode": "events",
+    "description": "ضیافت خیریه با فروش میزها، اقلام حراج و ثبت عواید برگزار می‌شود؛ عواید با هدف اعلام‌شده مانند تجهیز کتابخانه هزینه می‌گردد و گزارش هزینه‌کرد برای حاضران فرستاده می‌شود.",
+    "fields": [
+      "tableSales",
+      "auctionItems",
+      "proceedsAmount",
+      "spendingReport"
+    ],
+    "roles": [
+      "MANAGER",
+      "PARENT",
+      "ADMIN"
+    ],
+    "slug": "d9p-events-fundraising-gala",
+    "statuses": [
+      "PLANNED",
+      "HELD",
+      "REPORTED"
+    ],
+    "title": "ضیافت خیریه"
+  },
+  {
+    "category": "رویدادها",
+    "categoryCode": "events",
+    "description": "مسابقهٔ دوستانهٔ معلمان و دانش‌آموزان با تیم‌های مختلط، داوری ساده و جایزهٔ بازی جوانمردانه برگزار می‌شود؛ نتیجهٔ بازی و لحظه‌های برتر آن در تابلوی اعلانات مدرسه منتشر می‌گردد.",
+    "fields": [
+      "matchSport",
+      "mixedTeams",
+      "matchScore",
+      "fairPlayAward"
+    ],
+    "roles": [
+      "TEACHER",
+      "STUDENT",
+      "MANAGER"
+    ],
+    "slug": "d9p-events-friendly-match",
+    "statuses": [
+      "PLANNED",
+      "PLAYED",
+      "ANNOUNCED"
+    ],
+    "title": "مسابقه دوستانه معلمان و دانش‌آموزان"
+  }
+]
