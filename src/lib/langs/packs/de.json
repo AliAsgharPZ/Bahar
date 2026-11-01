@@ -4272,7 +4272,8 @@
   "supply.f.qty": "Menge",
   "supply.f.reason": "Wofür? (optional)",
   "supply.add": "Anforderung einreichen",
-  "supply.addedToast": "Die Anforderung wurde erfasst"
+  "supply.addedToast": "Die Anforderung wurde erfasst",
+  "examSeats.roomInvigilator": "Raumaufsicht"
  },
  "siteStrings": {
   "site.brand.tagline": "Schulverwaltungssystem",
