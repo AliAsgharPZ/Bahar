@@ -8,13 +8,15 @@ import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft, Search, Bell, LogOut, KeyRound, Sparkles,
-  DoorOpen, PanelRightClose, PanelRightOpen, PanelLeftClose, PanelLeftOpen, Menu, X, Settings, Printer,
+  DoorOpen, PanelRightClose, PanelRightOpen, PanelLeftClose, PanelLeftOpen, Menu, X, Settings, Printer, ShieldAlert,
 } from "lucide-react";
 import { apiGet, apiPost } from "@/lib/client";
 import { ROLE_LABELS } from "@/lib/roles";
 import { faNumber, relativeTimeFa, formatDateFa } from "@/lib/persian";
 import type { AvatarParams } from "@/lib/avatar";
 import { NAV, NAV_GROUPS, navItemsFor, type NavItem } from "@/lib/nav";
+import { applySchoolContext } from "@/lib/nav-visibility";
+import { EmptyState } from "@/components/shared/bits";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { OriginPop, springRubber } from "@/components/shared/motion";
@@ -158,12 +160,29 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
     };
   }, [pathname, isManagerish, user.role]);
 
+  /* بستر مدرسه: پنل فعال یا نام مدرسهٔ کاربر. بدون آن، تب‌های
+     مدرسه‌ای اصلاً نمایش داده نمی‌شوند (دستور کاربر، آبان ۱۴۰۴). */
+  const hasSchool = !!(user.actingSchoolId || user.schoolName);
+
   const items = useMemo(
-    () => navItemsFor(user.role, user.permissions, inSchoolPanel).filter(
-      (n) => n.href !== "/app/shad" || shadVisible
-    ),
-    [user.role, user.permissions, inSchoolPanel, shadVisible]
+    () =>
+      applySchoolContext(
+        navItemsFor(user.role, user.permissions, inSchoolPanel).filter(
+          (n) => n.href !== "/app/shad" || shadVisible
+        ),
+        hasSchool
+      ),
+    [user.role, user.permissions, inSchoolPanel, shadVisible, hasSchool]
   );
+
+  /* RoleGate: دسترسی مستقیم با آدرس هم از همین فهرست فیلترشده می‌گذرد.
+     تطابق با «/» تا /app/classes با /app/class-visits اشتباه نشود.
+     صفحه‌ای که اصلاً در ناوبری نیست، مسدود نمی‌شود. */
+  const currentNavItem = NAV.find((n) =>
+    n.href === "/app" ? pathname === "/app" : pathname === n.href || pathname.startsWith(`${n.href}/`)
+  );
+  const accessDenied =
+    !!currentNavItem && !items.some((n) => n.href === currentNavItem.href);
 
   /* گروه‌بندی ناوبری — سایدبار دسکتاپ و منوی همبرگری موبایل از همین منبع تغذیه می‌شوند */
   const groupedItems = useMemo(
@@ -594,7 +613,27 @@ function AppShellInner({ user, children }: { user: ShellUser; children: React.Re
                 </div>
                 <div className="ph-date">تاریخ چاپ: {formatDateFa(new Date())}</div>
               </div>
-              {children}
+              {accessDenied ? (
+                <EmptyState
+                  icon={ShieldAlert}
+                  title="به این بخش دسترسی ندارید."
+                  desc={
+                    hasSchool
+                      ? "نقش یا دسترسی شما برای دیدن این بخش کافی نیست."
+                      : "این بخش به یک مدرسه مربوط است؛ برای دیدن آن باید وارد پنل یک مدرسه شوید."
+                  }
+                  action={
+                    <Link
+                      href={hasSchool ? "/app" : "/app/schools"}
+                      className="b-btn b-btn-spring"
+                    >
+                      {hasSchool ? "بازگشت به داشبورد" : "رفتن به فهرست مدارس"}
+                    </Link>
+                  }
+                />
+              ) : (
+                children
+              )}
               <div className="print-only b-print-foot" aria-hidden>
                 این گزارش به‌صورت خودکار از سامانه مدیریت مدرسه بهار تولید شده است · bahar
               </div>

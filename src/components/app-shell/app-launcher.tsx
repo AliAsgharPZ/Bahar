@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { navItemsFor, NAV_GROUPS, type NavItem, type NavGroupKey } from "@/lib/nav";
+import { applySchoolContext } from "@/lib/nav-visibility";
 import { useShellUser } from "./app-shell";
 import { useLang } from "@/lib/i18n";
 import { useCountry } from "@/lib/country/client";
@@ -33,8 +34,11 @@ export function AppLauncher() {
   const { country } = useCountry();
   // راند ۱۸: شاد فقط برای بستهٔ کشور فعال + مدرسهٔ روشن‌کرنده نمایش داده می‌شود
   const shadVisible = country.modules.shad !== false && (user.schoolModules?.shadEnabled !== false);
-  const items = navItemsFor(user.role, user.permissions, !!user.actingSchoolId).filter(
-    (n) => n.href !== "/app/shad" || shadVisible
+  const items = applySchoolContext(
+    navItemsFor(user.role, user.permissions, !!user.actingSchoolId).filter(
+      (n) => n.href !== "/app/shad" || shadVisible
+    ),
+    !!(user.actingSchoolId || user.schoolName)
   );
   /** گروهی که با «نمایش همه» به گرید کامل باز شده */
   const [expanded, setExpanded] = useState<NavGroupKey | null>(null);
