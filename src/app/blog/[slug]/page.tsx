@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
 import { Markdown } from "@/components/shared/markdown";
-import { formatDateFa } from "@/lib/persian";
+import { formatDateFa, faNumber } from "@/lib/persian";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { SiteLangSelect } from "@/components/shared/site-lang-select";
 import { cookies } from "next/headers";
@@ -46,6 +46,20 @@ export default async function BlogPostPage({ params }: Props) {
 
   const tags = JSON.parse(post.tags) as string[];
   const url = `/blog/${post.slug}`;
+  const readingMinutes = Math.max(1, Math.round(post.body.split(/\s+/).filter(Boolean).length / 200));
+  // نوشته‌های مرتبط: تگ مشترک، بدون خود پست، تازه‌ترین‌ها اول
+  const related = tags.length > 0
+    ? await db.blogPost.findMany({
+        where: {
+          status: "PUBLISHED",
+          id: { not: post.id },
+          OR: tags.map((t) => ({ tags: { contains: `"${t.replace(/"/g, "")}"` } })),
+        },
+        select: { id: true, title: true, slug: true, excerpt: true, coverUrl: true, publishedAt: true, viewCount: true },
+        orderBy: { publishedAt: "desc" },
+        take: 3,
+      })
+    : [];
   let siteLang = "fa";
   try { siteLang = (await cookies()).get("bahar_site_lang")?.value?.trim() || "fa"; } catch { /* fa */ }
   const site = siteStringsFor(siteLang);
@@ -73,7 +87,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="p-6 md:p-10">
             <div className="flex flex-wrap items-center gap-2 mb-4">
               {tags.map((t, i) => (
-                <span key={i} className="b-badge b-badge-neutral">{t}</span>
+                <Link key={i} href={`/blog?tag=${encodeURIComponent(t)}`} className="b-badge b-badge-neutral hover:border-spring/40 transition-colors">{t}</Link>
               ))}
             </div>
             <h1 className="text-2xl md:text-3xl font-extrabold leading-snug mb-4">{post.title}</h1>
@@ -81,6 +95,7 @@ export default async function BlogPostPage({ params }: Props) {
               <span>{post.author ? `${post.author.firstName} ${post.author.lastName}` : tx("site.blog.fallbackAuthor", "تحریریه بهار")}</span>
               <span>· {formatDateFa(post.publishedAt!)}</span>
               <span>· {(post.viewCount + 1).toLocaleString("fa-IR")} {tx("site.blog.viewsSuffix", "بازدید")}</span>
+              <span>· {faNumber(readingMinutes)} {tx("site.blog.minutesSuffix", "دقیقه مطالعه")}</span>
             </div>
             <div className="markdown-body text-foreground">
               <Markdown source={post.body} />
@@ -89,6 +104,23 @@ export default async function BlogPostPage({ params }: Props) {
         </article>
 
         <ShareBar url={url} title={post.title} texts={{ heading: tx("site.blog.shareHeading", "اشتراک‌گذاری این نوشته:"), copied: tx("site.blog.copied", "کپی شد"), copyLink: tx("site.blog.copyLink", "کپی لینک"), share: tx("site.blog.share", "اشتراک‌گذاری"), linkCopied: tx("site.blog.linkCopied", "لینک کپی شد."), linkCopyFailed: tx("site.blog.linkCopyFailed", "کپی نشد — لینک را دستی کپی کنید.") }} />
+
+        {related.length > 0 && (
+          <section className="mb-8">
+            <h2 className="font-bold text-base mb-4">{tx("site.blog.relatedHeading", "نوشته‌های مرتبط")}</h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {related.map((r) => (
+                <Link key={r.id} href={`/blog/${r.slug}`} className="b-card-sm b-card-hover p-0 overflow-hidden block group">
+                  {r.coverUrl && <img src={r.coverUrl} alt={r.title} className="w-full h-28 object-cover" />}
+                  <div className="p-4">
+                    <h3 className="text-sm font-bold leading-snug mb-2 group-hover:text-spring transition-colors line-clamp-2">{r.title}</h3>
+                    <span className="text-xs text-stone">{formatDateFa(r.publishedAt!)} · {r.viewCount.toLocaleString("fa-IR")} {tx("site.blog.viewsSuffix", "بازدید")}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="b-card p-6 md:p-8 mb-8">
           <h2 className="font-bold text-base mb-5">{tx("site.blog.commentsHeading", "نظرات")} ({comments.length.toLocaleString("fa-IR")})</h2>

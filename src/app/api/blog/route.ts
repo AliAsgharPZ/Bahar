@@ -9,28 +9,41 @@ import { hasPermission } from "@/lib/roles";
 // بلاگ — GET عمومی پست‌های منتشرشده؛ POST ساخت توسط ادمین
 // ============================================================
 
-/** GET /api/blog?tag=&q=&page= — فهرست پست‌های منتشرشده (عمومی) */
+/** GET /api/blog?tag=&q=&sort=new|views&page=&perPage= — فهرست پست‌های منتشرشده (عمومی) */
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const q = searchParams.get("q")?.trim();
     const tag = searchParams.get("tag")?.trim();
+    const sort = searchParams.get("sort") === "views" ? "views" : "new";
+    const page = Math.max(1, Number(searchParams.get("page")) || 1);
+    const perPage = Math.min(50, Math.max(1, Number(searchParams.get("perPage")) || 50));
 
     const where: Record<string, unknown> = { status: "PUBLISHED" };
     if (q) where.OR = [{ title: { contains: q } }, { excerpt: { contains: q } }];
     // FIX (راند ۱۶): تطابق دقیق تگ — قبلاً «آموزش» با «آموزشگاه» هم مطابق می‌شد
     if (tag) where.tags = { contains: `"${tag.replace(/"/g, "")}"` };
 
-    const posts = await db.blogPost.findMany({
-      where,
-      select: {
-        id: true, title: true, slug: true, excerpt: true, coverUrl: true,
-        tags: true, publishedAt: true, viewCount: true, author: { select: { firstName: true, lastName: true } },
-        _count: { select: { comments: { where: { approved: true } } } },
-      },
-      orderBy: { publishedAt: "desc" },
-      take: 50,
-    });
+    const [total, posts, tagRows] = await Promise.all([
+      db.blogPost.count({ where }),
+      db.blogPost.findMany({
+        where,
+        select: {
+          id: true, title: true, slug: true, excerpt: true, coverUrl: true,
+          tags: true, publishedAt: true, viewCount: true, author: { select: { firstName: true, lastName: true } },
+          _count: { select: { comments: { where: { approved: true } } } },
+        },
+        orderBy: sort === "views" ? { viewCount: "desc" } : { publishedAt: "desc" },
+        skip: (page - 1) * perPage,
+        take: perPage,
+      }),
+      // همهٔ تگ‌های پست‌های منتشرشده — برای چیپ‌های فیلتر (بدون فیلتر تگِ جاری)
+      db.blogPost.findMany({ where: { status: "PUBLISHED" }, select: { tags: true } }),
+    ]);
+
+    const allTags = [...new Set(tagRows.flatMap((r) => {
+      try { return JSON.parse(r.tags) as string[]; } catch { return []; }
+    }))].sort((a, b) => a.localeCompare(b, "fa"));
 
     return apiOk({
       posts: posts.map((p) => ({
@@ -39,6 +52,11 @@ export async function GET(req: NextRequest) {
         commentCount: p._count.comments,
         _count: undefined,
       })),
+      total,
+      page,
+      perPage,
+      hasMore: page * perPage < total,
+      allTags,
     });
   } catch (e) {
     return handleApiError(e);

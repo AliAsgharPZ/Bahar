@@ -28,10 +28,14 @@ type Ticket = {
 
 const STATUS_TKEY: Record<string, string> = { OPEN: "dashboard.ticket.open", ANSWERED: "tickets.status.ANSWERED", CLOSED: "dashboard.ticket.closed" };
 const PRIORITY_TKEY: Record<string, string> = { LOW: "tickets.priority.LOW", NORMAL: "tickets.priority.NORMAL", HIGH: "dashboard.urgent" };
+// DEMO کلید ترجمهٔ اختصاصی ندارد؛ برچسب آن همان برچسب API است تا با فهرست یکی باشد
 const CATEGORY_TKEY: Record<string, string> = {
   GENERAL: "settings.general", TECHNICAL: "tickets.category.TECHNICAL", BILLING: "tickets.category.BILLING",
   SUGGESTION: "tickets.category.SUGGESTION",
 };
+const CATEGORY_LABEL_FA: Record<string, string> = { DEMO: "درخواست دمو" };
+const categoryLabel = (t: (k: string) => string, code: string): string =>
+  CATEGORY_TKEY[code] ? t(CATEGORY_TKEY[code]) : (CATEGORY_LABEL_FA[code] ?? code);
 
 export default function TicketsPage() {
   const { t } = useLang();
@@ -40,6 +44,9 @@ export default function TicketsPage() {
   const [status, setStatus] = useState<string>("");
   // لینک عمیق دسته‌بندی (مثلاً از هشدارهای پنل: ?category=BILLING)
   const [category, setCategory] = useState<string>(params.get("category") ?? "");
+  const [priority, setPriority] = useState<string>("");
+  const [qInput, setQInput] = useState("");
+  const [q, setQ] = useState("");
   const [showCreate, setShowCreate] = useState(false);
   const [form, setForm] = useState({ subject: "", category: "GENERAL", priority: "NORMAL", message: "" });
   const [saving, setSaving] = useState(false);
@@ -47,8 +54,8 @@ export default function TicketsPage() {
   const [reply, setReply] = useState("");
   const [replying, setReplying] = useState(false);
 
-  const url = `/api/tickets?scope=${scope}${status ? `&status=${status}` : ""}${category ? `&category=${category}` : ""}`;
-  const { data, loading, error, refetch } = useApi<{ tickets: Ticket[]; isStaff: boolean }>(url, [scope, status, category]);
+  const url = `/api/tickets?scope=${scope}${status ? `&status=${status}` : ""}${category ? `&category=${category}` : ""}${priority ? `&priority=${priority}` : ""}${q ? `&q=${encodeURIComponent(q)}` : ""}`;
+  const { data, loading, error, refetch } = useApi<{ tickets: Ticket[]; isStaff: boolean; counts: Record<string, number> }>(url, [scope, status, category, priority, q]);
 
   const isStaff = data?.isStaff ?? false;
 
@@ -129,17 +136,50 @@ export default function TicketsPage() {
             onClick={() => setStatus(st)}
           >
             {st ? (STATUS_TKEY[st] ? t(STATUS_TKEY[st]) : st) : t("common.all")}
+            {st && data?.counts ? ` (${faNumber(data.counts[st] ?? 0)})` : ""}
           </button>
         ))}
         {category && (
           <button className="b-pill-tab b-pill-tab-active" onClick={() => setCategory("")} title={t("tickets.clearCategoryFilter")}>
-            {CATEGORY_TKEY[category] ? t(CATEGORY_TKEY[category]) : category} ✕
+            {categoryLabel(t, category)} ✕
           </button>
         )}
       </div>
 
+      <form
+        className="flex flex-wrap items-center gap-2"
+        onSubmit={(e) => { e.preventDefault(); setQ(qInput.trim()); }}
+      >
+        <input
+          className="b-input flex-1 min-w-52"
+          value={qInput}
+          onChange={(e) => setQInput(e.target.value)}
+          placeholder={t("common.search")}
+          aria-label={t("common.search")}
+        />
+        <button type="submit" className="b-btn b-btn-soft b-btn-sm min-h-11">{t("common.search")}</button>
+        {q && (
+          <button type="button" className="b-btn b-btn-ghost b-btn-sm min-h-11" onClick={() => { setQ(""); setQInput(""); }}>
+            پاک‌کردن جستجو
+          </button>
+        )}
+        <span className="w-px h-6 bg-hairline mx-1 hidden sm:block" />
+        <span className="text-xs font-bold text-steel">{t("tickets.field.priority")}:</span>
+        {["", "LOW", "NORMAL", "HIGH"].map((pr) => (
+          <button
+            type="button"
+            key={pr || "all"}
+            aria-pressed={priority === pr}
+            className={`b-pill-tab ${priority === pr ? "b-pill-tab-active" : ""}`}
+            onClick={() => setPriority(pr)}
+          >
+            {pr ? (PRIORITY_TKEY[pr] ? t(PRIORITY_TKEY[pr]) : pr) : t("common.all")}
+          </button>
+        ))}
+      </form>
+
       {loading && <LoadingBlock />}
-      {error && <ErrorBox message={error} />}
+      {error && <ErrorBox message={error} onRetry={refetch} />}
       {data && data.tickets.length === 0 && (
         <EmptyState
           icon={LifeBuoy}
@@ -195,7 +235,7 @@ export default function TicketsPage() {
                     buttonClassName="!w-full"
                     value={form.category}
                     onChange={(v) => setForm((f) => ({ ...f, category: v }))}
-                    options={Object.entries(CATEGORY_TKEY).map(([k, key]) => ({ value: k, label: t(key) }))}
+                    options={[...Object.entries(CATEGORY_TKEY).map(([k, key]) => ({ value: k, label: t(key) })), { value: "DEMO", label: CATEGORY_LABEL_FA.DEMO }]}
                   />
                 </label>
                 <label className="flex flex-col gap-1.5">

@@ -17,7 +17,7 @@ export const TICKET_CATEGORIES: Record<string, string> = {
 
 
 
-/** GET /api/tickets?status=&mine=1 — کاربر: تیکت‌های خودش؛ ادمین با view_tickets: همه */
+/** GET /api/tickets?status=&category=&priority=&q=&scope= — کاربر: تیکت‌های خودش؛ ادمین با view_tickets: همه */
 export async function GET(req: NextRequest) {
   try {
     const me = await requireUser(req);
@@ -25,8 +25,14 @@ export async function GET(req: NextRequest) {
       return apiErr(429, "ثبت تیکت‌های پی‌درپی؛ کمی صبر کنید.", "RATE_LIMITED");
     }
     const { searchParams } = new URL(req.url);
-    const status = searchParams.get("status") ?? undefined;
-    const category = searchParams.get("category") ?? undefined;
+    // فقط مقادیر معتبر اعمال می‌شوند؛ مقدار نامعتبر فیلتر را خنثی می‌کند نه اینکه فهرست را خالی کند
+    const statusRaw = searchParams.get("status") ?? "";
+    const status = ["OPEN", "ANSWERED", "CLOSED"].includes(statusRaw) ? statusRaw : undefined;
+    const categoryRaw = searchParams.get("category") ?? "";
+    const category = TICKET_CATEGORIES[categoryRaw] ? categoryRaw : undefined;
+    const priorityRaw = searchParams.get("priority") ?? "";
+    const priority = ["LOW", "NORMAL", "HIGH"].includes(priorityRaw) ? priorityRaw : undefined;
+    const q = searchParams.get("q")?.trim() || undefined;
     const scope = searchParams.get("scope") ?? "mine";
 
     const isStaff = me.role === "SUPER_ADMIN" || (me.role === "ADMIN" && hasPermission(me, "view_tickets"));
@@ -36,6 +42,17 @@ export async function GET(req: NextRequest) {
     if (!isStaff || scope === "mine") where.userId = me.id;
     if (status) where.status = status;
     if (category) where.category = category;
+    if (priority) where.priority = priority;
+    if (q) where.OR = [{ subject: { contains: q } }, { code: { contains: q } }];
+
+    // شمارندهٔ هر وضعیت روی همان فیلترها (بدون فیلتر وضعیت) — برای زبانه‌های صفحه
+    const countBase: Record<string, unknown> = { ...where };
+    delete countBase.status;
+    const [openCount, answeredCount, closedCount] = await Promise.all([
+      db.ticket.count({ where: { ...countBase, status: "OPEN" } }),
+      db.ticket.count({ where: { ...countBase, status: "ANSWERED" } }),
+      db.ticket.count({ where: { ...countBase, status: "CLOSED" } }),
+    ]);
 
     const rows = await db.ticket.findMany({
       where,
@@ -70,6 +87,7 @@ export async function GET(req: NextRequest) {
         messages: t.messages,
       })),
       isStaff,
+      counts: { OPEN: openCount, ANSWERED: answeredCount, CLOSED: closedCount },
     });
   } catch (e) {
     return handleApiError(e);

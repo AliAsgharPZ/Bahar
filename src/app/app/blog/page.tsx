@@ -34,6 +34,8 @@ export default function BlogAdminPage() {
   const [editing, setEditing] = useState<Post | null>(null);
   const [form, setForm] = useState({ title: "", excerpt: "", body: "", coverUrl: "", tags: "" });
   const [saving, setSaving] = useState(false);
+  const [listQuery, setListQuery] = useState("");
+  const [listStatus, setListStatus] = useState<string>("");
   const [editSlug, setEditSlug] = useState("");
   const [coverUploading, setCoverUploading] = useState(false);
   const editFileRef = useRef<HTMLInputElement>(null);
@@ -56,16 +58,15 @@ export default function BlogAdminPage() {
     }
   }
 
-  async function create(e: React.FormEvent) {
-    e.preventDefault();
+  async function create(publish: boolean) {
     setSaving(true);
     try {
       await apiPost("/api/blog", {
         ...form,
         tags: form.tags.split(/[،,]/).map((tg) => tg.trim()).filter(Boolean),
-        publish: true,
+        publish,
       });
-      toast.success(t("blog.toast.published"));
+      toast.success(publish ? t("blog.toast.published") : t("common.saved"));
       setShowCreate(false);
       setForm({ title: "", excerpt: "", body: "", coverUrl: "", tags: "" });
       refetch();
@@ -150,6 +151,12 @@ export default function BlogAdminPage() {
 
   const pendingComments = (data?.posts ?? []).reduce((s, p) => s + p.comments.filter((c) => !c.approved).length, 0);
 
+  const qNorm = listQuery.trim();
+  const filteredPosts = (data?.posts ?? []).filter((p) =>
+    (!listStatus || p.status === listStatus) &&
+    (!qNorm || p.title.includes(qNorm) || p.tags.some((tg) => tg.includes(qNorm)))
+  );
+
   return (
     <div className="flex flex-col gap-6">
       <PageHeader
@@ -169,14 +176,38 @@ export default function BlogAdminPage() {
         </div>
       )}
 
+      <div className="flex flex-wrap items-center gap-2">
+        <input
+          className="b-input flex-1 min-w-52"
+          value={listQuery}
+          onChange={(e) => setListQuery(e.target.value)}
+          placeholder={t("common.search")}
+          aria-label={t("common.search")}
+        />
+        {["", "PUBLISHED", "DRAFT"].map((st) => (
+          <button
+            type="button"
+            key={st || "all"}
+            aria-pressed={listStatus === st}
+            className={`b-pill-tab ${listStatus === st ? "b-pill-tab-active" : ""}`}
+            onClick={() => setListStatus(st)}
+          >
+            {st === "PUBLISHED" ? t("blog.status.published") : st === "DRAFT" ? t("enum.quizStatus.DRAFT") : t("common.all")}
+          </button>
+        ))}
+      </div>
+
       {loading && <LoadingBlock />}
-      {error && <ErrorBox message={error} />}
+      {error && <ErrorBox message={error} onRetry={refetch} />}
       {data && data.posts.length === 0 && (
         <EmptyState icon={Newspaper} title={t("blog.empty.title")} desc={t("blog.empty.desc")} />
       )}
+      {data && data.posts.length > 0 && filteredPosts.length === 0 && (
+        <EmptyState icon={Newspaper} title="نتیجه‌ای یافت نشد" desc="پستی با این جستجو یا وضعیت یافت نشد." />
+      )}
 
       <div className="flex flex-col gap-3">
-        {(data?.posts ?? []).map((p) => (
+        {filteredPosts.map((p) => (
           <div key={p.id} className="b-card p-5">
             <div className="flex flex-wrap items-center gap-3 mb-3">
               {p.coverUrl && <img src={p.coverUrl} alt={p.title} className="w-16 h-16 rounded-2xl object-cover border border-hairline" />}
@@ -256,7 +287,7 @@ export default function BlogAdminPage() {
           <div className="absolute inset-0 bg-ink-deep/40" onClick={() => !saving && setShowCreate(false)} aria-hidden />
           <div className="relative b-card p-6 md:p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto b-scroll b-pop">
             <h2 className="font-bold text-lg mb-6">{t("blog.newPost")}</h2>
-            <form onSubmit={create} className="flex flex-col gap-4">
+            <form onSubmit={(e) => { e.preventDefault(); create(true); }} className="flex flex-col gap-4">
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-bold">{t("assignments.field.title")}</span>
                 <input className="b-input" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required />
@@ -300,9 +331,12 @@ export default function BlogAdminPage() {
                   if (f) uploadCover(f);
                 }}
               />
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap">
                 <button type="submit" disabled={saving} className="b-btn b-btn-spring">
                   {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 flip-rtl" />} {t("blog.publishPost")}
+                </button>
+                <button type="button" disabled={saving} className="b-btn b-btn-soft" onClick={() => create(false)}>
+                  ذخیره پیش‌نویس
                 </button>
                 <button type="button" className="b-btn b-btn-ghost" onClick={() => setShowCreate(false)}>{t("common.cancel")}</button>
               </div>
