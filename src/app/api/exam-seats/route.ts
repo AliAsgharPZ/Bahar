@@ -4,6 +4,16 @@ import { requireUser, apiOk, apiErr, handleApiError, readJson, audit, requireSch
 import { buildAssignments, totalCapacity, type SeatRoom, type SeatStrategy, type SeatSessionMode } from "@/lib/exam-seats";
 
 const STAFF = ["MANAGER", "DEPUTY", "TEACHER", "ADMIN", "SUPER_ADMIN"];
+/** مراقب اتاق فقط از میان کادر همان مدرسه (همان الگوی مراقبان آزمون) */
+const INVIGILATOR_ROLES = ["TEACHER", "MANAGER", "DEPUTY", "CUSTODIAN"];
+
+async function schoolInvigilators(schoolId: string) {
+  return db.user.findMany({
+    where: { schoolId, role: { in: INVIGILATOR_ROLES } },
+    select: { id: true, firstName: true, lastName: true, role: true },
+    orderBy: [{ firstName: "asc" }, { lastName: "asc" }],
+  });
+}
 
 /**
  * GET    /api/exam-seats — فهرست طرح‌ها + اتاق‌های مدرسه (از ماژول محل‌ها) برای فرم ساخت
@@ -27,8 +37,16 @@ export async function GET(req: NextRequest) {
         include: { student: { include: { user: { select: { firstName: true, lastName: true } }, class: { select: { name: true } } } } },
       });
       const school = await db.school.findUnique({ where: { id: schoolId }, select: { name: true } });
+      const config = JSON.parse(plan.config) as { rooms?: (SeatRoom & { invigilatorName?: string })[] };
+      // نام مراقب هر اتاق برای چاپ لیست جلسه؛ طرح‌های قدیمی بدون این فیلد دست‌نخورده می‌مانند
+      const invIds = [...new Set((config.rooms ?? []).map((r) => r.invigilatorId).filter((x): x is string => !!x))];
+      if (invIds.length) {
+        const invUsers = await db.user.findMany({ where: { id: { in: invIds }, schoolId }, select: { id: true, firstName: true, lastName: true } });
+        const invNames = new Map(invUsers.map((u) => [u.id, `${u.firstName} ${u.lastName}`]));
+        config.rooms = (config.rooms ?? []).map((r) => (r.invigilatorId && invNames.has(r.invigilatorId) ? { ...r, invigilatorName: invNames.get(r.invigilatorId) } : r));
+      }
       return apiOk({
-        plan: { id: plan.id, title: plan.title, date: plan.date, sessions: plan.sessions, config: JSON.parse(plan.config), createdAt: plan.createdAt },
+        plan: { id: plan.id, title: plan.title, date: plan.date, sessions: plan.sessions, config, createdAt: plan.createdAt },
         schoolName: school?.name ?? "",
         assignments: assignments.map((a) => ({
           id: a.id, studentId: a.studentId, sessionNo: a.sessionNo, roomName: a.roomName, seatNo: a.seatNo, rowNo: a.rowNo, colNo: a.colNo,
@@ -38,7 +56,7 @@ export async function GET(req: NextRequest) {
         })),
       });
     }
-    const [plans, rooms] = await Promise.all([
+    const [plans, rooms, staff] = await Promise.all([
       db.examSeatPlan.findMany({
         where: { schoolId },
         orderBy: { createdAt: "desc" },
@@ -46,10 +64,12 @@ export async function GET(req: NextRequest) {
         include: { _count: { select: { assignments: true } } },
       }),
       db.room.findMany({ where: { schoolId, active: true }, orderBy: { name: "asc" }, select: { id: true, name: true, capacity: true } }),
+      schoolInvigilators(schoolId),
     ]);
     return apiOk({
       plans: plans.map((p) => ({ id: p.id, title: p.title, date: p.date, sessions: p.sessions, count: p._count.assignments, createdAt: p.createdAt })),
       rooms,
+      staff: staff.map((u) => ({ id: u.id, name: `${u.firstName} ${u.lastName}`, role: u.role })),
     });
   } catch (e) {
     return handleApiError(e);
@@ -71,14 +91,18 @@ export async function POST(req: NextRequest) {
     const date = String(body.date ?? "").trim();
     const sessions = Math.min(12, Math.max(1, Math.floor(Number(body.sessions ?? 1)) || 1));
     const classIds = Array.isArray(body.classIds) ? body.classIds.map(String).filter(Boolean) : [];
-    const rooms: SeatRoom[] = (Array.isArray(body.rooms) ? body.rooms : [])
+    const rawRooms: SeatRoom[] = (Array.isArray(body.rooms) ? body.rooms : [])
       .map((r) => ({
         name: String(r?.name ?? "").trim(),
         rows: Math.min(30, Math.max(1, Math.floor(Number(r?.rows ?? 0)) || 0)),
         cols: Math.min(30, Math.max(1, Math.floor(Number(r?.cols ?? 0)) || 0)),
         deskType: r?.deskType === "DOUBLE" ? "DOUBLE" as const : "SINGLE" as const,
+        invigilatorId: typeof r?.invigilatorId === "string" && r.invigilatorId ? r.invigilatorId : undefined,
       }))
       .filter((r) => r.name && r.rows > 0 && r.cols > 0);
+    // مراقب نامعتبر (خارج از کادر همین مدرسه) بی‌سروصدا حذف می‌شود تا طرح نشکند
+    const validInvigilators = new Set((await schoolInvigilators(schoolId)).map((u) => u.id));
+    const rooms: SeatRoom[] = rawRooms.map((r) => (r.invigilatorId && validInvigilators.has(r.invigilatorId) ? r : { ...r, invigilatorId: undefined }));
     const strategy: SeatStrategy = body.strategy === "MIXED" ? "MIXED" : "BY_CLASS";
     const sessionMode: SeatSessionMode = body.sessionMode === "SPLIT" ? "SPLIT" : "ALL_EACH";
     if (!title || !date || !classIds.length || !rooms.length) {

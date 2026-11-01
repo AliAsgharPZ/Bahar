@@ -4,7 +4,7 @@
  * میز دونفره یعنی هر جایگاه میز دو صندلی دارد (ستون‌های مؤثر دو برابر).
  */
 
-export type SeatRoom = { name: string; rows: number; cols: number; deskType: "SINGLE" | "DOUBLE" };
+export type SeatRoom = { name: string; rows: number; cols: number; deskType: "SINGLE" | "DOUBLE"; invigilatorId?: string };
 export type SeatStudent = { id: string; name: string; classId: string; className: string };
 export type SeatAssignmentOut = { studentId: string; sessionNo: number; roomName: string; seatNo: number; rowNo: number; colNo: number };
 export type SeatStrategy = "BY_CLASS" | "MIXED";

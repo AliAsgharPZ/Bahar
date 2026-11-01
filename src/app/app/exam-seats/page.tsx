@@ -9,9 +9,9 @@ import { PageHeader, LoadingBlock, ErrorBox, EmptyState } from "@/components/sha
 import { faNumber } from "@/lib/persian";
 import { useLang } from "@/lib/i18n";
 
-type RoomForm = { name: string; rows: number; cols: number; deskType: "SINGLE" | "DOUBLE" };
+type RoomForm = { name: string; rows: number; cols: number; deskType: "SINGLE" | "DOUBLE"; invigilatorId?: string };
 type PlanRow = { id: string; title: string; date: string; sessions: number; count: number; createdAt: string };
-type ListData = { plans: PlanRow[]; rooms: { id: string; name: string; capacity: number }[] };
+type ListData = { plans: PlanRow[]; rooms: { id: string; name: string; capacity: number }[]; staff: { id: string; name: string; role: string }[] };
 type Assignment = { id: string; studentId: string; sessionNo: number; roomName: string; seatNo: number; rowNo: number; colNo: number; studentName: string; studentNumber: string; className: string };
 type PlanDetail = { plan: { id: string; title: string; date: string; sessions: number; config: { rooms: RoomForm[]; strategy: string; sessionMode: string } }; assignments: Assignment[] };
 
@@ -150,6 +150,15 @@ export default function ExamSeatsPage() {
                 <select className="b-input !h-11" value={r.deskType} onChange={(e) => setRooms(rooms.map((x, j) => (j === i ? { ...x, deskType: e.target.value as "SINGLE" | "DOUBLE" } : x)))}>
                   <option value="SINGLE">{t("examSeats.desk.SINGLE")}</option>
                   <option value="DOUBLE">{t("examSeats.desk.DOUBLE")}</option>
+                </select>
+              </label>
+              <label className="flex flex-col gap-1 text-[12px] font-bold">
+                {t("examSeats.roomInvigilator")}
+                <select className="b-input !h-11" value={r.invigilatorId ?? ""} onChange={(e) => setRooms(rooms.map((x, j) => (j === i ? { ...x, invigilatorId: e.target.value || undefined } : x)))}>
+                  <option value="">{t("common.none")}</option>
+                  {(data?.staff ?? []).map((s) => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  ))}
                 </select>
               </label>
               <span className="b-badge b-badge-neutral !h-11 flex items-center">

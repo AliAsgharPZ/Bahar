@@ -9,7 +9,7 @@ import { faNumber } from "@/lib/persian";
 
 type Assignment = { id: string; sessionNo: number; roomName: string; seatNo: number; studentName: string; studentNumber: string; className: string };
 type Detail = {
-  plan: { id: string; title: string; date: string; sessions: number };
+  plan: { id: string; title: string; date: string; sessions: number; config?: { rooms?: { name: string; invigilatorName?: string }[] } };
   schoolName: string;
   assignments: Assignment[];
 };
@@ -88,6 +88,7 @@ function RosterInner() {
         <div className="p-4 print:p-0 max-w-4xl mx-auto flex flex-col">
           {roomNames.map((room) => {
             const roomRows = rows.filter((r) => r.roomName === room).sort((a, b) => a.seatNo - b.seatNo);
+            const invigilatorName = data.plan.config?.rooms?.find((r) => r.name === room)?.invigilatorName;
             return (
               <section key={room} className="roster-room">
                 <header className="flex items-center gap-2 mb-2 flex-wrap">
@@ -97,6 +98,11 @@ function RosterInner() {
                     {data.plan.title} · {t("examSeats.session")} {faNumber(session)} · {faNumber(data.plan.date)}
                   </span>
                   <b className="ms-auto text-[14px]">{room}</b>
+                  {invigilatorName && (
+                    <span className="text-[12px] font-bold">
+                      {t("examSeats.roomInvigilator")}: {invigilatorName}
+                    </span>
+                  )}
                 </header>
                 <table className="roster-table">
                   <thead>
@@ -121,7 +127,7 @@ function RosterInner() {
                   </tbody>
                 </table>
                 <p className="text-[12px] mt-3">
-                  {t("examSeats.card.inv")}: ………………………………
+                  {t("examSeats.card.inv")}: {invigilatorName ? `${invigilatorName} — ` : ""}………………………………
                 </p>
               </section>
             );

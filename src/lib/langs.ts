@@ -1932,6 +1932,7 @@ export const CATALOG: Record<string, string> = {
   "examSeats.printRoster": "چاپ لیست جلسه",
   "examSeats.card.signature": "امضا",
   "examSeats.card.inv": "نام و امضای مراقب",
+  "examSeats.roomInvigilator": "مراقب اتاق",
   "audit.empty.title": "رخدادی ثبت نشده",
   "audit.header.desc": "ثبت خودکار همه رخدادهای مهم سامانه — شفافیت کامل برای مدیریت.",
   "audit.table.entity": "موجودیت",
