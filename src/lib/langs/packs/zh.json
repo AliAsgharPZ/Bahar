@@ -4575,7 +4575,8 @@
   "supply.f.qty": "数量",
   "supply.f.reason": "用途（可选）",
   "supply.add": "提交申领",
-  "supply.addedToast": "申领已提交"
+  "supply.addedToast": "申领已提交",
+  "examSeats.roomInvigilator": "考场监考员"
  },
  "version": "1.0.0",
  "longStrings": {
