@@ -4270,7 +4270,8 @@
   "bikes.searchPh": "অনুসন্ধান: শিক্ষার্থীর নাম বা বডি নম্বর",
   "bikes.count": "নিবন্ধিত বাহন",
   "bikes.delete": "মুছে ফেলুন",
-  "bikes.empty": "এখনও কোনও বাহন নিবন্ধিত হয়নি।"
+  "bikes.empty": "এখনও কোনও বাহন নিবন্ধিত হয়নি।",
+  "examSeats.roomInvigilator": "কক্ষ পরিদর্শক"
  },
  "siteStrings": {
   "site.brand.tagline": "স্কুল ব্যবস্থাপনা সিস্টেম",
