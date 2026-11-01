@@ -1,0 +1,646 @@
+{
+ "code": "MN",
+ "name": "مغولستان",
+ "nativeName": "Монгол Улс",
+ "locale": "mn-MN",
+ "direction": "ltr",
+ "timezone": "Asia/Ulaanbaatar",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ ثبت شهروندی",
+  "algorithm": "none",
+  "pattern": "^[\\u0400-\\u04FF]{2}\\d{8}$",
+  "placeholder": "УБ12345678",
+  "example": "УБ12345678"
+ },
+ "phone": {
+  "pattern": "^\\+976\\d{8}$",
+  "placeholder": "+97699123456",
+  "example": "+97699123456"
+ },
+ "currency": {
+  "label": "توگروگ",
+  "code": "MNT",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ 1",
+  "پایهٔ 2",
+  "پایهٔ 3",
+  "پایهٔ 4",
+  "پایهٔ 5",
+  "پایهٔ 6",
+  "پایهٔ 7",
+  "پایهٔ 8",
+  "پایهٔ 9",
+  "پایهٔ 10",
+  "پایهٔ 11",
+  "پایهٔ 12"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "مغولستان: ۲۲ واحد سطح اول (۲۱ آیماق و شهر اولان‌باتور) و ۳۳۹ واحد سطح دوم (۳۳۰ سوم و ۹ ناحیهٔ شهری اولان‌باتور). مبنای فهرست‌ها: مجموعهٔ OCHA COD-AB «Mongolia — Subnational Administrative Boundaries» نسخهٔ ۰۱ (منبع داده: ادارهٔ ملی آمار مغولستان؛ بازبینی ۲۰۲۵-۱۰-۳۰) با تطبیق سالنامهٔ آماری ۲۰۲۵ مغولستان (صفحهٔ ۱۰) و مرجع ثبت دولتی؛ هیچ واحدی ناقص نیست. افشای مهم: مغولستان فهرست رسمی فارسی‌زبان منتشر نمی‌کند، پس نام‌ها و مرکزهای فارسی از ویکی‌پدیای فارسی‌اند (منبع فارسیِ نظام‌مند)، نه انتشار رسمی مغولستان؛ نام‌های لاتین، رومانیزهٔ استاندارد نام‌های رسمی سیریلیک‌اند. پرچم‌ها: Tsagaannuur در بایان‌اولگی روستا (tosgon) زیرمجموعهٔ Nogoonnuur است (مصوبهٔ ۳۶ پارلمان، ۱۹۹۴)، نه چهاردهمین سوم؛ Bor-Öndör در خنتی با مصوبهٔ ۱۵ پارلمان (۰۹.۰۲.۲۰۱۲) ایجاد شده و فهرست‌های ۱۷تایی آن را جا انداخته‌اند؛ شهر چنگیز پیش‌تر Öndörkhaan نام داشت؛ نام رسمی Ugtaalcaidam در توف است؛ شهر دارخان خودِ سوم Darkhan است؛ شهر خوفد در قالب سوم Jargalant اداره می‌شود؛ شهر اردنت در سوم Bayan-Öndör است؛ چویر مرکز سوم Sümber و ماندال‌غوبی مرکز سوم Saintsagaan است؛ ناحیه‌های اولان‌باتور (düüreg) به khoroo تقسیم می‌شوند که سطح سوم است و در این پک نیامده است.",
+ "regions": [
+  {
+   "name": "آرخانغای",
+   "center": "چچرلگ",
+   "counties": [
+    "Battsengel",
+    "Bulgan",
+    "Chuluut",
+    "Erdenebulgan",
+    "Erdenemandal",
+    "Ikh Tamir",
+    "Jargalant",
+    "Khairkhan",
+    "Khangai",
+    "Khashaat",
+    "Khotont",
+    "Ögiinuur",
+    "Ölziit",
+    "Öndör-Ulaan",
+    "Tariat",
+    "Tsakhir",
+    "Tsenkher",
+    "Tsetserleg",
+    "Tüvshrüülekh"
+   ]
+  },
+  {
+   "name": "بایان‌خونغور",
+   "center": "بایان‌خونغور",
+   "counties": [
+    "Baatsagaan",
+    "Bayan-Öndör",
+    "Bayan-Ovoo",
+    "Bayanbulag",
+    "Bayangovi",
+    "Bayankhongor",
+    "Bayanlig",
+    "Bayantsagaan",
+    "Bogd",
+    "Bömbögör",
+    "Buutsagaan",
+    "Erdenetsogt",
+    "Galuut",
+    "Gurvanbulag",
+    "Jargalant",
+    "Jinst",
+    "Khüreemaral",
+    "Ölziit",
+    "Shinejinst",
+    "Zag"
+   ]
+  },
+  {
+   "name": "بایان‌اولگی",
+   "center": "اولگی",
+   "counties": [
+    "Altai",
+    "Altantsögts",
+    "Bayannuur",
+    "Bugat",
+    "Bulgan",
+    "Buyant",
+    "Delüün",
+    "Nogoonnuur",
+    "Ölgii",
+    "Sagsai",
+    "Tolbo",
+    "Tsengel",
+    "Ulaankhus"
+   ]
+  },
+  {
+   "name": "بولغان",
+   "center": "بولغان",
+   "counties": [
+    "Bayan-Agt",
+    "Bayannuur",
+    "Bugat",
+    "Bulgan",
+    "Büregkhangai",
+    "Dashinchilen",
+    "Gurvanbulag",
+    "Khangal",
+    "Khishig-Öndör",
+    "Khutag-Öndör",
+    "Mogod",
+    "Orkhon",
+    "Rashaant",
+    "Saikhan",
+    "Selenge",
+    "Teshig"
+   ]
+  },
+  {
+   "name": "دارخان‌اول",
+   "center": "دارخان",
+   "counties": [
+    "Darkhan",
+    "Khongor",
+    "Orkhon",
+    "Sharyngol"
+   ]
+  },
+  {
+   "name": "دورنود",
+   "center": "چوی‌بالسان",
+   "counties": [
+    "Bayan-Uul",
+    "Bayandun",
+    "Bayantümen",
+    "Bulgan",
+    "Choibalsan",
+    "Chuluunkhoroot",
+    "Dashbalbar",
+    "Gurvanzagal",
+    "Khalkhgol",
+    "Kherlen",
+    "Khölönbuir",
+    "Matad",
+    "Sergelen",
+    "Tsagaan-Ovoo"
+   ]
+  },
+  {
+   "name": "دورنوغوبی",
+   "center": "ساین‌شاند",
+   "counties": [
+    "Airag",
+    "Altanshiree",
+    "Dalanjargalan",
+    "Delgerekh",
+    "Erdene",
+    "Ikhkhet",
+    "Khatanbulag",
+    "Khövsgöl",
+    "Mandakh",
+    "Örgön",
+    "Saikhandulaan",
+    "Sainshand",
+    "Ulaanbadrakh",
+    "Zamyn-Üüd"
+   ]
+  },
+  {
+   "name": "دوندغوبی",
+   "center": "ماندال‌غوبی",
+   "counties": [
+    "Adaatsag",
+    "Bayanjargalan",
+    "Delgerkhangai",
+    "Delgertsogt",
+    "Deren",
+    "Erdenedalai",
+    "Govi-Ugtaal",
+    "Gurvansaikhan",
+    "Khuld",
+    "Luus",
+    "Ölziit",
+    "Öndörshil",
+    "Saikhan-Ovoo",
+    "Saintsagaan",
+    "Tsagaandelger"
+   ]
+  },
+  {
+   "name": "غوبی‌آلتای",
+   "center": "آلتای",
+   "counties": [
+    "Altai",
+    "Bayan-Uul",
+    "Biger",
+    "Bugat",
+    "Chandmani",
+    "Darvi",
+    "Delger",
+    "Erdene",
+    "Jargalan",
+    "Khaliun",
+    "Khökhmorit",
+    "Sharga",
+    "Taishir",
+    "Tögrög",
+    "Tonkhil",
+    "Tseel",
+    "Tsogt",
+    "Yesönbulag"
+   ]
+  },
+  {
+   "name": "غوبی‌سومبر",
+   "center": "چویر",
+   "counties": [
+    "Bayantal",
+    "Shiveegovi",
+    "Sümber"
+   ]
+  },
+  {
+   "name": "خنتی",
+   "center": "شهر چنگیز",
+   "counties": [
+    "Batnorov",
+    "Batshireet",
+    "Bayan-Adarga",
+    "Bayan-Ovoo",
+    "Bayankhutag",
+    "Bayanmönkh",
+    "Binder",
+    "Bor-Öndör",
+    "Dadal",
+    "Darkhan",
+    "Delgerkhaan",
+    "Galshar",
+    "Jargaltkhaan",
+    "Kherlen",
+    "Mörön",
+    "Norovlin",
+    "Ömnödelger",
+    "Tsenkhermandal"
+   ]
+  },
+  {
+   "name": "خوفد",
+   "center": "خوفد",
+   "counties": [
+    "Altai",
+    "Bulgan",
+    "Buyant",
+    "Chandmani",
+    "Darvi",
+    "Dörgön",
+    "Duut",
+    "Erdenebüren",
+    "Jargalant",
+    "Khovd",
+    "Mankhan",
+    "Mönkhkhairkhan",
+    "Möst",
+    "Myangad",
+    "Tsetseg",
+    "Üyench",
+    "Zereg"
+   ]
+  },
+  {
+   "name": "خوفسگول",
+   "center": "مورون",
+   "counties": [
+    "Alag-Erdene",
+    "Arbulag",
+    "Bayanzürkh",
+    "Bürentogtokh",
+    "Chandmani-Öndör",
+    "Erdenebulgan",
+    "Galt",
+    "Ikh-Uul",
+    "Jargalant",
+    "Khankh",
+    "Mörön",
+    "Rashaant",
+    "Renchinlkhümbe",
+    "Shine-Ider",
+    "Tarialan",
+    "Tömörbulag",
+    "Tosontsengel",
+    "Tsagaan-Uul",
+    "Tsagaan-Üür",
+    "Tsagaannuur",
+    "Tsetserleg",
+    "Tünel",
+    "Ulaan-Uul"
+   ]
+  },
+  {
+   "name": "اومنوغوبی",
+   "center": "دالان‌جادغاد",
+   "counties": [
+    "Bayan-Ovoo",
+    "Bayandalai",
+    "Bulgan",
+    "Dalanzadgad",
+    "Gurvantes",
+    "Khanbogd",
+    "Khankhongor",
+    "Khürmen",
+    "Mandal-Ovoo",
+    "Manlai",
+    "Nomgon",
+    "Noyon",
+    "Sevrei",
+    "Tsogt-Ovoo",
+    "Tsogttsetsii"
+   ]
+  },
+  {
+   "name": "اورخون",
+   "center": "اردنت",
+   "counties": [
+    "Bayan-Öndör",
+    "Jargalant"
+   ]
+  },
+  {
+   "name": "اوبرخانغای",
+   "center": "آربای‌خیر",
+   "counties": [
+    "Arvaikheer",
+    "Baruunbayan-Ulaan",
+    "Bat-Ölzii",
+    "Bayan-Öndör",
+    "Bayangol",
+    "Bogd",
+    "Bürd",
+    "Guchin-Us",
+    "Khairkhandulaan",
+    "Kharkhorin",
+    "Khujirt",
+    "Nariinteel",
+    "Ölziit",
+    "Sant",
+    "Taragt",
+    "Tögrög",
+    "Uyanga",
+    "Yesönzüil",
+    "Züünbayan-Ulaan"
+   ]
+  },
+  {
+   "name": "سلنگه",
+   "center": "سوخ‌باتور",
+   "counties": [
+    "Altanbulag",
+    "Baruunbüren",
+    "Bayangol",
+    "Javkhlant",
+    "Khüder",
+    "Khushaat",
+    "Mandal",
+    "Orkhon",
+    "Orkhontuul",
+    "Saikhan",
+    "Sant",
+    "Shaamar",
+    "Sükhbaatar",
+    "Tsagaannuur",
+    "Tüshig",
+    "Yeröö",
+    "Züünbüren"
+   ]
+  },
+  {
+   "name": "سوخ‌باتور",
+   "center": "بارون‌اورت",
+   "counties": [
+    "Asgat",
+    "Baruun-Urt",
+    "Bayandelger",
+    "Dariganga",
+    "Erdenetsagaan",
+    "Khalzan",
+    "Mönkhkhaan",
+    "Naran",
+    "Ongon",
+    "Sükhbaatar",
+    "Tümentsogt",
+    "Tüvshinshiree",
+    "Uulbayan"
+   ]
+  },
+  {
+   "name": "توف",
+   "center": "جون‌مود",
+   "counties": [
+    "Altanbulag",
+    "Argalant",
+    "Arkhust",
+    "Batsümber",
+    "Bayan",
+    "Bayan-Önjüül",
+    "Bayanchandmani",
+    "Bayandelger",
+    "Bayanjargalan",
+    "Bayankhangai",
+    "Bayantsagaan",
+    "Bayantsogt",
+    "Bornuur",
+    "Büren",
+    "Delgerkhaan",
+    "Erdene",
+    "Erdenesant",
+    "Jargalant",
+    "Lün",
+    "Möngönmorit",
+    "Öndörshireet",
+    "Sergelen",
+    "Sümber",
+    "Tseel",
+    "Ugtaalcaidam",
+    "Zaamar",
+    "Zuunmod"
+   ]
+  },
+  {
+   "name": "اوفس",
+   "center": "اولان‌غوم",
+   "counties": [
+    "Baruunturuun",
+    "Bökhmörön",
+    "Davst",
+    "Khovd",
+    "Khyargas",
+    "Malchin",
+    "Naranbulag",
+    "Ölgii",
+    "Ömnögovi",
+    "Öndörkhangai",
+    "Sagil",
+    "Tarialan",
+    "Tes",
+    "Tsagaankhairkhan",
+    "Türgen",
+    "Ulaangom",
+    "Zavkhan",
+    "Züüngovi",
+    "Züünkhangai"
+   ]
+  },
+  {
+   "name": "جافخان",
+   "center": "اولیاستای",
+   "counties": [
+    "Aldarkhaan",
+    "Asgat",
+    "Bayankhairkhan",
+    "Bayantes",
+    "Dörvöljin",
+    "Erdenekhairkhan",
+    "Ider",
+    "Ikh-Uul",
+    "Nömrög",
+    "Otgon",
+    "Santmargats",
+    "Shilüüstei",
+    "Songino",
+    "Telmen",
+    "Tes",
+    "Tosontsengel",
+    "Tsagaanchuluut",
+    "Tsagaankhairkhan",
+    "Tsetsen-Uul",
+    "Tüdevtei",
+    "Uliastai",
+    "Urgamal",
+    "Yaruu",
+    "Zavkhanmandal"
+   ]
+  },
+  {
+   "name": "اولان‌باتور",
+   "center": "اولان‌باتور",
+   "counties": [
+    "Bagakhangai",
+    "Baganuur",
+    "Bayangol",
+    "Bayanzürkh",
+    "Chingeltei",
+    "Khan-Uul",
+    "Nalaikh",
+    "Songinokhairkhan",
+    "Sükhbaatar"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "آرخانغای",
+   "cities": []
+  },
+  {
+   "province": "بایان‌خونغور",
+   "cities": []
+  },
+  {
+   "province": "بایان‌اولگی",
+   "cities": []
+  },
+  {
+   "province": "بولغان",
+   "cities": []
+  },
+  {
+   "province": "دارخان‌اول",
+   "cities": []
+  },
+  {
+   "province": "دورنود",
+   "cities": []
+  },
+  {
+   "province": "دورنوغوبی",
+   "cities": []
+  },
+  {
+   "province": "دوندغوبی",
+   "cities": []
+  },
+  {
+   "province": "غوبی‌آلتای",
+   "cities": []
+  },
+  {
+   "province": "غوبی‌سومبر",
+   "cities": []
+  },
+  {
+   "province": "خنتی",
+   "cities": []
+  },
+  {
+   "province": "خوفد",
+   "cities": []
+  },
+  {
+   "province": "خوفسگول",
+   "cities": []
+  },
+  {
+   "province": "اومنوغوبی",
+   "cities": []
+  },
+  {
+   "province": "اورخون",
+   "cities": []
+  },
+  {
+   "province": "اوبرخانغای",
+   "cities": []
+  },
+  {
+   "province": "سلنگه",
+   "cities": []
+  },
+  {
+   "province": "سوخ‌باتور",
+   "cities": []
+  },
+  {
+   "province": "توف",
+   "cities": []
+  },
+  {
+   "province": "اوفس",
+   "cities": []
+  },
+  {
+   "province": "جافخان",
+   "cities": []
+  },
+  {
+   "province": "اولان‌باتور",
+   "cities": []
+  }
+ ]
+}
