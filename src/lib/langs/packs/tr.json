@@ -4273,7 +4273,8 @@
   "supply.f.qty": "Adet",
   "supply.f.reason": "Hangi iş için? (isteğe bağlı)",
   "supply.add": "Talebi kaydet",
-  "supply.addedToast": "Talep kaydedildi"
+  "supply.addedToast": "Talep kaydedildi",
+  "examSeats.roomInvigilator": "Salon gözetmeni"
  },
  "siteStrings": {
   "site.brand.tagline": "Okul Yönetim Sistemi",
