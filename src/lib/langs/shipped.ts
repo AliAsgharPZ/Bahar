@@ -15,6 +15,7 @@ import jaPack from "./packs/ja.json";
 import koPack from "./packs/ko.json";
 import bnPack from "./packs/bn.json";
 import ruPack from "./packs/ru.json";
+import akPack from "./packs/ak.json";
 
 /* ============================================================
    بهار | بسته‌های زبانِ همراه سامانه (shipped packs) — ۱۳ بسته، راند ۳
@@ -75,6 +76,7 @@ export const SHIPPED_LANG_PACKS: ShippedLangPack[] = [
   build(koPack as never),
   build(bnPack as never),
   build(ruPack as never),
+  build(akPack as never),
 ];
 
 export function shippedLangPack(code: string): ShippedLangPack | null {
