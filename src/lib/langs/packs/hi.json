@@ -4273,7 +4273,8 @@
   "bikes.searchPh": "खोजें: विद्यार्थी का नाम या बॉडी नंबर",
   "bikes.count": "पंजीकृत वस्तुएँ",
   "bikes.delete": "हटाएँ",
-  "bikes.empty": "अभी तक कोई वस्तु दर्ज नहीं हुई है।"
+  "bikes.empty": "अभी तक कोई वस्तु दर्ज नहीं हुई है।",
+  "examSeats.roomInvigilator": "कक्ष निरीक्षक"
  },
  "siteStrings": {
   "site.brand.tagline": "स्कूल प्रबंधन प्रणाली",
