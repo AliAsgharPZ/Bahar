@@ -1,0 +1,1180 @@
+[
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز پیش‌نویس نوشته‌اش را برای یک هم‌کلاسی می‌فرستد؛ همتا با معیارهای اعلام‌شده بازخورد می‌دهد و نویسنده نسخهٔ بازنویسی‌شده را ثبت می‌کند تا معلم بازبینی نهایی را انجام دهد.",
+  "fields": [
+   "draftTitle",
+   "reviewer",
+   "rubricScore",
+   "revisionNote"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d8p-edu-peer-review",
+  "statuses": [
+   "SUBMITTED",
+   "REVIEWED",
+   "REVISED",
+   "GRADED"
+  ],
+  "title": "بازبینی همتای نوشته"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز در دو هفتهٔ اول ترم درخواست تغییر درس انتخابی ثبت می‌کند؛ مشاور ظرفیت کلاس مقصد و تداخل برنامه را بررسی می‌کند و پس از تأیید، برنامهٔ درسی دانش‌آموز به‌روز می‌شود.",
+  "fields": [
+   "currentElective",
+   "targetElective",
+   "reason",
+   "approved"
+  ],
+  "roles": [
+   "STUDENT",
+   "COUNSELOR",
+   "MANAGER"
+  ],
+  "slug": "d8p-edu-elective-change",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "REJECTED",
+   "DONE"
+  ],
+  "title": "تغییر درس انتخابی"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "وقتی غیبت دانش‌آموزی تا ساعت مشخص موجه نشده باشد، دفتر با خانواده تماس می‌گیرد؛ نتیجهٔ تماس و علت اعلام‌شده ثبت می‌شود و در صورت عدم پاسخ، پیام پیگیری فرستاده می‌شود.",
+  "fields": [
+   "studentName",
+   "callTime",
+   "callOutcome",
+   "followUp"
+  ],
+  "roles": [
+   "ADMIN",
+   "MANAGER",
+   "PARENT"
+  ],
+  "slug": "d8p-att-absence-call",
+  "statuses": [
+   "PENDING",
+   "CONTACTED",
+   "UNREACHABLE",
+   "RESOLVED"
+  ],
+  "title": "پیگیری تلفنی غیبت"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "دانش‌آموزانی که پیش از بازشدن در اصلی می‌رسند، در سالن نظارت صبحگاهی ثبت‌نام می‌شوند؛ مراقب صبحگاهی حضورشان را ثبت می‌کند و با شروع زنگ اول، آن‌ها را به کلاس‌ها می‌سپارد.",
+  "fields": [
+   "arrivalTime",
+   "supervisor",
+   "handoverTime"
+  ],
+  "roles": [
+   "STUDENT",
+   "ADMIN",
+   "TEACHER"
+  ],
+  "slug": "d8p-att-early-arrival",
+  "statuses": [
+   "CHECKED_IN",
+   "SUPERVISED",
+   "HANDED_OVER"
+  ],
+  "title": "ورود زودهنگام و نظارت صبحگاهی"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "در روز جلسهٔ اولیا و مربیان، هر خانواده هنگام ورود به جلسهٔ نوبت خود ثبت می‌شود؛ معلم، حضور خانواده و موضوع گفت‌وگو را ثبت می‌کند تا خانواده‌های غایب برای نوبت تازه دعوت شوند.",
+  "fields": [
+   "familyName",
+   "slot",
+   "topic",
+   "attended"
+  ],
+  "roles": [
+   "PARENT",
+   "TEACHER",
+   "ADMIN"
+  ],
+  "slug": "d8p-att-parent-conference-signin",
+  "statuses": [
+   "SCHEDULED",
+   "ATTENDED",
+   "ABSENT",
+   "RESCHEDULED"
+  ],
+  "title": "حضور جلسهٔ اولیا و مربیان"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "خانواده هنگام تحویل کتاب‌های امانتی، ودیعه را پس می‌گیرد؛ کتابدار سلامت کتاب‌ها را بررسی می‌کند و در صورت سالم‌بودن، مبلغ ودیعه به حساب خانواده برگردانده می‌شود.",
+  "fields": [
+   "depositAmount",
+   "bookCondition",
+   "refundDate",
+   "receipt"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d8p-fin-book-deposit-refund",
+  "statuses": [
+   "HELD",
+   "INSPECTED",
+   "REFUNDED",
+   "DEDUCTED"
+  ],
+  "title": "بازپرداخت ودیعهٔ کتاب"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "خانواده‌ای که جریمهٔ دیرکرد پرداخت گرفته، با دلیل درخواست بخشودگی ثبت می‌کند؛ مدیر با توجه به سابقهٔ پرداخت، درخواست را می‌پذیرد یا رد می‌کند و مبلغ نهایی به‌روز می‌شود.",
+  "fields": [
+   "feeAmount",
+   "reason",
+   "decision",
+   "adjustedAmount"
+  ],
+  "roles": [
+   "PARENT",
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d8p-fin-late-fee-waiver",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "REJECTED"
+  ],
+  "title": "بخشودگی جریمهٔ دیرکرد"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "کارمند درخواست مساعده از حقوق ماه آینده ثبت می‌کند؛ مدیر سقف مجاز را بررسی و درخواست را تأیید می‌کند و مبلغ مساعده در فیش ماه بعد کسر می‌شود.",
+  "fields": [
+   "amount",
+   "reason",
+   "approvedBy",
+   "deductionMonth"
+  ],
+  "roles": [
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d8p-fin-salary-advance",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "REJECTED",
+   "DEDUCTED"
+  ],
+  "title": "مساعدهٔ حقوق کارکنان"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "وقتی وسیله‌ای از مدرسه آسیب می‌بیند، میزان خسارت کارشناسی می‌شود؛ خانواده یا مسئول مربوط، مبلغ را یکجا یا در قسط‌های توافق‌شده می‌پردازد و پس از تسویه، پرونده بسته می‌شود.",
+  "fields": [
+   "itemName",
+   "damageCost",
+   "paymentPlan",
+   "settled"
+  ],
+  "roles": [
+   "MANAGER",
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d8p-fin-property-damage",
+  "statuses": [
+   "ASSESSED",
+   "AGREED",
+   "PAYING",
+   "SETTLED"
+  ],
+  "title": "جبران خسارت به اموال مدرسه"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "در آغاز سال تحصیلی، والدین هر کلاس نامزد می‌شوند و رأی می‌دهند؛ نمایندهٔ منتخب برای یک سال، پیوند میان خانواده‌ها و مدرسه می‌شود و نتیجهٔ انتخابات به همهٔ والدین کلاس اعلام می‌گردد.",
+  "fields": [
+   "candidateName",
+   "votes",
+   "termStart",
+   "termEnd"
+  ],
+  "roles": [
+   "PARENT",
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d8p-par-parent-rep-election",
+  "statuses": [
+   "NOMINATED",
+   "VOTING",
+   "ELECTED",
+   "DONE"
+  ],
+  "title": "انتخابات نمایندهٔ اولیا"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "والدین می‌توانند رضایت پیشین خود برای یک فعالیت را پیش از برگزاری پس بگیرند؛ برگزارکننده نام دانش‌آموز را از فهرست شرکت‌کنندگان حذف می‌کند و لغو به خانواده تأیید می‌شود.",
+  "fields": [
+   "activity",
+   "consentDate",
+   "withdrawalDate",
+   "confirmed"
+  ],
+  "roles": [
+   "PARENT",
+   "TEACHER",
+   "ADMIN"
+  ],
+  "slug": "d8p-par-consent-withdrawal",
+  "statuses": [
+   "ACTIVE",
+   "WITHDRAWN",
+   "CONFIRMED"
+  ],
+  "title": "لغو رضایت‌نامه"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "برای هر کلاس یک گروه ارتباطی با مدیر گروه از میان والدین ساخته می‌شود؛ عضویت تازه با تأیید مدیر گروه انجام می‌شود و اطلاعیه‌های کلاس فقط از راه همین گروه پخش می‌گردد.",
+  "fields": [
+   "className",
+   "moderator",
+   "memberCount",
+   "rulesAccepted"
+  ],
+  "roles": [
+   "PARENT",
+   "TEACHER",
+   "ADMIN"
+  ],
+  "slug": "d8p-par-class-parent-group",
+  "statuses": [
+   "OPEN",
+   "MODERATED",
+   "CLOSED"
+  ],
+  "title": "گروه ارتباطی والدین کلاس"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "خانواده‌های غیرفارسی‌زبان درخواست ترجمهٔ کارنامه یا گواهی را ثبت می‌کنند؛ مترجم مدرسه متن را ترجمه می‌کند و نسخهٔ ترجمه‌شده پس از تأیید دفتر، به خانواده تحویل داده می‌شود.",
+  "fields": [
+   "documentType",
+   "language",
+   "translator",
+   "deliveredDate"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "TEACHER"
+  ],
+  "slug": "d8p-par-document-translation",
+  "statuses": [
+   "REQUESTED",
+   "TRANSLATING",
+   "APPROVED",
+   "DELIVERED"
+  ],
+  "title": "ترجمهٔ مدارک تحصیلی"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "هر ماه نمونهٔ آب آشامیدنی مدرسه برای آزمایش فرستاده می‌شود؛ نتیجهٔ آزمایش ثبت می‌گردد و در صورت نامناسب‌بودن، آب‌خوری مربوط تا رفع مشکل بسته می‌ماند.",
+  "fields": [
+   "sampleDate",
+   "labResult",
+   "tapLocation",
+   "actionTaken"
+  ],
+  "roles": [
+   "CUSTODIAN",
+   "NURSE",
+   "MANAGER"
+  ],
+  "slug": "d8p-health-water-quality",
+  "statuses": [
+   "SAMPLED",
+   "PASSED",
+   "FAILED",
+   "RESOLVED"
+  ],
+  "title": "کنترل کیفیت آب آشامیدنی"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "بازرس بهداشت مدرسه به‌صورت دوره‌ای بوفه را از نظر تمیزی، تاریخ مصرف و نگهداری مواد بررسی می‌کند؛ موارد تخلف با مهلت رفع ثبت می‌شود و بازرسی دوباره، رفع آن‌ها را تأیید می‌کند.",
+  "fields": [
+   "inspectionDate",
+   "violations",
+   "deadline",
+   "reinspectionResult"
+  ],
+  "roles": [
+   "NURSE",
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d8p-health-canteen-inspection",
+  "statuses": [
+   "SCHEDULED",
+   "VIOLATIONS_FOUND",
+   "CORRECTED",
+   "PASSED"
+  ],
+  "title": "بازرسی بهداشت بوفه"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "والدین برای یک بازهٔ کوتاه، محل تحویل تازه‌ای مثل خانهٔ خویشاوندان اعلام می‌کنند؛ مسئول حمل‌ونقل آن را تأیید می‌کند و رانندهٔ مسیر تا پایان بازه از محل تازه استفاده می‌کند.",
+  "fields": [
+   "newAddress",
+   "startDate",
+   "endDate",
+   "approved"
+  ],
+  "roles": [
+   "PARENT",
+   "DRIVER",
+   "ADMIN"
+  ],
+  "slug": "d8p-trans-temp-pickup",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "ACTIVE",
+   "EXPIRED"
+  ],
+  "title": "تغییر موقت محل تحویل"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "برای دانش‌آموزی با نیاز حرکتی، خودروی مناسب و همراه آموزش‌دیده تخصیص داده می‌شود؛ نیازها با خانواده و پرستار هماهنگ می‌گردد و هر تغییر نیاز، تخصیص را به‌روز می‌کند.",
+  "fields": [
+   "needType",
+   "vehicleType",
+   "aideName",
+   "reviewDate"
+  ],
+  "roles": [
+   "DRIVER",
+   "PARENT",
+   "MANAGER"
+  ],
+  "slug": "d8p-trans-accessible-ride",
+  "statuses": [
+   "REQUESTED",
+   "ASSIGNED",
+   "ACTIVE",
+   "REVIEWED"
+  ],
+  "title": "سرویس ویژهٔ دانش‌آموزان با نیاز خاص"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "دانش‌آموزی که معمولاً با سرویس نمی‌آید، برای یک روز مشخص سرویس رزرو می‌کند؛ در صورت خالی‌بودن صندلی، رزرو تأیید می‌شود و نام او همان روز در فهرست سوارشدن راننده می‌آید.",
+  "fields": [
+   "rideDate",
+   "route",
+   "seatConfirmed",
+   "farePaid"
+  ],
+  "roles": [
+   "PARENT",
+   "DRIVER",
+   "ADMIN"
+  ],
+  "slug": "d8p-trans-one-day-ride",
+  "statuses": [
+   "REQUESTED",
+   "CONFIRMED",
+   "COMPLETED",
+   "CANCELLED"
+  ],
+  "title": "سرویس تک‌روزه"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "پیش از آغاز سال تحصیلی، دانش‌آموزان تازه‌وارد در جلسهٔ ایمنی سرویس شرکت می‌کنند؛ سوارشدن درست، بستن کمربند و رفتار در خودرو تمرین می‌شود و گواهی شرکت برای هر دانش‌آموز ثبت می‌گردد.",
+  "fields": [
+   "sessionDate",
+   "trainer",
+   "attendees",
+   "certificateIssued"
+  ],
+  "roles": [
+   "DRIVER",
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d8p-trans-rider-safety-training",
+  "statuses": [
+   "SCHEDULED",
+   "HELD",
+   "CERTIFIED"
+  ],
+  "title": "آموزش ایمنی سرویس به دانش‌آموزان"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "دانش‌آموزان داوطلب در شیفت‌های مرتب‌کردن قفسه‌ها ثبت‌نام می‌کنند؛ کتابدار ساعت‌های کار و کیفیت مرتب‌سازی را تأیید می‌کند و ساعت‌های تأییدشده در کارنامهٔ فعالیت دانش‌آموز می‌آید.",
+  "fields": [
+   "shiftDate",
+   "shelfSection",
+   "hoursWorked",
+   "verified"
+  ],
+  "roles": [
+   "STUDENT",
+   "LIBRARIAN"
+  ],
+  "slug": "d8p-lib-volunteer-shelving",
+  "statuses": [
+   "SIGNED_UP",
+   "WORKED",
+   "VERIFIED"
+  ],
+  "title": "شیفت داوطلبانهٔ کتابداری"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "هدفون، شارژر و کیف ابزار مطالعهٔ کتابخانه برای استفادهٔ داخل کتابخانه امانت داده می‌شود؛ تحویل و برگشت هر قلم با بررسی سلامت ثبت می‌شود و قلم آسیب‌دیده از چرخهٔ امانت بیرون می‌رود.",
+  "fields": [
+   "itemName",
+   "loanDate",
+   "returnDate",
+   "condition"
+  ],
+  "roles": [
+   "STUDENT",
+   "LIBRARIAN"
+  ],
+  "slug": "d8p-lib-equipment-loan",
+  "statuses": [
+   "BORROWED",
+   "RETURNED",
+   "DAMAGED"
+  ],
+  "title": "امانت تجهیزات مطالعه"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "هر ماه کتابدار ویترینی با یک موضوع مثل دانشمندان یا سفر می‌چیند؛ کتاب‌های ویترین برای امانت ویژه معرفی می‌شود و در پایان ماه، میزان امانت کتاب‌های ویترین بررسی می‌گردد.",
+  "fields": [
+   "theme",
+   "displayStart",
+   "displayEnd",
+   "loanCount"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "TEACHER"
+  ],
+  "slug": "d8p-lib-themed-display",
+  "statuses": [
+   "PLANNED",
+   "DISPLAYED",
+   "REVIEWED"
+  ],
+  "title": "ویترین موضوعی کتابخانه"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "خانواده‌ها می‌توانند عضو کتابخانهٔ مدرسه شوند و برای خودشان کتاب امانت بگیرند؛ عضویت خانوادگی با قوانین امانت جداگانه صادر می‌شود و امانت‌های خانواده جدا از امانت‌های دانش‌آموز پیگیری می‌گردد.",
+  "fields": [
+   "familyName",
+   "membershipStart",
+   "loanLimit",
+   "active"
+  ],
+  "roles": [
+   "PARENT",
+   "LIBRARIAN",
+   "ADMIN"
+  ],
+  "slug": "d8p-lib-family-membership",
+  "statuses": [
+   "APPLIED",
+   "ACTIVE",
+   "SUSPENDED",
+   "EXPIRED"
+  ],
+  "title": "عضویت خانوادگی کتابخانه"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "مدرسه در پویش جمع‌آوری غذا، اقلام اهدایی خانواده‌ها را دریافت و دسته‌بندی می‌کند؛ بسته‌های آماده به نهاد خیریهٔ همکار تحویل داده می‌شود و رسید تحویل در پروندهٔ پویش ثبت می‌گردد.",
+  "fields": [
+   "itemType",
+   "quantity",
+   "packingDate",
+   "deliveryReceipt"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d8p-extra-food-drive",
+  "statuses": [
+   "COLLECTING",
+   "PACKED",
+   "DELIVERED"
+  ],
+  "title": "پویش جمع‌آوری غذا"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "دانش‌آموزان متقاضی تبادل با مدرسهٔ همکار، درخواست و انگیزه‌نامه می‌فرستند؛ پس از مصاحبه و تأیید خانواده، دانش‌آموز مهمان با خانوادهٔ میزبان هماهنگ می‌شود و دورهٔ تبادل با گزارش پایانی بسته می‌گردد.",
+  "fields": [
+   "hostSchool",
+   "exchangeStart",
+   "hostFamily",
+   "finalReport"
+  ],
+  "roles": [
+   "STUDENT",
+   "PARENT",
+   "MANAGER"
+  ],
+  "slug": "d8p-extra-student-exchange",
+  "statuses": [
+   "APPLIED",
+   "INTERVIEWED",
+   "MATCHED",
+   "COMPLETED"
+  ],
+  "title": "تبادل دانش‌آموزی"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "در کارگاه آشپزی، دانش‌آموزان با رعایت بهداشت و ایمنی، یک غذای ساده می‌پزند؛ مربی مواد لازم و نکته‌های ایمنی را پیش از شروع اعلام می‌کند و غذای آماده در پایان جلسه میان شرکت‌کنندگان تقسیم می‌شود.",
+  "fields": [
+   "recipe",
+   "ingredients",
+   "safetyBriefed",
+   "sessionDate"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d8p-extra-cooking-workshop",
+  "statuses": [
+   "PLANNED",
+   "HELD",
+   "REVIEWED"
+  ],
+  "title": "کارگاه آشپزی دانش‌آموزی"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "هر بار که مهر رسمی مدرسه روی سندی زده می‌شود، کاربر مهر، سند و دلیل استفاده را ثبت می‌کند؛ مدیر به‌صورت دوره‌ای دفتر مهر را بازبینی می‌کند تا استفادهٔ بی‌مجوز مشخص شود.",
+  "fields": [
+   "documentName",
+   "usedBy",
+   "useDate",
+   "purpose"
+  ],
+  "roles": [
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d8p-admin-stamp-log",
+  "statuses": [
+   "LOGGED",
+   "REVIEWED",
+   "FLAGGED"
+  ],
+  "title": "ثبت استفاده از مهر رسمی"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "معلمی که برای یک جلسه به اتاق دیگری نیاز دارد، درخواست جابه‌جایی ثبت می‌کند؛ دفتر، خالی‌بودن اتاق مقصد را بررسی و جابه‌جایی را تأیید می‌کند و برنامهٔ آن روز برای هر دو کلاس به‌روز می‌شود.",
+  "fields": [
+   "sessionDate",
+   "fromRoom",
+   "toRoom",
+   "approved"
+  ],
+  "roles": [
+   "TEACHER",
+   "ADMIN"
+  ],
+  "slug": "d8p-admin-room-swap",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "REJECTED",
+   "DONE"
+  ],
+  "title": "جابه‌جایی کلاس درسی"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "پیش از بازدید بازرسان آموزش‌وپرورش، مدارک و کلاس‌های موردبازدید آماده می‌شود؛ یافته‌های بازرسان ثبت می‌گردد و هر یافته با مسئول پیگیری و مهلت رفع، تا بسته‌شدن دنبال می‌شود.",
+  "fields": [
+   "visitDate",
+   "findings",
+   "owner",
+   "deadline"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN",
+   "TEACHER"
+  ],
+  "slug": "d8p-admin-inspector-visit",
+  "statuses": [
+   "PREPARED",
+   "VISITED",
+   "ACTIONING",
+   "CLOSED"
+  ],
+  "title": "بازدید بازرسان"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "گروه‌های مدرسه سالن اجتماعات را با تاریخ و چیدمان موردنیاز رزرو می‌کنند؛ دفتر رزرو را تأیید می‌کند و پس از مراسم، تحویل سالن با بررسی وضعیت تجهیزات ثبت می‌گردد.",
+  "fields": [
+   "eventName",
+   "bookingDate",
+   "setupType",
+   "handoverChecked"
+  ],
+  "roles": [
+   "TEACHER",
+   "ADMIN",
+   "CUSTODIAN"
+  ],
+  "slug": "d8p-admin-hall-booking",
+  "statuses": [
+   "REQUESTED",
+   "CONFIRMED",
+   "HELD",
+   "HANDED_BACK"
+  ],
+  "title": "رزرو سالن اجتماعات"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "پس از غیبت طولانی، مشاور با معلمان برنامهٔ بازگشت تدریجی می‌سازد؛ تکلیف‌های جبرانی و حمایت‌های لازم مرحله‌به‌مرحله اجرا می‌شود و در پایان دوره، سازگاری دانش‌آموز بازبینی می‌گردد.",
+  "fields": [
+   "absenceReason",
+   "phasedSteps",
+   "supportMeasures",
+   "reviewDate"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "TEACHER",
+   "PARENT"
+  ],
+  "slug": "d8p-welfare-return-plan",
+  "statuses": [
+   "PLANNED",
+   "IN_PROGRESS",
+   "REVIEWED",
+   "COMPLETED"
+  ],
+  "title": "برنامهٔ بازگشت به مدرسه پس از غیبت طولانی"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "خانواده‌های نیازمند بستهٔ لوازم‌التحریر درخواست می‌کنند؛ مسئول رفاه بسته را بر پایهٔ پایهٔ تحصیلی دانش‌آموز آماده می‌کند و تحویل محرمانه انجام می‌شود تا نام خانواده در هیچ فهرستی نیاید.",
+  "fields": [
+   "grade",
+   "packContents",
+   "requestDate",
+   "delivered"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d8p-welfare-stationery-pack",
+  "statuses": [
+   "REQUESTED",
+   "PREPARED",
+   "DELIVERED"
+  ],
+  "title": "بستهٔ لوازم‌التحریر حمایتی"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "برای معلم مهمان یا سخنران دعوت‌شده، حساب موقت با دسترسی محدود ساخته می‌شود؛ دسترسی در تاریخ پایان خودکار بسته می‌شود و فعالیت حساب تا بسته‌شدن قابل بازبینی است.",
+  "fields": [
+   "guestName",
+   "accessScope",
+   "expiryDate",
+   "active"
+  ],
+  "roles": [
+   "TECH",
+   "MANAGER",
+   "TEACHER"
+  ],
+  "slug": "d8p-tech-guest-account",
+  "statuses": [
+   "CREATED",
+   "ACTIVE",
+   "EXPIRED",
+   "REVOKED"
+  ],
+  "title": "حساب کاربری مهمان"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "معلمان برای مراسم یا کلاس، بلندگو، میکروفون یا ویدئوپروژکتور سیار امانت می‌گیرند؛ تحویل و برگشت با تست کارکرد ثبت می‌شود و خرابی در برگشت، به تعمیر ارجاع می‌گردد.",
+  "fields": [
+   "equipmentName",
+   "loanDate",
+   "returnDate",
+   "functionTest"
+  ],
+  "roles": [
+   "TEACHER",
+   "TECH",
+   "ADMIN"
+  ],
+  "slug": "d8p-tech-av-loan",
+  "statuses": [
+   "BORROWED",
+   "RETURNED",
+   "SENT_FOR_REPAIR"
+  ],
+  "title": "امانت تجهیزات صوتی‌تصویری"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "در آغاز سال تحصیلی، جلسات آموزش سامانهٔ مدرسه برای والدین برگزار می‌شود؛ شرکت‌کنندگان ورود، مشاهدهٔ کارنامه و ثبت درخواست را تمرین می‌کنند و سؤال‌های بی‌پاسخ به‌صورت درخواست پشتیبانی ثبت می‌گردد.",
+  "fields": [
+   "sessionDate",
+   "trainer",
+   "attendees",
+   "supportTickets"
+  ],
+  "roles": [
+   "PARENT",
+   "TECH",
+   "ADMIN"
+  ],
+  "slug": "d8p-tech-parent-portal-training",
+  "statuses": [
+   "SCHEDULED",
+   "HELD",
+   "FOLLOWED_UP"
+  ],
+  "title": "آموزش سامانه به والدین"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "دانش‌آموزی که فایل تکلیفش را حذف کرده، درخواست بازیابی ثبت می‌کند؛ مسئول فناوری نسخهٔ پشتیبان را بررسی می‌کند و در صورت یافتن فایل، آن را به حساب دانش‌آموز برمی‌گرداند و نتیجه اعلام می‌شود.",
+  "fields": [
+   "fileName",
+   "deletedDate",
+   "backupFound",
+   "restored"
+  ],
+  "roles": [
+   "STUDENT",
+   "TECH",
+   "TEACHER"
+  ],
+  "slug": "d8p-tech-file-recovery",
+  "statuses": [
+   "REQUESTED",
+   "SEARCHING",
+   "RESTORED",
+   "NOT_FOUND"
+  ],
+  "title": "بازیابی فایل دانش‌آموزی"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "مدرسه میزبان المپیاد ورزشی با چند مدرسهٔ همکار می‌شود؛ تیم‌های مهمان ثبت‌نام می‌کنند، جدول مسابقات برگزار می‌گردد و نتایج و تقدیر تیم‌ها در مراسم پایانی اعلام می‌شود.",
+  "fields": [
+   "sportType",
+   "guestSchools",
+   "matchSchedule",
+   "results"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER",
+   "STUDENT"
+  ],
+  "slug": "d8p-events-interschool-olympiad",
+  "statuses": [
+   "PLANNED",
+   "REGISTERING",
+   "HELD",
+   "COMPLETED"
+  ],
+  "title": "المپیاد ورزشی بین‌مدارس"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "تیم‌های کلاسی در مسابقهٔ اطلاعات عمومی با چند مرحلهٔ حذفی رقابت می‌کنند؛ سؤال‌ها پیش از مسابقه در بانک سؤال قفل می‌شود و امتیاز هر مرحله همان روز اعلام می‌گردد.",
+  "fields": [
+   "teamName",
+   "round",
+   "score",
+   "eliminated"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d8p-events-quiz-bowl",
+  "statuses": [
+   "REGISTERED",
+   "COMPETING",
+   "ELIMINATED",
+   "WINNER"
+  ],
+  "title": "مسابقهٔ اطلاعات عمومی"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "فارغ‌التحصیلان سال‌های پیش برای دورهمی ثبت‌نام می‌کنند؛ برنامهٔ دیدار، گفت‌وگو با دانش‌آموزان کنونی و بازدید از مدرسه اجرا می‌شود و پیشنهادهای فارغ‌التحصیلان برای مدرسه ثبت می‌گردد.",
+  "fields": [
+   "graduationYear",
+   "attendeeCount",
+   "program",
+   "suggestions"
+  ],
+  "roles": [
+   "MANAGER",
+   "TEACHER",
+   "ADMIN"
+  ],
+  "slug": "d8p-events-alumni-reunion",
+  "statuses": [
+   "INVITED",
+   "REGISTERED",
+   "HELD",
+   "REPORTED"
+  ],
+  "title": "دورهمی فارغ‌التحصیلان"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "مدرسه با مرکز انتقال خون، روز اهدای خون برای داوطلبان واجد شرایط برگزار می‌کند؛ داوطلبان نوبت می‌گیرند، شرایط اهدا بررسی می‌شود و پس از اهدا، گواهی سپاس به اهداکننده داده می‌شود.",
+  "fields": [
+   "donorEligible",
+   "appointmentTime",
+   "donationDone",
+   "certificateIssued"
+  ],
+  "roles": [
+   "MANAGER",
+   "NURSE",
+   "PARENT"
+  ],
+  "slug": "d8p-events-blood-drive",
+  "statuses": [
+   "SCHEDULED",
+   "SCREENED",
+   "DONATED",
+   "COMPLETED"
+  ],
+  "title": "پویش اهدای خون"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "در کلاس مجازی، معلم با ورود دانش‌آموزان به جلسهٔ برخط، حضورشان را ثبت می‌کند؛ دانش‌آموز غایب یا دیرکرده پیام یادآوری می‌گیرد و غیبت او در پروندهٔ حضور همان روز ثبت می‌شود.",
+  "fields": [
+   "sessionLink",
+   "joinTime",
+   "className",
+   "absentStudents",
+   "reminderSent"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "PARENT"
+  ],
+  "slug": "d8p-att-virtual-class-attendance",
+  "statuses": [
+   "OPENED",
+   "JOINED",
+   "RECORDED",
+   "FOLLOWED_UP"
+  ],
+  "title": "حضور در کلاس مجازی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز در آغاز ترم موضوع پروژهٔ پایانی را پیشنهاد می‌دهد؛ معلم پس از تأیید موضوع، نقطه‌های عطف میانی را تعیین می‌کند و نسخهٔ نهایی در پایان ترم تحویل و نمره‌دهی می‌شود.",
+  "fields": [
+   "projectTopic",
+   "proposalDate",
+   "milestones",
+   "finalSubmission",
+   "projectScore"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d8p-edu-term-project",
+  "statuses": [
+   "PROPOSED",
+   "APPROVED",
+   "IN_PROGRESS",
+   "GRADED"
+  ],
+  "title": "پروژهٔ پایانی ترم"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "خانواده‌های نیازمند برای غذای رایگان یا ارزان مدرسه درخواست می‌دهند؛ کمیتهٔ رفاه درخواست را محرمانه بررسی می‌کند و اعتبار غذایی تأییدشده به حساب تغذیهٔ دانش‌آموز اضافه می‌شود بی‌آنکه نام او برای دیگران فاش شود.",
+  "fields": [
+   "requestDate",
+   "needAssessment",
+   "approvedCredit",
+   "mealAccount",
+   "confidentialRecord"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d8p-welfare-meal-subsidy",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "CREDITED",
+   "REJECTED"
+  ],
+  "title": "یارانهٔ غذای دانش‌آموزی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "معلم پیش از کلاس، فیلم آموزشی کوتاهی را برای تماشا در خانه مشخص می‌کند؛ دانش‌آموزان در کلاس به‌جای گوش‌دادن به درس، تمرین و مسئله حل می‌کنند و معلم در همان جلسه اشکال‌های آنان را رفع می‌کند.",
+  "fields": [
+   "lessonVideo",
+   "watchDeadline",
+   "classExercises",
+   "questionsRaised",
+   "participationNote"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d8p-edu-flipped-classroom",
+  "statuses": [
+   "ASSIGNED",
+   "WATCHED",
+   "PRACTICED",
+   "REVIEWED"
+  ],
+  "title": "کلاس وارونه"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "معلم آزمون برخط با زمان مشخص طراحی می‌کند؛ دانش‌آموزان در بازهٔ تعیین‌شده پاسخ می‌دهند، نمرهٔ سؤال‌های بسته خودکار ثبت می‌شود و نتیجه پس از بازبینی معلم اعلام می‌گردد.",
+  "fields": [
+   "examTitle",
+   "testWindow",
+   "timeLimit",
+   "autoScore",
+   "teacherReview"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d8p-edu-online-exam",
+  "statuses": [
+   "CREATED",
+   "OPEN",
+   "SUBMITTED",
+   "GRADED"
+  ],
+  "title": "آزمون آنلاین"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "اعضای باشگاه کوهنوردی هر ماه با راهنمای آموزش‌دیده به طبیعت می‌روند؛ پیش از حرکت نکات ایمنی گفته می‌شود، مسیر و زمان بازگشت ثبت می‌گردد و گزارش سفر در تابلوی باشگاه منتشر می‌شود.",
+  "fields": [
+   "hikeDate",
+   "trailName",
+   "safetyBriefed",
+   "returnTime",
+   "tripReport"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d8p-extra-hiking-club",
+  "statuses": [
+   "PLANNED",
+   "BRIEFED",
+   "HIKED",
+   "REPORTED"
+  ],
+  "title": "باشگاه کوهنوردی"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پیش از شروع آزمایش‌های ترم، معلم و مسئول آزمایشگاه مواد شیمیایی، تجهیزات و مسیر خروج اضطراری را بررسی می‌کنند؛ موارد ناایمن تا رفع، آزمایش را متوقف می‌کند و صورت‌جلسهٔ ایمنی امضا می‌شود.",
+  "fields": [
+   "labName",
+   "checkDate",
+   "chemicalsChecked",
+   "hazardsFound",
+   "safetySigned"
+  ],
+  "roles": [
+   "TEACHER",
+   "CUSTODIAN",
+   "MANAGER"
+  ],
+  "slug": "d8p-health-lab-safety-inspection",
+  "statuses": [
+   "SCHEDULED",
+   "INSPECTED",
+   "FIXING",
+   "APPROVED"
+  ],
+  "title": "بازرسی ایمنی آزمایشگاه"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پرستار هر سال سلامت پایهٔ کارکنان مانند فشار خون و بینایی را به‌صورت محرمانه بررسی می‌کند؛ نتیجه در پروندهٔ محرمانهٔ سلامت کارمند ثبت می‌شود و موارد نیازمند پیگیری به خود فرد اعلام می‌گردد.",
+  "fields": [
+   "checkYear",
+   "staffCode",
+   "basicMeasures",
+   "followUpAdvice",
+   "recordSealed"
+  ],
+  "roles": [
+   "NURSE",
+   "ADMIN"
+  ],
+  "slug": "d8p-health-staff-health-check",
+  "statuses": [
+   "SCHEDULED",
+   "CHECKED",
+   "ADVISED",
+   "SEALED"
+  ],
+  "title": "معاینهٔ دوره‌ای سلامت کارکنان"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "دانش‌آموزان نقد کوتاهی بر کتابی که خوانده‌اند می‌نویسند؛ کتابدار نقدهای برگزیده را روی تابلوی معرفی کتاب نصب می‌کند و نقدها به دیگر دانش‌آموزان در انتخاب کتاب کمک می‌کند.",
+  "fields": [
+   "bookTitle",
+   "reviewText",
+   "reviewerName",
+   "selectedReview",
+   "displayDate"
+  ],
+  "roles": [
+   "STUDENT",
+   "LIBRARIAN"
+  ],
+  "slug": "d8p-lib-book-review",
+  "statuses": [
+   "WRITTEN",
+   "SELECTED",
+   "DISPLAYED"
+  ],
+  "title": "نقد و معرفی کتاب دانش‌آموزی"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "خانواده‌های نیازمند برای هزینهٔ رفت‌وآمد فرزندشان درخواست می‌دهند؛ کمیتهٔ رفاه درخواست را محرمانه بررسی می‌کند و مبلغ تأییدشده به‌صورت اعتبار سرویس یا کمک نقدی پرداخت می‌شود بی‌آنکه نام خانواده فاش شود.",
+  "fields": [
+   "requestDate",
+   "needAssessment",
+   "approvedAmount",
+   "paymentMethod",
+   "confidentialRecord"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d8p-welfare-transport-subsidy",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "PAID",
+   "REJECTED"
+  ],
+  "title": "کمک‌هزینهٔ رفت‌وآمد دانش‌آموزی"
+ }
+]

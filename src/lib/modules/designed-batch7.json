@@ -1,0 +1,1130 @@
+[
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "معلم مهارت عملی، مانند اجرای آزمایش یا سخنرانی کوتاه، را با چک‌لیست از پیش اعلام‌شده مشاهده می‌کند و هر مهارت را جداگانه نمره می‌دهد؛ دانش‌آموز نتیجهٔ هر مهارت و راه بهبود آن را همان روز می‌بیند.",
+  "fields": [
+   "skillName",
+   "checklistItem",
+   "skillScore",
+   "improvementNote"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d7p-edu-performance-assessment",
+  "statuses": [
+   "SCHEDULED",
+   "ASSESSED",
+   "REVIEWED"
+  ],
+  "title": "ارزیابی عملکردی مهارت"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموزی که در آزمون غایب یا ناموفق بوده، درخواست آزمون مجدد با دلیل ثبت می‌کند؛ معلم شرط جبرانی و تاریخ تازه را تعیین می‌کند و نتیجهٔ آزمون دوم جایگزین می‌شود.",
+  "fields": [
+   "examName",
+   "retakeReason",
+   "retakeDate",
+   "retakeScore"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d7p-edu-exam-retake-request",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "REJECTED",
+   "COMPLETED"
+  ],
+  "title": "درخواست آزمون مجدد"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز در طول ترم بهترین کارهایش را با توضیح انتخاب در پوشه گرد می‌آورد؛ معلم در پایان ترم پوشه را بازبینی می‌کند و دربارهٔ پیشرفت کلی نظر می‌نویسد.",
+  "fields": [
+   "workTitle",
+   "workFile",
+   "selectionNote",
+   "teacherReview"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d7p-edu-student-portfolio",
+  "statuses": [
+   "COLLECTING",
+   "REVIEWED",
+   "COMPLETED"
+  ],
+  "title": "کارپوشهٔ ترم دانش‌آموز"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز پیش از ساعت رفع اشکال، سؤال دقیق خود را ثبت می‌کند؛ معلم در جلسه به سؤال‌های ثبت‌شده پاسخ می‌دهد و خلاصهٔ پاسخ برای همهٔ شرکت‌کنندگان منتشر می‌شود.",
+  "fields": [
+   "questionText",
+   "sessionDate",
+   "answerSummary",
+   "attended"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d7p-edu-help-session",
+  "statuses": [
+   "BOOKED",
+   "HELD",
+   "ANSWERED"
+  ],
+  "title": "ساعت رفع اشکال"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز تکلیف هم‌کلاسی را با معیارهای اعلام‌شده بازبینی می‌کند و نکتهٔ قوت و پیشنهاد اصلاح می‌نویسد؛ معلم بازبینی‌ها را بررسی می‌کند و بازبینی ناعادلانه را کنار می‌گذارد.",
+  "fields": [
+   "reviewedWork",
+   "strengthNote",
+   "fixSuggestion",
+   "teacherCheck"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d7p-edu-peer-review-work",
+  "statuses": [
+   "ASSIGNED",
+   "REVIEWED",
+   "CHECKED"
+  ],
+  "title": "بازبینی همتایی تکلیف"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "نوبت‌های نظارت زنگ تفریح میان معلمان تقسیم می‌شود؛ معلمی که نمی‌تواند در نوبتش حاضر شود، جایگزین پیشنهاد می‌دهد و مدیر جابه‌جایی را تأیید می‌کند.",
+  "fields": [
+   "dutyDate",
+   "dutyZone",
+   "assignedTeacher",
+   "replacementTeacher"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d7p-att-duty-roster",
+  "statuses": [
+   "ASSIGNED",
+   "SWAPPED",
+   "COMPLETED"
+  ],
+  "title": "نوبت نظارت حیاط معلمان"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "در هر جلسهٔ مدرسه، حضور والدین با نام و ساعت ورود ثبت می‌شود؛ والدین غایب پیام پیگیری و خلاصهٔ جلسه را دریافت می‌کنند.",
+  "fields": [
+   "meetingTitle",
+   "parentName",
+   "arrivalTime",
+   "followUpSent"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d7p-att-parent-meeting-attendance",
+  "statuses": [
+   "PRESENT",
+   "ABSENT",
+   "FOLLOWED_UP"
+  ],
+  "title": "حضور والدین در جلسهٔ مدرسه"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "دانش‌آموز برای مطالعهٔ عصرگاهی در سالن مدرسه ثبت‌نام می‌کند؛ ورود و خروج او ثبت می‌شود و هنگام خروج، پیام اطلاع به والدین فرستاده می‌شود.",
+  "fields": [
+   "studyDate",
+   "checkInTime",
+   "checkOutTime",
+   "parentNotified"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "PARENT"
+  ],
+  "slug": "d7p-att-after-school-study",
+  "statuses": [
+   "REGISTERED",
+   "CHECKED_IN",
+   "CHECKED_OUT"
+  ],
+  "title": "مطالعهٔ عصرگاهی مدرسه"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "دانش‌آموز بورسیه‌دار برای ترم تازه با کارنامه و گواهی فعالیت درخواست تمدید می‌دهد؛ کمیته شرط معدل را بررسی می‌کند و تمدید یا قطع بورسیه را اعلام می‌کند.",
+  "fields": [
+   "previousTerm",
+   "gradeAverage",
+   "activityProof",
+   "renewalDecision"
+  ],
+  "roles": [
+   "STUDENT",
+   "MANAGER"
+  ],
+  "slug": "d7p-fin-scholarship-renewal",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "REJECTED"
+  ],
+  "title": "تمدید بورسیهٔ تحصیلی"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "کمیتهٔ مدرسه کمک‌های جمع‌شده را به مورد مشخص، مانند تجهیز آزمایشگاه یا کمک به خانواده، تخصیص می‌دهد؛ پس از هزینه‌کرد، رسید مصرف برای اهداکنندگان منتشر می‌شود.",
+  "fields": [
+   "fundSource",
+   "allocatedAmount",
+   "allocationPurpose",
+   "spendingReceipt"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d7p-fin-charity-allocation",
+  "statuses": [
+   "PROPOSED",
+   "ALLOCATED",
+   "SPENT",
+   "REPORTED"
+  ],
+  "title": "تخصیص کمک خیریه"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "دانش‌آموز از فروشگاه مدرسه دفتر و لوازم می‌خرد و مبلغ از اعتبار او کم می‌شود؛ موجودی هر قلم پس از فروش به‌روز می‌شود و قلم روبه‌اتمام برای خرید دوباره علامت می‌خورد.",
+  "fields": [
+   "itemName",
+   "itemPrice",
+   "stockCount",
+   "purchaseDate"
+  ],
+  "roles": [
+   "STUDENT",
+   "ADMIN"
+  ],
+  "slug": "d7p-fin-stationery-shop",
+  "statuses": [
+   "IN_STOCK",
+   "LOW_STOCK",
+   "SOLD_OUT"
+  ],
+  "title": "فروشگاه لوازم‌التحریر مدرسه"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "دانش‌آموز، والد و معلم در یک نشست، کارپوشه و پیشرفت ترم را با هم مرور می‌کنند؛ در پایان، یک هدف مشترک برای ترم بعد توافق و ثبت می‌شود.",
+  "fields": [
+   "conferenceDate",
+   "studentSelfReview",
+   "agreedGoal",
+   "nextReviewDate"
+  ],
+  "roles": [
+   "TEACHER",
+   "PARENT",
+   "STUDENT"
+  ],
+  "slug": "d7p-par-progress-conference",
+  "statuses": [
+   "SCHEDULED",
+   "HELD",
+   "GOAL_SET"
+  ],
+  "title": "کنفرانس سه‌جانبهٔ پیشرفت"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "والد حکم حضانت یا محدودیت تحویل را با مدرک رسمی ثبت می‌کند؛ مدرسه تحویل دانش‌آموز را فقط به افراد مجاز در حکم محدود می‌کند و تغییر حکم فقط با مدرک تازه اعمال می‌شود.",
+  "fields": [
+   "courtOrder",
+   "authorizedPersons",
+   "restrictionNote",
+   "verifiedBy"
+  ],
+  "roles": [
+   "PARENT",
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d7p-par-custody-notice",
+  "statuses": [
+   "SUBMITTED",
+   "VERIFIED",
+   "ACTIVE"
+  ],
+  "title": "ثبت حکم حضانت و محدودیت تحویل"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "والدین برای شورای والدین نامزد می‌شوند و در روز رأی‌گیری به‌صورت محرمانه رأی می‌دهند؛ شمارش آرا با ناظر انجام می‌شود و نمایندگان منتخب اعلام می‌گردند.",
+  "fields": [
+   "candidateName",
+   "votingDate",
+   "voteCount",
+   "electedRole"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d7p-par-parent-council-election",
+  "statuses": [
+   "NOMINATED",
+   "VOTING",
+   "ELECTED"
+  ],
+  "title": "انتخابات شورای والدین"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "خانواده‌ها در خانه کتاب مشترکی می‌خوانند و برگهٔ گفت‌وگوی خانوادگی را برمی‌گردانند؛ معلم برگه‌ها را می‌خواند و در کلاس دربارهٔ کتاب‌ها گفت‌وگو می‌کند.",
+  "fields": [
+   "bookTitle",
+   "familyDiscussion",
+   "returnedSheet",
+   "classTalkDate"
+  ],
+  "roles": [
+   "PARENT",
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d7p-par-family-reading-night",
+  "statuses": [
+   "ASSIGNED",
+   "READ",
+   "DISCUSSED"
+  ],
+  "title": "شب مطالعهٔ خانوادگی"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "نمونهٔ آب آشامیدنی مدرسه به‌صورت دوره‌ای برای آزمایش فرستاده می‌شود؛ اگر نتیجه نامطلوب باشد، مصرف آن منبع تا رفع مشکل متوقف و جایگزین اعلام می‌شود.",
+  "fields": [
+   "waterSource",
+   "testDate",
+   "testResult",
+   "sourceClosed"
+  ],
+  "roles": [
+   "NURSE",
+   "CUSTODIAN",
+   "MANAGER"
+  ],
+  "slug": "d7p-health-water-safety",
+  "statuses": [
+   "TESTED",
+   "PASSED",
+   "SUSPENDED"
+  ],
+  "title": "ایمنی آب آشامیدنی مدرسه"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "مشاور پس از چند جلسهٔ داخلی، دانش‌آموز نیازمند حمایت تخصصی را با رضایت کتبی والدین به مرکز بیرون ارجاع می‌دهد و روند پیگیری را با خانواده هماهنگ می‌کند.",
+  "fields": [
+   "referralReason",
+   "consentSigned",
+   "referralCenter",
+   "followUpDate"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "PARENT",
+   "STUDENT"
+  ],
+  "slug": "d7p-health-mental-referral",
+  "statuses": [
+   "ASSESSED",
+   "REFERRED",
+   "FOLLOWED_UP"
+  ],
+  "title": "ارجاع به روان‌شناس بیرون از مدرسه"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "مسئول سلامت هر ماه جعبه‌های کمک‌های اولیهٔ کلاس‌ها را بازرسی می‌کند؛ اقلام مصرف‌شده یا منقضی جایگزین می‌شوند و جعبهٔ ناقص تا تکمیل علامت می‌خورد.",
+  "fields": [
+   "kitLocation",
+   "checkDate",
+   "missingItems",
+   "restocked"
+  ],
+  "roles": [
+   "NURSE",
+   "CUSTODIAN"
+  ],
+  "slug": "d7p-health-first-aid-kit",
+  "statuses": [
+   "CHECKED",
+   "INCOMPLETE",
+   "RESTOCKED"
+  ],
+  "title": "بازرسی جعبهٔ کمک‌های اولیه"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "مدیر هر سال قرارداد شرکت سرویس را با شرط‌هایی مانند جریمهٔ تأخیر و تعهد ایمنی تمدید می‌کند؛ عملکرد شرکت در پایان هر ترم با قرارداد سنجیده می‌شود.",
+  "fields": [
+   "companyName",
+   "contractYear",
+   "penaltyClause",
+   "performanceReview"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d7p-trans-service-contract",
+  "statuses": [
+   "DRAFTED",
+   "SIGNED",
+   "REVIEWED"
+  ],
+  "title": "قرارداد سالانهٔ شرکت سرویس"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "برای هر اردو، خودرو و رانندهٔ مناسب با ظرفیت گروه رزرو می‌شود؛ اگر خودرو در روز اردو در دسترس نباشد، جایگزین پیش از حرکت مشخص می‌گردد.",
+  "fields": [
+   "tripName",
+   "vehicleType",
+   "seatCount",
+   "backupVehicle"
+  ],
+  "roles": [
+   "MANAGER",
+   "DRIVER"
+  ],
+  "slug": "d7p-trans-field-trip-transport",
+  "statuses": [
+   "REQUESTED",
+   "BOOKED",
+   "DEPARTED"
+  ],
+  "title": "رزرو خودرو برای اردو"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "دانش‌آموز موضوع پژوهش خود را برای کتابدار می‌فرستد؛ کتابدار منابع مناسب را معرفی می‌کند و در جلسهٔ کوتاه، روش جست‌وجو را به او می‌آموزد.",
+  "fields": [
+   "researchTopic",
+   "suggestedSources",
+   "helpSessionDate",
+   "studentNote"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "STUDENT"
+  ],
+  "slug": "d7p-lib-research-help",
+  "statuses": [
+   "REQUESTED",
+   "GUIDED",
+   "COMPLETED"
+  ],
+  "title": "کمک پژوهشی کتابدار"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "کتابدار هر قفسه را با فهرست سامانه تطبیق می‌دهد؛ کتاب جابه‌جا شده به جای درست برمی‌گردد و کتاب پیدا نشده برای پیگیری ثبت می‌شود.",
+  "fields": [
+   "shelfCode",
+   "auditDate",
+   "misplacedBooks",
+   "missingBooks"
+  ],
+  "roles": [
+   "LIBRARIAN"
+  ],
+  "slug": "d7p-lib-shelf-audit",
+  "statuses": [
+   "STARTED",
+   "COMPLETED",
+   "DISCREPANCY"
+  ],
+  "title": "موجودی‌گیری قفسه‌های کتابخانه"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "والد با کارت فرزندش کتاب‌های تربیتی و داستانی امانت می‌گیرد؛ مهلت برگشت والد جدا از مهلت دانش‌آموز است و تأخیر آن پیام یادآوری جداگانه دارد.",
+  "fields": [
+   "bookTitle",
+   "loanDate",
+   "parentReturnDate",
+   "reminderSent"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "PARENT"
+  ],
+  "slug": "d7p-lib-parent-loan",
+  "statuses": [
+   "LOANED",
+   "RETURNED",
+   "OVERDUE"
+  ],
+  "title": "امانت کتاب به والدین"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "دانش‌آموزان در آشپزخانهٔ مدرسه غذای ساده می‌پزند و نکات ایمنی و بهداشت را رعایت می‌کنند؛ نتیجهٔ پخت با هم چشیده و دستور پخت در دفتر کلاس ثبت می‌شود.",
+  "fields": [
+   "recipeName",
+   "safetyNote",
+   "cookingDate",
+   "recipeRecord"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d7p-extra-cooking-class",
+  "statuses": [
+   "PLANNED",
+   "COOKED",
+   "RECORDED"
+  ],
+  "title": "کلاس آشپزی دانش‌آموزی"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "دانش‌آموزان آموزش‌دیده در زنگ تفریح نقاط کور حیاط را سرکشی می‌کنند؛ هر خطر دیده‌شده همان روز به مسئول ایمنی گزارش می‌شود و تا رفع پیگیری می‌گردد.",
+  "fields": [
+   "patrolDate",
+   "patrolZone",
+   "hazardFound",
+   "fixedStatus"
+  ],
+  "roles": [
+   "STUDENT",
+   "CUSTODIAN"
+  ],
+  "slug": "d7p-extra-safety-patrol",
+  "statuses": [
+   "PATROLLED",
+   "REPORTED",
+   "FIXED"
+  ],
+  "title": "گشت ایمنی دانش‌آموزی"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "معلم درخواست جابه‌جایی ساعت یک زنگ را با دلیل ثبت می‌کند؛ مدیر تداخل با کلاس‌های دیگر را بررسی می‌کند و جابه‌جایی را تأیید یا با ساعت جایگزین پاسخ می‌دهد.",
+  "fields": [
+   "className",
+   "originalSlot",
+   "requestedSlot",
+   "changeDecision"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d7p-admin-timetable-change",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "REJECTED"
+  ],
+  "title": "درخواست جابه‌جایی زنگ کلاس"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "کارمند یا والد برای دریافت کپی سند بایگانی‌شده درخواست می‌دهد؛ مسئول بایگانی سطح دسترسی را بررسی می‌کند و کپی را با مهر تأیید تحویل می‌دهد.",
+  "fields": [
+   "documentTitle",
+   "requesterName",
+   "accessLevel",
+   "copyDelivered"
+  ],
+  "roles": [
+   "ADMIN",
+   "PARENT"
+  ],
+  "slug": "d7p-admin-archive-request",
+  "statuses": [
+   "REQUESTED",
+   "CHECKED",
+   "DELIVERED"
+  ],
+  "title": "درخواست کپی از سند بایگانی"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "هر سند نیازمند مهر رسمی، پیش از مهرشدن در دفتر مهر ثبت می‌شود؛ مدیر مهر را تأیید می‌کند و شمارهٔ ثبت مهر روی سند درج می‌گردد.",
+  "fields": [
+   "documentTitle",
+   "sealDate",
+   "approverName",
+   "sealNumber"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d7p-admin-school-seal",
+  "statuses": [
+   "REGISTERED",
+   "SEALED"
+  ],
+  "title": "ثبت مهر رسمی مدرسه"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "دانش‌آموز ورودی از مدرسهٔ دیگر با مدارک و پروندهٔ قبلی پذیرش می‌شود؛ مدیر پس از تعیین پایه و کلاس، برنامهٔ سازگاری هفته‌های نخست را برای او مشخص می‌کند.",
+  "fields": [
+   "previousSchool",
+   "requestedGrade",
+   "assignedClass",
+   "adaptationPlan"
+  ],
+  "roles": [
+   "MANAGER",
+   "ADMIN",
+   "PARENT"
+  ],
+  "slug": "d7p-admin-transfer-in",
+  "statuses": [
+   "APPLIED",
+   "PLACED",
+   "ADAPTING"
+  ],
+  "title": "پذیرش دانش‌آموز از مدرسهٔ دیگر"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "دانش‌آموز نگرانی خود پیش از امتحان را به‌صورت محرمانه پیام می‌دهد؛ مشاور ظرف یک روز کاری پاسخ آرام‌بخش و راهکار می‌فرستد، بدون آن‌که نام فرستنده برای دیگران فاش شود.",
+  "fields": [
+   "worryText",
+   "replyText",
+   "replyDate",
+   "keptConfidential"
+  ],
+  "roles": [
+   "STUDENT",
+   "COUNSELOR"
+  ],
+  "slug": "d7p-welfare-anxiety-line",
+  "statuses": [
+   "SENT",
+   "REPLIED"
+  ],
+  "title": "پیام محرمانهٔ اضطراب امتحان"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "پیش از تعطیلات طولانی، بستهٔ غذایی برای خانواده‌های نیازمند آماده می‌شود؛ خانواده بسته را محرمانه تحویل می‌گیرد و محتوای بسته با نیاز خانواده تنظیم می‌گردد.",
+  "fields": [
+   "boxContents",
+   "familyCode",
+   "pickupDate",
+   "boxDelivered"
+  ],
+  "roles": [
+   "MANAGER",
+   "PARENT"
+  ],
+  "slug": "d7p-welfare-family-food-box",
+  "statuses": [
+   "PREPARED",
+   "DELIVERED"
+  ],
+  "title": "بستهٔ غذایی خانواده در تعطیلات"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "پیش از امتحان آنلاین، دستگاه‌های کلاس به حالت محدود می‌روند و فقط برنامهٔ امتحان باز می‌ماند؛ پس از پایان امتحان، محدودیت برداشته و گزارش تخلف احتمالی بررسی می‌شود.",
+  "fields": [
+   "examName",
+   "lockdownStart",
+   "allowedApp",
+   "violationNote"
+  ],
+  "roles": [
+   "TECH",
+   "TEACHER"
+  ],
+  "slug": "d7p-tech-exam-lockdown",
+  "statuses": [
+   "ARMED",
+   "ACTIVE",
+   "RELEASED"
+  ],
+  "title": "حالت امتحان دستگاه‌ها"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "دستگاه گمشدهٔ مدرسه گزارش می‌شود و از راه دور قفل می‌گردد؛ اگر دستگاه پیدا شد، قفل برداشته و سلامت آن بررسی می‌شود و اگر پیدا نشد، پروندهٔ خسارت باز می‌گردد.",
+  "fields": [
+   "deviceSerial",
+   "lastLocation",
+   "remoteLocked",
+   "damageCase"
+  ],
+  "roles": [
+   "TECH",
+   "ADMIN"
+  ],
+  "slug": "d7p-tech-lost-device-report",
+  "statuses": [
+   "REPORTED",
+   "LOCKED",
+   "RECOVERED"
+  ],
+  "title": "گزارش دستگاه گمشدهٔ مدرسه"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "والد مشکل ورود یا استفاده از سامانه را با شرح خطا ثبت می‌کند؛ پشتیبان راهنما می‌دهد و پس از تأیید والد که مشکل حل شده، درخواست بسته می‌شود.",
+  "fields": [
+   "issueText",
+   "errorNote",
+   "supportReply",
+   "parentConfirmed"
+  ],
+  "roles": [
+   "PARENT",
+   "TECH"
+  ],
+  "slug": "d7p-tech-parent-app-support",
+  "statuses": [
+   "OPENED",
+   "ANSWERED",
+   "CLOSED"
+  ],
+  "title": "پشتیبانی سامانهٔ والدین"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "برای سخنران یا مهمان مدرسه، کوپن اینترنت با مدت محدود صادر می‌شود؛ پس از پایان مدت، دسترسی خودکار قطع می‌شود و کوپن دوباره قابل استفاده نیست.",
+  "fields": [
+   "guestName",
+   "voucherCode",
+   "validHours",
+   "voucherExpired"
+  ],
+  "roles": [
+   "TECH",
+   "ADMIN"
+  ],
+  "slug": "d7p-tech-wifi-voucher",
+  "statuses": [
+   "ISSUED",
+   "ACTIVE",
+   "EXPIRED"
+  ],
+  "title": "کوپن وای‌فای مهمان"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "مدرسه میزبان مسابقه با دعوت از مدارس دیگر می‌شود؛ جدول بازی‌ها، داوران و نتایج ثبت می‌شود و تیم میزبان و مهمان در پایان تقدیر می‌شوند.",
+  "fields": [
+   "sportName",
+   "guestSchools",
+   "matchTable",
+   "finalResult"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d7p-events-interschool-tournament",
+  "statuses": [
+   "INVITED",
+   "SCHEDULED",
+   "COMPLETED"
+  ],
+  "title": "مسابقات بین‌مدارس"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "دانش‌آموزان عکس و سند قدیمی مدرسه و محله را با شرح گرد می‌آورند و نمایشگاه می‌سازند؛ بازدیدکنندگان خاطرهٔ خود را کنار هر اثر می‌نویسند.",
+  "fields": [
+   "exhibitItem",
+   "itemStory",
+   "exhibitDate",
+   "visitorMemory"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d7p-events-history-exhibition",
+  "statuses": [
+   "COLLECTED",
+   "DISPLAYED"
+  ],
+  "title": "نمایشگاه تاریخ مدرسه و محله"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "دانش‌آموزان در روز درختکاری نهال می‌کارند و مسئولیت آبیاری هر نهال به یک گروه سپرده می‌شود؛ رشد نهال‌ها در ماه‌های بعد پیگیری می‌گردد.",
+  "fields": [
+   "saplingType",
+   "plantingSpot",
+   "caretakerGroup",
+   "growthCheck"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "CUSTODIAN"
+  ],
+  "slug": "d7p-events-planting-day",
+  "statuses": [
+   "PLANTED",
+   "CARED"
+  ],
+  "title": "روز درختکاری مدرسه"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "ساعت‌های تدریس مربیان فوق‌برنامه در پایان هر ماه ثبت می‌شود؛ مدیر ساعت‌ها را تأیید می‌کند و بخش مالی بر اساس نرخ توافق‌شده، حق‌الزحمهٔ مربی را پرداخت می‌کند.",
+  "fields": [
+   "coachName",
+   "activityName",
+   "hoursTaught",
+   "hourlyRate",
+   "paymentDate"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d7p-fin-coach-payment",
+  "statuses": [
+   "LOGGED",
+   "APPROVED",
+   "PAID"
+  ],
+  "title": "پرداخت حق‌الزحمهٔ مربی فوق‌برنامه"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پرستار در جلسات کوتاه، بهداشت فردی مانند شستن دست‌ها و مراقبت از دندان را به دانش‌آموزان می‌آموزد؛ دانش‌آموزان رفتار درست را تمرین می‌کنند و معلم در هفته‌های بعد رعایت آن را مشاهده و ثبت می‌کند.",
+  "fields": [
+   "lessonTopic",
+   "sessionDate",
+   "practicedSkill",
+   "teacherObservation",
+   "followUpDate"
+  ],
+  "roles": [
+   "NURSE",
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d7p-health-hygiene-lessons",
+  "statuses": [
+   "TAUGHT",
+   "PRACTICED",
+   "OBSERVED"
+  ],
+  "title": "آموزش بهداشت فردی"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "وقتی خودروی سرویس در مسیر خراب می‌شود، راننده خرابی را با محل دقیق گزارش می‌کند؛ مدیر خودروی جایگزین می‌فرستد و والدین مسیر از تغییر و زمان رسیدن تازه مطلع می‌شوند.",
+  "fields": [
+   "breakdownLocation",
+   "breakdownTime",
+   "vehiclePlate",
+   "replacementSent",
+   "parentsNotified"
+  ],
+  "roles": [
+   "DRIVER",
+   "MANAGER",
+   "PARENT"
+  ],
+  "slug": "d7p-trans-breakdown-report",
+  "statuses": [
+   "REPORTED",
+   "REPLACEMENT_SENT",
+   "RESOLVED"
+  ],
+  "title": "گزارش خرابی خودروی سرویس"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "وقتی یک کلاس برای رویدادی مانند مسابقهٔ منطقه‌ای غایب است، معلم غیبت گروهی را با دلیل ثبت می‌کند؛ دفتر آن را تأیید می‌کند و حضور همهٔ دانش‌آموزان آن کلاس در آن روز موجه ثبت می‌شود.",
+  "fields": [
+   "className",
+   "absenceDate",
+   "groupReason",
+   "approvedBy",
+   "excusedCount"
+  ],
+  "roles": [
+   "TEACHER",
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d7p-att-group-absence",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "RECORDED"
+  ],
+  "title": "ثبت غیبت گروهی کلاس"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "گروه‌های دانش‌آموزی فیلم کوتاهی می‌سازند و ارسال می‌کنند؛ هیئت داوران فیلم‌ها را بر اساس داستان و اجرا امتیاز می‌دهد و فیلم‌های برگزیده در سالن مدرسه اکران می‌شود.",
+  "fields": [
+   "filmTitle",
+   "crewMembers",
+   "submitDate",
+   "juryScores",
+   "screeningDate"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d7p-events-short-film-festival",
+  "statuses": [
+   "SUBMITTED",
+   "JUDGED",
+   "SCREENED",
+   "AWARDED"
+  ],
+  "title": "جشنوارهٔ فیلم کوتاه دانش‌آموزی"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "دانش‌آموزان با مقوا و ابزار ساده، ماکت بناها یا سامانه‌های علمی می‌سازند؛ مربی مراحل ساخت را راهنمایی می‌کند و ماکت‌های پایانی در کلاس به نمایش درمی‌آید.",
+  "fields": [
+   "modelTopic",
+   "materialsUsed",
+   "buildDates",
+   "guideTeacher",
+   "displayLocation"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d7p-extra-model-making-workshop",
+  "statuses": [
+   "PLANNED",
+   "BUILDING",
+   "COMPLETED",
+   "DISPLAYED"
+  ],
+  "title": "کارگاه ساخت ماکت"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "اعضای باشگاه هر هفته دور هم جمع می‌شوند و فقط به زبان خارجی تمرین گفت‌وگو می‌کنند؛ معلم موضوع هفته را تعیین می‌کند و پیشرفت گفتاری اعضا در پایان ترم بررسی می‌شود.",
+  "fields": [
+   "languageName",
+   "weeklyTopic",
+   "sessionDate",
+   "speakingProgress",
+   "termReview"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d7p-extra-language-club",
+  "statuses": [
+   "SCHEDULED",
+   "HELD",
+   "REVIEWED"
+  ],
+  "title": "باشگاه گفت‌وگوی زبان"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پیش از هر مسابقه، مربی گرم‌کردن اجباری برگزار می‌کند و پرستار زمین و تجهیزات را از نظر خطر بررسی می‌کند؛ موارد خطرناک تا رفع، مسابقه را متوقف می‌کند و نتیجهٔ بررسی ثبت می‌شود.",
+  "fields": [
+   "matchDate",
+   "warmUpDone",
+   "fieldCheck",
+   "hazardsFound",
+   "clearanceGiven"
+  ],
+  "roles": [
+   "TEACHER",
+   "NURSE",
+   "STUDENT"
+  ],
+  "slug": "d7p-health-sports-injury-prevention",
+  "statuses": [
+   "PLANNED",
+   "CHECKED",
+   "CLEARED",
+   "HELD"
+  ],
+  "title": "پیشگیری از آسیب‌های ورزشی"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "معلم برای استفاده در کلاس، چند نسخه از یک کتاب را برای یک ترم امانت می‌گیرد؛ کتابدار مهلت برگشت ترمی را ثبت می‌کند و در پایان ترم، بازگشت همهٔ نسخه‌ها بررسی می‌شود.",
+  "fields": [
+   "bookTitle",
+   "copyCount",
+   "loanTerm",
+   "returnDeadline",
+   "copiesReturned"
+  ],
+  "roles": [
+   "TEACHER",
+   "LIBRARIAN"
+  ],
+  "slug": "d7p-lib-teacher-loan",
+  "statuses": [
+   "LOANED",
+   "IN_USE",
+   "RETURNED",
+   "OVERDUE"
+  ],
+  "title": "امانت کتاب به معلمان"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "هر خودروی سرویس بر اساس برنامهٔ هفتگی نظافت می‌شود؛ راننده یا نظافتچی انجام نظافت را ثبت می‌کند و مدیر به‌صورت دوره‌ای تمیزی خودروها را بازرسی و تأیید می‌کند.",
+  "fields": [
+   "vehiclePlate",
+   "cleaningDate",
+   "cleanedBy",
+   "inspectionResult",
+   "nextCleaning"
+  ],
+  "roles": [
+   "DRIVER",
+   "CUSTODIAN",
+   "MANAGER"
+  ],
+  "slug": "d7p-trans-vehicle-cleaning",
+  "statuses": [
+   "SCHEDULED",
+   "CLEANED",
+   "INSPECTED",
+   "APPROVED"
+  ],
+  "title": "نظافت دوره‌ای خودروی سرویس"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "مشاور در جلسات گروهی، مهارت‌هایی مانند مدیریت زمان و تصمیم‌گیری را با تمرین عملی به دانش‌آموزان می‌آموزد؛ شرکت‌کنندگان مهارت را در هفتهٔ بعد به کار می‌گیرند و تجربهٔ خود را در جلسهٔ بعد بازگو می‌کنند.",
+  "fields": [
+   "skillTopic",
+   "sessionDate",
+   "practiceTask",
+   "studentReflection",
+   "counselorFeedback"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "STUDENT"
+  ],
+  "slug": "d7p-welfare-life-skills-workshop",
+  "statuses": [
+   "SCHEDULED",
+   "TAUGHT",
+   "PRACTICED",
+   "REVIEWED"
+  ],
+  "title": "کارگاه مهارت‌های زندگی"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "مشاور برای خانواده‌های تک‌والد، رابط ثابت مدرسه می‌شود؛ زمان جلسات با شرایط خانواده هماهنگ می‌گردد، اطلاع‌رسانی‌های مدرسه با شیوهٔ مورد توافق خانواده انجام می‌شود و حمایت هر ترم بازبینی می‌گردد.",
+  "fields": [
+   "familyCode",
+   "liaisonCounselor",
+   "meetingFlexibility",
+   "contactPreference",
+   "termReview"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "PARENT"
+  ],
+  "slug": "d7p-welfare-single-parent-support",
+  "statuses": [
+   "ASSIGNED",
+   "SUPPORTING",
+   "REVIEWED"
+  ],
+  "title": "حمایت از خانواده‌های تک‌والد"
+ }
+]

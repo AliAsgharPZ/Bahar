@@ -1,0 +1,1138 @@
+[
+    {
+        "category": "آموزشی",
+        "categoryCode": "edu",
+        "description": "دانش‌آموز دلیل تأخیر و تاریخ جدید پیشنهادی را ثبت می‌کند؛ معلم درخواست را می‌پذیرد یا رد می‌کند و مهلت تکلیف بر اساس تصمیم او تغییر می‌کند.",
+        "fields": [
+            "assignment",
+            "requestedDate",
+            "reason",
+            "decision"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-edu-homework-extension",
+        "statuses": [
+            "REQUESTED",
+            "APPROVED",
+            "REJECTED"
+        ],
+        "title": "درخواست تمدید مهلت تکلیف"
+    },
+    {
+        "category": "آموزشی",
+        "categoryCode": "edu",
+        "description": "دانش‌آموز شماره سؤال و دلیل اعتراض خود را ثبت می‌کند؛ معلم برگه را دوباره بررسی می‌کند و نمره اصلاح‌شده یا تأیید نمره قبلی را اعلام می‌کند.",
+        "fields": [
+            "exam",
+            "questionNumber",
+            "studentReason",
+            "revisedScore"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-edu-exam-regrade",
+        "statuses": [
+            "REQUESTED",
+            "UNDER_REVIEW",
+            "UPHELD",
+            "REJECTED"
+        ],
+        "title": "درخواست بازبینی نمره"
+    },
+    {
+        "category": "آموزشی",
+        "categoryCode": "edu",
+        "description": "پس از بازگشت دانش‌آموز از غیبت، معلم موضوع‌های ازدست‌رفته و تمرین‌های جبرانی را در یک بسته می‌گذارد؛ دانش‌آموز بسته را تکمیل می‌کند و معلم تکمیل آن را تأیید می‌کند.",
+        "fields": [
+            "absentDates",
+            "missedTopics",
+            "packItems",
+            "completionDate"
+        ],
+        "roles": [
+            "TEACHER",
+            "STUDENT"
+        ],
+        "slug": "d6p-edu-absent-catchup",
+        "statuses": [
+            "PREPARED",
+            "IN_PROGRESS",
+            "COMPLETED"
+        ],
+        "title": "بسته جبرانی غیبت"
+    },
+    {
+        "category": "آموزشی",
+        "categoryCode": "edu",
+        "description": "دانش‌آموز در بازدید میدانی، مشاهده‌های خود را با تاریخ و مکان ثبت می‌کند؛ معلم روی مشاهده‌ها نظر می‌نویسد و مشاهده‌های کامل به بحث کلاسی راه پیدا می‌کنند.",
+        "fields": [
+            "observationSite",
+            "observedItem",
+            "observationDate",
+            "teacherComment"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-edu-science-journal",
+        "statuses": [
+            "RECORDED",
+            "COMMENTED",
+            "DISCUSSED"
+        ],
+        "title": "دفتر مشاهدات میدانی"
+    },
+    {
+        "category": "آموزشی",
+        "categoryCode": "edu",
+        "description": "دانش‌آموز برای هر درس هدف هفتگی و ساعت مطالعه تعیین می‌کند؛ در پایان هفته میزان انجام‌شده را ثبت می‌کند و معلم برنامه هفته بعد را با او تنظیم می‌کند.",
+        "fields": [
+            "subject",
+            "weeklyGoal",
+            "studyHours",
+            "completed"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-edu-study-plan-weekly",
+        "statuses": [
+            "PLANNED",
+            "IN_PROGRESS",
+            "DONE"
+        ],
+        "title": "برنامه مطالعه هفتگی"
+    },
+    {
+        "category": "حضوروغیاب",
+        "categoryCode": "att",
+        "description": "معلم نوبت‌های نگهبانی کلاس را میان دانش‌آموزان می‌چرخاند؛ دانش‌آموز نوبت خود وظیفه‌های کلاس را انجام می‌دهد و معلم انجام آن را تأیید می‌کند.",
+        "fields": [
+            "dutyWeek",
+            "dutyTask",
+            "assignedStudent",
+            "confirmed"
+        ],
+        "roles": [
+            "TEACHER",
+            "STUDENT"
+        ],
+        "slug": "d6p-att-duty-roster",
+        "statuses": [
+            "ASSIGNED",
+            "DONE",
+            "CONFIRMED"
+        ],
+        "title": "نوبت نگهبانی کلاس"
+    },
+    {
+        "category": "حضوروغیاب",
+        "categoryCode": "att",
+        "description": "مربی در هر جلسه باشگاه، حاضران و غایبان را ثبت می‌کند؛ غیبت‌های پی‌درپی به سرپرست باشگاه گزارش می‌شود تا درباره ادامه عضویت تصمیم گرفته شود.",
+        "fields": [
+            "sessionDate",
+            "presentMembers",
+            "absentMembers",
+            "followUp"
+        ],
+        "roles": [
+            "TEACHER",
+            "STUDENT"
+        ],
+        "slug": "d6p-att-club-attendance",
+        "statuses": [
+            "RECORDED",
+            "REVIEWED",
+            "FLAGGED"
+        ],
+        "title": "حضور جلسات باشگاه"
+    },
+    {
+        "category": "حضوروغیاب",
+        "categoryCode": "att",
+        "description": "دانش‌آموز داوطلب اجرای مراسم صبحگاهی، متن اجرا را می‌نویسد؛ معلم متن را تأیید می‌کند و دانش‌آموز در روز تعیین‌شده مراسم را اجرا می‌کند.",
+        "fields": [
+            "presenter",
+            "assemblyDate",
+            "scriptText",
+            "scriptApproved"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-att-assembly-presenter",
+        "statuses": [
+            "ASSIGNED",
+            "APPROVED",
+            "DELIVERED"
+        ],
+        "title": "مجری مراسم صبحگاهی"
+    },
+    {
+        "category": "مالی",
+        "categoryCode": "fin",
+        "description": "والد مغایرت مبلغ رسید با پرداخت واقعی را با شماره رسید اعلام می‌کند؛ بخش مالی رسید را بررسی و در صورت تأیید، رسید اصلاح‌شده را صادر می‌کند.",
+        "fields": [
+            "receiptNumber",
+            "paidAmount",
+            "claimedAmount",
+            "correctedReceipt"
+        ],
+        "roles": [
+            "PARENT",
+            "ADMIN"
+        ],
+        "slug": "d6p-fin-receipt-dispute",
+        "statuses": [
+            "FILED",
+            "INVESTIGATED",
+            "CORRECTED",
+            "REJECTED"
+        ],
+        "title": "اعتراض به رسید پرداخت"
+    },
+    {
+        "category": "مالی",
+        "categoryCode": "fin",
+        "description": "معلم هزینه‌ای را که برای کلاس از جیب خود پرداخته است با رسید ثبت می‌کند؛ مدیر پس از تأیید، مبلغ را به معلم بازمی‌گرداند.",
+        "fields": [
+            "expenseItem",
+            "expenseAmount",
+            "receipt",
+            "approval"
+        ],
+        "roles": [
+            "TEACHER",
+            "MANAGER"
+        ],
+        "slug": "d6p-fin-teacher-expense-claim",
+        "statuses": [
+            "SUBMITTED",
+            "APPROVED",
+            "PAID",
+            "REJECTED"
+        ],
+        "title": "درخواست بازپرداخت هزینه معلم"
+    },
+    {
+        "category": "ارتباط با والدین",
+        "categoryCode": "par",
+        "description": "والد پس از صرف غذا در مدرسه، کیفیت و تنوع آن را امتیاز می‌دهد و پیشنهاد می‌نویسد؛ آشپزخانه مدرسه بازخوردها را بررسی و منوی هفته بعد را اصلاح می‌کند.",
+        "fields": [
+            "mealDate",
+            "qualityScore",
+            "comment",
+            "menuChange"
+        ],
+        "roles": [
+            "PARENT",
+            "ADMIN"
+        ],
+        "slug": "d6p-par-meal-feedback",
+        "statuses": [
+            "SUBMITTED",
+            "REVIEWED",
+            "APPLIED"
+        ],
+        "title": "بازخورد غذای مدرسه"
+    },
+    {
+        "category": "ارتباط با والدین",
+        "categoryCode": "par",
+        "description": "معلم و والد در پایان سال، برنامه تابستانی دانش‌آموز را با هدف‌های یادگیری و تفریح توافق می‌کنند؛ در آغاز سال بعد میزان انجام برنامه بررسی می‌شود.",
+        "fields": [
+            "summerGoal",
+            "activities",
+            "agreedDate",
+            "reviewResult"
+        ],
+        "roles": [
+            "TEACHER",
+            "PARENT"
+        ],
+        "slug": "d6p-par-summer-plan",
+        "statuses": [
+            "PROPOSED",
+            "AGREED",
+            "REVIEWED"
+        ],
+        "title": "برنامه تابستانی مشترک"
+    },
+    {
+        "category": "ارتباط با والدین",
+        "categoryCode": "par",
+        "description": "مدرسه از خانواده‌ها می‌پرسد در خانه به چه زبانی گفت‌وگو می‌شود؛ پاسخ‌ها برای برنامه‌ریزی پشتیبانی زبانی و جلسات ترجمه‌دار به کار می‌رود.",
+        "fields": [
+            "homeLanguage",
+            "surveyTerm",
+            "supportNeed",
+            "plannedSupport"
+        ],
+        "roles": [
+            "PARENT",
+            "ADMIN"
+        ],
+        "slug": "d6p-par-home-language-survey",
+        "statuses": [
+            "SENT",
+            "ANSWERED",
+            "PLANNED"
+        ],
+        "title": "نظرسنجی زبان خانه"
+    },
+    {
+        "category": "سلامت و ایمنی",
+        "categoryCode": "health",
+        "description": "پرستار با والد دانش‌آموز مبتلا به آسم، نشانه‌های هشدار و گام‌های اقدام هنگام تنگی نفس را در یک برنامه می‌نویسد؛ معلمان کلاس برنامه را می‌خوانند و هنگام حمله طبق آن عمل می‌کنند.",
+        "fields": [
+            "trigger",
+            "warningSign",
+            "actionStep",
+            "reviewDate"
+        ],
+        "roles": [
+            "NURSE",
+            "PARENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-health-asthma-plan",
+        "statuses": [
+            "DRAFTED",
+            "APPROVED",
+            "ACTIVE"
+        ],
+        "title": "برنامه اقدام آسم"
+    },
+    {
+        "category": "سلامت و ایمنی",
+        "categoryCode": "health",
+        "description": "مشاور پس از بررسی، دانش‌آموز را با رضایت والد به متخصص خارج از مدرسه ارجاع می‌دهد؛ نتیجه ارجاع پس از جلسه متخصص به پرونده مشاوره برمی‌گردد.",
+        "fields": [
+            "referralReason",
+            "specialist",
+            "parentConsent",
+            "referralOutcome"
+        ],
+        "roles": [
+            "COUNSELOR",
+            "PARENT"
+        ],
+        "slug": "d6p-health-external-referral",
+        "statuses": [
+            "REFERRED",
+            "CONSENTED",
+            "COMPLETED"
+        ],
+        "title": "ارجاع به متخصص خارج از مدرسه"
+    },
+    {
+        "category": "سلامت و ایمنی",
+        "categoryCode": "health",
+        "description": "پرستار وزن کوله‌پشتی و وضعیت نشستن دانش‌آموزان را بررسی می‌کند؛ برای کوله‌های سنگین یا نشستن نادرست، توصیه کتبی به دانش‌آموز و والد داده می‌شود.",
+        "fields": [
+            "backpackWeight",
+            "postureNote",
+            "adviceGiven",
+            "recheckDate"
+        ],
+        "roles": [
+            "NURSE",
+            "STUDENT"
+        ],
+        "slug": "d6p-health-backpack-posture",
+        "statuses": [
+            "CHECKED",
+            "ADVISED",
+            "RECHECKED"
+        ],
+        "title": "بررسی کوله‌پشتی و نشستن"
+    },
+    {
+        "category": "سلامت و ایمنی",
+        "categoryCode": "health",
+        "description": "مسئول تأسیسات در بازه‌های منظم، آب‌خوری‌ها را از نظر تمیزی و خرابی بررسی می‌کند؛ آب‌خوری معیوب تا زمان تعمیر بسته می‌شود و پس از تعمیر دوباره باز می‌شود.",
+        "fields": [
+            "waterPoint",
+            "checkDate",
+            "defectFound",
+            "reopened"
+        ],
+        "roles": [
+            "CUSTODIAN",
+            "NURSE"
+        ],
+        "slug": "d6p-health-water-safety",
+        "statuses": [
+            "CHECKED",
+            "CLOSED",
+            "REPAIRED",
+            "REOPENED"
+        ],
+        "title": "بررسی ایمنی آب آشامیدنی"
+    },
+    {
+        "category": "حمل‌ونقل",
+        "categoryCode": "trans",
+        "description": "والد داوطلب می‌شود با خودروی شخصی در اردوی مدرسه دانش‌آموزان را ببرد؛ دفتر مدرسه گواهینامه و بیمه او را بررسی و پس از تأیید، او را در فهرست رانندگان اردو می‌گذارد.",
+        "fields": [
+            "tripName",
+            "vehicle",
+            "licenseChecked",
+            "approved"
+        ],
+        "roles": [
+            "PARENT",
+            "ADMIN"
+        ],
+        "slug": "d6p-trans-parent-driver-volunteer",
+        "statuses": [
+            "VOLUNTEERED",
+            "VERIFIED",
+            "APPROVED",
+            "REJECTED"
+        ],
+        "title": "راننده داوطلب والدین برای اردو"
+    },
+    {
+        "category": "حمل‌ونقل",
+        "categoryCode": "trans",
+        "description": "مسئول مدرسه ترمز، چراغ و قفل دوچرخه دانش‌آموز را بررسی می‌کند؛ دوچرخه سالم برچسب ایمنی می‌گیرد و دوچرخه معیوب تا زمان تعمیر اجازه پارک ندارد.",
+        "fields": [
+            "bikeOwner",
+            "brakeCheck",
+            "lightCheck",
+            "safetySticker"
+        ],
+        "roles": [
+            "CUSTODIAN",
+            "STUDENT"
+        ],
+        "slug": "d6p-trans-bike-safety-check",
+        "statuses": [
+            "CHECKED",
+            "PASSED",
+            "FAILED"
+        ],
+        "title": "بازرسی ایمنی دوچرخه"
+    },
+    {
+        "category": "حمل‌ونقل",
+        "categoryCode": "trans",
+        "description": "بزرگسال نگهبان در ساعت ورود و خروج، عبور دانش‌آموزان از خیابان جلوی مدرسه را مدیریت می‌کند؛ نبود نگهبان در نوبت به مدیر گزارش می‌شود تا جایگزین فرستاده شود.",
+        "fields": [
+            "dutyShift",
+            "crossingPoint",
+            "guardPresent",
+            "substituteSent"
+        ],
+        "roles": [
+            "ADMIN",
+            "CUSTODIAN"
+        ],
+        "slug": "d6p-trans-traffic-duty",
+        "statuses": [
+            "SCHEDULED",
+            "COVERED",
+            "MISSED"
+        ],
+        "title": "نگهبانی عبور جلوی مدرسه"
+    },
+    {
+        "category": "کتابخانه و منابع",
+        "categoryCode": "lib",
+        "description": "دانش‌آموز موضوع تکلیف پژوهشی خود را به کتابدار می‌گوید؛ کتابدار منبع‌های مناسب را معرفی می‌کند و دانش‌آموز با همان منبع‌ها پژوهش خود را کامل می‌کند.",
+        "fields": [
+            "assignmentTopic",
+            "recommendedSources",
+            "usedSources",
+            "completed"
+        ],
+        "roles": [
+            "LIBRARIAN",
+            "STUDENT"
+        ],
+        "slug": "d6p-lib-homework-help-desk",
+        "statuses": [
+            "REQUESTED",
+            "GUIDED",
+            "COMPLETED"
+        ],
+        "title": "میز راهنمای پژوهش"
+    },
+    {
+        "category": "کتابخانه و منابع",
+        "categoryCode": "lib",
+        "description": "کتابدار در کارگاه تعمیر، روش ترمیم جلد و صفحه پاره را به دانش‌آموزان می‌آموزد؛ شرکت‌کنندگان یک کتاب آسیب‌دیده واقعی را تعمیر می‌کنند و کتاب به قفسه برمی‌گردد.",
+        "fields": [
+            "repairSkill",
+            "damagedBook",
+            "repairedBy",
+            "returnedToShelf"
+        ],
+        "roles": [
+            "LIBRARIAN",
+            "STUDENT"
+        ],
+        "slug": "d6p-lib-book-repair-workshop",
+        "statuses": [
+            "SCHEDULED",
+            "REPAIRED",
+            "RETURNED"
+        ],
+        "title": "کارگاه تعمیر کتاب"
+    },
+    {
+        "category": "کتابخانه و منابع",
+        "categoryCode": "lib",
+        "description": "کتابدار از اسناد قدیمی مدرسه، نمایشگاهی برای دانش‌آموزان برپا می‌کند؛ بازدیدکنندگان سندهای نمایش‌داده‌شده را می‌بینند و توضیح کتابدار را می‌شنوند.",
+        "fields": [
+            "exhibitTheme",
+            "archiveItems",
+            "exhibitDate",
+            "visitorCount"
+        ],
+        "roles": [
+            "LIBRARIAN",
+            "STUDENT"
+        ],
+        "slug": "d6p-lib-archive-exhibit",
+        "statuses": [
+            "CURATED",
+            "DISPLAYED",
+            "CLOSED"
+        ],
+        "title": "نمایشگاه اسناد آرشیو"
+    },
+    {
+        "category": "فوق‌برنامه",
+        "categoryCode": "extra",
+        "description": "دانش‌آموزان آموزش‌دیده امداد، در رویدادهای مدرسه به نوبت کشیک می‌دهند؛ هنگام حادثه کوچک، عضو کشیک کمک اولیه را می‌رساند و مورد را به پرستار تحویل می‌دهد.",
+        "fields": [
+            "eventName",
+            "squadMember",
+            "incidentHandled",
+            "handedToNurse"
+        ],
+        "roles": [
+            "STUDENT",
+            "NURSE"
+        ],
+        "slug": "d6p-extra-first-aid-squad",
+        "statuses": [
+            "ROSTERED",
+            "ON_DUTY",
+            "HANDLED"
+        ],
+        "title": "تیم امداد دانش‌آموزی"
+    },
+    {
+        "category": "فوق‌برنامه",
+        "categoryCode": "extra",
+        "description": "دانش‌آموزان هر روز دما و بارش را در ایستگاه مدرسه می‌خوانند و ثبت می‌کنند؛ در پایان هفته از داده‌های ثبت‌شده یک بولتن هواشناسی برای تابلوی مدرسه ساخته می‌شود.",
+        "fields": [
+            "readingDate",
+            "temperature",
+            "rainfall",
+            "bulletinPublished"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-extra-weather-station",
+        "statuses": [
+            "RECORDED",
+            "COMPILED",
+            "PUBLISHED"
+        ],
+        "title": "ایستگاه هواشناسی مدرسه"
+    },
+    {
+        "category": "اداری و دفتری",
+        "categoryCode": "admin",
+        "description": "مدیر برای هر جلسه امتحان، مراقب جلسه را از میان کارکنان تعیین می‌کند؛ مراقب در جلسه حاضر می‌شود، برگه‌ها را تحویل می‌گیرد و صورت‌جلسه را امضا می‌کند.",
+        "fields": [
+            "examSession",
+            "invigilator",
+            "hallName",
+            "sessionReport"
+        ],
+        "roles": [
+            "MANAGER",
+            "ADMIN"
+        ],
+        "slug": "d6p-admin-exam-invigilator",
+        "statuses": [
+            "ASSIGNED",
+            "PRESENT",
+            "REPORTED"
+        ],
+        "title": "نوبت مراقبت جلسه امتحان"
+    },
+    {
+        "category": "اداری و دفتری",
+        "categoryCode": "admin",
+        "description": "مدیر برای هر بخش مدرسه، نظافتچی نوبت و کارهای نظافت را تعیین می‌کند؛ نظافتچی پس از انجام کار، گزارش می‌دهد و مدیر کیفیت نظافت را بازبینی می‌کند.",
+        "fields": [
+            "zone",
+            "cleaner",
+            "cleaningTasks",
+            "qualityCheck"
+        ],
+        "roles": [
+            "MANAGER",
+            "CUSTODIAN"
+        ],
+        "slug": "d6p-admin-cleaning-roster",
+        "statuses": [
+            "SCHEDULED",
+            "DONE",
+            "VERIFIED"
+        ],
+        "title": "برنامه نظافت روزانه"
+    },
+    {
+        "category": "رفاه و انگیزش",
+        "categoryCode": "welfare",
+        "description": "دانش‌آموز در ایام امتحان پیام نگرانی خود را بی‌نام می‌فرستد؛ مشاور به پیام پاسخ حمایتی می‌دهد و در صورت نشانه خطر، با رضایت دانش‌آموز جلسه حضوری می‌گذارد.",
+        "fields": [
+            "stressMessage",
+            "counselorReply",
+            "followUpSession",
+            "anonymous"
+        ],
+        "roles": [
+            "STUDENT",
+            "COUNSELOR"
+        ],
+        "slug": "d6p-welfare-exam-stress-line",
+        "statuses": [
+            "SENT",
+            "ANSWERED",
+            "FOLLOWED_UP"
+        ],
+        "title": "خط پیام حمایت ایام امتحان"
+    },
+    {
+        "category": "رفاه و انگیزش",
+        "categoryCode": "welfare",
+        "description": "پس از پایان کلاس‌ها، فضای نظارت‌شده‌ای برای انجام تکلیف با میان‌وعده باز می‌شود؛ دانش‌آموز تکلیف خود را آنجا کامل می‌کند و سرپرست پیشرفت او را ثبت می‌کند.",
+        "fields": [
+            "cafeDay",
+            "attendingStudents",
+            "snackServed",
+            "homeworkDone"
+        ],
+        "roles": [
+            "TEACHER",
+            "STUDENT"
+        ],
+        "slug": "d6p-welfare-homework-cafe",
+        "statuses": [
+            "OPENED",
+            "ATTENDED",
+            "COMPLETED"
+        ],
+        "title": "کافه تکلیف بعد از مدرسه"
+    },
+    {
+        "category": "رفاه و انگیزش",
+        "categoryCode": "welfare",
+        "description": "مدرسه لباس‌های گرم اهدایی را به‌صورت محرمانه میان دانش‌آموزان نیازمند توزیع می‌کند؛ نام گیرندگان فاش نمی‌شود و تحویل با رسید محرمانه ثبت می‌شود.",
+        "fields": [
+            "clothingItem",
+            "recipientCode",
+            "distributionDate",
+            "confidentialReceipt"
+        ],
+        "roles": [
+            "ADMIN",
+            "COUNSELOR"
+        ],
+        "slug": "d6p-welfare-winter-clothing",
+        "statuses": [
+            "COLLECTED",
+            "DISTRIBUTED"
+        ],
+        "title": "توزیع محرمانه لباس گرم"
+    },
+    {
+        "category": "رفاه و انگیزش",
+        "categoryCode": "welfare",
+        "description": "هنگام اختلاف میان دو دانش‌آموز، میانجی آموزش‌دیده همتا جلسه گفت‌وگو را با نظارت مشاور اداره می‌کند؛ دو طرف بر راه‌حل توافق می‌کنند و توافق مکتوب می‌شود.",
+        "fields": [
+            "disputeParties",
+            "mediator",
+            "agreement",
+            "counselorReview"
+        ],
+        "roles": [
+            "STUDENT",
+            "COUNSELOR"
+        ],
+        "slug": "d6p-welfare-peer-mediation",
+        "statuses": [
+            "REQUESTED",
+            "MEDIATED",
+            "AGREED"
+        ],
+        "title": "میانجی‌گری همتا در اختلاف"
+    },
+    {
+        "category": "فناوری و تجهیزات",
+        "categoryCode": "tech",
+        "description": "کاربر اشکال یا پیشنهاد اپلیکیشن مدرسه را با شرح گام‌های رخداد ثبت می‌کند؛ کارشناس فناوری آن را اولویت‌بندی می‌کند و پس از رفع، نتیجه را به گزارش‌دهنده اعلام می‌کند.",
+        "fields": [
+            "appSection",
+            "bugSteps",
+            "priority",
+            "fixResult"
+        ],
+        "roles": [
+            "TECH",
+            "TEACHER"
+        ],
+        "slug": "d6p-tech-app-feedback",
+        "statuses": [
+            "REPORTED",
+            "TRIAGED",
+            "FIXED"
+        ],
+        "title": "بازخورد اپلیکیشن مدرسه"
+    },
+    {
+        "category": "فناوری و تجهیزات",
+        "categoryCode": "tech",
+        "description": "دانش‌آموز بهترین کارهای خود را در نمونه‌کار دیجیتال بارگذاری می‌کند؛ معلم کارها را تأیید می‌کند و نمونه‌کار تأییدشده برای نمایش به والد آماده می‌شود.",
+        "fields": [
+            "workTitle",
+            "workFile",
+            "teacherApproval",
+            "sharedWithParent"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-tech-digital-portfolio",
+        "statuses": [
+            "UPLOADED",
+            "APPROVED",
+            "SHARED"
+        ],
+        "title": "نمونه‌کار دیجیتال دانش‌آموز"
+    },
+    {
+        "category": "فناوری و تجهیزات",
+        "categoryCode": "tech",
+        "description": "دانش‌آموز محتوای آزاردهنده یا نامناسبی را که در فضای مدرسه دیده است گزارش می‌کند؛ کارشناس فناوری و مشاور محتوا را بررسی و اقدام لازم را انجام می‌دهند.",
+        "fields": [
+            "contentLink",
+            "reportReason",
+            "reviewerAction",
+            "studentNotified"
+        ],
+        "roles": [
+            "STUDENT",
+            "TECH",
+            "COUNSELOR"
+        ],
+        "slug": "d6p-tech-online-safety-report",
+        "statuses": [
+            "REPORTED",
+            "REVIEWED",
+            "ACTIONED"
+        ],
+        "title": "گزارش محتوای نامناسب آنلاین"
+    },
+    {
+        "category": "فناوری و تجهیزات",
+        "categoryCode": "tech",
+        "description": "معلم اعلان‌های روزانه کلاس را روی نمایشگر کلاس می‌گذارد؛ دانش‌آموزان اعلان را می‌بینند و تکلیف یا یادآوری همان روز را از روی تابلو پیگیری می‌کنند.",
+        "fields": [
+            "noticeText",
+            "displayDate",
+            "classroom",
+            "acknowledged"
+        ],
+        "roles": [
+            "TEACHER",
+            "STUDENT"
+        ],
+        "slug": "d6p-tech-classroom-display",
+        "statuses": [
+            "POSTED",
+            "DISPLAYED",
+            "ACKNOWLEDGED"
+        ],
+        "title": "تابلوی اعلان دیجیتال کلاس"
+    },
+    {
+        "category": "رویدادها",
+        "categoryCode": "events",
+        "description": "دانش‌آموزان در روز تاریخ، نمایشگاه سند و شیء محلی برپا می‌کنند؛ بازدیدکنندگان غرفه‌ها را می‌بینند و دانش‌آموزان داستان هر شیء را برای آنان شرح می‌دهند.",
+        "fields": [
+            "exhibitItem",
+            "presenter",
+            "eventDate",
+            "visitorFeedback"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-events-history-day",
+        "statuses": [
+            "PREPARED",
+            "HELD",
+            "REVIEWED"
+        ],
+        "title": "روز تاریخ و میراث محلی"
+    },
+    {
+        "category": "رویدادها",
+        "categoryCode": "events",
+        "description": "در هفته سلامت، هر روز یک فعالیت سلامتی مانند نرمش جمعی یا کارگاه تغذیه برگزار می‌شود؛ پرستار فعالیت‌ها را هماهنگ می‌کند و مشارکت کلاس‌ها ثبت می‌شود.",
+        "fields": [
+            "healthActivity",
+            "activityDay",
+            "coordinator",
+            "participation"
+        ],
+        "roles": [
+            "NURSE",
+            "STUDENT"
+        ],
+        "slug": "d6p-events-health-week",
+        "statuses": [
+            "PLANNED",
+            "HELD",
+            "RECORDED"
+        ],
+        "title": "هفته سلامت مدرسه"
+    },
+    {
+        "category": "اداری و دفتری",
+        "categoryCode": "admin",
+        "description": "در آغاز سال تحصیلی به هر دانش‌آموز یک کمد با شماره و کلید مشخص اختصاص داده می‌شود؛ دانش‌آموز تحویل کمد را امضا می‌کند و در پایان سال، کمد پس از بازرسی تخلیه و تحویل داده می‌شود.",
+        "fields": [
+            "lockerNumber",
+            "assignedStudent",
+            "keyIssued",
+            "inspectionNote",
+            "returnedDate"
+        ],
+        "roles": [
+            "STUDENT",
+            "ADMIN",
+            "CUSTODIAN"
+        ],
+        "slug": "d6p-admin-locker-assignment",
+        "statuses": [
+            "ASSIGNED",
+            "IN_USE",
+            "INSPECTED",
+            "RETURNED"
+        ],
+        "title": "تخصیص کمد دانش‌آموزی"
+    },
+    {
+        "category": "رویدادها",
+        "categoryCode": "events",
+        "description": "معلم فیلمی آموزشی را برای نمایش در سالن مدرسه انتخاب می‌کند؛ دانش‌آموزان فیلم را می‌بینند و پس از نمایش، در گفت‌وگوی هدایت‌شده دربارهٔ پیام فیلم شرکت می‌کنند.",
+        "fields": [
+            "filmTitle",
+            "screeningDate",
+            "audienceClasses",
+            "discussionLeader",
+            "discussionSummary"
+        ],
+        "roles": [
+            "TEACHER",
+            "STUDENT"
+        ],
+        "slug": "d6p-events-film-screening",
+        "statuses": [
+            "SELECTED",
+            "SCHEDULED",
+            "SCREENED",
+            "DISCUSSED"
+        ],
+        "title": "اکران فیلم آموزشی"
+    },
+    {
+        "category": "فوق‌برنامه",
+        "categoryCode": "extra",
+        "description": "گروه روزنامهٔ دیواری هر ماه مطلب‌هایی از خبرهای مدرسه و نوشته‌های دانش‌آموزان گرد می‌آورد؛ معلم راهنما مطلب‌ها را ویرایش می‌کند و نسخهٔ نهایی روی تابلوی مدرسه نصب می‌شود.",
+        "fields": [
+            "issueMonth",
+            "articles",
+            "editorTeacher",
+            "publishDate",
+            "boardLocation"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-extra-wall-newspaper",
+        "statuses": [
+            "COLLECTING",
+            "EDITED",
+            "PUBLISHED"
+        ],
+        "title": "روزنامهٔ دیواری مدرسه"
+    },
+    {
+        "category": "مالی",
+        "categoryCode": "fin",
+        "description": "اگر اردویی پیش از برگزاری لغو شود، بخش مالی فهرست پرداخت‌کنندگان را استخراج می‌کند؛ مبلغ هر خانواده به حساب او برگردانده می‌شود و رسید بازپرداخت برای هر خانواده صادر می‌گردد.",
+        "fields": [
+            "tripName",
+            "cancelDate",
+            "paidAmount",
+            "refundDate",
+            "refundReceipt"
+        ],
+        "roles": [
+            "PARENT",
+            "ADMIN",
+            "MANAGER"
+        ],
+        "slug": "d6p-fin-trip-cancellation-refund",
+        "statuses": [
+            "CANCELLED",
+            "CALCULATED",
+            "REFUNDED",
+            "RECEIPTED"
+        ],
+        "title": "بازپرداخت هزینهٔ اردوی لغوشده"
+    },
+    {
+        "category": "حمل‌ونقل",
+        "categoryCode": "trans",
+        "description": "پیش از شروع هر ترم، کارشناس فنی ترمز، لاستیک، چراغ و کمربندهای هر خودروی سرویس را بررسی می‌کند؛ خودروی دارای نقص تا رفع نقص از چرخهٔ سرویس خارج می‌ماند و نتیجهٔ بازرسی در پروندهٔ خودرو ثبت می‌شود.",
+        "fields": [
+            "vehiclePlate",
+            "inspectionDate",
+            "checkedParts",
+            "defectsFound",
+            "clearedForService"
+        ],
+        "roles": [
+            "DRIVER",
+            "MANAGER",
+            "ADMIN"
+        ],
+        "slug": "d6p-trans-vehicle-inspection",
+        "statuses": [
+            "INSPECTED",
+            "DEFECT_FOUND",
+            "REPAIRED",
+            "CLEARED"
+        ],
+        "title": "بازرسی فنی خودروی سرویس"
+    },
+    {
+        "category": "اداری و دفتری",
+        "categoryCode": "admin",
+        "description": "کارمند ساعت‌های اضافهٔ کاری خود را با تاریخ و کار انجام‌شده ثبت می‌کند؛ مدیر ساعت‌ها را بررسی و تأیید می‌کند و ساعت‌های تأییدشده در محاسبهٔ حقوق ماه منظور می‌شود.",
+        "fields": [
+            "workDate",
+            "extraHours",
+            "taskDone",
+            "approvedBy",
+            "payrollMonth"
+        ],
+        "roles": [
+            "ADMIN",
+            "MANAGER"
+        ],
+        "slug": "d6p-admin-overtime-log",
+        "statuses": [
+            "LOGGED",
+            "APPROVED",
+            "REJECTED",
+            "PAID"
+        ],
+        "title": "ثبت اضافه‌کاری کارکنان"
+    },
+    {
+        "category": "حضوروغیاب",
+        "categoryCode": "att",
+        "description": "والد پیش از تاریخ غیبت برنامه‌ریزی‌شده مانند سفر خانوادگی، غیبت را اعلام می‌کند؛ دفتر آن را ثبت می‌کند و معلمان از پیش تکلیف‌های روزهای غیبت را آماده می‌کنند تا دانش‌آموز پس از بازگشت عقب نماند.",
+        "fields": [
+            "absenceDates",
+            "plannedReason",
+            "notifiedTeachers",
+            "preparedWork",
+            "returnDate"
+        ],
+        "roles": [
+            "PARENT",
+            "ADMIN",
+            "TEACHER"
+        ],
+        "slug": "d6p-att-planned-absence-notice",
+        "statuses": [
+            "ANNOUNCED",
+            "RECORDED",
+            "PREPARED",
+            "RETURNED"
+        ],
+        "title": "اعلام غیبت پیشاپیش دانش‌آموز"
+    },
+    {
+        "category": "رویدادها",
+        "categoryCode": "events",
+        "description": "معلم علوم آزمایش‌هایی چشمگیر و بی‌خطر را روی صحنه اجرا می‌کند؛ دانش‌آموزان تماشا می‌کنند و پرسش می‌پرسند و توضیح علمی هر آزمایش همان‌جا گفته می‌شود.",
+        "fields": [
+            "showTitle",
+            "experimentList",
+            "showDate",
+            "audienceClasses",
+            "safetyChecked"
+        ],
+        "roles": [
+            "TEACHER",
+            "STUDENT"
+        ],
+        "slug": "d6p-events-live-science-show",
+        "statuses": [
+            "PLANNED",
+            "SAFETY_CHECKED",
+            "PERFORMED"
+        ],
+        "title": "نمایش زندهٔ آزمایش‌های علمی"
+    },
+    {
+        "category": "فوق‌برنامه",
+        "categoryCode": "extra",
+        "description": "دانش‌آموزان با راهنمایی مربی و رعایت نکات ایمنی، وسیله‌ای چوبی ساده می‌سازند؛ ابزارها پیش از شروع بررسی می‌شود و ساخته‌های پایانی در نمایش کلاسی به نمایش درمی‌آید.",
+        "fields": [
+            "projectName",
+            "toolsUsed",
+            "safetyBriefed",
+            "sessionDate",
+            "finishedWork"
+        ],
+        "roles": [
+            "STUDENT",
+            "TEACHER"
+        ],
+        "slug": "d6p-extra-woodworking-workshop",
+        "statuses": [
+            "PLANNED",
+            "BUILDING",
+            "FINISHED",
+            "DISPLAYED"
+        ],
+        "title": "کارگاه نجاری دانش‌آموزی"
+    },
+    {
+        "category": "مالی",
+        "categoryCode": "fin",
+        "description": "برای مراسمی با ظرفیت محدود، بلیت با قیمت مشخص فروخته می‌شود؛ خریدار بلیت با نام ثبت می‌شود و هنگام ورود، بلیت بررسی می‌شود و درآمد مراسم در پایان ثبت می‌گردد.",
+        "fields": [
+            "eventName",
+            "ticketPrice",
+            "buyerName",
+            "entryChecked",
+            "totalRevenue"
+        ],
+        "roles": [
+            "PARENT",
+            "ADMIN",
+            "STUDENT"
+        ],
+        "slug": "d6p-fin-event-ticket-sales",
+        "statuses": [
+            "ON_SALE",
+            "SOLD",
+            "CHECKED_IN",
+            "SETTLED"
+        ],
+        "title": "فروش بلیت مراسم مدرسه"
+    },
+    {
+        "category": "سلامت و ایمنی",
+        "categoryCode": "health",
+        "description": "پرستار به‌صورت دوره‌ای و محرمانه بهداشت موی دانش‌آموزان را بررسی می‌کند؛ در صورت مشاهدهٔ آلودگی، والد به‌صورت خصوصی مطلع می‌شود و پس از درمان، بررسی دوباره انجام می‌شود تا دانش‌آموز به کلاس بازگردد.",
+        "fields": [
+            "checkDate",
+            "studentCode",
+            "findingNote",
+            "parentNotified",
+            "recheckDate"
+        ],
+        "roles": [
+            "NURSE",
+            "PARENT",
+            "STUDENT"
+        ],
+        "slug": "d6p-health-hair-hygiene-check",
+        "statuses": [
+            "CHECKED",
+            "NOTIFIED",
+            "TREATED",
+            "RECHECKED"
+        ],
+        "title": "بررسی بهداشت موی دانش‌آموزان"
+    },
+    {
+        "category": "کتابخانه و منابع",
+        "categoryCode": "lib",
+        "description": "کتابدار در جلسات هفتگی، فنون داستان‌نویسی را به دانش‌آموزان می‌آموزد؛ هر شرکت‌کننده داستانی می‌نویسد، بازخورد می‌گیرد و داستان‌های برگزیده در جزوهٔ کتابخانه چاپ می‌شود.",
+        "fields": [
+            "sessionDate",
+            "writingTechnique",
+            "studentStory",
+            "feedbackNote",
+            "publishedBooklet"
+        ],
+        "roles": [
+            "LIBRARIAN",
+            "STUDENT"
+        ],
+        "slug": "d6p-lib-story-writing-workshop",
+        "statuses": [
+            "SCHEDULED",
+            "WRITTEN",
+            "REVIEWED",
+            "PUBLISHED"
+        ],
+        "title": "کارگاه داستان‌نویسی کتابخانه"
+    },
+    {
+        "category": "ارتباط با والدین",
+        "categoryCode": "par",
+        "description": "والد برای گفت‌وگو دربارهٔ وضعیت تحصیلی یا رفتاری فرزندش از مشاور نوبت می‌گیرد؛ مشاور در جلسه راهکار پیشنهاد می‌دهد و توافق‌های جلسه برای پیگیری ثبت می‌شود.",
+        "fields": [
+            "meetingReason",
+            "appointmentDate",
+            "counselorAdvice",
+            "agreedActions",
+            "followUpDate"
+        ],
+        "roles": [
+            "PARENT",
+            "COUNSELOR"
+        ],
+        "slug": "d6p-par-counselor-meeting",
+        "statuses": [
+            "REQUESTED",
+            "SCHEDULED",
+            "HELD",
+            "FOLLOWED_UP"
+        ],
+        "title": "نوبت ملاقات با مشاور مدرسه"
+    }
+]

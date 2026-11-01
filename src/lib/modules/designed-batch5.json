@@ -1,0 +1,1220 @@
+[
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموزی که در امتحان غایب بوده است، درخواست آزمون جبرانی ثبت می‌کند؛ مدیر تاریخ و مراقب جدید را تعیین می‌کند و پس از برگزاری، نمره در پرونده دانش‌آموز ثبت می‌شود.",
+  "fields": [
+   "missedExam",
+   "requestReason",
+   "makeupDate",
+   "proctor",
+   "score"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "MANAGER"
+  ],
+  "slug": "d5p-edu-makeup-exam",
+  "statuses": [
+   "REQUESTED",
+   "SCHEDULED",
+   "HELD",
+   "SCORED"
+  ],
+  "title": "آزمون جبرانی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "معلم طرح درس هفتگی خود را پیش از شروع هفته ارسال می‌کند؛ مدیر آن را بررسی می‌کند و در صورت نیاز با ذکر اصلاحیه بازمی‌گرداند تا نسخه تأییدشده مبنای تدریس هفته شود.",
+  "fields": [
+   "weekStart",
+   "subject",
+   "lessonGoals",
+   "reviewerNote",
+   "approvedVersion"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-edu-lesson-plan-approval",
+  "statuses": [
+   "DRAFT",
+   "UNDER_REVIEW",
+   "REVISION_NEEDED",
+   "APPROVED"
+  ],
+  "title": "تأیید طرح درس هفتگی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز بهترین کار خود در یک درس را به‌عنوان نمونه‌کار ارسال می‌کند؛ معلم آن را بررسی و تأیید می‌کند و نمونه تأییدشده در پوشه پیشرفت دانش‌آموز منتشر می‌شود.",
+  "fields": [
+   "subject",
+   "artifactType",
+   "artifactFile",
+   "teacherComment",
+   "published"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d5p-edu-portfolio-artifact",
+  "statuses": [
+   "SUBMITTED",
+   "UNDER_REVIEW",
+   "APPROVED",
+   "PUBLISHED"
+  ],
+  "title": "نمونه‌کار دانش‌آموزی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "دانش‌آموز خطایی در جزوه یا کتاب درسی پیدا می‌کند و با ذکر صفحه گزارش می‌دهد؛ معلم صحت آن را بررسی می‌کند و در صورت تأیید، اصلاحیه برای همه دانش‌آموزان همان درس منتشر می‌شود.",
+  "fields": [
+   "subject",
+   "pageNumber",
+   "reportedError",
+   "verified",
+   "correctionText"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d5p-edu-material-errata",
+  "statuses": [
+   "REPORTED",
+   "VERIFYING",
+   "CONFIRMED",
+   "PUBLISHED"
+  ],
+  "title": "اصلاحیه جزوه و کتاب درسی"
+ },
+ {
+  "category": "آموزشی",
+  "categoryCode": "edu",
+  "description": "پیش از هر امتحان، مدیر چیدمان صندلی‌های سالن را مشخص می‌کند تا دانش‌آموزان هم‌کلاسی کنار هم ننشینند؛ نقشه چیدمان در ورودی سالن نصب می‌شود و مراقب بر اساس آن دانش‌آموزان را هدایت می‌کند.",
+  "fields": [
+   "examName",
+   "hallName",
+   "seatMap",
+   "seatCount",
+   "supervisor"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-edu-exam-seating",
+  "statuses": [
+   "PLANNED",
+   "POSTED",
+   "IN_USE"
+  ],
+  "title": "چیدمان صندلی امتحان"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "وقتی غیبتی به اشتباه ثبت شده باشد، والدین با ذکر دلیل و مدرک به آن اعتراض می‌کنند؛ دفتر پرونده را بررسی می‌کند و در صورت پذیرش، رکورد حضور اصلاح و نتیجه به والدین اعلام می‌شود.",
+  "fields": [
+   "absenceDate",
+   "appealReason",
+   "evidence",
+   "reviewerDecision",
+   "correctedRecord"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d5p-att-attendance-appeal",
+  "statuses": [
+   "FILED",
+   "UNDER_REVIEW",
+   "ACCEPTED",
+   "REJECTED"
+  ],
+  "title": "اعتراض به ثبت غیبت"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "در شرایط اضطراری مانند تخلیه ساختمان، معلم سرجمع کلاس را در نقطه امن می‌شمارد و نتیجه را ثبت می‌کند؛ هر دانش‌آموز پیدا نشده فوراً به مدیر گزارش می‌شود تا جست‌وجو آغاز شود.",
+  "fields": [
+   "emergencyType",
+   "assemblyPoint",
+   "expectedCount",
+   "presentCount",
+   "missingNames"
+  ],
+  "roles": [
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-att-emergency-headcount",
+  "statuses": [
+   "STARTED",
+   "COUNTING",
+   "COMPLETE",
+   "MISSING_REPORTED"
+  ],
+  "title": "شمارش اضطراری کلاس"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "دانش‌آموز یا والدین برای ارائه به اداره یا بیمه، گواهی حضور درخواست می‌کنند؛ دفتر سوابق حضور را بررسی می‌کند و گواهی مهرشده را صادر می‌کند تا متقاضی آن را دریافت کند.",
+  "fields": [
+   "requesterName",
+   "periodStart",
+   "periodEnd",
+   "attendanceRate",
+   "issuedBy"
+  ],
+  "roles": [
+   "STUDENT",
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d5p-att-attendance-certificate",
+  "statuses": [
+   "REQUESTED",
+   "VERIFYING",
+   "ISSUED",
+   "DELIVERED"
+  ],
+  "title": "گواهی حضور تحصیلی"
+ },
+ {
+  "category": "حضوروغیاب",
+  "categoryCode": "att",
+  "description": "هنگام جابه‌جایی دانش‌آموز از کلاسی به کلاس دیگر، پرونده حضور او به معلم جدید منتقل می‌شود؛ معلم جدید دریافت پرونده را تأیید می‌کند تا سابقه غیبت‌ها در کلاس تازه نیز در دسترس باشد.",
+  "fields": [
+   "oldClass",
+   "newClass",
+   "transferDate",
+   "recordSummary",
+   "confirmedBy"
+  ],
+  "roles": [
+   "TEACHER",
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d5p-att-class-transfer-record",
+  "statuses": [
+   "INITIATED",
+   "SENT",
+   "CONFIRMED"
+  ],
+  "title": "انتقال پرونده حضور به کلاس جدید"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "خانواده برای کتاب‌های درسی امانتی، ودیعه پرداخت می‌کند؛ در پایان سال، کتاب‌ها بررسی می‌شوند و ودیعه کتاب‌های سالم برگردانده می‌شود، در حالی که برای کتاب آسیب‌دیده مبلغ کسر می‌شود.",
+  "fields": [
+   "bookTitle",
+   "depositAmount",
+   "returnCondition",
+   "deduction",
+   "refundAmount"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "LIBRARIAN"
+  ],
+  "slug": "d5p-fin-textbook-deposit",
+  "statuses": [
+   "PAID",
+   "BOOKS_RETURNED",
+   "ASSESSED",
+   "REFUNDED"
+  ],
+  "title": "ودیعه کتاب درسی"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "والدین درخواست تغییر برنامه پرداخت اقساط را با دلیل و تاریخ پیشنهادی ثبت می‌کنند؛ بخش مالی درخواست را بررسی می‌کند و برنامه جدید پس از تأیید جایگزین برنامه پیشین می‌شود.",
+  "fields": [
+   "currentPlan",
+   "requestedChange",
+   "changeReason",
+   "newSchedule",
+   "approvedBy"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d5p-fin-payment-plan-change",
+  "statuses": [
+   "REQUESTED",
+   "UNDER_REVIEW",
+   "APPROVED",
+   "REJECTED"
+  ],
+  "title": "تغییر برنامه پرداخت اقساط"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "وقتی والدین به ردیفی از صورت‌حساب اعتراض دارند، مورد اختلاف را مشخص می‌کنند؛ بخش مالی مدارک را بازبینی می‌کند و در صورت پذیرش، صورت‌حساب اصلاح‌شده صادر می‌شود.",
+  "fields": [
+   "invoiceNumber",
+   "disputedItem",
+   "disputeReason",
+   "reviewResult",
+   "correctedAmount"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d5p-fin-invoice-dispute",
+  "statuses": [
+   "FILED",
+   "UNDER_REVIEW",
+   "UPHELD",
+   "DISMISSED"
+  ],
+  "title": "اعتراض به صورت‌حساب"
+ },
+ {
+  "category": "مالی",
+  "categoryCode": "fin",
+  "description": "اگر رسید پرداخت مبلغ یا نام اشتباه داشته باشد، والدین اصلاح آن را درخواست می‌کنند؛ بخش مالی رسید نادرست را باطل می‌کند و رسید صحیح را صادر می‌کند تا پرونده مالی دانش‌آموز درست شود.",
+  "fields": [
+   "oldReceiptNumber",
+   "errorDescription",
+   "correctAmount",
+   "newReceiptNumber",
+   "voidedBy"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d5p-fin-receipt-correction",
+  "statuses": [
+   "REPORTED",
+   "VOIDED",
+   "REISSUED"
+  ],
+  "title": "اصلاح رسید پرداخت"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "مدرسه هر نیم‌سال یک بار شماره‌های تماس اضطراری را با تماس آزمایشی بررسی می‌کند؛ والدین شماره درست را تأیید می‌کنند و شماره‌های بی‌پاسخ علامت‌گذاری می‌شوند تا پیش از حادثه واقعی اصلاح شوند.",
+  "fields": [
+   "contactName",
+   "phoneNumber",
+   "testCallDate",
+   "callResult",
+   "updatedNumber"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d5p-par-emergency-contact-drill",
+  "statuses": [
+   "PENDING",
+   "CALLED",
+   "CONFIRMED",
+   "UNREACHABLE"
+  ],
+  "title": "تمرین تماس اضطراری با والدین"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "والدین می‌توانند برای یک زنگ، مشاهده کلاس فرزندشان را درخواست کنند؛ معلم زمان مناسب را تأیید می‌کند و پس از مشاهده، والدین برداشت خود را در فرم کوتاهی می‌نویسند.",
+  "fields": [
+   "requestedLesson",
+   "observationDate",
+   "approvedBy",
+   "observationNote",
+   "teacherResponse"
+  ],
+  "roles": [
+   "PARENT",
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-par-classroom-observation",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "OBSERVED",
+   "NOTED"
+  ],
+  "title": "مشاهده کلاس توسط والدین"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "وقتی فرد تحویل‌گیرنده همیشگی در روزی خاص در دسترس نیست، والدین تغییر موقت تحویل‌گیرنده را فقط برای همان روز ثبت می‌کنند؛ مدیر آن را تأیید می‌کند و پس از تحویل، مجوز موقت خودبه‌خود منقضی می‌شود.",
+  "fields": [
+   "tempPickupName",
+   "validDate",
+   "nationalIdLastDigits",
+   "approvedBy",
+   "handoverTime"
+  ],
+  "roles": [
+   "PARENT",
+   "MANAGER",
+   "ADMIN"
+  ],
+  "slug": "d5p-par-temp-pickup-change",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "USED",
+   "EXPIRED"
+  ],
+  "title": "تغییر موقت تحویل‌گیرنده"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "داروی باقی‌مانده دانش‌آموز در پایان دوره درمان، با امضای والدین به آن‌ها بازگردانده می‌شود؛ پرستار مقدار بازگشتی را ثبت می‌کند تا هیچ دارویی بدون تحویل مشخص در مدرسه نماند.",
+  "fields": [
+   "medicineName",
+   "remainingAmount",
+   "returnDate",
+   "parentSignature",
+   "nurseName"
+  ],
+  "roles": [
+   "NURSE",
+   "PARENT"
+  ],
+  "slug": "d5p-health-medicine-return",
+  "statuses": [
+   "READY",
+   "RETURNED",
+   "SIGNED"
+  ],
+  "title": "بازگرداندن داروی باقی‌مانده"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پس از ثبت آسیب دانش‌آموز، پرستار پیگیری‌های بعدی را زمان‌بندی می‌کند؛ والدین بهبودی را تأیید می‌کنند و تنها پس از تأیید نهایی پرستار، دانش‌آموز به فعالیت عادی بازمی‌گردد.",
+  "fields": [
+   "injuryDate",
+   "followUpDates",
+   "recoveryNote",
+   "parentConfirmation",
+   "clearanceBy"
+  ],
+  "roles": [
+   "NURSE",
+   "PARENT",
+   "STUDENT"
+  ],
+  "slug": "d5p-health-injury-followup",
+  "statuses": [
+   "MONITORING",
+   "IMPROVING",
+   "CLEARED"
+  ],
+  "title": "پیگیری پس از آسیب"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پرستار و سرایدار هر ماه بهداشت کلاس‌ها را بازرسی می‌کنند؛ موارد یافت‌شده مانند سطل پر یا تهویه خراب ثبت می‌شود و پس از رفع، بازرسی دوباره انجام می‌شود تا کلاس تأییدیه بهداشت بگیرد.",
+  "fields": [
+   "classroom",
+   "inspectionDate",
+   "issuesFound",
+   "fixDeadline",
+   "reinspectionResult"
+  ],
+  "roles": [
+   "NURSE",
+   "CUSTODIAN",
+   "MANAGER"
+  ],
+  "slug": "d5p-health-hygiene-inspection",
+  "statuses": [
+   "SCHEDULED",
+   "INSPECTED",
+   "FIXING",
+   "PASSED"
+  ],
+  "title": "بازرسی بهداشت کلاس"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "دانش‌آموزی که در مدرسه حالش بد می‌شود، در اتاق بهداشت استراحت می‌کند؛ پرستار وضعیت او را در فاصله‌های زمانی ثبت می‌کند و اگر بهبود نیابد، با والدین تماس می‌گیرد تا او را به خانه ببرند.",
+  "fields": [
+   "symptom",
+   "restStartTime",
+   "checkTimes",
+   "conditionChange",
+   "parentCalled"
+  ],
+  "roles": [
+   "NURSE",
+   "STUDENT",
+   "PARENT"
+  ],
+  "slug": "d5p-health-infirmary-rest",
+  "statuses": [
+   "RESTING",
+   "IMPROVED",
+   "SENT_HOME"
+  ],
+  "title": "استراحت در اتاق بهداشت"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "هنگام تعطیلی مدرسه، خودروهای والدین در صف مشخصی می‌ایستند و کارکنان با رسیدن هر خودرو، دانش‌آموز مربوط را صدا می‌زنند؛ این نظم باعث می‌شود تحویل سریع‌تر شود و ترافیک خیابان کمتر شود.",
+  "fields": [
+   "queueDate",
+   "carPlateLastDigits",
+   "studentCalledAt",
+   "handoverBy",
+   "queuePosition"
+  ],
+  "roles": [
+   "ADMIN",
+   "CUSTODIAN",
+   "PARENT"
+  ],
+  "slug": "d5p-trans-parent-car-queue",
+  "statuses": [
+   "QUEUED",
+   "CALLED",
+   "HANDED_OVER"
+  ],
+  "title": "صف خودروی والدین هنگام تحویل"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "والدین شکایت از سرویس مانند رانندگی نامناسب یا تأخیر مکرر را ثبت می‌کنند؛ مدیر شکایت را بررسی می‌کند، با راننده گفت‌وگو می‌کند و نتیجه و اقدام اصلاحی را به شاکی اعلام می‌کند.",
+  "fields": [
+   "complaintType",
+   "complaintDate",
+   "driverResponse",
+   "correctiveAction",
+   "closureNote"
+  ],
+  "roles": [
+   "PARENT",
+   "MANAGER",
+   "DRIVER"
+  ],
+  "slug": "d5p-trans-service-complaint",
+  "statuses": [
+   "FILED",
+   "INVESTIGATING",
+   "RESOLVED",
+   "CLOSED"
+  ],
+  "title": "رسیدگی به شکایت سرویس"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "پیش از راه‌اندازی مسیر جدید سرویس، یک سرویس آزمایشی بدون دانش‌آموز در مسیر حرکت می‌کند و زمان هر ایستگاه ثبت می‌شود؛ مدیر بر اساس زمان‌بندی واقعی و بازخورد والدین، مسیر را تأیید یا اصلاح می‌کند.",
+  "fields": [
+   "trialDate",
+   "stopTimes",
+   "totalDuration",
+   "parentFeedback",
+   "approvalDecision"
+  ],
+  "roles": [
+   "DRIVER",
+   "MANAGER",
+   "PARENT"
+  ],
+  "slug": "d5p-trans-route-trial",
+  "statuses": [
+   "PLANNED",
+   "TRIAL_RUN",
+   "REVIEWED",
+   "APPROVED"
+  ],
+  "title": "سرویس آزمایشی مسیر جدید"
+ },
+ {
+  "category": "حمل‌ونقل",
+  "categoryCode": "trans",
+  "description": "دو راننده می‌توانند شیفت‌های خود را با هم عوض کنند؛ درخواست جابه‌جایی ثبت می‌شود، مدیر آن را تأیید می‌کند و والدین مسیرهای مربوط از تغییر مطلع می‌شوند تا راننده جدید را بشناسند.",
+  "fields": [
+   "requestingDriver",
+   "coveringDriver",
+   "swapDate",
+   "approvedBy",
+   "parentsNotified"
+  ],
+  "roles": [
+   "DRIVER",
+   "MANAGER"
+  ],
+  "slug": "d5p-trans-driver-shift-swap",
+  "statuses": [
+   "REQUESTED",
+   "APPROVED",
+   "SWAPPED"
+  ],
+  "title": "جابه‌جایی شیفت رانندگان"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "وقتی کتابی در امانت است، دانش‌آموز دیگری می‌تواند آن را رزرو کند؛ به محض بازگشت کتاب، به رزروکننده اطلاع داده می‌شود و او چند روز فرصت دارد کتاب را تحویل بگیرد، وگرنه نوبت به نفر بعد می‌رسد.",
+  "fields": [
+   "bookTitle",
+   "reservedBy",
+   "returnDate",
+   "notifyDate",
+   "pickupDeadline"
+  ],
+  "roles": [
+   "STUDENT",
+   "LIBRARIAN"
+  ],
+  "slug": "d5p-lib-book-reservation",
+  "statuses": [
+   "RESERVED",
+   "AVAILABLE",
+   "PICKED_UP",
+   "EXPIRED"
+  ],
+  "title": "رزرو کتاب در امانت"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "کتاب آسیب‌دیده پس از ثبت خسارت، به صف تعمیر می‌رود؛ کتابدار نوع تعمیر لازم را مشخص می‌کند و پس از تعمیر، کتاب دوباره بررسی می‌شود و تنها در صورت سالم بودن به قفسه بازمی‌گردد.",
+  "fields": [
+   "bookTitle",
+   "damageType",
+   "repairMethod",
+   "repairDate",
+   "shelfReady"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "STUDENT"
+  ],
+  "slug": "d5p-lib-book-repair",
+  "statuses": [
+   "DAMAGED",
+   "IN_REPAIR",
+   "CHECKED",
+   "BACK_ON_SHELF"
+  ],
+  "title": "تعمیر کتاب آسیب‌دیده"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "کتابدار نویسنده‌ای را برای دیدار با دانش‌آموزان دعوت می‌کند؛ برنامه نشست و امضای کتاب تنظیم می‌شود، دانش‌آموزان سؤال‌های خود را پیشاپیش ثبت می‌کنند و پس از نشست، گزارش کوتاهی از آن منتشر می‌شود.",
+  "fields": [
+   "authorName",
+   "visitDate",
+   "sessionTopic",
+   "studentQuestions",
+   "visitReport"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d5p-lib-author-visit",
+  "statuses": [
+   "INVITED",
+   "SCHEDULED",
+   "HELD",
+   "REPORTED"
+  ],
+  "title": "دیدار با نویسنده"
+ },
+ {
+  "category": "کتابخانه و منابع",
+  "categoryCode": "lib",
+  "description": "برای یک موضوع درسی، کتابدار بسته‌ای از کتاب‌ها و منابع مرتبط آماده می‌کند؛ معلم بسته را تأیید می‌کند و دانش‌آموزان آن را به‌صورت یکجا برای مدت مشخصی امانت می‌گیرند و با هم بازمی‌گردانند.",
+  "fields": [
+   "topic",
+   "includedTitles",
+   "approvedBy",
+   "loanPeriod",
+   "returnCheck"
+  ],
+  "roles": [
+   "LIBRARIAN",
+   "TEACHER",
+   "STUDENT"
+  ],
+  "slug": "d5p-lib-resource-pack",
+  "statuses": [
+   "PREPARED",
+   "APPROVED",
+   "ON_LOAN",
+   "RETURNED"
+  ],
+  "title": "بسته منابع درسی کتابخانه"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "تیم رادیوی مدرسه هر هفته یک قسمت کوتاه تولید می‌کند؛ دانش‌آموزان متن و صدا را آماده می‌کنند، معلم محتوا را تأیید می‌کند و قسمت تأییدشده در زنگ تفریح پخش می‌شود.",
+  "fields": [
+   "episodeTopic",
+   "scriptAuthor",
+   "recordingDate",
+   "approvedBy",
+   "broadcastDate"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER"
+  ],
+  "slug": "d5p-extra-school-radio",
+  "statuses": [
+   "SCRIPTED",
+   "RECORDED",
+   "APPROVED",
+   "BROADCAST"
+  ],
+  "title": "رادیوی مدرسه"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "مدرسه پویش بازیافت راه می‌اندازد؛ دانش‌آموزان کاغذ و پلاستیک جمع می‌کنند، مقدار تحویلی هر کلاس وزن و ثبت می‌شود و در پایان، درآمد بازیافت برای خریدی که کلاس‌ها رأی داده‌اند خرج می‌شود.",
+  "fields": [
+   "materialType",
+   "collectedWeight",
+   "collectingClass",
+   "proceedsAmount",
+   "spentOn"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "CUSTODIAN"
+  ],
+  "slug": "d5p-extra-recycling-drive",
+  "statuses": [
+   "COLLECTING",
+   "WEIGHED",
+   "SOLD",
+   "SPENT"
+  ],
+  "title": "پویش بازیافت مدرسه"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "دانش‌آموزان طرحی برای نقاشی دیواری مدرسه پیشنهاد می‌دهند؛ مدیر و معلم هنر طرح را تأیید می‌کنند، گروه برنده دیوار را نقاشی می‌کند و در پایان، اثر با نام طراحان رونمایی می‌شود.",
+  "fields": [
+   "designTitle",
+   "designers",
+   "wallLocation",
+   "approvalDate",
+   "unveilingDate"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-extra-mural-painting",
+  "statuses": [
+   "PROPOSED",
+   "APPROVED",
+   "PAINTING",
+   "UNVEILED"
+  ],
+  "title": "نقاشی دیواری مدرسه"
+ },
+ {
+  "category": "فوق‌برنامه",
+  "categoryCode": "extra",
+  "description": "دانش‌آموز ساعت‌های خدمت اجتماعی خود مانند کمک در کتابخانه محله را ثبت می‌کند؛ ناظر فعالیت، ساعت‌ها را تأیید می‌کند و پس از رسیدن به حد نصاب، گواهی خدمت صادر می‌شود.",
+  "fields": [
+   "activityPlace",
+   "serviceHours",
+   "supervisorName",
+   "verifiedHours",
+   "certificateIssued"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-extra-community-service-hours",
+  "statuses": [
+   "LOGGED",
+   "VERIFIED",
+   "COMPLETED",
+   "CERTIFIED"
+  ],
+  "title": "ساعت خدمت اجتماعی"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "وقتی برنامه کلاسی به دلیل غیبت معلم یا رویداد تغییر اضطراری می‌کند، مدیر تغییر را منتشر می‌کند؛ معلمان و دانش‌آموزان مربوط اطلاع می‌یابند و ساعت‌های آزادشده برای جایگزینی مشخص می‌شود.",
+  "fields": [
+   "changeReason",
+   "affectedClasses",
+   "newSchedule",
+   "notifiedGroups",
+   "publishedBy"
+  ],
+  "roles": [
+   "MANAGER",
+   "TEACHER",
+   "ADMIN"
+  ],
+  "slug": "d5p-admin-schedule-change",
+  "statuses": [
+   "DRAFTED",
+   "PUBLISHED",
+   "IN_EFFECT"
+  ],
+  "title": "تغییر اضطراری برنامه کلاسی"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "دانش‌آموز یا والدین رونوشت سندی مانند گواهی اشتغال به تحصیل را درخواست می‌کنند؛ دفتر هویت متقاضی را بررسی می‌کند و رونوشت مهرشده را تحویل می‌دهد و تحویل را ثبت می‌کند.",
+  "fields": [
+   "documentType",
+   "requesterName",
+   "identityCheck",
+   "copyCount",
+   "deliveryDate"
+  ],
+  "roles": [
+   "STUDENT",
+   "PARENT",
+   "ADMIN"
+  ],
+  "slug": "d5p-admin-document-copy-request",
+  "statuses": [
+   "REQUESTED",
+   "VERIFYING",
+   "ISSUED",
+   "DELIVERED"
+  ],
+  "title": "درخواست رونوشت سند"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "کارمند تازه‌وارد با فهرست آشنایی شامل حساب کاربری، کلید اتاق، آموزش ایمنی و معرفی راهنما همراه می‌شود؛ هر مورد با امضای مسئول مربوط تکمیل می‌شود تا کارمند آماده شروع کار شود.",
+  "fields": [
+   "newStaffName",
+   "checklistItems",
+   "mentorName",
+   "completedItems",
+   "readyDate"
+  ],
+  "roles": [
+   "ADMIN",
+   "MANAGER",
+   "TECH"
+  ],
+  "slug": "d5p-admin-staff-onboarding",
+  "statuses": [
+   "STARTED",
+   "IN_PROGRESS",
+   "COMPLETED"
+  ],
+  "title": "آشنایی کارکنان تازه‌وارد"
+ },
+ {
+  "category": "اداری و دفتری",
+  "categoryCode": "admin",
+  "description": "کارکنان برای پارک در محوطه مدرسه مجوز درخواست می‌کنند؛ دفتر با توجه به ظرفیت، جای پارک مشخصی اختصاص می‌دهد و مجوز با تاریخ انقضا صادر می‌شود تا در پایان سال بازبینی شود.",
+  "fields": [
+   "staffName",
+   "vehiclePlate",
+   "assignedSpot",
+   "permitStart",
+   "permitExpiry"
+  ],
+  "roles": [
+   "ADMIN",
+   "MANAGER"
+  ],
+  "slug": "d5p-admin-parking-permit",
+  "statuses": [
+   "REQUESTED",
+   "ASSIGNED",
+   "ACTIVE",
+   "EXPIRED"
+  ],
+  "title": "مجوز پارک کارکنان"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "وقتی دو دانش‌آموز با هم اختلاف دارند، مشاور جلسه میانجی‌گری برگزار می‌کند؛ هر دو طرف حرف خود را می‌زنند، توافق کتبی امضا می‌کنند و مشاور چند هفته بعد پایبندی به توافق را بررسی می‌کند.",
+  "fields": [
+   "partiesInvolved",
+   "conflictSummary",
+   "agreementText",
+   "signedBy",
+   "followUpDate"
+  ],
+  "roles": [
+   "COUNSELOR",
+   "STUDENT"
+  ],
+  "slug": "d5p-welfare-conflict-mediation",
+  "statuses": [
+   "REPORTED",
+   "MEDIATING",
+   "AGREED",
+   "FOLLOWED_UP"
+  ],
+  "title": "میانجی‌گری اختلاف دانش‌آموزی"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "خانواده‌ها لباس فرم کوچک‌شده فرزندشان را تحویل می‌دهند؛ لباس‌ها از نظر تمیزی و سلامت بررسی می‌شوند و خانواده دیگر می‌تواند لباس مناسب را بردارد، بی‌آنکه پولی رد و بدل شود.",
+  "fields": [
+   "donatedSize",
+   "conditionCheck",
+   "availableSizes",
+   "pickedSize",
+   "pickupDate"
+  ],
+  "roles": [
+   "PARENT",
+   "ADMIN",
+   "STUDENT"
+  ],
+  "slug": "d5p-welfare-uniform-exchange",
+  "statuses": [
+   "DONATED",
+   "CHECKED",
+   "AVAILABLE",
+   "PICKED_UP"
+  ],
+  "title": "تعویض لباس فرم دست‌دوم"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "دانش‌آموز می‌تواند قلدری را به‌صورت محرمانه گزارش کند؛ مشاور گزارش را بدون افشای نام گزارش‌دهنده بررسی می‌کند، طرح ایمنی برای دانش‌آموز آسیب‌دیده می‌سازد و نتیجه را پیگیری می‌کند.",
+  "fields": [
+   "incidentDate",
+   "incidentPlace",
+   "reporterAnonymous",
+   "safetyPlan",
+   "followUpResult"
+  ],
+  "roles": [
+   "STUDENT",
+   "COUNSELOR",
+   "MANAGER"
+  ],
+  "slug": "d5p-welfare-bullying-report",
+  "statuses": [
+   "REPORTED",
+   "INVESTIGATING",
+   "SAFETY_PLANNED",
+   "RESOLVED"
+  ],
+  "title": "گزارش محرمانه قلدری"
+ },
+ {
+  "category": "رفاه و انگیزش",
+  "categoryCode": "welfare",
+  "description": "والدین در گروه حمایت همدیگر، با تسهیل‌گری مشاور دور هم جمع می‌شوند؛ هر نشست موضوعی مانند مدیریت تکلیف یا خواب دارد و تجربه‌های عملی میان والدین رد و بدل می‌شود.",
+  "fields": [
+   "sessionTopic",
+   "sessionDate",
+   "facilitator",
+   "attendeeCount",
+   "sharedTips"
+  ],
+  "roles": [
+   "PARENT",
+   "COUNSELOR"
+  ],
+  "slug": "d5p-welfare-parent-support-group",
+  "statuses": [
+   "SCHEDULED",
+   "HELD",
+   "SUMMARIZED"
+  ],
+  "title": "گروه حمایت والدین"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "دانش‌آموز تبلت کم‌شارژ خود را در ایستگاه شارژ می‌گذارد و جایگاه مشخصی تحویل می‌گیرد؛ پس از شارژ، دستگاه با ثبت تحویل‌گیرنده برگردانده می‌شود تا دستگاهی گم نشود.",
+  "fields": [
+   "deviceId",
+   "chargingSlot",
+   "dropOffTime",
+   "chargeLevel",
+   "pickupBy"
+  ],
+  "roles": [
+   "STUDENT",
+   "TECH"
+  ],
+  "slug": "d5p-tech-charging-station",
+  "statuses": [
+   "DROPPED_OFF",
+   "CHARGING",
+   "CHARGED",
+   "PICKED_UP"
+  ],
+  "title": "ایستگاه شارژ تبلت"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "معلم برای استفاده کلاس از نرم‌افزار آموزشی، درخواست دسترسی ثبت می‌کند؛ واحد فناوری مجوز و ظرفیت را بررسی می‌کند و پس از تأیید، دسترسی برای مدت مشخص فعال می‌شود.",
+  "fields": [
+   "softwareName",
+   "requestedBy",
+   "licenseCheck",
+   "accessDuration",
+   "activatedBy"
+  ],
+  "roles": [
+   "TEACHER",
+   "TECH",
+   "MANAGER"
+  ],
+  "slug": "d5p-tech-app-access-request",
+  "statuses": [
+   "REQUESTED",
+   "CHECKING",
+   "GRANTED",
+   "EXPIRED"
+  ],
+  "title": "درخواست دسترسی به نرم‌افزار آموزشی"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "دانش‌آموز محتوای آزاردهنده یا نامناسب آنلاین را گزارش می‌کند؛ واحد فناوری دسترسی به آن محتوا را مسدود می‌کند و مشاور برای حمایت از دانش‌آموز پیگیری می‌کند.",
+  "fields": [
+   "incidentType",
+   "reportedLink",
+   "blockedBy",
+   "counselorFollowUp",
+   "closureNote"
+  ],
+  "roles": [
+   "STUDENT",
+   "TECH",
+   "COUNSELOR"
+  ],
+  "slug": "d5p-tech-online-safety-incident",
+  "statuses": [
+   "REPORTED",
+   "BLOCKED",
+   "SUPPORTED",
+   "CLOSED"
+  ],
+  "title": "گزارش حادثه آنلاین"
+ },
+ {
+  "category": "فناوری و تجهیزات",
+  "categoryCode": "tech",
+  "description": "معلم فایل ارائه کلاس را در سامانه بارگذاری می‌کند؛ دانش‌آموزان نسخه تازه را دریافت می‌کنند و هر بار که معلم نسخه جدیدی بارگذاری کند، نسخه پیشین جایگزین می‌شود تا همه یک نسخه را ببینند.",
+  "fields": [
+   "presentationTitle",
+   "subject",
+   "fileVersion",
+   "uploadedBy",
+   "downloadCount"
+  ],
+  "roles": [
+   "TEACHER",
+   "STUDENT",
+   "TECH"
+  ],
+  "slug": "d5p-tech-presentation-upload",
+  "statuses": [
+   "UPLOADED",
+   "PUBLISHED",
+   "UPDATED"
+  ],
+  "title": "بارگذاری ارائه در سامانه کلاس"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "فارغ‌التحصیلان پیشین مدرسه دعوت می‌شوند تا تجربه تحصیل و کار خود را برای دانش‌آموزان بگویند؛ دانش‌آموزان سؤال می‌پرسند و نشست با گفت‌وگوی آزاد پایان می‌یابد.",
+  "fields": [
+   "alumniName",
+   "graduationYear",
+   "talkTopic",
+   "sessionDate",
+   "audienceCount"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-events-alumni-visit",
+  "statuses": [
+   "INVITED",
+   "SCHEDULED",
+   "HELD"
+  ],
+  "title": "دیدار فارغ‌التحصیلان با دانش‌آموزان"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "در شب کتاب‌خوانی، خانواده‌ها در مدرسه گرد هم می‌آیند و با هم کتاب می‌خوانند؛ هر خانواده کتاب محبوب خود را معرفی می‌کند و کودکان بخش کوتاهی از آن را برای دیگران می‌خوانند.",
+  "fields": [
+   "eventDate",
+   "featuredBooks",
+   "participatingFamilies",
+   "readingSegments",
+   "hostTeacher"
+  ],
+  "roles": [
+   "STUDENT",
+   "PARENT",
+   "TEACHER"
+  ],
+  "slug": "d5p-events-reading-night",
+  "statuses": [
+   "PLANNED",
+   "OPEN",
+   "HELD"
+  ],
+  "title": "شب کتاب‌خوانی خانوادگی"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "در رویداد مبادله کتاب، هر دانش‌آموز کتابی می‌آورد و ژتونی می‌گیرد؛ با ژتون می‌تواند کتاب دیگری بردارد و کتاب‌های باقی‌مانده به کتابخانه مدرسه اهدا می‌شود.",
+  "fields": [
+   "broughtBook",
+   "tokenIssued",
+   "chosenBook",
+   "swapDate",
+   "leftoverDonation"
+  ],
+  "roles": [
+   "STUDENT",
+   "LIBRARIAN",
+   "TEACHER"
+  ],
+  "slug": "d5p-events-book-swap",
+  "statuses": [
+   "COLLECTING",
+   "SWAPPING",
+   "DONATED"
+  ],
+  "title": "مبادله کتاب دانش‌آموزی"
+ },
+ {
+  "category": "رویدادها",
+  "categoryCode": "events",
+  "description": "دانش‌آموزان نمونه ساخته‌شده اختراع خود را در نمایش اختراعات ارائه می‌دهند؛ داوران بر اساس کاربرد و خلاقیت امتیاز می‌دهند و اختراع‌های برتر معرفی می‌شوند.",
+  "fields": [
+   "inventionTitle",
+   "inventorName",
+   "prototypeDescription",
+   "judgeScores",
+   "awardRank"
+  ],
+  "roles": [
+   "STUDENT",
+   "TEACHER",
+   "MANAGER"
+  ],
+  "slug": "d5p-events-invention-showcase",
+  "statuses": [
+   "REGISTERED",
+   "PRESENTED",
+   "JUDGED",
+   "AWARDED"
+  ],
+  "title": "نمایش اختراعات دانش‌آموزی"
+ },
+ {
+  "category": "سلامت و ایمنی",
+  "categoryCode": "health",
+  "description": "پرستار هر ترم قد و وزن دانش‌آموزان را اندازه می‌گیرد و روی نمودار رشد ثبت می‌کند؛ اگر رشد دانش‌آموزی از بازهٔ طبیعی خارج باشد، والدین مطلع می‌شوند و اندازه‌گیری بعدی برای پیگیری زمان‌بندی می‌شود.",
+  "fields": [
+   "measureDate",
+   "heightCm",
+   "weightKg",
+   "growthChart",
+   "parentNotified"
+  ],
+  "roles": [
+   "NURSE",
+   "STUDENT",
+   "PARENT"
+  ],
+  "slug": "d5p-health-growth-monitoring",
+  "statuses": [
+   "MEASURED",
+   "RECORDED",
+   "FLAGGED",
+   "FOLLOWED_UP"
+  ],
+  "title": "پایش رشد قد و وزن"
+ },
+ {
+  "category": "ارتباط با والدین",
+  "categoryCode": "par",
+  "description": "والدین پیام سپاس کوتاهی برای معلم فرزندشان می‌نویسند؛ دفتر پیام‌ها را گرد می‌آورد و در پایان ماه به معلم تحویل می‌دهد و معلم دریافت آن را تأیید می‌کند.",
+  "fields": [
+   "teacherName",
+   "thanksMessage",
+   "submittedBy",
+   "deliveryDate",
+   "acknowledged"
+  ],
+  "roles": [
+   "PARENT",
+   "TEACHER",
+   "ADMIN"
+  ],
+  "slug": "d5p-par-parent-thanks-teacher",
+  "statuses": [
+   "WRITTEN",
+   "COLLECTED",
+   "DELIVERED",
+   "ACKNOWLEDGED"
+  ],
+  "title": "پیام سپاس والدین به معلم"
+ }
+]
