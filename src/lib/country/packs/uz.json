@@ -1,0 +1,539 @@
+{
+ "code": "UZ",
+ "name": "ازبکستان",
+ "nativeName": "O'zbekiston",
+ "locale": "uz-UZ",
+ "direction": "ltr",
+ "timezone": "Asia/Tashkent",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی فردی (JShShIR)",
+  "algorithm": "digits",
+  "pattern": "^\\d{14}$",
+  "placeholder": "12345678901234",
+  "example": "12345678901234"
+ },
+ "phone": {
+  "pattern": "^\\+998\\d{9}$",
+  "placeholder": "+998901234567",
+  "example": "+998901234567"
+ },
+ "currency": {
+  "label": "سوم",
+  "code": "UZS",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ 1",
+  "پایهٔ 2",
+  "پایهٔ 3",
+  "پایهٔ 4",
+  "پایهٔ 5",
+  "پایهٔ 6",
+  "پایهٔ 7",
+  "پایهٔ 8",
+  "پایهٔ 9",
+  "پایهٔ 10",
+  "پایهٔ 11"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "grading": {
+  "maxScore": 5,
+  "terms": 4,
+  "termLabels": [
+   "",
+   "چارک اول",
+   "چارک دوم",
+   "چارک سوم",
+   "چارک چهارم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "ازبکستان: ۱۴ واحد سطح اول (۱۲ ولایت، جمهوری قره‌قالپاقستان و شهر تاشکند) و ۲۰۵ واحد سطح دوم: ۱۷۴ تومان در counties (شامل ۱۲ تومان شهری شهر تاشکند) و ۳۱ شهر تابع استان در divisions. منابع: فهرست رسمی stat.uz به وضعیت ۰۶.۰۵.۲۰۲۴، طبقه‌بند МҲОБТ/SOATO، پرتال‌های gov.uz، joqargikenes.uz و xorazmstat.uz؛ GADM v4.1 فقط تطبیق. تومان سمرقند با مصوبهٔ سنا SQ-342-V مورخ ۰۸.۰۸.۲۰۲۶ منحل و بین شهر سمرقند و تومان‌های Oqdaryo و Pastdarg'om و Toyloq تقسیم شد — این مصوبه در lex.uz راستی‌آزمایی شد؛ پس جمع جاری تومان‌ها ۱۷۴ است، نه ۱۷۵ پیش از انحلال. مرکز ولایت تاشکند نورافشان است (PQ-246، ۲۸.۰۴.۲۰۲۱) و شهر تاشکند جزء آن ولایت نیست. Koʻkdala در قشقادریا با مصوبهٔ ۱۷.۰۳.۲۰۲۲ ایجاد شده و در فهرست کنونی فرمانداری هست، با اینکه فهرست ملی ۰۶.۰۵.۲۰۲۴ آن را ندارد. Kogon در بخارا همزمان تومان و شهر تابع است. Davlatobod و Yangi Namangan تومان درون‌شهری‌اند، نه شهرستان ولایت، پس نیامده‌اند. شهرهای تابع در divisions آمده‌اند چون چند نام با تومان هم‌نام است و در counties تکرار می‌شد. نام‌های فارسی استان‌ها و مرکزها صورت‌های رایج فارسی‌اند؛ نام تومان‌ها و شهرها به خط لاتین ازبکی است.",
+ "regions": [
+  {
+   "name": "ندیجان",
+   "center": "ندیجان",
+   "counties": [
+    "Andijon",
+    "Asaka",
+    "Baliqchi",
+    "Boʻston",
+    "Buloqboshi",
+    "Izboskan",
+    "Jalaquduq",
+    "Marhamat",
+    "Oltinkoʻl",
+    "Paxtaobod",
+    "Qoʻrgʻontepa",
+    "Shahrixon",
+    "Ulugʻnor",
+    "Xoʻjaobod"
+   ]
+  },
+  {
+   "name": "بخارا",
+   "center": "بخارا",
+   "counties": [
+    "Buxoro",
+    "Gʻijduvon",
+    "Jondor",
+    "Kogon",
+    "Olot",
+    "Peshku",
+    "Qorakoʻl",
+    "Qorovulbozor",
+    "Romitan",
+    "Shofirkon",
+    "Vobkent"
+   ]
+  },
+  {
+   "name": "فرغانه",
+   "center": "فرغانه",
+   "counties": [
+    "Beshariq",
+    "Bogʻdod",
+    "Buvayda",
+    "Dangʻara",
+    "Fargʻona",
+    "Furqat",
+    "Oltiariq",
+    "Oʻzbekiston",
+    "Qoʻshtepa",
+    "Quva",
+    "Rishton",
+    "Soʻx",
+    "Toshloq",
+    "Uchkoʻprik",
+    "Yozyovon"
+   ]
+  },
+  {
+   "name": "جیزخ",
+   "center": "جیزخ",
+   "counties": [
+    "Arnasoy",
+    "Baxmal",
+    "Doʻstlik",
+    "Forish",
+    "Gʻallaorol",
+    "Mirzachoʻl",
+    "Paxtakor",
+    "Sharof Rashidov",
+    "Yangiobod",
+    "Zafarobod",
+    "Zarbdor",
+    "Zomin"
+   ]
+  },
+  {
+   "name": "جمهوری قره‌قالپاقستان",
+   "center": "نوکوس",
+   "counties": [
+    "Amudaryo",
+    "Beruniy",
+    "Boʻzatov",
+    "Chimboy",
+    "Ellikqalʼa",
+    "Kegeyli",
+    "Moʻynoq",
+    "Nukus",
+    "Qanlikoʻl",
+    "Qoraoʻzak",
+    "Qoʻngʻirot",
+    "Shumanay",
+    "Taxiatosh",
+    "Taxtakoʻpir",
+    "Toʻrtkoʻl",
+    "Xoʻjayli"
+   ]
+  },
+  {
+   "name": "قشقادریا",
+   "center": "قرشی",
+   "counties": [
+    "Chiroqchi",
+    "Dehqonobod",
+    "Gʻuzor",
+    "Qamashi",
+    "Qarshi",
+    "Kasbi",
+    "Kitob",
+    "Koʻkdala",
+    "Koson",
+    "Mirishkor",
+    "Muborak",
+    "Nishon",
+    "Shahrisabz",
+    "Yakkabogʻ"
+   ]
+  },
+  {
+   "name": "خوارزم",
+   "center": "اورگنج",
+   "counties": [
+    "Bogʻot",
+    "Gurlan",
+    "Hazorasp",
+    "Qoʻshkoʻpir",
+    "Shovot",
+    "Tuproqqalʼa",
+    "Urganch",
+    "Xiva",
+    "Xonqa",
+    "Yangiariq",
+    "Yangibozor"
+   ]
+  },
+  {
+   "name": "نمنگان",
+   "center": "نمنگان",
+   "counties": [
+    "Chortoq",
+    "Chust",
+    "Kosonsoy",
+    "Mingbuloq",
+    "Namangan",
+    "Norin",
+    "Pop",
+    "To'raqo'rg'on",
+    "Uchqo'rg'on",
+    "Uychi",
+    "Yangiqo'rg'on"
+   ]
+  },
+  {
+   "name": "نوایی",
+   "center": "نوایی",
+   "counties": [
+    "Karmana",
+    "Konimex",
+    "Navbahor",
+    "Nurota",
+    "Qiziltepa",
+    "Tomdi",
+    "Uchquduq",
+    "Xatirchi"
+   ]
+  },
+  {
+   "name": "سمرقند",
+   "center": "سمرقند",
+   "counties": [
+    "Bulung'ur",
+    "Ishtixon",
+    "Jomboy",
+    "Kattaqo'rg'on",
+    "Narpay",
+    "Nurobod",
+    "Oqdaryo",
+    "Pastdarg'om",
+    "Paxtachi",
+    "Payariq",
+    "Qo'shrabot",
+    "Toyloq",
+    "Urgut"
+   ]
+  },
+  {
+   "name": "سرخان‌دریا",
+   "center": "ترمذ",
+   "counties": [
+    "Angor",
+    "Bandixon",
+    "Boysun",
+    "Denov",
+    "Jarqo'rg'on",
+    "Muzrabot",
+    "Oltinsoy",
+    "Qiziriq",
+    "Qumqo'rg'on",
+    "Sariosiyo",
+    "Sherobod",
+    "Sho'rchi",
+    "Termiz",
+    "Uzun"
+   ]
+  },
+  {
+   "name": "سیردریا",
+   "center": "گلستان",
+   "counties": [
+    "Boyovut",
+    "Guliston",
+    "Mirzaobod",
+    "Oqoltin",
+    "Sardoba",
+    "Sayxunobod",
+    "Sirdaryo",
+    "Xovos"
+   ]
+  },
+  {
+   "name": "ولایت تاشکند",
+   "center": "نورافشان",
+   "counties": [
+    "Bekobod",
+    "Bo'ka",
+    "Bo'stonliq",
+    "Chinoz",
+    "Ohangaron",
+    "Oqqo'rg'on",
+    "O'rta Chirchiq",
+    "Parkent",
+    "Piskent",
+    "Qibray",
+    "Quyi Chirchiq",
+    "Toshkent",
+    "Yangiyo'l",
+    "Yuqori Chirchiq",
+    "Zangiota"
+   ]
+  },
+  {
+   "name": "شهر تاشکند",
+   "center": "تاشکند",
+   "counties": [
+    "Bektemir",
+    "Chilonzor",
+    "Mirzo Ulug'bek",
+    "Mirobod",
+    "Olmazor",
+    "Sergeli",
+    "Shayxontohur",
+    "Uchtepa",
+    "Yakkasaroy",
+    "Yashnobod",
+    "Yangihayot",
+    "Yunusobod"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "ندیجان",
+   "cities": [
+    {
+     "name": "Andijon",
+     "villages": []
+    },
+    {
+     "name": "Xonobod",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "بخارا",
+   "cities": [
+    {
+     "name": "Buxoro",
+     "villages": []
+    },
+    {
+     "name": "Kogon",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "فرغانه",
+   "cities": [
+    {
+     "name": "Fargʻona",
+     "villages": []
+    },
+    {
+     "name": "Margʻilon",
+     "villages": []
+    },
+    {
+     "name": "Qoʻqon",
+     "villages": []
+    },
+    {
+     "name": "Quvasoy",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "جیزخ",
+   "cities": [
+    {
+     "name": "Jizzax",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "جمهوری قره‌قالپاقستان",
+   "cities": [
+    {
+     "name": "Nukus",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "قشقادریا",
+   "cities": [
+    {
+     "name": "Qarshi",
+     "villages": []
+    },
+    {
+     "name": "Shahrisabz",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "خوارزم",
+   "cities": [
+    {
+     "name": "Urganch",
+     "villages": []
+    },
+    {
+     "name": "Xiva",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "نمنگان",
+   "cities": [
+    {
+     "name": "Namangan",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "نوایی",
+   "cities": [
+    {
+     "name": "Navoiy",
+     "villages": []
+    },
+    {
+     "name": "Zarafshon",
+     "villages": []
+    },
+    {
+     "name": "G'ozg'on",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "سمرقند",
+   "cities": [
+    {
+     "name": "Samarqand",
+     "villages": []
+    },
+    {
+     "name": "Kattaqo'rg'on",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "سرخان‌دریا",
+   "cities": [
+    {
+     "name": "Termiz",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "سیردریا",
+   "cities": [
+    {
+     "name": "Guliston",
+     "villages": []
+    },
+    {
+     "name": "Shirin",
+     "villages": []
+    },
+    {
+     "name": "Yangiyer",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "ولایت تاشکند",
+   "cities": [
+    {
+     "name": "Angren",
+     "villages": []
+    },
+    {
+     "name": "Bekobod",
+     "villages": []
+    },
+    {
+     "name": "Chirchiq",
+     "villages": []
+    },
+    {
+     "name": "Nurafshon",
+     "villages": []
+    },
+    {
+     "name": "Ohangaron",
+     "villages": []
+    },
+    {
+     "name": "Olmaliq",
+     "villages": []
+    },
+    {
+     "name": "Yangiyo'l",
+     "villages": []
+    }
+   ]
+  },
+  {
+   "province": "شهر تاشکند",
+   "cities": []
+  }
+ ]
+}
