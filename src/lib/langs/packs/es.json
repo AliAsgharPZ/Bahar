@@ -4272,7 +4272,8 @@
   "bikes.searchPh": "Buscar: nombre del estudiante o número de serie",
   "bikes.count": "Vehículos registrados",
   "bikes.delete": "Eliminar",
-  "bikes.empty": "Aún no se ha registrado ningún vehículo."
+  "bikes.empty": "Aún no se ha registrado ningún vehículo.",
+  "examSeats.roomInvigilator": "Invigilador de sala"
  },
  "siteStrings": {
   "site.brand.tagline": "Sistema de gestión escolar",
