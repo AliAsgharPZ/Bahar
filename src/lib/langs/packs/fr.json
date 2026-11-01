@@ -4272,7 +4272,8 @@
   "supply.f.qty": "Quantité",
   "supply.f.reason": "Pour quel usage ? (facultatif)",
   "supply.add": "Enregistrer la demande",
-  "supply.addedToast": "Demande enregistrée"
+  "supply.addedToast": "Demande enregistrée",
+  "examSeats.roomInvigilator": "Surveillant de salle"
  },
  "version": "1.0.0",
  "siteStrings": {
