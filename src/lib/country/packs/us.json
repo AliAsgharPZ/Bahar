@@ -144,7 +144,36 @@
       "name": "آلاسکا",
       "center": "جونو",
       "counties": [
-        "آلاسکا"
+        "Aleutians East Borough",
+        "Aleutians West Census Area",
+        "Anchorage Municipality",
+        "Bethel Census Area",
+        "Bristol Bay Borough",
+        "Chugach Census Area",
+        "Copper River Census Area",
+        "Denali Borough",
+        "Dillingham Census Area",
+        "Fairbanks North Star Borough",
+        "Haines Borough",
+        "Hoonah-Angoon Census Area",
+        "Juneau City and Borough",
+        "Kenai Peninsula Borough",
+        "Ketchikan Gateway Borough",
+        "Kodiak Island Borough",
+        "Kusilvak Census Area",
+        "Lake and Peninsula Borough",
+        "Matanuska-Susitna Borough",
+        "Nome Census Area",
+        "North Slope Borough",
+        "Northwest Arctic Borough",
+        "Petersburg Borough",
+        "Prince of Wales-Hyder Census Area",
+        "Sitka City and Borough",
+        "Skagway Municipality",
+        "Southeast Fairbanks Census Area",
+        "Wrangell City and Borough",
+        "Yakutat City and Borough",
+        "Yukon-Koyukuk Census Area"
       ]
     },
     {
@@ -1111,5 +1140,5 @@
     "shad": false
   },
   "version": "1.0.0",
-  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور. شهرستان‌های تگزاس (۲۵۴) از ادارهٔ سرشماری آمریکا (فایل st48_tx_cou.txt سرشماری ۲۰۲۰، راستی‌آزمایی‌شده با لایهٔ Counties سرویس TIGERweb Census2020؛ فایل Gazetteer ۲۰۲۰ به‌دلیل مسدودیت شبکه‌ای در دسترس نبود و همین جایگزین رسمی در فایل روش‌شناسی z.ai مستند شده) وارد شده‌اند؛ نام‌های فارسی شهرستان‌های تگزاس از ویکی‌پدیا فارسی‌اند و در zai-tx-counties.json بیرون از ریپو نگهداری می‌شوند؛ شهرستان‌های جورجیا (۱۵۹) نیز از ادارهٔ سرشماری آمریکا (فایل st13_ga_cou.txt سرشماری ۲۰۲۰، راستی‌آزمایی‌شده با لایهٔ Counties سرویس TIGERweb Census2020) وارد شده‌اند؛ نام فارسی Treutlen County (GEOID 13283) در ویکی‌پدیا فارسی وجود ندارد و ناقص ثبت شده است. شهرستان‌های آلاباما (۶۷) نیز از ادارهٔ سرشماری آمریکا (فایل st01_al_cou.txt سرشماری ۲۰۲۰، راستی‌آزمایی‌شده با لایهٔ Counties سرویس TIGERweb Census2020؛ دانلود مستقیم به‌علت مسدودیت شبکه‌ای با WebFetch از همان نشانی رسمی انجام شد) وارد شده‌اند؛ هیچ شهرستانی ناقص نیست. دیگر ایالت‌ها هنوز فقط نام استان را در فهرست شهرستان‌ها دارند."
+  "notes": "بستهٔ سطح استان/ایالت: فقط تقسیمات سطح اول با مرکز هر استان؛ شهرها و روستاها هنوز وارد نشده‌اند. مقیاس نمره و فهرست پایه‌ها عمومی‌اند، نه نظام رسمی کشور. شهرستان‌های تگزاس (۲۵۴) از ادارهٔ سرشماری آمریکا (فایل st48_tx_cou.txt سرشماری ۲۰۲۰، راستی‌آزمایی‌شده با لایهٔ Counties سرویس TIGERweb Census2020؛ فایل Gazetteer ۲۰۲۰ به‌دلیل مسدودیت شبکه‌ای در دسترس نبود و همین جایگزین رسمی در فایل روش‌شناسی z.ai مستند شده) وارد شده‌اند؛ نام‌های فارسی شهرستان‌های تگزاس از ویکی‌پدیا فارسی‌اند و در zai-tx-counties.json بیرون از ریپو نگهداری می‌شوند؛ شهرستان‌های جورجیا (۱۵۹) نیز از ادارهٔ سرشماری آمریکا (فایل st13_ga_cou.txt سرشماری ۲۰۲۰، راستی‌آزمایی‌شده با لایهٔ Counties سرویس TIGERweb Census2020) وارد شده‌اند؛ نام فارسی Treutlen County (GEOID 13283) در ویکی‌پدیا فارسی وجود ندارد و ناقص ثبت شده است. شهرستان‌های آلاباما (۶۷) نیز از ادارهٔ سرشماری آمریکا (فایل st01_al_cou.txt سرشماری ۲۰۲۰، راستی‌آزمایی‌شده با لایهٔ Counties سرویس TIGERweb Census2020؛ دانلود مستقیم به‌علت مسدودیت شبکه‌ای با WebFetch از همان نشانی رسمی انجام شد) وارد شده‌اند؛ هیچ شهرستانی ناقص نیست. واحدهای معادل شهرستان آلاسکا (۳۰) از ادارهٔ سرشماری آمریکا (فایل national_county2020.txt سرشماری ۲۰۲۰) وارد شده‌اند؛ اختلاف ۲۹ در برابر ۳۰ مستند است: تقسیم Valdez-Cordova به Chugach و Copper River در ۲۰۱۹ و تغییر نام Wade Hampton به Kusilvak؛ صفحهٔ TIGERweb با دادهٔ اول ژانویهٔ ۲۰۲۰ هنوز ۲۹ را نشان می‌دهد. نام فارسی ۲۱ واحد در ویکی‌پدیا فارسی وجود ندارد و ناقص ثبت شده است (در zai-ak-counties.json). دیگر ایالت‌ها هنوز فقط نام استان را در فهرست شهرستان‌ها دارند."
 }
