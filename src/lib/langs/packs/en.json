@@ -4273,7 +4273,8 @@
   "supply.f.qty": "Quantity",
   "supply.f.reason": "For what purpose? (optional)",
   "supply.add": "Submit Request",
-  "supply.addedToast": "Request submitted"
+  "supply.addedToast": "Request submitted",
+  "examSeats.roomInvigilator": "Room Invigilator"
  },
  "siteStrings": {
   "site.brand.tagline": "School management system",
