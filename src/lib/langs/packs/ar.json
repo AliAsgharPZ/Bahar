@@ -4273,7 +4273,8 @@
   "bikes.searchPh": "البحث: اسم الطالب أو رقم الهيكل",
   "bikes.count": "وسيلة مسجلة",
   "bikes.delete": "حذف",
-  "bikes.empty": "لم يتم تسجيل أي وسيلة حتى الآن."
+  "bikes.empty": "لم يتم تسجيل أي وسيلة حتى الآن.",
+  "examSeats.roomInvigilator": "مراقب القاعة"
  },
  "siteStrings": {
   "site.brand.tagline": "نظام إدارة المدرسة",
