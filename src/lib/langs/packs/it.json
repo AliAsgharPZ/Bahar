@@ -4272,7 +4272,8 @@
   "bikes.searchPh": "Ricerca: nome dello studente o numero di telaio",
   "bikes.count": "Mezzi registrati",
   "bikes.delete": "Eliminare",
-  "bikes.empty": "Non è stato ancora registrato nessun mezzo."
+  "bikes.empty": "Non è stato ancora registrato nessun mezzo.",
+  "examSeats.roomInvigilator": "Ispettore di sala"
  },
  "siteStrings": {
   "site.brand.tagline": "Sistema di gestione scolastica",
