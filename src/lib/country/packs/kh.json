@@ -1,0 +1,548 @@
+{
+  "code": "KH",
+  "name": "کامبوج",
+  "nativeName": "កម្ពុជា",
+  "locale": "km-KH",
+  "direction": "ltr",
+  "timezone": "Asia/Phnom_Penh",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "کارت هویت ملی",
+    "algorithm": "none",
+    "pattern": "^\\d{9}$",
+    "placeholder": "010123456",
+    "example": "010123456"
+  },
+  "phone": {
+    "pattern": "^\\+855\\d{8,9}$",
+    "placeholder": "+85512345678",
+    "example": "+85512345678"
+  },
+  "currency": {
+    "label": "ریل کامبوج",
+    "code": "KHR",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      1
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ 1",
+    "پایهٔ 2",
+    "پایهٔ 3",
+    "پایهٔ 4",
+    "پایهٔ 5",
+    "پایهٔ 6",
+    "پایهٔ 7",
+    "پایهٔ 8",
+    "پایهٔ 9",
+    "پایهٔ 10",
+    "پایهٔ 11",
+    "پایهٔ 12"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "version": "1.0.0",
+  "notes": "کامبوج: ۲۵ واحد سطح اول (۲۴ استان و شهر پنوم‌پن) و ۲۱۰ واحد سطح دوم (۱۶۳ شهرستان سروک، ۳۳ شهرداری کرُنگ و ۱۴ بخش خانِ پنوم‌پن). مبنای فهرست‌ها: سرشماری عمومی نفوس ۲۰۱۹ پژوهش ملی آمار کامبوج (NIS، جداول P-01 تا P-25) و گازتیر جاری NCDD وابسته به وزارت کشور، با ۸ واحد پس از ۲۰۱۹ که شمارهٔ مصوبهٔ فرعی (ANK/BK) هر یک در پاسخ z.ai مستند است (از جمله تقسیم شهرستان Odongk در ۲۳ دسامبر ۲۰۲۲ و کرونگ Kampong Soam در ۲۸ اوت ۲۰۲۴). افشا: کامبوج فهرست رسمی فارسی‌زبان منتشر نمی‌کند، پس نام‌ها و مرکزهای فارسی از پاسخ z.ai‌اند، نه انتشار رسمی کامبوج؛ نام‌های لاتین، رومانیزهٔ نام‌های رسمی خمر‌اند. GADM نسخهٔ ۴٫۱ فقط کراس‌چک بود (۲۰۲ واحد شامل ۲ واحد مصنوعی Tonlé Sap و فاقد ۸ واحد پس از ۲۰۱۹). نکتهٔ باز: انتقال ادارهٔ استان بانتای مئان‌چی به پوی‌پت در رسانه‌ها گزارش شده ولی سند رسمی برای آن یافت نشد، پس مرکز بر اساس اسناد رسمی جاری «سری‌ساوپه‌آن» ذکر شده است. تقویم مدنی و آموزشی میلادی است؛ تقویم بودایی برای مناسبت‌های مذهبی به کار می‌رود. هفتهٔ کاری مدارس دوشنبه تا شنبه است.",
+  "regions": [
+    {
+      "name": "بانتای مئان‌چی",
+      "center": "سری‌ساوپه‌آن",
+      "counties": [
+        "Mongkol Borei",
+        "Phnum Srok",
+        "Preah Netr Preah",
+        "Ou Chrov",
+        "Krong Serei Saophoan",
+        "Thma Puok",
+        "Svay Chek",
+        "Malai",
+        "Krong Paoy Paet"
+      ]
+    },
+    {
+      "name": "باتامبانگ",
+      "center": "باتامبانگ",
+      "counties": [
+        "Banan",
+        "Thma Koul",
+        "Krong Bat Dambang",
+        "Bavel",
+        "Aek Phnum",
+        "Moung Ruessei",
+        "Rotonak Mondol",
+        "Sangkae",
+        "Samlout",
+        "Sampov Lun",
+        "Phnum Proek",
+        "Kamrieng",
+        "Koas Krala",
+        "Rukhak Kiri"
+      ]
+    },
+    {
+      "name": "کامپونگ چام",
+      "center": "کامپونگ چام",
+      "counties": [
+        "Batheay",
+        "Chamkar Leu",
+        "Cheung Prey",
+        "Krong Kampong Cham",
+        "Kampong Siem",
+        "Kang Meas",
+        "Kaoh Soutin",
+        "Srei Santhor",
+        "Prey Chhor",
+        "Stueng Trang"
+      ]
+    },
+    {
+      "name": "کامپونگ چنانگ",
+      "center": "کامپونگ چنانگ",
+      "counties": [
+        "Baribour",
+        "Chol Kiri",
+        "Krong Kampong Chhnang",
+        "Kampong Leaeng",
+        "Kampong Tralach",
+        "Rolea B'ier",
+        "Sameakki Mean Chey",
+        "Tuek Phos"
+      ]
+    },
+    {
+      "name": "کامپونگ اسپو",
+      "center": "چبار مون",
+      "counties": [
+        "Basedth",
+        "Krong Chbar Mon",
+        "Kong Pisei",
+        "Aoral",
+        "Phnum Sruoch",
+        "Samraong Tong",
+        "Thpong",
+        "Krong Odongk Maechay",
+        "Samkkei Munichay"
+      ]
+    },
+    {
+      "name": "کامپونگ توم",
+      "center": "ستونگ‌سائن",
+      "counties": [
+        "Baray",
+        "Kampong Svay",
+        "Krong Stueng Saen",
+        "Prasat Ballangk",
+        "Prasat Sambour",
+        "Sandan",
+        "Santuk",
+        "Stoung",
+        "Taing Kouk"
+      ]
+    },
+    {
+      "name": "کامپوت",
+      "center": "کامپوت",
+      "counties": [
+        "Angkor Chey",
+        "Banteay Meas",
+        "Chhuk",
+        "Chum Kiri",
+        "Dang Tong",
+        "Kampong Trach",
+        "Tuek Chhou",
+        "Krong Kampot",
+        "Krong Bokor"
+      ]
+    },
+    {
+      "name": "کاندال",
+      "center": "تا خماو",
+      "counties": [
+        "Kandal Stueng",
+        "Kien Svay",
+        "Khsach Kandal",
+        "Kaoh Thum",
+        "Leuk Daek",
+        "Lvea Aem",
+        "Mukh Kampul",
+        "Angk Snuol",
+        "Ponhea Lueu",
+        "S'ang",
+        "Krong Ta Khmau",
+        "Krong Sampeou Poun",
+        "Krong Akreiy Ksatr"
+      ]
+    },
+    {
+      "name": "کوه‌کونگ",
+      "center": "خیماراک پومین",
+      "counties": [
+        "Botum Sakor",
+        "Kiri Sakor",
+        "Kaoh Kong",
+        "Krong Khemarak Phoumin",
+        "Mondol Seima",
+        "Srae Ambel",
+        "Thma Bang"
+      ]
+    },
+    {
+      "name": "کراتیه",
+      "center": "کراتیه",
+      "counties": [
+        "Chhloung",
+        "Krong Kracheh",
+        "Preaek Prasab",
+        "Sambour",
+        "Snuol",
+        "Chetr Borei",
+        "Ou Krieng Saenchey"
+      ]
+    },
+    {
+      "name": "ماندول‌کیری",
+      "center": "سائن مونوروم",
+      "counties": [
+        "Kaev Seima",
+        "Kaoh Nheaek",
+        "Ou Reang",
+        "Pech Chreada",
+        "Krong Saen Monourom"
+      ]
+    },
+    {
+      "name": "پنوم‌پن",
+      "center": "پنوم‌پن",
+      "counties": [
+        "Chamkar Mon",
+        "Doun Penh",
+        "Prampir Meakkakra",
+        "Tuol Kouk",
+        "Dangkao",
+        "Mean Chey",
+        "Ruessei Kaev",
+        "Saensokh",
+        "Pou Senchey",
+        "Chrouy Changvar",
+        "Preaek Pnov",
+        "Chbar Ampov",
+        "Boeng Keng Kang",
+        "Kambol"
+      ]
+    },
+    {
+      "name": "پریه‌ویهار",
+      "center": "تبانگ مئان‌چی",
+      "counties": [
+        "Chey Saen",
+        "Chhaeb",
+        "Choam Khsant",
+        "Kuleaen",
+        "Rovieng",
+        "Sangkom Thmei",
+        "Tbaeng Mean Chey",
+        "Krong Preah Vihear"
+      ]
+    },
+    {
+      "name": "پری‌ونگ",
+      "center": "پری‌ونگ",
+      "counties": [
+        "Ba Phnum",
+        "Kamchay Mear",
+        "Kampong Trabaek",
+        "Kanhchriech",
+        "Me Sang",
+        "Peam Chor",
+        "Peam Ro",
+        "Pea Reang",
+        "Preah Sdach",
+        "Krong Prey Veaeng",
+        "Pou Rieng",
+        "Sithor Kandal",
+        "Svay Antor"
+      ]
+    },
+    {
+      "name": "پورسات",
+      "center": "پورسات",
+      "counties": [
+        "Bakan",
+        "Kandieng",
+        "Krakor",
+        "Phnum Kravanh",
+        "Krong Pursat",
+        "Veal Veaeng",
+        "Ta Lou Senchey"
+      ]
+    },
+    {
+      "name": "راتاناکیری",
+      "center": "بان‌لونگ",
+      "counties": [
+        "Andoung Meas",
+        "Krong Ban Lung",
+        "Bar Kaev",
+        "Koun Mom",
+        "Lumphat",
+        "Ou Chum",
+        "Ou Ya Dav",
+        "Ta Veaeng",
+        "Veun Sai"
+      ]
+    },
+    {
+      "name": "سیم‌ریپ",
+      "center": "سیم‌ریپ",
+      "counties": [
+        "Angkor Chum",
+        "Angkor Thum",
+        "Banteay Srei",
+        "Chi Kraeng",
+        "Kralanh",
+        "Puok",
+        "Prasat Bakong",
+        "Krong Siem Reab",
+        "Soutr Nikom",
+        "Srei Snam",
+        "Svay Leu",
+        "Varin",
+        "Krong Run Ta Aek Techo Sen"
+      ]
+    },
+    {
+      "name": "پریه‌سیهانوک",
+      "center": "پریه‌سیهانوک",
+      "counties": [
+        "Krong Preah Sihanouk",
+        "Prey Nob",
+        "Stueng Hav",
+        "Kampong Seila",
+        "Krong Kaoh Rung",
+        "Krong Kampong Soam"
+      ]
+    },
+    {
+      "name": "ستونگ‌ترنگ",
+      "center": "ستونگ‌ترنگ",
+      "counties": [
+        "Sesan",
+        "Siem Bouk",
+        "Siem Pang",
+        "Krong Stueng Traeng",
+        "Thala Barivat",
+        "Borei O'Svay Sen Chey"
+      ]
+    },
+    {
+      "name": "سوای‌رینگ",
+      "center": "سوای‌رینگ",
+      "counties": [
+        "Chantrea",
+        "Kampong Rou",
+        "Rumduol",
+        "Romeas Haek",
+        "Svay Chrum",
+        "Krong Svay Rieng",
+        "Svay Teab",
+        "Krong Bavet"
+      ]
+    },
+    {
+      "name": "تاکئو",
+      "center": "دون‌کائو",
+      "counties": [
+        "Angkor Borei",
+        "Bati",
+        "Borei Cholsar",
+        "Kiri Vong",
+        "Kaoh Andaet",
+        "Prey Kabbas",
+        "Samraong",
+        "Krong Doun Kaev",
+        "Tram Kak",
+        "Treang"
+      ]
+    },
+    {
+      "name": "اودار مئان‌چی",
+      "center": "سامرونگ",
+      "counties": [
+        "Anlong Veaeng",
+        "Banteay Ampil",
+        "Chong Kal",
+        "Krong Samraong",
+        "Trapeang Prasat"
+      ]
+    },
+    {
+      "name": "کپ",
+      "center": "کپ",
+      "counties": [
+        "Damnak Chang'aeur",
+        "Krong Kaeb"
+      ]
+    },
+    {
+      "name": "پایلین",
+      "center": "پایلین",
+      "counties": [
+        "Krong Pailin",
+        "Sala Krau"
+      ]
+    },
+    {
+      "name": "تبونگ‌خموم",
+      "center": "سئونگ",
+      "counties": [
+        "Krong Suong",
+        "Tboung Khmum",
+        "Ou Reang Ov",
+        "Krouch Chhmar",
+        "Dambae",
+        "Ponhea Kraek",
+        "Memot"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "بانتای مئان‌چی",
+      "cities": []
+    },
+    {
+      "province": "باتامبانگ",
+      "cities": []
+    },
+    {
+      "province": "کامپونگ چام",
+      "cities": []
+    },
+    {
+      "province": "کامپونگ چنانگ",
+      "cities": []
+    },
+    {
+      "province": "کامپونگ اسپو",
+      "cities": []
+    },
+    {
+      "province": "کامپونگ توم",
+      "cities": []
+    },
+    {
+      "province": "کامپوت",
+      "cities": []
+    },
+    {
+      "province": "کاندال",
+      "cities": []
+    },
+    {
+      "province": "کوه‌کونگ",
+      "cities": []
+    },
+    {
+      "province": "کراتیه",
+      "cities": []
+    },
+    {
+      "province": "ماندول‌کیری",
+      "cities": []
+    },
+    {
+      "province": "پنوم‌پن",
+      "cities": []
+    },
+    {
+      "province": "پریه‌ویهار",
+      "cities": []
+    },
+    {
+      "province": "پری‌ونگ",
+      "cities": []
+    },
+    {
+      "province": "پورسات",
+      "cities": []
+    },
+    {
+      "province": "راتاناکیری",
+      "cities": []
+    },
+    {
+      "province": "سیم‌ریپ",
+      "cities": []
+    },
+    {
+      "province": "پریه‌سیهانوک",
+      "cities": []
+    },
+    {
+      "province": "ستونگ‌ترنگ",
+      "cities": []
+    },
+    {
+      "province": "سوای‌رینگ",
+      "cities": []
+    },
+    {
+      "province": "تاکئو",
+      "cities": []
+    },
+    {
+      "province": "اودار مئان‌چی",
+      "cities": []
+    },
+    {
+      "province": "کپ",
+      "cities": []
+    },
+    {
+      "province": "پایلین",
+      "cities": []
+    },
+    {
+      "province": "تبونگ‌خموم",
+      "cities": []
+    }
+  ]
+}
