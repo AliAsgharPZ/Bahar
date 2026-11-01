@@ -4575,7 +4575,8 @@
   "supply.f.qty": "数量",
   "supply.f.reason": "何に使用しますか？（任意）",
   "supply.add": "請求を登録",
-  "supply.addedToast": "請求を登録しました。"
+  "supply.addedToast": "請求を登録しました。",
+  "examSeats.roomInvigilator": "試験監督"
  },
  "version": "1.0.0",
  "longStrings": {
