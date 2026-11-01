@@ -4272,7 +4272,8 @@
   "bikes.searchPh": "Pesquisa: nome do aluno ou número do chassi",
   "bikes.count": "veículos registrados",
   "bikes.delete": "Excluir",
-  "bikes.empty": "Ainda não há veículos registrados."
+  "bikes.empty": "Ainda não há veículos registrados.",
+  "examSeats.roomInvigilator": "Fiscal de sala"
  },
  "siteStrings": {
   "site.brand.tagline": "Sistema de gestão escolar",
