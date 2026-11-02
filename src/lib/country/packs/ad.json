@@ -1,0 +1,196 @@
+{
+ "code": "AD",
+ "name": "آندورا",
+ "nativeName": "Principat d'Andorra",
+ "locale": "ca-AD",
+ "direction": "ltr",
+ "timezone": "Europe/Andorra",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+376\\d{6}$",
+  "placeholder": "+376123456",
+  "example": "+376123456"
+ },
+ "currency": {
+  "label": "یورو",
+  "code": "EUR",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "کانیلو",
+   "center": "کانیلو",
+   "counties": [
+    "Canillo",
+    "l'Aldosa",
+    "El Forn",
+    "El Tarter",
+    "Soldeu",
+    "Incles",
+    "Prats",
+    "Ransol",
+    "Bordes d'Envalira"
+   ]
+  },
+  {
+   "name": "انکمپ",
+   "center": "انکمپ",
+   "counties": [
+    "Encamp",
+    "El Pas de la Casa"
+   ]
+  },
+  {
+   "name": "اوردینو",
+   "center": "اوردینو",
+   "counties": [
+    "Ordino",
+    "Segudet",
+    "Sornàs",
+    "Ansalonga",
+    "la Cortinada",
+    "Arans",
+    "Llorts",
+    "les Salines",
+    "el Serrat",
+    "Arcalís"
+   ]
+  },
+  {
+   "name": "لا ماسانا",
+   "center": "لا ماسانا",
+   "counties": [
+    "La Massana",
+    "Pal",
+    "Arinsal",
+    "Erts",
+    "Sispony",
+    "Anyós",
+    "L'Aldosa"
+   ]
+  },
+  {
+   "name": "اندورا لاولا",
+   "center": "اندورا لاولا",
+   "counties": [
+    "Andorra la Vella",
+    "Santa Coloma"
+   ]
+  },
+  {
+   "name": "سنت جولیا د لوریا",
+   "center": "سنت جولیا د لوریا",
+   "counties": [
+    "Quart de Baix",
+    "Quart de Dalt",
+    "Quart d'Aixirivall",
+    "Quart d'Auvinyà",
+    "Quart de Bixessarri",
+    "Quart de Fontaneda",
+    "Quart de Nagol"
+   ]
+  },
+  {
+   "name": "اسکالدس-انگوردانی",
+   "center": "اسکالدس-انگوردانی",
+   "counties": [
+    "Escaldes",
+    "Engordany"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "کانیلو",
+   "cities": []
+  },
+  {
+   "province": "انکمپ",
+   "cities": []
+  },
+  {
+   "province": "اوردینو",
+   "cities": []
+  },
+  {
+   "province": "لا ماسانا",
+   "cities": []
+  },
+  {
+   "province": "اندورا لاولا",
+   "cities": []
+  },
+  {
+   "province": "سنت جولیا د لوریا",
+   "cities": []
+  },
+  {
+   "province": "اسکالدس-انگوردانی",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "آندورا: ۷ پریش (سطح اول) و ۳۹ واحد سطح دوم (روستاها، کوارت‌ها و نویکلی‌ها). مبنای فهرست‌ها: منابع رسمی دولت آندورا و کموهای رسمی هر پریش (Govern d'Andorra و تارنماهای رسمی کموهای کانیلو، انکمپ، اوردینو، لا ماسانا و سنت جولیا د لوریا) و پورتال رسمی گردشگری دولت آندورا (Andorra Turisme)؛ دسترسی مستقیم به estadistica.ad ممکن نبود و کموهای رسمی و پورتال رسمی گردشگری جایگزین اعلام‌شده‌اند؛ برای آندورا لا ولا، تارنمای کمو از محیط گردآوری در دسترس نبود و فهرست سطح دوم از همان پورتال رسمی گردشگری تصدیق شد. نام‌های فارسی پنج پریش (کانیلو، انکمپ، اوردینو، لا ماسانا، اندورا لاولا) عنوان‌های تثبیت‌شدهٔ ویکی‌پدیای فارسی‌اند؛ برای سنت جولیا د لوریا و اسکالدس-انگوردانی عنوان فارسی تثبیت‌شده‌ای در ویکی‌پدیای فارسی یافت نشد و نام فارسی آن دو با الگوی آوانویسی ساخته و همین‌جا اعلام می‌شود. انکمپ رسماً دو نویکلی دارد (انکمپ و پاس ده لا کاسا)؛ اسکالدس-انگوردانی موجودیتی شهری یکپارچه است و کموی آن فهرست جداگانه‌ای از واحدهای سطح دوم منتشر نمی‌کند — دو نامِ آمده، دو نویکلی تاریخی سازندهٔ نام پریش‌اند؛ هیچ واحدی از روی حدس افزوده نشده است."
+}
