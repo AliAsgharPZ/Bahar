@@ -1,0 +1,268 @@
+{
+ "code": "AL",
+ "name": "آلبانی",
+ "nativeName": "Shqipëria",
+ "locale": "sq-AL",
+ "direction": "ltr",
+ "timezone": "Europe/Tirane",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+355\\d{9}$",
+  "placeholder": "+355691234567",
+  "example": "+355691234567"
+ },
+ "currency": {
+  "label": "لک",
+  "code": "ALL",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "برات",
+   "center": "برات",
+   "counties": [
+    "Berat",
+    "Dimal",
+    "Kuçovë",
+    "Poliçan",
+    "Skrapar"
+   ]
+  },
+  {
+   "name": "دیبر",
+   "center": "پشکوپی",
+   "counties": [
+    "Bulqizë",
+    "Dibër",
+    "Klos",
+    "Mat"
+   ]
+  },
+  {
+   "name": "دورس",
+   "center": "دورس",
+   "counties": [
+    "Durrës",
+    "Krujë",
+    "Shijak"
+   ]
+  },
+  {
+   "name": "البسان",
+   "center": "البسان",
+   "counties": [
+    "Belsh",
+    "Cërrik",
+    "Elbasan",
+    "Gramsh",
+    "Librazhd",
+    "Peqin",
+    "Prrenjas"
+   ]
+  },
+  {
+   "name": "فیر",
+   "center": "فیر",
+   "counties": [
+    "Divjakë",
+    "Fier",
+    "Lushnjë",
+    "Mallakastër",
+    "Patos",
+    "Roskovec"
+   ]
+  },
+  {
+   "name": "گیروکاستر",
+   "center": "گیروکاستر",
+   "counties": [
+    "Dropull",
+    "Gjirokastër",
+    "Këlcyrë",
+    "Libohovë",
+    "Memaliaj",
+    "Përmet",
+    "Tepelenë"
+   ]
+  },
+  {
+   "name": "کورچه",
+   "center": "کورچه",
+   "counties": [
+    "Devoll",
+    "Kolonjë",
+    "Korçë",
+    "Maliq",
+    "Pogradec",
+    "Pustec"
+   ]
+  },
+  {
+   "name": "کوکس",
+   "center": "کوکس",
+   "counties": [
+    "Has",
+    "Kukës",
+    "Tropojë"
+   ]
+  },
+  {
+   "name": "لژه",
+   "center": "لژه",
+   "counties": [
+    "Kurbin",
+    "Lezhë",
+    "Mirditë"
+   ]
+  },
+  {
+   "name": "شکودر",
+   "center": "شکودر",
+   "counties": [
+    "Fushë-Arrëz",
+    "Malësi e Madhe",
+    "Pukë",
+    "Shkodër",
+    "Vau i Dejës"
+   ]
+  },
+  {
+   "name": "تیرانا",
+   "center": "تیرانا",
+   "counties": [
+    "Kamëz",
+    "Kavajë",
+    "Rrogozhinë",
+    "Tirana",
+    "Vorë"
+   ]
+  },
+  {
+   "name": "ولوره",
+   "center": "ولوره",
+   "counties": [
+    "Delvinë",
+    "Finiq",
+    "Himarë",
+    "Konispol",
+    "Sarandë",
+    "Selenicë",
+    "Vlorë"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "برات",
+   "cities": []
+  },
+  {
+   "province": "دیبر",
+   "cities": []
+  },
+  {
+   "province": "دورس",
+   "cities": []
+  },
+  {
+   "province": "البسان",
+   "cities": []
+  },
+  {
+   "province": "فیر",
+   "cities": []
+  },
+  {
+   "province": "گیروکاستر",
+   "cities": []
+  },
+  {
+   "province": "کورچه",
+   "cities": []
+  },
+  {
+   "province": "کوکس",
+   "cities": []
+  },
+  {
+   "province": "لژه",
+   "cities": []
+  },
+  {
+   "province": "شکودر",
+   "cities": []
+  },
+  {
+   "province": "تیرانا",
+   "cities": []
+  },
+  {
+   "province": "ولوره",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "آلبانی: ۱۲ شهرستان (قارک) و ۶۱ شهرداری (بشکی) طبق اصلاحات اداری ـ سرزمینی قانون ۱۱۵/۲۰۱۴؛ ساختار تقسیمات و فهرست شهرداری‌های هر شهرستان از INSTAT (سالنامهٔ آماری منطقه‌ای ۲۰۲۴ و پرتال GeoDataHub) گرفته شده و شهرداری Ura Vajgurore در شهرستان برات طبق قانون ۳۴/۲۰۲۱ به Dimal تغییر نام یافته است. نام فارسی هر ۱۲ شهرستان عنوان تثبیت‌شدهٔ ویکی‌پدیای فارسی است (ردهٔ «شهرستان‌های آلبانی»)؛ تنها نام فارسی مرکز شهرستان دیبر، «پشکوپی» (Peshkopi)، آوانگاری الگوساخته است چون این شهر مقالهٔ فارسی ندارد."
+}
