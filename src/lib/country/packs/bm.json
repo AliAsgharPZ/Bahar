@@ -1,0 +1,168 @@
+{
+ "code": "BM",
+ "name": "برمودا",
+ "nativeName": "Bermuda",
+ "locale": "en-BM",
+ "direction": "ltr",
+ "timezone": "Atlantic/Bermuda",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+1441\\d{7}$",
+  "placeholder": "+14411234567",
+  "example": "+14411234567"
+ },
+ "currency": {
+  "label": "دلار",
+  "code": "BMD",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "سنت جورج",
+   "center": "سنت جورج",
+   "counties": []
+  },
+  {
+   "name": "همیلتون",
+   "center": "همیلتون",
+   "counties": []
+  },
+  {
+   "name": "اسمیت",
+   "center": "اسمیت",
+   "counties": []
+  },
+  {
+   "name": "دوون‌شایر",
+   "center": "دوون‌شایر",
+   "counties": []
+  },
+  {
+   "name": "پمبروک",
+   "center": "پمبروک",
+   "counties": []
+  },
+  {
+   "name": "پیجت",
+   "center": "پیجت",
+   "counties": []
+  },
+  {
+   "name": "واریک",
+   "center": "واریک",
+   "counties": []
+  },
+  {
+   "name": "ساوتهمپتون",
+   "center": "ساوتهمپتون",
+   "counties": []
+  },
+  {
+   "name": "سندز",
+   "center": "سندز",
+   "counties": []
+  }
+ ],
+ "divisions": [
+  {
+   "province": "سنت جورج",
+   "cities": []
+  },
+  {
+   "province": "همیلتون",
+   "cities": []
+  },
+  {
+   "province": "اسمیت",
+   "cities": []
+  },
+  {
+   "province": "دوون‌شایر",
+   "cities": []
+  },
+  {
+   "province": "پمبروک",
+   "cities": []
+  },
+  {
+   "province": "پیجت",
+   "cities": []
+  },
+  {
+   "province": "واریک",
+   "cities": []
+  },
+  {
+   "province": "ساوتهمپتون",
+   "cities": []
+  },
+  {
+   "province": "سندز",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "برمودا: ۹ پریش (سطح ۱)؛ پریش‌ها مرکز اداری رسمی جداگانه ندارند و نام خود پریش به‌عنوان مرکز درج شده است. مبنا: درگاه دولت برمودا (gov.bm) و ادارهٔ آمار برمودا. جزئیات سطح دوم درج نشده است. کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی آوانگاری‌اند. تاریخ بازیابی منابع: 2026-11-06."
+}

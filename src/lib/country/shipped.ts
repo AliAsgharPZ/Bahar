@@ -47,6 +47,8 @@ import bfPack from "./packs/bf.json";
 import bhPack from "./packs/bh.json";
 import bgcPack from "./packs/bg.json";
 import bjPack from "./packs/bj.json";
+import bmPack from "./packs/bm.json";
+import biPack from "./packs/bi.json";
 
 /* ============================================================
    بهار | بسته‌های کشورِ همراه سامانه (shipped packs)
@@ -98,7 +100,7 @@ function summarize(pack: CountryProfile): ShippedPackSummary {
   };
 }
 
-export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile, dePack as CountryProfile, usPack as CountryProfile, frPack as CountryProfile, itPack as CountryProfile, caPack as CountryProfile, auPack as CountryProfile, esPack as CountryProfile, brPack as CountryProfile, trPack as CountryProfile, gbPack as CountryProfile, sePack as CountryProfile, krPack as CountryProfile, plPack as CountryProfile, nlPack as CountryProfile, bePack as CountryProfile, afPack as CountryProfile, pkPack as CountryProfile, iqPack as CountryProfile, azPack as CountryProfile, cnPack as CountryProfile, jpPack as CountryProfile, egPack as CountryProfile, kzPack as CountryProfile, uzPack as CountryProfile, mnPack as CountryProfile, npPack as CountryProfile, khPack as CountryProfile, adPack as CountryProfile, agPack as CountryProfile, aiPack as CountryProfile, alPack as CountryProfile, aoPack as CountryProfile, amPack as CountryProfile, arPack as CountryProfile, atPack as CountryProfile, awPack as CountryProfile, bbPack as CountryProfile, axPack as CountryProfile, baPack as CountryProfile, bdPack as CountryProfile, bfPack as CountryProfile, bhPack as CountryProfile, bgcPack as CountryProfile, bjPack as CountryProfile];
+export const SHIPPED_PACKS: CountryProfile[] = [irPack as CountryProfile, aePack as CountryProfile, saPack as CountryProfile, dePack as CountryProfile, usPack as CountryProfile, frPack as CountryProfile, itPack as CountryProfile, caPack as CountryProfile, auPack as CountryProfile, esPack as CountryProfile, brPack as CountryProfile, trPack as CountryProfile, gbPack as CountryProfile, sePack as CountryProfile, krPack as CountryProfile, plPack as CountryProfile, nlPack as CountryProfile, bePack as CountryProfile, afPack as CountryProfile, pkPack as CountryProfile, iqPack as CountryProfile, azPack as CountryProfile, cnPack as CountryProfile, jpPack as CountryProfile, egPack as CountryProfile, kzPack as CountryProfile, uzPack as CountryProfile, mnPack as CountryProfile, npPack as CountryProfile, khPack as CountryProfile, adPack as CountryProfile, agPack as CountryProfile, aiPack as CountryProfile, alPack as CountryProfile, aoPack as CountryProfile, amPack as CountryProfile, arPack as CountryProfile, atPack as CountryProfile, awPack as CountryProfile, bbPack as CountryProfile, axPack as CountryProfile, baPack as CountryProfile, bdPack as CountryProfile, bfPack as CountryProfile, bhPack as CountryProfile, bgcPack as CountryProfile, bjPack as CountryProfile, bmPack as CountryProfile, biPack as CountryProfile];
 export const SHIPPED_SUMMARIES: ShippedPackSummary[] = SHIPPED_PACKS.map(summarize);
 export const SHIPPED_CODES = SHIPPED_PACKS.map((p) => p.code);
 
