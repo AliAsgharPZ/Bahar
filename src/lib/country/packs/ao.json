@@ -1,0 +1,623 @@
+{
+  "code": "AO",
+  "name": "آنگولا",
+  "nativeName": "Angola",
+  "locale": "pt-AO",
+  "direction": "ltr",
+  "timezone": "Africa/Luanda",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "شمارهٔ شناسایی",
+    "algorithm": "none",
+    "pattern": "^[A-Za-z0-9]{6,20}$",
+    "placeholder": "—",
+    "example": "123456789"
+  },
+  "phone": {
+    "pattern": "^\\+244\\d{9}$",
+    "placeholder": "+244923000000",
+    "example": "+244923000000"
+  },
+  "currency": {
+    "label": "کوانزا",
+    "code": "AOA",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ ۱",
+    "پایهٔ ۲",
+    "پایهٔ ۳",
+    "پایهٔ ۴",
+    "پایهٔ ۵",
+    "پایهٔ ۶",
+    "پایهٔ ۷",
+    "پایهٔ ۸",
+    "پایهٔ ۹",
+    "پایهٔ ۱۰",
+    "پایهٔ ۱۱",
+    "پایهٔ ۱۲"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "regions": [
+    {
+      "name": "لوآندا",
+      "center": "اینگومبوتا",
+      "counties": [
+        "Luanda",
+        "Cacuaco",
+        "Cazenga",
+        "Viana",
+        "Belas",
+        "Talatona",
+        "Mussulo",
+        "Sambizanga",
+        "Rangel",
+        "Maianga",
+        "Samba",
+        "Camama",
+        "Mulenvos",
+        "Kilamba",
+        "Hoji Ya Henda",
+        "Ingombota"
+      ]
+    },
+    {
+      "name": "بنگو",
+      "center": "دنده",
+      "counties": [
+        "Ambriz",
+        "Bula Atumba",
+        "Dande",
+        "Nambuangongo",
+        "Pango Aluquém",
+        "Quibaxe",
+        "Muxaluando",
+        "Piri",
+        "Quicunzo",
+        "Úcua",
+        "Panguila",
+        "Barra do Dande"
+      ]
+    },
+    {
+      "name": "بنگوئلا",
+      "center": "بنگوئلا",
+      "counties": [
+        "Baía Farta",
+        "Balombo",
+        "Benguela",
+        "Bocoio",
+        "Caimbambo",
+        "Catumbela",
+        "Chongorói",
+        "Cubal",
+        "Ganda",
+        "Lobito",
+        "Egito Praia",
+        "Chindumbo",
+        "Dombe Grande",
+        "Capupa",
+        "Biópio",
+        "Chila",
+        "Chicuma",
+        "Babaera",
+        "Iambala",
+        "Catengue",
+        "Bolonguera",
+        "Canhamela",
+        "Navegantes"
+      ]
+    },
+    {
+      "name": "بیئه",
+      "center": "کویتو",
+      "counties": [
+        "Andulo",
+        "Camacupa",
+        "Catabola",
+        "Chinguar",
+        "Chitembo",
+        "Cuemba",
+        "Cunhinga",
+        "Cuito",
+        "Nharêa",
+        "Luando",
+        "Ringoma",
+        "Mumbuê",
+        "CalucingA",
+        "Chicala",
+        "Chipeta",
+        "Umpulo",
+        "Lúbia",
+        "Cambândua",
+        "Belo Horizonte"
+      ]
+    },
+    {
+      "name": "کابیندا",
+      "center": "کابیندا",
+      "counties": [
+        "Cabinda",
+        "Cacongo",
+        "Buco-Zau",
+        "Belize",
+        "Miconje",
+        "Massabi",
+        "Necuto",
+        "Tando Zinze",
+        "Liambo",
+        "Ngoio"
+      ]
+    },
+    {
+      "name": "کواندو",
+      "center": "ماوینگا",
+      "counties": [
+        "Cuito Cuanavale",
+        "Dirico",
+        "Mavinga",
+        "Rivungo",
+        "Xipundo",
+        "Dima",
+        "Luiana",
+        "Mucusso",
+        "Luengue"
+      ]
+    },
+    {
+      "name": "کوانزای شمالی",
+      "center": "کازنگو",
+      "counties": [
+        "Ambaca",
+        "Banga",
+        "Bolongongo",
+        "Cambambe",
+        "Cazengo",
+        "Golungo Alto",
+        "Ngonguembo",
+        "Lucala",
+        "Quiculungo",
+        "Samba Cajú",
+        "Massangano",
+        "Cêrca",
+        "Tango",
+        "Terreiro",
+        "Aldeia Nova",
+        "Caculo Cabaça",
+        "Luinga"
+      ]
+    },
+    {
+      "name": "کوانزای جنوبی",
+      "center": "سومبه",
+      "counties": [
+        "Gabela",
+        "Cassongue",
+        "Conda",
+        "Ebo",
+        "Mussende",
+        "Porto Amboim",
+        "Quilenda",
+        "Quibala",
+        "Seles",
+        "Sumbe",
+        "Waku Kungo",
+        "Calulo",
+        "Quirimbo",
+        "Munenga",
+        "Quissongo",
+        "Gungo",
+        "Sanga",
+        "Gangula",
+        "Pambangala",
+        "Condé",
+        "Amboiva",
+        "Lonhe",
+        "Quenha",
+        "Boa Entrada"
+      ]
+    },
+    {
+      "name": "کوبانگو",
+      "center": "منونگه",
+      "counties": [
+        "Menongue",
+        "Cutato",
+        "Cuchi",
+        "Longa",
+        "Chinguanja",
+        "Caiundo",
+        "Savate",
+        "Cuangar",
+        "Calai",
+        "Mavengue",
+        "Nancova"
+      ]
+    },
+    {
+      "name": "کوننه",
+      "center": "کوانهاما",
+      "counties": [
+        "Cahama",
+        "Cuanhama",
+        "Curoca",
+        "Cuvelai",
+        "Namacunde",
+        "Ombadja",
+        "Chiéde",
+        "Nehone",
+        "Humbe",
+        "Mupa",
+        "Naulila",
+        "Chitado",
+        "Cafima",
+        "Chissuata"
+      ]
+    },
+    {
+      "name": "هامبو",
+      "center": "هامبو",
+      "counties": [
+        "Longonjo",
+        "Bailundo",
+        "Chicala Choloanga",
+        "Mungo",
+        "Chinjenje",
+        "Ucuma",
+        "Cachiungo",
+        "Caála",
+        "Ecunha",
+        "Huambo",
+        "Londuimbali",
+        "Bimbe",
+        "Sambo",
+        "Galanga",
+        "Alto Hama",
+        "Chilata",
+        "Cuima"
+      ]
+    },
+    {
+      "name": "هویلا",
+      "center": "لوبانگو",
+      "counties": [
+        "Caconda",
+        "Cacula",
+        "Caluquembe",
+        "Gambos",
+        "Chibia",
+        "Chicomba",
+        "Chipindo",
+        "Cuvango",
+        "Humpata",
+        "Lubango",
+        "Matala",
+        "Quilengues",
+        "Quipungo",
+        "Jamba Mineira",
+        "Dongo",
+        "Hoque",
+        "Capelongo",
+        "Chituto",
+        "Capunda Cavilongo",
+        "Viti Vivali",
+        "Galangue",
+        "Palanca",
+        "Chicungo"
+      ]
+    },
+    {
+      "name": "ایکولو و بنگو",
+      "center": "کاتته",
+      "counties": [
+        "Sequele",
+        "Cabo Ledo",
+        "Bom Jesus",
+        "Cabiri",
+        "Catete",
+        "Calumbo",
+        "Quiçama"
+      ]
+    },
+    {
+      "name": "لوندای شمالی",
+      "center": "دوندو",
+      "counties": [
+        "Cambulo",
+        "Capenda Camulemba",
+        "Caungula",
+        "Chitato",
+        "Cuango",
+        "Cuílo",
+        "Lubalo",
+        "Lucapa",
+        "Lóvua",
+        "Xá-Muteba",
+        "Dundo",
+        "Xá Cassau",
+        "Camaxilo",
+        "Luangue",
+        "Luremo",
+        "Canzar",
+        "Cassanje Calucala",
+        "Mussungue",
+        "Cafunfu"
+      ]
+    },
+    {
+      "name": "لوندای جنوبی",
+      "center": "سائوریمو",
+      "counties": [
+        "Cacolo",
+        "Dala",
+        "Muconda",
+        "Saurimo",
+        "Chiluage",
+        "Cassai-Sul",
+        "Xassengue",
+        "Alto Chicapa",
+        "Sombo",
+        "Muriege",
+        "Luma Cassai",
+        "Cazage",
+        "Muangueji",
+        "Cassengo"
+      ]
+    },
+    {
+      "name": "مالانجه",
+      "center": "مالانجه",
+      "counties": [
+        "Cacuso",
+        "Cahombo",
+        "Calandula",
+        "Cambundi Catembo",
+        "Cangandala",
+        "Kunda dya Baze",
+        "Luquembo",
+        "Malanje",
+        "Marimba",
+        "Massango",
+        "Quela",
+        "Quirima",
+        "Kiwaba Nzoji",
+        "Cateco Cangola",
+        "Cuale",
+        "Pungo A Ndongo",
+        "Ngola Luiji",
+        "Quihuhu",
+        "Xandel",
+        "Cambo Suinginge",
+        "Milando",
+        "Quitapa",
+        "Capunda",
+        "Muquixe",
+        "Quêssua",
+        "Caculama",
+        "Mbanji Ya Ngola"
+      ]
+    },
+    {
+      "name": "موشیکو",
+      "center": "لوئنا",
+      "counties": [
+        "Camanongue",
+        "Léua",
+        "Chiúme",
+        "Lumbala Nguimbo",
+        "Alto Cuito",
+        "Lutembo",
+        "Cangumbe",
+        "Luena",
+        "Cangamba",
+        "Lucusse",
+        "Ninda",
+        "Lutuai"
+      ]
+    },
+    {
+      "name": "موشیکوی شرقی",
+      "center": "کازومبو",
+      "counties": [
+        "Cazombo",
+        "Luacano",
+        "Cameia",
+        "Luau",
+        "Nana Candundo",
+        "Macondo",
+        "Caianda",
+        "Lóvua do Zambeze",
+        "Lago Dilolo"
+      ]
+    },
+    {
+      "name": "نامیبه",
+      "center": "موسامبدس",
+      "counties": [
+        "Moçâmedes",
+        "Camucuio",
+        "Bibala",
+        "Virei",
+        "Tômbua",
+        "Lucira",
+        "Iona",
+        "Sacomar",
+        "Cacimbas"
+      ]
+    },
+    {
+      "name": "اوییژه",
+      "center": "اوییژه",
+      "counties": [
+        "Uíge",
+        "Ambuíla",
+        "Bembe",
+        "Bungo",
+        "Milunga",
+        "Damba",
+        "Maquela do Zombo",
+        "Mucaba",
+        "Negage",
+        "Puri",
+        "Quimbele",
+        "Sanza Pombo",
+        "Songo",
+        "Cangola",
+        "Nova Esperança",
+        "Dange Quitexe",
+        "Sacandica",
+        "Nsosso",
+        "Lucunga",
+        "Quipedro",
+        "Massau",
+        "Vista Alegre",
+        "Alto Zaza"
+      ]
+    },
+    {
+      "name": "زائر",
+      "center": "امبانزا کونگو",
+      "counties": [
+        "Mbanza Kongo",
+        "Soyo",
+        "Nzeto",
+        "Cuimba",
+        "Nóqui",
+        "Tomboco",
+        "Luvo",
+        "Lufico",
+        "Quêlo",
+        "Serra de Canda",
+        "Quindeje"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "لوآندا",
+      "cities": []
+    },
+    {
+      "province": "بنگو",
+      "cities": []
+    },
+    {
+      "province": "بنگوئلا",
+      "cities": []
+    },
+    {
+      "province": "بیئه",
+      "cities": []
+    },
+    {
+      "province": "کابیندا",
+      "cities": []
+    },
+    {
+      "province": "کواندو",
+      "cities": []
+    },
+    {
+      "province": "کوانزای شمالی",
+      "cities": []
+    },
+    {
+      "province": "کوانزای جنوبی",
+      "cities": []
+    },
+    {
+      "province": "کوبانگو",
+      "cities": []
+    },
+    {
+      "province": "کوننه",
+      "cities": []
+    },
+    {
+      "province": "هامبو",
+      "cities": []
+    },
+    {
+      "province": "هویلا",
+      "cities": []
+    },
+    {
+      "province": "ایکولو و بنگو",
+      "cities": []
+    },
+    {
+      "province": "لوندای شمالی",
+      "cities": []
+    },
+    {
+      "province": "لوندای جنوبی",
+      "cities": []
+    },
+    {
+      "province": "مالانجه",
+      "cities": []
+    },
+    {
+      "province": "موشیکو",
+      "cities": []
+    },
+    {
+      "province": "موشیکوی شرقی",
+      "cities": []
+    },
+    {
+      "province": "نامیبه",
+      "cities": []
+    },
+    {
+      "province": "اوییژه",
+      "cities": []
+    },
+    {
+      "province": "زائر",
+      "cities": []
+    }
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "version": "1.0.0",
+  "notes": "آنگولا: ۲۱ استان (سطح اول) و ۳۲۶ شهرداری (سطح دوم). مبنای تقسیمات: Lei n.º 14/24 de 5 de Setembro (ایجاد استان‌های Icolo e Bengo، Cuando، Cubango و Moxico Leste). مبنای فهرست‌ها: جدول رسمی استان‌ها و صفحات رسمی هر استان در درگاه دولت آنگولا (governo.gov.ao) و کنترل متقابل با گزارش نتایج قطعی سرشماری ۲۰۲۴ مؤسسهٔ ملی آمار (INE، جدول ۹)؛ کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی آوانگاری‌اند؛ منابع رسمی آنگولا نام فارسی منتشر نمی‌کنند. تاریخ بازیابی منابع: 2026-11-06."
+}
