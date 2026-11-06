@@ -1,0 +1,267 @@
+{
+  "code": "AM",
+  "name": "ارمنستان",
+  "nativeName": "Հայաստան",
+  "locale": "hy-AM",
+  "direction": "ltr",
+  "timezone": "Asia/Yerevan",
+  "calendar": "gregory",
+  "digits": "latin",
+  "nationalId": {
+    "label": "شمارهٔ شناسایی",
+    "algorithm": "none",
+    "pattern": "^[A-Za-z0-9]{6,20}$",
+    "placeholder": "—",
+    "example": "123456789"
+  },
+  "phone": {
+    "pattern": "^\\+374\\d{8}$",
+    "placeholder": "+37410000000",
+    "example": "+37410000000"
+  },
+  "currency": {
+    "label": "درام",
+    "code": "AMD",
+    "minAmount": 1,
+    "maxAmount": 100000000
+  },
+  "week": {
+    "workDays": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "labels": [
+      "",
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه"
+    ]
+  },
+  "gradeLevels": [
+    "پایهٔ ۱",
+    "پایهٔ ۲",
+    "پایهٔ ۳",
+    "پایهٔ ۴",
+    "پایهٔ ۵",
+    "پایهٔ ۶",
+    "پایهٔ ۷",
+    "پایهٔ ۸",
+    "پایهٔ ۹",
+    "پایهٔ ۱۰",
+    "پایهٔ ۱۱",
+    "پایهٔ ۱۲"
+  ],
+  "fields": [
+    "عمومی"
+  ],
+  "schoolTypes": [
+    "دولتی",
+    "خصوصی"
+  ],
+  "regions": [
+    {
+      "name": "آراگاتسوتن",
+      "center": "آشتاراک",
+      "counties": [
+        "Ashtarak",
+        "Aparan",
+        "Talin",
+        "Alagyaz",
+        "Metsadzor",
+        "Arevut",
+        "Tsaghkahovit",
+        "Shamiram"
+      ]
+    },
+    {
+      "name": "آرارات",
+      "center": "آرتاشات",
+      "counties": [
+        "Artashat",
+        "Ararat",
+        "Masis",
+        "Vedi",
+        "Verin Dvin"
+      ]
+    },
+    {
+      "name": "آرمویر",
+      "center": "آرمویر",
+      "counties": [
+        "Armavir",
+        "Vagharshapat",
+        "Metsamor",
+        "Bagramyan",
+        "Araks",
+        "Parakar",
+        "Ferik"
+      ]
+    },
+    {
+      "name": "گغارکونیک",
+      "center": "گاوار",
+      "counties": [
+        "Gavar",
+        "Chambarak",
+        "Martuni",
+        "Sevan",
+        "Vardenis"
+      ]
+    },
+    {
+      "name": "لوری",
+      "center": "وانادزور",
+      "counties": [
+        "Vanadzor",
+        "Alaverdi",
+        "Tumanyan",
+        "Spitak",
+        "Stepanavan",
+        "Tashir",
+        "Gyulagarak",
+        "Lermontovo",
+        "Lori Berd",
+        "Pambak",
+        "Fioletovo"
+      ]
+    },
+    {
+      "name": "کوتایک",
+      "center": "هرازدان",
+      "counties": [
+        "Hrazdan",
+        "Abovyan",
+        "Byureghavan",
+        "Nairi",
+        "Tsaghkadzor",
+        "Nor Hachn",
+        "Charentsavan",
+        "Akunk",
+        "Arzni",
+        "Garni",
+        "Jrvezh"
+      ]
+    },
+    {
+      "name": "شیراک",
+      "center": "گیومری",
+      "counties": [
+        "Gyumri",
+        "Artik",
+        "Ani",
+        "Akhuryan",
+        "Amasia",
+        "Ashotsq"
+      ]
+    },
+    {
+      "name": "سیونیک",
+      "center": "کاپان",
+      "counties": [
+        "Kapan",
+        "Goris",
+        "Meghri",
+        "Sisian",
+        "Qajaran",
+        "Tatev",
+        "Tegh"
+      ]
+    },
+    {
+      "name": "وایوتس‌دزور",
+      "center": "یغگنادزور",
+      "counties": [
+        "Yeghegnadzor",
+        "Jermuk",
+        "Vayk",
+        "Areni",
+        "Eghegis"
+      ]
+    },
+    {
+      "name": "تاووش",
+      "center": "ایجوان",
+      "counties": [
+        "Ijevan",
+        "Berd",
+        "Dilijan",
+        "Noyemberyan"
+      ]
+    },
+    {
+      "name": "ایروان (شهر)",
+      "center": "ایروان",
+      "counties": [
+        "Yerevan"
+      ]
+    }
+  ],
+  "divisions": [
+    {
+      "province": "آراگاتسوتن",
+      "cities": []
+    },
+    {
+      "province": "آرارات",
+      "cities": []
+    },
+    {
+      "province": "آرمویر",
+      "cities": []
+    },
+    {
+      "province": "گغارکونیک",
+      "cities": []
+    },
+    {
+      "province": "لوری",
+      "cities": []
+    },
+    {
+      "province": "کوتایک",
+      "cities": []
+    },
+    {
+      "province": "شیراک",
+      "cities": []
+    },
+    {
+      "province": "سیونیک",
+      "cities": []
+    },
+    {
+      "province": "وایوتس‌دزور",
+      "cities": []
+    },
+    {
+      "province": "تاووش",
+      "cities": []
+    },
+    {
+      "province": "ایروان (شهر)",
+      "cities": []
+    }
+  ],
+  "grading": {
+    "maxScore": 100,
+    "terms": 2,
+    "termLabels": [
+      "",
+      "نیمسال اول",
+      "نیمسال دوم"
+    ]
+  },
+  "academicYearExample": "2026-2027",
+  "modules": {
+    "shad": false
+  },
+  "version": "1.0.0",
+  "notes": "ارمنستان: ۱۱ واحد سطح اول (۱۰ مارز و شهر ایروان) و ۷۰ شهرداری (سطح دوم). مبنای فهرست‌ها: بولتن رسمی کمیتهٔ آمار ارمنستان (ArmStat) «جمعیت دائمی جمهوری ارمنستان در ۱ ژانویهٔ ۲۰۲۶» و صفحات رسمی مارزها در درگاه دولت (gov.am)؛ ساختار کنونی پس از ادغام جامعهٔ خوی در واغارشاپات (قانون HO-230-N، ۷ ژوئیهٔ ۲۰۲۵). نام‌های فارسی آوانگاری استانداردند؛ منابع رسمی نام فارسی منتشر نمی‌کنند. تاریخ بازیابی منابع: 2026-11-06."
+}
