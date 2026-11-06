@@ -107,30 +107,27 @@ school — in one install.
 - **Accessibility** — text size, high-contrast mode, low-distraction
   mode and reduce-motion as a product feature, applied app-wide via
   data attributes, plus a skip link to main content (`/app/accessibility`).
-- **Country packs** — the country profile now supports divisions down
-  to province → city → village, with a validator that counts cities
-  and villages. 18 packs are shipped, every figure below taken from a
-  cited official or open source. Full packs: **IR** (31
-  provinces, 401 cities, 52,225 province-level villages from GeoNames
-  — no county split, because the source has no county data), **AE**
-  (7 emirates, 7 cities), **SA** (13 regions, 13 cities). Division-level
-  packs (first-level divisions with capitals; second-level divisions
-  where a sourced list exists): **DE** (16), **US** (50), **FR** (18),
-  **IT** (20), **CA** (13), **AU** (8), **ES** (19), **BR** (27),
-  **TR** (81), **GB** (4), **SE** (21), **KR** (17), **PL** (16),
-  **NL** (12 provinces and 342 municipalities, CBS) and **BE** (10
-  provinces and 42 arrondissements, Statbel — Brussels is not a
-  province and is reported separately). On top of
-  that, a **world name registry of 249 countries** (Persian + English
-  names from ICU/CLDR) is shipped and shown on `/app/countries` — it
-  is names only, never counted as a full pack. The registry is ISO
-  3166 (249 assigned codes, territories included); any additional
-  named entity must come from a real, cited list and be labelled
-  supplementary, never presented as an ISO country. City and village
-  data are frozen: never added, removed or modified; new division
-  work goes at most to county level (second-level divisions under
-  provinces). New full packs are
-  imported by super admins via `/api/countries` (`/app/countries`).
+- **Country packs** — every school runs under a country profile
+  (calendar system, grading scale — 20 / 100 / GPA / letter — currency
+  label and week start, applied to grade exports), and a shipped pack
+  adds that country's first-level divisions with their capitals.
+  **47 packs are shipped.** Full packs: **IR** (31 provinces, 401
+  cities, 52,225 province-level villages from GeoNames), **US** (50
+  states, 3,142 counties), **NL** (12 provinces, 342 municipalities),
+  **BE** (10 provinces, 42 arrondissements). Division packs: **DE**
+  (16), **FR** (18), **IT** (20), **CA** (13), **AU** (8), **ES** (19),
+  **BR** (27), **TR** (81), **GB** (4), **SE** (21), **KR** (17),
+  **PL** (16), **AE** (7), **SA** (13), **AO** (21), **AM** (11),
+  **AR** (24), **AT** (9), **AW** (8), **AX** (16), **BA** (12),
+  **BB** (11), **BD** (8), **BF** (13), **BG** (28), **BH** (4),
+  **BJ** (12), plus AF, AZ, CN, EG, IQ, JP, KH, KZ, MN, NP, PK, UZ.
+  Every figure comes from a cited official source (national statistics
+  offices and government portals). On top of that, a **world name
+  registry of 249 countries** (Persian + English names from ICU/CLDR)
+  is shipped and shown on `/app/countries` — names only, never counted
+  as a pack. New packs are imported by super admins via
+  `/api/countries` (`/app/countries`) and checked with
+  `bun scripts/validate-pack.ts country <file.json>`.
 - **Language coverage** — Persian is the source language. A complete
   pack today reports three counts: the UI catalogue of **3,407 app
   keys**, **302 public-site sentences** (landing, public chrome, kit
@@ -154,6 +151,23 @@ school — in one install.
   from a header select (`bahar_site_lang` cookie, Persian fallback)
   and `/api/site-strings` serves a pack's site sentences. Check any
   pack with `bun scripts/validate-pack.ts lang <file.json>`.
+- **Language coverage** — Persian is the source language. A complete
+  pack carries **4,268 app keys**, **302 public-site sentences** and
+  **39 long texts** — 4,609 strings in total. **29 translated packs
+  are shipped**: English, Arabic, Urdu, Turkish, Spanish, French,
+  German, Italian, Portuguese, Russian, Bengali, Hindi, Chinese,
+  Japanese, Korean, Azerbaijani, Abkhaz, Afar, Afrikaans, Akan,
+  Amharic, Aragonese, Assamese, Aymara, Bashkir, Belarusian,
+  Bulgarian, Bihari and Bislama. Untranslated keys fall back to
+  Persian, so no screen is ever blank. A **world name registry of 183
+  languages** (Persian + English + native names from ICU/CLDR) is
+  shipped and shown on `/app/languages` — names only, never counted
+  as a translated pack. `/api/languages/coverage` and the
+  `/app/languages` page list every missing key per pack. The landing
+  switches language from a header select (`bahar_site_lang` cookie,
+  Persian fallback) and `/api/site-strings` serves a pack's site
+  sentences. Check any pack with
+  `bun scripts/validate-pack.ts lang <file.json>`.
 - **Attendance, excuses and exams** — attendance can be recorded by
   staff sheet, per-student daily QR, a school daily QR poster (also
   writable to an NFC tag), a rotating class code, kiosk mode or a
