@@ -1,0 +1,271 @@
+{
+ "code": "AT",
+ "name": "اتریش",
+ "nativeName": "Österreich",
+ "locale": "de-AT",
+ "direction": "ltr",
+ "timezone": "Europe/Vienna",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+43\\d{9,12}$",
+  "placeholder": "+436641234567",
+  "example": "+436641234567"
+ },
+ "currency": {
+  "label": "یورو",
+  "code": "EUR",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "بورگن‌لاند",
+   "center": "آیزن‌اشتات",
+   "counties": [
+    "Eisenstadt(Stadt)",
+    "Rust(Stadt)",
+    "Eisenstadt-Umgebung",
+    "Güssing",
+    "Jennersdorf",
+    "Mattersburg",
+    "Neusiedl am See",
+    "Oberpullendorf",
+    "Oberwart"
+   ]
+  },
+  {
+   "name": "کرنتن",
+   "center": "کلاگن‌فورت",
+   "counties": [
+    "Klagenfurt Stadt",
+    "Villach Stadt",
+    "Hermagor",
+    "Klagenfurt Land",
+    "Sankt Veit an der Glan",
+    "Spittal an der Drau",
+    "Villach Land",
+    "Völkermarkt",
+    "Wolfsberg",
+    "Feldkirchen"
+   ]
+  },
+  {
+   "name": "نیدراسترایش",
+   "center": "سانکت پولتن",
+   "counties": [
+    "Krems an der Donau(Stadt)",
+    "Sankt Pölten(Stadt)",
+    "Waidhofen an der Ybbs(Stadt)",
+    "Wiener Neustadt(Stadt)",
+    "Amstetten",
+    "Baden",
+    "Bruck an der Leitha",
+    "Gänserndorf",
+    "Gmünd",
+    "Hollabrunn",
+    "Horn",
+    "Korneuburg",
+    "Krems(Land)",
+    "Lilienfeld",
+    "Melk",
+    "Mistelbach",
+    "Mödling",
+    "Neunkirchen",
+    "Sankt Pölten(Land)",
+    "Scheibbs",
+    "Tulln",
+    "Waidhofen an der Thaya",
+    "Wiener Neustadt(Land)",
+    "Zwettl"
+   ]
+  },
+  {
+   "name": "اوبراسترایش",
+   "center": "لینتس",
+   "counties": [
+    "Stadt Linz",
+    "Stadt Steyr",
+    "Stadt Wels",
+    "Braunau",
+    "Eferding",
+    "Freistadt",
+    "Gmunden",
+    "Grieskirchen",
+    "Kirchdorf",
+    "Linz-Land",
+    "Perg",
+    "Ried",
+    "Rohrbach",
+    "Schärding",
+    "Steyr-Land",
+    "Urfahr-Umgebung",
+    "Vöcklabruck",
+    "Wels-Land"
+   ]
+  },
+  {
+   "name": "زالتسبورگ",
+   "center": "زالتسبورگ",
+   "counties": [
+    "Salzburg(Stadt)",
+    "Hallein",
+    "Salzburg-Umgebung",
+    "St. Johann im Pongau",
+    "Tamsweg",
+    "Zell am See"
+   ]
+  },
+  {
+   "name": "اشتایرمارک",
+   "center": "گراتس",
+   "counties": [
+    "Graz(Stadt)",
+    "Deutschlandsberg",
+    "Graz-Umgebung",
+    "Leibnitz",
+    "Leoben",
+    "Liezen",
+    "Murau",
+    "Voitsberg",
+    "Weiz",
+    "Murtal",
+    "Bruck-Mürzzuschlag",
+    "Hartberg-Fürstenfeld",
+    "Südoststeiermark"
+   ]
+  },
+  {
+   "name": "تیرول",
+   "center": "اینسبروک",
+   "counties": [
+    "Innsbruck-Stadt",
+    "Imst",
+    "Innsbruck-Land",
+    "Kitzbühel",
+    "Kufstein",
+    "Landeck",
+    "Lienz",
+    "Reutte",
+    "Schwaz"
+   ]
+  },
+  {
+   "name": "فورارلبرگ",
+   "center": "برگنتس",
+   "counties": [
+    "Bludenz",
+    "Bregenz",
+    "Dornbirn",
+    "Feldkirch"
+   ]
+  },
+  {
+   "name": "وین",
+   "center": "وین",
+   "counties": [
+    "Wien"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "بورگن‌لاند",
+   "cities": []
+  },
+  {
+   "province": "کرنتن",
+   "cities": []
+  },
+  {
+   "province": "نیدراسترایش",
+   "cities": []
+  },
+  {
+   "province": "اوبراسترایش",
+   "cities": []
+  },
+  {
+   "province": "زالتسبورگ",
+   "cities": []
+  },
+  {
+   "province": "اشتایرمارک",
+   "cities": []
+  },
+  {
+   "province": "تیرول",
+   "cities": []
+  },
+  {
+   "province": "فورارلبرگ",
+   "cities": []
+  },
+  {
+   "province": "وین",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "اتریش: ۹ ایالت (Bundesland) و ۹۴ واحد سطح دوم (۱۵ شهر قانونی Statutarstadt و ۷۹ ناحیهٔ سیاسی Politischer Bezirk). مبنای فهرست‌ها: فهرست رسمی شهرداری‌های ادارهٔ آمار اتریش (Gemeindeverzeichnis 2026، وضعیت سرزمینی ۰۱٫۰۱٫۲۰۲۶) و درگاه رسمی دولت اتریش (oesterreich.gv.at)؛ کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی برگردان استانداردند؛ منابع رسمی اتریش نام فارسی منتشر نمی‌کنند. تاریخ بازیابی منابع: 2026-11-06."
+}

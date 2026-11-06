@@ -1,0 +1,222 @@
+{
+ "code": "AW",
+ "name": "آروبا",
+ "nativeName": "Aruba",
+ "locale": "nl-AW",
+ "direction": "ltr",
+ "timezone": "America/Aruba",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+297\\d{7}$",
+  "placeholder": "+2971234567",
+  "example": "+2971234567"
+ },
+ "currency": {
+  "label": "گیلدر",
+  "code": "AWG",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "نورد / تانکی لندرت",
+   "center": "نورد",
+   "counties": [
+    "Palm Beach/Malmok",
+    "Washington",
+    "Alto Vista",
+    "Moco/Tanki Flip",
+    "Tanki Leendert",
+    "Noord Other"
+   ]
+  },
+  {
+   "name": "اورنجستاد غربی",
+   "center": "اورنجستاد غربی",
+   "counties": [
+    "Pos AbouU/Cunucu Abou",
+    "Eagle/Paardenbaai",
+    "Madiki Kavel",
+    "Madiki/Rancho",
+    "Paradijswijk/Santa Helena",
+    "Socotoro/Rancho",
+    "Ponton",
+    "Companashi/Solito"
+   ]
+  },
+  {
+   "name": "اورنجستاد شرقی",
+   "center": "اورنجستاد شرقی",
+   "counties": [
+    "Nassaustraat",
+    "Klip/Mon Plaisir",
+    "Sividivi",
+    "Sero Blanco/Cumana",
+    "Dakota/Potrero",
+    "Tarabana",
+    "Sabana Blanco/Mahuma",
+    "Simeon Antonio",
+    "Oranjestad-East Other"
+   ]
+  },
+  {
+   "name": "پارادرا",
+   "center": "پارادرا",
+   "counties": [
+    "Shiribana",
+    "Paradera",
+    "Ayo",
+    "Piedra Plat",
+    "Paradera Other"
+   ]
+  },
+  {
+   "name": "سانتا کروس",
+   "center": "سانتا کروس",
+   "counties": [
+    "Hooiberg",
+    "Papilon",
+    "Cashero",
+    "Urataca",
+    "Macuarima",
+    "Balashi/Barcadera",
+    "Santa Cruz Other"
+   ]
+  },
+  {
+   "name": "ساوانتا",
+   "center": "ساوانتا",
+   "counties": [
+    "Pos Chikito",
+    "Jara/Sero Alejandro",
+    "De Bruijnewijk",
+    "Cura Cabai",
+    "Savaneta Other"
+   ]
+  },
+  {
+   "name": "سان‌نیکولاس شمالی",
+   "center": "سان‌نیکولاس شمالی",
+   "counties": [
+    "Brazil",
+    "Rooi Congo",
+    "Watapana Gezaag",
+    "Standardville/Rooi Hundo",
+    "Kustbatterij",
+    "Juwana Morto",
+    "San Nicolas North Other"
+   ]
+  },
+  {
+   "name": "سان‌نیکولاس جنوبی",
+   "center": "سان‌نیکولاس جنوبی",
+   "counties": [
+    "Zeewijk",
+    "Pastoor Hendrikstraat",
+    "Van de Veen Zeppenfeldstraat",
+    "Village",
+    "Essoville",
+    "Lago/Esso Heights",
+    "Sero Colorado",
+    "San Nicolas-South Other"
+   ]
+  }
+ ],
+ "divisions": [
+  {
+   "province": "نورد / تانکی لندرت",
+   "cities": []
+  },
+  {
+   "province": "اورنجستاد غربی",
+   "cities": []
+  },
+  {
+   "province": "اورنجستاد شرقی",
+   "cities": []
+  },
+  {
+   "province": "پارادرا",
+   "cities": []
+  },
+  {
+   "province": "سانتا کروس",
+   "cities": []
+  },
+  {
+   "province": "ساوانتا",
+   "cities": []
+  },
+  {
+   "province": "سان‌نیکولاس شمالی",
+   "cities": []
+  },
+  {
+   "province": "سان‌نیکولاس جنوبی",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "آروبا: ۸ منطقهٔ آماری رسمی (Regio) و ۵۵ زون رسمی. آروبا شهرداری و مرکز اداری رسمی برای مناطق ندارد؛ مبنای تقسیمات: طبقه‌بندی رسمی نشانی جغرافیایی ادارهٔ آمار آروبا (CBS Aruba — GAC) و سرشماری ۲۰۲۰ همان نهاد و درگاه رسمی دولت (gobierno.aw)؛ مرکز هر منطقه، شهرک هم‌نام آن منطقه درج شده است. کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی آوانگاری‌اند؛ منابع رسمی آروبا نام فارسی منتشر نمی‌کنند. تاریخ بازیابی منابع: 2026-11-06."
+}

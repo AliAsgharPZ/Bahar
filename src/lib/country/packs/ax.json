@@ -1,0 +1,231 @@
+{
+ "code": "AX",
+ "name": "آلند",
+ "nativeName": "Åland",
+ "locale": "sv-AX",
+ "direction": "ltr",
+ "timezone": "Europe/Mariehamn",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+358\\d{5,12}$",
+  "placeholder": "+35818123456",
+  "example": "+35818123456"
+ },
+ "currency": {
+  "label": "یورو",
+  "code": "EUR",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "برندیو",
+   "center": "برندیو",
+   "counties": []
+  },
+  {
+   "name": "اکرو",
+   "center": "اکرو",
+   "counties": []
+  },
+  {
+   "name": "فین‌ستروم",
+   "center": "فین‌ستروم",
+   "counties": []
+  },
+  {
+   "name": "فوگلو",
+   "center": "فوگلو",
+   "counties": []
+  },
+  {
+   "name": "گتا",
+   "center": "گتا",
+   "counties": []
+  },
+  {
+   "name": "هامارلند",
+   "center": "هامارلند",
+   "counties": []
+  },
+  {
+   "name": "یومالا",
+   "center": "یومالا",
+   "counties": []
+  },
+  {
+   "name": "کوملینگه",
+   "center": "کوملینگه",
+   "counties": []
+  },
+  {
+   "name": "چوکار",
+   "center": "چوکار",
+   "counties": []
+  },
+  {
+   "name": "لم‌لند",
+   "center": "لم‌لند",
+   "counties": []
+  },
+  {
+   "name": "لومپارلند",
+   "center": "لومپارلند",
+   "counties": []
+  },
+  {
+   "name": "ماریه‌هامن",
+   "center": "ماریه‌هامن",
+   "counties": []
+  },
+  {
+   "name": "سالت‌ویک",
+   "center": "سالت‌ویک",
+   "counties": []
+  },
+  {
+   "name": "سوتونگا",
+   "center": "سوتونگا",
+   "counties": []
+  },
+  {
+   "name": "سوند",
+   "center": "سوند",
+   "counties": []
+  },
+  {
+   "name": "وردو",
+   "center": "وردو",
+   "counties": []
+  }
+ ],
+ "divisions": [
+  {
+   "province": "برندیو",
+   "cities": []
+  },
+  {
+   "province": "اکرو",
+   "cities": []
+  },
+  {
+   "province": "فین‌ستروم",
+   "cities": []
+  },
+  {
+   "province": "فوگلو",
+   "cities": []
+  },
+  {
+   "province": "گتا",
+   "cities": []
+  },
+  {
+   "province": "هامارلند",
+   "cities": []
+  },
+  {
+   "province": "یومالا",
+   "cities": []
+  },
+  {
+   "province": "کوملینگه",
+   "cities": []
+  },
+  {
+   "province": "چوکار",
+   "cities": []
+  },
+  {
+   "province": "لم‌لند",
+   "cities": []
+  },
+  {
+   "province": "لومپارلند",
+   "cities": []
+  },
+  {
+   "province": "ماریه‌هامن",
+   "cities": []
+  },
+  {
+   "province": "سالت‌ویک",
+   "cities": []
+  },
+  {
+   "province": "سوتونگا",
+   "cities": []
+  },
+  {
+   "province": "سوند",
+   "cities": []
+  },
+  {
+   "province": "وردو",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "آلند: ۱۶ شهرداری (تنها سطح تقسیمات)؛ سطح دوم اداری ندارد. مبنا: ÅSUB (asub.ax)، دولت آلند (regeringen.ax) و طبقه‌بندی رسمی شهرداری‌های فنلاند (stat.fi)؛ مرکز هر شهرداری نام خود شهرداری است چون منبع رسمی فهرست مرکز جداگانه نمی‌دهد. کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی آوانگاری‌اند. تاریخ بازیابی منابع: 2026-11-06."
+}

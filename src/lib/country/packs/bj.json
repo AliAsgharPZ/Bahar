@@ -1,0 +1,195 @@
+{
+ "code": "BJ",
+ "name": "بنین",
+ "nativeName": "Bénin",
+ "locale": "fr-BJ",
+ "direction": "ltr",
+ "timezone": "Africa/Porto-Novo",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+229\\d{8}$",
+  "placeholder": "+22996123456",
+  "example": "+22996123456"
+ },
+ "currency": {
+  "label": "فرانک",
+  "code": "XOF",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "الیبوری",
+   "center": "کندی",
+   "counties": []
+  },
+  {
+   "name": "آتاکورا",
+   "center": "ناتیتینگو",
+   "counties": []
+  },
+  {
+   "name": "آتلانتیک",
+   "center": "آلادا",
+   "counties": []
+  },
+  {
+   "name": "بورگو",
+   "center": "پاراکو",
+   "counties": []
+  },
+  {
+   "name": "کولین",
+   "center": "داسا-زومه",
+   "counties": []
+  },
+  {
+   "name": "کوفو",
+   "center": "آپلاهوئه",
+   "counties": []
+  },
+  {
+   "name": "دونگا",
+   "center": "جوگو",
+   "counties": []
+  },
+  {
+   "name": "لیتورال",
+   "center": "کوتونو",
+   "counties": []
+  },
+  {
+   "name": "مونو",
+   "center": "لوکوسا",
+   "counties": []
+  },
+  {
+   "name": "اومه",
+   "center": "پورتو نووو",
+   "counties": []
+  },
+  {
+   "name": "پلاتو",
+   "center": "پوبه",
+   "counties": []
+  },
+  {
+   "name": "زو",
+   "center": "آبومه",
+   "counties": []
+  }
+ ],
+ "divisions": [
+  {
+   "province": "الیبوری",
+   "cities": []
+  },
+  {
+   "province": "آتاکورا",
+   "cities": []
+  },
+  {
+   "province": "آتلانتیک",
+   "cities": []
+  },
+  {
+   "province": "بورگو",
+   "cities": []
+  },
+  {
+   "province": "کولین",
+   "cities": []
+  },
+  {
+   "province": "کوفو",
+   "cities": []
+  },
+  {
+   "province": "دونگا",
+   "cities": []
+  },
+  {
+   "province": "لیتورال",
+   "cities": []
+  },
+  {
+   "province": "مونو",
+   "cities": []
+  },
+  {
+   "province": "اومه",
+   "cities": []
+  },
+  {
+   "province": "پلاتو",
+   "cities": []
+  },
+  {
+   "province": "زو",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "بنین: ۱۲ دپارتمان (سطح ۱)؛ طبق دستور کارفرما جزئیات سطح دوم درج نشده است. مبنا: اسناد رسمی دولت بنین (gouv.bj و sgg.gouv.bj، از جمله قانون ۹۷-۰۲۸)؛ سایت مؤسسهٔ آمار (insae.bj) پشت چالش انسانی بود و مستقیم خوانده نشد. کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی آوانگاری‌اند. تاریخ بازیابی منابع: 2026-11-06."
+}

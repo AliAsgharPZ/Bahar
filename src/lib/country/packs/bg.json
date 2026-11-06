@@ -1,0 +1,339 @@
+{
+ "code": "BG",
+ "name": "بلغارستان",
+ "nativeName": "България",
+ "locale": "bg-BG",
+ "direction": "ltr",
+ "timezone": "Europe/Sofia",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+359\\d{8,9}$",
+  "placeholder": "+359881234567",
+  "example": "+359881234567"
+ },
+ "currency": {
+  "label": "یورو",
+  "code": "EUR",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "بلاگووگراد",
+   "center": "بلاگووگراد",
+   "counties": []
+  },
+  {
+   "name": "بورگاس",
+   "center": "بورگاس",
+   "counties": []
+  },
+  {
+   "name": "وارنا",
+   "center": "وارنا",
+   "counties": []
+  },
+  {
+   "name": "ولیکو ترنوو",
+   "center": "ولیکو ترنوو",
+   "counties": []
+  },
+  {
+   "name": "ویدین",
+   "center": "ویدین",
+   "counties": []
+  },
+  {
+   "name": "وراتسا",
+   "center": "وراتسا",
+   "counties": []
+  },
+  {
+   "name": "گابروو",
+   "center": "گابروو",
+   "counties": []
+  },
+  {
+   "name": "دوبریچ",
+   "center": "دوبریچ",
+   "counties": []
+  },
+  {
+   "name": "کاردژالی",
+   "center": "کاردژالی",
+   "counties": []
+  },
+  {
+   "name": "کیوستندیل",
+   "center": "کیوستندیل",
+   "counties": []
+  },
+  {
+   "name": "لووچ",
+   "center": "لووچ",
+   "counties": []
+  },
+  {
+   "name": "مونتانا",
+   "center": "مونتانا",
+   "counties": []
+  },
+  {
+   "name": "پازارجیک",
+   "center": "پازارجیک",
+   "counties": []
+  },
+  {
+   "name": "پرنیک",
+   "center": "پرنیک",
+   "counties": []
+  },
+  {
+   "name": "پلوون",
+   "center": "پلوون",
+   "counties": []
+  },
+  {
+   "name": "پلوودیف",
+   "center": "پلوودیف",
+   "counties": []
+  },
+  {
+   "name": "رازگراد",
+   "center": "رازگراد",
+   "counties": []
+  },
+  {
+   "name": "روسه",
+   "center": "روسه",
+   "counties": []
+  },
+  {
+   "name": "سیلیسترا",
+   "center": "سیلیسترا",
+   "counties": []
+  },
+  {
+   "name": "اسلیون",
+   "center": "اسلیون",
+   "counties": []
+  },
+  {
+   "name": "اسمولیان",
+   "center": "اسمولیان",
+   "counties": []
+  },
+  {
+   "name": "صوفیه (استان)",
+   "center": "صوفیه",
+   "counties": []
+  },
+  {
+   "name": "صوفیه (پایتخت)",
+   "center": "صوفیه",
+   "counties": []
+  },
+  {
+   "name": "استارا زاگورا",
+   "center": "استارا زاگورا",
+   "counties": []
+  },
+  {
+   "name": "ترگوویشته",
+   "center": "ترگوویشته",
+   "counties": []
+  },
+  {
+   "name": "خاسکوو",
+   "center": "خاسکوو",
+   "counties": []
+  },
+  {
+   "name": "شومن",
+   "center": "شومن",
+   "counties": []
+  },
+  {
+   "name": "یامبول",
+   "center": "یامبول",
+   "counties": []
+  }
+ ],
+ "divisions": [
+  {
+   "province": "بلاگووگراد",
+   "cities": []
+  },
+  {
+   "province": "بورگاس",
+   "cities": []
+  },
+  {
+   "province": "وارنا",
+   "cities": []
+  },
+  {
+   "province": "ولیکو ترنوو",
+   "cities": []
+  },
+  {
+   "province": "ویدین",
+   "cities": []
+  },
+  {
+   "province": "وراتسا",
+   "cities": []
+  },
+  {
+   "province": "گابروو",
+   "cities": []
+  },
+  {
+   "province": "دوبریچ",
+   "cities": []
+  },
+  {
+   "province": "کاردژالی",
+   "cities": []
+  },
+  {
+   "province": "کیوستندیل",
+   "cities": []
+  },
+  {
+   "province": "لووچ",
+   "cities": []
+  },
+  {
+   "province": "مونتانا",
+   "cities": []
+  },
+  {
+   "province": "پازارجیک",
+   "cities": []
+  },
+  {
+   "province": "پرنیک",
+   "cities": []
+  },
+  {
+   "province": "پلوون",
+   "cities": []
+  },
+  {
+   "province": "پلوودیف",
+   "cities": []
+  },
+  {
+   "province": "رازگراد",
+   "cities": []
+  },
+  {
+   "province": "روسه",
+   "cities": []
+  },
+  {
+   "province": "سیلیسترا",
+   "cities": []
+  },
+  {
+   "province": "اسلیون",
+   "cities": []
+  },
+  {
+   "province": "اسمولیان",
+   "cities": []
+  },
+  {
+   "province": "صوفیه (استان)",
+   "cities": []
+  },
+  {
+   "province": "صوفیه (پایتخت)",
+   "cities": []
+  },
+  {
+   "province": "استارا زاگورا",
+   "cities": []
+  },
+  {
+   "province": "ترگوویشته",
+   "cities": []
+  },
+  {
+   "province": "خاسکوو",
+   "cities": []
+  },
+  {
+   "province": "شومن",
+   "cities": []
+  },
+  {
+   "province": "یامبول",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "بلغارستان: ۲۸ استان (سطح ۱)؛ طبق دستور کارفرما جزئیات سطح دوم درج نشده است. مبنا: درگاه دولت بلغارستان (gov.bg) و مؤسسهٔ ملی آمار NSI (nsi.bg)؛ مرکز هر استان شهر هم‌نام استان است. کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی آوانگاری‌اند. تاریخ بازیابی منابع: 2026-11-06."
+}

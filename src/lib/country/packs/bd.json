@@ -1,0 +1,159 @@
+{
+ "code": "BD",
+ "name": "بنگلادش",
+ "nativeName": "বাংলাদেশ",
+ "locale": "bn-BD",
+ "direction": "ltr",
+ "timezone": "Asia/Dhaka",
+ "calendar": "gregory",
+ "digits": "latin",
+ "nationalId": {
+  "label": "شمارهٔ شناسایی",
+  "algorithm": "none",
+  "pattern": "^[A-Za-z0-9]{6,20}$",
+  "placeholder": "—",
+  "example": "123456789"
+ },
+ "phone": {
+  "pattern": "^\\+880\\d{10}$",
+  "placeholder": "+8801712345678",
+  "example": "+8801712345678"
+ },
+ "currency": {
+  "label": "تاکا",
+  "code": "BDT",
+  "minAmount": 1,
+  "maxAmount": 100000000
+ },
+ "week": {
+  "workDays": [
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "labels": [
+   "",
+   "شنبه",
+   "یکشنبه",
+   "دوشنبه",
+   "سه‌شنبه",
+   "چهارشنبه",
+   "پنجشنبه",
+   "جمعه"
+  ]
+ },
+ "gradeLevels": [
+  "پایهٔ ۱",
+  "پایهٔ ۲",
+  "پایهٔ ۳",
+  "پایهٔ ۴",
+  "پایهٔ ۵",
+  "پایهٔ ۶",
+  "پایهٔ ۷",
+  "پایهٔ ۸",
+  "پایهٔ ۹",
+  "پایهٔ ۱۰",
+  "پایهٔ ۱۱",
+  "پایهٔ ۱۲"
+ ],
+ "fields": [
+  "عمومی"
+ ],
+ "schoolTypes": [
+  "دولتی",
+  "خصوصی"
+ ],
+ "regions": [
+  {
+   "name": "باریشال",
+   "center": "باریشال",
+   "counties": []
+  },
+  {
+   "name": "چاتوگرام",
+   "center": "چاتوگرام",
+   "counties": []
+  },
+  {
+   "name": "داکا",
+   "center": "داکا",
+   "counties": []
+  },
+  {
+   "name": "خولنا",
+   "center": "خولنا",
+   "counties": []
+  },
+  {
+   "name": "میمن‌سینگ",
+   "center": "میمن‌سینگ",
+   "counties": []
+  },
+  {
+   "name": "راجشاهی",
+   "center": "راجشاهی",
+   "counties": []
+  },
+  {
+   "name": "رنگپور",
+   "center": "رنگپور",
+   "counties": []
+  },
+  {
+   "name": "سیلهت",
+   "center": "سیلهت",
+   "counties": []
+  }
+ ],
+ "divisions": [
+  {
+   "province": "باریشال",
+   "cities": []
+  },
+  {
+   "province": "چاتوگرام",
+   "cities": []
+  },
+  {
+   "province": "داکا",
+   "cities": []
+  },
+  {
+   "province": "خولنا",
+   "cities": []
+  },
+  {
+   "province": "میمن‌سینگ",
+   "cities": []
+  },
+  {
+   "province": "راجشاهی",
+   "cities": []
+  },
+  {
+   "province": "رنگپور",
+   "cities": []
+  },
+  {
+   "province": "سیلهت",
+   "cities": []
+  }
+ ],
+ "grading": {
+  "maxScore": 100,
+  "terms": 2,
+  "termLabels": [
+   "",
+   "نیمسال اول",
+   "نیمسال دوم"
+  ]
+ },
+ "academicYearExample": "2026-2027",
+ "modules": {
+  "shad": false
+ },
+ "version": "1.0.0",
+ "notes": "بنگلادش: ۸ بخش (سطح ۱)؛ طبق دستور کارفرما جزئیات سطح دوم درج نشده است. مبنا: ادارهٔ آمار بنگلادش (bbs.gov.bd) و درگاه ملی (bangladesh.gov.bd)؛ مرکز هر بخش شهر هم‌نام بخش است و در پک همان نام درج شده است. کد تلفن، ارز و منطقهٔ زمانی مطابق مشخصات استاندارد درج شده‌اند. نام‌های فارسی آوانگاری‌اند. تاریخ بازیابی منابع: 2026-11-06."
+}
